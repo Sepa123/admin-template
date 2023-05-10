@@ -1,0 +1,25 @@
+<div class="fade-in">
+  <c-row ngPreserveWhitespaces>
+    <div>
+      <div class="col-md-6 mx-auto">
+        <h3>Estado de cargas</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Total</th>
+                <th scope="col">verificado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let carga of carga">
+                <th scope="row">{{ carga.total}}</th>
+                <td>{{ carga.verificado }}</td>
+    
+              </tr>
+            </tbody>
+          </table>
+    
+         
+    </div>
+  </div>
+  </c-row>
