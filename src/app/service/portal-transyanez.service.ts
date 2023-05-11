@@ -8,7 +8,7 @@ export class PortalTransyanezService {
 
   constructor(private http: HttpClient) { }
 
-  apiurl = "http://127.0.0.1:8000/api/transyanez/resumen_vehiculos_portal_"
+  apiurl = "http://34.225.63.221/api/transyanez/resumen_vehiculos_portal_"
   
   downloadResumenVehiculos() {
     let date = new Date();

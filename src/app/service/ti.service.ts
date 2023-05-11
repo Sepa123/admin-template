@@ -8,7 +8,7 @@ export class TIService {
 
   constructor(private http: HttpClient) { }
 
-  apiurl="http://127.0.0.1:8000/api/reportes"
+  apiurl="http://34.225.63.221/api/reportes"
   
   Getcargas(){
     return this.http.get<Carga[]>(this.apiurl+"/cargas_easy")
