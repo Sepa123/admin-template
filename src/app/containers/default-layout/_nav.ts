@@ -4,7 +4,17 @@ export const navItems: INavData[] = [
   {
     name: 'Dashboard',
     url: '/dashboard',
-    iconComponent: { name: 'cil-speedometer' }
+    iconComponent: { name: 'cil-speedometer' },
+    children: [
+      {
+        name: 'Reportes',
+        url: '/dashboard'
+      },
+      {
+        name: 'Hoy',
+        url: '/base/cards'
+      },
+    ]
   },
   // {
   //   title: true,
@@ -100,6 +110,10 @@ export const navItems: INavData[] = [
       {
         name: 'Reportes',
         url: '/buttons/buttons'
+      },
+      {
+        name: 'Pendientes',
+        url: '/buttons/dropdowns'
       },
     ]
     //   {

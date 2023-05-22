@@ -1,127 +1,170 @@
+<div *ngFor="let pedido of pedidos">
+  <!-- <c-row >
+    <c-col xs="6" sm="3">
+      <c-widget-stat-e
+        [title]="'Pedidos Beetrack'"
+        class="mb-4 text-white fs-4"
+        color="info"
+      >
+
+        {{pedido.Total_pedidos}}  
+
+
+    </c-widget-stat-e>
+    </c-col>
+
+    <c-col xs="6" sm="3">
+      <c-widget-stat-e
+        [title]="'Entregados'"
+        class="mb-6 text-white fs-4"
+        color="success"
+      >
+      {{pedido.Entregados}}
+    </c-widget-stat-e>
+    </c-col>
+
+    <c-col xs="6" sm="3">
+      <c-widget-stat-e
+        [title]="'No Entregados'"
+        class="mb-4 text-white fs-4"
+        color="danger"
+      >
+      {{pedido.No_entregados}}
+    </c-widget-stat-e>
+    </c-col>
+
+    <c-col xs="6" sm="3">
+      <c-widget-stat-e
+        [title]="'En ruta'"
+        class="mb-4 text-white fs-4"
+        color="warning"
+      >
+      {{pedido.Pendientes}}
+    </c-widget-stat-e>
+    </c-col>
+
+    
+  </c-row> -->
+
 <c-row>
   <c-col sm="6" xl="3">
+
     <c-widget-stat-a
-      class="mb-4"
-      color="primary"
-      title="Users"
-    >
-      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        26K
-        <span class="fs-6 fw-normal">
-          (-12.4% <svg cIcon name="cilArrowBottom"></svg>)
-        </span>
-      </ng-template>
-      <ng-template cTemplateId="widgetActionTemplate">
-        <!-- <c-dropdown alignment="end" variant="btn-group">
-          <button [caret]="false" cButton cDropdownToggle class="p-0" color="transparent">
-            <svg cIcon class="text-high-emphasis-inverse" name="cilOptions"></svg>
-          </button>
-          <ul cDropdownMenu>
-            <li><a routerLink="./" cDropdownItem>Action</a></li>
-            <li><a routerLink="./" cDropdownItem>Another action</a></li>
-            <li><a routerLink="./" cDropdownItem>Something else here</a></li>
-            <li>
-              <hr cDropdownDivider>
-            </li>
-            <li>
-              <button cDropdownItem>Separated link</button>
-            </li>
-          </ul>
-        </c-dropdown> -->
-      </ng-template>
-      <ng-template cTemplateId="widgetChartTemplate">
-        <c-chart [data]="data[0]" [options]="options[0]" class="mt-3 mx-3" height="70" [type]="'line'"></c-chart>
-      </ng-template>
-    </c-widget-stat-a>
-  </c-col>
-  <c-col sm="6" xl="3">
-    <c-widget-stat-a
-      [title]="'Income'"
       class="mb-4"
       color="info"
-    >
-      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>$6.200</span>
-        <span class="fs-6 fw-normal">
-          (40.9%<svg cIcon name="cilArrowTop"></svg>)
-        </span>
-      </ng-template>
-      <ng-template cTemplateId="widgetActionTemplate">
-        <c-dropdown alignment="end" variant="btn-group">
-          <button [caret]="false" cButton cDropdownToggle class="p-0" color="transparent">
-            <svg cIcon class="text-high-emphasis-inverse" name="cilOptions"></svg>
-          </button>
-          <ul cDropdownMenu>
-            <li><a routerLink="./" cDropdownItem>Action</a></li>
-            <li><a routerLink="./" cDropdownItem>Another action</a></li>
-            <li><a routerLink="./" cDropdownItem>Something else here</a></li>
-            <li><a [disabled]="true" routerLink="./" cDropdownItem>Disabled</a></li>
-          </ul>
-        </c-dropdown>
-      </ng-template>
-      <ng-template cTemplateId="widgetChartTemplate">
-        <c-chart [data]="data[1]" [options]="options[1]" class="mt-3 mx-3" height="70" type="line"></c-chart>
-      </ng-template>
+      title="Total pedidos en beetrack"
+    >  
+
+    <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+      <span>{{pedido.Total_pedidos}} </span>
+    </ng-template>
     </c-widget-stat-a>
   </c-col>
   <c-col sm="6" xl="3">
+    <div *ngFor="let pedido of pedidos">
     <c-widget-stat-a
-      [title]="'Conversion Rate'"
+      [title]="'Entregados'"
       class="mb-4"
-      color="warning"
+      color="success"
     >
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>2.49</span>
-        <span class="fs-6 fw-normal">
-          (84.7% <svg cIcon name="cilArrowTop"></svg>)
-        </span>
-      </ng-template>
-      <ng-template cTemplateId="widgetActionTemplate">
-        <c-dropdown alignment="end" variant="btn-group">
-          <button [caret]="false" cButton cDropdownToggle class="p-0" color="transparent">
-            <svg cIcon class="text-high-emphasis-inverse" name="cilOptions"></svg>
-          </button>
-          <ul cDropdownMenu>
-            <li><a routerLink="./" cDropdownItem>Action</a></li>
-            <li><a routerLink="./" cDropdownItem>Another action</a></li>
-            <li><a routerLink="./" cDropdownItem>Something else here</a></li>
-            <li><a [disabled]="true" routerLink="./" cDropdownItem>Disabled</a></li>
-          </ul>
-        </c-dropdown>
-      </ng-template>
-      <ng-template cTemplateId="widgetChartTemplate">
-        <c-chart [data]="data[2]" [options]="options[2]" class="mt-3" height="70" type="line"></c-chart>
+        <span>{{pedido.Entregados}}</span>
       </ng-template>
     </c-widget-stat-a>
+  </div>
   </c-col>
+
   <c-col sm="6" xl="3">
     <c-widget-stat-a
-      [title]="'Sessions'"
+      [title]="'No Entregados'"
       class="mb-4"
       color="danger"
     >
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>44K</span>
-        <span class="fs-6 fw-normal">
-          (-23.6% <svg cIcon name="cilArrowBottom"></svg>)
-        </span>
-      </ng-template>
-      <ng-template cTemplateId="widgetActionTemplate">
-        <c-dropdown alignment="end" variant="btn-group">
-          <button [caret]="false" cButton cDropdownToggle class="p-0" color="transparent">
-            <svg cIcon class="text-high-emphasis-inverse" name="cilOptions"></svg>
-          </button>
-          <ul cDropdownMenu>
-            <li><a routerLink="./" cDropdownItem>Action</a></li>
-            <li><a routerLink="./" cDropdownItem>Another action</a></li>
-            <li><a routerLink="./" cDropdownItem>Something else here</a></li>
-            <li><a [disabled]="true" routerLink="./" cDropdownItem>Disabled</a></li>
-          </ul>
-        </c-dropdown>
-      </ng-template>
-      <ng-template cTemplateId="widgetChartTemplate">
-        <c-chart [data]="data[3]" [options]="options[3]" class="mt-3 mx-3" height="70" type="bar"></c-chart>
+        <span>{{pedido.No_entregados}} </span>
+
       </ng-template>
     </c-widget-stat-a>
   </c-col>
+
+  <c-col sm="6" xl="3">
+    <c-widget-stat-a
+      [title]="'En ruta'"
+      class="mb-4"
+      color="warning"
+    >
+      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+        <span> {{pedido.Pendientes}}</span>
+      </ng-template>
+    </c-widget-stat-a>
+  </c-col>
+</c-row>
+</div>
+
+
+<c-row>
+  <c-col xs="4" sm="1">
+    <a class="myButton" (click)="hideTable()" *ngIf="ocultarTabla == true"> <svg cIcon name="cilMinus" size="xl" title="Numbered List Icon">
+    </svg> </a>
+    <a class="myButton" (click)="showTable()" *ngIf="ocultarTabla == false"> <svg cIcon name="cilPlus" size="xl" title="Numbered List Icon">
+    </svg>  </a>
+    <br />
+  </c-col>
+
+  <c-col >
+  
+  <table class="greenTable" *ngIf="ocultarTabla == true">
+            <thead>
+              <tr>         
+                <th scope="col">N°</th>
+                <th scope="col">Ruta</th>
+                <th scope="col">Patente</th>
+                <th scope="col">Driver</th>
+                <th scope="col">Inicio</th>
+                <th scope="col">Regíon</th>
+                <th scope="col">Total Pedidos</th>
+                <th scope="col">11:00 (10%)</th>
+                <th scope="col">13:00 (40%)</th>
+                <th scope="col">15:00 (60%)</th>
+                <th scope="col">17:00 (80%)</th>
+                <th scope="col">18:00 (95%)</th>
+                <th scope="col">20:00 (100%)</th>
+                <th scope="col">Entregados</th>
+                <th scope="col">No Entregados</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ruta of rutasBeetrackHoy">
+                <td scope="row" [ngClass]="{'bg-success text-white': ruta.Porcentaje == 100 }">{{ ruta.Numero }}</td>
+                <td [ngClass]="{'bg-success text-white': ruta.Porcentaje == 100 }">{{ ruta.Ruta }}</td>
+                <td [ngClass]="{'bg-success text-white': ruta.Porcentaje == 100 }">{{ ruta.Patente }}</td>
+                <td>{{ ruta.Driver }}</td>
+                <td>{{ ruta.Inicio }}</td>
+                <td>{{ ruta.Region }}</td>
+                <td>{{ ruta.Total_pedidos }}</td>
+                <td>{{ ruta.Once }}</td>
+                <td>{{ ruta.Una }}</td>
+                <td>{{ ruta.Tres }}</td>
+                <td>{{ ruta.Cinco }}</td>
+                <td>{{ ruta.Seis }}</td>
+                <td>{{ ruta.Ocho }}</td>
+                <td>{{ ruta.Entregados }}</td>
+                <td>{{ ruta.No_entregados }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="greenTable" > 
+            <tr>
+               <div *ngIf="isLoadingBeetrack">
+                 <img src="../../../assets/images/loading-gif.gif" />
+             </div>
+            </tr> 
+           </table>
+          </c-col>
+</c-row>
+
+<c-row >
+  <p></p>
+  <p></p>
 </c-row>

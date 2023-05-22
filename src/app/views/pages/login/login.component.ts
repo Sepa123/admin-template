@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from "src/app/service/auth.service"
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 // import { CookieService } from "ngx-cookie-service"
 @Component({
@@ -12,11 +12,11 @@ export class LoginComponent {
 
   constructor(private service: AuthService, public builder: FormBuilder, private router: Router) { }
 
-
   userdata: any
+  resultado!: string;
 
   loginform=this.builder.group({
-    mail:this.builder.control("",Validators.required),
+    mail:this.builder.control("",[Validators.required, Validators.email]),
     password:this.builder.control("",Validators.required),
   });
   
@@ -24,21 +24,24 @@ export class LoginComponent {
   proceedLogin(){
     if(this.loginform.valid) {
       this.service.GetUserbyusername(this.loginform.value).subscribe(res => {
+        console.log(res)
         this.userdata = res;
-        // this.cookie.set("token", this.userdata.access_token)
         sessionStorage.setItem('access_token',this.userdata.access_token);
-        console.log(sessionStorage.getItem("access_token"))
-        // sessionStorage.setItem('role',this.result.role);
-        console.log(this.userdata)
         this.router.navigate(['dashboard']);
-
-      })
+      },
+      ((error) => {
+        this.resultado = error.error.detail
+      }))
+      
   } else{
-    // this.toastr.warning("por favor ingrese datos validos");
-      console.log("INGRESE DATPS")
+    this.resultado = "Hay datos inválidos en el formulario";
+
+    console.log("por favor ingrese datos validos")
   }
 
 }
+
+
 
 
 }

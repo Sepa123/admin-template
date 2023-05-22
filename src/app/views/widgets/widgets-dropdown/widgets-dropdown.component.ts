@@ -9,6 +9,11 @@ import {
 } from '@angular/core';
 import { getStyle } from '@coreui/utils';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
+import { TIService } from 'src/app/service/ti.service';
+import { Pedidos } from 'src/app/models/pedido.interface';
+import { RutaBeetrackHoy } from 'src/app/models/rutaBeetrackHoy.interface'
+
+
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -17,11 +22,21 @@ import { ChartjsComponent } from '@coreui/angular-chartjs';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
-
+  // isGreen: boolean = true;
+  public isLoadingBeetrack: boolean = true;
   constructor(
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+    private changeDetectorRef: ChangeDetectorRef, private service: TIService
+  ) {
 
+    
+  }
+
+  pedidos!:Pedidos[]
+
+  ocultarTabla: boolean = true
+
+  rutasBeetrackHoy!: RutaBeetrackHoy []
+ 
   data: any[] = [];
   options: any[] = [];
   labels = [
@@ -65,7 +80,8 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
       pointHoverBorderColor: getStyle('--cui-warning'),
       data: [78, 81, 80, 45, 34, 12, 40],
       fill: true
-    }], [{
+    }], 
+    [{
       label: 'My Fourth dataset',
       backgroundColor: 'rgba(255,255,255,.2)',
       borderColor: 'rgba(255,255,255,.55)',
@@ -116,24 +132,61 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   };
 
   ngOnInit(): void {
-    this.setData();
+    // this.setData();
+    this.service.get_pedidos().subscribe((data) => {
+      this.pedidos = data
+      this.pedidos[0]["Total_pedidos"] == null ? alert("Hubo un error al cargar los datos de beetrack, Por favor espere uun tiempo") 
+                                                : console.log(true)
+    })
+    this.service.get_ruta_beetrack_hoy().subscribe((data) => {
+      this.rutasBeetrackHoy  = data
+      this.isLoadingBeetrack = false
+    })
+    // this.service.get_historico_mensual().subscribe(mensual=> {
+    //   this.historico = mensual
+
+    //   for (let i = 0; i < this.historico.length; i++) {
+    //     this.electrolux.push(this.historico[i].Electrolux)
+    //     this.sportex.push(this.historico[i].Sportex)
+    //     this.easy.push(this.historico[i].Easy)
+    //     this.tiendas.push(this.historico[i].Tiendas)
+    //   }
+    //   console.log("Electrolux",this.electrolux)
+    //   console.log("Sportex",this.sportex)
+    //   console.log("easy",this.easy)
+    //   console.log("Tiendas",this.tiendas)
+    // })
+    
+  }
+
+  hideTable() {
+      return this.ocultarTabla = false;  
+    }
+
+  showTable() {
+    return this.ocultarTabla = true;  
+  }
+
+  getStatusClass(ruta : RutaBeetrackHoy) {
+
   }
 
   ngAfterContentInit(): void {
     this.changeDetectorRef.detectChanges();
 
   }
-
+ 
   setData() {
     for (let idx = 0; idx < 4; idx++) {
       this.data[idx] = {
         labels: idx < 3 ? this.labels.slice(0, 7) : this.labels,
         datasets: this.datasets[idx]
       };
+      console.log(this.data[idx]["labels"])
     }
     this.setOptions();
   }
-
+  // graficos diseño , limite min y
   setOptions() {
     for (let idx = 0; idx < 4; idx++) {
       const options = JSON.parse(JSON.stringify(this.optionsDefault));

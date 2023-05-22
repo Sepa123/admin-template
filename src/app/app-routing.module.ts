@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
+import { UserGuard } from "src/app/guard/user.guard";
+import { AuthOperacionesGuard } from "src/app/guard/auth-operaciones.guard"; 
+import { AuthAdminGuard } from "src/app/guard/auth-admin.guard"; 
+import { AuthTransporteGuard } from "src/app/guard/auth-transporte.guard"; 
 import { DefaultLayoutComponent } from './containers';
 import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
@@ -33,12 +36,14 @@ const routes: Routes = [
       {
         path: 'base',
         loadChildren: () =>
-          import('./views/base/base.module').then((m) => m.BaseModule)
+          import('./views/base/base.module').then((m) => m.BaseModule),
+        
       },
       {
         path: 'buttons',
         loadChildren: () =>
-          import('./views/buttons/buttons.module').then((m) => m.ButtonsModule)
+          import('./views/buttons/buttons.module').then((m) => m.ButtonsModule),
+          
       },
       {
         path: 'forms',
@@ -70,7 +75,8 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/pages/pages.module').then((m) => m.PagesModule)
       },
-    ]
+    ],
+    canActivate: [UserGuard]
   },
   {
     path: '404',

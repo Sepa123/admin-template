@@ -2,9 +2,7 @@
 <ng-container>
   <c-container [fluid]="true">
 
-    <h5>{{ time | date: 'HH:mm' }}</h5>
-
-    <!-- <button
+    <button
       toggle="visible"
       cHeaderToggler
       [cSidebarToggle]="sidebarId"
@@ -14,22 +12,25 @@
         name="cilMenu"
         size="lg"
       ></svg>
-    </button> -->
-    <!-- <c-header-nav class="d-none d-lg-flex me-auto">
+    </button>
+    <c-header-nav class="d-none d-lg-flex me-auto">
       <c-nav-item>
         <a cNavLink routerLink="/dashboard" routerLinkActive="active">
           Dashboard
         </a>
       </c-nav-item>
-      <c-nav-item>
+      <!-- <c-nav-item>
         <a cNavLink routerLink="/users" routerLinkActive="active">Users</a>
-      </c-nav-item>
+      </c-nav-item> -->
       <c-nav-item>
-        <a cNavLink routerLink="/settings" routerLinkActive="active">
-          Settings
+        <!-- cil-account-logout -->
+
+        <a cNavLink routerLink="/login" routerLinkActive="active" (click)="Logout()">
+          <svg cIcon name="cilAccountLogout" size="lg" title="Logout"></svg>
+          Cerrar Sesión
         </a>
       </c-nav-item>
-    </c-header-nav>  -->
+    </c-header-nav> 
 
     <!-- <c-header-nav class="d-none d-lg-flex">
       <c-nav-item>
@@ -48,9 +49,9 @@
         </a>
       </c-nav-item>
     </c-header-nav> -->
-     <!-- <c-header-nav class="ms-3">
+     <c-header-nav class="ms-3">
       <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
-    </c-header-nav> -->
+    </c-header-nav>
 
   </c-container>
   <c-header-divider></c-header-divider>
@@ -62,7 +63,7 @@
  
 
   <ng-template #userDropdown>
-    <button alignment="end" > adsdad</button>
+    <h5>{{ time | date: 'HH:mm' }}</h5>
   </ng-template>
 
  <!-- <ng-template #userDropdown>

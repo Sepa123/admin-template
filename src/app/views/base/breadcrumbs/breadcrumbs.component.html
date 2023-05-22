@@ -2,8 +2,8 @@
   <c-row ngPreserveWhitespaces>
     <div>
       <div class="col-md-6 mx-auto">
-        <h3>Estado de cargas</h3>
-          <table class="table">
+        <h3>Estado de entrega Easy CD</h3>
+          <table class="greenTable">
             <thead>
               <tr>
                 <th scope="col">Total</th>
@@ -18,8 +18,149 @@
               </tr>
             </tbody>
           </table>
+
+          <table class="greenTable" > 
+            <tr>
+               <div *ngIf="isLoadingCarga">
+                 <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+             </div>
+            </tr> 
+           </table>
     
          
     </div>
   </div>
   </c-row>
+  <br/>
+  <!-- <c-card class="mb-4"> -->
+  <div class="fade-in">
+    <c-row ngPreserveWhitespaces>
+      <div>
+        <div class="col-md-6 mx-auto">
+          <h3>Productos de Easy enviados a regiones</h3>
+            <table class="greenTable">
+              <thead>
+                <tr>
+                  <th scope="col">Origen</th>
+                  <th scope="col">Regíon Metropolitana</th>
+                  <th scope="col">V region</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let producto of easyRegion">
+                  <td scope="row">{{ producto.Origen}}</td>
+                  <th>{{ producto.R_metropolitana }}</th>
+                  <th>{{ producto.V_region }}</th>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="greenTable" > 
+              <tr>
+                 <div *ngIf="isLoadingEasyRegion">
+                   <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+               </div>
+              </tr> 
+             </table>
+           
+      </div>
+    </div>
+    </c-row>
+  </div>
+  <!-- </c-card> -->
+
+
+  <div class="fade-in">
+    <c-row ngPreserveWhitespaces>
+      <div>
+        <div class="col-md-6 mx-auto">
+          <h3>Pedidos Easy GO por tienda</h3>
+            <table class="greenTable">
+              <thead>
+                <tr>
+                  <th scope="col">Tienda</th>
+                  <th scope="col">Productos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pedido of pedidoEasyOPL">
+                  <td scope="row">{{ pedido.Tiendas}}</td>
+                  <th>{{ pedido.Productos }}</th>
+                  <!-- <th>{{ producto.V_region }}</th> -->
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="greenTable" > 
+              <tr>
+                 <div *ngIf="isLoadingEasyOPL">
+                   <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+               </div>
+              </tr> 
+             </table>
+           
+      </div>
+    </div>
+    </c-row>
+  </div>
+
+
+  <c-row>
+    <c-col xs="4" sm="1">
+      <a class="myButton" (click)="hideTable()" *ngIf="ocultarTabla == true"> <svg cIcon name="cilMinus" size="xl" title="Numbered List Icon">
+      </svg> </a>
+      <a class="myButton" (click)="showTable()" *ngIf="ocultarTabla == false"> <svg cIcon name="cilPlus" size="xl" title="Numbered List Icon">
+      </svg>  </a>
+      <br />
+    </c-col>
+  
+    <c-col >
+
+  <div class="fade-in">
+    <c-row ngPreserveWhitespaces>
+      <div>
+        <div class="col-md-10 mx-auto">
+          <h3>pedidos sin tienda asociada</h3>
+            <table class="greenTable" *ngIf="ocultarTabla == true">
+              <thead>
+                <tr>
+                  <th scope="col">Suborden</th>
+                  <th scope="col">ID entrega</th>
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Unidades</th>
+                  <th scope="col">Fecha de compromiso</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pedido of pedidoSinTiendas ">
+                  <td scope="row">{{ pedido.Suborden}}</td>
+                  <th>{{ pedido.Id_entrega }}</th>
+                  <td>{{ pedido.Descripcion }}</td>
+                  <td>{{ pedido.Unidades }}</td>
+                  <td>{{ pedido.Fecha_compromiso }}</td>
+                  <!-- <th>{{ producto.V_region }}</th> -->
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="greenTable" *ngIf="ocultarTabla == true"> 
+              <tr>
+                 <div *ngIf="noData">
+                   <!-- <img width="50" height="50" src="../../../assets/images/loading-gif.gif" /> -->
+                   Sin datos
+               </div>
+              </tr> 
+             </table>
+
+             <table class="greenTable" > 
+              <tr>
+                 <div *ngIf="isLoadingSinTienda">
+                   <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+               </div>
+              </tr> 
+             </table>
+      </div>
+    </div>
+    </c-row>
+  </div>

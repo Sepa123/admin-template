@@ -27,5 +27,9 @@ export class DefaultHeaderComponent extends HeaderComponent {
         this.time = time;
       });
   }
+
+  Logout(){
+    sessionStorage.clear()
+  }
   
 }

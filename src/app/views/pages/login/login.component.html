@@ -14,6 +14,17 @@
                   </span>
                   <input autoComplete="Email" cFormControl placeholder="Email" formControlName="mail" />
                 </c-input-group>
+                <!-- <span *ngIf="this.formularioContacto.get('mail')?.errors?.['required']">
+                  (El mail no puede quedar vacío) -->
+                <!-- <span *ngIf=">
+                  (El mail no puede quedar vacío)
+                </span> -->
+                <span *ngIf="this.loginform.get('mail')?.errors?.['required']">
+                  
+                </span>
+                <span *ngIf="this.loginform.get('mail')?.errors?.['email']" ng-show="show">
+                  El E-mail debe ser valido
+                </span>
                 <c-input-group class="mb-4">
                   <span cInputGroupText>
                     <svg cIcon name="cilLockLocked"></svg>
@@ -26,19 +37,23 @@
                     formControlName="password"
                   />
                 </c-input-group>
+                <span *ngIf="this.loginform.get('password')?.errors?.['required']">
+                  <!-- la contraseña no ha sido ingresada -->
+                </span>
                 <c-row>
                   <c-col xs="6">
                     <button cButton color="success" class="px-4"s type="submit">
                       Login
                     </button>
                   </c-col>
-                  <c-col class="text-right" xs="6">
+                  <!-- <c-col class="text-right" xs="6">
                     <button cButton class="px-0" color="link">
                       ¿Olvidaste tu Contraseña?
                     </button>
-                  </c-col>
+                  </c-col> -->
                 </c-row>
               </form>
+              <div>{{resultado}}</div>
             </c-card-body>
           </c-card>
           <!-- <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">

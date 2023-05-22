@@ -1,25 +1,42 @@
-import { Component } from '@angular/core';
+import { Component,OnInit,OnDestroy} from '@angular/core';
+import { TIService } from "src/app/service/ti.service";
+import { ReporteHora } from 'src/app/models/reporteHora.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cards',
   templateUrl: './cards.component.html',
   styleUrls: ['./cards.component.scss']
 })
-export class CardsComponent {
+export class CardsComponent implements OnInit {
 
-  colors = [
-    { color: 'primary', textColor: 'primary' },
-    { color: 'secondary', textColor: 'secondary' },
-    { color: 'success', textColor: 'success' },
-    { color: 'danger', textColor: 'danger' },
-    { color: 'warning', textColor: 'warning' },
-    { color: 'info', textColor: 'info' },
-    { color: 'light' },
-    { color: 'dark' }
-  ];
+  // subscription!: Subscription;
+  isLoadingTable!: boolean
+  total!: ReporteHora[]
+  Hora!: ReporteHora[];
+  subReporteHora!: Subscription;
 
-  imgContext = { $implicit: 'top', bottom: 'bottom' };
+  constructor(private service : TIService) { 
+    this.isLoadingTable = true
+  }
+  
+  ngOnInit(): void{ 
+    this.subReporteHora = this.service.get_reporte_hora().subscribe((data) => {
+      this.total = [data.shift()]
+      this.Hora = data
+      this.isLoadingTable = false
+    }) 
+  }
 
-  constructor() { }
+
+  // limites electrolux:200 
+  // limites Sportex 150 
+  // limites Easy
+
+  // 85% Cuadro amarillo, 100% rojo
+  ngOnDestroy(): void {
+    // Cancelar la suscripción al destruir el componente
+    this.subReporteHora.unsubscribe()
+  }
 
 }
