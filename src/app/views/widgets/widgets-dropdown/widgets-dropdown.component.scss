@@ -74,3 +74,60 @@ table.greenTable {
     top:1px;
   }
   
+
+// Cuadro de tabla Hora segun su numero
+.success {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #28A745;
+}
+
+.warning {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #ffc107;
+}
+
+.danger {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #dc3545;
+}
+
+// CSS p
+
+.letraChica {
+  font-size: 11px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.letraGrande {
+  font-size: 18px;
+  font-weight: bold;
+  color: #070707;
+}
+
+// #8a93a2
+
+
+.divBeetrack {
+  // border: 2px solid red;
+  padding: 10px;
+}
+
+
+// tabla width 100%
+.fullTable{
+  border-collapse: collapse;
+  width: 100%;
+  // border: 1px solid #ddd;
+}
+
+.tdTitle {
+  text-align: center;
+  width: 33%;
+}

@@ -92,7 +92,8 @@ import {
   cilCarAlt,
   cilAccountLogout,
   cilPlus,
-  cilMinus
+  cilMinus,
+  cilDelete
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -189,7 +190,8 @@ export const iconSubset = {
   cilCarAlt,
   cilAccountLogout,
   cilPlus,
-  cilMinus
+  cilMinus,
+  cilDelete
 };
 
 export enum IconSubset {
@@ -285,5 +287,6 @@ export enum IconSubset {
   cilArrowCircleBottom = "cilArrowCircleBottom",
   cilAccountLogout = "cilAccountLogout",
   cilPlus = "cilPlus",
-  cilMinus = "cilMinus"
+  cilMinus = "cilMinus",
+  cilDelete = "cilDelete"
 }

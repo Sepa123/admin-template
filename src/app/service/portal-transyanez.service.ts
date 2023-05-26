@@ -8,13 +8,13 @@ export class PortalTransyanezService {
 
   constructor(private http: HttpClient) { }
 
-  apiurl = "http://34.225.63.221:84/api/transyanez/resumen_vehiculos_portal_"
-  
+  apiurl = "http://34.225.63.221:84/api/transyanez/resumen_vehiculos_portal"
+  // apiurl = "http://127.0.0.1:8000/api/transyanez/resumen_vehiculos_portal"
   downloadResumenVehiculos() {
     let date = new Date();
     const fechaActual = date.toISOString().split('T')[0];
 
-    this.http.get(this.apiurl+fechaActual, {responseType:"blob"})
+    this.http.get(this.apiurl, {responseType:"blob"})
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");

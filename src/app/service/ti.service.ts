@@ -11,24 +11,26 @@ import { Pedidos } from "../models/pedido.interface"
 import { RutaBeetrackHoy } from "../models/rutaBeetrackHoy.interface"
 import { PedidoEasyOPL } from "../models/pedidoEasyOPL.interface"
 import { PedidosSinTienda } from "../models/pedidoSinTienda.interface"
+import { PedidosPendientes } from "../models/pedidoPendiente.interface" 
+import { ProductoPicking } from "src/app/models/productoPicking.interface"
+
+import { CacheService } from "src/app/service/cache.service"
 
 @Injectable({
   providedIn: 'root'
 })
 export class TIService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cacheService: CacheService) { }
 
-  apiurl="http://34.225.63.221:84/api/reportes"
-  //apiurl= "http://127.0.0.1:8000/api/reportes"
+   apiurl="http://34.225.63.221:84/api/reportes"
+   //apiurl= "http://127.0.0.1:8000/api/reportes"
   
   Getcargas(): Observable<any>{
     return interval(2000).pipe( switchMap(() => this.http.get<Carga[]>(this.apiurl+"/cargas_easy")))
   }
  
   downloadBeetrackMensual(){
-    // let date = new Date();
-    // const fechaActual = date.toISOString().split('T')[0];
     this.http.get(this.apiurl+"/NS_beetrack_Mensual", {responseType:"blob"})
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
@@ -91,7 +93,7 @@ export class TIService {
     })
 
   }
-
+  // actualizar cada 5 o 10 minutos
   get_pedidos() {
     return this.http.get<Pedidos[]>(this.apiurl + "/pedidos")
   }
@@ -108,14 +110,69 @@ export class TIService {
     return this.http.get<PedidosSinTienda[]>(this.apiurl + "/pedidos/sin_tiendas")
   }
 
+  get_pedidos_pendientes_total() {
+    return this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/total")
+  }
+
+  get_pedidos_pendientes_entregados() {
+    return this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/entregados")
+  }
+
+  get_pedidos_pendientes_no_entregados() {
+    return this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/no_entregados")
+  }
+
+  get_pedidos_pendientes_en_ruta() {
+    return this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/en_ruta")
+  }
+
+  
   //todo: Agregar uptade cada 15 min
 
   // agregar upate de 
-  // get_historico_mensual() ok
   // get_reporte_hora()
-  // get_pedidos() // cada media hora
+
 
   get_historico_mensual_hoy():  Observable<any>{
     return interval(6000).pipe( switchMap(() => this.http.get<ReporteHistorico[]>(this.apiurl+"/historico/hoy")))
   }
+
+  get_pedidos_update():  Observable<any>{
+    return interval(600000).pipe( switchMap(() => this.http.get<Pedidos[]>(this.apiurl + "/pedidos")))
+  }
+
+  get_ruta_beetrack_hoy_update():  Observable<any>{
+    return interval(600000).pipe( switchMap(() => this.http.get<RutaBeetrackHoy[]>(this.apiurl + "/ruta/beetrack/hoy")))
+  }
+ 
+  /// Pedidos pendientes actualización cada 2 minutos
+  
+  get_pedidos_pendientes_total_update() {
+    return interval(120000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/total")))
+  }
+
+  get_pedidos_pendientes_entregados_update() {
+    return interval(120000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/entregados")))
+  }
+
+  get_pedidos_pendientes_no_entregados_update() {
+    return interval(120000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/no_entregados")))
+  }
+
+  get_pedidos_pendientes_en_ruta_update() {
+    return interval(120000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/en_ruta")))
+  }
+
+  //
+
+  get_productos_picking() {
+    return this.http.get<ProductoPicking>(this.apiurl + "/buscar/producto")
+  }
+
+  get_producto_picking(id: string) {
+    return this.http.get<ProductoPicking>(this.apiurl +`/buscar/producto/${id}`)
+
+  }
+
+  
 }

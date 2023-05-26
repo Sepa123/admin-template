@@ -24,7 +24,6 @@ export class LoginComponent {
   proceedLogin(){
     if(this.loginform.valid) {
       this.service.GetUserbyusername(this.loginform.value).subscribe(res => {
-        console.log(res)
         this.userdata = res;
         sessionStorage.setItem('access_token',this.userdata.access_token);
         this.router.navigate(['dashboard']);
@@ -35,8 +34,6 @@ export class LoginComponent {
       
   } else{
     this.resultado = "Hay datos inválidos en el formulario";
-
-    console.log("por favor ingrese datos validos")
   }
 
 }

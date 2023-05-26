@@ -4,7 +4,7 @@ import { PortalTransyanezService } from "src/app/service/portal-transyanez.servi
 import { TIService } from 'src/app/service/ti.service';
 import { IconSetService } from '@coreui/icons-angular';
 import { freeSet } from '@coreui/icons'
-import { cilListNumbered, cilPaperPlane, brandSet } from '@coreui/icons';
+
 
 @Component({
   selector: 'app-accordions',
@@ -19,10 +19,8 @@ export class AccordionsComponent {
     private service: PortalTransyanezService, private TIservice: TIService,
     public iconSet: IconSetService
   ) {
-     iconSet.getIcon("cil-arrow-circle-bottom")
-   }
 
-   // TODO: CREAR UN LOADING
+   }
 
   downloadVehiculos(){
     this.service.downloadResumenVehiculos()

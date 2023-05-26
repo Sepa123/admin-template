@@ -1,4 +1,4 @@
-
+<p ngClass="titulo">Guias de despacho cliente</p>
 <table class="greenTable">
   <thead>
     <tr>
@@ -13,24 +13,18 @@
   <tbody>
     <tr *ngFor="let hora of total">
       <th>{{hora.Hora}}</th>
-      <th>{{hora.Electrolux}}</th>
-      <th>{{hora.Sportex}}</th>
-      <th>{{hora.Easy_CD}}</th>
-      <th>{{hora.Easy_OPL}}</th>
+      <th [ngClass]="{'success': hora.Electrolux > 0, 'warning' : hora.Electrolux >= 170, 'danger': hora.Electrolux >= 200 }">{{hora.Electrolux}}</th>
+      <th [ngClass]="{'success': hora.Sportex > 0,'warning': hora.Sportex >= 127,'danger': hora.Sportex >= 150  }"> {{hora.Sportex}}</th>
+      <th [ngClass]="{'success': hora.Easy_CD > 0, 'warning': hora.Easy_CD > 444,'danger': hora.Easy_CD > 522 }">{{hora.Easy_CD}}</th>
+      <th [ngClass]="{'success': hora.Easy_OPL > 0 }">{{hora.Easy_OPL}}</th>
     </tr>
     <tr *ngFor="let reporte of Hora">
       <th>{{reporte.Hora}}</th>
-      <td [ngClass]="{'bg-success text-white font-weight-bold ': reporte.Electrolux > 0,
-                      'bg-warning text-white font-weight-bold' : reporte.Electrolux >= 170,
-                      'bg-danger text-white font-weight-bold': reporte.Electrolux >= 200 }">{{reporte.Electrolux}}</td>
-      <td [ngClass]="{'bg-success text-white font-weight-bold': reporte.Sportex > 0,
-                      'bg-warning text-white font-weight-bold': reporte.Sportex >= 127,
-                      'bg-danger text-white font-weight-bold': reporte.Sportex >= 150  }">{{reporte.Sportex}}</td>
-      <td [ngClass]="{'bg-success text-white font-weight-bold': reporte.Easy_CD > 0,
-                      'bg-warning text-white font-weight-bold': reporte.Easy_CD > 444,
-                      'bg-danger text-white font-weight-bold': reporte.Easy_CD > 522 }">{{reporte.Easy_CD}}</td>
+      <td [ngClass]="{'success': reporte.Electrolux > 0, 'warning' : reporte.Electrolux >= 170, 'danger': reporte.Electrolux >= 200 }">{{reporte.Electrolux}}</td>
+      <td [ngClass]="{'success': reporte.Sportex > 0,'warning': reporte.Sportex >= 127,'danger': reporte.Sportex >= 150  }">{{reporte.Sportex}}</td>
+      <td [ngClass]="{'success': reporte.Easy_CD > 0, 'warning': reporte.Easy_CD > 444,'danger': reporte.Easy_CD > 522 }">{{reporte.Easy_CD}}</td>
       <!-- <td>{{reporte.Tiendas}}</td> -->
-      <td [ngClass]="{'bg-success text-white font-weight-bold': reporte.Easy_OPL > 0 }">{{reporte.Easy_OPL}}</td>
+      <td [ngClass]="{'success': reporte.Easy_OPL > 0 }">{{reporte.Easy_OPL}}</td>
     </tr>
   </tbody>
   </table>

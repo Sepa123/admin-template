@@ -17,7 +17,9 @@
     padding: 3px 2px;
   }
   table.greenTable tbody td {
-    font-size: 17px;
+    font-size: 18px;
+    // font-weight: bold;
+    // color: #FFFFFF;
   }
   table.greenTable tr:nth-child(even) {
     background: #FFFEF3;
@@ -26,7 +28,7 @@
     background: #28A745;
   }
   table.greenTable thead th {
-    font-size: 17px;
+    font-size: 18px;
     font-weight: bold;
     color: #FFFFFF;
     text-align: center;
@@ -55,3 +57,31 @@
     padding: 2px 8px;
     border-radius: 5px;
   }
+
+  // Cuadro de tabla Hora segun su numero
+.success {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #28A745;
+}
+
+.warning {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #ffc107;
+}
+
+.danger {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #dc3545;
+}
+
+.titulo {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}

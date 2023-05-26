@@ -16,6 +16,9 @@ export class DropdownsComponent implements OnInit{
   constructor(private service:TIService) { }
 
   pedidos!: PedidoSinCompromiso[]
+  pedidosFull!: PedidoSinCompromiso[]
+  fechaIngresoList!: string[]
+  fechaCompromisoList!: any[]
 
   private origen = ["Easy CD","Sportex","Electrolux","Easy OPL"]
 
@@ -27,8 +30,21 @@ export class DropdownsComponent implements OnInit{
   getData() {
     this.service.get_pedidos_sin_despacho().subscribe((data) => {
       this.pedidos = data
+      this.pedidosFull = data
       this.isLoadingTable = false
+
+      this.fechaIngresoList = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Fecha_ingreso)
+        ).map(str => (JSON.parse(str))))];   
+
+      // this.fechaIngresoList.sort((a: string, b: string) => {
+      //   const fechaA: Date = new Date(a);
+      //   const fechaB: Date = new Date(b);
+      //   return fechaA.getTime() - fechaB.getTime();
+      // });
+ 
     })
+
+    
   }
   downloadPedidos () {
     this.service.get_pedidos_sin_despacho_descarga()
@@ -48,5 +64,21 @@ export class DropdownsComponent implements OnInit{
         return 0;
       }
     });
+  }
+
+  filterByFecha() : void {
+    var fechaHoy = new Date();
+    var año = fechaHoy.getFullYear();
+    var mes = fechaHoy.getMonth() + 1; 
+    var dia = fechaHoy.getDate();
+
+    // Formato de fecha YYYY-MM-DD
+    var fechaHoyString = año + '-' + mes.toString().padStart(2, '0') + '-' + dia.toString().padStart(2, '0');
+
+    this.pedidos = this.pedidos.filter((pedido) => pedido.Fecha_ingreso != fechaHoyString)
+  }
+
+  getFullData(){
+    this.pedidos = this.pedidosFull
   }
 } 

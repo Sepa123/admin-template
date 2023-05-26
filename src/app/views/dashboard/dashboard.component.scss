@@ -55,3 +55,26 @@ table.greenTable tfoot .links a{
   padding: 2px 8px;
   border-radius: 5px;
 }
+
+
+ // Cuadro de tabla reportes Historicos segun su numero
+ .success {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #28A745;
+}
+
+.warning {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #ffc107;
+}
+
+.danger {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #dc3545;
+}

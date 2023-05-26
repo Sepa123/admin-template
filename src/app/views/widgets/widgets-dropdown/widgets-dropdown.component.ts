@@ -12,7 +12,8 @@ import { ChartjsComponent } from '@coreui/angular-chartjs';
 import { TIService } from 'src/app/service/ti.service';
 import { Pedidos } from 'src/app/models/pedido.interface';
 import { RutaBeetrackHoy } from 'src/app/models/rutaBeetrackHoy.interface'
-
+import { Subscription } from 'rxjs';
+import { PedidosPendientes } from 'src/app/models/pedidoPendiente.interface';
 
 
 @Component({
@@ -26,17 +27,28 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   public isLoadingBeetrack: boolean = true;
   constructor(
     private changeDetectorRef: ChangeDetectorRef, private service: TIService
-  ) {
-
-    
+  ) {  
   }
+
+  subPedidos!: Subscription
+  subBeetrackHoy!: Subscription
+
+  subPedidosPendientesTotal!: Subscription
+  subPedidosPendientesEntregados!: Subscription
+  subPedidosPendientesNoEntregados!: Subscription
+  subPedidosPendientesEnRuta!: Subscription
 
   pedidos!:Pedidos[]
 
   ocultarTabla: boolean = true
-
+  noData: boolean = false
   rutasBeetrackHoy!: RutaBeetrackHoy []
  
+  pedidosPendientesTotal!: PedidosPendientes[]
+  pedidosPendientesEntregados!: PedidosPendientes[]
+  pedidosPendientesNoEntregados!: PedidosPendientes[]
+  pedidosPendientesEnRuta!: PedidosPendientes[]
+
   data: any[] = [];
   options: any[] = [];
   labels = [
@@ -131,33 +143,78 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     }
   };
 
+
   ngOnInit(): void {
     // this.setData();
     this.service.get_pedidos().subscribe((data) => {
       this.pedidos = data
-      this.pedidos[0]["Total_pedidos"] == null ? alert("Hubo un error al cargar los datos de beetrack, Por favor espere uun tiempo") 
+      this.pedidos[0]["Total_pedidos"] == null ? alert("Hubo un error al cargar los datos de beetrack, Por favor espere un tiempo") 
                                                 : console.log(true)
     })
+
     this.service.get_ruta_beetrack_hoy().subscribe((data) => {
       this.rutasBeetrackHoy  = data
       this.isLoadingBeetrack = false
-    })
-    // this.service.get_historico_mensual().subscribe(mensual=> {
-    //   this.historico = mensual
 
-    //   for (let i = 0; i < this.historico.length; i++) {
-    //     this.electrolux.push(this.historico[i].Electrolux)
-    //     this.sportex.push(this.historico[i].Sportex)
-    //     this.easy.push(this.historico[i].Easy)
-    //     this.tiendas.push(this.historico[i].Tiendas)
-    //   }
-    //   console.log("Electrolux",this.electrolux)
-    //   console.log("Sportex",this.sportex)
-    //   console.log("easy",this.easy)
-    //   console.log("Tiendas",this.tiendas)
-    // })
+      if(this.rutasBeetrackHoy.length == 0) {
+        this.noData = true
+      }
+    })
+
+    this.getPedidosPendientes();
+
+    // Subcripciones 
+
+    this.subPedidos = this.service.get_pedidos_update().subscribe((update_data) => {
+      this.pedidos = update_data
+    })
+
+    this.subBeetrackHoy = this.service.get_ruta_beetrack_hoy_update().subscribe((update_data) => {
+      this.rutasBeetrackHoy = update_data
+    })
+
+    this.subPedidosPendientes();
+
+  }
+
+
+  getPedidosPendientes() {
+    this.service.get_pedidos_pendientes_total().subscribe((data) => {
+      this.pedidosPendientesTotal = data
+    })
+
+    this.service.get_pedidos_pendientes_entregados().subscribe((data) => {
+      this.pedidosPendientesEntregados = data
+    })
+
+    this.service.get_pedidos_pendientes_no_entregados().subscribe((data) => {
+      this.pedidosPendientesNoEntregados = data
+    })
+
+    this.service.get_pedidos_pendientes_en_ruta().subscribe((data) => {
+      this.pedidosPendientesEnRuta = data
+    })
     
   }
+
+  subPedidosPendientes() {
+    this.subPedidosPendientesTotal = this.service.get_pedidos_pendientes_total_update().subscribe((update_data) => {
+      this.pedidosPendientesTotal = update_data
+    })
+
+    this.subPedidosPendientesEntregados = this.service.get_pedidos_pendientes_entregados_update().subscribe((update_data) => {
+      this.pedidosPendientesEntregados = update_data
+    })
+
+    this.subPedidosPendientesNoEntregados = this.service.get_pedidos_pendientes_no_entregados_update().subscribe((update_data) => {
+      this.pedidosPendientesNoEntregados = update_data
+    })
+
+    this.subPedidosPendientesEnRuta = this.service.get_pedidos_pendientes_en_ruta_update().subscribe((update_data => {
+      this.pedidosPendientesEnRuta = update_data
+    }))
+  }
+
 
   hideTable() {
       return this.ocultarTabla = false;  
@@ -174,6 +231,16 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   ngAfterContentInit(): void {
     this.changeDetectorRef.detectChanges();
 
+  }
+
+  ngOnDestroy(): void {
+    // Cancelar la suscripción al destruir el componente
+    this.subPedidos.unsubscribe()
+    this.subBeetrackHoy.unsubscribe()
+    this.subPedidosPendientesTotal.unsubscribe()
+    this.subPedidosPendientesEntregados.unsubscribe()
+    this.subPedidosPendientesNoEntregados.unsubscribe()
+    this.subPedidosPendientesEnRuta.unsubscribe()
   }
  
   setData() {

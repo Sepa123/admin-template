@@ -120,18 +120,18 @@
     <tr *ngFor="let reporte of reportesHistoricosHoy">
       <td>{{reporte.Dia}}</td>
       <td>{{reporte.Fecha}}</td>
-      <td>{{reporte.Electrolux}}</td>
-      <td>{{reporte.Sportex}}</td>
-      <td>{{reporte.Easy}}</td>
-      <td>{{reporte.Easy_OPL}}</td>
+      <td [ngClass]="{'success': reporte.Electrolux > 0, 'warning' : reporte.Electrolux >= 170, 'danger': reporte.Electrolux >= 200 }">{{reporte.Electrolux}}</td>
+      <td [ngClass]="{'success': reporte.Sportex > 0,'warning': reporte.Sportex >= 127,'danger': reporte.Sportex >= 150  }">{{reporte.Sportex}}</td>
+      <td [ngClass]="{'success': reporte.Easy > 0, 'warning': reporte.Easy > 444,'danger': reporte.Easy > 522 }">{{reporte.Easy}}</td>
+      <td [ngClass]="{'success': reporte.Easy_OPL > 0 }">{{reporte.Easy_OPL}}</td>
     </tr>
     <tr *ngFor="let reportes of reportesHistoricos">
       <td>{{reportes.Dia}}</td>
       <td>{{reportes.Fecha}}</td>
-      <td>{{reportes.Electrolux}}</td>
-      <td>{{reportes.Sportex}}</td>
-      <td>{{reportes.Easy}}</td>
-      <td>{{reportes.Easy_OPL}}</td>
+      <td [ngClass]="{'success': reportes.Electrolux > 0, 'warning' : reportes.Electrolux >= 170, 'danger': reportes.Electrolux >= 200 }">{{reportes.Electrolux}}</td>
+      <td [ngClass]="{'success': reportes.Sportex > 0,'warning': reportes.Sportex >= 127,'danger': reportes.Sportex >= 150  }">{{reportes.Sportex}}</td>
+      <td [ngClass]="{'success': reportes.Easy > 0, 'warning': reportes.Easy > 444,'danger': reportes.Easy > 522 }">{{reportes.Easy}}</td>
+      <td [ngClass]="{'success': reportes.Easy_OPL > 0 }">{{reportes.Easy_OPL}}</td>
     </tr>
   </tbody>
   </table>

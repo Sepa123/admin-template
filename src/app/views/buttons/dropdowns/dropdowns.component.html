@@ -25,7 +25,45 @@
   <c-row ngPreserveWhitespaces>
     <div>
       <div class="col-md-10 mx-auto">
-        <c-dropdown >
+
+        <table>
+          <tr>
+            <td>
+              <c-dropdown >
+                <button cButton cDropdownToggle color="secondary" size="sm">
+                  Ordenar Por
+                </button>
+                <ul cDropdownMenu>
+                  <li><a [routerLink]="[]" (click)="sortByName(0)" cDropdownItem>Easy CD</a></li>
+                  <li><a [routerLink]="[]" (click)="sortByName(1)"  cDropdownItem>Sportex</a></li>
+                  <li><a [routerLink]="[]" (click)="sortByName(2)"  cDropdownItem>Electrolux</a></li>
+                  <li><a [routerLink]="[]" (click)="sortByName(3)"  cDropdownItem>Easy OPL</a></li>
+                </ul>
+              </c-dropdown>
+            </td>
+            <td>
+              <c-dropdown >
+                <button cButton  color="secondary" size="sm" (click)="filterByFecha()">
+                  Ingreso dias anteriores
+                </button>
+                <!-- <ul cDropdownMenu>
+                  <li  *ngFor="let fecha of fechaIngresoList"><a [routerLink]="[]" (click)="filterByFecha(fecha)" cDropdownItem>{{fecha}}</a></li>
+                </ul> -->
+              </c-dropdown>
+            </td>
+            <td>
+              <c-dropdown >
+                <button cButton  color="secondary" size="sm" (click)="getFullData()">
+                  Ingreso hasta hoy
+                </button>
+                <!-- <ul cDropdownMenu>
+                  <li  *ngFor="let fecha of fechaIngresoList"><a [routerLink]="[]" (click)="filterByFecha(fecha)" cDropdownItem>{{fecha}}</a></li>
+                </ul> -->
+              </c-dropdown>
+            </td>
+          </tr>
+        </table>
+        <!-- <c-dropdown >
           <button cButton cDropdownToggle color="secondary" size="sm">
             Ordenar Por
           </button>
@@ -35,7 +73,9 @@
             <li><a [routerLink]="[]" (click)="sortByName(2)"  cDropdownItem>Electrolux</a></li>
             <li><a [routerLink]="[]" (click)="sortByName(3)"  cDropdownItem>Easy OPL</a></li>
           </ul>
-        </c-dropdown>
+        </c-dropdown> -->
+
+        
         <br />
           <table class="greenTable">
             <thead>

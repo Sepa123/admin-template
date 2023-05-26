@@ -20,5 +20,4 @@ export class AuthService {
     return this.http.get<any>(this.apiurl+"/user", { headers: header});
   }
 
-
 }

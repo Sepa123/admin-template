@@ -1,106 +1,212 @@
-<div *ngFor="let pedido of pedidos">
-  <!-- <c-row >
-    <c-col xs="6" sm="3">
-      <c-widget-stat-e
-        [title]="'Pedidos Beetrack'"
-        class="mb-4 text-white fs-4"
+<div ngClass="divBeetrack">
+  <div *ngFor="let pedido of pedidos">
+    <table ngClass="fullTable">
+     <tr>
+      <td ><p ngClass="letraGrande">Beetrack </p> </td>
+      <td ngClass="tdTitle"><p ngClass="letraGrande"></p> </td>
+      <td ngClass="tdTitle"><p ngClass="letraGrande"> </p></td>
+     </tr>
+    </table>
+    <!-- <p ngClass="letraGrande">Beetrack </p>  -->
+    <c-row >
+      <c-col xs="6" sm="3">
+        <c-widget-stat-e
+          class="mb-4 text-white fs-4"
+          color="info"
+        >
+        TOTAL PEDIDOS
+        <br />
+          {{pedido.Total_pedidos}}  
+
+
+      </c-widget-stat-e>
+      </c-col>
+
+      <c-col xs="6" sm="3">
+        <c-widget-stat-e
+          class="mb-6 text-white fs-4"
+          color="success"
+        >
+        ENTREGADOS
+        <br />
+        {{pedido.Entregados}}
+      </c-widget-stat-e>
+      </c-col>
+
+      <c-col xs="6" sm="3">
+        <c-widget-stat-e
+          class="mb-4 text-white fs-4"
+          color="danger"
+        >
+        NO ENTREGADOS
+        <br />
+        {{pedido.No_entregados}}
+      </c-widget-stat-e>
+      </c-col>
+
+      <c-col xs="6" sm="3">
+        <c-widget-stat-e
+          class="mb-4 text-white fs-4"
+          color="warning"
+        >
+        EN RUTA
+        <br />
+        {{pedido.Pendientes}}
+      </c-widget-stat-e>
+      </c-col>
+
+      
+    </c-row>
+
+  <!-- <c-row>
+    <c-col sm="6" xl="3">
+
+      <c-widget-stat-a
+        class="mb-4"
         color="info"
-      >
+        title="Total pedidos en beetrack"
+      >  
 
-        {{pedido.Total_pedidos}}  
-
-
-    </c-widget-stat-e>
+      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+        <span>{{pedido.Total_pedidos}} </span>
+      </ng-template>
+      </c-widget-stat-a>
     </c-col>
-
-    <c-col xs="6" sm="3">
-      <c-widget-stat-e
+    <c-col sm="6" xl="3">
+      <div *ngFor="let pedido of pedidos">
+      <c-widget-stat-a
         [title]="'Entregados'"
-        class="mb-6 text-white fs-4"
+        class="mb-4"
         color="success"
       >
-      {{pedido.Entregados}}
-    </c-widget-stat-e>
+        <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+          <span>{{pedido.Entregados}}</span>
+        </ng-template>
+      </c-widget-stat-a>
+    </div>
     </c-col>
 
-    <c-col xs="6" sm="3">
-      <c-widget-stat-e
+    <c-col sm="6" xl="3">
+      <c-widget-stat-a
         [title]="'No Entregados'"
-        class="mb-4 text-white fs-4"
+        class="mb-4"
         color="danger"
       >
-      {{pedido.No_entregados}}
-    </c-widget-stat-e>
+        <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+          <span>{{pedido.No_entregados}} </span>
+
+        </ng-template>
+      </c-widget-stat-a>
     </c-col>
 
-    <c-col xs="6" sm="3">
-      <c-widget-stat-e
+    <c-col sm="6" xl="3">
+      <c-widget-stat-a
         [title]="'En ruta'"
-        class="mb-4 text-white fs-4"
+        class="mb-4"
         color="warning"
       >
-      {{pedido.Pendientes}}
-    </c-widget-stat-e>
+        <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+          <span> {{pedido.Pendientes}}</span>
+        </ng-template>
+      </c-widget-stat-a>
     </c-col>
-
-    
   </c-row> -->
 
-<c-row>
-  <c-col sm="6" xl="3">
-
-    <c-widget-stat-a
-      class="mb-4"
-      color="info"
-      title="Total pedidos en beetrack"
-    >  
-
-    <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-      <span>{{pedido.Total_pedidos}} </span>
-    </ng-template>
-    </c-widget-stat-a>
-  </c-col>
-  <c-col sm="6" xl="3">
-    <div *ngFor="let pedido of pedidos">
-    <c-widget-stat-a
-      [title]="'Entregados'"
-      class="mb-4"
-      color="success"
-    >
-      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>{{pedido.Entregados}}</span>
-      </ng-template>
-    </c-widget-stat-a>
+  <p ngClass="letraGrande">Fecha de compromiso</p> 
   </div>
-  </c-col>
 
-  <c-col sm="6" xl="3">
-    <c-widget-stat-a
-      [title]="'No Entregados'"
-      class="mb-4"
-      color="danger"
-    >
-      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>{{pedido.No_entregados}} </span>
+  <c-row>
+    <!-- <div *ngFor="let pedidoPendiente of pedidosPendientesTotal"> -->
+    <c-col sm="6" xl="3" *ngFor="let pedidoPendiente of pedidosPendientesTotal">
+      <c-widget-stat-a
+        class="mb-4"
+        color="info"
+        title=""
+      >  
 
-      </ng-template>
-    </c-widget-stat-a>
-  </c-col>
+        <table >
+          <tr ngClass="letraChica">
+            Atrasada:  {{pedidoPendiente.Atrasadas}}
+          </tr>
+          <tr ngClass="letraChica">
+          En fecha: {{pedidoPendiente.En_fecha}}
+          </tr>
+          <tr >
+            <p ngClass="letraChica">Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+          </tr>
+        </table>
+        <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> 
 
-  <c-col sm="6" xl="3">
-    <c-widget-stat-a
-      [title]="'En ruta'"
-      class="mb-4"
-      color="warning"
-    >
-      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span> {{pedido.Pendientes}}</span>
-      </ng-template>
-    </c-widget-stat-a>
-  </c-col>
-</c-row>
+      </c-widget-stat-a>
+    </c-col>
+  <!-- </div> -->
+    <c-col sm="6" xl="3" *ngFor="let pedidoPendiente of pedidosPendientesEntregados">
+      <c-widget-stat-a
+        class="mb-4"
+        color="success"
+      >
+      <table >
+        <tr ngClass="letraChica">
+          Atrasada:  {{pedidoPendiente.Atrasadas}}
+        </tr>
+        <tr ngClass="letraChica">
+        En fecha: {{pedidoPendiente.En_fecha}}
+        </tr>
+        <tr >
+          <p ngClass="letraChica">Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+        </tr>
+      </table>
+      <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p>
+      </c-widget-stat-a>
+    </c-col>
+
+    <c-col sm="6" xl="3" *ngFor="let pedidoPendiente of pedidosPendientesNoEntregados">
+      <c-widget-stat-a
+        class="mb-4"
+        color="danger"
+      >
+      <table >
+        <tr ngClass="letraChica">
+          Atrasada:  {{pedidoPendiente.Atrasadas}}
+        </tr>
+        <tr ngClass="letraChica">
+        En fecha: {{pedidoPendiente.En_fecha}}
+        </tr>
+        <tr >
+          <p ngClass="letraChica">Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+        </tr>
+      </table>
+
+      <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> 
+
+      </c-widget-stat-a>
+    </c-col>
+
+    <c-col sm="6" xl="3" *ngFor="let pedidoPendiente of pedidosPendientesEnRuta">
+      <c-widget-stat-a
+        class="mb-4"
+        color="warning"
+      >
+
+      <table >
+        <tr ngClass="letraChica">
+          Atrasada:  {{pedidoPendiente.Atrasadas}}
+        </tr>
+        <tr ngClass="letraChica">
+        En fecha: {{pedidoPendiente.En_fecha}}
+        </tr>
+        <tr >
+          <p ngClass="letraChica">Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+        </tr>
+      </table>
+      <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p>
+
+      </c-widget-stat-a>
+    </c-col>
+  </c-row>
+
+* Sportex, Easy, Electrolux
 </div>
-
 
 <c-row>
   <c-col xs="4" sm="1">
@@ -108,9 +214,11 @@
     </svg> </a>
     <a class="myButton" (click)="showTable()" *ngIf="ocultarTabla == false"> <svg cIcon name="cilPlus" size="xl" title="Numbered List Icon">
     </svg>  </a>
-    <br />
+    <p> </p>
   </c-col>
+</c-row>
 
+<c-row>
   <c-col >
   
   <table class="greenTable" *ngIf="ocultarTabla == true">
@@ -153,6 +261,15 @@
               </tr>
             </tbody>
           </table>
+
+          <table class="greenTable" *ngIf="ocultarTabla == true"> 
+            <tr>
+               <div *ngIf="noData">
+
+                 Sin datos
+             </div>
+            </tr> 
+           </table>
 
           <table class="greenTable" > 
             <tr>

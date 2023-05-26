@@ -5,7 +5,7 @@ import { ReporteEasyRegion } from 'src/app/models/reporteEasyRegion.interface';
 
 import { PedidoEasyOPL } from 'src/app/models/pedidoEasyOPL.interface';
 import { PedidosSinTienda } from 'src/app/models/pedidoSinTienda.interface';
-import { Observable, interval, switchMap, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 @Component({
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.scss']
@@ -22,8 +22,6 @@ export class BreadcrumbsComponent implements OnInit {
   noData: boolean = false
   
   constructor( private service : TIService ) {}
-
-
 
   carga!: Carga[]
   ocultarTabla: boolean = true
@@ -71,6 +69,7 @@ export class BreadcrumbsComponent implements OnInit {
 
   ngOnDestroy(): void {
     // Cancelar la suscripción al destruir el componente
+    
     this.subscription.unsubscribe();
     this.subscriptionRegion.unsubscribe();
   }
