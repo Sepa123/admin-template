@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { TIService } from 'src/app/service/ti.service';
 import { ProductoPicking } from "src/app/models/productoPicking.interface"
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -15,6 +15,8 @@ export class FormControlsComponent {
 
   showTable : boolean = false
   idProducto! : string
+
+  ordenesCompra! : number 
   
   arrayProductosIngresados : string[] = []
   productoPicking! : ProductoPicking
@@ -36,6 +38,7 @@ export class FormControlsComponent {
   deleteData(id:string) {
     this.arrayProductos =  this.arrayProductos.filter(producto => producto.Codigo_cliente != id)
     this.arrayProductosIngresados = this.arrayProductosIngresados.filter(producto => producto != id)
+    sessionStorage.setItem("data", JSON.stringify(this.arrayProductos));
   }
 
   addData( id: string) {
@@ -48,10 +51,17 @@ export class FormControlsComponent {
       this.productoPicking = data
       this.productoPicking.Codigo_producto = this.productoPicking.Codigo_producto.replace(/@/g, " ")
       // this.productoPicking.Codigo_producto = this.productoPicking.Codigo_producto.replace(/@/g, " ")
-      this.arrayProductos.push(data)
-    })
+      this.arrayProductos.unshift(data)
+      this.arrayProductosIngresados.push(resultado)
+      sessionStorage.setItem("data", JSON.stringify(this.arrayProductos));
+    },
+    ((error) => {
+      alert(error.error.detail)
+    }))
 
-    this.arrayProductosIngresados.push(resultado)
+    
+
+    // this.arrayProductosIngresados.push(resultado)
     this.idProducto = ""
 
   }
@@ -91,7 +101,14 @@ export class FormControlsComponent {
   }
 
   ngOnInit (): void {
+
+    
     this.loadSvg()
+
+    const datosSessionStorage = sessionStorage.getItem('data');
+    if (datosSessionStorage) {
+      this.arrayProductos = JSON.parse(datosSessionStorage);
+    }
   }
   
 }

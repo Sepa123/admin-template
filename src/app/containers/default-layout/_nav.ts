@@ -43,11 +43,7 @@ export const navItems: INavData[] = [
       {
         name: 'Reportes',
         url: '/base/accordion'
-      },
-      {
-        name: 'Estado',
-        url: '/base/breadcrumbs'
-      },    
+      },  
     ]
   },
   {
@@ -63,6 +59,14 @@ export const navItems: INavData[] = [
         name: 'Pendientes',
         url: '/buttons/dropdowns'
       },
+      {
+        name: 'Estado',
+        url: '/base/breadcrumbs'
+      },
+      {
+        name: 'Productos sin clasificación',
+        url: '/base/navs'      
+      }
     ]
   },
   {
@@ -75,7 +79,7 @@ export const navItems: INavData[] = [
         url: '/forms/form-control'
       },
       // {
-      //   name: 'Select',
+      //   name: 'Beetrack',
       //   url: '/forms/select'
       // },
       // {

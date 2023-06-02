@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
+// 
 import { Carga } from "../models/cargas.interface";
 import { ReporteHora } from "../models/reporteHora.interface"
 import { ReporteHistorico } from "../models/reporteHistorico.interface";
 import { ReporteProductosEntregados } from "../models/reporteProductosEntregados.interface";
-import { interval,Observable, switchMap  } from 'rxjs';
 import { ReporteEasyRegion } from "../models/reporteEasyRegion.interface"
 import { PedidoSinCompromiso } from "../models/pedidoSinCompromiso.interface"
 import { Pedidos } from "../models/pedido.interface"
@@ -13,9 +13,10 @@ import { PedidoEasyOPL } from "../models/pedidoEasyOPL.interface"
 import { PedidosSinTienda } from "../models/pedidoSinTienda.interface"
 import { PedidosPendientes } from "../models/pedidoPendiente.interface" 
 import { ProductoPicking } from "src/app/models/productoPicking.interface"
+import { CargasComparacion } from '../models/cargasComparacion.interface';
 
 import { CacheService } from "src/app/service/cache.service"
-
+import { interval,Observable, switchMap  } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,11 +24,11 @@ export class TIService {
 
   constructor(private http: HttpClient, private cacheService: CacheService) { }
 
-   apiurl="http://34.225.63.221:84/api/reportes"
-   //apiurl= "http://127.0.0.1:8000/api/reportes"
+  apiurl="http://34.225.63.221:84/api/reportes"
+  // apiurl = "http://127.0.0.1:8000/api/reportes"
   
   Getcargas(): Observable<any>{
-    return interval(2000).pipe( switchMap(() => this.http.get<Carga[]>(this.apiurl+"/cargas_easy")))
+    return interval(3500).pipe( switchMap(() => this.http.get<Carga[]>(this.apiurl+"/cargas_easy")))
   }
  
   downloadBeetrackMensual(){
@@ -57,6 +58,41 @@ export class TIService {
     })
   }
 
+  downloadResumenQuadmineCompromiso() {
+    let date = new Date();
+    const fechaActual = date.toISOString().split('T')[0];
+
+    this.http.get(this.apiurl+"/quadminds/fecha_compromiso", {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `Carga_Quadminds_Fecha_compromiso_${fechaActual}-hh24miss.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+  downloadResumenQuadmindTamano() {
+    let date = new Date();
+    const fechaActual = date.toISOString().split('T')[0];
+
+    this.http.get(this.apiurl+"/quadminds/tamano", {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `Carga_Quadminds_tamano_${fechaActual}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+  
+  get_quadmind() {
+    return this.http.get<ProductoPicking[]>(this.apiurl+"/clientes/json")
+  }
+  
+
   get_historico_mensual(){
     return this.http.get<ReporteHistorico[]>(this.apiurl+"/historico/mensual")
     // return this.http.get<ReporteHistorico[]>(this.apiurl+"/historico/mensual")
@@ -73,7 +109,7 @@ export class TIService {
 
   get_reportes_easy_region(): Observable<any> {
 
-    return interval(2000).pipe( switchMap(() => this.http.get<ReporteEasyRegion[]>(this.apiurl+"/productos/easy_region")))
+    return interval(3500).pipe( switchMap(() => this.http.get<ReporteEasyRegion[]>(this.apiurl+"/productos/easy_region")))
     // return this.http.get<ReporteEasyRegion[]>(this.apiurl+"/productos/easy_region")
   }
 
@@ -134,7 +170,7 @@ export class TIService {
 
 
   get_historico_mensual_hoy():  Observable<any>{
-    return interval(6000).pipe( switchMap(() => this.http.get<ReporteHistorico[]>(this.apiurl+"/historico/hoy")))
+    return interval(10000).pipe( switchMap(() => this.http.get<ReporteHistorico[]>(this.apiurl+"/historico/hoy")))
   }
 
   get_pedidos_update():  Observable<any>{
@@ -163,6 +199,15 @@ export class TIService {
     return interval(120000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/en_ruta")))
   }
 
+
+  get_cargas_easy_api_update() : Observable<any> {
+    return interval(120000).pipe(switchMap(() => this.http.get<CargasComparacion[]>(this.apiurl + "/cargas_easy/api")))
+  }
+
+  get_cargas_easy_wms_update() : Observable<any> {
+    return interval(120000).pipe(switchMap(() => this.http.get<CargasComparacion[]>(this.apiurl + "/cargas_easy/wms")))
+  }
+
   //
 
   get_productos_picking() {
@@ -174,5 +219,14 @@ export class TIService {
 
   }
 
+  // comparacion de cargas easy API  VS WMS
+
+  get_cargas_easy_api() {
+    return this.http.get<CargasComparacion[]>(this.apiurl + "/cargas_easy/api")
+  }
+
+  get_cargas_easy_wms() {
+    return this.http.get<CargasComparacion[]>(this.apiurl + "/cargas_easy/wms")
+  }
   
 }

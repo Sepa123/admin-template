@@ -21,6 +21,11 @@ table.greenTable td, table.greenTable th {
 table.greenTable tbody td {
   font-size: 10px;
 }
+
+table.greenTable tbody th {
+  font-size: 12px;
+  font-weight: bold;
+}
 table.greenTable tr:nth-child(even) {
   background: #FFFEF3;
 }
@@ -47,6 +52,7 @@ table.greenTable tfoot {
 table.greenTable tfoot td {
   font-size: 13px;
 }
+
 table.greenTable tfoot .links {
   text-align: right;
 }
@@ -69,7 +75,7 @@ table.greenTable tfoot .links a{
 //     ". . ."; 
 //   }
 
-  h2 {
+h2 {
     text-align: center;
   }
- 
+  

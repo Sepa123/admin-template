@@ -43,6 +43,11 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   ocultarTabla: boolean = true
   noData: boolean = false
   rutasBeetrackHoy!: RutaBeetrackHoy []
+  rutasBeetrackHoyFullData!: RutaBeetrackHoy []
+  
+  regiones! : string []
+
+
  
   pedidosPendientesTotal!: PedidosPendientes[]
   pedidosPendientesEntregados!: PedidosPendientes[]
@@ -152,9 +157,16 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
                                                 : console.log(true)
     })
 
+
+
     this.service.get_ruta_beetrack_hoy().subscribe((data) => {
       this.rutasBeetrackHoy  = data
+      this.rutasBeetrackHoyFullData = this.rutasBeetrackHoy
       this.isLoadingBeetrack = false
+
+      this.regiones = [...new Set(this.rutasBeetrackHoyFullData.map(ruta => ruta.Region))];
+
+      // console.log(this.region)
 
       if(this.rutasBeetrackHoy.length == 0) {
         this.noData = true
@@ -164,7 +176,6 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     this.getPedidosPendientes();
 
     // Subcripciones 
-
     this.subPedidos = this.service.get_pedidos_update().subscribe((update_data) => {
       this.pedidos = update_data
     })
@@ -177,6 +188,14 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   }
 
+  filterByRegion(region : string) {
+    this.rutasBeetrackHoy = this.rutasBeetrackHoyFullData
+    this.rutasBeetrackHoy = this.rutasBeetrackHoy.filter(ruta => ruta.Region === region)
+  }
+
+  getAllRegion() {
+    this.rutasBeetrackHoy = this.rutasBeetrackHoyFullData
+  }
 
   getPedidosPendientes() {
     this.service.get_pedidos_pendientes_total().subscribe((data) => {
@@ -224,13 +243,8 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     return this.ocultarTabla = true;  
   }
 
-  getStatusClass(ruta : RutaBeetrackHoy) {
-
-  }
-
   ngAfterContentInit(): void {
     this.changeDetectorRef.detectChanges();
-
   }
 
   ngOnDestroy(): void {

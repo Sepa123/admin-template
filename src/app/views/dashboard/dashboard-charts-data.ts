@@ -347,7 +347,7 @@ export class DashboardChartsData {
         },
         y: {
           beginAtZero: true,
-          max: 700,
+          max: 1500,
           ticks: {
             maxTicksLimit: 5,
             stepSize: Math.ceil(250 / 5)

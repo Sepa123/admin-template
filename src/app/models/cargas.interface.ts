@@ -1,4 +1,4 @@
 export interface Carga {
-    verificado: String;
-    total: String;
+    Indice:   string;
+    Cantidad: number;
 }

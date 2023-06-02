@@ -15,6 +15,7 @@ export class CardsComponent implements OnInit {
   total!: ReporteHora[]
   Hora!: ReporteHora[];
   subReporteHora!: Subscription;
+  ordenCompra!: number []
 
   constructor(private service : TIService) { 
     this.isLoadingTable = true
@@ -25,6 +26,9 @@ export class CardsComponent implements OnInit {
       this.total = [data.shift()]
       this.Hora = data
       this.isLoadingTable = false
+
+      this.ordenCompra = this.total.map(reporte => (reporte.Electrolux + reporte.Sportex + reporte.Easy_CD + reporte.Easy_OPL))
+
     }) 
   }
 

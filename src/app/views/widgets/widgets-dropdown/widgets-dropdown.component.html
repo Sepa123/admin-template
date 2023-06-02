@@ -220,7 +220,33 @@
 
 <c-row>
   <c-col >
-  
+
+    <table *ngIf="ocultarTabla == true">
+      <tr>
+        <td>
+          <c-dropdown >
+            <button cButton cDropdownToggle color="secondary" size="sm">
+              Filtrar por Región
+            </button>
+            <ul cDropdownMenu>
+              <li *ngFor="let region of regiones"><a [routerLink]="[]" (click)="filterByRegion(region)" cDropdownItem>{{region}}</a></li>
+            </ul>
+          </c-dropdown>
+        </td>
+        <td>
+          <c-dropdown >
+            <button cButton  color="secondary" size="sm" (click)="getAllRegion() ">
+              Mostrar Todas las regiones
+            </button>
+            <!-- <ul cDropdownMenu>
+              <li  *ngFor="let fecha of fechaIngresoList"><a [routerLink]="[]" (click)="filterByFecha(fecha)" cDropdownItem>{{fecha}}</a></li>
+            </ul> -->
+          </c-dropdown>
+        </td>
+      </tr>
+    </table>
+    <p></p>
+
   <table class="greenTable" *ngIf="ocultarTabla == true">
             <thead>
               <tr>         

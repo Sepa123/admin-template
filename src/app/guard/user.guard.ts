@@ -27,6 +27,7 @@ export class UserGuard implements CanActivate {
     this.service.verifyUser(reqHeader).subscribe(res => {
       this.active = res.active
       sessionStorage.setItem("rol", res.rol_id)
+      sessionStorage.setItem("id", res.uid)
     })
 
     if(!token ){

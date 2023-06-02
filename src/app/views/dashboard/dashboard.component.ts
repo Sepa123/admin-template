@@ -31,8 +31,6 @@ export class DashboardComponent implements OnInit {
   constructor(private chartsData: DashboardChartsData, private service:TIService) {
   }
   
-
-
   
   public mainChart: IChartProps = {};
   public chartProductos : IChartPropsProductos = {};
@@ -46,20 +44,29 @@ export class DashboardComponent implements OnInit {
   suscriptionReportes!: Subscription
   reportesHistoricos!: ReporteHistorico[];
   reportesHistoricosHoy!: ReporteHistorico[];
+
+  ordenCompra!: number [];
+  ordenCompraHoy!: number [];
+
  // TODO: Ordenar tabla por origen
   
-
   ngOnInit(): void {
+
+    // const datosSessionStorage = sessionStorage.getItem('reportesHistoricos');
     this.initCharts();
     this.getDataHistorico();
     this.getDataHistoricoHoy();
+
   }
 
   getDataHistorico() {
     this.service.get_historico_mensual().subscribe((data) => {
       this.reportesHistoricos = data
+      this.ordenCompra = this.reportesHistoricos.map(reporte => (reporte.Electrolux + reporte.Sportex + reporte.Easy + reporte.Easy_OPL))
       this.reportesHistoricos.shift()
 
+      // sessionStorage.setItem("reportesHistoricos", JSON.stringify(this.reportesHistoricos))
+      // sessionStorage.setItem("")
       this.isLoadingTable = false;
     })
   }
@@ -67,6 +74,7 @@ export class DashboardComponent implements OnInit {
   getDataHistoricoHoy() {
     this.suscriptionReportes =  this.service.get_historico_mensual_hoy().subscribe((data) => {
       this.reportesHistoricosHoy = data
+      this.ordenCompraHoy = this.reportesHistoricosHoy.map(reporte => (reporte.Electrolux + reporte.Sportex + reporte.Easy + reporte.Easy_OPL))
       // this.isLoadingTable = false;
     })
   }

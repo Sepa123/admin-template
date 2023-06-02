@@ -20,7 +20,7 @@ export class DropdownsComponent implements OnInit{
   fechaIngresoList!: string[]
   fechaCompromisoList!: any[]
 
-  private origen = ["Easy CD","Sportex","Electrolux","Easy OPL"]
+  private origen = ["Easy CD","Sportex","Electrolux","Easy Tienda"]
 
 
   ngOnInit():void {

@@ -1,20 +1,98 @@
 <div class="fade-in">
+  <c-row>
+    <c-col xs="4" sm="1">
+      <a class="myButton" (click)="hideTableComparacion()" *ngIf="ocultarTablaComparacion == true"> <svg cIcon name="cilMinus" size="xl" title="Numbered List Icon">
+      </svg> </a>
+      <a class="myButton" (click)="showTableComparacion()" *ngIf="ocultarTablaComparacion == false"> <svg cIcon name="cilPlus" size="xl" title="Numbered List Icon">
+      </svg>  </a>
+      <br />
+    </c-col>
+  
+    <c-col >
+
+  <div class="tabla-container ">
+    <c-row ngPreserveWhitespaces>
+      <div>
+        <div class="col-md-6 mx-auto">
+          <h3>Easy CD</h3>
+
+          <table class="tabla-container" *ngIf="ocultarTablaComparacion == true">
+            <tr>
+              <td>
+            <table class="greenTable" >
+              <thead>
+                <tr>
+                  <th colspan="2" scope="col">API</th>
+                </tr>
+              </thead>
+              <tr >
+                <th scope="col">Número carga</th>
+                <th scope="col">Cantidad</th>
+
+              </tr>
+              <tbody>
+                <tr *ngFor="let carga of cargasEasyAPI ">
+                  <th>{{ carga.Nro_carga }}</th>
+                  <td>{{ carga.Cantidad }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="greenTable" > 
+              <tr>
+                 <div *ngIf="isLoadingCargaComparacionAPI">
+                   <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+               </div>
+              </tr> 
+             </table>
+              </td>
+              <td>
+            <table class="greenTable" *ngIf="ocultarTabla == true">
+              <thead>
+                <tr>
+                  <th colspan="2" scope="col">WMS</th>
+                </tr>
+              </thead>
+              <tr >
+                <th scope="col">Número carga</th>
+                <th scope="col">Cantidad</th>
+              </tr>
+              <tbody>
+                <tr *ngFor="let carga of cargasEasyWMS ">
+                  <th>{{ carga.Nro_carga }}</th>
+                  <td>{{ carga.Cantidad }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="greenTable" > 
+              <tr>
+                 <div *ngIf="isLoadingCargaComparacionWMS">
+                   <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+               </div>
+              </tr> 
+             </table>
+          </td>
+          </tr>
+          </table>    
+      </div>
+    </div>
+    <P></P>
+    </c-row>
   <c-row ngPreserveWhitespaces>
+    
     <div>
       <div class="col-md-6 mx-auto">
-        <h3>Estado de entrega Easy CD</h3>
+        <h3>Estado Productos en Easy CD</h3>
           <table class="greenTable">
             <thead>
-              <tr>
+              <tr >
                 <th scope="col">Total</th>
                 <th scope="col">verificado</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let carga of carga">
-                <th scope="row">{{ carga.total}}</th>
-                <td>{{ carga.verificado }}</td>
-    
+              <tr *ngIf="carga">
+                <th scope="row">{{ carga[1].Cantidad }}</th>
+                <td>{{ carga[0].Cantidad }}</td>
               </tr>
             </tbody>
           </table>
@@ -26,8 +104,7 @@
              </div>
             </tr> 
            </table>
-    
-         
+
     </div>
   </div>
   </c-row>
@@ -37,7 +114,7 @@
     <c-row ngPreserveWhitespaces>
       <div>
         <div class="col-md-6 mx-auto">
-          <h3>Productos de Easy enviados a regiones</h3>
+          <h3>Productos por O.C. Easy</h3>
             <table class="greenTable">
               <thead>
                 <tr>
@@ -70,7 +147,7 @@
   </div>
   <!-- </c-card> -->
 
-
+  <P></P>
   <div class="fade-in">
     <c-row ngPreserveWhitespaces>
       <div>
@@ -105,7 +182,7 @@
     </c-row>
   </div>
 
-
+  <p></p>
   <c-row>
     <c-col xs="4" sm="1">
       <a class="myButton" (click)="hideTable()" *ngIf="ocultarTabla == true"> <svg cIcon name="cilMinus" size="xl" title="Numbered List Icon">
@@ -121,7 +198,7 @@
     <c-row ngPreserveWhitespaces>
       <div>
         <div class="col-md-10 mx-auto">
-          <h3>pedidos sin tienda asociada</h3>
+          <h3>Pedidos sin tienda asociada</h3>
             <table class="greenTable" *ngIf="ocultarTabla == true">
               <thead>
                 <tr>

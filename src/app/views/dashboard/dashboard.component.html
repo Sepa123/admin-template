@@ -117,21 +117,23 @@
   </thead>
   <tbody>
     
-    <tr *ngFor="let reporte of reportesHistoricosHoy">
+    <tr *ngFor="let reporte of reportesHistoricosHoy; let i = index">
       <td>{{reporte.Dia}}</td>
       <td>{{reporte.Fecha}}</td>
-      <td [ngClass]="{'success': reporte.Electrolux > 0, 'warning' : reporte.Electrolux >= 170, 'danger': reporte.Electrolux >= 200 }">{{reporte.Electrolux}}</td>
-      <td [ngClass]="{'success': reporte.Sportex > 0,'warning': reporte.Sportex >= 127,'danger': reporte.Sportex >= 150  }">{{reporte.Sportex}}</td>
-      <td [ngClass]="{'success': reporte.Easy > 0, 'warning': reporte.Easy > 444,'danger': reporte.Easy > 522 }">{{reporte.Easy}}</td>
-      <td [ngClass]="{'success': reporte.Easy_OPL > 0 }">{{reporte.Easy_OPL}}</td>
+      <td [ngClass]="{'success': reporte.Electrolux > 0, 'warning' : reporte.Electrolux > ordenCompraHoy[i] * 0.7 , 'danger': reporte.Electrolux > ordenCompraHoy[i]* 0.85 }">{{reporte.Electrolux}}</td>
+      <td [ngClass]="{'success': reporte.Sportex > 0,'warning': reporte.Sportex > ordenCompraHoy[i] * 0.7,'danger': reporte.Sportex > ordenCompraHoy[i] * 0.85 }">{{reporte.Sportex}}</td>
+      <td [ngClass]="{'success': reporte.Easy > 0, 'warning': reporte.Easy > ordenCompraHoy[i] * 0.7, 'danger': reporte.Easy > ordenCompraHoy[i] * 0.85 }">{{reporte.Easy}}</td>
+      <td [ngClass]="{'success': reporte.Easy_OPL > 0, 'warning': reporte.Easy_OPL > ordenCompraHoy[i] * 0.7, 'danger': reporte.Easy_OPL > ordenCompraHoy[i] * 0.85}">{{reporte.Easy_OPL}}</td>
+      <!-- <td> {{ordenCompra[i] }}</td> -->
     </tr>
-    <tr *ngFor="let reportes of reportesHistoricos">
+    <tr *ngFor="let reportes of reportesHistoricos; let i = index ">
       <td>{{reportes.Dia}}</td>
       <td>{{reportes.Fecha}}</td>
-      <td [ngClass]="{'success': reportes.Electrolux > 0, 'warning' : reportes.Electrolux >= 170, 'danger': reportes.Electrolux >= 200 }">{{reportes.Electrolux}}</td>
-      <td [ngClass]="{'success': reportes.Sportex > 0,'warning': reportes.Sportex >= 127,'danger': reportes.Sportex >= 150  }">{{reportes.Sportex}}</td>
-      <td [ngClass]="{'success': reportes.Easy > 0, 'warning': reportes.Easy > 444,'danger': reportes.Easy > 522 }">{{reportes.Easy}}</td>
-      <td [ngClass]="{'success': reportes.Easy_OPL > 0 }">{{reportes.Easy_OPL}}</td>
+      <td [ngClass]="{'success': reportes.Electrolux > 0, 'warning' : reportes.Electrolux > ordenCompra[i+1] * 0.7 , 'danger': reportes.Electrolux > ordenCompra[i+1]* 0.85 }">{{reportes.Electrolux}}</td>
+      <td [ngClass]="{'success': reportes.Sportex > 0,'warning': reportes.Sportex > ordenCompra[i+1] * 0.7,'danger': reportes.Sportex > ordenCompra[i+1] * 0.85 }">{{reportes.Sportex}}</td>
+      <td [ngClass]="{'success': reportes.Easy > 0, 'warning': reportes.Easy > ordenCompra[i+1] * 0.7, 'danger': reportes.Easy > ordenCompra[i+1] * 0.85}">{{reportes.Easy}}</td>
+      <td [ngClass]="{'success': reportes.Easy_OPL > 0, 'warning': reportes.Easy_OPL > ordenCompra[i+1] * 0.7, 'danger': reportes.Easy_OPL > ordenCompra[i+1] * 0.85}">{{reportes.Easy_OPL}}</td>
+      <!-- <td> {{ordenCompra[i +1] }}</td> -->
     </tr>
   </tbody>
   </table>
