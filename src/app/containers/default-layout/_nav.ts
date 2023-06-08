@@ -78,10 +78,10 @@ export const navItems: INavData[] = [
         name: 'Quadminds',
         url: '/forms/form-control'
       },
-      // {
-      //   name: 'Beetrack',
-      //   url: '/forms/select'
-      // },
+      {
+        name: 'Ruta Manual',
+        url: '/forms/select'
+      },
       // {
       //   name: 'Checks & Radios',
       //   url: '/forms/checks-radios'

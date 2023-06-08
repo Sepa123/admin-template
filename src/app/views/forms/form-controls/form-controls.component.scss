@@ -13,18 +13,25 @@ table.greenTable {
   background-color: #FFFEF3;
   width: auto;
   text-align: center;
+  table-layout: fixed;
 }
 table.greenTable td, table.greenTable th {
   border: 0px solid #AAAAAA;
   padding: 3px 2px;
+  justify-content: center;
 }
 table.greenTable tbody td {
   font-size: 10px;
+  
 }
 
 table.greenTable tbody th {
   font-size: 12px;
   font-weight: bold;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 table.greenTable tr:nth-child(even) {
   background: #FFFEF3;

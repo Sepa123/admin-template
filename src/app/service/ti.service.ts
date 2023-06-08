@@ -162,6 +162,12 @@ export class TIService {
     return this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/en_ruta")
   }
 
+  get_rutas_manual(pedido: string) {
+    // return this.http.get<ProductoPicking[]>(this.apiurl + "/buscar/ruta/{producto_id}")
+    return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/ruta/${pedido}`)
+    
+  }
+
   
   //todo: Agregar uptade cada 15 min
 

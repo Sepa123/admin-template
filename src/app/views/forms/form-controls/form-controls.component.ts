@@ -11,7 +11,9 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./form-controls.component.scss']
 })
 export class FormControlsComponent {
-
+  
+  arrayCodigo: any[] = []
+  arrayDescripcion : any[] = []
 
   showTable : boolean = false
   idProducto! : string
@@ -41,25 +43,35 @@ export class FormControlsComponent {
     sessionStorage.setItem("data", JSON.stringify(this.arrayProductos));
   }
 
-  addData( id: string) {
-    var resultado = id.replace(/'/g, "-");
+  addData(id: string) {
+    var resultado = id.replace(/'/g, "-").trim();
     if(this.arrayProductosIngresados.includes(resultado)) {
       this.idProducto = ""
       return alert("Este producto ya fue ingresado")
     }
     this.service.get_producto_picking(resultado).subscribe((data) => {
       this.productoPicking = data
-      this.productoPicking.Codigo_producto = this.productoPicking.Codigo_producto.replace(/@/g, " ")
       // this.productoPicking.Codigo_producto = this.productoPicking.Codigo_producto.replace(/@/g, " ")
-      this.arrayProductos.unshift(data)
+      // this.productoPicking.Codigo_producto = this.productoPicking.Codigo_producto.replace(/@/g, " ")
+      let descripciones = this.productoPicking.Descripcion_producto.split(' @ ');
+      let codigo = this.productoPicking.Codigo_producto.split(' @ ');
+      // this.productoPicking.numero = 1
+      
+      this.arrayCodigo.push([...codigo]);
+      this.arrayDescripcion.push([...descripciones]);
+
+      this.productoPicking.arrayCodigo = this.arrayCodigo.pop()
+      this.productoPicking.arrayDescripcion = this.arrayDescripcion.pop()
+
+      // console.log(this.arrayCodigo , this.arrayDescripcion)
+
+      this.arrayProductos.unshift(this.productoPicking )
       this.arrayProductosIngresados.push(resultado)
       sessionStorage.setItem("data", JSON.stringify(this.arrayProductos));
     },
     ((error) => {
       alert(error.error.detail)
     }))
-
-    
 
     // this.arrayProductosIngresados.push(resultado)
     this.idProducto = ""

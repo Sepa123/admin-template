@@ -80,7 +80,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let producto of arrayProductos">
+        <tr *ngFor="let producto of arrayProductos; let i = index">
           <td>{{producto.Codigo_cliente}}</td>
           <td>{{producto.Nombre}}</td>
           <td>{{producto.Calle}}</td>
@@ -88,8 +88,20 @@
           <td>{{producto.Provincia}}</td>
           <td>{{producto.Codigo_pedido}}</td>
           <th>{{producto.Fecha_pedido}}</th>
-          <td>{{producto.Codigo_producto}}</td>
-          <td>{{producto.Descripcion_producto}}</td>
+          <td>   
+            <table>
+              <tr *ngFor="let codigo of producto.arrayCodigo ">
+                {{codigo}}
+              </tr>
+            </table>
+          </td>
+          <td>   
+            <table>
+              <tr *ngFor="let descripcion of producto.arrayDescripcion">
+                {{descripcion}}
+              </tr>
+            </table>
+          </td>
           <td>{{producto.Cantidad_producto}}</td>
           <td>{{producto.Notas}}</td>  
           <td>

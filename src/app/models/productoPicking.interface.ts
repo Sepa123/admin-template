@@ -1,4 +1,6 @@
 export interface ProductoPicking {
+    Nombre_ruta?:         string;
+    Id_ruta?:             string;
     Codigo_cliente:       string;
     Nombre:               string;
     Calle:                string;
@@ -10,6 +12,7 @@ export interface ProductoPicking {
     Email:                string;
     Codigo_pedido:        string;
     Fecha_pedido:         string;
+    Diferencias_dias:    number;
     Operacion:            string;
     Codigo_producto:      string;
     Descripcion_producto: string;
@@ -26,4 +29,13 @@ export interface ProductoPicking {
     Eliminar_pedido:      string;
     Vehiculo:             string;
     Habilidades:          string;
+    // numero?:              number;
+    arrayCodigo?:         string[];
+    arrayDescripcion?:    string[];
+    Pistoleado?:          string;
+    Talla?:               string;
+    Estado?:              any;
+    En_ruta?:             string;
+    Created_by?:          string;
 }
+
