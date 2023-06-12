@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 // 
+import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
 
 import { ProductoPicking } from "src/app/models/productoPicking.interface"
 
@@ -25,5 +26,13 @@ export class RutasService {
 
   insert_rutas_manual(data : ProductoPicking [][]){
     return this.http.post(this.apiurl + '/agregar',data)
+  }
+
+  update_estado_producto(cod_producto: any, data = { }) {
+    return this.http.put(this.apiurl +`/actualizar/estado/${cod_producto}`,data)
+  }
+
+  get_rutas_en_activo(id_ruta : number) {
+    return this.http.get<RutaEnActivo[]>(this.apiurl + `/listar/activo?id_ruta=${id_ruta}`)
   }
 }

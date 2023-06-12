@@ -29,6 +29,7 @@ export interface ProductoPicking {
     Eliminar_pedido:      string;
     Vehiculo:             string;
     Habilidades:          string;
+    SKU:                  string;
     // numero?:              number;
     arrayCodigo?:         string[];
     arrayDescripcion?:    string[];
@@ -37,5 +38,6 @@ export interface ProductoPicking {
     Estado?:              any;
     En_ruta?:             string;
     Created_by?:          string;
+    Id_tabla?:             string;
 }
 

@@ -5,6 +5,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { ProductoPicking } from 'src/app/models/productoPicking.interface';
 import * as XLSX from 'xlsx';
+import * as levenshtein from 'fastest-levenshtein';
+
 
 @Component({
   selector: 'app-select',
@@ -12,7 +14,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./select.component.scss']
 })
 export class SelectComponent {
-
+  isBlockButton: boolean = false
   pedidosIngresados : number = 0
   guardarClicked : boolean = false
   showTable : boolean = false
@@ -37,6 +39,7 @@ export class SelectComponent {
     return year + month + day;
   }
 
+
   calcularDiferencias(arrayRuta : ProductoPicking []) {
     const fechaActual = new Date();
     arrayRuta.forEach(item => {
@@ -50,26 +53,49 @@ export class SelectComponent {
   ngOnInit() {
     this.loadSvg()
   }
-
+ //2906175306
   
   todosEnRuta(): boolean {
     console.log(this.arrayRutasIngresados)
+    if (this.arrayRutasIngresados.length === 0){
+      return this.isBlockButton = false
+    }
     for (const subArray of this.arrayRutasIngresados) {
       for (const item of subArray) {
-        if (item.En_ruta == "f") {
-          return false;
+        if (item.Pistoleado == "f") {
+          return this.isBlockButton = false;
         }
       }
     }
-    return true;
+    return this.isBlockButton = true;
   }
 
   getRuta(pedido: string) {
-    var resultado = pedido.replace(/'/g, "-").trim()
+    var resultado = pedido.replace(/'/g, "-").trim().toUpperCase()
+    
+    resultado = resultado.replace(/-(\d+)/, "");
+
+
+    // const distanciaMinima = 1; // Definir la distancia mínima aceptable1
+    // const codigoDuplicado = this.rutasEnTabla.find(codigo => levenshtein.distance(resultado, codigo) <= distanciaMinima);
+
+    // if (codigoDuplicado) {
+    //   this.idPedido = ""
+    //   return alert("Este producto ya fue ingresado")
+    // } else {
+    //   console.log('Código válido');
+    // }
     if(this.rutasEnTabla.includes(resultado)) {
       this.idPedido = ""
-      return alert("Este producto ya fue ingresado")
+      return alert("Este pedido ya fue ingresado")
     }
+
+    // for (let i = 0; i < this.rutasEnTabla.length; i++) {
+    //   for (let j = i + 1; j < this.rutasEnTabla.length; j++) {
+    //     const distance = LevenshteinDistance(this.rutasEnTabla[i], this.rutasEnTabla[j]);
+    //     console.log(`Distancia entre "${this.rutasEnTabla[i]}" y "${this.rutasEnTabla[j]}": ${distance}`);
+    //   }
+    // }
     
     this.idUsuario = sessionStorage.getItem("id")+""
     const fechaActual = this.obtenerFechaActual();
@@ -80,18 +106,22 @@ export class SelectComponent {
         this.idPedido = ""
         return { ...objeto,
              Estado : objeto.Estado === "Entregado" ? true : false,
-             Nombre_ruta: this.Nombre_ruta, Created_by: this.idUsuario };
+             Nombre_ruta: this.Nombre_ruta, Created_by: this.idUsuario ,
+             Id_tabla: resultado};
       });
       
       this.calcularDiferencias(this.arrayRuta)
       this.arrayRutasIngresados.unshift(this.arrayRuta)
       this.pedidosIngresados = this.arrayRutasIngresados.length
       this.rutasEnTabla.push(resultado)
+      this.todosEnRuta()
     },
     ((error) => {
       this.idPedido = ""
       alert(error.error.detail)
     }))
+
+    this.todosEnRuta()
   }
 
   loadSvg() {
@@ -102,32 +132,55 @@ export class SelectComponent {
       });
   }
   
-  cambiarTicket(arrayRutaIndex: number, objectIndex: number, valor: string) {
+  cambiarTicket(arrayRutaIndex: number, objectIndex: number, cod_producto: string) {
     this.arrayRutasIngresados[arrayRutaIndex][objectIndex].Pistoleado = "t";
+
+    let body = { "cod_producto": cod_producto }
+    this.service.update_estado_producto(cod_producto, body).subscribe((response : any) => {
+        console.log(response.message)
+        this.todosEnRuta()
+    },(error) => {
+      console.log(error)
+      // alert(error)
+    }
+    )
+    this.todosEnRuta()
   }
+  
   cambiarTicketRutasNoActivas(arrayRutaIndex: number, objectIndex: number, valor: string) {
     this.arrayRutasIngresados[arrayRutaIndex][objectIndex].En_ruta = "t";
+    // this.todosEnRuta()
   }
   
   // function eliminarObjetoPorId(array, idAEliminar) {
   //   const nuevoArray = array.map(subArray => {
   //     return subArray.filter(objeto => objeto.id !== idAEliminar);
   //   });
-  deleteData(index:number, cod_producto : string,cod_pedido :string) {
+  deleteData(index:number, cod_producto : string,cod_pedido :string, index_producto : number) {
       // this.arrayRutasIngresados = this.arrayRutasIngresados.filter((_, i) => i !== index);
-      this.arrayRutasIngresados = this.arrayRutasIngresados.map((ruta) => {
-        return ruta.filter(objeto => objeto.Codigo_producto !== cod_producto)
-      })
+      // this.arrayRutasIngresados = this.arrayRutasIngresados.map((ruta) => {
+      //   this.rutasEnTabla = this.rutasEnTabla.filter( pedido => pedido != cod_producto)
+      //   this.arrayRutasIngresados[index].splice(index_producto, 1);
+      //   return ruta.filter((producto,index) => index !== index_producto)
+      // })
+      const id_tabla = this.arrayRutasIngresados[index][index_producto].Id_tabla ;
+      this.arrayRutasIngresados[index].splice(index_producto,1)
+
       if(this.arrayRutasIngresados[index].length == 0) {
+        
+        // console.log()
         this.arrayRutasIngresados.splice(index, 1);
+        this.rutasEnTabla = this.rutasEnTabla.filter( pedido => pedido != id_tabla)
+
       }
       this.pedidosIngresados = this.arrayRutasIngresados.length
       // console.log("pedidos ingresados", this.pedidosIngresados)
       // console.log(this.rutasEnTabla)
-      this.rutasEnTabla = this.rutasEnTabla.filter( pedido => pedido != cod_pedido)
+      
       // console.log(this.rutasEnTabla)
       this.arrayRutasIngresados = this.arrayRutasIngresados.filter(subArray => subArray.length > 0);
       this.pedidosIngresados = this.arrayRutasIngresados.length
+      this.todosEnRuta()
       // console.log(this.arrayRutasIngresados)
   }
 
@@ -180,6 +233,11 @@ export class SelectComponent {
     // Nombre del archivo Excel a descargar 
     XLSX.writeFile(libroExcel, nombreArchivo);
 
+    this.pedidosIngresados = 0
+    this.arrayRutasIngresados = []
+    this.idPedido = ""
+    this.rutasEnTabla = []
+
     this.guardarClicked = false
   }
 
@@ -189,23 +247,25 @@ export class SelectComponent {
     if (this.arrayRutasIngresados.length === 0){
       return alert("No se han ingresado rutas")
     }
-    this.guardarClicked = true
+    // this.guardarClicked = true
       this.service.insert_rutas_manual(this.arrayRutasIngresados).subscribe((response : any) => {
         // console.log(response)
         alert(response.message)
         this.guardarClicked = true
       },
       (error) => {
-        alert('Error al enviar los datos');
-        console.log(error)
+        alert(error.error.detail)
+        // console.log(error)
         // Maneja el error de manera adecuada
       }
       )
 
-    this.pedidosIngresados = 0
-    this.arrayRutasIngresados = []
-    this.idPedido = ""
-    this.rutasEnTabla = []
+    // this.pedidosIngresados = 0
+    // this.arrayRutasIngresados = []
+    // this.idPedido = ""
+    // this.rutasEnTabla = []
+
+    this.isBlockButton = false
 
     // this.todosEnRuta()
   }

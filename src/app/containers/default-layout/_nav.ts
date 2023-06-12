@@ -82,10 +82,10 @@ export const navItems: INavData[] = [
         name: 'Ruta Manual',
         url: '/forms/select'
       },
-      // {
-      //   name: 'Checks & Radios',
-      //   url: '/forms/checks-radios'
-      // },
+      {
+        name: 'Rutas Activas',
+        url: '/forms/checks-radios'
+      },
       // {
       //   name: 'Range',
       //   url: '/forms/range'
