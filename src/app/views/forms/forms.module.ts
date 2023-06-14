@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { NgbAlertModule, NgbPaginationModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ButtonGroupModule,
   ButtonModule,
@@ -52,7 +53,9 @@ import { ValidationComponent } from './validation/validation.component';
     ButtonGroupModule,
     DropdownModule,
     SharedModule,
-    ListGroupModule
+    ListGroupModule,
+    NgbAlertModule, NgbPaginationModule, NgbDatepickerModule,
+    NgSelectModule
   ]
 })
 export class CoreUIFormsModule {

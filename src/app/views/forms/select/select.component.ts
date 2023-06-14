@@ -109,6 +109,10 @@ export class SelectComponent {
              Nombre_ruta: this.Nombre_ruta, Created_by: this.idUsuario ,
              Id_tabla: resultado};
       });
+
+      console.log(this.arrayRutasIngresados.some((array) => array[0].Codigo_pedido === this.arrayRuta[0].Codigo_pedido))
+      if (this.arrayRutasIngresados.some((array) => array[0].Codigo_pedido === this.arrayRuta[0].Codigo_pedido)) 
+      return alert("Este producto ya fue ingresado")
       
       this.calcularDiferencias(this.arrayRuta)
       this.arrayRutasIngresados.unshift(this.arrayRuta)

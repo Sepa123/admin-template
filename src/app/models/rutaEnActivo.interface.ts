@@ -9,9 +9,10 @@ export interface RutaEnActivo {
     Nombre_cliente:    string;
     Direccion_cliente: string;
     Telefono:          string;
+    Estado:            boolean;
     Validacion:        string;
     DE:                string;
     DP:                string;
-    arraySKU?:         string[];
-    arrayProductos?:   string[];
+    arraySKU:         string[];
+    arrayProductos:   string[];
 }

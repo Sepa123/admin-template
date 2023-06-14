@@ -43,8 +43,7 @@
           <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Calle}}</td>
           <th class="comuna">{{producto.Ciudad}}</th>
           <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Provincia}}</td>
-          <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Codigo_pedido}}</td>
-
+          <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Codigo_pedido}}</td>         
           <th [ngClass]="{
             'atrasada': producto.Diferencias_dias <= 0,
             'adelantada': producto.Diferencias_dias > 0 && producto.Diferencias_dias <= 2,

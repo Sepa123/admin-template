@@ -30,14 +30,16 @@ const routes: Routes = [
         }
       },
       {
-        path: 'select',
+        // path: 'select',
+        path: 'ruta-manual',
         component: SelectComponent,
         data: {
           title: 'Select'
         }
       },
       {
-        path: 'checks-radios',
+        // path: 'checks-radios',
+        path: 'rutas-activas',
         component: ChecksRadiosComponent,
         data: {
           title: 'Checks & Radios'

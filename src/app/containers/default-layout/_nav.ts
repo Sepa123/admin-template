@@ -74,17 +74,20 @@ export const navItems: INavData[] = [
     url: '/forms',
     iconComponent: { name: 'cil-tags' },
     children: [
-      {
-        name: 'Quadminds',
-        url: '/forms/form-control'
-      },
+      // {
+      //   name: 'Quadminds',
+      //   url: '/forms/form-control'
+      // },
       {
         name: 'Ruta Manual',
-        url: '/forms/select'
+        // url: '/forms/select'
+        url: '/forms/ruta-manual'
       },
       {
         name: 'Rutas Activas',
-        url: '/forms/checks-radios'
+        // url: '/forms/checks-radios'
+        url: '/forms/rutas-activas'
+        
       },
       // {
       //   name: 'Range',

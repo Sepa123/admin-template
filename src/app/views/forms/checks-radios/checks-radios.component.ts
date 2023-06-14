@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { RutasService } from 'src/app/service/rutas.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
-
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
-
+import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-checks-radios',
@@ -12,32 +13,120 @@ import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
   styleUrls: ['./checks-radios.component.scss']
 })
 export class ChecksRadiosComponent {
-
+  model! : NgbDateStruct
+  nombreRutaActual!:  string
+  isClicked : boolean = false
+  isActive: boolean = false
   rutaEnActivo! : RutaEnActivo []
+  nombresRutas!: NombresRutasActivas []
+  nombreRuta!: NombresRutasActivas []
   arraySKU: any[] = []
   arrayProducto: any[] = []
 
-  constructor(private service: RutasService) { }
+  // arrayRutasEnActivo! : 
+
+  constructor(private service: RutasService) { 
+
+  }
+
+  updateEstadoRuta (nombre_ruta : string, dateObj : any) {
+    let isSeguro = confirm("¿Seguro que desea cerrar esta ruta?");
+    if (!isSeguro) return console.log("no esta seguro")
+    this.service.update_estado_ruta(nombre_ruta).subscribe( (data: any) => {
+      alert(data.message)
+    },
+    ((error) => {
+      alert(error.error.detail)
+    }))
+
+    this.nombresRutas.map(ruta => {
+      if(ruta.Nombre_ruta == nombre_ruta) ruta.Estado = false
+    })
+
+    
+    // const formattedDate = `${dateObj.year}-${dateObj.month.toString().padStart(2, '0')}-${dateObj.day.toString().padStart(2, '0')}`;
+    // this.service.get_nombres_ruta(formattedDate).subscribe((data) => {
+    //   this.nombresRutas = data
+    // })
+  }
+
+  getNombreByFecha(dateObj : any) {
+    if (dateObj === undefined) return alert("Por favor ingrese una fecha")
+    const formattedDate = `${dateObj.year}-${dateObj.month.toString().padStart(2, '0')}-${dateObj.day.toString().padStart(2, '0')}`;
+    this.service.get_nombres_ruta(formattedDate).subscribe((data) => {
+      this.nombresRutas = data
+    })
+
+    console.log(this.nombresRutas)
+  }
 
   ngOnInit() {
-    this.service.get_rutas_en_activo(6).subscribe((data) => {
-      // console.log(data)
-      this.rutaEnActivo = data
 
+  }
+
+  buscarRuta (nombreRuta : string,estado_ruta : boolean) {
+    // console.log(this.nombreRuta)
+    this.service.get_rutas_en_activo(nombreRuta).subscribe((data) => {
+      console.log(data)
+      this.nombreRutaActual = nombreRuta
+      this.rutaEnActivo = data
       this.rutaEnActivo.map(ruta => {
         ruta.arraySKU = ruta.SKU.split('@')
         ruta.arrayProductos = ruta.Producto.split('@')
       })
-      // let producto = this.rutaEnActivo.Codigo_producto.split(' @ ');
-      // // this.productoPicking.numero = 1
-      
-      // this.arrayCodigo.push([...codigo]);
-      // this.arrayDescripcion.push([...descripciones]);
-
-      // this.productoPicking.arrayCodigo = this.arrayCodigo.pop()
-      // this.productoPicking.arrayDescripcion = this.arrayDescripcion.pop()
-      
+      // console.log(estado_ruta)
+      this.isClicked = true
+      this.isActive = true
+      estado_ruta == false ? this.isActive = false : this.isActive = true
     })
   }
+
+  downloadExcel(nombre_ruta: string): void {
+    const datos: any[][] = [[]];
+  
+    datos.push([
+      "Posición", "Pedido", "Comuna", "SKU", "Producto", "UND", "Bultos", "Nombre",
+      "Direccion Cliente", "Teléfono", "Validado", "DE", "DP"
+    ]);
+  
+    this.rutaEnActivo.forEach((ruta) => {
+      const fila: any[] = [];
+  
+      if (ruta.arrayProductos.length === 1) {
+        fila.push(
+          ruta.Pos, ruta.Codigo_pedido, ruta.Comuna, ruta.SKU, ruta.Producto,
+          ruta.Unidades, ruta.Bultos, ruta.Nombre_cliente, ruta.Direccion_cliente, ruta.Telefono
+        );
+        datos.push(fila);
+      } else if (ruta.arrayProductos.length > 1) {
+        ruta.arrayProductos.forEach((producto, i) => {
+          if (i === 0) {
+            fila.push(
+              ruta.Pos, ruta.Codigo_pedido, ruta.Comuna, ruta.arraySKU[i], producto,
+              ruta.Unidades, ruta.Bultos, ruta.Nombre_cliente, ruta.Direccion_cliente, ruta.Telefono
+            );
+            datos.push(fila);
+          } else {
+            const filaProducto: any[] = [
+              "", "", "", ruta.arraySKU[i], producto,
+              "", "", "", "", ""
+            ];
+            datos.push(filaProducto);
+          }
+        });
+      }
+    });
+  
+    const date = new Date();
+    const fechaActual = date.toISOString().split('T')[0];
+  
+    const libroExcel: XLSX.WorkBook = XLSX.utils.book_new();
+    const hoja: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(datos);
+    XLSX.utils.book_append_sheet(libroExcel, hoja, 'Hoja1');
+  
+    const nombreArchivo = `${nombre_ruta}.xlsx`;
+    XLSX.writeFile(libroExcel, nombreArchivo);
+  }
+  
 
 }
