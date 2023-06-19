@@ -12,7 +12,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Hoy',
-        url: '/base/cards'
+        url: '/dashboard/hoy'
       },
     ]
   },
@@ -37,41 +37,50 @@ export const navItems: INavData[] = [
   // },
   {
     name: 'Transporte',
-    url: '/base',
+    url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
     children: [
+      // {
+      //   name: 'Reportess',
+      //   url: '/transporte/accordion'
+      // },  
       {
         name: 'Reportes',
-        url: '/base/accordion'
-      },  
+        url : '/transporte/reportes'
+      }
     ]
   },
   {
     name: 'Operaciones',
-    url: '/buttons',
+    url: '/operaciones',
     iconComponent: { name: 'cil-cursor' },
     children: [
       {
         name: 'Reportes',
-        url: '/buttons/buttons'
+        url: '/operaciones/reportes'
       },
       {
         name: 'Pendientes',
-        url: '/buttons/dropdowns'
+        url: '/operaciones/pendientes'
       },
+      // {
+      //   name: 'Estado',
+      //   url: '/base/breadcrumbs'
+      // },
       {
-        name: 'Estado',
-        url: '/base/breadcrumbs'
+        name: 'Estados',
+        url: '/operaciones/estados'
       },
+      
       {
         name: 'Productos sin clasificación',
-        url: '/base/navs'      
+        url: '/operaciones/productos-sin-clasificacion'      
       }
     ]
   },
   {
     name: 'Picking',
-    url: '/forms',
+    url: '/picking',
     iconComponent: { name: 'cil-tags' },
     children: [
       // {
@@ -81,14 +90,22 @@ export const navItems: INavData[] = [
       {
         name: 'Ruta Manual',
         // url: '/forms/select'
-        url: '/forms/ruta-manual'
+        url: '/picking/ruta-manual'
       },
       {
         name: 'Rutas Activas',
         // url: '/forms/checks-radios'
-        url: '/forms/rutas-activas'
+        url: '/picking/rutas-activas'
         
       },
+      {
+        name : 'Recepcion OPL',
+        url : '/picking/recepcion-opl'
+      },
+      {
+        name : 'Buscar SKU',
+        url : '/picking/buscar-sku'
+      }
       // {
       //   name: 'Range',
       //   url: '/forms/range'

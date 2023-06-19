@@ -25,12 +25,20 @@ import {
 } from '@coreui/angular';
 
 import { IconModule } from '@coreui/icons-angular';
+import { ReportesComponent } from './reportes/reportes.component';
+import { PendientesComponent } from './pendientes/pendientes.component';
+import { EstadosComponent } from './estados/estados.component';
+import { ProductosSinClasificacionComponent } from './productos-sin-clasificacion/productos-sin-clasificacion.component';
 
 @NgModule({
   declarations: [
     ButtonsComponent,
     ButtonGroupsComponent,
     DropdownsComponent,
+    ReportesComponent,
+    PendientesComponent,
+    EstadosComponent,
+    ProductosSinClasificacionComponent,
   ],
   imports: [
     FormsModule,

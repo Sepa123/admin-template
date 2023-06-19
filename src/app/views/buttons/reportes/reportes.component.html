@@ -1,0 +1,122 @@
+<c-row ngPreserveWhitespaces >
+  
+    <div class="col-md-6 mx-auto" *ngIf="loadingQuadmind == false">
+      <h1>Reportes</h1>
+    <table table [striped]="true" cTable>
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row"><h5>Resumen de Carga Quadminds</h5></td>
+          <td><button  (click)="downloadQuadminds()">
+            <img src="assets\images\icons8-export-excel-48.png" alt="">
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td scope="row"><h5>Resumen de Carga Quadminds Fecha Compromiso</h5></td>
+          <td><button  (click)="downloadQuadmindsCompromiso()">
+            <img src="assets\images\icons8-export-excel-48.png" alt="">
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td scope="row"><h5>Resumen de Carga Quadminds por Tamaño </h5></td>
+          <td><button  (click)="downloadQuadmindsTamano()">
+            <img src="assets\images\icons8-export-excel-48.png" alt="">
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  
+  <div class="fade-in" *ngIf="loadingQuadmind == false" >
+    <c-row ngPreserveWhitespaces>
+      <div>
+        <div class="col-md-10 mx-auto">
+          <!-- <h3>Filtrar por comunas</h3> -->
+          <table width="50%"  >
+            <tr>
+              <td>
+                <h5>Filtrar por comunas</h5>
+                <ng-select class="custom" [multiple]="true" [(ngModel)]="comunasSeleccionadas" >
+                  <ng-option *ngFor="let comuna of comunas" [value]="comuna" >{{ comuna }}</ng-option>
+                </ng-select> 
+                
+              </td>
+              <tr>
+                <!-- <td>
+                  <h5>Filtrar por fecha de entrega</h5>
+                  <ng-select class="custom" [multiple]="true" [(ngModel)]="fechasPedidosSeleccionadas" >
+                    <ng-option *ngFor="let fecha of fechasPedidos" [value]="fecha" >{{ fecha }}</ng-option>
+                  </ng-select> 
+                  
+                </td> -->
+              <td>
+                  <!-- <button cButton  color="secondary" size="sm" (click)="filterByComuna()" >
+                    Filtrar
+                  </button> -->
+                  <button  (click)="filterByComuna()">
+                    <img src="assets\images\icons8-export-excel-48.png" alt="">
+                    </button>
+              </td>
+            </tr>
+          </table>
+          
+  
+  
+          <br />
+            <!-- <table class="greenTable">
+              <thead>
+                <tr>
+                  <th scope="col">Origen</th>
+                  <th scope="col">Codigo Entrega</th>
+                  <th scope="col">Fecha Ingreso</th>
+                  <th scope="col">Fecha Compromiso</th>
+                  <th scope="col">Región</th>
+                  <th scope="col">Comuna</th>
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Bultos</th>
+  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pedido of tablaQuadmindFilter; ; let i = index">
+                  <td scope="row">{{ pedido.Codigo_cliente}}</td>
+                  <th>{{ pedido.Nombre }}</th>
+                  <td>{{ pedido.Calle }}</td>
+                  <td>{{ pedido.Ciudad }}</td>
+                  <td>{{ i + 1 }}</td>
+                </tr>
+              </tbody>
+            </table>         -->
+      </div>
+    </div>
+    </c-row>
+  </div>
+  
+  <table class="loadQuadmind" > 
+    <tr>
+       <div *ngIf="loadingQuadmind">
+         <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+         Cargando Datos de Quadminds
+     </div>
+    </tr> 
+   </table>
+  
+  </c-row>
+  
+  <!-- <c-dropdown >
+                  <button cButton cDropdownToggle color="secondary" size="sm">
+                    Comunas
+                  </button>
+                  <ul cDropdownMenu>
+                    <li  *ngFor="let comuna of comunas"><a [routerLink]="[]" cDropdownItem (click)="selectComuna(comuna)">{{comuna}}</a></li>
+                  </ul>
+                </c-dropdown> -->

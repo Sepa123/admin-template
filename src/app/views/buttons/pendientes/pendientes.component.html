@@ -1,0 +1,110 @@
+<c-row>
+    <div class="col-md-6 mx-auto">
+    <table table [striped]="true" cTable>
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row"><h5>Resumen de Pedidos Con Fecha de Compromiso sin Despacho</h5></td>
+          <td><button  (click)="downloadPedidos()">
+            <img src="assets\images\icons8-export-excel-48.png" alt="">
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  
+  
+  <div class="fade-in">
+    <c-row ngPreserveWhitespaces>
+      <div>
+        <div class="col-md-10 mx-auto">
+  
+          <table>
+            <tr>
+              <td>
+                <c-dropdown >
+                  <button cButton cDropdownToggle color="secondary" size="sm">
+                    Ordenar Por
+                  </button>
+                  <ul cDropdownMenu>
+                    <li><a [routerLink]="[]" (click)="sortByName(0)" cDropdownItem>Easy CD</a></li>
+                    <li><a [routerLink]="[]" (click)="sortByName(1)"  cDropdownItem>Sportex</a></li>
+                    <li><a [routerLink]="[]" (click)="sortByName(2)"  cDropdownItem>Electrolux</a></li>
+                    <li><a [routerLink]="[]" (click)="sortByName(3)"  cDropdownItem>Easy Tienda</a></li>
+                  </ul>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="filterByFecha()">
+                    Ingreso dias anteriores
+                  </button>
+                  <!-- <ul cDropdownMenu>
+                    <li  *ngFor="let fecha of fechaIngresoList"><a [routerLink]="[]" (click)="filterByFecha(fecha)" cDropdownItem>{{fecha}}</a></li>
+                  </ul> -->
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="getFullData()">
+                    Ingreso hasta hoy
+                  </button>
+                  <!-- <ul cDropdownMenu>
+                    <li  *ngFor="let fecha of fechaIngresoList"><a [routerLink]="[]" (click)="filterByFecha(fecha)" cDropdownItem>{{fecha}}</a></li>
+                  </ul> -->
+                </c-dropdown>
+              </td>
+            </tr>
+          </table>
+     
+          <br />
+            <table class="greenTable">
+              <thead>
+                <tr>
+                  <th scope="col">Origen</th>
+                  <th scope="col">Codigo Entrega</th>
+                  <th scope="col">Fecha Ingreso</th>
+                  <th scope="col">Fecha Compromiso</th>
+                  <th scope="col">Región</th>
+                  <th scope="col">Comuna</th>
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Bultos</th>
+  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pedido of pedidos">
+                  <td scope="row">{{ pedido.Origen}}</td>
+                  <th>{{ pedido.Cod_entrega }}</th>
+                  <td>{{ pedido.Fecha_ingreso }}</td>
+                  <td>{{ pedido.Fecha_compromiso }}</td>
+                  <td>{{ pedido.Region }}</td>
+                  <td>{{ pedido.Comuna }}</td>
+                  <td>{{ pedido.Descripcion }}</td>
+                  <td>{{ pedido.Bultos }}</td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <table class="greenTable" > 
+              <tr>
+                 <div *ngIf="isLoadingTable">
+                   <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+               </div>
+              </tr> 
+             </table>
+      
+           
+      </div>
+    </div>
+    </c-row>
+  </div>
+  </c-row>
+  

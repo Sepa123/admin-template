@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { RutasService } from 'src/app/service/rutas.service';
+import { NombreRutaService } from 'src/app/service/nombre-ruta.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -13,6 +15,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./checks-radios.component.scss']
 })
 export class ChecksRadiosComponent {
+
   model! : NgbDateStruct
   nombreRutaActual!:  string
   isClicked : boolean = false
@@ -25,13 +28,22 @@ export class ChecksRadiosComponent {
 
   // arrayRutasEnActivo! : 
 
-  constructor(private service: RutasService) { 
+  constructor(private service: RutasService, private nombreRutaService : NombreRutaService,
+              private router: Router) { 
 
+  }
+
+  editarRutaActiva() {
+    const codigo = this.nombreRutaActual;
+    this.nombreRutaService.setCodigo(codigo);
+    this.router.navigate(['/forms/editar-ruta']);
   }
 
   updateEstadoRuta (nombre_ruta : string, dateObj : any) {
     let isSeguro = confirm("¿Seguro que desea cerrar esta ruta?");
-    if (!isSeguro) return console.log("no esta seguro")
+    if (!isSeguro) {
+      return console.log("no esta seguro")
+    } else {
     this.service.update_estado_ruta(nombre_ruta).subscribe( (data: any) => {
       alert(data.message)
     },
@@ -42,7 +54,7 @@ export class ChecksRadiosComponent {
     this.nombresRutas.map(ruta => {
       if(ruta.Nombre_ruta == nombre_ruta) ruta.Estado = false
     })
-
+  }
     
     // const formattedDate = `${dateObj.year}-${dateObj.month.toString().padStart(2, '0')}-${dateObj.day.toString().padStart(2, '0')}`;
     // this.service.get_nombres_ruta(formattedDate).subscribe((data) => {
@@ -51,9 +63,15 @@ export class ChecksRadiosComponent {
   }
 
   getNombreByFecha(dateObj : any) {
+
+    this.isClicked = false
+    this.isActive = false
+    this.rutaEnActivo = []
+    this.nombreRutaActual = ""
     if (dateObj === undefined) return alert("Por favor ingrese una fecha")
     const formattedDate = `${dateObj.year}-${dateObj.month.toString().padStart(2, '0')}-${dateObj.day.toString().padStart(2, '0')}`;
     this.service.get_nombres_ruta(formattedDate).subscribe((data) => {
+      if (data.length == 0) alert("En esta fecha no hay rutas")
       this.nombresRutas = data
     })
 
@@ -61,11 +79,12 @@ export class ChecksRadiosComponent {
   }
 
   ngOnInit() {
-
+    
   }
 
   buscarRuta (nombreRuta : string,estado_ruta : boolean) {
     // console.log(this.nombreRuta)
+    
     this.service.get_rutas_en_activo(nombreRuta).subscribe((data) => {
       console.log(data)
       this.nombreRutaActual = nombreRuta

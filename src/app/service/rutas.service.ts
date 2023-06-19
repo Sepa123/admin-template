@@ -41,4 +41,16 @@ export class RutasService {
   update_estado_ruta(nombre_ruta: string,data = { }) {
     return this.http.put(this.apiurl + `/actualizar/estado/activo/${nombre_ruta}`,data)
   }
+
+  get_ruta_by_nombre_ruta(nombre_ruta : string) {
+    return this.http.get<ProductoPicking[]>(this.apiurl + `/datos_ruta/${nombre_ruta}`)
+  }
+
+  delete_producto_ruta_activa(cod_producto: string) {
+    return this.http.delete(this.apiurl + `/eliminar/producto/${cod_producto}`)
+  }
+
+  insert_ruta_existente_activa(data : ProductoPicking [][]){
+    return this.http.post(this.apiurl + '/agregar/ruta_activa_existente',data)
+  }
 }

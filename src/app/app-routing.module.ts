@@ -34,19 +34,19 @@ const routes: Routes = [
           import('./views/theme/theme.module').then((m) => m.ThemeModule)
       },
       {
-        path: 'base',
+        path: 'transporte', // transporte
         loadChildren: () =>
           import('./views/base/base.module').then((m) => m.BaseModule),
         
       },
       {
-        path: 'buttons',
+        path: 'operaciones', // operaciones
         loadChildren: () =>
           import('./views/buttons/buttons.module').then((m) => m.ButtonsModule),
           
       },
       {
-        path: 'forms',
+        path: 'picking', // picking
         loadChildren: () =>
           import('./views/forms/forms.module').then((m) => m.CoreUIFormsModule)
       },

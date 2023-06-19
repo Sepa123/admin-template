@@ -25,6 +25,11 @@ import { ChecksRadiosComponent } from './checks-radios/checks-radios.component';
 import { InputGroupsComponent } from './input-groups/input-groups.component';
 import { LayoutComponent } from './layout/layout.component';
 import { ValidationComponent } from './validation/validation.component';
+import { RecepcionOplComponent } from './recepcion-opl/recepcion-opl.component';
+import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
+import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
+import { RutaManualComponent } from './ruta-manual/ruta-manual.component';
+import { RutasActivasComponent } from './rutas-activas/rutas-activas.component';
 
 
 @NgModule({
@@ -36,7 +41,12 @@ import { ValidationComponent } from './validation/validation.component';
     ChecksRadiosComponent,
     InputGroupsComponent,
     LayoutComponent,
-    ValidationComponent
+    ValidationComponent,
+    RecepcionOplComponent,
+    BuscarSkuComponent,
+    EditarRutaComponent,
+    RutaManualComponent,
+    RutasActivasComponent
   ],
   imports: [
     CommonModule,

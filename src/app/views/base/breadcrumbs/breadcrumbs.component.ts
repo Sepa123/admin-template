@@ -24,7 +24,9 @@ export class BreadcrumbsComponent implements OnInit {
   isLoadingEasyOPL: boolean = true
   isLoadingSinTienda: boolean = true
   noData: boolean = false
-  
+  noDataWMS : boolean = false
+  noDataAPI : boolean = false
+
   constructor( private service : TIService ) {}
 
   cargasEasyAPI!: CargasComparacion[]
@@ -68,11 +70,17 @@ export class BreadcrumbsComponent implements OnInit {
     this.service.get_cargas_easy_api().subscribe(data => {
       this.cargasEasyAPI = data
       this.isLoadingCargaComparacionAPI = false;
+      if(this.cargasEasyAPI.length === 0){
+        this.noDataAPI = true
+      }
     })
 
     this.service.get_cargas_easy_wms().subscribe(data => {
       this.cargasEasyWMS = data
       this.isLoadingCargaComparacionWMS = false;
+      if(this.cargasEasyWMS.length === 0){
+        this.noDataWMS = true
+      }
     })
   }
 
