@@ -30,6 +30,7 @@ import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
 import { RutaManualComponent } from './ruta-manual/ruta-manual.component';
 import { RutasActivasComponent } from './rutas-activas/rutas-activas.component';
+import { AsignarRutaComponent } from './asignar-ruta/asignar-ruta.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { RutasActivasComponent } from './rutas-activas/rutas-activas.component';
     BuscarSkuComponent,
     EditarRutaComponent,
     RutaManualComponent,
-    RutasActivasComponent
+    RutasActivasComponent,
+    AsignarRutaComponent
   ],
   imports: [
     CommonModule,

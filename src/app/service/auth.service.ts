@@ -8,7 +8,8 @@ export class AuthService {
 
   constructor(private http:HttpClient) { }
 
-  apiurl="http://34.225.63.221:84"
+  apiurl="https://hela.transyanez.cl/api"
+  // apiurl="http://34.225.63.221:84/api"
   // apiurl= "http://127.0.0.1:8000"
 
 

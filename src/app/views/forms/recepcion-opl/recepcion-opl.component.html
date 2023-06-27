@@ -3,7 +3,7 @@
 <c-container>
   <c-row [xs]="1"> 
     <c-col>
-      <input type="text" name="" id="idRuta" >
+      <input type="text" name="" [(ngModel)]="codigoProducto" id="idRuta" (change)="buscarProductoOPL(codigoProducto)">
 
     </c-col>
     <c-col>

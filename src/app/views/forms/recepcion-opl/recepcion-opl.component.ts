@@ -21,6 +21,7 @@ export class RecepcionOplComponent {
   public svgContent!: SafeHtml;
 
   productosOPL! : ProductoOPL []
+  codigoProducto!: string
 
 
 
@@ -37,7 +38,13 @@ export class RecepcionOplComponent {
   }
 
   buscarProductoOPL(codigo : string) {
-    // this.service.
+    this.service.getProductosPickingOPLBySKU(codigo).subscribe(data => {
+      this.productosOPL = data
+    },
+    ((error) => {
+      alert(error.error.detail)
+    }))
+
   }
   // calcularDiferencias(arrayRuta : ProductoPicking []) {
   //   const fechaActual = new Date();
@@ -57,7 +64,10 @@ export class RecepcionOplComponent {
 
   cambiarTicket(arrayIndex : number, cod_pedido: string, sku :string) {
     this.productosOPL[arrayIndex].Pistoleado = true
-    this.productosOPL.splice(arrayIndex,1);
+    let productoAbajo = this.productosOPL.splice(arrayIndex,1);
+    console.log(productoAbajo)
+    this.productosOPL.push(productoAbajo[0])
+    
 
     const body = {
       "cod_producto" : cod_pedido,

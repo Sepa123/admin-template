@@ -1,0 +1,46 @@
+<!-- <p>{{nombreRuta}}</p> -->
+
+<h3>Asignar Ruta</h3>
+
+<form cForm [formGroup]="asignarRutaForm" (ngSubmit)="asignarRuta()">
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label for="patente">Patente</label>
+        <input type="text" [maxlength]="6" [minlength]="6" pattern='^[a-zA-Z0-9]+$' placeholder="Patente" class="form-control" id="patente"  formControlName=patente required>
+      </div>
+      <!-- <div *ngIf=" asignarRutaForm.get('patente')?.errors?.['pattern']">
+        Hubo un error al ingresear la patente del vehiculo
+      </div> -->
+      <div class="col-md-4 mb-3">
+        <label for="validationDefault02">Conductor</label>
+        <input type="text" class="form-control" placeholder="Conductor" formControlName="conductor" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label for="cant_producto">Cantidad producto</label>
+        <input type="number" class="form-control" id="cant_producto"  formControlName="cantidad_producto" required>
+      </div>
+      <div *ngIf=" asignarRutaForm.get('cantidad_producto')?.errors?.['min']">
+        la cantidad minima debe ser 1
+      </div>
+      <!-- <div class="col-md-3 mb-3">
+        <label for="">Estado</label>
+        <input type="text" class="form-control" id=""  required>
+      </div> -->
+      <div class="col-md-3 mb-3">
+        <label for="Region">Region</label>
+        <select aria-label="Región" id="Region"  formControlName="region" cSelect>
+            <option value="XIII - Metropolitana">XIII - Metropolitana</option>
+            <option value="V - Valparaiso">V - Valparaiso</option>
+          </select>
+      </div>
+    </div>
+    <button class="btn btn-success" type="submit">Asignar Ruta</button>
+  </form>
+
+
+
+
+
+

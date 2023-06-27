@@ -24,7 +24,8 @@ export class TIService {
 
   constructor(private http: HttpClient, private cacheService: CacheService) { }
 
-  apiurl="http://34.225.63.221:84/api/reportes"
+  // apiurl="http://34.225.63.221:84/api/reportes"
+  apiurl="https://hela.transyanez.cl/api/reportes"
   // apiurl = "http://127.0.0.1:8000/api/reportes"
   
   Getcargas(): Observable<any>{
@@ -133,7 +134,7 @@ export class TIService {
   get_pedidos() {
     return this.http.get<Pedidos[]>(this.apiurl + "/pedidos")
   }
-  // actualizar cada 10 minutos
+  // actualizar cada  minutos
   get_ruta_beetrack_hoy() {
     return this.http.get<RutaBeetrackHoy[]>(this.apiurl + "/ruta/beetrack/hoy")
   }
@@ -180,7 +181,7 @@ export class TIService {
   }
 
   get_pedidos_update():  Observable<any>{
-    return interval(600000).pipe( switchMap(() => this.http.get<Pedidos[]>(this.apiurl + "/pedidos")))
+    return interval(110000).pipe( switchMap(() => this.http.get<Pedidos[]>(this.apiurl + "/pedidos")))
   }
 
   get_ruta_beetrack_hoy_update():  Observable<any>{
@@ -190,19 +191,19 @@ export class TIService {
   /// Pedidos pendientes actualización cada 2 minutos
   
   get_pedidos_pendientes_total_update() {
-    return interval(120000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/total")))
+    return interval(110000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/total")))
   }
 
   get_pedidos_pendientes_entregados_update() {
-    return interval(120000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/entregados")))
+    return interval(110000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/entregados")))
   }
 
   get_pedidos_pendientes_no_entregados_update() {
-    return interval(120000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/no_entregados")))
+    return interval(110000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/no_entregados")))
   }
 
   get_pedidos_pendientes_en_ruta_update() {
-    return interval(120000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/en_ruta")))
+    return interval(110000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/en_ruta")))
   }
 
 

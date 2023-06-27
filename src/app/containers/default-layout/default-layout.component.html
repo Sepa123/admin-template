@@ -18,16 +18,20 @@
       height: 46,
       alt: 'Transyanez Logo'
     }"
-    routerLink="./"
+    routerLink="./dashboard"
   >
   </c-sidebar-brand>
     <perfect-scrollbar [config]="perfectScrollbarConfig">
   <!--  [perfectScrollbar]="perfectScrollbarConfig"-->
-  <c-sidebar-nav
+
+  <c-sidebar-nav 
     [navItems]="navItems"
     dropdownMode="close"
   >
   </c-sidebar-nav>
+
+
+  
     </perfect-scrollbar>
   <c-sidebar-toggler
     *ngIf="!sidebar.narrow"

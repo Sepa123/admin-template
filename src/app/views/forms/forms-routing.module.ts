@@ -14,6 +14,7 @@ import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
 import { RutaManualComponent } from './ruta-manual/ruta-manual.component';
 import { RutasActivasComponent } from './rutas-activas/rutas-activas.component';
+import { AsignarRutaComponent } from './asignar-ruta/asignar-ruta.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,14 @@ const routes: Routes = [
         component: RutasActivasComponent,
         data: {
           title: 'Rutas activas'
+        }
+      },
+      {
+        path: 'asignar-ruta',
+        // path: 'ruta-manual',
+        component: AsignarRutaComponent,
+        data: {
+          title: 'Asignar Ruta'
         }
       },
       {

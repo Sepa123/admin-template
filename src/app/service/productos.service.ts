@@ -15,7 +15,7 @@ export class ProductosService {
 
   constructor(private http: HttpClient) { }
 
-  apiurl="http://34.225.63.221:84/api/productos"
+  apiurl="https://hela.transyanez.cl/api/productos"
   // apiurl = "http://127.0.0.1:8000/api/productos"
   
   getProductosSinClasificacion(){
@@ -33,6 +33,12 @@ export class ProductosService {
   getProductosPickingOPL(){
     return this.http.get<ProductoOPL[]>(this.apiurl + "/recepcion/OPL")
   }
+
+  getProductosPickingOPLBySKU(cod_sku: string) {
+    return this.http.get<ProductoOPL[]>(this.apiurl+ `/recepcion/OPL/${cod_sku}`)
+  }
+
+
   updateProductoPickingOPL(body: any){
     return this.http.put(this.apiurl + "/actualizar/verificado/OPL", body)
   }

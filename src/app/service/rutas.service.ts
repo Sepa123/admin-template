@@ -14,7 +14,7 @@ export class RutasService {
 
   constructor(private http: HttpClient) { }
 
-  apiurl = "http://34.225.63.221:84/api/rutas"
+  apiurl = "https://hela.transyanez.cl/api/rutas"
   // apiurl = "http://127.0.0.1:8000/api/rutas"
 
   get_rutas_manual(pedido: string) {
@@ -52,5 +52,21 @@ export class RutasService {
 
   insert_ruta_existente_activa(data : ProductoPicking [][]){
     return this.http.post(this.apiurl + '/agregar/ruta_activa_existente',data)
+  }
+
+  download_ruta_activa(nombre_ruta : string){
+    this.http.get(this.apiurl + `/descargar?nombre_ruta=${nombre_ruta}`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `${nombre_ruta}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+  asignar_ruta_activa(data : any) {
+    return this.http.post(this.apiurl + "/asignar", data)
   }
 }
