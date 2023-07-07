@@ -11,82 +11,24 @@
         <!-- <button cButton class="float-end" color="primary">
           <svg cIcon name="cilCloudDownload"></svg>
         </button> -->
-        <form [formGroup]="trafficRadioGroup" *ngIf="totalSemanas === 5">
+        <form [formGroup]="mesesRadioGroup">
           <c-button-group class="float-end me-3" role="group" >
-            <input
+            <input  *ngFor="let mes of mesesAb"
               class="btn-check"
-              formControlName="trafficRadio"
+              formControlName="mesesRadio"
               type="radio"
-              value="semana 1"
+              value={{mes}}
             />
-            <label
-              (click)="setTrafficPeriod('semana 1', 0)"
+            <label *ngFor="let mes of mesesAb"
+              (click)="setMes(mes)"
               cButton
               cFormCheckLabel
               color="secondary"
               variant="outline"
-            >Semana 1</label>
-
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="semana 2"
-            />
-            <label
-              (click)="setTrafficPeriod('semana 2', 1)"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-            >Semana 2</label>
-
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="semana 3"
-            />
-            <label
-              (click)="setTrafficPeriod('semana 3', 2)"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-            >Semana 3</label>
-
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="semana 4"
-            />
-            <label
-              (click)="setTrafficPeriod('semana 4', 3)"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-            >Semana 4</label>
-
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="semana 5"
-            />
-            <label
-              (click)="setTrafficPeriod('semana 5',4)"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-            >Semana 5</label>
-
-            
-
+            >{{mes}}</label>
           </c-button-group>
         </form>
+
 
         <form [formGroup]="trafficRadioGroup" *ngIf="totalSemanas === 4">
           <c-button-group class="float-end me-3" role="group" >
@@ -109,6 +51,7 @@
               formControlName="trafficRadio"
               type="radio"
               value="semana 2"
+
             />
             <label
               (click)="setTrafficPeriod('semana 2', 1)"
@@ -144,7 +87,90 @@
               cFormCheckLabel
               color="secondary"
               variant="outline"
+            >Semana 4</label>            
+
+          </c-button-group>
+        </form>
+        
+        <form [formGroup]="trafficRadioGroup" *ngIf="totalSemanas === 5">
+          <c-button-group class="float-end me-3" role="group" >
+            <input
+              class="btn-check"
+              formControlName="trafficRadio"
+              type="radio"
+              value="semana 1"
+            />
+            <label
+              (click)="setTrafficPeriod('semana 1', 0)"
+              cButton
+              cFormCheckLabel
+              color="secondary"
+              variant="outline"
+              [disabled]="disabledButtons"
+            >Semana 1</label>
+
+            <input
+              class="btn-check"
+              formControlName="trafficRadio"
+              type="radio"
+              value="semana 2"
+            />
+            <label
+              (click)="setTrafficPeriod('semana 2', 1)"
+              cButton
+              cFormCheckLabel
+              color="secondary"
+              variant="outline"
+              [disabled]="disabledButtons"
+            >Semana 2</label>
+
+            <input
+              class="btn-check"
+              formControlName="trafficRadio"
+              type="radio"
+              value="semana 3"
+
+            />
+            <label
+              (click)="setTrafficPeriod('semana 3', 2)"
+              cButton
+              cFormCheckLabel
+              color="secondary"
+              variant="outline"
+              [disabled]="disabledButtons"
+            >Semana 3</label>
+
+            <input
+              class="btn-check"
+              formControlName="trafficRadio"
+              type="radio"
+              value="semana 4"
+            />
+            <label
+              (click)="setTrafficPeriod('semana 4', 3)"
+              cButton
+              cFormCheckLabel
+              color="secondary"
+              variant="outline"
+              [disabled]="disabledButtons"
             >Semana 4</label>
+
+            <input
+              class="btn-check"
+              formControlName="trafficRadio"
+              type="radio"
+              value="semana 5"
+            />
+            <label
+              (click)="setTrafficPeriod('semana 5', 4)"
+              cButton
+              cFormCheckLabel
+              color="secondary"
+              variant="outline"
+              [disabled]="disabledButtons"
+            >Semana 5</label>
+
+          
           </c-button-group>
         </form>
         
@@ -265,4 +291,3 @@
      </div>
     </tr> 
    </table>
-

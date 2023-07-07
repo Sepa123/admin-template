@@ -1,7 +1,8 @@
 import { Injectable  } from '@angular/core';
 import { getStyle, hexToRgba } from '@coreui/utils';
 import { TIService } from 'src/app/service/ti.service';
-import { Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
+import mesesDelAño  from 'src/app/models/fechas/rangoFechas'
 
 export interface IChartProps {
   data?: any;
@@ -30,9 +31,10 @@ export interface IChartPropsProductos {
 })
 export class DashboardChartsData {
   constructor(private service: TIService) {
+    
     this.getData();
     this.initMainChart();
-    this.initChartProducto("",3);
+    this.initChartProducto("Enero",1,[]);
 
   }
   //Suscripciones
@@ -50,6 +52,7 @@ export class DashboardChartsData {
   fecha:any[] = [];
 
    // Variables Reporte producto entregados
+   objEntregadoMes : any = {}
    entregado: any[] = [];
    electroluxEnt: any[] = [];
    easyEnt: any[] = [];
@@ -61,14 +64,73 @@ export class DashboardChartsData {
 
    etiquetas: any[] = [];
 
-
-
   getWeekNumber(date : any) {
     const firstDayOfYear: any = new Date(date.getFullYear(), 0, 1);
     const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
     return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay()) / 7);
   }
+
+  getDataByWeek(semanas : any[]){
+    this.electroluxEnt = [];
+    this.sportexEnt = [];
+    this.easyEnt = [];
+    this.tiendasEnt = [];
+    this.easyOPLEnt = [];
+    this.diasEnt = [];
+
+    semanas.map(dia => {
+      this.diasEnt.push(dia.Dia)
+      this.electroluxEnt.push(dia.Electrolux)
+      this.sportexEnt.push(dia.Sportex)
+      this.easyEnt.push(dia.Easy)
+      this.easyOPLEnt.push(dia.Easy_OPL)
+    })
+
+    // dias.sort((a,b) => a.Fecha - b.Fecha )
+
+    // let weeklyData = [];
+    // let currentWeek: any = null;
+    // let currentWeekData:any = [];
+
+    // dias.forEach((record) => {
+    //   let date = new Date(record.Fecha);
+    //   let week = this.getWeekNumber(date);
+
+    //   if (currentWeek === null) {
+    //     currentWeek = week;
+    //   }
+
+    //   if (week !== currentWeek) {
+    //     weeklyData.push({ Semana: currentWeek, Datos: currentWeekData });
+    //     currentWeek = week;
+    //     currentWeekData = [];
+    //   }
+
+    //   currentWeekData.push(record);
+    // });
+
+    // this.diasEnt = []
+    //   this.electroluxEnt = []
+    //   this.sportexEnt = []
+    //   this.easyEnt = []
+    //   this.easyOPLEnt = []
+
+    // weeklyData.push({ Semana: currentWeek, Datos: currentWeekData });
+
+    // weeklyData.forEach((weekData, i: number) => {
+    //   this.diasEnt.push(weekData.Datos.map((data : any) => data.Dia))
+    //   this.electroluxEnt.push(weekData.Datos.map((data : any) => data.Electrolux))
+    //   this.sportexEnt.push(weekData.Datos.map((data : any) => data.Sportex))
+    //   this.easyEnt.push(weekData.Datos.map((data : any) => data.Easy))
+    //   this.easyOPLEnt.push(weekData.Datos.map((data : any) => data.Easy_OPL))
+    // })
+  }
+
   getData(){
+
+    // Imprimir las fechas de todas las semanas
+   
+    // console.log(mesesDelAño.Enero.inicio)
   //  this.subHistorico = this.service.get_historico_mensual().subscribe(mensual=> {
   //     this.historico = mensual
 
@@ -82,54 +144,36 @@ export class DashboardChartsData {
   //     }
   // })
 
+//   this.subProducto = this.service.get_productos_mensual().subscribe(mensual=> {
+//     this.entregado = mensual
+//     ////
+//     this.getDataByWeek(this.entregado)
+// })
 
+  }
 
-  this.subProducto = this.service.get_productos_mensual().subscribe(mensual=> {
-    this.entregado = mensual
-    ////
-    this.entregado.sort((a,b) => a.Fecha - b.Fecha )
-    const weeklyData = [];
-    let currentWeek: any = null;
-    let currentWeekData:any = [];
+  ngOnInit() {
 
-    this.entregado.forEach((record) => {
-      const date = new Date(record.Fecha);
-      const week = this.getWeekNumber(date);
+  }
 
-      if (currentWeek === null) {
-        currentWeek = week;
-      }
-
-      if (week !== currentWeek) {
-        weeklyData.push({ Semana: currentWeek, Datos: currentWeekData });
-        currentWeek = week;
-        currentWeekData = [];
-      }
-
-      currentWeekData.push(record);
-    });
-
-    weeklyData.push({ Semana: currentWeek, Datos: currentWeekData });
-
-    weeklyData.forEach((weekData, i: number) => {
-      this.diasEnt.push(weekData.Datos.map((data : any) => data.Dia))
-      this.electroluxEnt.push(weekData.Datos.map((data : any) => data.Electrolux))
-      this.sportexEnt.push(weekData.Datos.map((data : any) => data.Sportex))
-      this.easyEnt.push(weekData.Datos.map((data : any) => data.Easy))
-      this.easyOPLEnt.push(weekData.Datos.map((data : any) => data.Easy_OPL))
-
-    })
-
-    // for (let i = 0; i < this.entregado.length; i++) {
-    //   this.electroluxEnt.push(this.entregado[i].Electrolux)
-    //   this.sportexEnt.push(this.entregado[i].Sportex)
-    //   this.easyEnt.push(this.entregado[i].Easy)
-    //   // this.tiendasEnt.push(this.entregado[i].Tiendas)
-    //   this.easyOPLEnt.push(this.entregado[i].Easy_OPL)
-    //   this.diasEnt.push(this.entregado[i].Dia)
-    //   this.fechaEnt.push(this.entregado[i].Fecha)
-    // }
-})
+  getDataRango(semana : string [], mes : string) {
+    // console.log("mes de",mes)
+    this.electroluxEnt = [];
+    this.sportexEnt = [];
+    this.easyEnt = [];
+    this.tiendasEnt = [];
+    this.easyOPLEnt = [];
+    this.diasEnt = [];
+    
+    this.subProducto = this.service.get_reporte_producto_rango(semana[0], semana[semana.length -1]).subscribe(data => {
+      this.objEntregadoMes[mes] = data
+      
+    },
+    ((error) => {
+      console.log(error.error.detail)
+    }))
+    
+    
   }
 
   public mainChart: IChartProps = {};
@@ -137,6 +181,7 @@ export class DashboardChartsData {
   public chartProducto: IChartProps = {};
 
   initMainChart(period: string = 'Month') {
+
     const brandSuccess = getStyle('--cui-success') ?? '#4dbd74';
     const brandInfo = getStyle('--cui-info') ?? '#20a8d8';
     const brandInfoBg = hexToRgba(getStyle('--cui-info'), 10) ?? '#20a8d8';
@@ -266,21 +311,39 @@ export class DashboardChartsData {
     };
   }
 
-  initChartProducto(period: string = "day", index : number) {
+  initChartProducto(mes: string , index : number, arraySemanas: string []) {
     const brandInfo = getStyle('--cui-info') ?? '#20a8d8';
     // console.log(this.electroluxEnt)
-    // this.chartProducto['elements'] = period === 'Month' ? 12 : 27;
-    this.chartProducto['Data1'] = this.electroluxEnt[index];
-    this.chartProducto['Data2'] = this.sportexEnt[index];
-    this.chartProducto['Data3'] = this.easyEnt[index];
-    this.chartProducto['Data4'] = this.tiendasEnt[index];
-    this.chartProducto['Data5'] = this.easyOPLEnt[index];
+    // console.log(this.objEntregadoMes[mes])
+    console.log("mes:",mes, "index:",index)
+    console.log(arraySemanas)
+    
+    let key = `${mes}-${index}`
+  
+    if(this.objEntregadoMes[key] === undefined){
+      // console.log(this.objEntregadoMes[mes], "es undefined")
+      this.getDataRango(arraySemanas, key)
+  
+    } else {
+      // console.log(this.objEntregadoMes[mes])
+      this.getDataByWeek(this.objEntregadoMes[key])
+
+      // this.chartProducto['elements'] = period === 'Month' ? 12 : 27;
+    }
+
+    this.chartProducto['Data1'] = this.electroluxEnt;
+    this.chartProducto['Data2'] = this.sportexEnt;
+    this.chartProducto['Data3'] = this.easyEnt;
+    this.chartProducto['Data4'] = this.tiendasEnt;
+    this.chartProducto['Data5'] = this.easyOPLEnt;
+    
+    // console.log(this.objEntregadoMes[mes])
 
     let labels: string[] = [];
 
 
     // labels = this.fechaEnt;
-    labels = this.diasEnt[index];
+    labels = this.diasEnt;
 
 
     const colors = [

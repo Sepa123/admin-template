@@ -17,7 +17,7 @@ export class AsignarRutaComponent {
 
   // patente! : string
   // conductor! : string
-  // cantidad_productos! : number
+  bultos! : number
   // region! : string
 
   constructor (private service: RutasService, private router: Router, 
@@ -37,6 +37,8 @@ export class AsignarRutaComponent {
   ngOnInit() {
     this.id_usuario = sessionStorage.getItem("id")?.toString()
     this.nombreRuta = this.nombreRutaService.getCodigo() 
+    this.bultos = this.nombreRutaService.getBultos()
+    console.log(this.bultos)
     console.log(this.id_usuario)
     console.log(this.nombreRuta)
   }

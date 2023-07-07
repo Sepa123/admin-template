@@ -9,6 +9,7 @@ import { Page500Component } from './page500/page500.component';
 import { ButtonModule, CardModule, FormModule, GridModule } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { Page401Component } from './page401/page401.component';
+import { PermisoDenegadoComponent } from './permiso-denegado/permiso-denegado.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { Page401Component } from './page401/page401.component';
     RegisterComponent,
     Page404Component,
     Page500Component,
-    Page401Component
+    Page401Component,
+    PermisoDenegadoComponent
   ],
   imports: [
     CommonModule,

@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+//Accesos
+import { ROLES_PERMITIDOS } from 'src/app/rolesPermitidos.const'
+import { ROLES_ENUM } from 'src/app/models/enum/roles.enum'
+import { PermissionGuard } from 'src/app/guard/permission.guard'
+
 import { FloatingLabelsComponent } from './floating-labels/floating-labels.component';
 import { FormControlsComponent } from './form-controls/form-controls.component';
 import { InputGroupsComponent } from './input-groups/input-groups.component';
@@ -113,8 +118,10 @@ const routes: Routes = [
         path: 'recepcion-opl',
         component : RecepcionOplComponent,
         data: {
-          title : 'Recepcion OPL'
-        }
+          title : 'Recepcion OPL',
+          roles :ROLES_PERMITIDOS.OPL
+        },
+        canActivate : [PermissionGuard]
       },
       {
         path: 'buscar-sku',

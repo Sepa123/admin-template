@@ -297,7 +297,7 @@
             </tr> 
            </table>
 
-          <table class="greenTable" > 
+          <table class="greenTable" *ngIf="ocultarTabla == true" > 
             <tr>
                <div *ngIf="isLoadingBeetrack">
                  <img src="../../../assets/images/loading-gif.gif" />

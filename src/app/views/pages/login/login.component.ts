@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from "src/app/service/auth.service"
 import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ACCESO_ROL } from 'src/app/rolesPermitidos.const';
 // import { CookieService } from "ngx-cookie-service"
 @Component({
   selector: 'app-login',
@@ -26,7 +27,12 @@ export class LoginComponent {
       this.service.GetUserbyusername(this.loginform.value).subscribe(res => {
         this.userdata = res;
         sessionStorage.setItem('access_token',this.userdata.access_token);
-        this.router.navigate(['dashboard']);
+        sessionStorage.setItem('rol_id', this.userdata.rol_id)
+        sessionStorage.setItem('server', this.userdata.server )
+        const ruta = ACCESO_ROL[this.userdata.rol_id]
+        
+        console.log(ruta)
+        this.router.navigate([ruta]);
       },
       ((error) => {
         this.resultado = error.error.detail

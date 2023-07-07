@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TIService } from "src/app/service/ti.service";
 import { Carga } from 'src/app/models/cargas.interface';
+import { NroCargasPorHora } from "src/app/models/nroCargasPorHora.interface"
 import { ReporteEasyRegion } from 'src/app/models/reporteEasyRegion.interface';
 import { CargasComparacion } from 'src/app/models/cargasComparacion.interface';
 import { PedidoEasyOPL } from 'src/app/models/pedidoEasyOPL.interface';
@@ -32,7 +33,8 @@ export class EstadosComponent implements OnInit {
   cargasEasyAPI!: CargasComparacion[]
   cargasEasyWMS!: CargasComparacion[]
   ocultarTablaComparacion: boolean = true
-  carga!: Carga[]
+  // carga!: Carga[]
+  cargaHora! : NroCargasPorHora[]
   ocultarTabla: boolean = true
   pedidoSinTiendas! : PedidosSinTienda[]
   pedidoEasyOPL! : PedidoEasyOPL[]
@@ -41,8 +43,8 @@ export class EstadosComponent implements OnInit {
 
 
   ngOnInit(): void{
-    this.subscription = this.service.Getcargas().subscribe((data) => {
-      this.carga = data;
+    this.subscription = this.service.get_cargas_por_hora().subscribe((data) => {
+      this.cargaHora = data;
       this.isLoadingCarga = false;
     })
 

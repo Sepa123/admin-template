@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 // 
 import { Carga } from "../models/cargas.interface";
+import { NroCargasPorHora } from "../models/nroCargasPorHora.interface"
 import { ReporteHora } from "../models/reporteHora.interface"
 import { ReporteHistorico } from "../models/reporteHistorico.interface";
 import { ReporteProductosEntregados } from "../models/reporteProductosEntregados.interface";
@@ -103,6 +104,10 @@ export class TIService {
     return this.http.get<ReporteProductosEntregados[]>(this.apiurl+"/productos/mensual")
   }
 
+  get_reporte_producto_rango(inicio:string, termino:string){
+    return this.http.get<ReporteProductosEntregados[]>(this.apiurl+`/productos/rango?inicio=${inicio}&termino=${termino}`)
+  }
+
   get_reporte_hora(): Observable<any> {
     return interval(15000).pipe( switchMap(() => this.http.get<ReporteHora[]>(this.apiurl+"/hora")))
     //return this.http.get<ReporteHora[]>(this.apiurl+"/hora")
@@ -167,6 +172,13 @@ export class TIService {
     // return this.http.get<ProductoPicking[]>(this.apiurl + "/buscar/ruta/{producto_id}")
     return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/ruta/${pedido}`)
     
+  }
+
+  // cargas por hora
+
+  get_cargas_por_hora(){
+    
+    return interval(2100).pipe(switchMap(() => this.http.get<NroCargasPorHora[]>(this.apiurl + "/cargas_por_hora")))
   }
 
   

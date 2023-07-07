@@ -13,6 +13,7 @@ export class UserGuard implements CanActivate {
   constructor (private router:Router,private service: AuthService) {}
 
   active!:boolean ;
+  rol_user! : string;
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,20 +24,28 @@ export class UserGuard implements CanActivate {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '+ token
     })
+    this.rol_user = sessionStorage.getItem('rol_id')+""
 
     this.service.verifyUser(reqHeader).subscribe(res => {
       this.active = res.active
-      sessionStorage.setItem("rol", res.rol_id)
+      sessionStorage.setItem("rol ", res.rol_id)
       sessionStorage.setItem("id", res.uid)
     })
 
-    if(!token ){
-      
+    if(!token){
       this.router.navigate(["login"])
-
     return false
-  } 
+
+  } if(!route.data["roles"].includes(this.rol_user)){
+    
     return true;
+  } else
+  {
+    this.router.navigate(["permiso-denegado"])
+    console.log("usted no tiene permiso por que tiene este rol",this.rol_user)
+    return false
+  }
+    
   }
   
 }

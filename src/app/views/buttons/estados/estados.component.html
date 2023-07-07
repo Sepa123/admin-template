@@ -46,7 +46,7 @@
                </table>
                 </td>
                 <td>
-              <table class="greenTable" *ngIf="ocultarTabla == true">
+              <table class="greenTable" *ngIf="ocultarTablaComparacion == true">
                 <thead>
                   <tr>
                     <th colspan="2" scope="col">WMS</th>
@@ -85,14 +85,22 @@
             <table class="greenTable">
               <thead>
                 <tr >
-                  <th scope="col">Total</th>
-                  <th scope="col">verificado</th>
+                  <th scope="col">Hora Ingreso</th>
+                  <th scope="col">N° carga</th>
+                  <th scope="col">Entrega</th>
+                  <th scope="col">Bultos</th>
+                  <th scope="col">Verificados</th>
+                  <th scope="col">Sin Verificar</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngIf="carga">
-                  <th scope="row">{{ carga[1].Cantidad }}</th>
-                  <td>{{ carga[0].Cantidad }}</td>
+                <tr *ngFor="let carga of cargaHora">
+                  <th scope="row">{{ carga.Hora}}</th>
+                  <td>{{ carga.Nro_carga }}</td>
+                  <td>{{ carga.Entregas }}</td>
+                  <td>{{ carga.Bultos }}</td>
+                  <td>{{ carga.Verificados }}</td>
+                  <td>{{ carga.No_verificados }}</td>
                 </tr>
               </tbody>
             </table>

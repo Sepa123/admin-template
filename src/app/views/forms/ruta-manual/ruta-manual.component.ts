@@ -74,6 +74,9 @@ export class RutaManualComponent {
     resultado = resultado.replace(/-(\d+)/, "");
 
 
+    console.log(resultado)
+
+
     // const distanciaMinima = 1; // Definir la distancia mínima aceptable1
     // const codigoDuplicado = this.rutasEnTabla.find(codigo => levenshtein.distance(resultado, codigo) <= distanciaMinima);
 

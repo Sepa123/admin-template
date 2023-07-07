@@ -1,43 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { interval,Observable, Subscription  } from 'rxjs';
-import { navItems, navItemsOp , navItemsTra ,navItemsAll } from './_nav';
+import { navItems, navItemsOp , navItemsTra ,navItemsTest } from './_nav';
+import { ROLES_PERMITIDOS } from 'src/app/rolesPermitidos.const'
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
 })
-export class DefaultLayoutComponent {
+export class DefaultLayoutComponent implements OnInit {
 
+  public roles_permitidos = ROLES_PERMITIDOS
+
+  ngOnInit(): void {
+    this.rol = sessionStorage.getItem("rol_id") 
+
+  }
   // navItems = navItems;
-  rol = sessionStorage.getItem("rol") 
-
-  // roll = this.rol == "5" ? 5 : this.rol == "13" ? 13 : 14
+  public rol = sessionStorage.getItem("rol_id") 
 
   navItems = navItems
-  navItemsTra = navItemsTra
+
+  navItemsTest = navItemsTest
+
   navItemsOp = navItemsOp
+
+  navItemsTra = navItemsTra
 
   public perfectScrollbarConfig = {
     suppressScrollX: true,
   };
 
-  // sub! : Subscription
-
-  // ngOnInit(){
-
-  //   // console.log(this.rol)
-  //   if(this.rol === "5") {
-  //     this.navItems = navItemsAll[0][5];
-  //   }
-  //   if(this.rol === "13")  {
-  //     this.navItems = navItemsAll[0][13]
-  //     console.log("Jefe operaciones")
-  //   }
-  //   if(this.rol === "14")  {
-  //     this.navItems = navItemsAll[0][14]
-  //     console.log("jefe transporte")
-  //   }
-  // }
-
-  constructor() {}
+  constructor() {
+    this.rol = sessionStorage.getItem("rol_id") 
+  }
+  
 }

@@ -21,6 +21,7 @@ export class RutasActivasComponent {
 
   model! : NgbDateStruct
   nombreRutaActual!:  string
+  cantBultos! : number
   isClicked : boolean = false
   isActive: boolean = false
   rutaEnActivo! : RutaEnActivo []
@@ -39,6 +40,7 @@ export class RutasActivasComponent {
   asignarRuta() {
     const codigo = this.nombreRutaActual;
     this.nombreRutaService.setCodigo(codigo);
+    this.nombreRutaService.setBultos(this.cantBultos)
     this.router.navigate(['/picking/asignar-ruta']);
   }
   editarRutaActiva() {
@@ -97,6 +99,7 @@ export class RutasActivasComponent {
       console.log(data)
       this.nombreRutaActual = nombreRuta
       this.rutaEnActivo = data
+      this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  sum + bulto.Bultos, 0)
       this.rutaEnActivo.map(ruta => {
         ruta.arraySKU = ruta.SKU.split('@')
         ruta.arrayProductos = ruta.Producto.split('@')

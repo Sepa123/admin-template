@@ -5,6 +5,7 @@ import { Page500Component } from './page500/page500.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
  import { UserGuard } from "src/app/guard/user.guard";
+import { PermisoDenegadoComponent } from './permiso-denegado/permiso-denegado.component';
 const routes: Routes = [
   {
     path: '404',
@@ -32,6 +33,13 @@ const routes: Routes = [
     component: RegisterComponent,
     data: {
       title: 'Register Page'
+    }
+  },
+  {
+    path :'permiso-denegado',
+    component : PermisoDenegadoComponent,
+    data : {
+      title : 'Permiso denegado'
     }
   }
 ];
