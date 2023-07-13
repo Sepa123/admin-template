@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { TIService } from "src/app/service/ti.service";
 import { Carga } from 'src/app/models/cargas.interface';
 import { NroCargasPorHora } from "src/app/models/nroCargasPorHora.interface"
@@ -9,11 +9,11 @@ import { PedidosSinTienda } from 'src/app/models/pedidoSinTienda.interface';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-estados',
-  templateUrl: './estados.component.html',
-  styleUrls: ['./estados.component.scss']
+  selector: 'app-estado',
+  templateUrl: './estado.component.html',
+  styleUrls: ['./estado.component.scss']
 })
-export class EstadosComponent implements OnInit {
+export class EstadoComponent implements OnInit {
   // public items = <any>[];
   subscription!: Subscription
   subscriptionRegion!: Subscription

@@ -10,7 +10,7 @@
           <div class="input-group">
             <input
               class="form-control"
-              placeholder="yyyy-mm-dd"
+              placeholder={{fechaActual}}
               name="dp"
               [(ngModel)]="model"
               ngbDatepicker
@@ -52,7 +52,14 @@
 
 <p></p>
 
+<h3 *ngIf="isRuta == false">En este dia no hay rutas</h3>
+
 <h4>{{nombreRutaActual}}</h4>
+
+<div *ngIf="isDriver">
+  <h4>Patente : {{patenteRuta}}</h4>
+  <h4>Driver : {{driverRuta}}</h4>
+</div>
 
 <table class="greenTable" id="tablaRutaActiva" *ngIf="isClicked == true" >
   <thead>

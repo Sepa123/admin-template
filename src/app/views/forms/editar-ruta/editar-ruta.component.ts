@@ -283,15 +283,15 @@ export class EditarRutaComponent {
 
     console.log(this.arrayRutasIngresados)
     if (this.arrayRutasIngresados.length === 0){
-      alert("No se han ingresado producto nuevos a la")
-      this.router.navigate(['/forms/rutas-activas']);
+      alert("No se han ingresado producto nuevos a la ruta")
+      this.router.navigate(['/picking/rutas-activas']);
     }
     // this.guardarClicked = true
       this.service.insert_ruta_existente_activa(this.arrayRutasIngresados).subscribe((response : any) => {
         // console.log(response)
         alert(response.message)
         this.guardarClicked = true
-        this.router.navigate(['/forms/rutas-activas']);
+        this.router.navigate(['/picking/rutas-activas']);
       },
       (error) => {
         alert(error.error.detail)

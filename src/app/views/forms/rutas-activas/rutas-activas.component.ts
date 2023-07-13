@@ -9,9 +9,6 @@ import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
 import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
 import * as XLSX from 'xlsx';
 
-
-
-
 @Component({
   selector: 'app-rutas-activas',
   templateUrl: './rutas-activas.component.html',
@@ -24,11 +21,17 @@ export class RutasActivasComponent {
   cantBultos! : number
   isClicked : boolean = false
   isActive: boolean = false
+  isRuta: boolean = false
   rutaEnActivo! : RutaEnActivo []
   nombresRutas!: NombresRutasActivas []
   nombreRuta!: NombresRutasActivas []
   arraySKU: any[] = []
   arrayProducto: any[] = []
+
+  fechaActual!: string
+  patenteRuta! : string
+  driverRuta! : string
+  isDriver : boolean = false
 
   // arrayRutasEnActivo! : 
 
@@ -41,6 +44,9 @@ export class RutasActivasComponent {
     const codigo = this.nombreRutaActual;
     this.nombreRutaService.setCodigo(codigo);
     this.nombreRutaService.setBultos(this.cantBultos)
+    this.nombreRutaService.setDataDriver(this.driverRuta,this.patenteRuta)
+    console.log(this.driverRuta)
+    console.log(this.patenteRuta)
     this.router.navigate(['/picking/asignar-ruta']);
   }
   editarRutaActiva() {
@@ -65,23 +71,22 @@ export class RutasActivasComponent {
       if(ruta.Nombre_ruta == nombre_ruta) ruta.Estado = false
     })
   }
-    
-    // const formattedDate = `${dateObj.year}-${dateObj.month.toString().padStart(2, '0')}-${dateObj.day.toString().padStart(2, '0')}`;
-    // this.service.get_nombres_ruta(formattedDate).subscribe((data) => {
-    //   this.nombresRutas = data
-    // })
   }
 
   getNombreByFecha(dateObj : any) {
 
+    console.log(dateObj)
     this.isClicked = false
     this.isActive = false
+    this.isDriver = false
     this.rutaEnActivo = []
     this.nombreRutaActual = ""
     if (dateObj === undefined) return alert("Por favor ingrese una fecha")
     const formattedDate = `${dateObj.year}-${dateObj.month.toString().padStart(2, '0')}-${dateObj.day.toString().padStart(2, '0')}`;
     this.service.get_nombres_ruta(formattedDate).subscribe((data) => {
-      if (data.length == 0) alert("En esta fecha no hay rutas")
+
+      data.length == 0 ? this.isRuta = false : this.isRuta = true
+
       this.nombresRutas = data
     })
 
@@ -89,7 +94,19 @@ export class RutasActivasComponent {
   }
 
   ngOnInit() {
-    
+
+    const fecha = new Date();
+
+    const ObjcurrentDate = {
+      year: fecha.getFullYear(), 
+      month: fecha.getMonth() + 1, 
+      day:  fecha.getDate()
+    }
+
+    let fechaFormateada = fecha.toISOString().split('T')[0];
+
+    this.fechaActual = fechaFormateada
+    this.getNombreByFecha(ObjcurrentDate)
   }
 
   buscarRuta (nombreRuta : string,estado_ruta : boolean) {
@@ -108,7 +125,25 @@ export class RutasActivasComponent {
       this.isClicked = true
       this.isActive = true
       estado_ruta == false ? this.isActive = false : this.isActive = true
-    })
+
+      this.driverRuta = ""
+      this.patenteRuta = ""
+
+      this.service.get_patente_driver_by_nombre_ruta(this.nombreRutaActual).subscribe((data : any) => {
+        console.log(data)
+        this.patenteRuta = data.Patente
+        this.driverRuta = data.Driver
+        this.isDriver = true
+
+        console.log(this.driverRuta)
+        console.log(this.patenteRuta)
+        
+      })
+    },
+    ((error) => {
+
+      this.isDriver = false
+    }))
   }
 
   downloadExcel(nombre_ruta : string) {

@@ -25,7 +25,6 @@ export class TIService {
 
   constructor(private http: HttpClient, private cacheService: CacheService) { }
 
-  // apiurl="http://34.225.63.221:84/api/reportes"
   apiurl="https://hela.transyanez.cl/api/reportes"
   // apiurl = "http://127.0.0.1:8000/api/reportes"
   
@@ -175,10 +174,14 @@ export class TIService {
   }
 
   // cargas por hora
+  get_cargas_por_hora_init(){
+    
+    return this.http.get<NroCargasPorHora[]>(this.apiurl + "/cargas_por_hora")
+  }
 
   get_cargas_por_hora(){
     
-    return interval(2100).pipe(switchMap(() => this.http.get<NroCargasPorHora[]>(this.apiurl + "/cargas_por_hora")))
+    return interval(40000).pipe(switchMap(() => this.http.get<NroCargasPorHora[]>(this.apiurl + "/cargas_por_hora")))
   }
 
   

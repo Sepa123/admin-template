@@ -10,4 +10,5 @@ export interface ProductoOPL {
     Cantidad_producto:    number;
     SKU:                  string;
     Pistoleado:           boolean;
+    Carga? :              string;
 }

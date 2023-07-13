@@ -38,6 +38,7 @@ export interface ProductoPicking {
     Estado?:              any;
     En_ruta?:             string;
     Created_by?:          string;
-    Id_tabla?:             string;
+    Id_tabla?:            string;
+    Fecha_ruta?:          string;
 }
 

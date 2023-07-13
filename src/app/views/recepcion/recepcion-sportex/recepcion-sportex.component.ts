@@ -16,6 +16,9 @@ export class RecepcionSportexComponent {
 
   subRecepcion! : Subscription
 
+  cantVerificados : number = 0
+  cantNoVerificados : number = 0
+
   productosVerificados : ProductoOPL [] =[]
   productosPorVerificar : ProductoOPL [] = []
   codigoProducto!: string
@@ -39,6 +42,9 @@ export class RecepcionSportexComponent {
   ngOnInit() {
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     this.subRecepcion = this.service.updateRecepcionSportex().subscribe((data) => {
+
+      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
 
       if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
       && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){

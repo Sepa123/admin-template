@@ -17,6 +17,9 @@ export class RecepcionElectroluxComponent {
 
   subRecepcion! : Subscription
 
+  cantVerificados : number = 0
+  cantNoVerificados : number = 0
+
   productosVerificados : ProductoOPL [] =[]
   productosPorVerificar : ProductoOPL [] = []
 
@@ -67,15 +70,16 @@ export class RecepcionElectroluxComponent {
   ngOnInit() {
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     this.subRecepcion = this.service.updateRecepcionElectrolux().subscribe((data) => {
+
+      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length 
+      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length 
+
       if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
       && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
-        console.log("esta data se repite")
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
         this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
       }      
-      console.log("Cantidad de productos por verificar",this.productosPorVerificar.length)
-      console.log("Cantidad de productos verificados",this.productosVerificados.length)
     })
   }
 
@@ -85,7 +89,7 @@ export class RecepcionElectroluxComponent {
       this.largo = this.productosPorVerificarByCP.length
 
       if(this.largo > 1){
-        this.codigoProducto = ""
+        this.codigoProducto = cod_producto
         this.toggleLiveDemo()
       }else {
       
@@ -128,13 +132,18 @@ export class RecepcionElectroluxComponent {
   }
 
   cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
-    this.productosPorVerificar[arrayIndex].Pistoleado = true
     
+    console.log(this.productosPorVerificarByCP)
+    if(this.productosPorVerificarByCP.length != 0){
+     this.productosPorVerificarByCP[arrayIndex].Pistoleado = true
+    }else {
+      this.productosPorVerificar[arrayIndex].Pistoleado = true
+    }
     // let productoAbajo = this.productosOPL.splice(arrayIndex,1);
     // console.log(productoAbajo)
     // this.productosOPL.push(productoAbajo[0])
     
-
+    
     const body = {
       "id_usuario" : sessionStorage.getItem('id')+"",
       "cliente" : "Electrolux",

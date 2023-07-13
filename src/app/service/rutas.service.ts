@@ -22,8 +22,8 @@ export class RutasService {
     return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/${pedido}`)
   }
 
-  insert_rutas_manual(data : ProductoPicking [][]){
-    return this.http.post(this.apiurl + '/agregar',data)
+  insert_rutas_manual(data : ProductoPicking [][], fecha_pedido : string){
+    return this.http.post(this.apiurl + `/agregar?fecha_pedido=${fecha_pedido}`,data)
   }
 
   update_estado_producto(cod_producto: any, data = { }) {
@@ -68,5 +68,14 @@ export class RutasService {
 
   asignar_ruta_activa(data : any) {
     return this.http.post(this.apiurl + "/asignar", data)
+  }
+
+  get_patente_driver_by_nombre_ruta(nombre_ruta : string){
+    return this.http.get(this.apiurl + `/buscar_patente?nombre_ruta=${nombre_ruta}`)
+  }
+
+
+  update_ruta_asignada(body : any){
+    return this.http.put(this.apiurl + "/actualizar/ruta_asignada", body)
   }
 }

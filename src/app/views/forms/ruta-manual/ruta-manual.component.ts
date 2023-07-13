@@ -4,6 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { ProductoPicking } from 'src/app/models/productoPicking.interface';
 import * as XLSX from 'xlsx';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as levenshtein from 'fastest-levenshtein';
 
 @Component({
@@ -23,6 +24,11 @@ export class RutaManualComponent {
   arrayRuta! : ProductoPicking []
   arrayRutasIngresados : ProductoPicking[] [] = []
   rutasEnTabla : string [] = []
+
+
+  fechaPedido!: string
+  model! : NgbDateStruct
+
 
   public svgContent!: SafeHtml;
 
@@ -50,6 +56,12 @@ export class RutaManualComponent {
 
   ngOnInit() {
     this.loadSvg()
+
+    const fecha = new Date();
+
+    let fechaFormateada = fecha.toISOString().split('T')[0];
+
+    this.fechaPedido = fechaFormateada
   }
  //2906175306
   
@@ -70,37 +82,21 @@ export class RutaManualComponent {
 
   getRuta(pedido: string) {
     var resultado = pedido.replace(/'/g, "-").trim().toUpperCase()
-    
     resultado = resultado.replace(/-(\d+)/, "");
 
 
     console.log(resultado)
 
-
-    // const distanciaMinima = 1; // Definir la distancia mínima aceptable1
-    // const codigoDuplicado = this.rutasEnTabla.find(codigo => levenshtein.distance(resultado, codigo) <= distanciaMinima);
-
-    // if (codigoDuplicado) {
-    //   this.idPedido = ""
-    //   return alert("Este producto ya fue ingresado")
-    // } else {
-    //   console.log('Código válido');
-    // }
     if(this.rutasEnTabla.includes(resultado)) {
       this.idPedido = ""
       return alert("Este pedido ya fue ingresado")
     }
-
-    // for (let i = 0; i < this.rutasEnTabla.length; i++) {
-    //   for (let j = i + 1; j < this.rutasEnTabla.length; j++) {
-    //     const distance = LevenshteinDistance(this.rutasEnTabla[i], this.rutasEnTabla[j]);
-    //     console.log(`Distancia entre "${this.rutasEnTabla[i]}" y "${this.rutasEnTabla[j]}": ${distance}`);
-    //   }
-    // }
     
     this.idUsuario = sessionStorage.getItem("id")+""
     const fechaActual = this.obtenerFechaActual();
     this.Nombre_ruta = sessionStorage.getItem("id") + "-"+fechaActual
+
+    console.log(this.Nombre_ruta)
     
     this.service.get_rutas_manual(resultado).subscribe((data) => { 
       this.arrayRuta = data.map(objeto => {
@@ -108,7 +104,8 @@ export class RutaManualComponent {
         return { ...objeto,
              Estado : objeto.Estado === "Entregado" ? true : false,
              Nombre_ruta: this.Nombre_ruta, Created_by: this.idUsuario ,
-             Id_tabla: resultado};
+             Id_tabla: resultado
+            };
       });
 
       console.log(this.arrayRutasIngresados.some((array) => array[0].Codigo_pedido === this.arrayRuta[0].Codigo_pedido))
@@ -215,14 +212,6 @@ export class RutaManualComponent {
         datos.push(fila);
       });
       
-      // fila.push(producto.Codigo_cliente, producto.Nombre, producto.Calle,producto.Ciudad, producto.Provincia,
-      //           producto.Latitud, producto.Longitud, producto.Telefono,producto.Email, producto.Codigo_pedido,
-      //           producto.Fecha_pedido, producto.Operacion, producto.Codigo_producto,producto.Descripcion_producto, producto.Cantidad_producto,
-      //           producto.Peso, producto.Volumen, producto.Dinero, producto.Duracion_min, producto.Ventana_horaria_1,
-      //           producto.Ventana_horaria_2, producto.Notas, producto.Agrupador,producto.Email_remitentes, producto.Eliminar_pedido,
-      //           producto.Vehiculo, producto.Habilidades); 
-    
-      // datos.push(fila);
     });
 
     let date = new Date();
@@ -246,14 +235,25 @@ export class RutaManualComponent {
     this.guardarClicked = false
   }
 
-  agregarRutas() {
+  agregarRutas(dateObj : any) {
     // console.log(this.arrayRutasIngresados)
+
+    if (dateObj === undefined) {
+      console.log("La fecha es",this.fechaPedido)
+    }else {
+      this.fechaPedido = `${dateObj.year}-${dateObj.month.toString().padStart(2, '0')}-${dateObj.day.toString().padStart(2, '0')}`;
+      console.log("La fecha es",this.fechaPedido)
+    }
     
     if (this.arrayRutasIngresados.length === 0){
       return alert("No se han ingresado rutas")
     }
+
+    // this.arrayRutasIngresados.map(array => {
+    //   console.log(array)
+    // })
     // this.guardarClicked = true
-      this.service.insert_rutas_manual(this.arrayRutasIngresados).subscribe((response : any) => {
+      this.service.insert_rutas_manual(this.arrayRutasIngresados, this.fechaPedido).subscribe((response : any) => {
         // console.log(response)
         alert(response.message)
         this.guardarClicked = true
@@ -264,11 +264,6 @@ export class RutaManualComponent {
         // Maneja el error de manera adecuada
       }
       )
-
-    // this.pedidosIngresados = 0
-    // this.arrayRutasIngresados = []
-    // this.idPedido = ""
-    // this.rutasEnTabla = []
 
     this.isBlockButton = false
 

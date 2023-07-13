@@ -6,14 +6,14 @@
     <div class="form-row">
       <div class="col-md-3 mb-3">
         <label for="patente">Patente</label>
-        <input type="text" [maxlength]="6" [minlength]="6" pattern='^[a-zA-Z0-9]+$' placeholder="Patente" class="form-control" id="patente"  formControlName=patente required>
+        <input type="text" [maxlength]="6" [minlength]="6" pattern='^[a-zA-Z0-9]+$' placeholder="Patente" class="form-control" id="patente" [(ngModel)]="patent" formControlName=patente required>
       </div>
       <!-- <div *ngIf=" asignarRutaForm.get('patente')?.errors?.['pattern']">
         Hubo un error al ingresear la patente del vehiculo
       </div> -->
       <div class="col-md-4 mb-3">
         <label for="validationDefault02">Conductor</label>
-        <input type="text" class="form-control" placeholder="Conductor" formControlName="conductor" required>
+        <input type="text" class="form-control" placeholder="Conductor" formControlName="conductor" [(ngModel)]="driver" required>
       </div>
     </div>
     <div class="form-row">
@@ -30,11 +30,14 @@
       </div> -->
       <div class="col-md-3 mb-3">
         <label for="Region">Region</label>
-        <select aria-label="Región" id="Region"  formControlName="region" cSelect>
+        <select aria-label="Región" id="Region" [(ngModel)]="regionInicial" formControlName="region" cSelect>
             <option value="XIII - Metropolitana">XIII - Metropolitana</option>
             <option value="V - Valparaiso">V - Valparaiso</option>
           </select>
       </div>
+      <!-- <div *ngIf=" asignarRutaForm.get('region')?.errors?.['required']">
+        la cantidad minima debe ser 1
+      </div> -->
     </div>
     <button class="btn btn-success" type="submit">Asignar Ruta</button>
   </form>

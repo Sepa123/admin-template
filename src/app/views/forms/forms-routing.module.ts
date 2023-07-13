@@ -63,57 +63,57 @@ const routes: Routes = [
           title: 'Asignar Ruta'
         }
       },
-      {
-        path: 'select',
-        // path: 'ruta-manual',
-        component: SelectComponent,
-        data: {
-          title: 'Select'
-        }
-      },
-      {
-        path: 'checks-radios',
-        // path: 'rutas-activas',
-        component: ChecksRadiosComponent,
-        data: {
-          title: 'Checks & Radios'
-        }
-      },
-      {
-        path: 'range',
-        component: RangesComponent,
-        data: {
-          title: 'Range'
-        }
-      },
-      {
-        path: 'input-group',
-        component: InputGroupsComponent,
-        data: {
-          title: 'Input Group'
-        }
-      },
-      {
-        path: 'floating-labels',
-        component: FloatingLabelsComponent,
-        data: {
-          title: 'Floating Labels'
-        }
-      },
-      {
-        path: 'layout',
-        component: LayoutComponent,
-        data: {
-          title: 'Layout'
-        }
-      },
-      {
-        path: 'validation',
-        component: ValidationComponent,
-        data: {
-          title: 'Validation'
-        }
-      },
+      // {
+      //   path: 'select',
+      //   // path: 'ruta-manual',
+      //   component: SelectComponent,
+      //   data: {
+      //     title: 'Select'
+      //   }
+      // },
+      // {
+      //   path: 'checks-radios',
+      //   // path: 'rutas-activas',
+      //   component: ChecksRadiosComponent,
+      //   data: {
+      //     title: 'Checks & Radios'
+      //   }
+      // },
+      // {
+      //   path: 'range',
+      //   component: RangesComponent,
+      //   data: {
+      //     title: 'Range'
+      //   }
+      // },
+      // {
+      //   path: 'input-group',
+      //   component: InputGroupsComponent,
+      //   data: {
+      //     title: 'Input Group'
+      //   }
+      // },
+      // {
+      //   path: 'floating-labels',
+      //   component: FloatingLabelsComponent,
+      //   data: {
+      //     title: 'Floating Labels'
+      //   }
+      // },
+      // {
+      //   path: 'layout',
+      //   component: LayoutComponent,
+      //   data: {
+      //     title: 'Layout'
+      //   }
+      // },
+      // {
+      //   path: 'validation',
+      //   component: ValidationComponent,
+      //   data: {
+      //     title: 'Validation'
+      //   }
+      // },
       {
         path: 'recepcion-opl',
         component : RecepcionOplComponent,

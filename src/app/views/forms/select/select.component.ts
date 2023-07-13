@@ -251,18 +251,7 @@ export class SelectComponent {
     if (this.arrayRutasIngresados.length === 0){
       return alert("No se han ingresado rutas")
     }
-    // this.guardarClicked = true
-      this.service.insert_rutas_manual(this.arrayRutasIngresados).subscribe((response : any) => {
-        // console.log(response)
-        alert(response.message)
-        this.guardarClicked = true
-      },
-      (error) => {
-        alert(error.error.detail)
-        // console.log(error)
-        // Maneja el error de manera adecuada
-      }
-      )
+
 
     // this.pedidosIngresados = 0
     // this.arrayRutasIngresados = []

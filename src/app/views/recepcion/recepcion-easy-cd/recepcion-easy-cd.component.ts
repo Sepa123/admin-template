@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { RecepcionService } from 'src/app/service/recepcion.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
-import { ProductoPicking } from 'src/app/models/productoPicking.interface';
 import { ProductoOPL } from "src/app/models/productoOPL.interface"
+import { TIService } from "src/app/service/ti.service";
+import { CargasComparacion } from 'src/app/models/cargasComparacion.interface';
 
 import { Subscription } from 'rxjs';
 
@@ -15,6 +16,10 @@ import { Subscription } from 'rxjs';
 export class RecepcionEasyCdComponent {
   public svgContent!: SafeHtml;
 
+  cantVerificados : number = 0
+  cantNoVerificados : number = 0
+  cargaActual : string = "Todas"
+
 
   subRecepcion! : Subscription
 
@@ -22,11 +27,14 @@ export class RecepcionEasyCdComponent {
   productosPorVerificar : ProductoOPL [] = []
   codigoProducto!: string
 
+  cargas! : CargasComparacion []
+
   idPortal!: string 
 
 
 
-  constructor(private service: RecepcionService, private http: HttpClient, private sanitizer: DomSanitizer) { }
+  constructor(private service: RecepcionService, private http: HttpClient, private sanitizer: DomSanitizer,
+              private tiService : TIService) { }
 
   
   obtenerFechaActual(): string {
@@ -38,28 +46,68 @@ export class RecepcionEasyCdComponent {
     return year + month + day;
   }
 
+  subRecepcionEasyCd(){
+    this.subRecepcion = this.service.updateRecepcionEasyCD().subscribe((data) => {
+      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
 
-  ngOnInit() {
-    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
-    
-   this.subRecepcion = this.service.updateRecepcionEasyCD().subscribe((data) => {
       if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
       && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
-        console.log("esta data se repite")
+        // console.log("esta data se repite")
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
         this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
       }      
-      console.log("Cantidad de productos por verificar",this.productosPorVerificar.length)
-      console.log("Cantidad de productos verificados",this.productosVerificados.length)
     })
   }
 
+
+  ngOnInit() {
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+    console.log(this.idPortal)
+    this.subRecepcionEasyCd()
+    
+    this.tiService.get_cargas_easy_api().subscribe((data) => {
+        this.cargas = data
+    })
+  }
+
+
+  filterByCarga(nro_carga : string){
+    // const n = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga).length
+    this.cargaActual = nro_carga
+    this.subRecepcion.unsubscribe();
+    if(nro_carga === "Todas"){
+
+      this.subRecepcionEasyCd()
+
+    } else {
+    this.subRecepcion.unsubscribe();
+    this.subRecepcion =  this.service.updateRecepcionEasyCD().subscribe((data) => {
+      console.log("Este esd del filterByCarga")
+      this.productosPorVerificar = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga)
+      this.productosVerificados = this.productosVerificados.filter(producto => producto.Carga === nro_carga)
+
+      this.cantVerificados = this.productosVerificados.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = this.productosPorVerificar.filter(producto => producto.Pistoleado == false).length
+      
+      if(data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
+        console.log("esta data se repite")
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga)
+      }      
+    })
+   }
+    // alert("cantidad cargas : "+ n)}
+  }
   cambiarTicketByInput(cod_producto: string){
 
     var codigo_producto = cod_producto.replace(/'/g, "-").trim().toUpperCase()
   
     // codigo_producto = codigo_producto.replace(/-(\d+)/, "");
+    // this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     
     const body = {
       "id_usuario" : sessionStorage.getItem('id')+"",
@@ -85,6 +133,8 @@ export class RecepcionEasyCdComponent {
 
   cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
     this.productosPorVerificar[arrayIndex].Pistoleado = true
+
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     
     const body = {
       "id_usuario" : sessionStorage.getItem('id')+"",

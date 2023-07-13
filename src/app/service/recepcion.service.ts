@@ -62,4 +62,8 @@ export class RecepcionService {
   checkElectroluxByPedido(cod_pedido : string) {
     return this.http.get<ProductoOPL[]>(this.apiurl + `/electrolux/${cod_pedido}`)
   }
+
+  checkEasyOPLByPedido(cod_pedido : string) {
+    return this.http.get<ProductoOPL[]>(this.apiurl + `/easy_opl/${cod_pedido}`)
+  }
 }

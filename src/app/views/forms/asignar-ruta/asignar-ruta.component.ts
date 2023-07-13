@@ -15,10 +15,11 @@ export class AsignarRutaComponent {
   nombreRuta! : string 
   id_usuario! : any 
 
-  // patente! : string
-  // conductor! : string
+
+  driver! : string
+  patent! : string
   bultos! : number
-  // region! : string
+  regionInicial! : string
 
   constructor (private service: RutasService, private router: Router, 
                 private nombreRutaService : NombreRutaService, public builder: FormBuilder){
@@ -38,24 +39,36 @@ export class AsignarRutaComponent {
     this.id_usuario = sessionStorage.getItem("id")?.toString()
     this.nombreRuta = this.nombreRutaService.getCodigo() 
     this.bultos = this.nombreRutaService.getBultos()
-    console.log(this.bultos)
-    console.log(this.id_usuario)
-    console.log(this.nombreRuta)
+    this.driver = this.nombreRutaService.getDataDriver().driver
+    this.patent = this.nombreRutaService.getDataDriver().patente
+   
+    // this.asignarRutaForm.patchValue({region: "ccdddd"})
   }
 
   asignarRuta() {
     this.asignarRutaForm.patchValue({ asigned_by: this.id_usuario, nombre_ruta : this.nombreRuta });
-    console.log(this.asignarRutaForm.value)
+    const isUpdate = this.nombreRutaService.getDataDriver().isUpdate
     if(this.asignarRutaForm.valid) {
-      this.service.asignar_ruta_activa(this.asignarRutaForm.value).subscribe((data : any) => {
-        alert(data.message)
-      },
-      ((error) => {
-         alert(error.error.detail)
-      }))
+      if(isUpdate){
+        this.service.update_ruta_asignada(this.asignarRutaForm.value).subscribe((data : any) => {
+          alert(data.message)
+          this.router.navigate(['/picking/rutas-activas']);
+        },
+        ((error) => {
+          alert(error.error.detail)
+        }))
+      }else{
+        this.service.asignar_ruta_activa(this.asignarRutaForm.value).subscribe((data : any) => {
+          alert(data.message)
+          this.router.navigate(['/picking/rutas-activas']);
+        },
+        ((error) => {
+          alert(error.error.detail)
+        }))
+    }
        
     }else {
-      alert( "algo va mal")
+      alert("error")
     }
   }
 

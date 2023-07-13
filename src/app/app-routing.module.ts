@@ -80,11 +80,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/charts/charts.module').then((m) => m.ChartsModule)
       },
-      {
-        path: 'icons',
-        loadChildren: () =>
-          import('./views/icons/icons.module').then((m) => m.IconsModule)
-      },
+      // {
+      //   path: 'icons',
+      //   loadChildren: () =>
+      //     import('./views/icons/icons.module').then((m) => m.IconsModule)
+      // },
       // {
       //   path: 'notifications',
       //   loadChildren: () =>
@@ -119,6 +119,15 @@ const routes: Routes = [
         canActivate: [PermissionGuard],
         loadChildren: () =>
           import('./views/panel/panel.module').then((m) => m.PanelModule )
+      },
+      {
+        path : 'informacion',
+        data : {
+          roles : ROLES_PERMITIDOS.INFORMACION
+        },
+        canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/informacion/informacion.module').then((m) => m.InformacionModule )
       }
     ],
     canActivate: [UserGuard]

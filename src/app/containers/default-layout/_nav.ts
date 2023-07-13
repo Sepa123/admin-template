@@ -339,6 +339,22 @@ export const navItems: INavDataBar[] = [
         url: '/panel/registro-usuario'
       },
     ]
+  },
+  {
+    name: 'Informacion',
+    url: '/informacion',
+    iconComponent : {name : 'cil-magnifying-glass'},
+    roles : ROLES_PERMITIDOS.INFORMACION,
+    children: [
+      {
+        name: "Estado",
+        url : '/informacion/estado'
+      },
+      {
+        name: "Buscar SKU",
+        url : '/informacion/buscar-sku'
+      }
+    ]
   }
 ];
 
