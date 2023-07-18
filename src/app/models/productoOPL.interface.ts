@@ -11,4 +11,5 @@ export interface ProductoOPL {
     SKU:                  string;
     Pistoleado:           boolean;
     Carga? :              string;
+    Recepcion?:           boolean;
 }

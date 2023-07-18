@@ -9,6 +9,8 @@ import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
 import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
 import * as XLSX from 'xlsx';
 
+
+
 @Component({
   selector: 'app-rutas-activas',
   templateUrl: './rutas-activas.component.html',
@@ -22,6 +24,8 @@ export class RutasActivasComponent {
   isClicked : boolean = false
   isActive: boolean = false
   isRuta: boolean = false
+
+  idRuta! : number
   rutaEnActivo! : RutaEnActivo []
   nombresRutas!: NombresRutasActivas []
   nombreRuta!: NombresRutasActivas []
@@ -40,6 +44,8 @@ export class RutasActivasComponent {
 
   }
 
+
+ public rol = sessionStorage.getItem("rol_id") 
   asignarRuta() {
     const codigo = this.nombreRutaActual;
     this.nombreRutaService.setCodigo(codigo);
@@ -125,19 +131,20 @@ export class RutasActivasComponent {
       this.isClicked = true
       this.isActive = true
       estado_ruta == false ? this.isActive = false : this.isActive = true
-
+      
       this.driverRuta = ""
       this.patenteRuta = ""
 
       this.service.get_patente_driver_by_nombre_ruta(this.nombreRutaActual).subscribe((data : any) => {
-        console.log(data)
-        this.patenteRuta = data.Patente
-        this.driverRuta = data.Driver
-        this.isDriver = true
-
-        console.log(this.driverRuta)
-        console.log(this.patenteRuta)
         
+        if(!data.OK){
+          this.isDriver = false
+        }else {
+          this.patenteRuta = data.Patente
+          this.driverRuta = data.Driver
+          this.idRuta = data.Id_ruta
+          this.isDriver = true
+        } 
       })
     },
     ((error) => {
@@ -149,52 +156,11 @@ export class RutasActivasComponent {
   downloadExcel(nombre_ruta : string) {
     this.service.download_ruta_activa(nombre_ruta)
   }
-  // downloadExcel(nombre_ruta: string): void {
-  //   const datos: any[][] = [[]];
-  
-  //   datos.push([
-  //     "Posición", "Pedido", "Comuna", "SKU", "Producto", "UND", "Bultos", "Nombre",
-  //     "Direccion Cliente", "Teléfono", "Validado", "DE", "DP"
-  //   ]);
-  
-  //   this.rutaEnActivo.forEach((ruta) => {
-  //     const fila: any[] = [];
-  
-  //     if (ruta.arrayProductos.length === 1) {
-  //       fila.push(
-  //         ruta.Pos, ruta.Codigo_pedido, ruta.Comuna, ruta.SKU, ruta.Producto,
-  //         ruta.Unidades, ruta.Bultos, ruta.Nombre_cliente, ruta.Direccion_cliente, ruta.Telefono
-  //       );
-  //       datos.push(fila);
-  //     } else if (ruta.arrayProductos.length > 1) {
-  //       ruta.arrayProductos.forEach((producto, i) => {
-  //         if (i === 0) {
-  //           fila.push(
-  //             ruta.Pos, ruta.Codigo_pedido, ruta.Comuna, ruta.arraySKU[i], producto,
-  //             ruta.Unidades, ruta.Bultos, ruta.Nombre_cliente, ruta.Direccion_cliente, ruta.Telefono
-  //           );
-  //           datos.push(fila);
-  //         } else {
-  //           const filaProducto: any[] = [
-  //             "", "", "", ruta.arraySKU[i], producto,
-  //             "", "", "", "", ""
-  //           ];
-  //           datos.push(filaProducto);
-  //         }
-  //       });
-  //     }
-  //   });
-  
-  //   const date = new Date();
-  //   const fechaActual = date.toISOString().split('T')[0];
-  
-  //   const libroExcel: XLSX.WorkBook = XLSX.utils.book_new();
-  //   const hoja: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(datos);
-  //   XLSX.utils.book_append_sheet(libroExcel, hoja, 'Hoja1');
-  
-  //   const nombreArchivo = `${nombre_ruta}.xlsx`;
-  //   XLSX.writeFile(libroExcel, nombreArchivo);
-  // }
-  
+
+
+  downloadExcelBeetrack(){
+    this.service.descargar_datos_beetrack_by_id(this.idRuta, this.nombreRutaActual)
+  }
+
 
 }

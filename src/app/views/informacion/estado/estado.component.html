@@ -82,30 +82,32 @@
       <div>
         <div class="col-md-6 mx-auto">
           <h3>Estado Productos por Cliente</h3>
-            <table class="greenTable">
-              <thead>
-                <tr >
-                  <th scope="col">Hora Ingreso</th>
-                  <th scope="col">Cliente</th>
-                  <th scope="col">N° carga</th>
-                  <th scope="col">Entrega</th>
-                  <th scope="col">Bultos</th>
-                  <th scope="col">Verificados</th>
-                  <th scope="col">Sin Verificar</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let carga of cargaHora">
-                  <th scope="row">{{ carga.Hora}}</th>
-                  <td>{{ carga.Cliente }}</td>
-                  <td>{{ carga.Nro_carga }}</td>
-                  <td>{{ carga.Entregas }}</td>
-                  <td>{{ carga.Bultos }}</td>
-                  <td>{{ carga.Verificados }}</td>
-                  <td>{{ carga.No_verificados }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <table class="greenTable">
+            <thead>
+              <tr >
+                <th scope="co">Fecha</th>
+                <th scope="col">Hora Ingreso</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">N° carga</th>
+                <th scope="col">Entrega</th>
+                <th scope="col">Bultos</th>
+                <th scope="col">Verificados</th>
+                <th scope="col">Sin Verificar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let carga of cargaHora">
+                <td>{{ carga.Fecha }}</td>
+                <th scope="row">{{ carga.Hora}}</th>
+                <td>{{ carga.Cliente }}</td>
+                <td>{{ carga.Nro_carga }}</td>
+                <td>{{ carga.Entregas }}</td>
+                <td>{{ carga.Bultos }}</td>
+                <td>{{ carga.Verificados }}</td>
+                <td>{{ carga.No_verificados }}</td>
+              </tr>
+            </tbody>
+          </table>
   
             <table class="greenTable" > 
               <tr>

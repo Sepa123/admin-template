@@ -128,6 +128,15 @@ const routes: Routes = [
         canActivate :[PermissionGuard],
         loadChildren: () =>
           import('./views/informacion/informacion.module').then((m) => m.InformacionModule )
+      },
+      {
+        path : 'ingreso-cliente',
+        data : {
+          roles : ROLES_PERMITIDOS.INGRESO_CLIENTE
+        },
+        canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/ingreso-cliente/ingreso-cliente.module').then((m) => m.IngresoClienteModule )
       }
     ],
     canActivate: [UserGuard]

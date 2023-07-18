@@ -1,4 +1,5 @@
 export interface NroCargasPorHora{
+    Fecha:          string;
     Hora:           string;
     Cliente:        string;
     Nro_carga:      string;

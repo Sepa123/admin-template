@@ -78,4 +78,19 @@ export class RutasService {
   update_ruta_asignada(body : any){
     return this.http.put(this.apiurl + "/actualizar/ruta_asignada", body)
   }
+
+  //Descargar Beetrack
+
+  descargar_datos_beetrack_by_id(id_ruta : number,nombre_ruta: string){
+
+    this.http.get(this.apiurl + `/beetrack/${id_ruta}/descargar`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `beetrack-${nombre_ruta}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
 }

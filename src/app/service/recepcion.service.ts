@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; 
+import { HttpClient } from '@angular/common/http';
 import { interval,Observable, switchMap  } from 'rxjs';
 
 // Modelos
@@ -14,8 +14,8 @@ export class RecepcionService {
   constructor(private http : HttpClient) { }
 
   apiurl="https://hela.transyanez.cl/api/recepcion"
-  // apiurl = "http://127.0.0.1:8000/api/recepcion"
-  
+  // apiurl = "http://127.0.0.1:8000/api/recepcion" 
+
   getRecepcionEasyOPL(){
     return this.http.get<ProductoOPL[]>(this.apiurl + "/easy_opl")
   }
@@ -33,22 +33,22 @@ export class RecepcionService {
   }
 
 
-  //Update cada 1-2 segundoosss
+  //Update cada 15 segundos o 2 minutos
 
   updateRecepcionEasyOPL() {
-    return interval(1300).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/easy_opl")))
+    return interval(12000).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/easy_opl")))
   }
 
   updateRecepcionEasyCD() {
-    return interval(1300).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/easy_cd")))
+    return interval(10000).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/easy_cd")))
   }
 
   updateRecepcionSportex() {
-    return interval(1300).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/sportex")))
+    return interval(10000).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/sportex")))
   }
 
   updateRecepcionElectrolux() {
-    return interval(1300).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/electrolux")))
+    return interval(10000).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/electrolux")))
   }
 
   updateVerified(body: any) {
@@ -65,5 +65,9 @@ export class RecepcionService {
 
   checkEasyOPLByPedido(cod_pedido : string) {
     return this.http.get<ProductoOPL[]>(this.apiurl + `/easy_opl/${cod_pedido}`)
+  }
+
+  updateFieldRecepcionEasyCD(body: any){
+    return this.http.put(this.apiurl + "/easy_cd/actualizar", body)
   }
 }

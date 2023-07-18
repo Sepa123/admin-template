@@ -8,17 +8,21 @@ table.greenTable {
     border: 0px solid #AAAAAA;
     padding: 3px 2px;
   }
-  table.greenTable tbody td {
-    font-size: 17px;
+  table.greenTable tbody {
+    white-space: nowrap;
+    font-size: 14px;
   }
+
   table.greenTable tr:nth-child(even) {
     background: #FFFEF3;
   }
   table.greenTable thead {
+    white-space: nowrap;
     background: #28A745;
   }
   table.greenTable thead th {
-    font-size: 17px;
+    
+    font-size: 12px;
     font-weight: bold;
     color: #FFFFFF;
     text-align: center;

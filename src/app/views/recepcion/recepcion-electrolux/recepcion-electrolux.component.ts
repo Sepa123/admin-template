@@ -66,9 +66,22 @@ export class RecepcionElectroluxComponent {
     return year + month + day;
   }
 
+  initRecepcionElectrolux(){
+      this.service.getRecepcionElectrolux().subscribe((data) => {
 
-  ngOnInit() {
-    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length 
+      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length 
+
+      if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
+      }      
+    })
+  }
+
+  subRecepcionElectrolux(){
     this.subRecepcion = this.service.updateRecepcionElectrolux().subscribe((data) => {
 
       this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length 
@@ -81,6 +94,16 @@ export class RecepcionElectroluxComponent {
         this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
       }      
     })
+  }
+
+
+  ngOnInit() {
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+    
+    this.initRecepcionElectrolux()
+    this.subRecepcionElectrolux()
+
+    
   }
 
   cambiarTicketByInput(cod_producto: string){
@@ -112,6 +135,7 @@ export class RecepcionElectroluxComponent {
       this.service.updateVerifiedByInput(url,body).subscribe((data : any) => {
         // alert(data.message)
         this.codigoProducto = ""
+        this.initRecepcionElectrolux()
       },(error) => {
         alert(error.error.detail)
       }
@@ -157,7 +181,9 @@ export class RecepcionElectroluxComponent {
 
     this.service.updateVerified(body).subscribe((data : any) => {
       // alert(data.message)
+      
       this.codigoProducto = ""
+      this.initRecepcionElectrolux()
     })
   }
 }

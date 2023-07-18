@@ -9,15 +9,15 @@ import { CargasComparacion } from 'src/app/models/cargasComparacion.interface';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-recepcion-easy-cd',
-  templateUrl: './recepcion-easy-cd.component.html',
-  styleUrls: ['../styles/recepcion.component.scss']
+  selector: 'app-easy-cd',
+  templateUrl: './easy-cd.component.html',
+  styleUrls: ['./easy-cd.component.scss']
 })
-export class RecepcionEasyCdComponent {
+export class EasyCdComponent {
   public svgContent!: SafeHtml;
 
-  cantRecepcionados : number = 0
-  cantNoRecepcionados : number = 0
+  cantVerificados : number = 0
+  cantNoVerificados : number = 0
   cargaActual : string = "Todas"
 
 
@@ -48,30 +48,30 @@ export class RecepcionEasyCdComponent {
 
   subRecepcionEasyCd(){
     this.subRecepcion = this.service.updateRecepcionEasyCD().subscribe((data) => {
-      this.cantRecepcionados = data.filter(producto => producto.Recepcion == true ).length
-      this.cantNoRecepcionados = data.filter(producto => producto.Recepcion == false ).length
+      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
 
-      if(data.filter(producto => producto.Recepcion == false).length === this.productosPorVerificar.length
-      && data.filter(producto => producto.Recepcion == true).length === this.productosVerificados.length){
+      if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
         // console.log("esta data se repite")
       }else{
-        this.productosPorVerificar = data.filter(producto => producto.Recepcion == false)
-        this.productosVerificados = data.filter(producto => producto.Recepcion == true)
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
       }      
     })
   }
 
   initRecepionEasyCD(){
     this.service.getRecepcionEasyCD().subscribe((data) => {
-      this.cantRecepcionados = data.filter(producto => producto.Recepcion == true).length
-      this.cantNoRecepcionados = data.filter(producto => producto.Recepcion == false).length
+      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
 
-      if(data.filter(producto => producto.Recepcion == false).length === this.productosPorVerificar.length
-      && data.filter(producto => producto.Recepcion == true).length === this.productosVerificados.length){
+      if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
         // console.log("esta data se repite")
       }else{
-        this.productosPorVerificar = data.filter(producto => producto.Recepcion == false)
-        this.productosVerificados = data.filter(producto => producto.Recepcion == true)
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
       }      
     })
   }
@@ -91,6 +91,7 @@ export class RecepcionEasyCdComponent {
 
 
   filterByCarga(nro_carga : string){
+    
     // const n = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga).length
     this.cargaActual = nro_carga
     this.subRecepcion.unsubscribe();
@@ -106,35 +107,35 @@ export class RecepcionEasyCdComponent {
       this.productosPorVerificar = data.filter(producto => producto.Carga === nro_carga)
       this.productosVerificados = data.filter(producto => producto.Carga === nro_carga)
       
-      this.cantRecepcionados = this.productosVerificados.filter(producto => producto.Recepcion == true).length
-      this.cantNoRecepcionados = this.productosPorVerificar.filter(producto => producto.Recepcion == false).length
+      this.cantVerificados = this.productosVerificados.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = this.productosPorVerificar.filter(producto => producto.Pistoleado == false).length
       
 
-      console.log(this.cantRecepcionados)
-      console.log(this.cantNoRecepcionados)
-      if(data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
-      && data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
+      console.log(this.cantVerificados)
+      console.log(this.cantNoVerificados)
+      if(data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
         console.log("esta data se repite")
       }else{
-        this.productosPorVerificar = data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga)
-        this.productosVerificados = data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga)
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga)
       }      
     })
 
     this.subRecepcion =  this.service.updateRecepcionEasyCD().subscribe((data) => {
-      console.log("Este esd del filterByCarga")
+      console.log("Este esd del filterByCarga update")
       this.productosPorVerificar = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga)
       this.productosVerificados = this.productosVerificados.filter(producto => producto.Carga === nro_carga)
 
-      this.cantRecepcionados = this.productosVerificados.filter(producto => producto.Recepcion == true).length
-      this.cantNoRecepcionados = this.productosPorVerificar.filter(producto => producto.Recepcion == false).length
+      this.cantVerificados = this.productosVerificados.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = this.productosPorVerificar.filter(producto => producto.Pistoleado == false).length
       
-      if(data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
-      && data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
+      if(data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
         console.log("esta data se repite")
       }else{
-        this.productosPorVerificar = data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga)
-        this.productosVerificados = data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga)
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga)
       }      
     })
    }
@@ -159,7 +160,7 @@ export class RecepcionEasyCdComponent {
 
     const url = `/easy_cd`
 
-    this.service.updateFieldRecepcionEasyCD(body).subscribe((data : any) => {
+    this.service.updateVerifiedByInput(url,body).subscribe((data : any) => {
       // alert(data.message)
       this.codigoProducto = ""
       this.initRecepionEasyCD()
@@ -171,7 +172,7 @@ export class RecepcionEasyCdComponent {
 
 
   cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
-    this.productosPorVerificar[arrayIndex].Recepcion = true
+    this.productosPorVerificar[arrayIndex].Pistoleado = true
 
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     
@@ -185,14 +186,11 @@ export class RecepcionEasyCdComponent {
       // "cod_sku" : sku
     }
 
-    this.service.updateFieldRecepcionEasyCD(body).subscribe((data : any) => {
+    this.service.updateVerified(body).subscribe((data : any) => {
       // alert(data.message)
       this.codigoProducto = ""
       this.initRecepionEasyCD()
-    },(error) => {
-      alert(error.error.detail)
-    }
-    )
+    })
   }
 
 
@@ -201,3 +199,4 @@ export class RecepcionEasyCdComponent {
   this.subRecepcion.unsubscribe();
 }
 }
+

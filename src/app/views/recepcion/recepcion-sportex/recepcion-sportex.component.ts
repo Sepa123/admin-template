@@ -38,9 +38,25 @@ export class RecepcionSportexComponent {
     return year + month + day;
   }
 
+  initRecepcionSportex(){
+      this.service.getRecepcionSportex().subscribe((data) => {
 
-  ngOnInit() {
-    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
+
+      if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
+        console.log("esta data se repite")
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
+      }      
+      console.log("Cantidad de productos por verificar",this.productosPorVerificar.length)
+      console.log("Cantidad de productos verificados",this.productosVerificados.length)
+    })
+  }
+
+  subRecepcionSportex(){
     this.subRecepcion = this.service.updateRecepcionSportex().subscribe((data) => {
 
       this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
@@ -56,6 +72,13 @@ export class RecepcionSportexComponent {
       console.log("Cantidad de productos por verificar",this.productosPorVerificar.length)
       console.log("Cantidad de productos verificados",this.productosVerificados.length)
     })
+  }
+
+
+  ngOnInit() {
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+    this.initRecepcionSportex()
+    this.subRecepcionSportex()
   }
 
   cambiarTicketByInput(cod_producto: string){
@@ -80,6 +103,7 @@ export class RecepcionSportexComponent {
 
     this.service.updateVerifiedByInput(url,body).subscribe((data : any) => {
       // alert(data.message)
+      this.initRecepcionSportex()
       this.codigoProducto = ""
     },(error) => {
       alert(error.error.detail)
@@ -101,6 +125,7 @@ export class RecepcionSportexComponent {
 
     this.service.updateVerified(body).subscribe((data : any) => {
       // alert(data.message)
+      this.initRecepcionSportex()
       this.codigoProducto = ""
     })
   }

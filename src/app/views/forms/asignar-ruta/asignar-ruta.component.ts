@@ -19,7 +19,7 @@ export class AsignarRutaComponent {
   driver! : string
   patent! : string
   bultos! : number
-  regionInicial! : string
+  regionInicial : string ="XIII - Metropolitana"
 
   constructor (private service: RutasService, private router: Router, 
                 private nombreRutaService : NombreRutaService, public builder: FormBuilder){
@@ -68,7 +68,7 @@ export class AsignarRutaComponent {
     }
        
     }else {
-      alert("error")
+      alert("Error, formulario invalido")
     }
   }
 

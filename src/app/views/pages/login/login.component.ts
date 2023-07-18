@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from "src/app/service/auth.service"
 import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RolSaveService } from 'src/app/service/rol-save.service'
 import { Router } from '@angular/router';
 import { ACCESO_ROL } from 'src/app/rolesPermitidos.const';
 // import { CookieService } from "ngx-cookie-service"
@@ -11,7 +12,8 @@ import { ACCESO_ROL } from 'src/app/rolesPermitidos.const';
 })
 export class LoginComponent {
 
-  constructor(private service: AuthService, public builder: FormBuilder, private router: Router) { }
+  constructor(private service: AuthService, public builder: FormBuilder, private router: Router,
+              private rolService : RolSaveService) { }
 
   userdata: any
   resultado!: string;
@@ -26,6 +28,8 @@ export class LoginComponent {
     if(this.loginform.valid) {
       this.service.GetUserbyusername(this.loginform.value).subscribe(res => {
         this.userdata = res;
+
+        this.rolService.setRol(this.userdata.rol_id)
         sessionStorage.setItem('access_token',this.userdata.access_token);
         sessionStorage.setItem('rol_id', this.userdata.rol_id)
         sessionStorage.setItem('server', this.userdata.server )

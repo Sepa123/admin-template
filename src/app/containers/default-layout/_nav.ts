@@ -305,6 +305,38 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
+    name: 'Informacion',
+    url: '/informacion',
+    iconComponent : {name : 'cil-magnifying-glass'},
+    roles : ROLES_PERMITIDOS.INFORMACION,
+    children: [
+      {
+        name: "Estado",
+        url : '/informacion/estado'
+      },
+      {
+        name: "Buscar SKU",
+        url : '/informacion/buscar-sku'
+      },
+      {
+        name: "Tracking Producto",
+        url : '/informacion/tracking-producto'
+      }
+    ]
+  },
+  {
+    name: 'Ingreso cliente',
+    url: '/ingreso-cliente',
+    iconComponent : {name : 'cil-magnifying-glass'},
+    roles : ROLES_PERMITIDOS.INGRESO_CLIENTE,
+    children: [
+      {
+        name: "Easy CD",
+        url : '/ingreso-cliente/easy-cd'
+      }
+    ]
+  },
+  {
     name: 'Recepción',
     url : '/recepcion',
     iconComponent: { name: 'cil-tags' },
@@ -338,22 +370,6 @@ export const navItems: INavDataBar[] = [
         name: 'Registro usuarios',
         url: '/panel/registro-usuario'
       },
-    ]
-  },
-  {
-    name: 'Informacion',
-    url: '/informacion',
-    iconComponent : {name : 'cil-magnifying-glass'},
-    roles : ROLES_PERMITIDOS.INFORMACION,
-    children: [
-      {
-        name: "Estado",
-        url : '/informacion/estado'
-      },
-      {
-        name: "Buscar SKU",
-        url : '/informacion/buscar-sku'
-      }
     ]
   }
 ];

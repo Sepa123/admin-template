@@ -23,12 +23,14 @@ import {
 import { InformacionRoutingModule } from './informacion-routing.module';
 import { EstadoComponent } from './estado/estado.component';
 import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
+import { TrackingProductoComponent } from './tracking-producto/tracking-producto.component';
 
 
 @NgModule({
   declarations: [
     EstadoComponent,
     BuscarSkuComponent,
+    TrackingProductoComponent,
     
   ],
   imports: [

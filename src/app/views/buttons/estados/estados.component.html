@@ -85,6 +85,7 @@
             <table class="greenTable">
               <thead>
                 <tr >
+                  <th scope="co">Fecha</th>
                   <th scope="col">Hora Ingreso</th>
                   <th scope="col">Cliente</th>
                   <th scope="col">N° carga</th>
@@ -96,6 +97,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let carga of cargaHora">
+                  <td>{{ carga.Fecha }}</td>
                   <th scope="row">{{ carga.Hora}}</th>
                   <td>{{ carga.Cliente }}</td>
                   <td>{{ carga.Nro_carga }}</td>

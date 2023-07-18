@@ -26,6 +26,8 @@ export class RecepcionEasyOplComponent {
   codigoProducto!: string
   codProductoModal! : string
 
+  ArrCodScanner : string [] = []
+
   isModalOpen: boolean = false
 
   idPortal!: string
@@ -53,13 +55,7 @@ export class RecepcionEasyOplComponent {
     this.isModalOpen = false
   }
 
-
-
-  constructor(private service: RecepcionService, private http: HttpClient, private sanitizer: DomSanitizer) { }
-
-  ngOnInit() {
-    
-    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+  subRecepcionEasyOPL(){
     this.subRecepcion = this.service.updateRecepcionEasyOPL().subscribe((data) => {
 
       this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
@@ -77,9 +73,43 @@ export class RecepcionEasyOplComponent {
     })
   }
 
+  initRecepcionEasyOPL(){
+      this.service.getRecepcionEasyOPL().subscribe((data) => {
+
+      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
+      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
+
+      if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
+
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
+      }      
+      // console.log("Cantidad de productos por verificar",this.productosPorVerificar.length)
+      // console.log("Cantidad de productos verificados",this.productosVerificados.length)
+    })
+  }
+
+  constructor(private service: RecepcionService, private http: HttpClient, private sanitizer: DomSanitizer) { }
+
+  ngOnInit() {
+    
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+    this.initRecepcionEasyOPL()
+    this.subRecepcionEasyOPL()
+  }
+
 
   cambiarTicketByInput(cod_producto: string){
-    console.log(cod_producto)
+    this.ArrCodScanner.push(cod_producto)
+    if (this.ArrCodScanner.length === 9 ){
+      console.log(this.ArrCodScanner)
+
+
+      this.ArrCodScanner = []
+    } 
+        
     const patronNum = /^\d{10}$/
     const num_pedido = cod_producto
 
@@ -89,7 +119,7 @@ export class RecepcionEasyOplComponent {
       cod_producto = `SUBORDEN N ${num_pedido}`
     }
 
-    console.log(cod_producto)
+    // console.log(cod_producto)
     
     var codigo_producto = cod_producto.replace(/'/g, "-").trim().toUpperCase()
     codigo_producto = codigo_producto.replace(/-(\d+)/, "");
@@ -99,10 +129,10 @@ export class RecepcionEasyOplComponent {
 
     if (match) {
       const suborden = match[1];
-      console.log(suborden);
+      // console.log(suborden);
     
 
-    console.log("esto envio",codigo_producto)
+    // console.log("esto envio",codigo_producto)
 
     this.service.checkEasyOPLByPedido(codigo_producto).subscribe((data) => {
       this.productosPorVerificarByCP = data
@@ -133,6 +163,7 @@ export class RecepcionEasyOplComponent {
           
           this.service.updateVerifiedByInput(url,body).subscribe((data : any) => {
             // alert(data.message)
+            this.initRecepcionEasyOPL()
             this.codigoProducto = ""
           },(error) => {
             alert(error.error.detail)
@@ -179,6 +210,7 @@ export class RecepcionEasyOplComponent {
 
     this.service.updateVerified(body).subscribe((data : any) => {
       // alert(data.message)
+      this.initRecepcionEasyOPL()
       this.codigoProducto = ""
     })
   }
