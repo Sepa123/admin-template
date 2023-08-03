@@ -1,10 +1,11 @@
 <app-widgets-dropdown></app-widgets-dropdown>
 
+<div>
 <c-card class="mb-4">
   <c-card-body>
     <c-row>
       <c-col sm="5">
-        <h5 class="card-title mb-0" id="traffic">Ingreso productos por clientes</h5>
+        <h5 class="mb-0" id="traffic">Ingreso productos por clientes</h5>
         <div class="small text-medium-emphasis">{{mesActual}} </div>
       </c-col>
       <c-col class="d-none d-md-block" sm="7">
@@ -186,69 +187,7 @@
       Main chart
     </c-chart>
   </c-card-body>
-  <!-- <c-card-footer>
-    <c-row class="text-center" [md]="5" [xs]="1">
-      <c-col class="mb-sm-2 mb-0">
-        <div class="text-medium-emphasis">Visits</div>
-        <strong>29.703 Users (40%)</strong>
-        <c-progress class="mt-2" thin>
-          <c-progress-bar color="success" value="40"></c-progress-bar>
-        </c-progress>
-      </c-col>
-      <c-col class="mb-sm-2 mb-0">
-        <div class="text-medium-emphasis">Unique</div>
-        <strong>24.093 Users (20%)</strong>
-        <c-progress class="mt-2" thin>
-          <c-progress-bar color="info" value="20"></c-progress-bar>
-        </c-progress>
-      </c-col>
-      <c-col class="mb-sm-2 mb-0">
-        <div class="text-medium-emphasis">Page views</div>
-        <strong>78.706 Views (60%)</strong>
-        <c-progress class="mt-2" thin>
-          <c-progress-bar color="warning" value="60"></c-progress-bar>
-        </c-progress>
-      </c-col>
-      <c-col class="mb-sm-2 mb-0">
-        <div class="text-medium-emphasis">New Users</div>
-        <strong>22.123 Users (80%)</strong>
-        <c-progress class="mt-2" thin>
-          <c-progress-bar color="danger" value="80"></c-progress-bar>
-        </c-progress>
-      </c-col>
-      <c-col class="mb-sm-2 mb-0">
-        <div class="text-medium-emphasis">Bounce Rate</div>
-        <strong>Average Rate (40.15%)</strong>
-        <c-progress class="mt-2" thin>
-          <c-progress-bar value="40"></c-progress-bar>
-        </c-progress>
-      </c-col>
-    </c-row>
-  </c-card-footer> -->
 </c-card>
-<!-- <div class="col-md-6 mx-auto">
-  <h3> Pedidos por dia</h3>
-    <table class="table">
-      <tbody>
-        <tr>
-          <td>Día</td>
-          <td>Fecha</td>
-          <td>Electrolux</td>
-          <td>Sportex</td>
-          <td>Easy</td>
-          <td>Tiendas</td>
-        </tr>
-        <tr *ngFor="let reporte of reportesHistoricos">
-          <td>{{reporte.Dia}}</td>
-          <td>{{reporte.Fecha}}</td>
-          <td>{{reporte.Electrolux}}</td>
-          <td>{{reporte.Sportex}}</td>
-          <td>{{reporte.Easy}}</td>
-          <td>{{reporte.Tiendas}}</td>
-        </tr>
-      </tbody>
-    </table>
-</div> -->
 
 <table class="greenTable">
   <thead>
@@ -270,7 +209,6 @@
       <td [ngClass]="{'success': reporte.Sportex > 0,'warning': reporte.Sportex > ordenCompraHoy[i] * 0.7,'danger': reporte.Sportex > ordenCompraHoy[i] * 0.85 }">{{reporte.Sportex}}</td>
       <td [ngClass]="{'success': reporte.Easy > 0, 'warning': reporte.Easy > ordenCompraHoy[i] * 0.7, 'danger': reporte.Easy > ordenCompraHoy[i] * 0.85 }">{{reporte.Easy}}</td>
       <td [ngClass]="{'success': reporte.Easy_OPL > 0, 'warning': reporte.Easy_OPL > ordenCompraHoy[i] * 0.7, 'danger': reporte.Easy_OPL > ordenCompraHoy[i] * 0.85}">{{reporte.Easy_OPL}}</td>
-      <!-- <td> {{ordenCompra[i] }}</td> -->
     </tr>
     <tr *ngFor="let reportes of reportesHistoricos; let i = index ">
       <td>{{reportes.Dia}}</td>
@@ -279,15 +217,10 @@
       <td [ngClass]="{'success': reportes.Sportex > 0,'warning': reportes.Sportex > ordenCompra[i+1] * 0.7,'danger': reportes.Sportex > ordenCompra[i+1] * 0.85 }">{{reportes.Sportex}}</td>
       <td [ngClass]="{'success': reportes.Easy > 0, 'warning': reportes.Easy > ordenCompra[i+1] * 0.7, 'danger': reportes.Easy > ordenCompra[i+1] * 0.85}">{{reportes.Easy}}</td>
       <td [ngClass]="{'success': reportes.Easy_OPL > 0, 'warning': reportes.Easy_OPL > ordenCompra[i+1] * 0.7, 'danger': reportes.Easy_OPL > ordenCompra[i+1] * 0.85}">{{reportes.Easy_OPL}}</td>
-      <!-- <td> {{ordenCompra[i +1] }}</td> -->
+    </tr>
+    <tr>
+      <td  *ngIf="isLoadingTable " colspan="6"><img src="../../../assets/images/loading-gif.gif" /></td>
     </tr>
   </tbody>
   </table>
-  
-  <table class="greenTable" > 
-    <tr>
-       <div *ngIf="isLoadingTable ">
-         <img src="../../../assets/images/loading-gif.gif" />
-     </div>
-    </tr> 
-   </table>
+  </div>

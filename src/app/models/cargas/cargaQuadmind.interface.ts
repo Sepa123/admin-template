@@ -1,0 +1,31 @@
+export interface CargaQuadmind {
+    Codigo_cliente:       string;
+    Nombre:               string;
+    Calle:                string;
+    Ciudad:               string;
+    Provincia:            string;
+    Latitud:              string;
+    Longitud:             string;
+    Telefono:             string;
+    Email:                string;
+    Codigo_pedido:        string;
+    Fecha_pedido:         Date;
+    Operacion:            string;
+    Codigo_producto:      string;
+    Descripcion_producto: string;
+    Cantidad_producto:    number;
+    Peso:                 number;
+    Volumen:              number;
+    Dinero:               number;
+    Duracion_min:         string;
+    Ventana_horaria_1:    string;
+    Ventana_horaria_2:    string;
+    Notas:                string;
+    Agrupador:            string;
+    Email_remitentes:     string;
+    Eliminar_pedido:      string;
+    Vehiculo:             string;
+    Habilidades:          string;
+    arrayCodigo?:         string[];
+    arrayDescripcion?:    string[];
+}

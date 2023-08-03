@@ -40,5 +40,6 @@ export interface ProductoPicking {
     Created_by?:          string;
     Id_tabla?:            string;
     Fecha_ruta?:          string;
+    Posicion:            number;
 }
 

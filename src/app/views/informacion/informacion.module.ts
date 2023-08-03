@@ -14,16 +14,19 @@ import {
   DropdownModule,
   FormModule,
   GridModule,
+  ListGroupModule,
   NavbarModule,
   NavModule,
   SharedModule,
   UtilitiesModule
 } from '@coreui/angular';
 
+
 import { InformacionRoutingModule } from './informacion-routing.module';
 import { EstadoComponent } from './estado/estado.component';
 import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { TrackingProductoComponent } from './tracking-producto/tracking-producto.component';
+import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.component';
 
 
 @NgModule({
@@ -31,12 +34,13 @@ import { TrackingProductoComponent } from './tracking-producto/tracking-producto
     EstadoComponent,
     BuscarSkuComponent,
     TrackingProductoComponent,
+    IngresoProductoComponent,
     
   ],
   imports: [
     CommonModule,
     NgSelectModule,FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule,ListGroupModule,
     InformacionRoutingModule,
     ButtonGroupModule,
     TableModule,

@@ -5,13 +5,16 @@ import { HttpClient } from '@angular/common/http';
 import { ProductoPicking } from 'src/app/models/productoPicking.interface';
 import * as XLSX from 'xlsx';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import * as levenshtein from 'fastest-levenshtein';
+
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
+// import * as levenshtein from 'fastest-levenshtein';
 
 @Component({
   selector: 'app-ruta-manual',
   templateUrl: './ruta-manual.component.html',
   styleUrls: ['./ruta-manual.component.scss']
 })
+
 export class RutaManualComponent {
   isBlockButton: boolean = false
   pedidosIngresados : number = 0
@@ -20,12 +23,12 @@ export class RutaManualComponent {
   Nombre_ruta! : string 
   idUsuario!: string
   idPedido! : string
-
+  idPortal! : string
   arrayRuta! : ProductoPicking []
   arrayRutasIngresados : ProductoPicking[] [] = []
   rutasEnTabla : string [] = []
 
-
+  posicion : number = 0
   fechaPedido!: string
   model! : NgbDateStruct
 
@@ -41,6 +44,10 @@ export class RutaManualComponent {
     const day = fecha.getDate().toString().padStart(2, '0');
   
     return year + month + day;
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.arrayRutasIngresados, event.previousIndex, event.currentIndex);
   }
 
 
@@ -84,7 +91,7 @@ export class RutaManualComponent {
     var resultado = pedido.replace(/'/g, "-").trim().toUpperCase()
     resultado = resultado.replace(/-(\d+)/, "");
 
-
+    
     console.log(resultado)
 
     if(this.rutasEnTabla.includes(resultado)) {
@@ -98,17 +105,20 @@ export class RutaManualComponent {
 
     console.log(this.Nombre_ruta)
     
+    console.log(this.arrayRutasIngresados.length)
     this.service.get_rutas_manual(resultado).subscribe((data) => { 
+      this.posicion = this.arrayRutasIngresados.length + 1
       this.arrayRuta = data.map(objeto => {
         this.idPedido = ""
+        console.log(objeto.Provincia)
         return { ...objeto,
              Estado : objeto.Estado === "Entregado" ? true : false,
              Nombre_ruta: this.Nombre_ruta, Created_by: this.idUsuario ,
-             Id_tabla: resultado
+             Id_tabla: resultado,
+             Provincia : objeto.Provincia == null ? 'Otro' : objeto.Provincia
             };
       });
 
-      console.log(this.arrayRutasIngresados.some((array) => array[0].Codigo_pedido === this.arrayRuta[0].Codigo_pedido))
       if (this.arrayRutasIngresados.some((array) => array[0].Codigo_pedido === this.arrayRuta[0].Codigo_pedido)) 
       return alert("Este producto ya fue ingresado")
       
@@ -137,7 +147,18 @@ export class RutaManualComponent {
   cambiarTicket(arrayRutaIndex: number, objectIndex: number, cod_producto: string) {
     this.arrayRutasIngresados[arrayRutaIndex][objectIndex].Pistoleado = "t";
 
-    let body = { "cod_producto": cod_producto }
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+
+    const body = {
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "cliente" : this.arrayRutasIngresados[arrayRutaIndex][objectIndex].Notas,
+      "n_guia" : cod_producto,
+      "cod_pedido" : cod_producto,
+      "cod_producto" : cod_producto,
+      "ids_usuario" : this.idPortal
+      // "cod_sku" : sku
+    }
+
     this.service.update_estado_producto(cod_producto, body).subscribe((response : any) => {
         console.log(response.message)
         this.todosEnRuta()
@@ -252,6 +273,7 @@ export class RutaManualComponent {
     // this.arrayRutasIngresados.map(array => {
     //   console.log(array)
     // })
+
     // this.guardarClicked = true
       this.service.insert_rutas_manual(this.arrayRutasIngresados, this.fechaPedido).subscribe((response : any) => {
         // console.log(response)
@@ -260,6 +282,7 @@ export class RutaManualComponent {
       },
       (error) => {
         alert(error.error.detail)
+        return this.isBlockButton = true
         // console.log(error)
         // Maneja el error de manera adecuada
       }

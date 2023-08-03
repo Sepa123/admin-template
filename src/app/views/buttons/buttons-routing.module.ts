@@ -58,20 +58,6 @@ const routes: Routes = [
           title: 'Reportes'
         }
       },
-      // {
-      //   path: 'button-groups',
-      //   component: ButtonGroupsComponent,
-      //   data: {
-      //     title: 'Button groups'
-      //   }
-      // },
-      // {
-      //   path: 'dropdowns',
-      //   component: DropdownsComponent,
-      //   data: {
-      //     title: 'Dropdowns'
-      //   }
-      // },
     ]
   }
 ];

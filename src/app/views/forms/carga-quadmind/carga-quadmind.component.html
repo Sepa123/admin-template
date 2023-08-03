@@ -1,0 +1,19 @@
+<!-- <label *ngIf="termino" for="images" class="drop-container" id="dropcontainer" #dropContainer>
+    <span class="drop-title">Drop files here</span>
+    or -->
+<input *ngIf="termino" type="file" id="archivo" (change)="onFileSelected($event)">
+<p></p>
+    <button *ngIf="termino" (click)="uploadFile()">Subir archivo</button>
+<!-- </label> -->
+
+
+<table class="loadQuadmind" *ngIf="!termino"> 
+    <tr>
+        <div>
+            <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+            Cargando Datos de Quadminds
+        </div>
+    </tr> 
+    </table>
+
+<!-- <input type="button" value="Cargar" (click)="cargarId()"> -->

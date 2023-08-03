@@ -130,6 +130,15 @@ const routes: Routes = [
           import('./views/informacion/informacion.module').then((m) => m.InformacionModule )
       },
       {
+        path : 'info',
+        data : {
+          roles : ROLES_PERMITIDOS.INFORMACION_PICKING
+        },
+        canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/info-picking/info-picking.module').then((m) => m.InfoPickingModule )
+      },
+      {
         path : 'ingreso-cliente',
         data : {
           roles : ROLES_PERMITIDOS.INGRESO_CLIENTE
@@ -137,6 +146,15 @@ const routes: Routes = [
         canActivate :[PermissionGuard],
         loadChildren: () =>
           import('./views/ingreso-cliente/ingreso-cliente.module').then((m) => m.IngresoClienteModule )
+      },
+      {
+        path : 'carga',
+        data : {
+          roles : ROLES_PERMITIDOS.CARGA_EXCEL
+        },
+        canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/carga-excel/carga-excel.module').then((m) => m.CargaExcelModule )
       }
     ],
     canActivate: [UserGuard]

@@ -8,6 +8,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
 import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
 import * as XLSX from 'xlsx';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 
 
 
@@ -42,6 +43,14 @@ export class RutasActivasComponent {
   constructor(private service: RutasService, private nombreRutaService : NombreRutaService,
               private router: Router) { 
 
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.rutaEnActivo, event.previousIndex, event.currentIndex);
+
+    this.rutaEnActivo.forEach((ruta , i) => {
+      ruta.Pos = i + 1
+    })
   }
 
 
@@ -153,8 +162,10 @@ export class RutasActivasComponent {
     }))
   }
 
-  downloadExcel(nombre_ruta : string) {
-    this.service.download_ruta_activa(nombre_ruta)
+  downloadExcel(nombre_ruta : string, patente: string, driver: string ) {
+    this.service.download_ruta_activa(nombre_ruta, patente, driver, this.rutaEnActivo)
+    console.log(patente)
+    console.log(driver)
   }
 
 

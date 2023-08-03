@@ -14,6 +14,8 @@ import {
   SharedModule
 } from '@coreui/angular';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
 
 import { FormsRoutingModule } from './forms-routing.module';
@@ -31,6 +33,8 @@ import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
 import { RutaManualComponent } from './ruta-manual/ruta-manual.component';
 import { RutasActivasComponent } from './rutas-activas/rutas-activas.component';
 import { AsignarRutaComponent } from './asignar-ruta/asignar-ruta.component';
+import { QuadmindsComponent } from './quadminds/quadminds.component';
+import { CargaQuadmindComponent } from './carga-quadmind/carga-quadmind.component';
 
 
 @NgModule({
@@ -48,10 +52,13 @@ import { AsignarRutaComponent } from './asignar-ruta/asignar-ruta.component';
     EditarRutaComponent,
     RutaManualComponent,
     RutasActivasComponent,
-    AsignarRutaComponent
+    AsignarRutaComponent,
+    QuadmindsComponent,
+    CargaQuadmindComponent
   ],
   imports: [
     CommonModule,
+    DragDropModule,
     FormsRoutingModule,
     DocsComponentsModule,
     CardModule,

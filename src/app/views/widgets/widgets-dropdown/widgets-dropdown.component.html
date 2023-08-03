@@ -58,60 +58,6 @@
       
     </c-row>
 
-  <!-- <c-row>
-    <c-col sm="6" xl="3">
-
-      <c-widget-stat-a
-        class="mb-4"
-        color="info"
-        title="Total pedidos en beetrack"
-      >  
-
-      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>{{pedido.Total_pedidos}} </span>
-      </ng-template>
-      </c-widget-stat-a>
-    </c-col>
-    <c-col sm="6" xl="3">
-      <div *ngFor="let pedido of pedidos">
-      <c-widget-stat-a
-        [title]="'Entregados'"
-        class="mb-4"
-        color="success"
-      >
-        <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-          <span>{{pedido.Entregados}}</span>
-        </ng-template>
-      </c-widget-stat-a>
-    </div>
-    </c-col>
-
-    <c-col sm="6" xl="3">
-      <c-widget-stat-a
-        [title]="'No Entregados'"
-        class="mb-4"
-        color="danger"
-      >
-        <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-          <span>{{pedido.No_entregados}} </span>
-
-        </ng-template>
-      </c-widget-stat-a>
-    </c-col>
-
-    <c-col sm="6" xl="3">
-      <c-widget-stat-a
-        [title]="'En ruta'"
-        class="mb-4"
-        color="warning"
-      >
-        <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-          <span> {{pedido.Pendientes}}</span>
-        </ng-template>
-      </c-widget-stat-a>
-    </c-col>
-  </c-row> -->
-
   <p ngClass="letraGrande">Fecha de compromiso</p> 
   </div>
 
@@ -285,25 +231,14 @@
                 <td>{{ ruta.Entregados }}</td>
                 <td>{{ ruta.No_entregados }}</td>
               </tr>
+              <tr>
+                <td colspan="15" *ngIf="noData">Sin datos</td>
+              </tr>
+              <tr>
+                <td colspan="15" *ngIf="isLoadingBeetrack"><img src="../../../assets/images/loading-gif.gif" /></td>
+              </tr>
             </tbody>
           </table>
-
-          <table class="greenTable" *ngIf="ocultarTabla == true"> 
-            <tr>
-               <div *ngIf="noData">
-
-                 Sin datos
-             </div>
-            </tr> 
-           </table>
-
-          <table class="greenTable" *ngIf="ocultarTabla == true" > 
-            <tr>
-               <div *ngIf="isLoadingBeetrack">
-                 <img src="../../../assets/images/loading-gif.gif" />
-             </div>
-            </tr> 
-           </table>
           </c-col>
 </c-row>
 

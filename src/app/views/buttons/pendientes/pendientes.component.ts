@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TIService } from 'src/app/service/ti.service';
+import { PedidoService } from  'src/app/service/pedido.service'
 import { PedidoSinCompromiso } from 'src/app/models/pedidoSinCompromiso.interface';
 
 @Component({
@@ -13,28 +14,31 @@ export class PendientesComponent implements OnInit{
 
   isLoadingTable: boolean = true;
 
-  constructor(private service:TIService) { }
+  constructor(private service:PedidoService) { }
 
   pedidos!: PedidoSinCompromiso[]
   pedidosFull!: PedidoSinCompromiso[]
   fechaIngresoList!: string[]
   fechaCompromisoList!: any[]
 
-  private origen = ["Easy CD","Sportex","Electrolux","Easy Tienda"]
+  origen: any[] = []
 
 
   ngOnInit():void {
     this.getData()
   }
 
+  
+
   getData() {
     this.service.get_pedidos_sin_despacho().subscribe((data) => {
       this.pedidos = data
       this.pedidosFull = data
       this.isLoadingTable = false
-
-      this.fechaIngresoList = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Fecha_ingreso)
-        ).map(str => (JSON.parse(str))))];   
+      this.origen = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Origen)
+          ).map(str => (JSON.parse(str))))]
+      // this.fechaIngresoList = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Fecha_ingreso)
+      //   ).map(str => (JSON.parse(str))))];   
 
       // this.fechaIngresoList.sort((a: string, b: string) => {
       //   const fechaA: Date = new Date(a);
@@ -51,19 +55,7 @@ export class PendientesComponent implements OnInit{
   }
 
   sortByName(origen: any) : void{
-    this.pedidos.sort((a, b) => {
-
-      const nombreA = a.Origen;
-      const nombreB = b.Origen;
-
-      if (nombreA === this.origen[origen]) {
-        return -1;
-      } else if (nombreB === this.origen[origen]) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
+    this.pedidos = this.pedidosFull.filter(pedido => pedido.Origen == origen)
   }
 
   filterByFecha() : void {
@@ -81,5 +73,21 @@ export class PendientesComponent implements OnInit{
   getFullData(){
     this.pedidos = this.pedidosFull
   }
+
+  OrdenFechaIngreso (){
+     this.pedidos.sort((a: PedidoSinCompromiso, b: PedidoSinCompromiso) => {
+        const fechaA: Date = new Date(a.Fecha_ingreso);
+        const fechaB: Date = new Date(b.Fecha_ingreso);
+        return fechaB.getTime() - fechaA.getTime() ;
+      });
+  }
+
+  OrdenFechaCompromiso (){
+    this.pedidos.sort((a: PedidoSinCompromiso, b: PedidoSinCompromiso) => {
+       const fechaA: Date = new Date(a.Fecha_compromiso);
+       const fechaB: Date = new Date(b.Fecha_compromiso);
+       return fechaB.getTime() - fechaA.getTime() ;
+     });
+ }
 } 
 

@@ -1,0 +1,144 @@
+
+<c-container>
+  <h2>Quadminds</h2>
+<div *ngIf="loadingQuadmind == false">
+  <input *ngIf="termino" type="file" id="archivo" (change)="onFileSelected($event)">
+<p></p>
+    <button *ngIf="termino" (click)="uploadFile()">Subir archivo</button>
+  <p></p>
+  <p></p>
+</div>
+
+<table class="loadQuadmind" *ngIf="!termino"> 
+    <tr>
+        <div>
+            <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+            Cargando Datos de Quadminds
+        </div>
+    </tr> 
+    </table>
+  <div *ngIf="loadingQuadmind == false">
+    <c-row [xs]="1"> 
+      <c-col>
+        <table>
+          <tr>
+            <td>
+              <c-dropdown >
+                <button cButton cDropdownToggle color="secondary" size="sm">
+                  Región
+                </button>
+                <ul cDropdownMenu>
+                  <li (click)="fullQuadmind()"><a [routerLink]="[]"  cDropdownItem>Todos</a></li>
+                  <li *ngFor="let comuna of comunas" (click)="filterByRegion(comuna)"><a [routerLink]="[]"  cDropdownItem>{{comuna}}</a></li>
+                </ul>
+              </c-dropdown>
+            </td>
+            <td>
+              <button cButton size="sm" color="success" (click)="downloadExcel()" >Descargar    
+                <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+                  <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </table>
+          <p></p>
+      </c-col>
+      <c-col>
+       <table class="greenTable" id="tablaProductosPicking" >
+        <thead>
+          <tr>
+              <!-- <th>Código de Cliente</th>
+              <th>Nombre</th> -->
+              <th>Calle y Número</th>
+              <th>Ciudad</th>
+              <th>Provincia/Estado</th>
+              <!-- <th>Latitud</th>
+              <th>Longitud</th> -->
+              <th>Teléfono</th>
+              <!-- <th>Email</th> -->
+              <th>Código de Pedido</th>
+              <th>Fecha de Pedido</th>
+              <th>Operación E/R </th>
+              <th>Código de Producto</th>
+              <th>Descripción del Producto</th>
+              <th>Cantidad de Producto</th>
+              <!-- <th>Peso</th>
+              <th>Volumen</th>
+              <th>Dinero</th>
+              <th>Duración min</th>
+              <th>Ventana horaria 1</th>
+              <th>Ventana horaria 2</th> -->
+              <th>Notas</th>
+              <th>Agrupador</th>
+              <!-- <th>Email de Remitentes</th>
+              <th>Eliminar Pedido</th>
+              <th>Vehículo</th>
+              <th>Habilidades</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let quadmind of tablaQuadmind ;let i = index ">
+            <!-- <td>{{quadmind.Codigo_cliente}}</td>
+            <td>{{quadmind.Nombre}}</td> -->
+            <td>{{quadmind.Calle}}</td>
+            <td>{{quadmind.Ciudad}}</td>
+            <td>{{quadmind.Provincia}}</td>
+            <!-- <td>{{quadmind.Latitud}}</td>
+            <td>{{quadmind.Longitud}}</td> -->
+            <td>{{quadmind.Telefono}}</td>
+            <!-- <td>{{quadmind.Email}}</td> -->
+            <td>{{quadmind.Codigo_pedido}}</td>
+            
+            <td>{{quadmind.Fecha_pedido}}</td>
+            <td>{{quadmind.Operacion}}</td>
+            <!-- <td>{{quadmind.Codigo_producto}}</td> -->
+            <td>
+              <table>
+                <tr *ngFor="let codigo of quadmind.arrayCodigo">
+                  {{codigo}}
+                </tr>
+              </table>
+            </td>
+            <!-- <td>{{quadmind.Descripcion_producto}}</td> -->
+            <td>
+              <table>
+                <tr *ngFor="let descripcion of quadmind.arrayDescripcion">
+                  {{descripcion}}
+                </tr>
+              </table>
+            </td>
+            <td>{{quadmind.Cantidad_producto}}</td>
+            <!-- <td>{{quadmind.Peso}}</td>
+            <td>{{quadmind.Volumen}}</td>
+            <td>{{quadmind.Dinero}}</td>
+            <td>{{quadmind.Duracion_min}}</td>
+            <td>{{quadmind.Ventana_horaria_1}}</td>
+            <td>{{quadmind.Ventana_horaria_2}}</td> -->
+            <td>{{quadmind.Notas}}</td>
+            <td>{{quadmind.Agrupador}}</td>
+            <!-- <td>{{quadmind.Email_remitentes}}</td>
+            <td>{{quadmind.Eliminar_pedido}}</td>
+            <td>{{quadmind.Vehiculo}}</td>
+            <td>{{quadmind.Habilidades}}</td> -->
+            </tr>
+        </tbody>
+        </table>
+      </c-col>
+      <c-col>
+        <p></p>
+    </c-col>  
+    </c-row>
+    <c-row>
+    </c-row>
+  </div>
+
+  <table class="loadQuadmind" > 
+    <tr>
+       <div *ngIf="loadingQuadmind">
+         <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+         Cargando Datos de Quadminds
+     </div>
+    </tr> 
+   </table>
+  </c-container>

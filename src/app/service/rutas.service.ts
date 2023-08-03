@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
-// 
+//  Modelos
 import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
 import { ProductoPicking } from "src/app/models/productoPicking.interface"
 import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
+import { TrackingBeetrack, LineaProducto } from 'src/app/models/trackingBeetrack.interface'
 import { interval,Observable, switchMap  } from 'rxjs';
 
 @Injectable({
@@ -50,12 +51,12 @@ export class RutasService {
     return this.http.delete(this.apiurl + `/eliminar/producto/${cod_producto}`)
   }
 
-  insert_ruta_existente_activa(data : ProductoPicking [][]){
-    return this.http.post(this.apiurl + '/agregar/ruta_activa_existente',data)
+  insert_ruta_existente_activa(fecha_ruta : string ,data : ProductoPicking [][]){
+    return this.http.post(this.apiurl + `/agregar/ruta_activa_existente?fecha_ruta_nueva=${fecha_ruta}`,data)
   }
 
-  download_ruta_activa(nombre_ruta : string){
-    this.http.get(this.apiurl + `/descargar?nombre_ruta=${nombre_ruta}`, {responseType:"blob"})
+  download_ruta_activa(nombre_ruta : string, patente : string, driver : string , RutaEnActivo : RutaEnActivo []){
+    this.http.post(this.apiurl + `/descargar?nombre_ruta=${nombre_ruta}&patente=${patente}&driver=${driver}`, RutaEnActivo,{responseType:"blob"})
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -92,5 +93,17 @@ export class RutasService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
+
+  recuperar_tracking_beetrack(codigo : string){
+    return this.http.get<TrackingBeetrack[]>(this.apiurl + `/recuperar/tracking?codigo=${codigo}`)
+  }
+
+  recuperar_linea_producto(codigo : string){
+    return this.http.get<LineaProducto>(this.apiurl + `/recuperar/linea/producto?codigo=${codigo}`)
+  }
+
+  recuperar_fecha_ingreso_sistema(cod_pedido : string){
+    return this.http.get<any>(this.apiurl + `/fecha_ingreso_sistema/${cod_pedido}`)
   }
 }

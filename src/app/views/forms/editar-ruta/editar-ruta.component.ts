@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { ProductoPicking } from 'src/app/models/productoPicking.interface';
 import * as XLSX from 'xlsx';
 import * as levenshtein from 'fastest-levenshtein';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-editar-ruta',
@@ -16,16 +18,19 @@ import * as levenshtein from 'fastest-levenshtein';
 })
 export class EditarRutaComponent {
 
+  fechaPedido!: string
+  model! : NgbDateStruct
+
   idRutaEditar! : any
   nombreRutaEditar! : string 
-  isBlockButton: boolean = false
+  isBlockButton: boolean = true
   pedidosIngresados : number = 0
   guardarClicked : boolean = false
   showTable : boolean = false
   Nombre_ruta! : string 
   idUsuario!: string
   idPedido! : string
-
+  idPortal! : string
   arrayRuta! : ProductoPicking []
   arrayRutasIngresados : ProductoPicking[] [] = []
   rutasEnTabla : string [] = []
@@ -56,22 +61,54 @@ export class EditarRutaComponent {
   }
 
   ngOnInit() {
-    this.loadSvg()
+    this.loadSvg()  
+    
+    const fecha = new Date();
+
+    let fechaFormateada = fecha.toISOString().split('T')[0];
+
+    this.fechaPedido = fechaFormateada
+
+
     this.idUsuario = sessionStorage.getItem("id")+""
     this.nombreRutaEditar = this.nombreRutaService.getCodigo()
     this.service.get_ruta_by_nombre_ruta(this.nombreRutaEditar).subscribe((data) => {
       this.arrayRuta = data
       this.idRutaEditar = this.arrayRuta[0].Id_ruta
-      this.arrayRuta = data.map(objeto => {
-        this.idPedido = ""
-        return { ...objeto,
-            //  Estado : objeto.Estado === "Entregado" ? true : false,
-            Id_ruta : this.idRutaEditar,
-            Nombre_ruta: this.nombreRutaEditar, Created_by: this.idUsuario ,
-            Pistoleado : "t"};
-      });
+      this.fechaPedido = this.arrayRuta[0].Fecha_ruta+""
+      const agrupadoPorPosicion : any = {};
+      data.forEach((elemento) => {
+        // Obtenemos la posición del elemento
+        const posicion = elemento["Posicion"];
+        elemento["Pistoleado"] = "t"
+        elemento["Estado"] = elemento["Estado"] === "Entregado" ? true : false
+        elemento["Provincia"] =  elemento["Provincia"] === null  ? 'Otro' : elemento["Provincia"]
+        // Si la posición no está present e en el objeto agrupadoPorPosicion,
+        // la inicializamos como un array vacío
+
+        if (!agrupadoPorPosicion.hasOwnProperty(posicion)) {
+            agrupadoPorPosicion[posicion] = [];
+        }
+    
+        // Agregamos el elemento actual al array correspondiente a su posición
+        agrupadoPorPosicion[posicion].push(elemento);
+
+        this.pedidosIngresados = posicion
+    });
+    
+    // Convertimos el objeto en un array de arrays
+    const arrayDeArray : ProductoPicking [] [] = Object.values(agrupadoPorPosicion);
+    
+    // Imprimimos el resultado
+    console.log( "Array de array",arrayDeArray);
+
+    arrayDeArray.forEach(array => {
+      this.arrayRutasIngresados.push(array)
+    });
+
+      
       this.calcularDiferencias(this.arrayRuta)
-      this.arrayRutasIngresados.unshift(this.arrayRuta)
+      // this.arrayRutasIngresados.unshift(this.arrayRuta)
       console.log(this.idRutaEditar)
       console.log(this.arrayRutasIngresados)
     })
@@ -112,13 +149,6 @@ export class EditarRutaComponent {
       this.idPedido = ""
       return alert("Este pedido ya fue ingresado")
     }
-
-    // for (let i = 0; i < this.rutasEnTabla.length; i++) {
-    //   for (let j = i + 1; j < this.rutasEnTabla.length; j++) {
-    //     const distance = LevenshteinDistance(this.rutasEnTabla[i], this.rutasEnTabla[j]);
-    //     console.log(`Distancia entre "${this.rutasEnTabla[i]}" y "${this.rutasEnTabla[j]}": ${distance}`);
-    //   }
-    // }
     
     this.idUsuario = sessionStorage.getItem("id")+""
     const fechaActual = this.obtenerFechaActual();
@@ -132,7 +162,9 @@ export class EditarRutaComponent {
             Id_ruta : this.idRutaEditar,
             Nombre_ruta: this.nombreRutaEditar, 
             Created_by: this.idUsuario ,
-            Id_tabla: resultado};
+            Id_tabla: resultado,
+            Provincia : objeto.Provincia == null ? 'Otro' : objeto.Provincia
+          };
       });
 
       console.log(this.arrayRutasIngresados.some((array) => array[0].Codigo_pedido === this.arrayRuta[0].Codigo_pedido))
@@ -141,6 +173,13 @@ export class EditarRutaComponent {
       
       this.calcularDiferencias(this.arrayRuta)
       this.arrayRutasIngresados.unshift(this.arrayRuta)
+
+
+      this.arrayRutasIngresados.forEach((array, i) => {
+        array.forEach(ruta => {
+          ruta.Posicion = i + 1
+        })
+      })
       console.log(this.arrayRutasIngresados)
       this.pedidosIngresados = this.arrayRutasIngresados.length
       this.rutasEnTabla.push(resultado)
@@ -166,7 +205,17 @@ export class EditarRutaComponent {
   cambiarTicket(arrayRutaIndex: number, objectIndex: number, cod_producto: string) {
     this.arrayRutasIngresados[arrayRutaIndex][objectIndex].Pistoleado = "t";
 
-    let body = { "cod_producto": cod_producto }
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+
+    const body = {
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "cliente" : this.arrayRutasIngresados[arrayRutaIndex][objectIndex].Notas,
+      "n_guia" : cod_producto,
+      "cod_pedido" : cod_producto,
+      "cod_producto" : cod_producto,
+      "ids_usuario" : this.idPortal
+      // "cod_sku" : sku
+    }
     this.service.update_estado_producto(cod_producto, body).subscribe((response : any) => {
         console.log(response.message)
         this.todosEnRuta()
@@ -182,11 +231,7 @@ export class EditarRutaComponent {
     this.arrayRutasIngresados[arrayRutaIndex][objectIndex].En_ruta = "t";
     // this.todosEnRuta()
   }
-  
-  // function eliminarObjetoPorId(array, idAEliminar) {
-  //   const nuevoArray = array.map(subArray => {
-  //     return subArray.filter(objeto => objeto.id !== idAEliminar);
-  //   });
+
   deleteData(index:number, cod_producto : string,cod_pedido :string, index_producto : number) {
     console.log(cod_producto)
     let isSeguro = confirm("¿Seguro que desea eliminar esta producto?");
@@ -216,6 +261,13 @@ export class EditarRutaComponent {
       // console.log(this.rutasEnTabla)
       this.arrayRutasIngresados = this.arrayRutasIngresados.filter(subArray => subArray.length > 0);
       this.pedidosIngresados = this.arrayRutasIngresados.length
+
+      this.arrayRutasIngresados.forEach((array, i) => {
+        array.forEach(ruta => {
+          ruta.Posicion = i + 1
+        })
+      })
+
       this.todosEnRuta()
       // console.log(this.arrayRutasIngresados)
   }
@@ -277,17 +329,36 @@ export class EditarRutaComponent {
     this.guardarClicked = false
   }
 
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.arrayRutasIngresados, event.previousIndex, event.currentIndex);
+
+    // this.arrayRutasIngresados.forEach((array, i) => {
+    //   array.forEach(ruta => {
+    //     ruta.Posicion = i + 1
+    //   })
+    // })
+
+  }
+
   agregarRutaExistente() {
     // console.log(this.arrayRutasIngresados)
-    this.arrayRutasIngresados.pop()
+    // this.arrayRutasIngresados.pop()
+    if (this.model === undefined) {
+      console.log("La fecha es",this.fechaPedido)
+    }else {
+      this.fechaPedido = `${this.model.year}-${this.model.month.toString().padStart(2, '0')}-${this.model.day.toString().padStart(2, '0')}`;
+      console.log("La fecha es",this.fechaPedido)
+    }
 
     console.log(this.arrayRutasIngresados)
     if (this.arrayRutasIngresados.length === 0){
       alert("No se han ingresado producto nuevos a la ruta")
       this.router.navigate(['/picking/rutas-activas']);
     }
-    // this.guardarClicked = true
-      this.service.insert_ruta_existente_activa(this.arrayRutasIngresados).subscribe((response : any) => {
+
+    // alert(this.fechaPedido)
+    this.guardarClicked = true
+      this.service.insert_ruta_existente_activa(this.fechaPedido,this.arrayRutasIngresados).subscribe((response : any) => {
         // console.log(response)
         alert(response.message)
         this.guardarClicked = true

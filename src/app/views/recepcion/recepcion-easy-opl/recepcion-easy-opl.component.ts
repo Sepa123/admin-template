@@ -129,10 +129,6 @@ export class RecepcionEasyOplComponent {
 
     if (match) {
       const suborden = match[1];
-      // console.log(suborden);
-    
-
-    // console.log("esto envio",codigo_producto)
 
     this.service.checkEasyOPLByPedido(codigo_producto).subscribe((data) => {
       this.productosPorVerificarByCP = data

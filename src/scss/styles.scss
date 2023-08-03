@@ -44,7 +44,49 @@ ng-select .ng-select-container {
     /* Otros estilos personalizados */
   }
 
+  @media screen and (max-width: 600px) {
+    table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
 
+
+  .cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 1.5em;
+    text-align: center;
+    opacity: 0.8;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+      0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  }
+  
+  .dragdrop-placeholder {
+    background: #ccc;
+    border: dotted 3px #999;
+    min-height: 30px;
+    transition: transform 100ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  
+  .userData {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+  }
+
+  .userDataEmail {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 100;
+  }
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';

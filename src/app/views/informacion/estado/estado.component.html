@@ -1,15 +1,6 @@
 <div class="fade-in">
     <c-row>
-      <!-- <c-col xs="4" sm="1">
-        <a class="myButton" (click)="hideTableComparacion()" *ngIf="ocultarTablaComparacion == true"> <svg cIcon name="cilMinus" size="xl" title="Numbered List Icon">
-        </svg> </a>
-        <a class="myButton" (click)="showTableComparacion()" *ngIf="ocultarTablaComparacion == false"> <svg cIcon name="cilPlus" size="xl" title="Numbered List Icon">
-        </svg>  </a>
-        <br />
-      </c-col> -->
-    
       <c-col >
-  
     <div class="tabla-container ">
       <c-row ngPreserveWhitespaces>
         <div>
@@ -35,15 +26,11 @@
                     <th>{{ carga.Nro_carga }}</th>
                     <td>{{ carga.Cantidad }}</td>
                   </tr>
+                  <tr>
+                    <td colspan="2" *ngIf="isLoadingCargaComparacionAPI"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+                  </tr>
                 </tbody>
               </table>
-              <table class="greenTable" > 
-                <tr>
-                   <div *ngIf="isLoadingCargaComparacionAPI">
-                     <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
-                 </div>
-                </tr> 
-               </table>
                 </td>
                 <td>
               <table class="greenTable" *ngIf="ocultarTablaComparacion == true">
@@ -61,15 +48,11 @@
                     <th>{{ carga.Nro_carga }}</th>
                     <td>{{ carga.Cantidad }}</td>
                   </tr>
+                  <tr>
+                    <td *ngIf="isLoadingCargaComparacionWMS"> <img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+                  </tr>
                 </tbody>
               </table>
-              <table class="greenTable" > 
-                <tr>
-                   <div *ngIf="isLoadingCargaComparacionWMS">
-                     <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
-                 </div>
-                </tr> 
-               </table>
             </td>
             </tr>
             </table>    
@@ -106,17 +89,11 @@
                 <td>{{ carga.Verificados }}</td>
                 <td>{{ carga.No_verificados }}</td>
               </tr>
-            </tbody>
-          </table>
-  
-            <table class="greenTable" > 
               <tr>
-                 <div *ngIf="isLoadingCarga">
-                   <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
-               </div>
-              </tr> 
-             </table>
-  
+                <td colspan="8" *ngIf="isLoadingCarga"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+              </tr>
+            </tbody>
+          </table>  
       </div>
     </div>
     </c-row>
@@ -142,18 +119,12 @@
                     <th>{{ producto.R_metropolitana }}</th>
                     <th>{{ producto.V_region }}</th>
                   </tr>
+                  <tr>
+                     <td *ngIf="isLoadingEasyRegion" colspan="3"> <img width="50" height="50" src="../../../assets/images/loading-gif.gif" /> </td>
+                 </tr> 
                 </tbody>
               </table>
-  
-              <table class="greenTable" > 
-                <tr>
-                   <div *ngIf="isLoadingEasyRegion">
-                     <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
-                 </div>
-                </tr> 
-               </table>
-             
-        </div>
+          </div>
       </div>
       </c-row>
     </div>
@@ -178,32 +149,18 @@
                     <th>{{ pedido.Productos }}</th>
                     <!-- <th>{{ producto.V_region }}</th> -->
                   </tr>
+                  <tr>
+                      <td colspan="2" *ngIf="isLoadingEasyOPL"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+                 </tr> 
                 </tbody>
-              </table>
-  
-              <table class="greenTable" > 
-                <tr>
-                   <div *ngIf="isLoadingEasyOPL">
-                     <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
-                 </div>
-                </tr> 
-               </table>
-             
+              </table>           
         </div>
       </div>
       </c-row>
     </div>
   
     <p></p>
-    <c-row>
-      <!-- <c-col xs="4" sm="1">
-        <a class="myButton" (click)="hideTable()" *ngIf="ocultarTabla == true"> <svg cIcon name="cilMinus" size="xl" title="Numbered List Icon">
-        </svg> </a>
-        <a class="myButton" (click)="showTable()" *ngIf="ocultarTabla == false"> <svg cIcon name="cilPlus" size="xl" title="Numbered List Icon">
-        </svg>  </a>
-        <br />
-      </c-col> -->
-    
+    <c-row>    
       <c-col >
   
     <div class="fade-in">
@@ -230,25 +187,14 @@
                     <td>{{ pedido.Fecha_compromiso }}</td>
                     <!-- <th>{{ producto.V_region }}</th> -->
                   </tr>
+                  <tr>
+                    <td *ngIf="isLoadingSinTienda" colspan="5"> <img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="5" *ngIf="noData"> Sin datos</td>
+                  </tr>
                 </tbody>
-              </table>
-  
-              <table class="greenTable" *ngIf="ocultarTabla == true"> 
-                <tr>
-                   <div *ngIf="noData">
-                     <!-- <img width="50" height="50" src="../../../assets/images/loading-gif.gif" /> -->
-                     Sin datos
-                 </div>
-                </tr> 
-               </table>
-  
-               <table class="greenTable" > 
-                <tr>
-                   <div *ngIf="isLoadingSinTienda">
-                     <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
-                 </div>
-                </tr> 
-               </table>
+              </table>         
         </div>
       </div>
       </c-row>

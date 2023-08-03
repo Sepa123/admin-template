@@ -7,4 +7,8 @@ export interface PedidoSinCompromiso {
     Comuna:           string;
     Descripcion:      string;
     Bultos:           number;
+    Estado:           string;
+    Subestado:        string;
+    Verificado:       number;
+    Recibido:         number;
 }

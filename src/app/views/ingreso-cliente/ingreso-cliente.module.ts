@@ -14,11 +14,13 @@ import {
 
 import { IngresoClienteRoutingModule } from './ingreso-cliente-routing.module';
 import { EasyCdComponent } from './easy-cd/easy-cd.component';
-
+import { EasyOplComponent } from './easy-opl/easy-opl.component';
+import { ModalModule } from '@coreui/angular';
 
 @NgModule({
   declarations: [
-    EasyCdComponent
+    EasyCdComponent,
+    EasyOplComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import { EasyCdComponent } from './easy-cd/easy-cd.component';
     GridModule,
     ListGroupModule,
     SharedModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, ReactiveFormsModule,
+    ModalModule
   ]
 })
 export class IngresoClienteModule { }

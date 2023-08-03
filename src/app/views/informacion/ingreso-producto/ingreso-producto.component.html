@@ -1,0 +1,127 @@
+<h2>Registro retiro cliente</h2>
+
+<form cForm [formGroup]="form" (ngSubmit)="registrar()" >
+    <c-row>
+        <c-col [xs]>
+        <div class="">
+           <span style="font-weight: bold;">Código Pedido</span> 
+            <input type="text" class="form-control" placeholder="Codigo pedido" formControlName="Codigo_pedido" required>
+            <span class="error" *ngIf="form.get('Codigo_pedido')?.errors?.['required'] && isErrorView">
+                Falta el codigo de pedido
+              </span>
+        </div>
+        <div class="">
+          Cliente
+           <select aria-label="Cliente" id="Cliente" cSelect formControlName="Cliente">
+               <option value="Easy CD">Easy CD</option>
+               <option value="Easy OPL">Easy OPL</option>
+               <option value="Sportex"  >Sportex</option>
+               <option value="Electrolux">Electrolux</option>
+           </select>
+       </div>
+        <div class="">
+           Tipo
+            <select aria-label="Tipo" id="Tipo" cSelect formControlName="Tipo">
+                <option value="Envio"  >Envio</option>
+                <option value="Retiro">Retiro</option>
+            </select>
+        </div>
+        <div class="">
+           Envio Asociado
+            <input type="text" class="form-control" (change)="buscarEnvioAsociado()" placeholder="Envio Asociado" formControlName="Envio_asociado" required>
+            <span class="error" *ngIf="form.get('Envio_asociado')?.errors?.['required'] && isErrorView">
+                Falta el envio asociado
+              </span>
+        </div>
+        
+        <div class="">
+            Fecha Pedido
+            <input type="date" placeholder="Fecha Pedido" class="form-control" formControlName="Fecha_pedido" required>
+            <span class="error" *ngIf="form.get('Fecha_pedido')?.errors?.['required'] && isErrorView">
+                  Falta agregar la fecha de pedido
+                </span>
+        </div>
+        <div class="">
+           SKU
+            <input type="text" class="form-control" placeholder="SKU" (change)="buscarSKU()" formControlName="SKU" required>
+            <span class="error" *ngIf="form.get('SKU')?.errors?.['required'] && isErrorView">
+                Falta el SKU
+              </span>
+        </div>
+        <div class="">
+           Descripcion Producto
+            <input type="text" placeholder="Descripcion" class="form-control" formControlName="Descripcion_producto"  required>
+            <span class="error" *ngIf="form.get('Descripcion_producto')?.errors?.['required'] && isErrorView">
+                Falta la Descripción
+              </span>
+        </div>
+        </c-col>
+        <c-col [xs]>
+        <div class="">
+             Cantidad
+            <input type="number" class="form-control" placeholder="Cantidad" formControlName="Cantidad" required>
+            <span class="error" *ngIf="form.get('Cantidad')?.errors?.['required'] && isErrorView">
+                Falta la Cantidad
+              </span>
+              <span class="error" *ngIf="form.get('Cantidad')?.errors?.['positiveNumber'] && isErrorView">
+                La cantidad no puede ser negativa
+              </span>
+        </div>
+        <div class="">
+             Bultos
+            <input type="number" class="form-control" placeholder="Bultos" formControlName="Bultos" required>
+            <span class="error" *ngIf="form.get('Bultos')?.errors?.['required'] && isErrorView">
+                Falta los Bultos
+              </span>
+              <span class="error" *ngIf="form.get('Bultos')?.errors?.['positiveNumber'] && isErrorView">
+                La cantidad no puede ser negativa
+              </span>
+        </div>
+        <div class="">
+            Nombre Cliente
+            <input type="text" placeholder="Nombre" class="form-control" formControlName="Nombre_cliente" required>
+            <span class="error" *ngIf="form.get('Nombre_cliente')?.errors?.['required'] && isErrorView">
+                Falta el nombre del cliente
+              </span>
+        </div>
+        <div class="">
+            Dirección
+            <input type="text" class="form-control" placeholder="Direccion" formControlName="Direccion" required>
+            <span class="error" *ngIf="form.get('Direccion')?.errors?.['required'] && isErrorView">
+                Falta la Direccion
+              </span>
+        </div>
+        <div class="">
+            Región
+            <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region">
+                <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+            </select>
+        </div>
+        <div class="">
+            Comuna
+            <select id="Comuna" cSelect formControlName="Comuna">
+                <option  *ngFor="let comuna of listaComunas" value={{comuna.Nombre_comuna}} >{{comuna.Nombre_comuna}}</option>
+            </select>
+        </div>
+        <div class="">
+            Teléfono
+            <input type="text" placeholder="Teléfono" class="form-control" formControlName="Telefono" required>
+            <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                Falta el telefono
+              </span>
+        </div>
+        <div class="">
+            Email
+            <input type="text" class="form-control" placeholder="Email" formControlName="Email" required>
+            <span class="error" *ngIf="form.get('Email')?.errors?.['required'] && isErrorView">
+                Falta el Email
+              </span>
+              <span class="error" *ngIf="form.get('Email')?.errors?.['email'] && isErrorView">
+                Ingrese un Email valido
+              </span>
+        </div> 
+        </c-col>
+    </c-row>
+    <p></p>
+    <button class="btn btn-success" type="submit">Registrar</button>
+  </form>

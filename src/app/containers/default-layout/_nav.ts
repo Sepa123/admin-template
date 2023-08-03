@@ -53,10 +53,10 @@ export const navItemsOp: INavData[] = [
     url: '/operaciones',
     iconComponent: { name: 'cil-cursor' },
     children: [
-      {
-        name: 'Reportes',
-        url: '/operaciones/reportes'
-      },
+      // {
+      //   name: 'Reportes',
+      //   url: '/operaciones/reportes'
+      // },
       {
         name: 'Pendientes',
         url: '/operaciones/pendientes'
@@ -254,10 +254,10 @@ export const navItems: INavDataBar[] = [
     iconComponent: { name: 'cil-cursor' },
     roles : ROLES_PERMITIDOS.OPERACIONES,
     children: [
-      {
-        name: 'Reportes',
-        url: '/operaciones/reportes'
-      },
+      // {
+      //   name: 'Reportes',
+      //   url: '/operaciones/reportes'
+      // },
       {
         name: 'Pendientes',
         url: '/operaciones/pendientes'
@@ -274,9 +274,9 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
-    name: 'Picking',
+    name: 'Rutas',
     url: '/picking',
-    iconComponent: { name: 'cil-tags' },
+    iconComponent: { name: 'cil-paper-plane' },
     roles : ROLES_PERMITIDOS.PICKING,
     children: [
       // {
@@ -292,23 +292,22 @@ export const navItems: INavDataBar[] = [
         name: 'Rutas Activas',
         // url: '/forms/checks-radios'
         url: '/picking/rutas-activas'
-
+      },
+      {
+        name : 'Quadminds',
+        url: '/picking/quadminds'
       },
       // {
-      //   name : 'Recepcion OPL',
-      //   url : '/picking/recepcion-opl'
+      //   name : 'Carga Quadminds',
+      //   url: '/picking/carga-quadminds'
       // },
-      {
-        name : 'Buscar SKU',
-        url : '/picking/buscar-sku'
-      }
     ]
   },
-  {
+  { /// Pantalla Informacion Para ADMINISTRADORES
     name: 'Informacion',
     url: '/informacion',
     iconComponent : {name : 'cil-magnifying-glass'},
-    roles : ROLES_PERMITIDOS.INFORMACION,
+    roles : ROLES_PERMITIDOS.INFORMACION_ADMINISTRADOR,
     children: [
       {
         name: "Estado",
@@ -321,7 +320,51 @@ export const navItems: INavDataBar[] = [
       {
         name: "Tracking Producto",
         url : '/informacion/tracking-producto'
+      },
+      {
+        name: "Ingreso Producto",
+        url : '/informacion/ingreso-producto'
       }
+    ]
+  },
+  { /// Pantalla Informacion Para OPERACIONES
+    name: 'Informacion',
+    url: '/informacion',
+    iconComponent : {name : 'cil-magnifying-glass'},
+    roles : ROLES_PERMITIDOS.INFORMACION_OPERACIONES,
+    children: [
+      {
+        name: "Estado",
+        url : '/informacion/estado'
+      },
+      {
+        name: "Buscar SKU",
+        url : '/informacion/buscar-sku'
+      },
+      {
+        name: "Tracking Producto",
+        url : '/informacion/tracking-producto'
+      },
+      {
+        name: "Ingreso Producto",
+        url : '/informacion/ingreso-producto'
+      }
+    ]
+  },
+  { /// Pantalla Informacion Para PISTOLEADORES
+    name: 'Informacion',
+    url: '/info',
+    iconComponent : {name : 'cil-magnifying-glass'},
+    roles : ROLES_PERMITIDOS.INFORMACION_PICKING,
+    children: [
+      {
+        name: "Estado",
+        url : '/info/estado'
+      },
+      {
+        name: "Buscar SKU",
+        url : '/info/buscar-sku'
+      },
     ]
   },
   {
@@ -331,7 +374,7 @@ export const navItems: INavDataBar[] = [
     roles : ROLES_PERMITIDOS.INGRESO_CLIENTE,
     children: [
       {
-        name: "Easy CD",
+        name: "Anden Easy",
         url : '/ingreso-cliente/easy-cd'
       }
     ]
@@ -339,7 +382,7 @@ export const navItems: INavDataBar[] = [
   {
     name: 'Recepción',
     url : '/recepcion',
-    iconComponent: { name: 'cil-tags' },
+    iconComponent: { name: 'cil-home' },
     roles : ROLES_PERMITIDOS.RECEPCION,
     children : [
       {
@@ -371,7 +414,19 @@ export const navItems: INavDataBar[] = [
         url: '/panel/registro-usuario'
       },
     ]
-  }
+  },
+  // {
+  //   name: 'Carga Excel',
+  //   url : '/carga',
+  //   iconComponent: { name: 'cil-inbox' },
+  //   roles : ROLES_PERMITIDOS.CARGA_EXCEL,
+  //   children : [
+  //     {
+  //       name: 'easy cd',
+  //       url: '/carga/easy-cd'
+  //     },
+  //   ]
+  // }
 ];
 
 

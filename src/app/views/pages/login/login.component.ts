@@ -32,10 +32,12 @@ export class LoginComponent {
         this.rolService.setRol(this.userdata.rol_id)
         sessionStorage.setItem('access_token',this.userdata.access_token);
         sessionStorage.setItem('rol_id', this.userdata.rol_id)
-        sessionStorage.setItem('server', this.userdata.server )
+        sessionStorage.setItem('server', this.userdata.server)
         const ruta = ACCESO_ROL[this.userdata.rol_id]
-        
-        console.log(ruta)
+        sessionStorage.setItem('usuario', this.userdata.sub)
+        sessionStorage.setItem('mail', this.loginform.value.mail+"")
+
+        this.rolService.setUsuario(this.userdata.sub,this.loginform.value.mail+"")
         this.router.navigate([ruta]);
       },
       ((error) => {

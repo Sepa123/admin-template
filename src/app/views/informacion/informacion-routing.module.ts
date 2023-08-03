@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EstadoComponent } from './estado/estado.component';
 import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { TrackingProductoComponent } from './tracking-producto/tracking-producto.component';
+import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.component'
 const routes: Routes = [
   {
     path: '',
@@ -28,7 +29,14 @@ const routes: Routes = [
         path : 'tracking-producto',
         component : TrackingProductoComponent,
         data : {
-          title: "Buscar SKU"
+          title: "Tracking Producto"
+        }
+      },
+      {
+        path : 'ingreso-producto',
+        component : IngresoProductoComponent,
+        data : {
+          title: "Ingreso Producto"
         }
       },
     ]

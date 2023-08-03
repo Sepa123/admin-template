@@ -12,6 +12,7 @@ import {
   PerfectScrollbarModule,
 } from 'ngx-perfect-scrollbar';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbAlertModule, NgbPaginationModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
@@ -51,6 +52,7 @@ import {
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 // import { RutaManulaComponent } from './views/ruta-manula/ruta-manula.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -66,6 +68,7 @@ const APP_CONTAINERS = [
 @NgModule({
   declarations: [AppComponent, ...APP_CONTAINERS],
   imports: [
+    DragDropModule,
     CommonModule,
     NgSelectModule,
     BrowserModule,

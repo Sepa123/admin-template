@@ -19,25 +19,19 @@
     </table>
   </div>
   
-  
-  
   <div class="fade-in">
     <c-row ngPreserveWhitespaces>
       <div>
-        <div class="col-md-10 mx-auto">
-  
+        <div class="col-md-12 mx-auto">
           <table>
             <tr>
               <td>
                 <c-dropdown >
                   <button cButton cDropdownToggle color="secondary" size="sm">
-                    Ordenar Por
+                    Origen
                   </button>
                   <ul cDropdownMenu>
-                    <li><a [routerLink]="[]" (click)="sortByName(0)" cDropdownItem>Easy CD</a></li>
-                    <li><a [routerLink]="[]" (click)="sortByName(1)"  cDropdownItem>Sportex</a></li>
-                    <li><a [routerLink]="[]" (click)="sortByName(2)"  cDropdownItem>Electrolux</a></li>
-                    <li><a [routerLink]="[]" (click)="sortByName(3)"  cDropdownItem>Easy Tienda</a></li>
+                    <li *ngFor="let tienda of origen"><a [routerLink]="[]" (click)="sortByName(tienda)" cDropdownItem>{{tienda}}</a></li>
                   </ul>
                 </c-dropdown>
               </td>
@@ -56,9 +50,20 @@
                   <button cButton  color="secondary" size="sm" (click)="getFullData()">
                     Ingreso hasta hoy
                   </button>
-                  <!-- <ul cDropdownMenu>
-                    <li  *ngFor="let fecha of fechaIngresoList"><a [routerLink]="[]" (click)="filterByFecha(fecha)" cDropdownItem>{{fecha}}</a></li>
-                  </ul> -->
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="OrdenFechaIngreso()">
+                    Ordenar por fecha ingreso
+                  </button>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="OrdenFechaCompromiso()">
+                    Ordenar por fecha compromiso
+                  </button>
                 </c-dropdown>
               </td>
             </tr>
@@ -76,7 +81,10 @@
                   <th scope="col">Comuna</th>
                   <th scope="col">Descripción</th>
                   <th scope="col">Bultos</th>
-  
+                  <th scope="col">Estado</th>
+                  <th scope="col">Subestado</th>
+                  <th scope="col">Verificado</th>
+                  <th scope="col">Recibido</th>
                 </tr>
               </thead>
               <tbody>
@@ -89,19 +97,29 @@
                   <td>{{ pedido.Comuna }}</td>
                   <td>{{ pedido.Descripcion }}</td>
                   <td>{{ pedido.Bultos }}</td>
+                  <td>{{ pedido.Estado }}</td>
+                  <td>{{ pedido.Subestado }}</td>
+                  <!-- <td>{{ pedido.Verificado }}</td> -->
+                  <td *ngIf="pedido.Verificado === 1" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                  </td>
+                  <td *ngIf="pedido.Verificado === 0" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                  </td>
+                  <!-- <td>{{ pedido.Recibido }}</td> -->
+                  <td *ngIf="pedido.Recibido === 1" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                  </td>
+                  <td *ngIf="pedido.Recibido === 0" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="8" *ngIf="isLoadingTable"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
                 </tr>
               </tbody>
             </table>
-  
-            <table class="greenTable" > 
-              <tr>
-                 <div *ngIf="isLoadingTable">
-                   <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
-               </div>
-              </tr> 
-             </table>
-      
-           
+          
       </div>
     </div>
     </c-row>

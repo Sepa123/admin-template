@@ -8,8 +8,9 @@ export class RolSaveService {
   private rol_id!: string;
   // private bultos!: number;
   // private driver!: string;
-  // private patente!: string;
-  // private isUpdate: boolean = false
+  private usuario!: string;
+  private email!: string;
+
 
   constructor() { }
  // Para el obtener el nombre de la ruta
@@ -19,6 +20,19 @@ export class RolSaveService {
 
   getRol() {
     return this.rol_id;
+  }
+
+  setUsuario(usuario : string, email : string){
+    this.usuario = usuario;
+    this.email = email;
+  }
+
+  getUsuario(){
+    return this.usuario
+  }
+
+  getEmail(){
+    return this.email
   }
 
   // para obtener la cantidad de bultos

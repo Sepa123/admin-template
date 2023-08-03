@@ -3,23 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 
 //Accesos
 import { ROLES_PERMITIDOS } from 'src/app/rolesPermitidos.const'
-import { ROLES_ENUM } from 'src/app/models/enum/roles.enum'
 import { PermissionGuard } from 'src/app/guard/permission.guard'
 
-import { FloatingLabelsComponent } from './floating-labels/floating-labels.component';
 import { FormControlsComponent } from './form-controls/form-controls.component';
-import { InputGroupsComponent } from './input-groups/input-groups.component';
-import { RangesComponent } from './ranges/ranges.component';
-import { SelectComponent } from './select/select.component';
-import { ChecksRadiosComponent } from './checks-radios/checks-radios.component';
-import { LayoutComponent } from './layout/layout.component';
-import { ValidationComponent } from './validation/validation.component';
 import { RecepcionOplComponent } from './recepcion-opl/recepcion-opl.component';
 import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
 import { RutaManualComponent } from './ruta-manual/ruta-manual.component';
 import { RutasActivasComponent } from './rutas-activas/rutas-activas.component';
 import { AsignarRutaComponent } from './asignar-ruta/asignar-ruta.component';
+import { QuadmindsComponent } from './quadminds/quadminds.component'
+import { CargaQuadmindComponent } from './carga-quadmind/carga-quadmind.component'
 
 const routes: Routes = [
   {
@@ -63,57 +57,22 @@ const routes: Routes = [
           title: 'Asignar Ruta'
         }
       },
-      // {
-      //   path: 'select',
-      //   // path: 'ruta-manual',
-      //   component: SelectComponent,
-      //   data: {
-      //     title: 'Select'
-      //   }
-      // },
-      // {
-      //   path: 'checks-radios',
-      //   // path: 'rutas-activas',
-      //   component: ChecksRadiosComponent,
-      //   data: {
-      //     title: 'Checks & Radios'
-      //   }
-      // },
-      // {
-      //   path: 'range',
-      //   component: RangesComponent,
-      //   data: {
-      //     title: 'Range'
-      //   }
-      // },
-      // {
-      //   path: 'input-group',
-      //   component: InputGroupsComponent,
-      //   data: {
-      //     title: 'Input Group'
-      //   }
-      // },
-      // {
-      //   path: 'floating-labels',
-      //   component: FloatingLabelsComponent,
-      //   data: {
-      //     title: 'Floating Labels'
-      //   }
-      // },
-      // {
-      //   path: 'layout',
-      //   component: LayoutComponent,
-      //   data: {
-      //     title: 'Layout'
-      //   }
-      // },
-      // {
-      //   path: 'validation',
-      //   component: ValidationComponent,
-      //   data: {
-      //     title: 'Validation'
-      //   }
-      // },
+      {
+        path: 'quadminds',
+        // path: 'ruta-manual',
+        component: QuadmindsComponent,
+        data: {
+          title: 'Quadminds'
+        }
+      },
+      {
+        path: 'carga-quadminds',
+        // path: 'ruta-manual',
+        component: CargaQuadmindComponent,
+        data: {
+          title: 'Quadminds'
+        }
+      },
       {
         path: 'recepcion-opl',
         component : RecepcionOplComponent,

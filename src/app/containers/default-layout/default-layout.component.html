@@ -4,6 +4,7 @@
   class="d-print-none sidebar sidebar-fixed c-sidebar-nav"
   id="sidebar"
   visible
+  [ngStyle]="vars"
 >
   <c-sidebar-brand
     [brandFull]="{
@@ -21,15 +22,17 @@
     routerLink="./dashboard"
   >
   </c-sidebar-brand>
+
+  <div class="userData" *ngIf="isToggle">
+    {{usuario}}
+  </div>
+  <div class="userDataEmail" *ngIf="isToggle">
+    {{email}}
+    <p></p>
+  </div>
+
     <perfect-scrollbar [config]="perfectScrollbarConfig">
-  <!--  [perfectScrollbar]="perfectScrollbarConfig"-->
-    
-  
-  <!-- <c-sidebar-nav *ngIf="rol === '5' "
-    [navItems]="navItems" 
-    dropdownMode="close"
-  >
-  </c-sidebar-nav> -->
+
 
   <div *ngFor="let navItem of navItems">
     <c-sidebar-nav *ngIf="rol ? navItem.roles?.includes(rol) : false"
@@ -40,34 +43,12 @@
 
   </div>
 
-    
-
-
-  <!-- <c-sidebar-nav *ngIf="rol === '5' "
-    [navItems]="navItems" 
-    dropdownMode="close"
-  >
-  </c-sidebar-nav>
-
-  <c-sidebar-nav *ngIf="rol === '14' "
-    [navItems]="navItemsOp" 
-    dropdownMode="close"
-  >
-  </c-sidebar-nav>
-
-  <c-sidebar-nav *ngIf="rol === '15' "
-    [navItems]="navItemsTra" 
-    dropdownMode="close"
-  >
-  </c-sidebar-nav>  -->
-
-
-  
     </perfect-scrollbar>
   <c-sidebar-toggler
     *ngIf="!sidebar.narrow"
     toggle="unfoldable"
     cSidebarToggle="sidebar"
+    (click) = 'ok()'
   ></c-sidebar-toggler>
 </c-sidebar>
 

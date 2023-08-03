@@ -68,17 +68,17 @@
     border-radius: 5px;
   }
   
-  // .container {
-  //   display: grid; 
-  //   grid-template-columns: 2.3fr 0.1fr 1fr; 
-  //   grid-template-rows: 1fr 1fr 1fr; 
-  //   gap: 0px 0px; 
-  //   grid-template-areas: 
-  //     ". . ."
-  //     ". . ."
-  //     ". . ."; 
-  //   }
-  
+  .inline-container {
+    margin: 1px;
+    display: flex;
+    align-items: center; /* Alinea los elementos verticalmente si es necesario */
+  }  
+
+  .inline-container input,
+  .inline-container c-dropdown,
+  .inline-container span {
+    margin-right: 5px; /* Espacio personalizado entre los elementos */
+  }
   h2 {
       text-align: center;
     }
@@ -125,11 +125,3 @@
   background: #EC7063;
 }
 
-
-
-@media screen and (max-width: 600px) {
-  table {
-    display: block;
-    overflow-x: auto;
-  }
-}

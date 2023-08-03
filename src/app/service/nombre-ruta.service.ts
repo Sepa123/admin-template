@@ -9,6 +9,7 @@ export class NombreRutaService {
   private driver!: string;
   private patente!: string;
   private isUpdate: boolean = false
+  private fecha! : string
 
   constructor() { }
  // Para el obtener el nombre de la ruta
@@ -34,8 +35,14 @@ export class NombreRutaService {
     this.driver = driver
     this.patente = patente
     this.driver == "" && this.patente == "" ? this.isUpdate = false : this.isUpdate = true
+  }
 
+  setFechaRuta(fecha : string){
+    this.fecha = fecha
+  }
 
+  getFechaRuta(){
+    return this.fecha
   }
 
   getDataDriver(){

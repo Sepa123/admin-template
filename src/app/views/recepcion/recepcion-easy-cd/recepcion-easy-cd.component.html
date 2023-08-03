@@ -2,28 +2,19 @@
   <h2>Easy CD</h2>
     <c-row [xs]="1"> 
       <c-col>
-
-        <table>
-          <tr>
-            <td>
-              <input type="text" name="" [(ngModel)]="codigoProducto" id="codigoProducto" (change)="cambiarTicketByInput(codigoProducto)" >
-            </td>
-            <td>
-              <c-dropdown >
-                <button cButton cDropdownToggle color="secondary" size="sm">
-                  Cargas
-                </button>
-                <ul cDropdownMenu>
-                  <li><a [routerLink]="[]" (click)="filterByCarga('Todas')" cDropdownItem>Todos</a></li>
-                  <li *ngFor="let carga of cargas"><a [routerLink]="[]" (click)="filterByCarga(carga.Nro_carga)" cDropdownItem>{{carga.Nro_carga}}</a></li>
-                </ul>
-              </c-dropdown>
-            </td>
-            <td>
-                           {{cargaActual}}
-            </td>
-          </tr>
-        </table>
+        <div class="inline-container">
+                <input type="text" name="" [(ngModel)]="codigoProducto" id="codigoProducto" (change)="cambiarTicketByInput(codigoProducto)" >
+                <c-dropdown >
+                  <button cButton cDropdownToggle color="secondary" size="sm">
+                    Cargas
+                  </button>
+                  <ul cDropdownMenu>
+                    <li><a [routerLink]="[]" (click)="filterByCarga('Todas')" cDropdownItem>Todos</a></li>
+                    <li *ngFor="let carga of cargas"><a [routerLink]="[]" (click)="filterByCarga(carga.Nro_carga)" cDropdownItem>{{carga.Nro_carga}}</a></li>
+                  </ul>
+                </c-dropdown>
+              <span>{{cargaActual}}</span> 
+        </div>
   
       </c-col>
       
