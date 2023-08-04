@@ -79,7 +79,7 @@ export class RutaManualComponent {
     }
     for (const subArray of this.arrayRutasIngresados) {
       for (const item of subArray) {
-        if (item.Pistoleado == "f") {
+        if (item.Pistoleado == false) {
           return this.isBlockButton = false;
         }
       }
@@ -175,17 +175,7 @@ export class RutaManualComponent {
     // this.todosEnRuta()
   }
   
-  // function eliminarObjetoPorId(array, idAEliminar) {
-  //   const nuevoArray = array.map(subArray => {
-  //     return subArray.filter(objeto => objeto.id !== idAEliminar);
-  //   });
   deleteData(index:number, cod_producto : string,cod_pedido :string, index_producto : number) {
-      // this.arrayRutasIngresados = this.arrayRutasIngresados.filter((_, i) => i !== index);
-      // this.arrayRutasIngresados = this.arrayRutasIngresados.map((ruta) => {
-      //   this.rutasEnTabla = this.rutasEnTabla.filter( pedido => pedido != cod_producto)
-      //   this.arrayRutasIngresados[index].splice(index_producto, 1);
-      //   return ruta.filter((producto,index) => index !== index_producto)
-      // })
       const id_tabla = this.arrayRutasIngresados[index][index_producto].Id_tabla ;
       this.arrayRutasIngresados[index].splice(index_producto,1)
 

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+
 
 // CoreUI Modules
 import {
@@ -26,6 +27,7 @@ import { ReportesComponent } from './reportes/reportes.component';
 
 @NgModule({
   imports: [
+    FormsModule, ReactiveFormsModule,
     CommonModule,
     BaseRoutingModule,
     AccordionModule,

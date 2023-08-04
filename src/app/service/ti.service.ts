@@ -15,6 +15,7 @@ import { PedidosSinTienda } from "../models/pedidoSinTienda.interface"
 import { PedidosPendientes } from "../models/pedidoPendiente.interface" 
 import { ProductoPicking } from "src/app/models/productoPicking.interface"
 import { CargasComparacion } from '../models/cargasComparacion.interface';
+import { NSBeetrackRango } from '../models/nsBeetrackRango.interface'
 
 import { CacheService } from "src/app/service/cache.service"
 import { interval,Observable, switchMap  } from 'rxjs';
@@ -30,6 +31,22 @@ export class TIService {
   
   Getcargas(): Observable<any>{
     return interval(3500).pipe( switchMap(() => this.http.get<Carga[]>(this.apiurl+"/cargas_easy")))
+  }
+
+  get_ns_beetrack_por_rango_fecha(fecha_inicio : string, fecha_termino : string) {
+    return this.http.get<NSBeetrackRango []>(this.apiurl+`/NS_beetrack/rango?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_termino}`)
+  }
+
+  downloadBeetrackNSRango(fecha_inicio : string, fecha_fin : string ){
+    this.http.get(this.apiurl+`/NS_beetrack/rango/descargar?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `NS_Beetrack.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
   }
  
   downloadBeetrackMensual(){

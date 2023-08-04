@@ -1,14 +1,4 @@
-:host {
-    #exampleColorInput {
-      min-width: 2.5rem;
-    }
-    .color-box {
-      min-width: 2rem;
-      min-height: 2rem;
-    }
-  }
-  
-  table.greenTable {
+    table.greenTable {
     border: 1px solid #28A745;
     background-color: #FFFEF3;
     width: auto;
@@ -26,6 +16,10 @@
   }
 
   .comuna table.greenTable tbody td {
+    font-size: 12px;
+  }
+
+  .tamano {
     font-size: 12px;
   }
   

@@ -33,7 +33,7 @@ export interface ProductoPicking {
     // numero?:              number;
     arrayCodigo?:         string[];
     arrayDescripcion?:    string[];
-    Pistoleado?:          string;
+    Pistoleado?:          string | boolean;
     Talla?:               string;
     Estado?:              any;
     En_ruta?:             string;

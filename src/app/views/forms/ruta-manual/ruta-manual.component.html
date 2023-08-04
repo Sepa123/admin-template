@@ -7,12 +7,13 @@
 
       pedidos ingresados : {{pedidosIngresados}} -->
 
-     <table >
+     <table style="width: 70%;">
       <tr>
         <td>
           <input type="text" name="" id="idRuta"  [(ngModel)]="idPedido" (change)="getRuta(idPedido)">
-
-      pedidos ingresados : {{pedidosIngresados}}
+        </td>
+        <td>
+          pedidos ingresados : <span style="font-weight: bold;"> {{pedidosIngresados}}</span>
         </td>
         <td>
           <form class="row row-cols-sm-auto">

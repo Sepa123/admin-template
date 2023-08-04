@@ -122,7 +122,7 @@ export class EditarRutaComponent {
     }
     for (const subArray of this.arrayRutasIngresados) {
       for (const item of subArray) {
-        if (item.Pistoleado == "f") {
+        if (item.Pistoleado == false) {
           return this.isBlockButton = false;
         }
       }
@@ -332,11 +332,11 @@ export class EditarRutaComponent {
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.arrayRutasIngresados, event.previousIndex, event.currentIndex);
 
-    // this.arrayRutasIngresados.forEach((array, i) => {
-    //   array.forEach(ruta => {
-    //     ruta.Posicion = i + 1
-    //   })
-    // })
+    this.arrayRutasIngresados.forEach((array, i) => {
+      array.forEach(ruta => {
+        ruta.Posicion = i + 1
+      })
+    })
 
   }
 

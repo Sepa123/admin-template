@@ -113,9 +113,6 @@
         <div class="">
             Email
             <input type="text" class="form-control" placeholder="Email" formControlName="Email" required>
-            <span class="error" *ngIf="form.get('Email')?.errors?.['required'] && isErrorView">
-                Falta el Email
-              </span>
               <span class="error" *ngIf="form.get('Email')?.errors?.['email'] && isErrorView">
                 Ingrese un Email valido
               </span>

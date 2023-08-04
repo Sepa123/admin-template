@@ -70,4 +70,8 @@ export class RecepcionService {
   updateFieldRecepcionEasyCD(body: any){
     return this.http.put(this.apiurl + "/easy_cd/actualizar", body)
   }
+
+  updateFieldRecepcionEasyOPL(body: any){
+    return this.http.put(this.apiurl + "/easy_opl/actualizar", body)
+  }
 }

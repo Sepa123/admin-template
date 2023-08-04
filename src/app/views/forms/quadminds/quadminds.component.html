@@ -1,12 +1,29 @@
 
 <c-container>
   <h2>Quadminds</h2>
-<div *ngIf="loadingQuadmind == false">
-  <input *ngIf="termino" type="file" id="archivo" (change)="onFileSelected($event)">
-<p></p>
-    <button *ngIf="termino" (click)="uploadFile()">Subir archivo</button>
-  <p></p>
-  <p></p>
+
+<div class="card" *ngIf="loadingQuadmind == false ">
+  <table >
+    <tr>
+      <td rowspan="4"><img src="https://assets.cdn.filesafe.space/tF9c2jBpFvuLonRAo55I/media/6400dd9ccb1935638e8d82cd.jpeg" alt="" width="150" height="150"></td>
+    </tr>
+    <tr>
+      <td class="tamano">Cargar Archivo resultante desde <span style="font-weight: bold;">Quadminds</span> : Debe ser una descarga con detalle de Producto</td>
+    </tr>
+    <tr>
+      <td>
+          <input *ngIf="termino" type="file" id="archivo" (change)="onFileSelected($event)">
+      <p></p>
+          <button *ngIf="termino" (click)="uploadFile()">Subir archivo</button>
+      </td>
+    </tr>
+    <tr>
+      <td  class="tamano">
+        Este Archivo generará nuevas rutas para la fecha asignada por Quadminds, por lo que será necesario reviar en el apartado rutas activas,
+        editando la ruta para cambiar la fecha en caso de ser necesario
+      </td>
+    </tr>
+  </table>
 </div>
 
 <table class="loadQuadmind" *ngIf="!termino"> 
@@ -17,9 +34,18 @@
         </div>
     </tr> 
     </table>
-  <div *ngIf="loadingQuadmind == false">
+
+
+    
+    <p></p>
+    <p *ngIf="loadingQuadmind == false">Descargar Archivo para planificar en <span style="font-weight: bold;">Quadminds</span></p>
+    <p></p>
+    <p></p>
+
+  <div *ngIf="loadingQuadmind == false" class="card">
     <c-row [xs]="1"> 
       <c-col>
+        <p></p>
         <table>
           <tr>
             <td>

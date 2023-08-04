@@ -14,5 +14,6 @@ export enum ROLES_ENUM {
     COORDINADOR = '15',
     SEGURIDAD = '16',
     JEFE_FINANZAS = '17',
-    PICKING = '18'
+    PICKING = '18',
+    RAUDDY = '19'
 }

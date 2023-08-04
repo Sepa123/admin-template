@@ -8,7 +8,6 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
 import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
 import * as XLSX from 'xlsx';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 
 
 
@@ -44,15 +43,6 @@ export class RutasActivasComponent {
               private router: Router) { 
 
   }
-
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.rutaEnActivo, event.previousIndex, event.currentIndex);
-
-    this.rutaEnActivo.forEach((ruta , i) => {
-      ruta.Pos = i + 1
-    })
-  }
-
 
  public rol = sessionStorage.getItem("rol_id") 
   asignarRuta() {

@@ -38,7 +38,7 @@ export class IngresoProductoComponent {
     Direccion : this.builder.control("", [Validators.required]),
     Comuna : this.builder.control("Arica", [Validators.required]),
     Telefono : this.builder.control("", [Validators.required]),
-    Email : this.builder.control("", [Validators.required, Validators.email]),
+    Email : this.builder.control("", [Validators.email]),
     Region : this.builder.control("1", [Validators.required]),
     Id_usuario : this.builder.control("1", [Validators.required])
   })
@@ -119,7 +119,14 @@ export class IngresoProductoComponent {
     this.form.patchValue({
       Id_usuario : sessionStorage.getItem("id")?.toString()+""
     })
+
+    if(this.form.value.Email == "") {
+      this.form.patchValue({
+        Email : "sin.correo@transyanez.cl"
+      })
+    }
     if(this.form.valid){
+      console.log(this.form.value)
       this.retiroCliente.registrar_retiro_cliente(this.form.value).subscribe((data) => {
         console.log("El registro si llego", data)
         alert("Codigo de registro realizado correctamente")

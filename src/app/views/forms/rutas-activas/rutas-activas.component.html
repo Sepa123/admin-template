@@ -77,14 +77,11 @@
         <th>Nombre de cliente</th>
         <th>Dirección cliente</th>
         <th>Teléfono</th>
-        <!-- <th>Validado</th>
-        <th>DE</th>
-        <th>DF</th> -->
     </tr>
   </thead>
-  <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+  <tbody >
     <tr *ngFor="let ruta of rutaEnActivo; let j = index">
-      <td cdkDrag cdkDragLockAxis="y">{{ruta.Pos }}</td>
+      <td>{{ruta.Pos }}</td>
       <!-- <th>{{nombreRutaActual}}</th> -->
       <td>{{ruta.Codigo_pedido }}</td>
       <td>{{ruta.Comuna }}</td>
@@ -109,10 +106,6 @@
       <!-- <td>{{ruta.Validacion }}</td>
       <td>{{ruta.DE }}</td>
       <td>{{ruta.DP }}</td> -->
-
-      <div *cdkDragPreview matchSize="true" class="container dragdrop-placeholder">
-        {{ruta.Codigo_pedido}}
-      </div>
     </tr>
 
 

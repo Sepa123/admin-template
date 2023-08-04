@@ -1,0 +1,79 @@
+table.greenTable {
+    border: 1px solid #28A745;
+    background-color: #FFFEF3;
+    width: auto;
+    text-align: center;
+    display: block;
+      overflow-x: auto;
+    
+  }
+  table.greenTable td, table.greenTable th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  table.greenTable tbody td {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .comuna table.greenTable tbody td {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  
+  table.greenTable tbody th {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  table.greenTable tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  table.greenTable thead {
+    background: #28A745;
+  }
+  table.greenTable thead th {
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+  table.greenTable thead th:first-child {
+    border-left: none;
+  }
+  
+  table.greenTable tfoot {
+    font-size: 13px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: #A40808;
+  }
+  table.greenTable tfoot td {
+    font-size: 13px;
+  }
+  
+  table.greenTable tfoot .links {
+    text-align: right;
+  }
+  table.greenTable tfoot .links a{
+    display: inline-block;
+    background: #FFFFFF;
+    color: #A40808;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+  
+  .inline-container {
+    margin: 1px;
+    display: flex;
+    align-items: center; /* Alinea los elementos verticalmente si es necesario */
+  }  
+
+  .inline-container input,
+  .inline-container c-dropdown,
+  .inline-container span {
+    margin-right: 5px; /* Espacio personalizado entre los elementos */
+  }
+  h2 {
+      text-align: center;
+    }
