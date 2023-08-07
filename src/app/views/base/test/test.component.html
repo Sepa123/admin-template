@@ -1,0 +1,18 @@
+<p>test works!</p>
+
+<input type="text" name="" id=""  [(ngModel)]="direccion" >
+<p></p>
+<button (click)="buscarDatosDireccion()" > Btest</button>
+
+
+<table>
+    <tr>
+        <td>Latitud </td>
+        <td>Longitud </td>
+    </tr>
+    <tr *ngFor="let data of dataRecov">
+        <td>{{data.lat}}</td>
+        <td>{{data.lon}}</td>
+        <td>{{data.display_name}}</td>
+    </tr>
+</table>

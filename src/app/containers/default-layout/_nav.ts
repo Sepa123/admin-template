@@ -245,6 +245,18 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Reportes',
         url : '/transporte/reportes'
+      },
+    ]
+  },
+  {
+    name: 'EXO',
+    url: '/exo',
+    iconComponent: { name: 'cil-bar-chart' },
+    roles : ROLES_PERMITIDOS.EXO,
+    children: [
+      {
+        name: 'Nivel Servicio',
+        url : '/exo/nivel-servicio'
       }
     ]
   },

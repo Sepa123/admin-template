@@ -156,6 +156,16 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/carga-excel/carga-excel.module').then((m) => m.CargaExcelModule )
       }
+      ,
+      {
+        path : 'exo',
+        data : {
+          roles : ROLES_PERMITIDOS.EXO
+        },
+        canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/exo/exo.module').then((m) => m.ExoModule )
+      }
     ],
     canActivate: [UserGuard]
   },

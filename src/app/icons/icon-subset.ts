@@ -1,15 +1,5 @@
 import {
-  cibCcAmex,
-  cibCcApplePay,
-  cibCcMastercard,
-  cibCcPaypal,
-  cibCcStripe,
-  cibCcVisa,
-  cibFacebook,
-  cibGoogle,
-  cibLinkedin,
-  cibSkype,
-  cibTwitter,
+  cilBarChart,
   cifBr,
   cifEs,
   cifFr,
@@ -97,17 +87,6 @@ import {
 } from '@coreui/icons';
 
 export const iconSubset = {
-  cibCcAmex,
-  cibCcApplePay,
-  cibCcMastercard,
-  cibCcPaypal,
-  cibCcStripe,
-  cibCcVisa,
-  cibFacebook,
-  cibGoogle,
-  cibLinkedin,
-  cibSkype,
-  cibTwitter,
   cifBr,
   cifEs,
   cifFr,
@@ -191,7 +170,8 @@ export const iconSubset = {
   cilAccountLogout,
   cilPlus,
   cilMinus,
-  cilDelete
+  cilDelete,
+  cilBarChart
 };
 
 export enum IconSubset {
@@ -288,5 +268,6 @@ export enum IconSubset {
   cilAccountLogout = "cilAccountLogout",
   cilPlus = "cilPlus",
   cilMinus = "cilMinus",
-  cilDelete = "cilDelete"
+  cilDelete = "cilDelete",
+  cilBarChart = "cilBarChart"
 }

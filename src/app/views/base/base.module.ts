@@ -24,6 +24,7 @@ import { DocsComponentsModule } from '@docs-components/docs-components.module';
 // Components Routing
 import { BaseRoutingModule } from './base-routing.module';
 import { ReportesComponent } from './reportes/reportes.component';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { ReportesComponent } from './reportes/reportes.component';
   ],
   declarations: [
     ReportesComponent,
+    TestComponent
   ],
 })
 export class BaseModule {}

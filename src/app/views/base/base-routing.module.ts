@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ReportesComponent } from './reportes/reportes.component';
 
+import { TestComponent } from './test/test.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -21,8 +23,14 @@ const routes: Routes = [
         data: {
           title: 'Reportes',
         },
-      },
-    
+      },    
+      {
+        path: 'test',
+        component: TestComponent,
+        data: {
+          title: 'rest',
+        },
+      }, 
     ],
   },
 ];

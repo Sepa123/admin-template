@@ -1,0 +1,156 @@
+<c-row ngPreserveWhitespaces>  
+    <!-- <div class="col-md-6 mx-auto"> -->
+      <h1>Beetrack Nivel de Servicio</h1>
+  <c-row>
+    <c-col [xs]>
+      Fecha Inicio
+  <input type="date"  class="form-control" placeholder="Fecha" [(ngModel)]="fecha_inicio"  required>
+    </c-col>
+    
+    <c-col [xs]>
+      Fecha Fin
+      <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fecha_fin"  required>
+    </c-col>
+  </c-row>
+  <p></p>
+
+  <c-row>
+    <c-col [xs]>
+      <button  (click)="buscar()" cButton  color="secondary" size="sm">buscar</button>
+    </c-col>
+    <c-col [xs]>
+      <button *ngIf="isDescargar" (click)="DescargarNS()" cButton  color="success" size="sm">Descargar
+        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+          <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+        </svg>
+      </button>
+    </c-col>
+  </c-row>
+  <p></p>
+
+  <c-row>
+    <!--  -->
+    <div class="table-container">
+   <table class="greenTable" *ngIf="isDescargar"> 
+    <thead class="sticky-header">
+      <tr>
+        <th >Fecha</th>
+        <th >Id ruta</th>
+        <th >Driver</th>
+        <th >Patente</th>
+        <th >Region</th>
+        <th >Km ruta</th>
+        <th >T_PED</th>
+        <th >Easy</th>
+        <th >Electrolux</th>
+        <th >Sportex</th>
+        <th >Imperial</th>
+        <th >PBB</th>
+        <th >Virutex</th>
+        <th >R1</th>
+        <th >R2</th>
+        <th >R3</th>
+        <th >VR</th>
+        <!-- <th>C11</th>
+        <th>Por_11</th>
+        <th>C13</th>
+        <th>Por_13</th>
+        <th>C15</th>
+        <th>Por_15</th>
+        <th>C17</th>
+        <th>Por_17</th>
+        <th>C18</th>
+        <th>Por_18</th>
+        <th>C20</th>
+        <th>Por_20</th> -->
+        <th >Final_D</th>
+        <th >Observacion</th>
+        <th >H_inicio</th>
+        <th>H_termino</th>
+        <th>TT_ruta</th>
+        <!-- <th>Prom_ENT</th>
+        <th>T_ENT</th> -->
+        <th>N_ENT</th>
+        <th>EE</th>
+        <!-- <th>SM</th>
+        <th>CA</th>
+        <th>DA</th>
+        <th>RxD</th>
+        <th>DNE</th>
+        <th>DNCC</th>
+        <th>D_ERR</th>
+        <th>INC_T</th>
+        <th>DFORM</th>
+        <th>PINCOM</th>
+        <th>SPELI</th>
+        <th>PNCORR</th>
+        <th>PFALT</th>
+        <th>PPARC</th>
+        <th>P_DUPL</th>
+        <th>R</th>
+        <th>Pedidos</th> -->
+    </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let beetrack of nsBeetrack">
+          <td>{{beetrack.Fecha}}</td>
+          <td>{{beetrack.Id_ruta}}</td>
+          <td>{{beetrack.Driver}}</td>
+          <td>{{beetrack.Patente}}</td>
+          <td>{{beetrack.Region}}</td>
+          <td>{{beetrack.Km_ruta}}</td>
+          <!-- Resto de las columnas -->
+          <td>{{beetrack.T_PED}}</td>
+          <td>{{beetrack.Easy}}</td>
+          <td>{{beetrack.Electrolux}}</td>
+          <td>{{beetrack.Sportex}}</td>
+          <td>{{beetrack.Imperial}}</td>
+          <td>{{beetrack.PBB}}</td>
+          <td>{{beetrack.Virutex}}</td>
+          <td>{{beetrack.R1}}</td>
+          <td>{{beetrack.R2}}</td>
+          <td>{{beetrack.R3}}</td>
+          <td>{{beetrack.VR}}</td>
+          <!-- <td>{{beetrack.C11}}</td>
+          <td>{{beetrack.Por_11}}</td>
+          <td>{{beetrack.C13}}</td>
+          <td>{{beetrack.Por_13}}</td>
+          <td>{{beetrack.C15}}</td>
+          <td>{{beetrack.Por_15}}</td>
+          <td>{{beetrack.C17}}</td>
+          <td>{{beetrack.Por_17}}</td>
+          <td>{{beetrack.C18}}</td>
+          <td>{{beetrack.Por_18}}</td>
+          <td>{{beetrack.C20}}</td>
+          <td>{{beetrack.Por_20}}</td> -->
+          <td>{{beetrack.Final_D}}</td>
+          <td>{{beetrack.Observacion}}</td>
+          <td>{{beetrack.H_inicio}}</td>
+          <td>{{beetrack.H_termino}}</td>
+          <td>{{beetrack.TT_ruta}}</td>
+          <!-- <td>{{beetrack.Prom_ENT}}</td>
+          <td>{{beetrack.T_ENT}}</td> -->
+          <td>{{beetrack.N_ENT}}</td>
+          <td>{{beetrack.EE}}</td>
+          <!-- <td>{{beetrack.SM}}</td>
+          <td>{{beetrack.CA}}</td>
+          <td>{{beetrack.DA}}</td>
+          <td>{{beetrack.RxD}}</td>
+          <td>{{beetrack.DNE}}</td>
+          <td>{{beetrack.DNCC}}</td>
+          <td>{{beetrack.D_ERR}}</td>
+          <td>{{beetrack.INC_T}}</td>
+          <td>{{beetrack.DFORM}}</td>
+          <td>{{beetrack.PINCOM}}</td>
+          <td>{{beetrack.SPELI}}</td>
+          <td>{{beetrack.PNCORR}}</td>
+          <td>{{beetrack.PFALT}}</td>
+          <td>{{beetrack.PPARC}}</td>
+          <td>{{beetrack.P_DUPL}}</td>
+          <td>{{beetrack.R}}</td>
+          <td>{{beetrack.Pedidos}}</td> -->
+      </tr>
+    </tbody> 
+    </table> 
+</div>
+</c-row>
