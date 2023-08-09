@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-easy-cd',
   templateUrl: './easy-cd.component.html',
-  styleUrls: ['./easy-cd.component.scss']
+  styleUrls: ['../styles/ingreso-cliente.component.scss']
 })
 export class EasyCdComponent {
   public svgContent!: SafeHtml;

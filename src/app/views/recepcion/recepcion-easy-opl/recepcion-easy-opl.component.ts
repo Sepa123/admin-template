@@ -58,15 +58,15 @@ export class RecepcionEasyOplComponent {
   subRecepcionEasyOPL(){
     this.subRecepcion = this.service.updateRecepcionEasyOPL().subscribe((data) => {
 
-      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
-      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = data.filter(producto => producto.Recepcion == false).length
+      this.cantVerificados = data.filter(producto => producto.Recepcion == true).length
 
-      if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
-      && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
+      if(data.filter(producto => producto.Recepcion == false).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Recepcion == true).length === this.productosVerificados.length){
 
       }else{
-        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
-        this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
+        this.productosPorVerificar = data.filter(producto => producto.Recepcion == false)
+        this.productosVerificados = data.filter(producto => producto.Recepcion == true)
       }      
       // console.log("Cantidad de productos por verificar",this.productosPorVerificar.length)
       // console.log("Cantidad de productos verificados",this.productosVerificados.length)
@@ -76,15 +76,15 @@ export class RecepcionEasyOplComponent {
   initRecepcionEasyOPL(){
       this.service.getRecepcionEasyOPL().subscribe((data) => {
 
-      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
-      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = data.filter(producto => producto.Recepcion == false).length
+      this.cantVerificados = data.filter(producto => producto.Recepcion == true).length
 
-      if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
-      && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
+      if(data.filter(producto => producto.Recepcion == false).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Recepcion == true).length === this.productosVerificados.length){
 
       }else{
-        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
-        this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
+        this.productosPorVerificar = data.filter(producto => producto.Recepcion == false)
+        this.productosVerificados = data.filter(producto => producto.Recepcion == true)
       }      
       // console.log("Cantidad de productos por verificar",this.productosPorVerificar.length)
       // console.log("Cantidad de productos verificados",this.productosVerificados.length)
@@ -153,11 +153,11 @@ export class RecepcionEasyOplComponent {
              "sku" : this.productosPorVerificarByCP[0].SKU
           }
 
-          const url = `/easy_opl`
+          // const url = `/easy_opl`
 
 
           
-          this.service.updateVerifiedByInput(url,body).subscribe((data : any) => {
+          this.service.updateFieldRecepcionEasyOPL(body).subscribe((data : any) => {
             // alert(data.message)
             this.initRecepcionEasyOPL()
             this.codigoProducto = ""
@@ -183,10 +183,10 @@ export class RecepcionEasyOplComponent {
 
     let sku = this.productosPorVerificar[arrayIndex].SKU
     if(this.productosPorVerificarByCP.length != 0){
-      this.productosPorVerificarByCP[arrayIndex].Pistoleado = true
+      this.productosPorVerificarByCP[arrayIndex].Recepcion = true
       sku = this.productosPorVerificarByCP[arrayIndex].SKU
      }else{
-      this.productosPorVerificar[arrayIndex].Pistoleado = true
+      this.productosPorVerificar[arrayIndex].Recepcion = true
      }
     // let productoAbajo = this.productosOPL.splice(arrayIndex,1);
     // console.log(productoAbajo)
@@ -204,7 +204,7 @@ export class RecepcionEasyOplComponent {
     }
 
 
-    this.service.updateVerified(body).subscribe((data : any) => {
+    this.service.updateFieldRecepcionEasyOPL(body).subscribe((data : any) => {
       // alert(data.message)
       this.initRecepcionEasyOPL()
       this.codigoProducto = ""

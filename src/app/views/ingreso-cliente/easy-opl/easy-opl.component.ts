@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-easy-opl',
   templateUrl: './easy-opl.component.html',
-  styleUrls: ['./easy-opl.component.scss']
+  styleUrls: ['../styles/ingreso-cliente.component.scss']
 })
 export class EasyOplComponent {
   public svgContent!: SafeHtml;

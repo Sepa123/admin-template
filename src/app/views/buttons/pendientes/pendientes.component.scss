@@ -1,46 +1,59 @@
-table.greenTable {
+.greenTable{
+  width: auto;
+  height: 400px; /* Altura de ejemplo */
+  overflow: auto;
+}
+
+
+.greenTable table {
     border: 1px solid #28A745;
     background-color: #FFFEF3;
     width: 100%;
     text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
   }
-  table.greenTable td, table.greenTable th {
+  .greenTable table td, table th {
     border: 0px solid #AAAAAA;
     padding: 3px 2px;
   }
-  table.greenTable tbody td {
+  .greenTable table tbody td {
     font-size: 10px;
+    // white-space: nowrap;
   }
-  table.greenTable tr:nth-child(even) {
-    background: #FFFEF3;
-  }
-  table.greenTable thead {
+  // .greenTable  table tr:nth-child(even) {
+  //   background: #FFFEF3;
+  // }
+  .greenTable  table thead {
+    position: sticky;
+    top: 0;
+    left: 0;
     background: #28A745;
   }
-  table.greenTable thead th {
+  .greenTable table thead th {
     font-size: 10px;
     font-weight: bold;
     color: #FFFFFF;
     text-align: center;
     border-left: 2px solid #28A745;
   }
-  table.greenTable thead th:first-child {
+  .greenTable  table thead th:first-child {
     border-left: none;
   }
   
-  table.greenTable tfoot {
+  .greenTable  table tfoot {
     font-size: 13px;
     font-weight: bold;
     color: #FFFFFF;
     background: #A40808;
   }
-  table.greenTable tfoot td {
+  .greenTable  table tfoot td {
     font-size: 13px;
   }
-  table.greenTable tfoot .links {
+  .greenTable  table tfoot .links {
     text-align: right;
   }
-  table.greenTable tfoot .links a{
+  .greenTable table tfoot .links a{
     display: inline-block;
     background: #FFFFFF;
     color: #A40808;

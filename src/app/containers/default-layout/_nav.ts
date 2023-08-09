@@ -388,6 +388,10 @@ export const navItems: INavDataBar[] = [
       {
         name: "Anden Easy",
         url : '/ingreso-cliente/easy-cd'
+      },
+      {
+        name: "Anden Easy OPL",
+        url : '/ingreso-cliente/easy-opl'
       }
     ]
   },

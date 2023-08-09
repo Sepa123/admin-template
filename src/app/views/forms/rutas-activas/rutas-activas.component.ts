@@ -8,6 +8,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
 import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
 import * as XLSX from 'xlsx';
+import { Nominatim } from '../../../models/nominatim.interface'
 
 
 
@@ -31,6 +32,7 @@ export class RutasActivasComponent {
   nombreRuta!: NombresRutasActivas []
   arraySKU: any[] = []
   arrayProducto: any[] = []
+  arrayDirecciones : string [] = []
 
   fechaActual!: string
   patenteRuta! : string
@@ -40,8 +42,31 @@ export class RutasActivasComponent {
   // arrayRutasEnActivo! : 
 
   constructor(private service: RutasService, private nombreRutaService : NombreRutaService,
-              private router: Router) { 
+              private router: Router, private http : HttpClient) { 
 
+  }
+
+  dataRecov! : Nominatim []
+
+  buscarLatLon(){
+    const set = new Set(this.arrayDirecciones)
+
+    Array.from(set).map(data =>{
+      // console.log(data)
+      this.buscarDatosDireccion(data)
+      
+    })
+  }
+
+  buscarDatosDireccion(direccion : string){
+    this.http.get<Nominatim []>(`https://nominatim.openstreetmap.org/search?format=json&limit=5&q=${direccion}`).subscribe((data) => {
+      console.log(data)
+      this.dataRecov = data
+      console.log("Direccion: ", direccion)
+      console.log("Latitud :",this.dataRecov[0].lat)
+      console.log("Longitud :",this.dataRecov[0].lon)
+      console.log("Direccion: ",this.dataRecov[0].display_name)
+    })
   }
 
  public rol = sessionStorage.getItem("rol_id") 
@@ -118,15 +143,19 @@ export class RutasActivasComponent {
     // console.log(this.nombreRuta)
     
     this.service.get_rutas_en_activo(nombreRuta).subscribe((data) => {
+      
       console.log(data)
       this.nombreRutaActual = nombreRuta
       this.rutaEnActivo = data
       this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  sum + bulto.Bultos, 0)
       this.rutaEnActivo.map(ruta => {
+
+        this.arrayDirecciones.push(ruta.Comuna+ " "+ruta.Direccion_cliente)
         ruta.arraySKU = ruta.SKU.split('@')
         ruta.arrayProductos = ruta.Producto.split('@')
       })
       // console.log(estado_ruta)
+      
       this.isClicked = true
       this.isActive = true
       estado_ruta == false ? this.isActive = false : this.isActive = true
@@ -150,6 +179,9 @@ export class RutasActivasComponent {
 
       this.isDriver = false
     }))
+
+
+    
   }
 
   downloadExcel(nombre_ruta : string, patente: string, driver: string ) {
