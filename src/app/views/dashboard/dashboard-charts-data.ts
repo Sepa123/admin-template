@@ -85,45 +85,6 @@ export class DashboardChartsData {
       this.easyEnt.push(dia.Easy)
       this.easyOPLEnt.push(dia.Easy_OPL)
     })
-
-    // dias.sort((a,b) => a.Fecha - b.Fecha )
-
-    // let weeklyData = [];
-    // let currentWeek: any = null;
-    // let currentWeekData:any = [];
-
-    // dias.forEach((record) => {
-    //   let date = new Date(record.Fecha);
-    //   let week = this.getWeekNumber(date);
-
-    //   if (currentWeek === null) {
-    //     currentWeek = week;
-    //   }
-
-    //   if (week !== currentWeek) {
-    //     weeklyData.push({ Semana: currentWeek, Datos: currentWeekData });
-    //     currentWeek = week;
-    //     currentWeekData = [];
-    //   }
-
-    //   currentWeekData.push(record);
-    // });
-
-    // this.diasEnt = []
-    //   this.electroluxEnt = []
-    //   this.sportexEnt = []
-    //   this.easyEnt = []
-    //   this.easyOPLEnt = []
-
-    // weeklyData.push({ Semana: currentWeek, Datos: currentWeekData });
-
-    // weeklyData.forEach((weekData, i: number) => {
-    //   this.diasEnt.push(weekData.Datos.map((data : any) => data.Dia))
-    //   this.electroluxEnt.push(weekData.Datos.map((data : any) => data.Electrolux))
-    //   this.sportexEnt.push(weekData.Datos.map((data : any) => data.Sportex))
-    //   this.easyEnt.push(weekData.Datos.map((data : any) => data.Easy))
-    //   this.easyOPLEnt.push(weekData.Datos.map((data : any) => data.Easy_OPL))
-    // })
   }
 
   getData(){

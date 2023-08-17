@@ -1,0 +1,169 @@
+<h2>Bitacora TOC</h2>
+
+<form cForm [formGroup]="form" (ngSubmit)="registrar()" >
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                <span style="font-weight: bold;">Código pedido</span> 
+                 <input type="text" class="form-control" placeholder="Codigo producto" (change)="BuscarProducto()" formControlName="Codigo_producto" required>
+             </div>
+        </c-col>
+        <c-col [xs]>
+            <div class="">
+                Alerta
+                <c-form-check>
+                    <input cFormCheckInput id="stackOne" type="checkbox" formControlName="Alerta"/>
+                    <label cFormCheckLabel for="stackOne">Alerta</label>
+                </c-form-check>
+                <p></p>
+            </div>
+        </c-col>
+    </c-row>
+
+    <div class="noEditar">
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Fecha 
+                <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha" readonly>
+                <span class="error" *ngIf="form.get('Fecha')?.errors?.['required'] && isErrorView">
+                      Falta agregar la fecha 
+                    </span>
+                <span class="error" *ngIf="form.get('Fecha')?.errors?.['pattern'] && isErrorView">
+                      El formato de la fecha no es valido
+                    </span>
+            </div>
+            <div class="">
+                Cliente
+                 <!-- <select aria-label="Cliente" id="Cliente" cSelect formControlName="Cliente" readonly>
+                     <option value="Easy">Easy</option>
+                     <option value="Easy OPL">Easy OPL</option>
+                     <option value="Sportex"  >Sportex</option>
+                     <option value="Electrolux">Electrolux</option>
+                 </select> -->
+                 <input type="text" placeholder="Cliente" class="form-control" formControlName="Cliente" readonly>
+             </div>
+             <div class="">
+                Estado
+                <input type="text" placeholder="Estado" class="form-control" formControlName="Estado" readonly>
+            </div>
+            <div class="">
+                Nombre Cliente
+                <input type="text" placeholder="Nombre" class="form-control" formControlName="Nombre_cliente" readonly>
+            </div>
+        </c-col>
+        <c-col [xs]>
+            <div class="">
+                PPU
+                 <input type="text" class="form-control"  placeholder="PPU" formControlName="PPU" readonly>
+             </div>
+             <div class="">
+                Región
+                <input type="text" class="form-control"  placeholder="Region" formControlName="Region" readonly>
+                <!-- <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region" readonly>
+                    <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                </select> -->
+            </div>
+            <div class="">
+                Fecha Compromiso
+                <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha_compromiso" readonly>
+                <span class="error" *ngIf="form.get('Fecha_compromiso')?.errors?.['required'] && isErrorView">
+                        Falta agregar la fecha de compromiso
+                    </span>
+                <span class="error" *ngIf="form.get('Fecha_compromiso')?.errors?.['pattern'] && isErrorView">
+                        El formato de la fecha de compromiso no es valido
+                    </span>
+            </div>
+            
+        </c-col>
+        <c-col [xs]>
+            <div class="">
+                Guía
+                 <input type="text" class="form-control" placeholder="Guia"  formControlName="Guia" readonly>
+             </div>
+             <div class="">
+                Comuna
+                <input type="text" class="form-control" placeholder="Comuna"  formControlName="Comuna" readonly>
+                <!-- <select id="Comuna" cSelect formControlName="Comuna" readonly>
+                    <option  *ngFor="let comuna of listaComunas" value={{comuna.Nombre_comuna}} >{{comuna.Nombre_comuna}}</option>
+                </select> -->
+            </div>
+            <div class="">
+                Driver
+                <input type="text" placeholder="Driver" class="form-control" formControlName="Driver" readonly>
+            </div>
+        
+        </c-col>
+        <p></p>
+    </c-row>
+</div>
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Fecha reprogramada
+                <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha_reprogramada" required>
+                <span class="error" *ngIf="form.get('Fecha_reprogramada')?.errors?.['required'] && isErrorView">
+                        Falta agregar la fecha reprogramada
+                    </span>
+                <span class="error" *ngIf="form.get('Fecha_reprogramada')?.errors?.['pattern'] && isErrorView">
+                        El formato de la fecha reprogramada no es valido
+                    </span>
+            </div> 
+            <div class="">
+                Dirección correcta
+                <input type="text" class="form-control" placeholder="Direccion Correcta" formControlName="Direccion_correcta" required>
+            </div>
+            <div class="">
+                Comuna Correcta
+                <select id="Comuna_correcta" cSelect formControlName="Comuna_correcta">
+                    <option  *ngFor="let comuna of listaComunas" value={{comuna.Nombre_comuna}} >{{comuna.Nombre_comuna}}</option>
+                </select>
+            </div>
+            
+            <div class="">
+                Subestado
+                <input type="text" placeholder="Subestado" class="form-control" formControlName="Subestado" required>
+            </div>
+    
+            <div class="">
+                Codigo1
+                <select id="Codigo1Str" cSelect formControlName="Codigo1Str">
+                    <option *ngFor="let codigo of listaCodigos1" [value]="codigo.Id"  >{{codigo.Descripcion}}</option>
+                </select>
+            </div>
+        
+        </c-col>
+        <c-col [xs]>
+        <div class="">
+            Observación
+            <!-- <input type="text" placeholder="Subestado" class="form-control" formControlName="Observacion" required> -->
+            <textarea rows="6"  cFormContro placeholder="Observación" class="form-control" formControlName="Observacion" ></textarea>
+            <span class="error" *ngIf="form.get('Observacion')?.errors?.['required'] && isErrorView">
+                Falta la Observación
+              </span>
+        </div>
+        <div class="">
+            Subestado esperado
+            <select id="Subestado_esperado" cSelect formControlName="Subestado_esperado">
+                <option *ngFor="let subestado of listaSubestados" [value]="subestado.Nombre"  >{{subestado.Nombre}}</option>
+            </select>
+        </div>
+        
+        
+
+        <!-- <div class="">
+            Codigo1
+            <input type="text" placeholder="Subestado" class="form-control" formControlName="Observacion" required>
+            <span class="error" *ngIf="form.get('Observacion')?.errors?.['required'] && isErrorView">
+                Falta la Observación
+              </span>
+        </div> -->
+        </c-col>
+    </c-row>
+    <p></p>
+    <button class="btn btn-success" type="submit">Registrar</button>
+
+    <!-- <button class="btn btn-secondary" (click)="reiniciar()">Reiniciar</button> -->
+    <!-- <button class="btn btn-success" type="submit">Registrar</button> -->
+  </form>
+  

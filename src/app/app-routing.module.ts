@@ -165,7 +165,21 @@ const routes: Routes = [
         canActivate :[PermissionGuard],
         loadChildren: () =>
           import('./views/exo/exo.module').then((m) => m.ExoModule )
-      }
+      },
+      {
+        path : 'mi-cuenta',
+        loadChildren: () =>
+          import('./views/mi-cuenta/mi-cuenta.module').then((m) => m.MiCuentaModule )
+      },
+      {
+        path : 'toc',
+        // data : {
+        //   roles : ROLES_PERMITIDOS.EXO
+        // },
+        // canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/toc/toc.module').then((m) => m.TocModule )
+      },
     ],
     canActivate: [UserGuard]
   },

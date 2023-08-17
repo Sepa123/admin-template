@@ -25,11 +25,11 @@ export class IngresoProductoComponent {
   selectedRegion! : string 
 
   form = this.builder.group({
-    Cliente : this.builder.control("Easy CD", [Validators.required]),
+    Cliente : this.builder.control("Easy", [Validators.required]),
     Codigo_pedido : this.builder.control("", [Validators.required]),
     Tipo : this.builder.control("Envio", [Validators.required]),
     Envio_asociado : this.builder.control("", [Validators.required]),
-    Fecha_pedido : this.builder.control("", [Validators.required]),
+    Fecha_pedido : this.builder.control("", [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
     SKU : this.builder.control("", [Validators.required, Validators.pattern('^[0-9]+$')]),
     Descripcion_producto : this.builder.control("", [Validators.required]),
     Cantidad : this.builder.control("", [Validators.required, this.positiveNumberValidator]),

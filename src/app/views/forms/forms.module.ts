@@ -14,6 +14,8 @@ import {
   SharedModule
 } from '@coreui/angular';
 
+import { ModalModule } from '@coreui/angular';
+
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
@@ -58,6 +60,7 @@ import { CargaQuadmindComponent } from './carga-quadmind/carga-quadmind.componen
   ],
   imports: [
     CommonModule,
+    ModalModule,
     DragDropModule,
     FormsRoutingModule,
     DocsComponentsModule,

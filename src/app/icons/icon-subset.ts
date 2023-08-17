@@ -1,4 +1,9 @@
 import {
+  cilFindInPage,
+  cilClipboard,
+  cilBuilding,
+  cilTruck,
+  cilContact,
   cilBarChart,
   cifBr,
   cifEs,
@@ -87,6 +92,11 @@ import {
 } from '@coreui/icons';
 
 export const iconSubset = {
+  cilFindInPage,
+  cilClipboard,
+  cilBuilding,
+  cilTruck,
+  cilContact,
   cifBr,
   cifEs,
   cifFr,
@@ -174,7 +184,12 @@ export const iconSubset = {
   cilBarChart
 };
 
-export enum IconSubset {
+export enum IconSubset { 
+  cilFindInPage = 'cilFindInPage',
+  cilClipboard = 'cilClipboard',
+  cilBuilding = 'cilBuilding',
+  cilTruck = 'cilTruck',
+  cilContact = 'cilContact',
   cibCcAmex = 'cibCcAmex',
   cibCcApplePay = 'cibCcApplePay',
   cibCcMastercard = 'cibCcMastercard',

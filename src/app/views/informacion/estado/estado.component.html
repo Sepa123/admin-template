@@ -168,7 +168,8 @@
         <div>
           <div class="col-md-10 mx-auto">
             <h3>Pedidos sin tienda asociada</h3>
-              <table class="greenTable" *ngIf="ocultarTabla == true">
+            <div class="table-sin-asociado">
+              <table *ngIf="ocultarTabla == true">
                 <thead>
                   <tr>
                     <th scope="col">Suborden</th>
@@ -194,7 +195,8 @@
                     <td colspan="5" *ngIf="noData"> Sin datos</td>
                   </tr>
                 </tbody>
-              </table>         
+              </table>   
+            </div>      
         </div>
       </div>
       </c-row>

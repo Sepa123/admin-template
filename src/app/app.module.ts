@@ -53,6 +53,8 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+
+
 // import { RutaManulaComponent } from './views/ruta-manula/ruta-manula.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {

@@ -44,6 +44,51 @@ ng-select .ng-select-container {
     /* Otros estilos personalizados */
   }
 
+  .table-sin-asociado {
+    width: auto;
+    max-height: 400px; /* Altura de ejemplo */
+    overflow: auto;
+  }
+  
+  .table-sin-asociado table {
+    border: 1px solid #28A745;
+    background-color: #FFFEF3;
+    width: 100%;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .table-sin-asociado table td, table th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  .table-sin-asociado table tbody {
+    white-space: nowrap;
+    font-size: 14px;
+  }
+  
+  .table-sin-asociado table tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  .table-sin-asociado table thead {
+    position: sticky;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    background: #28A745;
+  }
+  .table-sin-asociado table thead th {
+    
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+  .table-sin-asociado table thead th:first-child {
+    border-left: none;
+  }
+
   @media screen and (max-width: 600px) {
     table {
       display: block;

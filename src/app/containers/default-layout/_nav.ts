@@ -1,4 +1,5 @@
 import { INavData } from '@coreui/angular';
+import { ROLES_ENUM } from 'src/app/models/enum/roles.enum';
 import { ROLES_PERMITIDOS } from 'src/app/rolesPermitidos.const'
 
 export const navItemsTra: INavData[] = [
@@ -51,7 +52,7 @@ export const navItemsOp: INavData[] = [
   {
     name: 'Operaciones',
     url: '/operaciones',
-    iconComponent: { name: 'cil-cursor' },
+    iconComponent: { name: 'cil-clipboard' },
     children: [
       // {
       //   name: 'Reportes',
@@ -82,7 +83,7 @@ export const navItemsOp: INavData[] = [
       //   url: '/forms/form-control'
       // },
       {
-        name: 'Ruta Manual',
+        name: 'Crear Ruta',
         // url: '/forms/select'
         url: '/picking/ruta-manual'
       },
@@ -159,8 +160,8 @@ export const navItemsTest: INavDataBar[][] = [
     {
       name: 'Operaciones',
       url: '/operaciones',
-      iconComponent: { name: 'cil-cursor' },
-      roles : ROLES_PERMITIDOS.OPERACIONES,
+      iconComponent: { name: 'cil-clipboard' },
+      roles : ROLES_PERMITIDOS.OPERACIONES_VIEWS,
       children: [
         {
           name: 'Reportes',
@@ -194,7 +195,7 @@ export const navItemsTest: INavDataBar[][] = [
         //   url: '/forms/form-control'
         // },
         {
-          name: 'Ruta Manual',
+          name: 'Crear Ruta',
           // url: '/forms/select'
           url: '/picking/ruta-manual'
         },
@@ -218,6 +219,24 @@ export const navItemsTest: INavDataBar[][] = [
 ];
 
 export const navItems: INavDataBar[] = [
+  // {
+  //   name: 'Mi Cuenta',
+  //   url: '/mi-cuenta/settings',
+  //   iconComponent: { name: 'cil-user' },
+  //   roles : ROLES_PERMITIDOS.DASHBOARD,
+  //   // children: [
+  //   //   {
+  //   //     name: 'Reportes',
+  //   //     url: '/dashboard',
+  //   //     roles : ['5','13','14']
+  //   //   },
+  //   //   {
+  //   //     name: 'Hoy',
+  //   //     url: '/dashboard/hoy',
+  //   //     roles : ['5','13','14']
+  //   //   },
+  //   // ]
+  // },
   {
     name: 'Dashboard',
     url: '/dashboard',
@@ -263,13 +282,9 @@ export const navItems: INavDataBar[] = [
   {
     name: 'Operaciones',
     url: '/operaciones',
-    iconComponent: { name: 'cil-cursor' },
-    roles : ROLES_PERMITIDOS.OPERACIONES,
+    iconComponent: { name: 'cil-clipboard' },
+    roles : ROLES_PERMITIDOS.OPERACIONES_VIEWS,
     children: [
-      // {
-      //   name: 'Reportes',
-      //   url: '/operaciones/reportes'
-      // },
       {
         name: 'Pendientes',
         url: '/operaciones/pendientes'
@@ -278,7 +293,6 @@ export const navItems: INavDataBar[] = [
         name: 'Estados',
         url: '/operaciones/estados'
       },
-
       {
         name: 'Productos sin clasificación',
         url: '/operaciones/productos-sin-clasificacion'
@@ -286,33 +300,66 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
+    name: 'Operaciones',
+    url: '/operaciones',
+    iconComponent: { name: 'cil-clipboard' },
+    roles : ROLES_PERMITIDOS.ONLY_TOC,
+    children: [
+      {
+        name: 'Pendientes',
+        url: '/operaciones/pendientes'
+      }
+    ]
+  },
+  {
+    
     name: 'Rutas',
     url: '/picking',
-    iconComponent: { name: 'cil-paper-plane' },
-    roles : ROLES_PERMITIDOS.PICKING,
+    iconComponent: { name: 'cil-truck' },
+    roles : ROLES_PERMITIDOS.PICKING_ALL,
     children: [
-      // {
-      //   name: 'Quadminds',
-      //   url: '/picking/form-control'
-      // },
       {
-        name: 'Ruta Manual',
-        // url: '/forms/select'
+        name: 'Crear Ruta',
         url: '/picking/ruta-manual'
       },
       {
         name: 'Rutas Activas',
-        // url: '/forms/checks-radios'
         url: '/picking/rutas-activas'
       },
       {
         name : 'Quadminds',
         url: '/picking/quadminds'
       },
-      // {
-      //   name : 'Carga Quadminds',
-      //   url: '/picking/carga-quadminds'
-      // },
+    ]
+  },
+  {
+    // Pantalla muestra para ruteador_pickeador
+    name: 'TOC',
+    url: '/toc',
+    iconComponent: { name: 'cil-truck' },
+    roles : ROLES_PERMITIDOS.INFORMACION_ADMINISTRADOR,
+    children: [
+      {
+        name: 'Bitacora',
+        url: '/toc/bitacora'
+      }
+    ]
+  },
+  {
+    // Pantalla muestra para ruteador_pickeador
+    name: 'Rutas',
+    url: '/picking',
+    iconComponent: { name: 'cil-truck' },
+    roles : ROLES_PERMITIDOS.PICKING_RUT_PICKIEADOR,
+    children: [
+      {
+        name: 'Crear Ruta',
+        url: '/picking/ruta-manual'
+      },
+      {
+        name: 'Rutas Activas',
+        url: '/picking/rutas-activas'
+      }
     ]
   },
   { /// Pantalla Informacion Para ADMINISTRADORES
@@ -363,6 +410,22 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
+  { /// Pantalla Informacion Para TOC
+    name: 'Informacion',
+    url: '/informacion',
+    iconComponent : {name : 'cil-magnifying-glass'},
+    roles : ROLES_PERMITIDOS.ONLY_TOC,
+    children: [
+      {
+        name: "Estado",
+        url : '/informacion/estado'
+      },
+      {
+        name: "Tracking Producto",
+        url : '/informacion/tracking-producto'
+      }
+    ]
+  },
   { /// Pantalla Informacion Para PISTOLEADORES
     name: 'Informacion',
     url: '/info',
@@ -382,7 +445,7 @@ export const navItems: INavDataBar[] = [
   {
     name: 'Ingreso cliente',
     url: '/ingreso-cliente',
-    iconComponent : {name : 'cil-magnifying-glass'},
+    iconComponent : {name : 'cil-building'},
     roles : ROLES_PERMITIDOS.INGRESO_CLIENTE,
     children: [
       {
@@ -390,7 +453,7 @@ export const navItems: INavDataBar[] = [
         url : '/ingreso-cliente/easy-cd'
       },
       {
-        name: "Anden Easy OPL",
+        name: "Easy Tienda",
         url : '/ingreso-cliente/easy-opl'
       }
     ]
@@ -422,7 +485,7 @@ export const navItems: INavDataBar[] = [
   {
     name: 'Panel',
     url : '/panel',
-    iconComponent: { name: 'cil-tags' },
+    iconComponent: { name: 'cil-contact' },
     roles : ROLES_PERMITIDOS.PANEL,
     children : [
       {

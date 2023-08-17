@@ -211,7 +211,8 @@
         <div>
           <div class="col-md-10 mx-auto">
             <h3>Pedidos sin tienda asociada</h3>
-              <table class="greenTable" *ngIf="ocultarTabla == true">
+            <div class="table-sin-asociado">
+              <table *ngIf="ocultarTabla == true">
                 <thead>
                   <tr>
                     <th scope="col">Suborden</th>
@@ -232,7 +233,7 @@
                   </tr>
                 </tbody>
               </table>
-  
+            </div>
               <table class="greenTable" *ngIf="ocultarTabla == true"> 
                 <tr>
                    <div *ngIf="noData">

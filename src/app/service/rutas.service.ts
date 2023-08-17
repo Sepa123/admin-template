@@ -23,6 +23,11 @@ export class RutasService {
     return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/${pedido}`)
   }
 
+  get_rutas_manual_sin_filtro(pedido: string) {
+    // return this.http.get<ProductoPicking[]>(this.apiurl + "/buscar/ruta/{producto_id}")
+    return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/sin_filtro/${pedido}`)
+  }
+
   insert_rutas_manual(data : ProductoPicking [][], fecha_pedido : string){
     return this.http.post(this.apiurl + `/agregar?fecha_pedido=${fecha_pedido}`,data)
   }
@@ -105,5 +110,10 @@ export class RutasService {
 
   recuperar_fecha_ingreso_sistema(cod_pedido : string){
     return this.http.get<any>(this.apiurl + `/fecha_ingreso_sistema/${cod_pedido}`)
+  }
+
+  geolocalizar_direcciones(direccion : any) {
+
+    return this.http.post(this.apiurl + "/geolocalizacion",direccion)
   }
 }

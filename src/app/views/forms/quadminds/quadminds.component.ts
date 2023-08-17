@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { PortalTransyanezService } from "src/app/service/portal-transyanez.service";
-import { ProductoPicking } from 'src/app/models/productoPicking.interface';
-
 import { CargaQuadmind } from 'src/app/models/cargas/cargaQuadmind.interface';
 // import { TIService } from 'src/app/service/ti.service';
 import { CargaService } from '../../../service/carga.service'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as XLSX from 'xlsx';
+
+
 @Component({
   selector: 'app-quadminds',
   templateUrl: './quadminds.component.html',
@@ -16,6 +15,9 @@ export class QuadmindsComponent {
   private selectedFile: File | null = null;
 
   termino : boolean = true
+  error! : number  
+  codigosErroneos : string [] = []
+  message : string = ""
 
   tablaQuadmind! : CargaQuadmind[]
   tablaQuadmindFull! : CargaQuadmind[];
@@ -30,7 +32,18 @@ export class QuadmindsComponent {
 
   loadingQuadmind: boolean = true 
 
-  constructor(private service: CargaService) { }
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+
+  constructor(private service: CargaService) { 
+  }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -48,12 +61,15 @@ export class QuadmindsComponent {
 
       this.service.upload_quadmind_manual(formData, id_usuario).subscribe(
         (data : any) => {
-
-
           this.termino = data.termino
-
-          alert(data.message)
+          this.error = data.error
+          if ( this.error == 1){
+            this.codigosErroneos = data.codigos.split(',')
+          }
+          this.message = data.message
           console.log('Archivo subido exitosamente');
+
+          this.toggleLiveDemo()
           // Lógica adicional en caso de éxito.
         },
         (error) => {
@@ -133,24 +149,6 @@ export class QuadmindsComponent {
   downloadExcel() : void{
     // Agrega una fila vacía al principio de los datos
     const datos: any[][] = [[]];
-
-    // datos.push(["Código del Cliente","Razón social","Domicilio","Tipo de Cliente","Fecha de Reparto","Código Reparto","Máquina","Chofer",
-    //             "Fecha De Pedido","Código de Pedido","Código de Producto","Producto","Cantidad","Ventana horaria","Arribo","Partida","Peso(Kg)",
-    //             "Volumen(m3)","Dinero($)"])
-    // this.tablaQuadmind.forEach((producto) => {
-    //   const fila: any[] = [];
-    //   let fechaPedido = new Date(`${producto.Fecha_pedido}T00:00:00`)
-    //   console.log(this.addDaysToDate(fechaPedido,1))
-    //   // let dateObject = this.stringToDate(producto.Fecha_pedido);
-    //   // const formattedDate = this.formatDate(dateObject);
-      
-    //   fila.push(producto.Codigo_cliente, producto.Nombre, producto.Calle+","+producto.Ciudad+","+producto.Provincia+",Chile",
-    //             "SIN_TIPO", "","","","",this.addDaysToDate(fechaPedido,1), producto.Codigo_pedido, producto.Codigo_producto, producto.Descripcion_producto, 
-    //             producto.Cantidad_producto, producto.Ventana_horaria_1, "", "",producto.Peso, producto.Volumen, producto.Dinero); 
-    
-    //   datos.push(fila);
-    // });
-
     
     datos.push(["Código del Cliente","Nombre","Calle y Número","Ciudad","Provincia/Estado","Latitud","Longitud","Teléfono con código de país",
                 "Email","Código de Pedido","Fecha de Pedido","Operación E/R","Código de Producto","Descripción del Producto","Cantidad de Producto","Peso", 

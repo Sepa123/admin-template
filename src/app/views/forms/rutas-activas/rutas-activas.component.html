@@ -77,6 +77,7 @@
         <th>Nombre de cliente</th>
         <th>Dirección cliente</th>
         <th>Teléfono</th>
+        <!-- <th>Geolocalizar</th> -->
     </tr>
   </thead>
   <tbody >
@@ -102,6 +103,10 @@
       <td>{{ruta.Nombre_cliente }}</td>
       <td>{{ruta.Direccion_cliente }}</td>
       <td>{{ruta.Telefono }}</td>
+      <!-- <td>
+        <button cButton size="sm" color="warning" (click)="buscarLatLon(ruta.Comuna,ruta.Direccion_cliente, ruta.Region)">Geolocalizar
+        </button>
+      </td> -->
       
       <!-- <td>{{ruta.Validacion }}</td>
       <td>{{ruta.DE }}</td>
@@ -155,11 +160,11 @@
           </svg>
         </button>
       </td>
-
       <!-- <td>
-        <button cButton size="sm" color="warning" (click)="buscarLatLon()">buscar latitud   
+        <button cButton size="sm" color="warning" (click)="buscarlalonRutas(rutaEnActivo)">Geolocalizar
         </button>
       </td> -->
+     
     </tr>
   </table>
  

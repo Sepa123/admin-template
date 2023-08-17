@@ -59,6 +59,16 @@ export class TrackingProductoComponent {
       return newArr
     }
 
+    getClassCondition(numeroString: string): any {
+      const numero = parseInt(numeroString);
+      console.log(numero)
+      if (numero >= 1) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
   convertirCerosUnos(arr : any []) {
     let result = [];
     const uno = arr.indexOf("1")
@@ -136,8 +146,9 @@ export class TrackingProductoComponent {
       this.arrayError[1] = true
     })
 
-    this.service.get_rutas_manual(codigo).subscribe((data) => {
+    this.service.get_rutas_manual_sin_filtro(codigo).subscribe((data) => {
       this.productosRuta = data
+      this.codigoPickeado = codigo
       // console.log(data)
       this.isOK = true
     }, error => {

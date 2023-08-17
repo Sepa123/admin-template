@@ -48,24 +48,53 @@ export class RutasActivasComponent {
 
   dataRecov! : Nominatim []
 
-  buscarLatLon(){
-    const set = new Set(this.arrayDirecciones)
+  async buscarlalonRutas(rutaActual: RutaEnActivo []){
+    const idsVistos = new Set(); 
+    const rutaFilter = rutaActual.filter(ruta => {
+      if (!idsVistos.has(ruta.Direccion_cliente)) {
+        idsVistos.add(ruta.Direccion_cliente)
+        return true
+      }
+      return false;
+    });
+    
+    const promesas = rutaFilter.map(async ruta => {
+      await this.buscarLatLon(ruta.Comuna, ruta.Direccion_cliente, ruta.Region);
+    });
+  
+    await Promise.all(promesas);
+  }
 
-    Array.from(set).map(data =>{
-      // console.log(data)
-      this.buscarDatosDireccion(data)
-      
+  buscarLatLon(comuna : string, direccion : string, region : string){
+    // const set =  Array.from(new SetarrayDirecciones)
+    const dir_entregada = direccion+", "+comuna+ ", "+region+", Chile"
+
+    const  body= {
+      "Id_usuario" : sessionStorage.getItem('id'),
+      "Direccion" : dir_entregada,
+      "Comuna" : comuna,
+      "Region" : region,
+      "Lat" : "",
+      "Lng" : "",
+      "Ids_usuario" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+      "Display_name" : "",
+      "Type" : ""
+    }
+    this.service.geolocalizar_direcciones(body).subscribe((data : any) => {
+      console.log(data)
+      // alert(JSON.stringify(data))
     })
   }
 
   buscarDatosDireccion(direccion : string){
     this.http.get<Nominatim []>(`https://nominatim.openstreetmap.org/search?format=json&limit=5&q=${direccion}`).subscribe((data) => {
-      console.log(data)
       this.dataRecov = data
+      if (this.dataRecov.length === 0) return console.log("no se encontraron datos")
       console.log("Direccion: ", direccion)
       console.log("Latitud :",this.dataRecov[0].lat)
       console.log("Longitud :",this.dataRecov[0].lon)
       console.log("Direccion: ",this.dataRecov[0].display_name)
+      console.log(" ")
     })
   }
 
@@ -141,7 +170,7 @@ export class RutasActivasComponent {
 
   buscarRuta (nombreRuta : string,estado_ruta : boolean) {
     // console.log(this.nombreRuta)
-    
+    this.arrayDirecciones = []
     this.service.get_rutas_en_activo(nombreRuta).subscribe((data) => {
       
       console.log(data)
@@ -150,7 +179,7 @@ export class RutasActivasComponent {
       this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  sum + bulto.Bultos, 0)
       this.rutaEnActivo.map(ruta => {
 
-        this.arrayDirecciones.push(ruta.Comuna+ " "+ruta.Direccion_cliente)
+        this.arrayDirecciones.push(ruta.Direccion_cliente+ ","+ruta.Comuna + ", Chile")
         ruta.arraySKU = ruta.SKU.split('@')
         ruta.arrayProductos = ruta.Producto.split('@')
       })

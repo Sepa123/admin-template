@@ -40,6 +40,9 @@
             <span class="error" *ngIf="form.get('Fecha_pedido')?.errors?.['required'] && isErrorView">
                   Falta agregar la fecha de pedido
                 </span>
+            <span class="error" *ngIf="form.get('Fecha_pedido')?.errors?.['pattern'] && isErrorView">
+                  El formato de la fecha de pedido no es valido
+                </span>
         </div>
         <div class="">
            SKU

@@ -13,6 +13,7 @@ export interface RutaEnActivo {
     Validacion:        string;
     DE:                string;
     DP:                string;
-    arraySKU:         string[];
-    arrayProductos:   string[];
+    Region:            string;
+    arraySKU:          string[];
+    arrayProductos:    string[];
 }
