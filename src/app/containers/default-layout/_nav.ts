@@ -336,12 +336,16 @@ export const navItems: INavDataBar[] = [
     // Pantalla muestra para ruteador_pickeador
     name: 'TOC',
     url: '/toc',
-    iconComponent: { name: 'cil-truck' },
+    iconComponent: { name: 'cil-chat-bubble' },
     roles : ROLES_PERMITIDOS.INFORMACION_ADMINISTRADOR,
     children: [
       {
         name: 'Bitacora',
         url: '/toc/bitacora'
+      },
+      {
+        name: 'Alertas Vigentes',
+        url: '/toc/alertas-vigentes'
       }
     ]
   },

@@ -5,6 +5,7 @@ import { ProductoToc } from 'src/app/models/productosToc.interface';
 import { ComunasService } from 'src/app/service/comunas/comunas.service';
 import { Subestados } from 'src/app/models/subestados.interface';
 import { Codigo1 } from 'src/app/models/Codigos1.interface';
+import { ObservacionTOC } from 'src/app/models/ObservacionesTOC.interface';
 
 @Component({
   selector: 'app-bitacora-toc',
@@ -26,6 +27,8 @@ export class BitacoraTocComponent {
   listaSubestados : Subestados [] = []
   listaCodigos1 : Codigo1 [] = []
 
+  listaObservaciones : ObservacionTOC [] = []
+
   constructor (private service :TocService,public builder: FormBuilder, private comunaService : ComunasService,) {}
 
   form = this.builder.group({
@@ -43,7 +46,7 @@ export class BitacoraTocComponent {
     Fecha_compromiso : this.builder.control("", [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
     Direccion_correcta : this.builder.control(""),
     Comuna_correcta : this.builder.control("Puente Alto", [Validators.required]),
-    Fecha_reprogramada : this.builder.control("", [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
+    Fecha_reprogramada : this.builder.control("", [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
     Observacion : this.builder.control(""),
     Subestado_esperado : this.builder.control(""), 
     Id_transyanez : this.builder.control(1, [Validators.required]),
@@ -72,6 +75,9 @@ export class BitacoraTocComponent {
     this.service.buscar_codigos1().subscribe((data) => {
       this.listaCodigos1 = data
     })
+
+    this.observacionesUsuario(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"")
+
   }
 
   BuscarProducto(){
@@ -124,8 +130,18 @@ export class BitacoraTocComponent {
 
   }
 
+  observacionesUsuario(id_usuario : string){
+    this.service.buscar_observaciones_usuario(id_usuario).subscribe((data) => {
+      this.listaObservaciones = data
+    })
+  }
+
   registrar(){
     this.isErrorView = false
+
+    if(this.form.value.Fecha_reprogramada  == "" ) {
+      this.form.patchValue({ Fecha_reprogramada : null})
+    }
     console.log(this.form.value)
     if(this.form.valid){
       this.service.insert_bitacora_toc(this.form.value).subscribe((data : any) => {
@@ -141,6 +157,8 @@ export class BitacoraTocComponent {
           Alerta : false,
           Codigo1 : 0
         })
+
+        this.observacionesUsuario(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"")
       }, ((error) => {
         alert(error)
         this.form.patchValue({
@@ -158,6 +176,4 @@ export class BitacoraTocComponent {
       alert("Hay datos incorrectos")
     }
   }
-  
-
 }

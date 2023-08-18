@@ -37,6 +37,11 @@ export class TrackingProductoComponent {
 
   }
 
+  convertir_int(num : string){
+    console.log(parseInt(num))
+    return parseInt(num)
+  }
+
 
   ngOnInit(){
 
@@ -140,6 +145,8 @@ export class TrackingProductoComponent {
       console.log(this.linea_producto.Linea)
       this.linea_cambio = this.zeroEnUno(this.linea_producto.Linea)
       this.linea_producto.Linea = this.reemplazarHastaUltimoUno(this.linea_producto.Linea,this.linea_cambio)
+      // this.linea_producto.Linea = ["1","1","1","1","0"]
+      console.log( this.linea_producto.Linea)
       this.isOK = true
       this.codigoPickeado = resultado
     }, error => {

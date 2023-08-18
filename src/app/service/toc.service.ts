@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ProductoToc } from '../models/productosToc.interface'
 import { Subestados } from 'src/app/models/subestados.interface';
 import { Codigo1 } from 'src/app/models/Codigos1.interface';
+import { ObservacionTOC } from 'src/app/models/ObservacionesTOC.interface'
+import { AlertasVigente } from 'src/app/models/alertasVigentes.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,14 @@ export class TocService {
 
   buscar_codigos1(){
     return this.http.get<Codigo1 []>(this.apiurl + "/codigos1")
+  }
+
+  buscar_observaciones_usuario(id_usuario : string){
+    return this.http.get<ObservacionTOC []>(this.apiurl + `/observaciones/${id_usuario}`)
+  }
+
+  buscar_alertas_vigentes(){
+    return this.http.get<AlertasVigente []>(this.apiurl + "/alertas-vigentes")
   }
 
 }

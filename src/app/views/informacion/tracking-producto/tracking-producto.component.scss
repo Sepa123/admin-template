@@ -77,6 +77,29 @@ body{margin-top:20px;}
     color: #fff
 }
 
+
+.steps .caso1 .step-icon-wrap::before,
+.steps .caso1 .step-icon-wrap::after {
+    background-color: green
+}
+
+.steps .caso1 .step-icon {
+    border-color: green;
+    background-color: green;
+    color: #fff
+}
+
+.steps .caso2 .step-icon-wrap::before,
+.steps .caso2 .step-icon-wrap::after {
+    background-color: red
+}
+
+.steps .caso2 .step-icon {
+    border-color: red;
+    background-color: red;
+    color: #fff
+}
+
 @media (max-width: 576px) {
     .flex-sm-nowrap .step .step-icon-wrap::before,
     .flex-sm-nowrap .step .step-icon-wrap::after {

@@ -1,6 +1,6 @@
 <h2>Bitacora TOC</h2>
 
-<form cForm [formGroup]="form" (ngSubmit)="registrar()" >
+<form cForm [formGroup]="form" (ngSubmit)="registrar()">
     <c-row>
         <c-col [xs]>
             <div class="">
@@ -101,17 +101,14 @@
         <c-col [xs]>
             <div class="">
                 Fecha reprogramada
-                <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha_reprogramada" required>
-                <span class="error" *ngIf="form.get('Fecha_reprogramada')?.errors?.['required'] && isErrorView">
-                        Falta agregar la fecha reprogramada
-                    </span>
+                <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha_reprogramada" >
                 <span class="error" *ngIf="form.get('Fecha_reprogramada')?.errors?.['pattern'] && isErrorView">
                         El formato de la fecha reprogramada no es valido
                     </span>
             </div> 
             <div class="">
                 Dirección correcta
-                <input type="text" class="form-control" placeholder="Direccion Correcta" formControlName="Direccion_correcta" required>
+                <input type="text" class="form-control" placeholder="Direccion Correcta" formControlName="Direccion_correcta" >
             </div>
             <div class="">
                 Comuna Correcta
@@ -120,9 +117,9 @@
                 </select>
             </div>
             
-            <div class="">
+            <div class="noEditar">
                 Subestado
-                <input type="text" placeholder="Subestado" class="form-control" formControlName="Subestado" required>
+                <input type="text" placeholder="Subestado" class="form-control" formControlName="Subestado" readonly>
             </div>
     
             <div class="">
@@ -148,22 +145,69 @@
                 <option *ngFor="let subestado of listaSubestados" [value]="subestado.Nombre"  >{{subestado.Nombre}}</option>
             </select>
         </div>
-        
-        
-
-        <!-- <div class="">
-            Codigo1
-            <input type="text" placeholder="Subestado" class="form-control" formControlName="Observacion" required>
-            <span class="error" *ngIf="form.get('Observacion')?.errors?.['required'] && isErrorView">
-                Falta la Observación
-              </span>
-        </div> -->
         </c-col>
     </c-row>
     <p></p>
-    <button class="btn btn-success" type="submit">Registrar</button>
-
-    <!-- <button class="btn btn-secondary" (click)="reiniciar()">Reiniciar</button> -->
+    <c-row>
+        <c-col [xs]>
+            <button class="btn btn-success" type="submit">Guardar 
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+            </button>
+        </c-col>
+        <c-col [xs]>
+                <button class="btn btn-secondary" type="button" (click)="reiniciar()">Reiniciar
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 32 32"><path fill="currentColor" d="M18 28A12 12 0 1 0 6 16v6.2l-3.6-3.6L1 20l6 6l6-6l-1.4-1.4L8 22.2V16a10 10 0 1 1 10 10Z"/></svg>
+                </button>
+        </c-col>
+    </c-row>
     <!-- <button class="btn btn-success" type="submit">Registrar</button> -->
   </form>
+  <p></p>
+
+  <div class="greenTable" *ngIf="listaObservaciones.length !== 0">
+    <table id="tablaProductosPicking" >
+    <thead>
+      <tr>
+        <th>Guía</th>
+        <th>Cliente</th>
+        <th>Comuna</th>
+        <th>Fecha compromiso</th>
+        <th>Fecha reprogramada</th>
+        <th>Observación</th>
+        <th>Código TY</th>
+        <th>Alerta</th>
+        <th>En ruta</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let observacion of listaObservaciones;let i = index ">
+      <td>{{observacion.Guia}}</td>
+      <td>{{observacion.Cliente}}</td>
+      <td>{{observacion.Comuna}}</td>
+      <td>{{observacion.Fecha_compromiso}}</td>
+      <td>{{observacion.Fecha_Reprogramada}}</td>
+      <td *ngIf="observacion.Observacion !== null && observacion.Observacion !== '' ">{{observacion.Observacion}}</td>
+      <td *ngIf="observacion.Observacion == null || observacion.Observacion == '' ">Sin observación</td>
+      <td>{{observacion.Codigo_TY}}</td>
+      <td *ngIf="observacion.Alerta === true" >
+        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+      </td>
+      <td *ngIf="observacion.Alerta === false " >
+        <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+      </td>
+      <td *ngIf="observacion.En_ruta !== null" >
+        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+      </td>
+      <td *ngIf="observacion.En_ruta === null" >
+        <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+      </td>
+
+      <!-- <td>{{observacion.En_ruta}}</td> -->
+    </tr>
+    </tbody>
+    </table>
+  </div>
+
+
+
   

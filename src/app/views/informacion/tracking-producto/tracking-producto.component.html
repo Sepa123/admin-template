@@ -42,13 +42,25 @@
                 <h4 class="step-title">En ruta</h4>
                 <svg *ngIf="linea_cambio[3] == '1' " xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><style>svg{fill:#E71B24}</style><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
               </div>
-              <div [ngClass]="linea_producto.Linea[4] == '1' ? 'step completed': 'step'">
+              <div [ngClass]="linea_producto.Linea[4] == '0' ? 'step': linea_producto.Linea[4] == '1' ? 'step caso1' : linea_producto.Linea[4] == '2' ? 'step caso2' : 'step completed' ">
                 <div class="step-icon-wrap">
                   <div class="step-icon">
-                    <svg [ngClass]="linea_producto.Linea[4] == '1' ? 'svgWhite': 'svgBlack'" xmlns="http://www.w3.org/2000/svg" height="0.95em" viewBox="0 0 512 512"><path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm177.6 62.1C192.8 334.5 218.8 352 256 352s63.2-17.5 78.4-33.9c9-9.7 24.2-10.4 33.9-1.4s10.4 24.2 1.4 33.9c-22 23.8-60 49.4-113.6 49.4s-91.7-25.5-113.6-49.4c-9-9.7-8.4-24.9 1.4-33.9s24.9-8.4 33.9 1.4zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+                    <!-- icono 0 -->
+                    <svg *ngIf="linea_producto.Linea[4] == '0'" xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><path fill="black" d="M408 406.545V248H288v158.545ZM320 280h56v94.545h-56Z"/><path fill="black" d="M271.078 33.749a34 34 0 0 0-47.066.984L32 226.745V496h112V336h64v160h272V225.958ZM448 464H240V304H112v160H64V240L249.412 57.356V57.3L448 240Z"/></svg>
+                    <!-- icono 1 -->
+                    <svg *ngIf="linea_producto.Linea[4] == '1'" xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><path fill="white" d="M426.072 86.928A238.75 238.75 0 0 0 88.428 424.572A238.75 238.75 0 0 0 426.072 86.928ZM257.25 462.5c-114 0-206.75-92.748-206.75-206.75S143.248 49 257.25 49S464 141.748 464 255.75S371.252 462.5 257.25 462.5Z"/><path fill="white" d="m221.27 305.808l-73.413-73.412l-22.627 22.627l96.04 96.04l167.5-167.499l-22.628-22.627L221.27 305.808z"/></svg>
+                    <!-- icono 2  -->
+                    <svg *ngIf="linea_producto.Linea[4] == '2'" xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><path fill="white" d="M240 352h32v32h-32zM355.411 16H156.589l-34.936 37.771l22.645 22.645L170.58 48h170.84L464 180.53v150.94l-31.063 33.585l22.644 22.645L496 344V168L355.411 16z"/><path fill="white" d="M240 128v44.118l32 32V128h-32zM16 16v22.627l62.164 62.164L16 168v176l140.589 152h198.822l56.681-61.281L473.373 496H496v-22.627L38.627 16Zm325.42 448H170.58L48 331.47V180.53l52.808-57.095L240 262.627V320h32v-25.373l117.447 117.447Z"/></svg>
+                    <!-- icono 3  -->
+                    <svg *ngIf="linea_producto.Linea[4] == '3'" xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><path fill="white" d="M471.232 111.731H368V16H144.232v95.731h-103A24.8 24.8 0 0 0 16.464 136.5v334.032A24.8 24.8 0 0 0 41.232 495.3h430A24.8 24.8 0 0 0 496 470.532V136.5a24.8 24.8 0 0 0-24.768-24.769ZM176.232 48H336v63.731H176.232Zm286.232 97.269v80.286l-53.177 53.176H273V232h-33.536v46.731H103.177L50 225.555v-80.286ZM50 461.764V272.982l39.286 39.287h150.178V359.5H273v-47.231h150.178l39.286-39.287v188.782Z"/></svg>
+                    <!-- <svg [ngClass]="linea_producto.Linea[4] == '1' ? 'svgWhite': 'svgBlack'" xmlns="http://www.w3.org/2000/svg" height="0.95em" viewBox="0 0 512 512"><path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm177.6 62.1C192.8 334.5 218.8 352 256 352s63.2-17.5 78.4-33.9c9-9.7 24.2-10.4 33.9-1.4s10.4 24.2 1.4 33.9c-22 23.8-60 49.4-113.6 49.4s-91.7-25.5-113.6-49.4c-9-9.7-8.4-24.9 1.4-33.9s24.9-8.4 33.9 1.4zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg> -->
                   </div>
                 </div>
-                <h4 class="step-title">Producto Entregado</h4>
+                <h4  *ngIf="linea_producto.Linea[4] == '0'" class="step-title">Producto no entregado</h4>
+                <h4  *ngIf="linea_producto.Linea[4] == '1'" class="step-title">Producto entregado</h4>
+                <h4  *ngIf="linea_producto.Linea[4] == '2'" class="step-title">Producto no entregado pero con condición de no reingreso a ruta</h4>
+                <h4  *ngIf="linea_producto.Linea[4] == '3'" class="step-title">Producto archivado</h4>
+
                 <svg *ngIf="linea_cambio[4] == '1' " xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><style>svg{fill:#E71B24}</style><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
               </div>
             </div>

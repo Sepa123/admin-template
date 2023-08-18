@@ -23,11 +23,13 @@ import {
 
 import { TocRoutingModule } from './toc-routing.module';
 import { BitacoraTocComponent } from './bitacora-toc/bitacora-toc.component';
+import { AlertasVigentesComponent } from './alertas-vigentes/alertas-vigentes.component';
 
 
 @NgModule({
   declarations: [
-    BitacoraTocComponent
+    BitacoraTocComponent,
+    AlertasVigentesComponent
   ],
   imports: [
     CommonModule,

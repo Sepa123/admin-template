@@ -1,17 +1,11 @@
-.error {
-    color: #E71B24;
-  }
-
-.noEditar input[type="text"] ,.noEditar input[type="date"], .noEditar select {
-    background-color : #d1d1d1; 
-  }
-
-   .greenTable{
+.greenTable{
     width: auto;
     max-height: 400px; /* Altura de ejemplo */
     overflow: auto;
   }
-  
+  h2 {
+    text-align: center;
+  }
   .greenTable  table {
     border: 1px solid #28A745;
     background-color: #FFFEF3;
