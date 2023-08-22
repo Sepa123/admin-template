@@ -346,6 +346,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Alertas Vigentes',
         url: '/toc/alertas-vigentes'
+      },
+      {
+        name: 'NS TOC',
+        url: '/toc/jefatura'
       }
     ]
   },

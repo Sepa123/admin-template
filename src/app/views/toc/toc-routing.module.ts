@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BitacoraTocComponent } from './bitacora-toc/bitacora-toc.component';
 import { AlertasVigentesComponent } from './alertas-vigentes/alertas-vigentes.component';
+import { JefaturaComponent } from './jefatura/jefatura.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,13 @@ const routes: Routes = [
         component : AlertasVigentesComponent,
         data : {
           title : "Alertas"
+        }
+      },
+      {
+        path : 'jefatura',
+        component : JefaturaComponent,
+        data : {
+          title : "jefatura"
         }
       }
     ]

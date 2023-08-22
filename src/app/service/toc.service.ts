@@ -4,7 +4,11 @@ import { ProductoToc } from '../models/productosToc.interface'
 import { Subestados } from 'src/app/models/subestados.interface';
 import { Codigo1 } from 'src/app/models/Codigos1.interface';
 import { ObservacionTOC } from 'src/app/models/ObservacionesTOC.interface'
-import { AlertasVigente } from 'src/app/models/alertasVigentes.interface'
+import { AlertasVigente, BitacoraRango } from 'src/app/models/alertasVigentes.interface'
+import { UsuarioTOC } from 'src/app/models/usuariosTOC.interface'
+import { interval,Observable, switchMap  } from 'rxjs';
+import { ActividadDiariaTOC } from 'src/app/models/actividadesDiariasTOC.interface'
+import { BackofficeUsuarioTOC } from 'src/app/models/backofficeUsuarioTOC.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +43,33 @@ export class TocService {
   buscar_alertas_vigentes(){
     return this.http.get<AlertasVigente []>(this.apiurl + "/alertas-vigentes")
   }
+
+  nombres_usuarios_toc(fecha_inicio : string, fecha_fin : string){
+    return this.http.get<UsuarioTOC []>(this.apiurl + `/bitacoras/usuarios?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`)
+  }
+
+  bitacoras_rango_fecha(fecha_inicio : string, fecha_fin : string ): Observable<any>{
+    return this.http.get<BitacoraRango []>(this.apiurl + `/bitacoras/rango?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`)
+  }
+
+  actividad_diaria_usuario(ids_usuario : string, fecha : string){
+    return this.http.get<ActividadDiariaTOC []>(this.apiurl + `/actividad_diaria?ids_usuario=${ids_usuario}&fecha=${fecha}`)
+  }
+
+  backoffice_usuario(ids_usuario : string){
+    return this.http.get<BackofficeUsuarioTOC []>(this.apiurl + `/backoffice/usuario?ids_usuario=${ids_usuario}`)
+  }
+
+  get_nombre_usu_hela(ids_usuario : string){
+    return this.http.get(this.apiurl + `/usuario/hela/${ids_usuario}`)
+  }
+
+  get_nombre_usu_portal(ids_usuario : string){
+    return this.http.get(this.apiurl + `/usuario/portal/${ids_usuario}`)
+  }
+
+
+
+
 
 }

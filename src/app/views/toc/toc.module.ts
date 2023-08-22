@@ -25,11 +25,15 @@ import { TocRoutingModule } from './toc-routing.module';
 import { BitacoraTocComponent } from './bitacora-toc/bitacora-toc.component';
 import { AlertasVigentesComponent } from './alertas-vigentes/alertas-vigentes.component';
 import { ChartjsModule } from '@coreui/angular-chartjs';
+import { JefaturaComponent } from './jefatura/jefatura.component';
+import { ModalModule } from '@coreui/angular';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
     BitacoraTocComponent,
-    AlertasVigentesComponent
+    AlertasVigentesComponent,
+    JefaturaComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +53,9 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
     UtilitiesModule,
     FormsModule, ReactiveFormsModule,
     NgSelectModule,
-    ChartjsModule
+    ChartjsModule,
+    ModalModule,
+    NgChartsModule
   ]
 })
 export class TocModule { }

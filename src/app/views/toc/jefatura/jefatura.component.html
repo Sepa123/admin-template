@@ -1,0 +1,113 @@
+  <c-row ngPreserveWhitespaces>  
+
+
+    <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+        <c-modal-header>
+          <h5 cModalTitle>Observación </h5>
+          <button (click)="toggleLiveDemo()" cButtonClose></button>
+        </c-modal-header>
+        <c-modal-body>
+            {{observacionActual}}
+        </c-modal-body>
+        <c-modal-footer>
+          <button (click)="toggleLiveDemo()" cButton color="secondary">
+            Cerrar
+          </button>
+        </c-modal-footer>
+      </c-modal>
+    
+    <!-- <div class="col-md-6 mx-auto"> -->
+        <h2>NS TOC</h2>
+  <c-row>
+    <c-col [xs]>
+      Fecha Inicio
+  <input type="date"  class="form-control" placeholder="Fecha" [(ngModel)]="fecha_inicio"  required>
+    </c-col>
+    
+    <c-col [xs]>
+      Fecha Fin
+      <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fecha_fin"  required>
+    </c-col>
+  </c-row>
+  <p></p>
+
+  <c-row>
+    <c-col >
+      <button  (click)="buscar()" cButton  color="secondary" size="sm">buscar</button>
+    </c-col>
+  </c-row>
+
+  <div class="greenTable" *ngIf="graficoVisible">
+    
+    <p></p>
+    <table id="tablaProductosPicking" >
+    <thead>
+      <tr>
+        <th>Fecha Creación</th>
+        <th>Guía</th>
+        <th>Cliente</th>
+        <th>Comuna</th>
+        <th>Direccion</th>
+        <th>Fecha compromiso</th>
+        <!-- <th>Observación</th> -->
+        <th>Código TY</th>
+        <th>Alerta</th>
+        <th>En ruta</th>
+        <th>Estado</th>
+        <th>Observación</th>
+        <th>Creado por</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let bitacora of bitacorasRangos;let i = index ">
+        <td>{{bitacora.Fecha_creacion}}</td>
+        <td>{{bitacora.Guia}}</td>
+        <td>{{bitacora.Cliente}}</td>
+        <td [ngClass]="regex.test(bitacora.Comuna) ? 'aterisco': '' ">{{bitacora.Comuna.replace('*','')}}</td>
+        <td [ngClass]="regex.test(bitacora.Direccion) ? 'aterisco': '' ">{{bitacora.Direccion.replace('*','')}}</td>
+        <td [ngClass]="regex.test(bitacora.Fecha_Compromiso) ? 'aterisco': '' ">{{bitacora.Fecha_Compromiso.replace('*','')}}</td>
+        <td>{{bitacora.Codigo_TY}}</td>
+        <td *ngIf="bitacora.Alerta === true" >
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+          </td>
+          <td *ngIf="bitacora.Alerta === false " >
+            <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+          </td>
+          <td *ngIf="bitacora.En_ruta !== null" >
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+          </td>
+          <td *ngIf="bitacora.En_ruta === null" >
+            <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+          </td>
+        <td >{{bitacora.Estado}}</td> 
+        <td>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verObservacion(bitacora.Observacion)"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+        </td>
+        <td >{{ reemplazarIds(bitacora.Created_by) }}</td> 
+    </tr>
+    </tbody>
+    </table>
+  </div>
+
+  <c-row>
+<!--     
+  <c-chart *ngIf="chartVisible == true && graficoVisible == true"
+  [data]="data"
+  [options]="options"
+  type="pie"
+  height="600"
+  width="500"
+  id="myChart"
+  >
+</c-chart> -->
+<div style="display: block; width: 600px; height: 500px;">
+  <canvas *ngIf="chartVisible == true && graficoVisible == true"
+    baseChart
+    class="chart"
+    [data]="pieChartData"
+    [type]="pieChartType"
+    [options]="pieChartOptions"
+  >
+  </canvas>
+</div>  
+</c-row>

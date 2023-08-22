@@ -6,6 +6,8 @@ import { ComunasService } from 'src/app/service/comunas/comunas.service';
 import { Subestados } from 'src/app/models/subestados.interface';
 import { Codigo1 } from 'src/app/models/Codigos1.interface';
 import { ObservacionTOC } from 'src/app/models/ObservacionesTOC.interface';
+import { ActividadDiariaTOC } from 'src/app/models/actividadesDiariasTOC.interface'
+import { BackofficeUsuarioTOC } from 'src/app/models/backofficeUsuarioTOC.interface'
 
 @Component({
   selector: 'app-bitacora-toc',
@@ -16,11 +18,15 @@ export class BitacoraTocComponent {
 
   producto! : ProductoToc
 
+  tablaActividades : boolean = false
+  tablaBackoffice : boolean = false
+
   isSubmitDisabled : boolean = false
 
   isErrorView = false;
 
   listaRegiones : any [] = []
+  listaRegionesFull : any [] = []
   listaComunas : any [] = []
   listaComunasFull : any [] = []
 
@@ -28,6 +34,54 @@ export class BitacoraTocComponent {
   listaCodigos1 : Codigo1 [] = []
 
   listaObservaciones : ObservacionTOC [] = []
+
+  actividadesDiarias : ActividadDiariaTOC [] = []
+  backofficeUsuario : BackofficeUsuarioTOC [] = []
+
+  regex = /\*/;
+  portal = /\bportal-\b/;
+
+  nombre_usuario : string =""
+  
+  observacionActual : string | null = ""
+
+  isModalOpen: boolean = false
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    this.isModalOpen = true
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
+
+  verObservacion(obs : string | null){
+    if(obs === null || obs === ""){
+      this.observacionActual = "Sin observación"
+    }else{
+      this.observacionActual = obs
+    }
+    this.toggleLiveDemo()
+  }
+
+  verTablaActividades(){
+    this.tablaBackoffice = !this.tablaBackoffice
+    this.tablaActividades = false
+  }
+  
+  verBackOffice(){
+    this.tablaActividades = !this.tablaActividades
+    this.tablaBackoffice = false
+  }
 
   constructor (private service :TocService,public builder: FormBuilder, private comunaService : ComunasService,) {}
 
@@ -45,7 +99,7 @@ export class BitacoraTocComponent {
     Nombre_cliente : this.builder.control(""),
     Fecha_compromiso : this.builder.control("", [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
     Direccion_correcta : this.builder.control(""),
-    Comuna_correcta : this.builder.control("Puente Alto", [Validators.required]),
+    Comuna_correcta : this.builder.control(""),
     Fecha_reprogramada : this.builder.control("", [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
     Observacion : this.builder.control(""),
     Subestado_esperado : this.builder.control(""), 
@@ -55,12 +109,15 @@ export class BitacoraTocComponent {
     Ids_usuario : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
     Alerta : this.builder.control(false, [Validators.required]),
     Codigo1 : this.builder.control(0),
-    Codigo1Str: this.builder.control("")
+    Codigo1Str: this.builder.control(""),
+    Correo: this.builder.control(""),
+    Telefono: this.builder.control("")
   })
 
   ngOnInit(){
     this.comunaService.getListaRegiones().subscribe((data : any) => {
       this.listaRegiones = data
+      this.listaRegionesFull = data
     })
 
     this.comunaService.getListaComunas().subscribe((data : any) => {
@@ -77,8 +134,36 @@ export class BitacoraTocComponent {
     })
 
     this.observacionesUsuario(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"")
+    this.buscarActividadDiaria()
+    this.buscarNombreUsuario(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"")
 
   }
+
+  buscarNombreUsuario(ids_usuario : string){
+    if(this.portal.test(ids_usuario)){
+      this.service.get_nombre_usu_portal(ids_usuario).subscribe((data : any) => {
+          this.nombre_usuario = data
+      })
+    }
+  }
+
+
+  buscarActividadDiaria(){
+    const fechaActual = new Date();
+    const año = fechaActual.getFullYear();
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Sumar 1 porque los meses van de 0 a 11
+    const dia = String(fechaActual.getDate()).padStart(2, '0');
+    const formatoFecha = `${año}${mes}${dia}`;
+
+    this.service.backoffice_usuario(this.form.value.Ids_usuario+"").subscribe((data) => {
+      this.backofficeUsuario = data
+    })
+    this.service.actividad_diaria_usuario(this.form.value.Ids_usuario+""+"",formatoFecha).subscribe((data) => {
+      this.actividadesDiarias = data
+    })
+  }
+
+  
 
   BuscarProducto(){
     const cod_producto : any = this.form.value.Codigo_producto
@@ -86,6 +171,9 @@ export class BitacoraTocComponent {
       this.producto = data
       // const regionSeleccionada = this.listaComunasFull.filter(comuna => this.producto.Comuna == comuna.Nombre_comuna)[0].Id_region
       // console.log(regionSeleccionada)
+
+      this.buscarComunas(this.producto.Region)
+
       this.form.patchValue({
         Fecha : this.producto.Fecha,
         PPU : this.producto.Patente,
@@ -98,7 +186,8 @@ export class BitacoraTocComponent {
         Nombre_cliente : this.producto.Nombre_cliente,
         Fecha_compromiso : this.producto.Fecha_compromiso,
         Comuna :this.producto.Comuna,
-        Comuna_correcta :this.producto.Comuna
+        Correo : this.producto.Correo,
+        Telefono: this.producto.Telefono
 
       })
       // console.log(this.producto)
@@ -107,10 +196,10 @@ export class BitacoraTocComponent {
     }))
   }
 
-  buscarComunas(event: any){
-    const selectedRegionId = event.target.value;
-    console.log('Región seleccionada:', selectedRegionId);
-    this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
+  buscarComunas(region : string){
+    const region_selecccionada = this.listaRegiones.filter(r => r.Nombre_region == region)[0].Id_region
+
+    this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == region_selecccionada )
   }
 
   reiniciar(){
@@ -128,6 +217,8 @@ export class BitacoraTocComponent {
 
     this.isErrorView = false
 
+    this.buscarActividadDiaria()
+
   }
 
   observacionesUsuario(id_usuario : string){
@@ -142,6 +233,10 @@ export class BitacoraTocComponent {
     if(this.form.value.Fecha_reprogramada  == "" ) {
       this.form.patchValue({ Fecha_reprogramada : null})
     }
+    if(this.form.value.Comuna_correcta  == "" ) {
+      this.form.patchValue({ Comuna_correcta : null})
+    }
+
     console.log(this.form.value)
     if(this.form.valid){
       this.service.insert_bitacora_toc(this.form.value).subscribe((data : any) => {
@@ -149,7 +244,7 @@ export class BitacoraTocComponent {
         this.form.reset();
   
         this.form.patchValue({
-          Comuna_correcta : "Puente Alto",
+          Comuna_correcta : "",
           Id_transyanez : 1,
           Ids_transyanez :"Ids_transyanez",
           Id_usuario : sessionStorage.getItem("id")?.toString()+"",
@@ -159,10 +254,12 @@ export class BitacoraTocComponent {
         })
 
         this.observacionesUsuario(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"")
+
+        this.buscarActividadDiaria()
       }, ((error) => {
         alert(error)
         this.form.patchValue({
-          Comuna_correcta : "Puente Alto",
+          Comuna_correcta : "",
           Id_transyanez : 1,
           Ids_transyanez :"Ids_transyanez",
           Id_usuario : sessionStorage.getItem("id")?.toString()+"",

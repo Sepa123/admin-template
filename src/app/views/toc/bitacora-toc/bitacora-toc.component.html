@@ -1,3 +1,18 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Observación </h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        {{observacionActual}}
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+
 <h2>Bitacora TOC</h2>
 
 <form cForm [formGroup]="form" (ngSubmit)="registrar()">
@@ -35,12 +50,6 @@
             </div>
             <div class="">
                 Cliente
-                 <!-- <select aria-label="Cliente" id="Cliente" cSelect formControlName="Cliente" readonly>
-                     <option value="Easy">Easy</option>
-                     <option value="Easy OPL">Easy OPL</option>
-                     <option value="Sportex"  >Sportex</option>
-                     <option value="Electrolux">Electrolux</option>
-                 </select> -->
                  <input type="text" placeholder="Cliente" class="form-control" formControlName="Cliente" readonly>
              </div>
              <div class="">
@@ -74,7 +83,10 @@
                         El formato de la fecha de compromiso no es valido
                     </span>
             </div>
-            
+            <div class="">
+                Telefono
+                 <input type="text" class="form-control"  placeholder="Telefono" formControlName="Telefono" readonly>
+             </div>    
         </c-col>
         <c-col [xs]>
             <div class="">
@@ -92,6 +104,10 @@
                 Driver
                 <input type="text" placeholder="Driver" class="form-control" formControlName="Driver" readonly>
             </div>
+            <div class="">
+                Correo
+                 <input type="text" class="form-control"  placeholder="Correo" formControlName="Correo" readonly>
+             </div>   
         
         </c-col>
         <p></p>
@@ -162,52 +178,125 @@
     </c-row>
     <!-- <button class="btn btn-success" type="submit">Registrar</button> -->
   </form>
+
+  <p></p>
+  <h2>Back Office</h2>
   <p></p>
 
-  <div class="greenTable" *ngIf="listaObservaciones.length !== 0">
-    <table id="tablaProductosPicking" >
+
+  <c-row>
+    <c-col [xs]>
+        <button class="btn btn-secondary" type="button" (click)="verTablaActividades()">Seguimiento
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 640 512">
+                <path d="M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+              </svg>
+          </button>
+    </c-col>
+    <c-col [xs]>
+        <button class="btn btn-secondary" type="button" (click)="verBackOffice()">ingresos hoy
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20 6h-3V4c0-1.103-.897-2-2-2H9c-1.103 0-2 .897-2 2v2H4c-1.103 0-2 .897-2 2v3h20V8c0-1.103-.897-2-2-2zM9 4h6v2H9V4zm5 10h-4v-2H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-8v2z"/></svg>
+          </button>
+    </c-col>
+</c-row>
+  
+  
+<p></p>
+
+
+  <div class="greenTable" *ngIf="tablaActividades">
+    <table id="tablaActividades" >
     <thead>
       <tr>
+        <th>Fecha Creación</th>
         <th>Guía</th>
         <th>Cliente</th>
         <th>Comuna</th>
         <th>Fecha compromiso</th>
-        <th>Fecha reprogramada</th>
-        <th>Observación</th>
         <th>Código TY</th>
         <th>Alerta</th>
         <th>En ruta</th>
+        <th>Estado</th>
+        <th>Creado por</th>
+        <th>Observación</th>
       </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let observacion of listaObservaciones;let i = index ">
-      <td>{{observacion.Guia}}</td>
-      <td>{{observacion.Cliente}}</td>
-      <td>{{observacion.Comuna}}</td>
-      <td>{{observacion.Fecha_compromiso}}</td>
-      <td>{{observacion.Fecha_Reprogramada}}</td>
-      <td *ngIf="observacion.Observacion !== null && observacion.Observacion !== '' ">{{observacion.Observacion}}</td>
-      <td *ngIf="observacion.Observacion == null || observacion.Observacion == '' ">Sin observación</td>
-      <td>{{observacion.Codigo_TY}}</td>
-      <td *ngIf="observacion.Alerta === true" >
+    <tr *ngFor="let actividad of actividadesDiarias ;let i = index ">
+        <td>{{actividad.Fecha_creacion}}</td>
+      <td>{{actividad.Guia}}</td>
+      <td>{{actividad.Cliente}}</td>
+      <td [ngClass]="regex.test(actividad.Comuna) ? 'aterisco': '' ">{{actividad.Comuna.replace('*','')}}</td>
+      <td [ngClass]="regex.test(actividad.Fecha_compromiso) ? 'aterisco': '' ">{{actividad.Fecha_compromiso.replace('*','')}}</td>
+      <td>{{actividad.Codigo_TY}}</td>
+      <td *ngIf="actividad.Alerta === true" >
         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
       </td>
-      <td *ngIf="observacion.Alerta === false " >
+      <td *ngIf="actividad.Alerta === false " >
         <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
       </td>
-      <td *ngIf="observacion.En_ruta !== null" >
-        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+      <td *ngIf="actividad.En_ruta !== null" >
+        {{actividad.En_ruta}}
+        <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg> -->
       </td>
-      <td *ngIf="observacion.En_ruta === null" >
+      <td *ngIf="actividad.En_ruta === null" >
         <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
       </td>
-
-      <!-- <td>{{observacion.En_ruta}}</td> -->
+      <td>{{actividad.Estado}}</td>
+      <td>{{nombre_usuario}}</td>
+      <td>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verObservacion(actividad.Observacion)"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+    </td>
     </tr>
     </tbody>
     </table>
   </div>
 
+  
+
+  <div class="greenTable" *ngIf="tablaBackoffice">
+    <table id="tablaBackoffice" >
+    <thead>
+      <tr>
+        <th>Fecha Creación</th>
+        <th>Guía</th>
+        <th>Cliente</th>
+        <th>Comuna</th>
+        <th>Fecha compromiso</th>
+        <th>Código TY</th>
+        <th>Alerta</th>
+        <th>En ruta</th>
+        <th>Id</th>
+        <th>Creado por</th>
+        <th>Observación</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let backoffice of backofficeUsuario ;let i = index ">
+        <td>{{backoffice.Fecha_creacion}}</td>
+      <td>{{backoffice.Guia}}</td>
+      <td>{{backoffice.Cliente}}</td>
+      <td [ngClass]="regex.test(backoffice.Comuna) ? 'aterisco': '' ">{{backoffice.Comuna.replace('*','')}}</td>
+      <td [ngClass]="regex.test(backoffice.Fecha_compromiso) ? 'aterisco': '' ">{{backoffice.Fecha_compromiso.replace('*','')}}</td>
+      <td>{{backoffice.Codigo_TY}}</td>
+      <td *ngIf="backoffice.Alerta === true" >
+        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+      </td>
+      <td *ngIf="backoffice.Alerta === false " >
+        <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+      </td>
+      <td *ngIf="backoffice.En_ruta !== null" > {{backoffice.En_ruta}} </td>
+      <td *ngIf="backoffice.En_ruta === null" >
+        <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+      </td>
+      <td>{{backoffice.Id}}</td>
+      <td>{{nombre_usuario}}</td>
+      <td>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verObservacion(backoffice.Observacion)"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
 
 
   

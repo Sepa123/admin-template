@@ -52,6 +52,7 @@ import {
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgChartsModule } from 'ng2-charts';
 
 
 
@@ -102,7 +103,8 @@ const APP_CONTAINERS = [
     HttpClientModule,
     NgbModule,
     NgbPaginationModule, NgbAlertModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    NgChartsModule
   ],
   providers: [
     {

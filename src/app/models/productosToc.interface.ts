@@ -10,4 +10,6 @@ export interface ProductoToc {
     Nombre_cliente:   string;
     Fecha_compromiso: string;
     Comuna:           string;
+    Telefono :        string;
+    Correo:           string;
 }
