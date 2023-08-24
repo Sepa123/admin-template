@@ -32,7 +32,35 @@ export class RutaManualComponent {
   fechaPedido!: string
   model! : NgbDateStruct
 
+  observacionActual : string | null = ""
 
+  isModalOpen: boolean = false
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    this.isModalOpen = true
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
+
+  verObservacion(obs : string | null){
+    if(obs === null || obs === ""){
+      this.observacionActual = "Sin observación"
+    }else{
+      this.observacionActual = obs
+    }
+    this.toggleLiveDemo()
+  }
   public svgContent!: SafeHtml;
 
   constructor(private service: RutasService, private http: HttpClient, private sanitizer: DomSanitizer) { }

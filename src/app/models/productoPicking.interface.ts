@@ -40,6 +40,14 @@ export interface ProductoPicking {
     Created_by?:          string;
     Id_tabla?:            string;
     Fecha_ruta?:          string;
-    Posicion:            number;
+    Posicion:             number;
+    TOC:                  boolean | null;
+    Obs_TOC:              string | null;
+    Sistema:              boolean | null;
+    Obs_sistema:          string | null;  
 }
 
+
+export interface FacturaElectrolux {
+    Factura:         string;
+}

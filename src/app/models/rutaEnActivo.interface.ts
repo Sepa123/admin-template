@@ -14,6 +14,7 @@ export interface RutaEnActivo {
     DE:                string;
     DP:                string;
     Region:            string;
+    Fecha_pedido:      string;
     arraySKU:          string[];
     arrayProductos:    string[];
 }

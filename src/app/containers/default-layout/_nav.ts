@@ -303,7 +303,7 @@ export const navItems: INavDataBar[] = [
     name: 'Operaciones',
     url: '/operaciones',
     iconComponent: { name: 'cil-clipboard' },
-    roles : ROLES_PERMITIDOS.ONLY_TOC,
+    roles : [ROLES_ENUM.TOC],
     children: [
       {
         name: 'Pendientes',
@@ -333,11 +333,11 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
-    // Pantalla muestra para ruteador_pickeador
+    // Pantalla completa TOC
     name: 'TOC',
     url: '/toc',
     iconComponent: { name: 'cil-chat-bubble' },
-    roles : ROLES_PERMITIDOS.INFORMACION_ADMINISTRADOR,
+    roles : ROLES_PERMITIDOS.FULL_TOC,
     children: [
       {
         name: 'Bitacora',
@@ -350,6 +350,23 @@ export const navItems: INavDataBar[] = [
       {
         name: 'NS TOC',
         url: '/toc/jefatura'
+      }
+    ]
+  },
+  {
+    // Pantalla muestra para solo TOC
+    name: 'TOC',
+    url: '/toc',
+    iconComponent: { name: 'cil-chat-bubble' },
+    roles : [ROLES_ENUM.TOC],
+    children: [
+      {
+        name: 'Bitacora',
+        url: '/toc/bitacora'
+      },
+      {
+        name: 'Alertas Vigentes',
+        url: '/toc/alertas-vigentes'
       }
     ]
   },
@@ -422,7 +439,7 @@ export const navItems: INavDataBar[] = [
     name: 'Informacion',
     url: '/informacion',
     iconComponent : {name : 'cil-magnifying-glass'},
-    roles : ROLES_PERMITIDOS.ONLY_TOC,
+    roles :[ROLES_ENUM.TOC],
     children: [
       {
         name: "Estado",

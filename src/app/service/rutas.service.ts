@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 //  Modelos
 import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
-import { ProductoPicking } from "src/app/models/productoPicking.interface"
+import { ProductoPicking, FacturaElectrolux } from "src/app/models/productoPicking.interface"
 import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
 import { TrackingBeetrack, LineaProducto } from 'src/app/models/trackingBeetrack.interface'
 import { interval,Observable, switchMap  } from 'rxjs';
@@ -26,6 +26,10 @@ export class RutasService {
   get_rutas_manual_sin_filtro(pedido: string) {
     // return this.http.get<ProductoPicking[]>(this.apiurl + "/buscar/ruta/{producto_id}")
     return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/sin_filtro/${pedido}`)
+  }
+
+  get_factura_electrolux(pedido : string){
+    return this.http.get<FacturaElectrolux >(this.apiurl + `/buscar/factura/electrolux/${pedido}`)
   }
 
   insert_rutas_manual(data : ProductoPicking [][], fecha_pedido : string){

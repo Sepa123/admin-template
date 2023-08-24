@@ -142,9 +142,11 @@
                   <th>Fecha de Pedido</th>
                   <th>Código de Producto</th>
                   <th>Descripción del Producto</th>
+                  <th>SKU</th>
                   <th>Cantidad de Producto</th>
                   <th>Notas</th>
                   <th>Verificado</th>
+                  <th *ngIf="factura !== '' "> Factura</th>
               </tr>
             </thead>
             <tbody>
@@ -158,6 +160,7 @@
                 }">{{producto.Fecha_pedido}}</th>
                 <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Codigo_producto}}</td>
                 <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Descripcion_producto}}</td>
+                <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.SKU}}</td>
                 <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Cantidad_producto}}</td>
                 <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Notas}}</td>
                 <!-- Productos pistoleados -->
@@ -171,6 +174,9 @@
                 <td [ngClass]="{'entregado' : producto.Estado === true}" *ngIf="producto.Estado == true">Entregado</td>
                 <td [ngClass]="{'entregado' : producto.Estado === true}" *ngIf="producto.Estado == false">Pendiente</td>
                 <!-- Producto En ruta -->
+
+                <!-- Si el producto es un electrolux -->
+                <td *ngIf="producto.Notas.indexOf('Electrolux') !== -1" >{{factura}}</td> 
               </tr>
             <!-- </ng-container> -->
 

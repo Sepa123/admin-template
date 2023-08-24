@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RutasService } from 'src/app/service/rutas.service';
 import { TrackingBeetrack,LineaProducto } from 'src/app/models/trackingBeetrack.interface'
-import { ProductoPicking } from 'src/app/models/productoPicking.interface';
+import { ProductoPicking,FacturaElectrolux } from 'src/app/models/productoPicking.interface';
 
 @Component({
   selector: 'app-tracking-producto',
@@ -14,6 +14,8 @@ export class TrackingProductoComponent {
   arrayError : boolean [] = [false,false,false]
 
   indexCambiado : any[] = []
+
+  factura : string = ""
 
   isTrackingBeetrack : boolean = false
   codigoPick! : string
@@ -45,6 +47,12 @@ export class TrackingProductoComponent {
 
   ngOnInit(){
 
+  }
+
+  buscarFacturaElectrolux(pedido : string){
+    this.service.get_factura_electrolux(pedido).subscribe(data => {
+      this.factura = data.Factura
+    })
   }
 
   zeroEnUno(arr : any []){
@@ -112,6 +120,7 @@ export class TrackingProductoComponent {
   }
 
   buscarTrackBeetrack(codigo : string){
+      this.factura = ''
       this.fechaIngresoSistema = ""
       this.isOK = false
       this.codigoPick = ""
@@ -158,6 +167,12 @@ export class TrackingProductoComponent {
       this.codigoPickeado = codigo
       // console.log(data)
       this.isOK = true
+
+      if(this.productosRuta[0].Notas.indexOf("Electrolux") !== -1){
+        this.buscarFacturaElectrolux(codigo)
+      }else {
+        this.factura = ''
+      }
     }, error => {
       this.arrayError[2] = true
     })
