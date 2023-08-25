@@ -37,6 +37,11 @@ export class RutaManualComponent {
   isModalOpen: boolean = false
   public visible = false;
 
+  // isDE : boolean = false
+  // isDP : boolean = false
+
+  verAlertas : boolean = false
+
   toggleLiveDemo() {
     this.visible = !this.visible;
   }
@@ -139,7 +144,14 @@ export class RutaManualComponent {
       this.arrayRuta = data.map(objeto => {
         this.idPedido = ""
         console.log(objeto.Provincia)
+
+        if(objeto.TOC || objeto.Sistema){
+          this.verAlertas = true
+        }
+        
         return { ...objeto,
+             DE : false,
+             DP : false,
              Estado : objeto.Estado === "Entregado" ? true : false,
              Nombre_ruta: this.Nombre_ruta, Created_by: this.idUsuario ,
              Id_tabla: resultado,
@@ -274,6 +286,13 @@ export class RutaManualComponent {
     this.guardarClicked = false
   }
 
+  CambiarDE(index : number, index_producto : number){
+    this.arrayRutasIngresados[index][index_producto].DE = !this.arrayRutasIngresados[index][index_producto].DE;
+  }
+  CambiarDP(index : number, index_producto : number){
+    this.arrayRutasIngresados[index][index_producto].DP = !this.arrayRutasIngresados[index][index_producto].DP;
+  }
+
   agregarRutas(dateObj : any) {
     // console.log(this.arrayRutasIngresados)
 
@@ -306,6 +325,7 @@ export class RutaManualComponent {
       }
       )
 
+    console.log(this.arrayRutasIngresados)
     this.isBlockButton = false
 
     // this.todosEnRuta()

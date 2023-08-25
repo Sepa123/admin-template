@@ -35,10 +35,43 @@ export class EditarRutaComponent {
   arrayRutasIngresados : ProductoPicking[] [] = []
   rutasEnTabla : string [] = []
 
+  observacionActual : string | null = ""
+
+  isModalOpen: boolean = false
+  public visible = false;
+
   public svgContent!: SafeHtml;
 
   constructor(private service: RutasService, private http: HttpClient, private sanitizer: DomSanitizer, 
               private nombreRutaService : NombreRutaService, private router : Router ) { }
+
+
+  verAlertas : boolean = false
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    this.isModalOpen = true
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
+
+  verObservacion(obs : string | null){
+    if(obs === null || obs === ""){
+      this.observacionActual = "Sin observación"
+    }else{
+      this.observacionActual = obs
+    }
+    this.toggleLiveDemo()
+  }
 
   obtenerFechaActual(): string {
     const fecha = new Date();
@@ -60,6 +93,15 @@ export class EditarRutaComponent {
     });
   }
 
+  CambiarDE(index : number, index_producto : number){
+    this.arrayRutasIngresados[index][index_producto].DE = !this.arrayRutasIngresados[index][index_producto].DE;
+    console.log(this.arrayRutasIngresados)
+  }
+  CambiarDP(index : number, index_producto : number){
+    this.arrayRutasIngresados[index][index_producto].DP = !this.arrayRutasIngresados[index][index_producto].DP;
+    console.log(this.arrayRutasIngresados)
+  }
+
   ngOnInit() {
     this.loadSvg()  
     
@@ -78,6 +120,10 @@ export class EditarRutaComponent {
       this.fechaPedido = this.arrayRuta[0].Fecha_ruta+""
       const agrupadoPorPosicion : any = {};
       data.forEach((elemento) => {
+
+        if(elemento.TOC || elemento.Sistema || elemento.Obs_sistema !== null){
+          this.verAlertas = true
+        }
         // Obtenemos la posición del elemento
         const posicion = elemento["Posicion"];
         elemento["Pistoleado"] = "t"
@@ -157,6 +203,10 @@ export class EditarRutaComponent {
     this.service.get_rutas_manual(resultado).subscribe((data) => { 
       this.arrayRuta = data.map(objeto => {
         this.idPedido = ""
+
+        if(objeto.TOC || objeto.Sistema){
+          this.verAlertas = true
+        }
         return { ...objeto,
             //  Estado : objeto.Estado === "Entregado" ? true : false,
             Id_ruta : this.idRutaEditar,

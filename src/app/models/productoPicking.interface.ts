@@ -45,6 +45,8 @@ export interface ProductoPicking {
     Obs_TOC:              string | null;
     Sistema:              boolean | null;
     Obs_sistema:          string | null;  
+    DE:                   boolean | null;
+    DP:                   boolean | null;
 }
 
 

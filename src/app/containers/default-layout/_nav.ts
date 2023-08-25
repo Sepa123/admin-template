@@ -303,12 +303,29 @@ export const navItems: INavDataBar[] = [
     name: 'Operaciones',
     url: '/operaciones',
     iconComponent: { name: 'cil-clipboard' },
-    roles : [ROLES_ENUM.TOC],
+    roles : [ROLES_ENUM.TOC,ROLES_ENUM.JEFE_TOC],
     children: [
       {
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       }
+    ]
+  }
+  ,
+  { // Operaciones RAUDDY
+    name: 'Operaciones',
+    url: '/operaciones',
+    iconComponent: { name: 'cil-clipboard' },
+    roles : [ROLES_ENUM.RAUDDY],
+    children: [
+      {
+        name: 'Pendientes',
+        url: '/operaciones/pendientes'
+      },
+      {
+        name: 'Estados',
+        url: '/operaciones/estados'
+      },
     ]
   },
   {
@@ -439,7 +456,7 @@ export const navItems: INavDataBar[] = [
     name: 'Informacion',
     url: '/informacion',
     iconComponent : {name : 'cil-magnifying-glass'},
-    roles :[ROLES_ENUM.TOC],
+    roles :[ROLES_ENUM.TOC, ROLES_ENUM.JEFE_TOC],
     children: [
       {
         name: "Estado",

@@ -173,10 +173,10 @@ const routes: Routes = [
       },
       {
         path : 'toc',
-        // data : {
-        //   roles : ROLES_PERMITIDOS.EXO
-        // },
-        // canActivate :[PermissionGuard],
+        data : {
+          roles : ROLES_PERMITIDOS.TOC
+        },
+        canActivate :[PermissionGuard],
         loadChildren: () =>
           import('./views/toc/toc.module').then((m) => m.TocModule )
       },
