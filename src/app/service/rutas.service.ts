@@ -93,7 +93,7 @@ export class RutasService {
 
   descargar_datos_beetrack_by_id(id_ruta : number,nombre_ruta: string){
 
-    this.http.get(this.apiurl + `/beetrack/${id_ruta}/descargar`, {responseType:"blob"})
+    this.http.get(this.apiurl + `/beetrack/${nombre_ruta}/descargar`, {responseType:"blob"})
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
