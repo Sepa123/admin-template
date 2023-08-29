@@ -53,6 +53,8 @@ export class JefaturaComponent {
 
   portal = /\bportal-\b/;
 
+  contadorNS : number = 0
+
   public nombreUsuario : string [] = []
 
   public cantidadBitacora : number [] = []
@@ -116,6 +118,7 @@ export class JefaturaComponent {
     this.service.bitacoras_rango_fecha(fecha_inicio,fecha_termino).subscribe(data => {
       this.bitacorasRangos = data
       this.graficoVisible = true
+      this.contadorNS = this.bitacorasRangos.length
     })
 
     this.service.nombres_usuarios_toc(fecha_inicio,fecha_termino).subscribe(usuarios => {
@@ -128,7 +131,7 @@ export class JefaturaComponent {
 
       // this.data.labels = this.nombreUsuario
       // this.data.datasets[0].data = this.cantidadBitacora
-
+      
       this.agregar(this.nombreUsuario, this.cantidadBitacora)
       console.log(this.data)
     })
@@ -193,14 +196,14 @@ export class JefaturaComponent {
     // Calcular la diferencia en días entre las dos fechas
     const diferenciaMs = fechaFinDt.getTime() - fechaInicioDt.getTime();
     const diferenciaDias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
-  
+    return true
     // Comprobar si la diferencia en días es mayor o igual a 1
-    if (diferenciaDias >= 1) {
-      return true;
-    } else {
-      console.error("La diferencia entre las fechas debe ser de un día o más.");
-      return false;
-    }
+    // if (diferenciaDias >= 1) {
+    //   return true;
+    // } else {
+    //   console.error("La diferencia entre las fechas debe ser de un día o más.");
+    //   return false;
+    // }
   }
 
   verObservacion(obs : string | null){
@@ -214,8 +217,13 @@ export class JefaturaComponent {
 
 
   ngOnInit(){
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const formattedDate = `${year}${month}${day}`;
 
-   
+    this.bitacoraTOCRangoFecha(formattedDate,formattedDate) 
     // this.service.bitacoras_rango_fecha('20230801','20230831').subscribe((data) => {
     //   this.bitacorasRangos = data
     // })

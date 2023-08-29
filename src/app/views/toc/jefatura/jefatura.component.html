@@ -35,10 +35,13 @@
     <c-col >
       <button  (click)="buscar()" cButton  color="secondary" size="sm">buscar</button>
     </c-col>
+    <c-col *ngIf="contadorNS !== 0" >
+      Registros : <label style="font-weight: bold;">{{contadorNS}}</label>
+      <!-- <button  (click)="buscar()" cButton  color="secondary" size="sm">buscar</button> -->
+    </c-col>
   </c-row>
-
+  <p></p>
   <div class="greenTable" *ngIf="graficoVisible">
-    
     <p></p>
     <table id="tablaProductosPicking" >
     <thead>
@@ -84,6 +87,11 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verObservacion(bitacora.Observacion)"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
         </td>
         <td >{{ reemplazarIds(bitacora.Created_by) }}</td> 
+    </tr>
+    <tr *ngIf="contadorNS === 0">
+     <td colspan="11">
+      no hay registros
+     </td> 
     </tr>
     </tbody>
     </table>
