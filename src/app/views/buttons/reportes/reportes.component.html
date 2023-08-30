@@ -12,22 +12,22 @@
       <tbody>
         <tr>
           <td scope="row"><h5>Resumen de Carga Quadminds</h5></td>
-          <td><button  (click)="downloadQuadminds()">
-            <img src="assets\images\icons8-export-excel-48.png" alt="">
+          <td><button  (click)="downloadQuadminds()"> descargar excel
+            <!-- <img src="assets\images\icons8-export-excel-48.png" alt=""> -->
             </button>
           </td>
         </tr>
         <tr>
           <td scope="row"><h5>Resumen de Carga Quadminds Fecha Compromiso</h5></td>
-          <td><button  (click)="downloadQuadmindsCompromiso()">
-            <img src="assets\images\icons8-export-excel-48.png" alt="">
+          <td><button  (click)="downloadQuadmindsCompromiso()"> descargar excel
+            <!-- <img src="assets\images\icons8-export-excel-48.png" alt=""> -->
             </button>
           </td>
         </tr>
         <tr>
           <td scope="row"><h5>Resumen de Carga Quadminds por Tamaño </h5></td>
-          <td><button  (click)="downloadQuadmindsTamano()">
-            <img src="assets\images\icons8-export-excel-48.png" alt="">
+          <td><button  (click)="downloadQuadmindsTamano()"> descargar excel
+            <!-- <img src="assets\images\icons8-export-excel-48.png" alt=""> -->
             </button>
           </td>
         </tr>
@@ -43,13 +43,13 @@
           <!-- <h3>Filtrar por comunas</h3> -->
           <table width="50%"  >
             <tr>
-              <td>
+              <!-- <td>
                 <h5>Filtrar por comunas</h5>
                 <ng-select class="custom" [multiple]="true" [(ngModel)]="comunasSeleccionadas" >
                   <ng-option *ngFor="let comuna of comunas" [value]="comuna" >{{ comuna }}</ng-option>
                 </ng-select> 
                 
-              </td>
+              </td> -->
               <tr>
                 <!-- <td>
                   <h5>Filtrar por fecha de entrega</h5>
@@ -62,9 +62,9 @@
                   <!-- <button cButton  color="secondary" size="sm" (click)="filterByComuna()" >
                     Filtrar
                   </button> -->
-                  <button  (click)="filterByComuna()">
+                  <!-- <button  (click)="filterByComuna()">
                     <img src="assets\images\icons8-export-excel-48.png" alt="">
-                    </button>
+                    </button> -->
               </td>
             </tr>
           </table>

@@ -117,8 +117,20 @@ export class JefaturaComponent {
     this.bitacorasRangos = []
     this.service.bitacoras_rango_fecha(fecha_inicio,fecha_termino).subscribe(data => {
       this.bitacorasRangos = data
+      this.bitacorasRangos.map((bitacora) => {
+        if (bitacora.Direccion == null || bitacora.Direccion == '') {
+          bitacora.Direccion = 'sin direccion*'
+        }
+        if (bitacora.Fecha_Compromiso == null || bitacora.Fecha_Compromiso == '') {
+          bitacora.Fecha_Compromiso = 'sin Fecha Compromiso*'
+        }
+        if (bitacora.Comuna == null || bitacora.Comuna == '') {
+          bitacora.Comuna = 'sin Comuna*'
+        }
+      })
       this.graficoVisible = true
       this.contadorNS = this.bitacorasRangos.length
+    
     })
 
     this.service.nombres_usuarios_toc(fecha_inicio,fecha_termino).subscribe(usuarios => {
@@ -204,6 +216,7 @@ export class JefaturaComponent {
     //   console.error("La diferencia entre las fechas debe ser de un día o más.");
     //   return false;
     // }
+
   }
 
   verObservacion(obs : string | null){

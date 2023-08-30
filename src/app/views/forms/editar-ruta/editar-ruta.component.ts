@@ -121,12 +121,11 @@ export class EditarRutaComponent {
       const agrupadoPorPosicion : any = {};
       data.forEach((elemento) => {
 
-        if(elemento.TOC || elemento.Sistema || elemento.Obs_sistema !== null){
+        if(elemento.TOC || elemento.Sistema){
           this.verAlertas = true
         }
         // Obtenemos la posición del elemento
         const posicion = elemento["Posicion"];
-        elemento["Pistoleado"] = "t"
         elemento["Estado"] = elemento["Estado"] === "Entregado" ? true : false
         elemento["Provincia"] =  elemento["Provincia"] === null  ? 'Otro' : elemento["Provincia"]
         // Si la posición no está present e en el objeto agrupadoPorPosicion,
@@ -208,7 +207,8 @@ export class EditarRutaComponent {
           this.verAlertas = true
         }
         return { ...objeto,
-            //  Estado : objeto.Estado === "Entregado" ? true : false,
+            Estado_entrega : objeto.Estado,
+            Estado : objeto.Estado === "Entregado" ? true : false,
             Id_ruta : this.idRutaEditar,
             Nombre_ruta: this.nombreRutaEditar, 
             Created_by: this.idUsuario ,

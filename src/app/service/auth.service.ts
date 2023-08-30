@@ -9,9 +9,7 @@ export class AuthService {
   constructor(private http:HttpClient) { }
 
   apiurl="https://hela.transyanez.cl/api"
-  // apiurl="http://34.225.63.221:84/api"
   // apiurl= "http://127.0.0.1:8000"
-
 
   GetUserbyusername(code:any){
     return this.http.post(this.apiurl+"/login",code);

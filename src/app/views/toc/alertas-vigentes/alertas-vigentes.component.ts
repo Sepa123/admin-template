@@ -65,6 +65,12 @@ export class AlertasVigentesComponent {
     
     this.service.buscar_alertas_vigentes().subscribe((data) => {
       this.alertasVigentes = data
+      this.alertasVigentes.map(alertas => {
+        if (alertas.Direccion == null) {
+          alertas.Direccion = 'sin direccion*'
+        }
+        //  :  alertas.Direccion = alertas.Direccion
+      })
     })
   }
 }

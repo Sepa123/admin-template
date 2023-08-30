@@ -47,6 +47,7 @@ export interface ProductoPicking {
     Obs_sistema:          string | null;  
     DE:                   boolean | null;
     DP:                   boolean | null;
+    Estado_entrega:       string | null;
 }
 
 

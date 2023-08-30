@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserGuard } from "src/app/guard/user.guard";
 import { PermissionGuard } from 'src/app/guard/permission.guard'
-import { AuthOperacionesGuard } from "src/app/guard/auth-operaciones.guard"; 
-import { AuthAdminGuard } from "src/app/guard/auth-admin.guard"; 
-import { AuthTransporteGuard } from "src/app/guard/auth-transporte.guard"; 
 import { DefaultLayoutComponent } from './containers';
 import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';

@@ -87,17 +87,17 @@ export class BitacoraTocComponent {
 
   form = this.builder.group({
     Codigo_producto : this.builder.control(""),
-    Fecha : this.builder.control("", [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
+    Fecha : this.builder.control(""),
     PPU : this.builder.control(""),
     Guia: this.builder.control(""),
     Cliente : this.builder.control(""),
-    Region : this.builder.control("", [Validators.required]),
-    Comuna : this.builder.control("", [Validators.required]),
+    Region : this.builder.control(""),
+    Comuna : this.builder.control(""),
     Estado : this.builder.control(""),  
     Subestado : this.builder.control(""),  
     Driver : this.builder.control(""),  
     Nombre_cliente : this.builder.control(""),
-    Fecha_compromiso : this.builder.control("", [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
+    Fecha_compromiso : this.builder.control("", [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
     Direccion_correcta : this.builder.control(""),
     Comuna_correcta : this.builder.control(""),
     Fecha_reprogramada : this.builder.control("", [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
@@ -107,7 +107,7 @@ export class BitacoraTocComponent {
     Ids_transyanez : this.builder.control("Ids_transyanez", [Validators.required]),
     Id_usuario : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
     Ids_usuario : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-    Alerta : this.builder.control(false, [Validators.required]),
+    Alerta : this.builder.control(false),
     Codigo1 : this.builder.control(0),
     Codigo1Str: this.builder.control(""),
     Correo: this.builder.control(""),
@@ -167,6 +167,9 @@ export class BitacoraTocComponent {
 
   BuscarProducto(){
     const cod_producto : any = this.form.value.Codigo_producto
+    this.form.patchValue({
+      Guia : cod_producto
+    })
     this.service.buscar_producto_toc(cod_producto).subscribe((data) => {
       this.producto = data
       // const regionSeleccionada = this.listaComunasFull.filter(comuna => this.producto.Comuna == comuna.Nombre_comuna)[0].Id_region
@@ -206,6 +209,9 @@ export class BitacoraTocComponent {
     this.form.reset()
 
     this.form.patchValue({
+      Fecha : "",
+      Fecha_compromiso : "",
+      Fecha_reprogramada : "",
       Id_transyanez : 1,
       Ids_transyanez :"Ids_transyanez",
       Id_usuario : sessionStorage.getItem("id")?.toString()+"",
@@ -233,8 +239,24 @@ export class BitacoraTocComponent {
     if(this.form.value.Fecha_reprogramada  == "" ) {
       this.form.patchValue({ Fecha_reprogramada : null})
     }
+    // if(this.form.value.Comuna  == "" ) {
+    //   this.form.patchValue({ Comuna : null})
+    // }
     if(this.form.value.Comuna_correcta  == "" ) {
       this.form.patchValue({ Comuna_correcta : null})
+    }
+    if(this.form.value.Fecha_compromiso  == "" ) {
+
+      // this.form.patchValue({ Fecha_compromiso : formattedDate})
+    }
+
+    if(this.form.value.Fecha  == "" ) {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+      const day = currentDate.getDate().toString().padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+      this.form.patchValue({ Fecha : formattedDate})
     }
 
     console.log(this.form.value)
@@ -244,6 +266,9 @@ export class BitacoraTocComponent {
         this.form.reset();
   
         this.form.patchValue({
+          Fecha : "",
+          Fecha_compromiso : "",
+          Fecha_reprogramada : "",
           Comuna_correcta : "",
           Id_transyanez : 1,
           Ids_transyanez :"Ids_transyanez",
@@ -259,6 +284,9 @@ export class BitacoraTocComponent {
       }, ((error) => {
         alert(error)
         this.form.patchValue({
+          Fecha : "",
+          Fecha_reprogramada : "",
+          Fecha_compromiso : "",
           Comuna_correcta : "",
           Id_transyanez : 1,
           Ids_transyanez :"Ids_transyanez",

@@ -126,13 +126,10 @@ export class TIService {
 
   get_reporte_hora(): Observable<any> {
     return interval(15000).pipe( switchMap(() => this.http.get<ReporteHora[]>(this.apiurl+"/hora")))
-    //return this.http.get<ReporteHora[]>(this.apiurl+"/hora")
   }
 
   get_reportes_easy_region(): Observable<any> {
-
     return interval(3500).pipe( switchMap(() => this.http.get<ReporteEasyRegion[]>(this.apiurl+"/productos/easy_region")))
-    // return this.http.get<ReporteEasyRegion[]>(this.apiurl+"/productos/easy_region")
   }
 
   get_pedidos_sin_despacho() {
@@ -185,7 +182,6 @@ export class TIService {
   }
 
   get_rutas_manual(pedido: string) {
-    // return this.http.get<ProductoPicking[]>(this.apiurl + "/buscar/ruta/{producto_id}")
     return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/ruta/${pedido}`)
     
   }
@@ -200,13 +196,6 @@ export class TIService {
     
     return interval(40000).pipe(switchMap(() => this.http.get<NroCargasPorHora[]>(this.apiurl + "/cargas_por_hora")))
   }
-
-  
-  //todo: Agregar uptade cada 15 min
-
-  // agregar upate de 
-  // get_reporte_hora()
-
 
   get_historico_mensual_hoy():  Observable<any>{
     return interval(10000).pipe( switchMap(() => this.http.get<ReporteHistorico[]>(this.apiurl+"/historico/hoy")))

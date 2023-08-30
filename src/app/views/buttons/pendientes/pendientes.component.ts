@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TIService } from 'src/app/service/ti.service';
 import { PedidoService } from  'src/app/service/pedido.service'
 import { PedidoSinCompromiso } from 'src/app/models/pedidoSinCompromiso.interface';
+import { RutasAsignadas } from 'src/app/models/rutaAsignada.interface'
 
 @Component({
   selector: 'app-pendientes',
@@ -20,12 +20,39 @@ export class PendientesComponent implements OnInit{
   pedidosFull!: PedidoSinCompromiso[]
   fechaIngresoList!: string[]
   fechaCompromisoList!: any[]
+  comunas : string[] = []
+  regiones : string[] = []
+
+
+  fecha_min : string = ""
+  fecha_max : string = ""
+
+  cantidad! : number  
+
+  loadPedidos : boolean = true
 
   origen: any[] = []
 
 
   ngOnInit():void {
-    this.getData()
+    // this.getData()
+    // const body = { "Fecha_inicio" : "null", "Fecha_fin": "20230831" }
+    this.service.buscar_rutas_pendientes("null","null").subscribe((data) => {
+      this.pedidosFull = data
+      this.pedidos = this.pedidosFull
+      this.isLoadingTable = false
+      this.origen = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Origen)
+        ).map(str => (JSON.parse(str))))]
+      this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
+        ).map(str => (JSON.parse(str))))]
+
+      this.regiones = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Region)
+        ).map(str => (JSON.parse(str))))]
+      this.loadPedidos = false
+      this.cantidad = this.pedidos.length
+    }, (error) => {
+      alert(error.error.detail)
+    })
   }
 
   
@@ -37,6 +64,10 @@ export class PendientesComponent implements OnInit{
       this.isLoadingTable = false
       this.origen = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Origen)
           ).map(str => (JSON.parse(str))))]
+
+      this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
+        ).map(str => (JSON.parse(str))))]
+        this.loadPedidos = false
       // this.fechaIngresoList = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Fecha_ingreso)
       //   ).map(str => (JSON.parse(str))))];   
 
@@ -72,6 +103,7 @@ export class PendientesComponent implements OnInit{
 
   getFullData(){
     this.pedidos = this.pedidosFull
+    this.cantidad = this.pedidosFull.length
   }
 
   OrdenFechaIngreso (){
@@ -88,6 +120,24 @@ export class PendientesComponent implements OnInit{
        const fechaB: Date = new Date(b.Fecha_compromiso);
        return fechaB.getTime() - fechaA.getTime() ;
      });
+ }
+
+ filtrarPorComuna (comuna : string){
+  this.pedidos = this.pedidosFull.filter(pedido => pedido.Comuna == comuna)
+  this.cantidad = this.pedidos.length
+ }
+
+ filtrarPorRegion (region : string){
+  this.pedidos = this.pedidosFull.filter(pedido => pedido.Region == region)
+  this.cantidad = this.pedidos.length
+ }
+
+ filtrarPorRangoFechaCompromiso(fecha_min : string,fecha_max: string){
+  this.pedidos = this.pedidos.filter(pedido => {
+    return  new Date(pedido.Fecha_compromiso) >= new Date(fecha_min)
+            && new Date(pedido.Fecha_compromiso) >= new Date(fecha_max)
+  })
+  this.cantidad = this.pedidos.length
  }
 } 
 

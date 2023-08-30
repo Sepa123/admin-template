@@ -29,4 +29,14 @@ export class PedidoService {
     })
 
   }
+
+  buscar_rutas_pendientes(fecha_inicio : string, fecha_fin : string) {
+    return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/pendientes?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`)
+  }
+
+  
+
+  // buscar_rutas_pendientes(body : any) {
+  //   return this.http.post<PedidoSinCompromiso[]>(this.apiurl + "/pendientes", body)
+  // }
 }

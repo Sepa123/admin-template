@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
-import { ButtonsComponent } from './buttons/buttons.component';
-import { ButtonGroupsComponent } from './button-groups/button-groups.component';
-import { DropdownsComponent } from './dropdowns/dropdowns.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ButtonsRoutingModule } from './buttons-routing.module';
 
@@ -24,7 +21,7 @@ import {
   UtilitiesModule
 } from '@coreui/angular';
 
-import { IconModule } from '@coreui/icons-angular';
+// import { IconModule } from '@coreui/icons-angular';
 import { ReportesComponent } from './reportes/reportes.component';
 import { PendientesComponent } from './pendientes/pendientes.component';
 import { EstadosComponent } from './estados/estados.component';
@@ -32,9 +29,6 @@ import { ProductosSinClasificacionComponent } from './productos-sin-clasificacio
 
 @NgModule({
   declarations: [
-    ButtonsComponent,
-    ButtonGroupsComponent,
-    DropdownsComponent,
     ReportesComponent,
     PendientesComponent,
     EstadosComponent,
@@ -49,7 +43,7 @@ import { ProductosSinClasificacionComponent } from './productos-sin-clasificacio
     ButtonModule,
     ButtonGroupModule,
     GridModule,
-    IconModule,
+    // IconModule,
     CardModule,
     UtilitiesModule,
     DropdownModule,

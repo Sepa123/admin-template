@@ -4,6 +4,17 @@
   overflow: auto;
 }
 
+table.loadPendientes {
+  width: 100%;
+  text-align: center;
+}
+
+.scrollable-list {
+  max-height: 300px; /* Establece la altura máxima para la lista */
+  overflow-y: auto; /* Agrega una barra de desplazamiento vertical cuando sea necesario */
+  list-style: none; /* Elimina los marcadores de lista predeterminados */
+  padding: 0; /* Elimina el relleno predeterminado de la lista */
+}
 
 .greenTable table {
     border: 1px solid #28A745;
