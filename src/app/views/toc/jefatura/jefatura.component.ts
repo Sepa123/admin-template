@@ -119,13 +119,13 @@ export class JefaturaComponent {
       this.bitacorasRangos = data
       this.bitacorasRangos.map((bitacora) => {
         if (bitacora.Direccion == null || bitacora.Direccion == '') {
-          bitacora.Direccion = 'sin direccion*'
+          bitacora.Direccion = 'Sin dirección*'
         }
         if (bitacora.Fecha_Compromiso == null || bitacora.Fecha_Compromiso == '') {
-          bitacora.Fecha_Compromiso = 'sin Fecha Compromiso*'
+          bitacora.Fecha_Compromiso = 'Sin Fecha Compromiso*'
         }
         if (bitacora.Comuna == null || bitacora.Comuna == '') {
-          bitacora.Comuna = 'sin Comuna*'
+          bitacora.Comuna = 'Sin Comuna*'
         }
       })
       this.graficoVisible = true

@@ -67,7 +67,7 @@ export class AlertasVigentesComponent {
       this.alertasVigentes = data
       this.alertasVigentes.map(alertas => {
         if (alertas.Direccion == null) {
-          alertas.Direccion = 'sin direccion*'
+          alertas.Direccion = 'Sin dirección*'
         }
         //  :  alertas.Direccion = alertas.Direccion
       })
