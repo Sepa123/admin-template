@@ -30,10 +30,10 @@ export class TrackingProductoComponent {
 
   linea_producto : LineaProducto = {
     "Cliente": "Easy OPL",
-    "Linea": ["0","0","0","0","0"]
+    "Linea": [0,0,0,0,0]
   }
 
-  linea_cambio = ["0","0","0","0","0"]
+  linea_cambio = [0,0,0,0,0]
 
   public rol = sessionStorage.getItem("rol_id") 
 
@@ -95,16 +95,27 @@ export class TrackingProductoComponent {
   zeroEnUno(arr : any []){
       console.log(arr)
       const newArr = arr.map((value,i) => {
-          if( value == "0"){
+          if( value == 0 ){
             this.indexCambiado.push(i)
-            return "1"
-          } else {
-            return "0"
+            return 1
+          } else if(value > 1) {
+            this.indexCambiado.push(i)
+            return 2
+          }
+          else {
+            return 0
           }
         })
-      for(let i = arr.lastIndexOf("1"); i< newArr.length; i++){
-          newArr[i] = "0"
+      for(let i = arr.lastIndexOf(1); i< newArr.length; i++){
+          if(newArr[i] == 2){
+            newArr[i - 1] = 1
+          }else{
+            newArr[i] = 0
+          }
+          
       }
+
+      console.log("New arreglo", newArr)
 
       return newArr
     }
@@ -121,20 +132,20 @@ export class TrackingProductoComponent {
 
   convertirCerosUnos(arr : any []) {
     let result = [];
-    const uno = arr.indexOf("1")
+    const uno = arr.indexOf(1)
 
     for( let i = 0; i < arr.length ;i++) {
       if(i < uno){
-        result.push('1')
+        result.push(1)
       }else{
-        result.push('0')
+        result.push(0)
       }
     }
     return result
   }
 
   reemplazarHastaUltimoUno(arr1: any [], arr2 : any[]) {
-    let lastIndex = arr2.lastIndexOf('1');
+    let lastIndex = arr2.lastIndexOf(1);
     if (lastIndex === -1) {
       return arr1; // Si no hay '1' en el segundo arreglo, no se realiza ningún reemplazo
     }
@@ -142,8 +153,8 @@ export class TrackingProductoComponent {
     let result = arr1.slice(); // Crear una copia del primer arreglo para no modificarlo directamente
   
     for (let i = 0; i <= lastIndex && i < arr1.length; i++) {
-      if (arr2[i] === '1' ) {
-        result[i] = '1';
+      if (arr2[i] === 1 ) {
+        result[i] = 1;
       }
     }
   
@@ -152,7 +163,7 @@ export class TrackingProductoComponent {
 
   isWarning(arr : any [],indexesToReplace : any []){
       return arr.map((value, index) => {
-        return indexesToReplace.includes(index) ? "1" : value;
+        return indexesToReplace.includes(index) ? 1 : value;
       });
   }
 
@@ -162,10 +173,10 @@ export class TrackingProductoComponent {
       this.isOK = false
       this.codigoPick = ""
       this.trackingBeetrack = []
-      this.linea_cambio = ["0","0","0","0","0"]
+      this.linea_cambio = [0,0,0,0,0]
       this.linea_producto = {
         "Cliente": "",
-        "Linea": ["0", "0","0","0","0"]
+        "Linea": [0,0,0,0,0]
       }
       this.arrayError = [false,false,false]
 
@@ -188,11 +199,12 @@ export class TrackingProductoComponent {
 
     this.service.recuperar_linea_producto(resultado).subscribe((data)=>{
       this.linea_producto = data
-      console.log(this.linea_producto.Linea)
-      this.linea_cambio = this.zeroEnUno(this.linea_producto.Linea)
-      this.linea_producto.Linea = this.reemplazarHastaUltimoUno(this.linea_producto.Linea,this.linea_cambio)
+      // console.log("Linea producto:",this.linea_producto.Linea.map(i=>Number(i)))
+      this.linea_cambio = this.zeroEnUno(this.linea_producto.Linea.map(i=>Number(i)))
+      // console.log("Linea producto cambios:",this.linea_cambio )
+      this.linea_producto.Linea = this.reemplazarHastaUltimoUno(this.linea_producto.Linea.map(i=>Number(i)),this.linea_cambio)
       // this.linea_producto.Linea = ["1","1","1","1","0"]
-      console.log( this.linea_producto.Linea)
+      // console.log("Linea producto final", this.linea_producto.Linea)
       this.isOK = true
       this.codigoPickeado = resultado
     }, error => {
