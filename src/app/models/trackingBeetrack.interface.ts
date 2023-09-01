@@ -11,5 +11,5 @@ export interface TrackingBeetrack {
 
 export interface LineaProducto {
     Cliente:            string;
-    Linea:             string[];
+    Linea:             string[] | number[];
 }

@@ -35,6 +35,8 @@ export class TrackingProductoComponent {
 
   linea_cambio = ["0","0","0","0","0"]
 
+  public rol = sessionStorage.getItem("rol_id") 
+
   productosRuta : ProductoPicking [] = []
 
   fechaIngresoSistema : string = ""
