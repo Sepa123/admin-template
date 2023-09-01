@@ -5,6 +5,8 @@ import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
 import { ProductoPicking, FacturaElectrolux } from "src/app/models/productoPicking.interface"
 import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
 import { TrackingBeetrack, LineaProducto } from 'src/app/models/trackingBeetrack.interface'
+import { TocTracking } from 'src/app/models/tocTracking.interface'
+import { AlertaConductor } from 'src/app/models/alertaConductor.interface'
 import { interval,Observable, switchMap  } from 'rxjs';
 
 @Injectable({
@@ -54,8 +56,8 @@ export class RutasService {
     return this.http.get<ProductoPicking[]>(this.apiurl + `/datos_ruta/${nombre_ruta}`)
   }
 
-  delete_producto_ruta_activa(cod_producto: string) {
-    return this.http.delete(this.apiurl + `/eliminar/producto/${cod_producto}`)
+  delete_producto_ruta_activa(cod_producto: string,nombre_ruta: string) {
+    return this.http.delete(this.apiurl + `/eliminar/producto/${cod_producto}/${nombre_ruta}`)
   }
 
   insert_ruta_existente_activa(fecha_ruta : string ,data : ProductoPicking [][]){
@@ -119,5 +121,16 @@ export class RutasService {
     return this.http.post(this.apiurl + "/geolocalizacion",direccion)
   }
 
+  toc_tracking(cod_producto : string){
+    return this.http.get<TocTracking []>(this.apiurl + `/toc/tracking?cod_producto=${cod_producto}`)
+  }
+
+  // alerta_conductor_rutas(nombre_ruta : string){
+  //   return this.http.get<AlertaConductor []>(this.apiurl + `/alerta/conductor?nombre_ruta=${nombre_ruta}`)
+  // }
+
+  alerta_conductor_rutas(nombre_ruta : string) {
+    return interval(5600).pipe(switchMap(() => this.http.get<AlertaConductor []>(this.apiurl + `/alerta/conductor?nombre_ruta=${nombre_ruta}`)))
+  }
 
 }

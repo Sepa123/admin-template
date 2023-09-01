@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PedidoService } from  'src/app/service/pedido.service'
 import { PedidoSinCompromiso } from 'src/app/models/pedidoSinCompromiso.interface';
 import { RutasAsignadas } from 'src/app/models/rutaAsignada.interface'
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-pendientes',
@@ -87,6 +88,7 @@ export class PendientesComponent implements OnInit{
 
   sortByName(origen: any) : void{
     this.pedidos = this.pedidosFull.filter(pedido => pedido.Origen == origen)
+    this.cantidad = this.pedidos.length
   }
 
   filterByFecha() : void {
@@ -99,6 +101,7 @@ export class PendientesComponent implements OnInit{
     var fechaHoyString = año + '-' + mes.toString().padStart(2, '0') + '-' + dia.toString().padStart(2, '0');
 
     this.pedidos = this.pedidos.filter((pedido) => pedido.Fecha_ingreso != fechaHoyString)
+    this.cantidad = this.pedidos.length
   }
 
   getFullData(){
@@ -120,6 +123,7 @@ export class PendientesComponent implements OnInit{
        const fechaB: Date = new Date(b.Fecha_compromiso);
        return fechaB.getTime() - fechaA.getTime() ;
      });
+     this.cantidad = this.pedidos.length
  }
 
  filtrarPorComuna (comuna : string){
@@ -139,5 +143,34 @@ export class PendientesComponent implements OnInit{
   })
   this.cantidad = this.pedidos.length
  }
+
+ downloadExcel() : void{
+  // Agrega una fila vacía al principio de los datos
+
+  const datos: any[][] = [[]];
+
+  datos.push(["Origen","Cod. Entrega","Fecha Ingreso","Fecha Compromiso","Región","Comuna","Descripción","Bultos","Estado","Subestado","Verificado","Recibido"])
+
+  this.pedidosFull.forEach((pedido) => {
+      const fila: any[] = [];
+      fila.push(pedido.Origen, pedido.Cod_entrega, pedido.Fecha_ingreso, pedido.Fecha_compromiso, pedido.Region, pedido.Comuna, pedido.Descripcion, pedido.Bultos,
+                pedido.Estado,pedido.Subestado,pedido.Verificado, pedido.Recibido); 
+      datos.push(fila);
+    });
+
+  let date = new Date();
+  const fechaActual = date.toISOString().split('T')[0];
+  // Crea un libro de Excel a partir de los datos
+  const libroExcel: XLSX.WorkBook = XLSX.utils.book_new();
+  const hoja: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(datos);
+  XLSX.utils.book_append_sheet(libroExcel, hoja, 'Hoja1');
+
+  // Descarga el archivo Excel `Quadminds_Manual_${fechaActual}.xlsx` 
+  
+  const nombreArchivo = `Pedidos-pendientes-${fechaActual}.xlsx`;
+  // Nombre del archivo Excel a descargar 
+  XLSX.writeFile(libroExcel, nombreArchivo);
+
+}
 } 
 

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { RutasService } from 'src/app/service/rutas.service';
+import { TocService } from 'src/app/service/toc.service';
 import { TrackingBeetrack,LineaProducto } from 'src/app/models/trackingBeetrack.interface'
 import { ProductoPicking,FacturaElectrolux } from 'src/app/models/productoPicking.interface';
+import { TocTracking } from 'src/app/models/tocTracking.interface'
 
 @Component({
   selector: 'app-tracking-producto',
@@ -11,9 +13,11 @@ import { ProductoPicking,FacturaElectrolux } from 'src/app/models/productoPickin
 export class TrackingProductoComponent {
   isOK : boolean = false
 
-  arrayError : boolean [] = [false,false,false]
+  arrayError : boolean [] = [false,false,false,false]
 
   indexCambiado : any[] = []
+
+  arrayTOCTracking : TocTracking [] = []
 
   factura : string = ""
 
@@ -34,8 +38,39 @@ export class TrackingProductoComponent {
   productosRuta : ProductoPicking [] = []
 
   fechaIngresoSistema : string = ""
+  regex = /\*/;
 
-  constructor (private service: RutasService){
+  observacionActual : string | null = ""
+
+  isModalOpen: boolean = false
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    this.isModalOpen = true
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
+
+  verObservacion(obs : string | null){
+    if(obs === null || obs === ""){
+      this.observacionActual = "Sin observación"
+    }else{
+      this.observacionActual = obs
+    }
+    this.toggleLiveDemo()
+  }
+
+  constructor (private service: RutasService, private tocService : TocService){
 
   }
 
@@ -56,7 +91,7 @@ export class TrackingProductoComponent {
   }
 
   zeroEnUno(arr : any []){
-    // console.log(arr)
+      console.log(arr)
       const newArr = arr.map((value,i) => {
           if( value == "0"){
             this.indexCambiado.push(i)
@@ -105,7 +140,7 @@ export class TrackingProductoComponent {
     let result = arr1.slice(); // Crear una copia del primer arreglo para no modificarlo directamente
   
     for (let i = 0; i <= lastIndex && i < arr1.length; i++) {
-      if (arr2[i] === '1') {
+      if (arr2[i] === '1' ) {
         result[i] = '1';
       }
     }
@@ -175,6 +210,24 @@ export class TrackingProductoComponent {
       }
     }, error => {
       this.arrayError[2] = true
+    })
+
+    this.tocService.toc_tracking(codigo).subscribe(data => {
+        this.arrayTOCTracking = data
+        this.arrayTOCTracking.map(toc => {
+          if (toc.Direccion == null || toc.Direccion == '') {
+            toc.Direccion = 'Sin dirección*'
+          }
+          if (toc.Fecha_compromiso == null || toc.Fecha_compromiso == '') {
+            toc.Fecha_compromiso = 'Sin Fecha Compromiso*'
+          }
+          if (toc.Comuna == null || toc.Comuna == '') {
+            toc.Comuna = 'Sin Comuna*'
+          }
+        })
+        
+    }, error => {
+      this.arrayError[3] = true
     })
 
     const todosSonTrue = this.arrayError.every((elemento) => elemento === true)

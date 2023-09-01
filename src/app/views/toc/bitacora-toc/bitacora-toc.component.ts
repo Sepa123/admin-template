@@ -101,7 +101,7 @@ export class BitacoraTocComponent {
     Direccion_correcta : this.builder.control(""),
     Comuna_correcta : this.builder.control(""),
     Fecha_reprogramada : this.builder.control("", [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
-    Observacion : this.builder.control(""),
+    Observacion : this.builder.control("",[Validators.required]),
     Subestado_esperado : this.builder.control(""), 
     Id_transyanez : this.builder.control(1, [Validators.required]),
     Ids_transyanez : this.builder.control("Ids_transyanez", [Validators.required]),
@@ -298,7 +298,6 @@ export class BitacoraTocComponent {
       }))
     }else{
       this.isErrorView = true
-      alert("Hay datos incorrectos")
     }
   }
 }

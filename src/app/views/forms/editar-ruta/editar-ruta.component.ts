@@ -7,7 +7,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { ProductoPicking } from 'src/app/models/productoPicking.interface';
 import * as XLSX from 'xlsx';
-import * as levenshtein from 'fastest-levenshtein';
+import { Subscription } from 'rxjs';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
@@ -34,7 +34,8 @@ export class EditarRutaComponent {
   arrayRuta! : ProductoPicking []
   arrayRutasIngresados : ProductoPicking[] [] = []
   rutasEnTabla : string [] = []
-
+  observacionAlerta : string = "Transportista rechaza producto"
+  tituloObs : string = ""
   observacionActual : string | null = ""
 
   isModalOpen: boolean = false
@@ -45,7 +46,7 @@ export class EditarRutaComponent {
   constructor(private service: RutasService, private http: HttpClient, private sanitizer: DomSanitizer, 
               private nombreRutaService : NombreRutaService, private router : Router ) { }
 
-
+  subAlerta! : Subscription
   verAlertas : boolean = false
 
   toggleLiveDemo() {
@@ -64,11 +65,22 @@ export class EditarRutaComponent {
     this.isModalOpen = false
   }
 
+  verAlertaConductor(producto : string, codigo : string){
+    this.tituloObs = "Alerta "
+    this.observacionActual = "Transportista rechaza producto "
+    this.toggleLiveDemo()
+  }
+
   verObservacion(obs : string | null){
     if(obs === null || obs === ""){
       this.observacionActual = "Sin observación"
     }else{
       this.observacionActual = obs
+      if(this.observacionActual == this.observacionAlerta){
+        this.tituloObs = "Alerta"
+      }else{
+        this.tituloObs = "Observación"
+      }
     }
     this.toggleLiveDemo()
   }
@@ -111,7 +123,6 @@ export class EditarRutaComponent {
 
     this.fechaPedido = fechaFormateada
 
-
     this.idUsuario = sessionStorage.getItem("id")+""
     this.nombreRutaEditar = this.nombreRutaService.getCodigo()
     this.service.get_ruta_by_nombre_ruta(this.nombreRutaEditar).subscribe((data) => {
@@ -121,13 +132,16 @@ export class EditarRutaComponent {
       const agrupadoPorPosicion : any = {};
       data.forEach((elemento) => {
 
-        if(elemento.TOC || elemento.Sistema){
+        if(elemento.TOC || elemento.Sistema || elemento.Alerta_conductor){
           this.verAlertas = true
         }
         // Obtenemos la posición del elemento
         const posicion = elemento["Posicion"];
         elemento["Estado"] = elemento["Estado"] === "Entregado" ? true : false
         elemento["Provincia"] =  elemento["Provincia"] === null  ? 'Otro' : elemento["Provincia"]
+
+        
+        // elemento["DP"] = false
         // Si la posición no está present e en el objeto agrupadoPorPosicion,
         // la inicializamos como un array vacío
 
@@ -139,6 +153,8 @@ export class EditarRutaComponent {
         agrupadoPorPosicion[posicion].push(elemento);
 
         this.pedidosIngresados = posicion
+
+        
     });
     
     // Convertimos el objeto en un array de arrays
@@ -152,13 +168,36 @@ export class EditarRutaComponent {
     });
 
       
-      this.calcularDiferencias(this.arrayRuta)
+    this.calcularDiferencias(this.arrayRuta)
+
+    this.getAlertaConductor(this.nombreRutaEditar)
+
       // this.arrayRutasIngresados.unshift(this.arrayRuta)
       console.log(this.idRutaEditar)
       console.log(this.arrayRutasIngresados)
     })
+
+    
+
   }
  //2906175306
+
+  getAlertaConductor(nombre_ruta: string){
+    let carga_actual 
+    this.subAlerta = this.service.alerta_conductor_rutas(nombre_ruta).subscribe(data => {
+      this.arrayRutasIngresados.map(objeto =>{
+        objeto.map(producto=>{
+          carga_actual = data.find( carga => carga.Codigo_producto == producto.Codigo_producto && carga.Descripcion == producto.Descripcion_producto)
+          producto.Alerta_conductor = carga_actual?.Alerta_conductor
+
+          if(producto.TOC || producto.Sistema || producto.Alerta_conductor){
+            this.verAlertas = true
+          }
+          console.log(this.verAlertas)
+        })
+      })
+    })
+  }
   
   todosEnRuta(): boolean {
     console.log(this.arrayRutasIngresados)
@@ -180,16 +219,6 @@ export class EditarRutaComponent {
     
     resultado = resultado.replace(/-(\d+)/, "");
 
-
-    // const distanciaMinima = 1; // Definir la distancia mínima aceptable1
-    // const codigoDuplicado = this.rutasEnTabla.find(codigo => levenshtein.distance(resultado, codigo) <= distanciaMinima);
-
-    // if (codigoDuplicado) {
-    //   this.idPedido = ""
-    //   return alert("Este producto ya fue ingresado")
-    // } else {
-    //   console.log('Código válido');
-    // }
     if(this.rutasEnTabla.includes(resultado)) {
       this.idPedido = ""
       return alert("Este pedido ya fue ingresado")
@@ -203,10 +232,12 @@ export class EditarRutaComponent {
       this.arrayRuta = data.map(objeto => {
         this.idPedido = ""
 
-        if(objeto.TOC || objeto.Sistema){
+        if(objeto.TOC || objeto.Sistema || objeto.Alerta_conductor){
           this.verAlertas = true
         }
         return { ...objeto,
+            DE : false,
+            DP : false,
             Estado_entrega : objeto.Estado,
             Estado : objeto.Estado === "Entregado" ? true : false,
             Id_ruta : this.idRutaEditar,
@@ -287,7 +318,7 @@ export class EditarRutaComponent {
     let isSeguro = confirm("¿Seguro que desea eliminar esta producto?");
     if (!isSeguro) return console.log("no esta seguro")
 
-    this.service.delete_producto_ruta_activa(cod_producto).subscribe((data : any) => {
+    this.service.delete_producto_ruta_activa(cod_producto, this.nombreRutaEditar).subscribe((data : any) => {
       alert(data.message)
     },
     ((error) => {
@@ -305,10 +336,6 @@ export class EditarRutaComponent {
 
       }
       this.pedidosIngresados = this.arrayRutasIngresados.length
-      // console.log("pedidos ingresados", this.pedidosIngresados)
-      // console.log(this.rutasEnTabla)
-      
-      // console.log(this.rutasEnTabla)
       this.arrayRutasIngresados = this.arrayRutasIngresados.filter(subArray => subArray.length > 0);
       this.pedidosIngresados = this.arrayRutasIngresados.length
 
@@ -319,7 +346,6 @@ export class EditarRutaComponent {
       })
 
       this.todosEnRuta()
-      // console.log(this.arrayRutasIngresados)
   }
 
 
@@ -429,6 +455,12 @@ export class EditarRutaComponent {
     this.isBlockButton = false
 
     // this.todosEnRuta()
+  }
+
+  ngOnDestroy(): void {
+    // Cancelar la suscripción al destruir el componente
+
+    this.subAlerta.unsubscribe();
   }
 }
 

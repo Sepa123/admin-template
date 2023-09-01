@@ -69,7 +69,6 @@ export class AlertasVigentesComponent {
         if (alertas.Direccion == null) {
           alertas.Direccion = 'Sin dirección*'
         }
-        //  :  alertas.Direccion = alertas.Direccion
       })
     })
   }

@@ -18,9 +18,9 @@ import {
   NavbarModule,
   NavModule,
   SharedModule,
-  UtilitiesModule
+  UtilitiesModule,
+  ModalModule
 } from '@coreui/angular';
-
 
 import { InformacionRoutingModule } from './informacion-routing.module';
 import { EstadoComponent } from './estado/estado.component';
@@ -53,7 +53,8 @@ import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.co
     NavbarModule,
     NavModule,
     SharedModule,
-    UtilitiesModule
+    UtilitiesModule,
+    ModalModule
   ]
 })
 export class InformacionModule { }

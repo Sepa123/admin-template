@@ -1,6 +1,6 @@
 <c-row>
 
-    <div class="col-md-6 mx-auto">
+    <div class="col-md-6 mx-auto" *ngIf="!loadPedidos">
     <table table [striped]="true" cTable>
       <thead>
         <tr>
@@ -11,7 +11,7 @@
       <tbody>
         <tr>
           <td scope="row"><h5>Resumen de Pedidos Con Fecha de Compromiso sin Despacho</h5></td>
-          <td><button  (click)="downloadPedidos()">
+          <td><button  (click)="downloadExcel()">
             <img src="assets\images\icons8-export-excel-48.png" alt="">
             </button>
           </td>

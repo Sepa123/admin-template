@@ -9,6 +9,7 @@ import { UsuarioTOC } from 'src/app/models/usuariosTOC.interface'
 import { interval,Observable, switchMap  } from 'rxjs';
 import { ActividadDiariaTOC } from 'src/app/models/actividadesDiariasTOC.interface'
 import { BackofficeUsuarioTOC } from 'src/app/models/backofficeUsuarioTOC.interface'
+import { TocTracking } from 'src/app/models/tocTracking.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -68,8 +69,9 @@ export class TocService {
     return this.http.get(this.apiurl + `/usuario/portal/${ids_usuario}`)
   }
 
-
-
+  toc_tracking(cod_producto : string){
+    return this.http.get<TocTracking []>(this.apiurl + `/tracking?cod_producto=${cod_producto}`)
+  }
 
 
 }
