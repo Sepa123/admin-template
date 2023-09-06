@@ -30,8 +30,12 @@ export class PedidoService {
 
   }
 
-  buscar_rutas_pendientes(fecha_inicio : string, fecha_fin : string) {
+  test_pendientes(fecha_inicio : string, fecha_fin : string) {
     return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/pendientes?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`)
+  }
+
+  buscar_rutas_pendientes(offset : number){
+    return  this.http.get<PedidoSinCompromiso []>(this.apiurl + `/pendientes?offset=${offset}`)
   }
 
   

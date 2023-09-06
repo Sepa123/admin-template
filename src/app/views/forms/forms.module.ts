@@ -36,6 +36,7 @@ import { RutasActivasComponent } from './rutas-activas/rutas-activas.component';
 import { AsignarRutaComponent } from './asignar-ruta/asignar-ruta.component';
 import { QuadmindsComponent } from './quadminds/quadminds.component';
 import { CargaQuadmindComponent } from './carga-quadmind/carga-quadmind.component';
+import { PrearmadoRutaComponent } from './prearmado-ruta/prearmado-ruta.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { CargaQuadmindComponent } from './carga-quadmind/carga-quadmind.componen
     RutasActivasComponent,
     AsignarRutaComponent,
     QuadmindsComponent,
-    CargaQuadmindComponent
+    CargaQuadmindComponent,
+    PrearmadoRutaComponent
   ],
   imports: [
     CommonModule,

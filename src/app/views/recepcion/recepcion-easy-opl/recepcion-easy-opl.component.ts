@@ -150,7 +150,7 @@ export class RecepcionEasyOplComponent {
             "cod_pedido" : codigo_producto,
             "cod_producto" : codigo_producto,
             "ids_usuario" : this.idPortal,
-             "sku" : this.productosPorVerificarByCP[0].SKU
+            "sku" : this.productosPorVerificarByCP[0].SKU
           }
 
           // const url = `/easy_opl`

@@ -28,12 +28,14 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { JefaturaComponent } from './jefatura/jefatura.component';
 import { ModalModule } from '@coreui/angular';
 import { NgChartsModule } from 'ng2-charts';
+import { EditarTocComponent } from './editar-toc/editar-toc.component';
 
 @NgModule({
   declarations: [
     BitacoraTocComponent,
     AlertasVigentesComponent,
-    JefaturaComponent
+    JefaturaComponent,
+    EditarTocComponent
   ],
   imports: [
     CommonModule,

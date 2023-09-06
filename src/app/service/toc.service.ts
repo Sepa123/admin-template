@@ -10,6 +10,7 @@ import { interval,Observable, switchMap  } from 'rxjs';
 import { ActividadDiariaTOC } from 'src/app/models/actividadesDiariasTOC.interface'
 import { BackofficeUsuarioTOC } from 'src/app/models/backofficeUsuarioTOC.interface'
 import { TocTracking } from 'src/app/models/tocTracking.interface'
+import { EditarTOC, AlertaExistenteTOC } from 'src/app/models/editarTOC.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -74,4 +75,15 @@ export class TocService {
   }
 
 
+  editar_alerta_toc(body : any){
+    return this.http.put(this.apiurl + "/editar",body)
+  }
+
+  buscar_alerta_by_ids_transyanez(Ids_transyanez : string) {
+    return this.http.get<AlertaExistenteTOC []>(this.apiurl + `/buscar/alerta/${Ids_transyanez}`)
+  }
+
+  buscar_guia_by_codigo(codigo : string){
+    return this.http.get(this.apiurl + `/guia/${codigo}`)
+  }
 }

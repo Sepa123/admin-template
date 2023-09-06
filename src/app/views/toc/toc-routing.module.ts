@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BitacoraTocComponent } from './bitacora-toc/bitacora-toc.component';
 import { AlertasVigentesComponent } from './alertas-vigentes/alertas-vigentes.component';
 import { JefaturaComponent } from './jefatura/jefatura.component';
+import { EditarTocComponent } from './editar-toc/editar-toc.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,13 @@ const routes: Routes = [
         component : JefaturaComponent,
         data : {
           title : "jefatura"
+        }
+      },
+      {
+        path : 'editar-toc',
+        component : EditarTocComponent,
+        data : {
+          title : "Editar"
         }
       }
     ]

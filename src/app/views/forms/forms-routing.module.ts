@@ -14,6 +14,7 @@ import { RutasActivasComponent } from './rutas-activas/rutas-activas.component';
 import { AsignarRutaComponent } from './asignar-ruta/asignar-ruta.component';
 import { QuadmindsComponent } from './quadminds/quadminds.component'
 import { CargaQuadmindComponent } from './carga-quadmind/carga-quadmind.component'
+import { PrearmadoRutaComponent } from './prearmado-ruta/prearmado-ruta.component';
 
 const routes: Routes = [
   {
@@ -94,6 +95,13 @@ const routes: Routes = [
         component : EditarRutaComponent,
         data : {
           title : 'Editar ruta'
+        }
+      },
+      {
+        path : 'prearmado-ruta',
+        component : PrearmadoRutaComponent,
+        data : {
+          title : 'Prearmar-ruta'
         }
       }
     ]

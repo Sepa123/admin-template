@@ -1,35 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { PedidoService } from  'src/app/service/pedido.service'
+import { RutasService } from 'src/app/service/rutas.service';
 import { PedidoSinCompromiso } from 'src/app/models/pedidoSinCompromiso.interface';
 import { RutasAsignadas } from 'src/app/models/rutaAsignada.interface'
-import * as XLSX from 'xlsx';
+
 
 @Component({
-  selector: 'app-pendientes',
-  templateUrl: './pendientes.component.html',
-  styleUrls: ['./pendientes.component.scss']
+  selector: 'app-prearmado-ruta',
+  templateUrl: './prearmado-ruta.component.html',
+  styleUrls: ['./prearmado-ruta.component.scss']
 })
-export class PendientesComponent implements OnInit{
-
-  public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger'];
+export class PrearmadoRutaComponent {
+public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger'];
 
   isLoadingTable: boolean = true;
 
-  constructor(private service:PedidoService) { }
+  constructor(private service:PedidoService, private rutaService : RutasService) { }
 
   pedidos: PedidoSinCompromiso[] = []
   pedidosFull : PedidoSinCompromiso[] = []
   fechaIngresoList!: string[]
   fechaCompromisoList!: any[]
+
   comunas : string[] = []
+  comunasSeleccionadas: string[] = [];
+
   regiones : string[] = []
   offset : number [] = [0,200,400,600,800,1000,1200]
   timeout : number [] = [1000,1000,1000,1000,1000,1000,1000]
 
 
+  body : any = {
+    Codigos: "",
+    Fecha_ruta : "",
+    Id_user : ""
+  }
+
+  pedidosSeleccionados : number = 0
 
   fecha_min : string = ""
   fecha_max : string = ""
+
+  fecha_ruta : string = ""
 
   cantidad! : number  
 
@@ -37,27 +49,31 @@ export class PendientesComponent implements OnInit{
 
   origen: any[] = []
 
+  observacionActual : string | null = ""
+
+  isModalOpen: boolean = false
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    this.isModalOpen = true
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
+
 
   ngOnInit():void {
     // this.getData()
     this.getPedidos()
-    // const body = { "Fecha_inicio" : "null", "Fecha_fin": "20230831" }
-    // this.service.test_pendientes("null","null").subscribe((data) => {
-    //   this.pedidosFull = data
-    //   this.pedidos = this.pedidosFull
-    //   this.isLoadingTable = false
-    //   this.origen = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Origen)
-    //     ).map(str => (JSON.parse(str))))]
-    //   this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
-    //     ).map(str => (JSON.parse(str))))]
-
-    //   this.regiones = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Region)
-    //     ).map(str => (JSON.parse(str))))]
-    //   this.loadPedidos = false
-    //   this.cantidad = this.pedidos.length
-    // }, (error) => {
-    //   alert(error.error.detail)
-    // })
   }
 
   getPedidos() {
@@ -77,6 +93,7 @@ export class PendientesComponent implements OnInit{
               clearTimeout(timeouts[i]);
             } else {
               for (let j = 0; j < data.length; j++) {
+                data[j].Seleccionado = false
                 // console.log("pedido N", j);
                 this.pedidos.push(data[j]);
                 this.pedidos = this.pedidosFull
@@ -97,13 +114,98 @@ export class PendientesComponent implements OnInit{
           }, error => {
             alert(error.error.detail)
           });
-        }, 20000 * i);
+        }, 22000 * i);
         // Guardar la referencia al setTimeout en el arreglo
         timeouts.push(timeoutId);
       }
   }
 
-  
+  seleccionarPedido(index : number,cod_entrega : number){
+    // this.pedidos[index].Cod_entrega
+    this.pedidos.filter(pedido => pedido.Cod_entrega == cod_entrega).map(data => {
+      data.Seleccionado = !data.Seleccionado
+    })
+    // this.pedidos[index].Seleccionado = !this.pedidos[index].Seleccionado
+  }
+
+  selectComuna (comunaElegida :string) {
+    this.comunasSeleccionadas.push(comunaElegida)
+  }
+
+   filtrarsByComuna () {
+    if(this.comunasSeleccionadas.length !== 0) this.pedidos = this.pedidosFull.filter(pedido => this.comunasSeleccionadas.includes(pedido.Comuna))
+    if(this.fecha_min !== "" || this.fecha_max !== "") this.filtrarPorRangoFechaCompromiso(this.fecha_min,this.fecha_max)
+
+    if(this.comunasSeleccionadas.length !== 0 && this.fecha_min !== "" && this.fecha_max !== ""){
+      this.pedidos = this.pedidosFull.filter(pedido => this.comunasSeleccionadas.includes(pedido.Comuna) && new Date(pedido.Fecha_compromiso) >= new Date(this.fecha_min)
+      && new Date(pedido.Fecha_compromiso) <= new Date(this.fecha_max))
+    }
+    
+    this.cantidad = this.pedidos.length
+    // this.tablaQuadmindFilter = this.tablaQuadmindFull
+  }
+
+ getAllPedidos(){
+  this.pedidos = this.pedidosFull
+  this.cantidad = this.pedidos.length
+ }
+
+ obtenerDiaSiguiente(){
+  // Obtén la fecha actual
+  let fechaActual = new Date();
+
+  // Agrega un día a la fecha actual
+  fechaActual.setDate(fechaActual.getDate() + 1);
+
+  // Obtiene el día siguiente en formato "yyyy-mm-dd"
+  let añoSiguiente = fechaActual.getFullYear();
+  let mesSiguiente = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Añade un 0 si es necesario para tener dos dígitos
+  let diaSiguiente = String(fechaActual.getDate()).padStart(2, '0'); // Añade un 0 si es necesario para tener dos dígitos
+
+  let fechaSiguiente = `${añoSiguiente}-${mesSiguiente}-${diaSiguiente}`;
+
+  return fechaSiguiente
+ }
+
+
+  enviarEntregas(){
+
+    const codigos = [...new Set(this.pedidos.filter(pedido => pedido.Seleccionado == true).map(seleccion => seleccion.Cod_entrega))]
+    console.log(codigos)
+
+    this.body = {
+      Codigos: codigos.toString(),
+      Fecha_ruta : "",
+      Id_user : sessionStorage.getItem("id")+""
+    }
+    this.pedidosSeleccionados = codigos.length
+    this.toggleLiveDemo()
+
+    // this.rutaService.armar_ruta_bloque(body).subscribe((data : any) => {
+    //   alert(data.message)
+    // }, error => {
+    //   alert("Error al cargar los datos")
+    // })
+
+    this.fecha_ruta = this.obtenerDiaSiguiente()
+    console.log(this.body)
+  }
+
+  guardarRuta(){
+    // fecha_ruta
+
+    if(this.fecha_ruta == "") return alert("Por favor, asigne una fecha")
+    this.body.Fecha_ruta = this.fecha_ruta.replaceAll('-','')
+    console.log(this.body)
+
+    this.rutaService.armar_ruta_bloque(this.body).subscribe((data : any) => {
+      alert(data)
+      this.toggleLiveDemo()
+    }, error => {
+      alert("Error al cargar los datos")
+    })
+
+  }
 
   getData() {
     this.service.get_pedidos_sin_despacho().subscribe((data) => {
@@ -125,10 +227,10 @@ export class PendientesComponent implements OnInit{
       //   return fechaA.getTime() - fechaB.getTime();
       // });
  
-    })
-
-    
+    })   
   }
+
+
   downloadPedidos () {
     this.service.get_pedidos_sin_despacho_descarga()
   }
@@ -138,20 +240,11 @@ export class PendientesComponent implements OnInit{
     this.cantidad = this.pedidos.length
   }
 
-  filterByFecha() : void {
-    var fechaHoy = new Date();
-    var año = fechaHoy.getFullYear();
-    var mes = fechaHoy.getMonth() + 1; 
-    var dia = fechaHoy.getDate();
-
-    // Formato de fecha YYYY-MM-DD
-    var fechaHoyString = año + '-' + mes.toString().padStart(2, '0') + '-' + dia.toString().padStart(2, '0');
-
-    this.pedidos = this.pedidos.filter((pedido) => pedido.Fecha_ingreso != fechaHoyString)
-    this.cantidad = this.pedidos.length
-  }
 
   getFullData(){
+    this.fecha_min = ""
+    this.fecha_max = ""
+    this.comunasSeleccionadas = []
     this.pedidos = this.pedidosFull
     this.cantidad = this.pedidosFull.length
   }
@@ -184,40 +277,12 @@ export class PendientesComponent implements OnInit{
  }
 
  filtrarPorRangoFechaCompromiso(fecha_min : string,fecha_max: string){
-  this.pedidos = this.pedidos.filter(pedido => {
+  this.pedidos = this.pedidosFull.filter(pedido => {
     return  new Date(pedido.Fecha_compromiso) >= new Date(fecha_min)
-            && new Date(pedido.Fecha_compromiso) >= new Date(fecha_max)
+            && new Date(pedido.Fecha_compromiso) <= new Date(fecha_max)
   })
   this.cantidad = this.pedidos.length
  }
 
- downloadExcel() : void{
-  // Agrega una fila vacía al principio de los datos
-
-  const datos: any[][] = [[]];
-
-  datos.push(["Origen","Cod. Entrega","Fecha Ingreso","Fecha Compromiso","Región","Comuna","Descripción","Bultos","Estado","Subestado","Verificado","Recibido"])
-
-  this.pedidosFull.forEach((pedido) => {
-      const fila: any[] = [];
-      fila.push(pedido.Origen, pedido.Cod_entrega, pedido.Fecha_ingreso, pedido.Fecha_compromiso, pedido.Region, pedido.Comuna, pedido.Descripcion, pedido.Bultos,
-                pedido.Estado,pedido.Subestado,pedido.Verificado, pedido.Recibido); 
-      datos.push(fila);
-    });
-
-  let date = new Date();
-  const fechaActual = date.toISOString().split('T')[0];
-  // Crea un libro de Excel a partir de los datos
-  const libroExcel: XLSX.WorkBook = XLSX.utils.book_new();
-  const hoja: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(datos);
-  XLSX.utils.book_append_sheet(libroExcel, hoja, 'Hoja1');
-
-  // Descarga el archivo Excel `Quadminds_Manual_${fechaActual}.xlsx` 
-  
-  const nombreArchivo = `Pedidos-pendientes-${fechaActual}.xlsx`;
-  // Nombre del archivo Excel a descargar 
-  XLSX.writeFile(libroExcel, nombreArchivo);
 
 }
-} 
-

@@ -217,7 +217,7 @@ export const navItemsTest: INavDataBar[][] = [
     }
   ],
 ];
-
+/// Este es el importante
 export const navItems: INavDataBar[] = [
   // {
   //   name: 'Mi Cuenta',
@@ -347,6 +347,10 @@ export const navItems: INavDataBar[] = [
         name : 'Quadminds',
         url: '/picking/quadminds'
       },
+      {
+        name : 'Rutas predictivas',
+        url : '/picking/prearmado-ruta'
+      }
     ]
   },
   {

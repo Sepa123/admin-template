@@ -13,9 +13,100 @@
   </c-modal-footer>
 </c-modal>
 
+
+<c-modal id="editarTocModal" size="lg" [visible]="visibleEditar" (visibleChange)="handleEditar($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Editar codigo {{codigoEditar}}  </h5>
+    <button (click)="toggleEditar()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <!-- <app-editar-toc [alerta]="alertaExistente" [codigoTY]="codigoEditar" ></app-editar-toc>
+     -->
+     <form cForm [formGroup]="formEditarTOC" (ngSubmit)="editarTOC()">
+      <c-row>
+          <c-col [xs]>
+              <div class="">
+                  Alerta 
+                  <c-form-check>
+                      <input cFormCheckInput id="stackOne" type="checkbox" formControlName="Alerta"/>
+                      <label cFormCheckLabel for="stackOne">Alerta</label>
+                  </c-form-check>
+                  <p></p>
+              </div>
+          </c-col>
+      </c-row>
+   
+      <c-row>
+          <c-col [xs]>
+              <div class="">
+                  Fecha reprogramada
+                  <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha_reprogramada" >
+              </div> 
+              <div class="">
+                  Dirección correcta
+                  <input type="text" class="form-control" placeholder="Direccion Correcta" formControlName="Direccion_correcta" >
+              </div>
+               <div class="">
+                  Comuna Correcta
+                  <select id="Comuna_correcta" cSelect formControlName="Comuna_correcta">
+                      <option  *ngFor="let comuna of listaComunas" value={{comuna.Nombre_comuna}} >{{comuna.Nombre_comuna}}</option>
+                  </select>
+              </div>
+              
+              <!-- <div class="noEditar">
+                  Subestado
+                  <input type="text" placeholder="Subestado" class="form-control" formControlName="Subestado" readonly>
+              </div> -->
+      
+              <div class="">
+                  Codigo1
+                  <select id="Codigo1Str" cSelect formControlName="Codigo1Str">
+                      <option *ngFor="let codigo of listaCodigos1" [value]="codigo.Id"  >{{codigo.Descripcion}}</option>
+                  </select>
+              </div>
+          
+          </c-col>
+          <c-col [xs]>
+          <div class="">
+              Observación
+              <!-- <input type="text" placeholder="Subestado" class="form-control" formControlName="Observacion" required> -->
+              <textarea rows="6"  cFormContro placeholder="Observación" class="form-control" formControlName="Observacion"></textarea>
+          </div>
+          <div class="">
+              Subestado esperado
+              <select id="Subestado_esperado" cSelect formControlName="Subestado_esperado">
+                  <option *ngFor="let subestado of listaSubestados" [value]="subestado.Nombre"  >{{subestado.Nombre}}</option>
+              </select>
+          </div>
+          </c-col>
+      </c-row>
+      <p></p>
+      <c-row>
+          <c-col [xs]>
+              <button class="btn btn-success" type="submit">Guardar 
+                  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+              </button>
+          </c-col>
+          <!-- <c-col [xs]>
+                  <button class="btn btn-secondary" type="button" (click)="reiniciar()">Reiniciar
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 32 32"><path fill="currentColor" d="M18 28A12 12 0 1 0 6 16v6.2l-3.6-3.6L1 20l6 6l6-6l-1.4-1.4L8 22.2V16a10 10 0 1 1 10 10Z"/></svg>
+                  </button>
+          </c-col> -->
+      </c-row>
+      <!-- <button class="btn btn-success" type="submit">Registrar</button> -->
+    </form>
+  
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleEditar()" cButton color="secondary">
+      Cancelar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
 <h2>Alertas Vigentes</h2>
 <p></p>
-<div class="greenTable" >
+<div class="greenTable" *ngIf="!loadingData">
     <table id="tablaProductosPicking" >
     <thead>
       <tr>
@@ -62,9 +153,9 @@
   </div>
  <p></p>
 
- <h4>Buscar alerta</h4>
+ <h4 *ngIf="!loadingData">Buscar alerta</h4>
 
-  <input type="text" [(ngModel)]="codigoPick" (change)="buscarAlerta(codigoPick)">
+  <input type="text" *ngIf="!loadingData" [(ngModel)]="codigoPick" (change)="buscarAlerta(codigoPick)">
 
 
     <p></p>
@@ -74,11 +165,13 @@
               <thead>
                 <tr>
                     <th>Fecha/Hora</th>
+                    <th>Guía</th>
                     <th>Comuna</th>
                     <th>Dirección</th>
                     <th>Fecha Compromiso</th>
                     <th>Observación</th>
                     <th>Código TY</th>
+                    <th *ngIf="rol == '5' || rol == '22' || rol == '13'">Editar</th> 
                     <!-- <th *ngIf="rol == '5' || rol == '22'">Creado por</th> -->
                 </tr>
               </thead>
@@ -86,6 +179,7 @@
               <!-- <ng-container *ngFor="let objeto of productosRuta;let i = index"> -->
                 <tr *ngFor="let toc of arrayTOCTracking; let i = index">
                   <td>{{toc.Fecha_hora}}</td>
+                  <td>{{guiaActual}}</td>
                   <td [ngClass]="regex.test(toc.Comuna) ? 'aterisco': '' ">{{toc.Comuna.replace('*','')}}</td>
                   <td [ngClass]="regex.test(toc.Direccion) ? 'aterisco': '' ">{{toc.Direccion.replace('*','')}}</td>
                   <td [ngClass]="regex.test(toc.Fecha_compromiso) ? 'aterisco': '' "> {{toc.Fecha_compromiso.replace('*','')}}</td>
@@ -93,9 +187,21 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verObservacion(toc.Observacion)"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
                   </td>
                   <td>{{toc.Codigo_TY}}</td>
+                  <td *ngIf="rol == '5' || rol == '22' || rol == '13'">
+                    <svg xmlns="http://www.w3.org/2000/svg" (click)="updateData(toc.Codigo_TY )" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                  </td>
                   <!-- <td *ngIf="rol == '5' || rol == '22' ">{{toc.Creado_por}}</td> -->
                 </tr>
               <!-- </ng-container> -->
   
               </table>
             </div>
+
+      <table class="loadQuadmind" > 
+        <tr>
+            <div *ngIf="loadingData">
+              <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+              Cargando Datos 
+          </div>
+        </tr> 
+        </table>

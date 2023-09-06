@@ -133,4 +133,8 @@ export class RutasService {
     return interval(5600).pipe(switchMap(() => this.http.get<AlertaConductor []>(this.apiurl + `/alerta/conductor?nombre_ruta=${nombre_ruta}`)))
   }
 
+  armar_ruta_bloque(body : any){
+    return this.http.post(this.apiurl + "/armar/bloque", body)
+  }
+
 }

@@ -11,4 +11,5 @@ export interface PedidoSinCompromiso {
     Subestado:        string;
     Verificado:       number;
     Recibido:         number;
+    Seleccionado:     boolean;
 }
