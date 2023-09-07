@@ -17,8 +17,8 @@ export class RutasService {
 
   constructor(private http: HttpClient) { }
 
-  apiurl = "https://hela.transyanez.cl/api/rutas"
-  // apiurl = "http://127.0.0.1:8000/api/rutas"
+  // apiurl = "https://hela.transyanez.cl/api/rutas"
+  apiurl = "http://127.0.0.1:8000/api/rutas"
 
   get_rutas_manual(pedido: string) {
     return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/${pedido}`)
@@ -135,6 +135,10 @@ export class RutasService {
 
   armar_ruta_bloque(body : any){
     return this.http.post(this.apiurl + "/armar/bloque", body)
+  }
+
+  verificar_pedido_en_ruta(pedido_id : number){
+    return this.http.get(this.apiurl + `/pedido/en_ruta/${pedido_id}`)
   }
 
 }

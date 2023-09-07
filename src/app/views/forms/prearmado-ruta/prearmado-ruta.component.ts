@@ -27,14 +27,14 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
 
   regiones : string[] = []
   offset : number [] = [0,200,400,600,800,1000,1200]
-  timeout : number [] = [1000,1000,1000,1000,1000,1000,1000]
-
 
   body : any = {
     Codigos: "",
     Fecha_ruta : "",
     Id_user : ""
   }
+
+  bultoSeleccionados : number = 0
 
   pedidosSeleccionados : number = 0
 
@@ -44,6 +44,7 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
   fecha_ruta : string = ""
 
   cantidad! : number  
+  cantidadBultos! : number
 
   loadPedidos : boolean = true
 
@@ -109,6 +110,7 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
               }
               this.loadPedidos = false;
               this.cantidad = this.pedidos.length;
+              this.cantidadBultos = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length
 
             }
           }, error => {
@@ -122,9 +124,13 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
 
   seleccionarPedido(index : number,cod_entrega : number){
     // this.pedidos[index].Cod_entrega
-    this.pedidos.filter(pedido => pedido.Cod_entrega == cod_entrega).map(data => {
-      data.Seleccionado = !data.Seleccionado
+    this.rutaService.verificar_pedido_en_ruta(cod_entrega).subscribe((data : any) => {
+      if(data.en_ruta == '1') return alert(data.message)
+      this.pedidos.filter(pedido => pedido.Cod_entrega == cod_entrega).map(data => {
+        data.Seleccionado = !data.Seleccionado
+      })
     })
+    
     // this.pedidos[index].Seleccionado = !this.pedidos[index].Seleccionado
   }
 

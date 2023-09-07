@@ -98,7 +98,16 @@
         <div class="col-md-12 mx-auto">
           
           <p></p>
-          Cantidad : <label style="font-weight: bold;">{{cantidad}}</label> <img width="40" *ngIf="isLoadingTable" height="50" src="../../../assets/images/loading-gif.gif" />
+          <table>
+            <tr>
+              <td>Cantidad Productos : <label style="font-weight: bold;">{{cantidad}}</label> </td>
+              <td rowspan="2"><img width="40" *ngIf="isLoadingTable" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+            </tr>
+            <tr>
+              <td>Cantidad Bultos : <label style="font-weight: bold;">{{cantidadBultos}}</label> </td>
+            </tr>
+          </table>
+          
           <p></p>
 
           
