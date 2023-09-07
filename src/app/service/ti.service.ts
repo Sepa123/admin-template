@@ -26,8 +26,8 @@ export class TIService {
 
   constructor(private http: HttpClient, private cacheService: CacheService) { }
 
-  apiurl="https://hela.transyanez.cl/api/reportes"
-  // apiurl = "http://127.0.0.1:8000/api/reportes"
+  //apiurl="https://hela.transyanez.cl/api/reportes"
+  apiurl = "http://127.0.0.1:8000/api/reportes"
   
   Getcargas(): Observable<any>{
     return interval(3500).pipe( switchMap(() => this.http.get<Carga[]>(this.apiurl+"/cargas_easy")))
@@ -35,7 +35,18 @@ export class TIService {
 
   get_ns_beetrack_por_rango_fecha(fecha_inicio : string, fecha_termino : string) {
     return this.http.get<NSBeetrackRango []>(this.apiurl+`/NS_beetrack/rango?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_termino}`)
+  } 
+ /* actualizarValorRuta(Id_ruta: number, Valor_ruta: number): Observable<any> {
+    const url = `${this.apiurl}/ruta/beetrack/${Id_ruta}/valor`;
+    const body = { Valor_ruta: Valor_ruta }; // Asegúrate de que el nombre del campo coincida con el que espera tu API
+    return this.http.post(url, body);
+  }*/
+
+  //UPDATE VALOR DE LA RUTA
+  update_valor_ruta(body : any){
+    return this.http.put(this.apiurl + "/NS_beetrack/rango", body)
   }
+
 
   downloadBeetrackNSRango(fecha_inicio : string, fecha_fin : string ){
     this.http.get(this.apiurl+`/NS_beetrack/rango/descargar?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`, {responseType:"blob"})

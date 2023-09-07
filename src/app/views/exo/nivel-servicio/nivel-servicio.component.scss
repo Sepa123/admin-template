@@ -67,7 +67,29 @@
   padding: 2px 8px;
   border-radius: 5px;
 }
+//campo editar
+.container{
+  display:flex;
+  flex-direction: column
+}
 
+.container label{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  align-self: center;
+}
+
+.botonGuardar{
+  display: flex;
+  justify-content: right ;
+  margin-top:0.25rem;
+  margin-top:0.5rem;
+}
+
+.botonGuardar .btn{
+  align-self:flex-start;
+}
 
 // h1 {
 //     text-align: center;

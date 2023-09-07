@@ -1,0 +1,27 @@
+
+<c-modal #staticBackdropModal backdrop="static" id="staticBackdropModal">
+  <c-modal-header>
+    <h5 cModalTitle>Asigna el valor de la ruta</h5>
+    
+    <button [cModalToggle]="staticBackdropModal.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm [formGroup]="myForm">
+      <c-container>
+        <label  cLabel for="Valor_ruta">Valor de la ruta</label>
+        <input type="number" id="Valor_ruta" name="Valor_ruta" cFormControl
+          [(ngModel)]="Valor_ruta" #name="ngModel">
+      </c-container>
+    </form>
+
+
+  </c-modal-body>
+  <c-modal-footer>
+    <button [cModalToggle]="staticBackdropModal.id" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary"  >Understood</button>
+    
+  </c-modal-footer>
+</c-modal>
+

@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModalModule } from '@coreui/angular';
 
 import { ExoRoutingModule } from './exo-routing.module';
 import { NivelServicioComponent } from './nivel-servicio/nivel-servicio.component';
+import {AgregarValorRutaComponent} from './agregar-valor-ruta/agregar-valor-ruta.component'
 
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 
@@ -21,10 +23,11 @@ import {
 } from '@coreui/angular';
 
 
-
+ 
 @NgModule({
   declarations: [
-    NivelServicioComponent
+    NivelServicioComponent,
+    AgregarValorRutaComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +41,9 @@ import {
     ListGroupModule,
     TableModule,
     UtilitiesModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, 
+    ReactiveFormsModule, 
+    ModalModule
   ]
 })
 export class ExoModule { }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NivelServicioComponent } from './nivel-servicio/nivel-servicio.component';
 
+
 const routes: Routes = [
   {
     path: '',
