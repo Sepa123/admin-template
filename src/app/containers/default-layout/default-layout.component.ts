@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { interval,Observable, Subscription  } from 'rxjs';
-import { navItems, navItemsOp , navItemsTra ,navItemsTest } from './_nav';
+import { navItems } from './_nav';
 import { ROLES_PERMITIDOS } from 'src/app/rolesPermitidos.const'
 import { RolSaveService } from '../../service/rol-save.service'
 
@@ -33,12 +32,6 @@ export class DefaultLayoutComponent implements OnInit {
 
   navItems = navItems
 
-  navItemsTest = navItemsTest
-
-  navItemsOp = navItemsOp
-
-  navItemsTra = navItemsTra
-
   public perfectScrollbarConfig = {
     suppressScrollX: true,
   };
@@ -46,9 +39,6 @@ export class DefaultLayoutComponent implements OnInit {
   constructor(private rolService : RolSaveService) {
     this.rol = sessionStorage.getItem("rol_id") 
   }
-
-  // public email = this.rolService.getEmail()
-  // public usuario = this.rolService.getUsuario()
 
   isToggle : boolean = true
 
