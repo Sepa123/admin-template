@@ -37,6 +37,7 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
   bultoSeleccionados : number = 0
 
   pedidosSeleccionados : number = 0
+  bultosSeleccionados : number = 0
 
   fecha_min : string = ""
   fecha_max : string = ""
@@ -109,8 +110,11 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
                 this.cantidad = this.pedidos.length
               }
               this.loadPedidos = false;
-              this.cantidad = this.pedidos.length;
-              this.cantidadBultos = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length
+              // this.cantidad = this.pedidos.length;
+              // this.cantidadBultos = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length
+              this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+              this.cantidadBultos = this.pedidos.length
+              // this.cantidadBultos = this.pedidos.reduce((acum, pedido) => acum + pedido.Bultos, 0)
 
             }
           }, error => {
@@ -147,13 +151,15 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
       && new Date(pedido.Fecha_compromiso) <= new Date(this.fecha_max))
     }
     
-    this.cantidad = this.pedidos.length
+    this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+    this.cantidadBultos = this.pedidos.length
     // this.tablaQuadmindFilter = this.tablaQuadmindFull
   }
 
  getAllPedidos(){
   this.pedidos = this.pedidosFull
-  this.cantidad = this.pedidos.length
+  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+  this.cantidadBultos = this.pedidos.length
  }
 
  obtenerDiaSiguiente(){
@@ -184,7 +190,9 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
       Fecha_ruta : "",
       Id_user : sessionStorage.getItem("id")+""
     }
-    this.pedidosSeleccionados = codigos.length
+    this.bultoSeleccionados = this.pedidos.filter(pedido => pedido.Seleccionado == true).map(seleccion => seleccion.Cod_entrega).length
+    this.pedidosSeleccionados =  codigos.length 
+    console.log(codigos)
     this.toggleLiveDemo()
 
     // this.rutaService.armar_ruta_bloque(body).subscribe((data : any) => {
@@ -252,7 +260,9 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
     this.fecha_max = ""
     this.comunasSeleccionadas = []
     this.pedidos = this.pedidosFull
-    this.cantidad = this.pedidosFull.length
+    // this.cantidad = this.pedidosFull.length
+    this.cantidad = [...new Set(this.pedidosFull.map(seleccion => seleccion.Cod_entrega))].length;
+    this.cantidadBultos = this.pedidosFull.length
   }
 
   OrdenFechaIngreso (){
@@ -269,12 +279,14 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
        const fechaB: Date = new Date(b.Fecha_compromiso);
        return fechaB.getTime() - fechaA.getTime() ;
      });
-     this.cantidad = this.pedidos.length
+     this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+     this.cantidadBultos = this.pedidos.length
  }
 
  filtrarPorComuna (comuna : string){
   this.pedidos = this.pedidosFull.filter(pedido => pedido.Comuna == comuna)
-  this.cantidad = this.pedidos.length
+  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+  this.cantidadBultos = this.pedidos.length
  }
 
  filtrarPorRegion (region : string){
@@ -287,7 +299,8 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
     return  new Date(pedido.Fecha_compromiso) >= new Date(fecha_min)
             && new Date(pedido.Fecha_compromiso) <= new Date(fecha_max)
   })
-  this.cantidad = this.pedidos.length
+  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+  this.cantidadBultos = this.pedidos.length
  }
 
 

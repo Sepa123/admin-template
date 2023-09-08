@@ -17,8 +17,8 @@ export class RutasService {
 
   constructor(private http: HttpClient) { }
 
-  // apiurl = "https://hela.transyanez.cl/api/rutas"
-  apiurl = "http://127.0.0.1:8000/api/rutas"
+  apiurl = "https://hela.transyanez.cl/api/rutas"
+  // apiurl = "http://127.0.0.1:8000/api/rutas"
 
   get_rutas_manual(pedido: string) {
     return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/${pedido}`)

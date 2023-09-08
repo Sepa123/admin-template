@@ -10,8 +10,8 @@ export class PedidoService {
 
   constructor(private http: HttpClient) { }
 
-  // apiurl="https://hela.transyanez.cl/api/pedidos"
-  apiurl = "http://127.0.0.1:8000/api/pedidos"
+  apiurl="https://hela.transyanez.cl/api/pedidos"
+  // apiurl = "http://127.0.0.1:8000/api/pedidos"
 
   get_pedidos_sin_despacho() {
     return this.http.get<PedidoSinCompromiso[]>(this.apiurl + "/sin_despacho/")

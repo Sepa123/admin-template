@@ -149,9 +149,11 @@ export class AlertasVigentesComponent {
     this.service.toc_tracking(codigo).subscribe(data => {
       this.arrayTOCTracking = data
       // this.guiaActual = codigo
-      this.service.buscar_guia_by_codigo(codigo).subscribe((data : any)=> {
-        this.guiaActual = data.Guia
-      })
+      if(data.length !== 0){
+        this.service.buscar_guia_by_codigo(codigo).subscribe((data : any)=> {
+          this.guiaActual = data.Guia
+        })
+      }
       this.arrayTOCTracking.map(toc => {
         if (toc.Direccion == null || toc.Direccion == '') {
           toc.Direccion = 'Sin dirección*'
