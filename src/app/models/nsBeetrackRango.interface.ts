@@ -51,7 +51,8 @@ export interface NSBeetrackRango {
     PNCORR:      number;
     PFALT:       number;
     PPARC:       number;
-    P_DUPL:      number;
+    P_DUPL:      number;    
     R:           number;
     Pedidos:     null | string;
+    Valor_ruta:  number | null ;
 }
