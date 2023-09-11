@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms'
 import { PortalTransyanezService } from "src/app/service/portal-transyanez.service";
 import { TIService } from 'src/app/service/ti.service';
 import { NSBeetrackRango } from 'src/app/models/nsBeetrackRango.interface';
 import Swal from 'sweetalert2';
-
-
 
 @Component({
   selector: 'app-nivel-servicio',
