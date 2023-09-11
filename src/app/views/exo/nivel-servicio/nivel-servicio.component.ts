@@ -3,8 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, Valid
 import { PortalTransyanezService } from "src/app/service/portal-transyanez.service";
 import { TIService } from 'src/app/service/ti.service';
 import { NSBeetrackRango } from 'src/app/models/nsBeetrackRango.interface';
-import {AgregarValorRutaComponent} from '../agregar-valor-ruta/agregar-valor-ruta.component';
-import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -25,83 +24,62 @@ export class NivelServicioComponent {
   Valor_ruta : number | null = null;
   selectedRouteValue: number | null = null;
   routeValue: number | null = null;
-  rutaValores: { id: number, valor: number }[] = [];
+  valoresActualizados : any [] = []
   tablaDesplegada: boolean = false;
+  server : string = "";
+  id_usuario : number  | null = null;
+  idMs : String = "" ;
+
+  
 
 
   constructor(
-    private service: PortalTransyanezService, private TIservice: TIService,
-    private router: Router
-    //private AgregarValorRutaComponent: AgregarValorRutaComponent
+    private service: PortalTransyanezService, private TIservice: TIService
   ) {
 
    }
 
-   //metodos para cerrar el modal
-  isModalOpen: boolean = false
-  public visible = false;
-
-  toggleLiveDemo() {
-    this.visible = !this.visible;
-  }
-
-  handleLiveDemoChange(event: any) {
-    this.visible = event;
-  }
-  
-  openModal(){
-    this.isModalOpen = true
-  }
-
-  closeModal(){
-    this.isModalOpen = false
-  }
-   
-
   // Método para capturar el ID de la ruta al hacer clic en un elemento de la lista
-  captureRouteId(routeId: number|null)  {
-    if(routeId!= null){
-      this.selectedRouteId = routeId;
-     // this.selectedRouteValue = this.Valor_ruta;   
-       console.log(routeId, "ruta")
-    }
-    
-  }
-/*
-  assignValue(routeId: number|null) {
-    if (routeId !== null) {
-      this.selectedRouteId = routeId;
-      console.log(routeId, "ruta")
-      const body = { Valor_ruta: this.routeValue, Id_ruta: this.selectedRouteId };  
-      console.log(body, "valor no ingresado")
-      this.TIservice.update_valor_ruta(body).subscribe(
-        (response) => {
-          this.routeValue = null
-          this.ns_beetrack_rango_fecha(this.fecha_inicio,this.fecha_fin) 
-          console.log('Valor de la ruta actualizado correctamente', response);
-        },
-        (error) => {
-          console.error('Error al actualizar el valor de la ruta', error);
-        }
-      );
-    }
-  }*/
-
-  guardarValores() {
-    const valoresActualizados = this.nsBeetrack.map((beetrack) => {
-      return { Valor_ruta: beetrack.Valor_ruta, Id_ruta: beetrack.Id_ruta };
-    });
+  captureRouteId(routeId: number, routeValue: number|null)  {
   
-    this.TIservice.update_valor_ruta(valoresActualizados).subscribe(
+    if(routeId!= null){
+      //se selecciona el ID de la ruta
+      this.selectedRouteId = routeId;
+      //se asigna el valor de la ruta a traves de del input
+      this.selectedRouteValue = routeValue;
+      //se obtiene de la sesion del usuario los datos del id 
+      this.id_usuario = parseInt(sessionStorage['id'])
+      this.server = sessionStorage['server']
+      this.idMs= this.server+ "-"+this.id_usuario
+      //se crea el objeto con los datos
+      const rutaValores = {id_ruta : this.selectedRouteId, valor_ruta : this.selectedRouteValue, id_user : this.id_usuario, ids_user: this.idMs}
+ 
+      if(this.selectedRouteValue != null && this.selectedRouteId != null){
+        this.valoresActualizados.push(rutaValores)
+        console.log( this.valoresActualizados, "objeto")
+      }
+    }   
+  }
+  guardarValores() {
+    //al guardar los datos se almacena solo los values del objeto
+    const valores = this.valoresActualizados.map(valoresArray => ({
+      id_ruta: valoresArray.id_ruta,
+      valor_ruta: valoresArray.valor_ruta,
+      id_user: valoresArray.id_user,
+      ids_user: valoresArray.ids_user
+    }));
+  
+    this.TIservice.update_valor_ruta(valores).subscribe(
       (response) => {
-        console.log('Valores de rutas actualizados correctamente', response);
+        console.log(valores)
+        console.log('Valores de rutas actualizados correctamente', response, valores);
       },
       (error) => {
+        console.log(valores)
         console.error('Error al actualizar los valores de rutas', error);
       }
     ); 
   }
-   
    formatearFecha(fecha : string){
     return fecha.replaceAll("-", "")
    }
@@ -161,6 +139,7 @@ export class NivelServicioComponent {
    }
    ngOnInit(){
     // this.ns_beetrack_rango_fecha('20230801','20230802') 
+  
    }
    
   downloadVehiculos(){

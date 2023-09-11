@@ -68,16 +68,8 @@
   border-radius: 5px;
 }
 //campo editar
-.container{
-  display:flex;
-  flex-direction: column
-}
-
-.container label{
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  align-self: center;
+.campo-edit input{
+  width: 9vw;
 }
 
 .botonGuardar{

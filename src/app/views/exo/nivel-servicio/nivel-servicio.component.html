@@ -133,18 +133,9 @@
           <td>{{beetrack.T_ENT}}</td> -->
           <td>{{beetrack.N_ENT}}</td>
           <td>{{beetrack.EE}}</td>
-          <!--<td class="campo-edit">{{ beetrack.Valor_ruta !== null ? beetrack.Valor_ruta : 0 }}
-             
-             <button color="secondary" size="sm" (click)="toggleLiveDemo()" (click)="captureRouteId(beetrack.Id_ruta)"cButton>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
-              </button>
-            
-          </td>
-        -->
-        
           <td class="campo-edit">
-            <input type="number" id="Valor_ruta" name="Valor_ruta" cFormControl [(ngModel)]="beetrack.Valor_ruta" (click)="captureRouteId(beetrack.Id_ruta)" placeholder="ingrese el valor de la ruta">
-
+            <input type="number" id="Valor_ruta" name="Valor_ruta" cFormControl [(ngModel)]="beetrack.Valor_ruta" 
+            (change)="captureRouteId(beetrack.Id_ruta, beetrack.Valor_ruta)" [value]="beetrack.Valor_ruta" step="0.01">
           </td>
           
         
@@ -171,33 +162,8 @@
     </tbody> 
     </table>
     <div class="botonGuardar">
-      <button   *ngIf="tablaDesplegada" cButton color="primary" (click)="guardarValores()" type="submit">Guardar</button>
+      <button   *ngIf="tablaDesplegada" cButton color="primary"  (click)="guardarValores()" type="submit">Guardar</button>
     </div>
     
 </div> 
 </c-row>
-<!------ 
-<app-agregar-valor *ngIf="selectedItem"
-[data]="selectedItem"
-(closeModal)="setSelectedItem(null)"></app-agregar-valor>
-
-<c-modal #staticBackdropModal backdrop="static" id="staticBackdropModal" id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
-  <c-modal-header  *ngIf="selectedRouteId !== null">
-    <h4>ID de la Ruta: {{ selectedRouteId }}</h4>
-    <button (click)="toggleLiveDemo()" cButtonClose></button>
-  </c-modal-header>
-  <form cForm (submit)="assignValue(selectedRouteId)">
-    <c-modal-body>
-      <c-container>
-        <label  cLabel for="Valor_ruta">Valor de la ruta</label>
-        <input type="number" id="Valor_ruta" name="Valor_ruta" cFormControl [(ngModel)]="routeValue" placeholder="ingrese el valor de la ruta">
-      </c-container>
-      <c-modal-footer>
-        <button (click)="toggleLiveDemo()" cButton color="secondary">Close</button>
-        <button  cButton color="primary" (click)="toggleLiveDemo()" type="submit">Guardar</button>
-      </c-modal-footer>
-    </c-modal-body>
-  </form>
-</c-modal>
----->
-

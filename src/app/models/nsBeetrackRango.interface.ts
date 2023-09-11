@@ -54,5 +54,5 @@ export interface NSBeetrackRango {
     P_DUPL:      number;    
     R:           number;
     Pedidos:     null | string;
-    Valor_ruta:  null | number;
+    Valor_ruta:  number | null ;
 }
