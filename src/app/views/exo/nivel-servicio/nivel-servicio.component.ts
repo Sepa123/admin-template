@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, Valid
 import { PortalTransyanezService } from "src/app/service/portal-transyanez.service";
 import { TIService } from 'src/app/service/ti.service';
 import { NSBeetrackRango } from 'src/app/models/nsBeetrackRango.interface';
+import Swal from 'sweetalert2';
 
 
 
@@ -18,6 +19,8 @@ export class NivelServicioComponent {
   fecha_fin : string = "" 
 
   isDescargar : boolean = false
+
+  titulo : string = '';
 
   //DATOS PARA EL ID Y ASIGNAR VALOR
   selectedRouteId: number | null = null; 
@@ -71,12 +74,19 @@ export class NivelServicioComponent {
   
     this.TIservice.update_valor_ruta(valores).subscribe(
       (response) => {
-        console.log(valores)
+        console.log(valores);
+        alert("Valor actualizado con exito")
+        Swal.fire(
+          'Valores actualizados satisfactoriamente!',
+          )
         console.log('Valores de rutas actualizados correctamente', response, valores);
       },
       (error) => {
         console.log(valores)
         console.error('Error al actualizar los valores de rutas', error);
+        Swal.fire(
+          'Error al actualizar los datos!',
+          )
       }
     ); 
   }
