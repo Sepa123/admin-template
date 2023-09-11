@@ -37,6 +37,11 @@ export class TIService {
     return this.http.get<NSBeetrackRango []>(this.apiurl+`/NS_beetrack/rango?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_termino}`)
   }
 
+  //UPDATE VALOR DE LA RUTA
+  update_valor_ruta(body : any[]){
+    return this.http.put(this.apiurl + "/NS_beetrack/rango", body)
+  }
+
   downloadBeetrackNSRango(fecha_inicio : string, fecha_fin : string ){
     this.http.get(this.apiurl+`/NS_beetrack/rango/descargar?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`, {responseType:"blob"})
     .subscribe((blob:Blob) => {
