@@ -20,7 +20,6 @@ export class NivelServicioComponent {
 
   isDescargar : boolean = false
 
-  titulo : string = '';
 
   //DATOS PARA EL ID Y ASIGNAR VALOR
   selectedRouteId: number | null = null; 
@@ -32,8 +31,6 @@ export class NivelServicioComponent {
   server : string = "";
   id_usuario : number  | null = null;
   idMs : String = "" ;
-
-  
 
 
   constructor(
@@ -56,7 +53,6 @@ export class NivelServicioComponent {
       this.idMs= this.server+ "-"+this.id_usuario
       //se crea el objeto con los datos
       const rutaValores = {id_ruta : this.selectedRouteId, valor_ruta : this.selectedRouteValue, id_user : this.id_usuario, ids_user: this.idMs}
- 
       if(this.selectedRouteValue != null && this.selectedRouteId != null){
         this.valoresActualizados.push(rutaValores)
         console.log( this.valoresActualizados, "objeto")
@@ -70,23 +66,29 @@ export class NivelServicioComponent {
       valor_ruta: valoresArray.valor_ruta,
       id_user: valoresArray.id_user,
       ids_user: valoresArray.ids_user
+      
     }));
-  
+    // se cuentan cada uno de los regristrados guardados en el array
+    let registrosRealizados = 0
+    valores.forEach(()=>{
+      registrosRealizados ++;
+    })
+    let conteo = `${registrosRealizados}`
     this.TIservice.update_valor_ruta(valores).subscribe(
       (response) => {
         console.log(valores);
-        alert("Valor actualizado con exito")
         Swal.fire(
-          'Valores actualizados satisfactoriamente!',
+          'Ingreso Realizado Correctamente. Registros insertados :' + conteo,
           )
         console.log('Valores de rutas actualizados correctamente', response, valores);
       },
       (error) => {
-        console.log(valores)
-        console.error('Error al actualizar los valores de rutas', error);
+
         Swal.fire(
-          'Error al actualizar los datos!',
+          'Carga Finalizada con errores. Se registran : 0 cambios, favor validar.!',
           )
+        console.error('Error al actualizar los valores de rutas', error);
+        
       }
     ); 
   }

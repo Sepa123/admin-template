@@ -26,7 +26,7 @@ export class TIService {
 
   constructor(private http: HttpClient, private cacheService: CacheService) { }
 
- //apiurl="https://hela.transyanez.cl/api/reportes"
+ ///apiurl="https://hela.transyanez.cl/api/reportes"
   apiurl = "http://127.0.0.1:8000/api/reportes"
   
   Getcargas(): Observable<any>{
