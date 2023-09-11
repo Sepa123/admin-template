@@ -46,15 +46,6 @@ export class RecepcionOplComponent {
     }))
 
   }
-  // calcularDiferencias(arrayRuta : ProductoPicking []) {
-  //   const fechaActual = new Date();
-  //   arrayRuta.forEach(item => {
-  //     const fecha = new Date(item.Fecha_pedido);
-  //     const diferencia = fecha.getTime() - fechaActual.getTime();
-  //     const diferenciaDias = Math.ceil(diferencia / (1000 * 60 * 60 * 24));
-  //     item.Diferencias_dias = diferenciaDias;
-  //   });
-  // }
 
   ngOnInit() {
     this.service.getProductosPickingOPL().subscribe((data) => {
@@ -78,25 +69,5 @@ export class RecepcionOplComponent {
       alert(data.message)
     })
   }
-
-
-  
-
-  // cambiarTicket(arrayRutaIndex: number, objectIndex: number, cod_producto: string) {
-  //   this.arrayRutasIngresados[arrayRutaIndex][objectIndex].Pistoleado = "t";
-
-  //   let body = { "cod_producto": cod_producto }
-  //   this.service.update_estado_producto(cod_producto, body).subscribe((response : any) => {
-  //       console.log(response.message)
-  //       this.todosEnRuta()
-  //   },(error) => {
-  //     console.log(error)
-  //     // alert(error)
-  //   }
-  //   )
-  //   this.todosEnRuta()
-  // }
- //2906175306
-  
   
 }

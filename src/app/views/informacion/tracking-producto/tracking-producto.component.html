@@ -162,7 +162,7 @@
                   <th>Cantidad de Producto</th>
                   <th>Notas</th>
                   <th>Verificado</th>
-                  <th *ngIf="factura !== '' "> Factura</th>
+                  <th *ngIf="factura !== [] "> Factura</th>
               </tr>
             </thead>
             <tbody>
@@ -192,7 +192,8 @@
                 <!-- Producto En ruta -->
 
                 <!-- Si el producto es un electrolux -->
-                <td *ngIf="producto.Notas.indexOf('Electrolux') !== -1" >{{factura}}</td> 
+                <td *ngIf="producto.Notas.indexOf('Electrolux') !== -1 " >{{factura[i][producto.SKU]}}</td> 
+                
               </tr>
             <!-- </ng-container> -->
 

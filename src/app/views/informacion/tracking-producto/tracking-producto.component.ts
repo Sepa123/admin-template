@@ -19,7 +19,7 @@ export class TrackingProductoComponent {
 
   arrayTOCTracking : TocTracking [] = []
 
-  factura : string = ""
+  factura : any [] = []
 
   isTrackingBeetrack : boolean = false
   codigoPick! : string
@@ -87,8 +87,8 @@ export class TrackingProductoComponent {
   }
 
   buscarFacturaElectrolux(pedido : string){
-    this.service.get_factura_electrolux(pedido).subscribe(data => {
-      this.factura = data.Factura
+    this.service.get_factura_electrolux(pedido).subscribe((data : any) => {
+      this.factura = data
     })
   }
 
@@ -168,7 +168,7 @@ export class TrackingProductoComponent {
   }
 
   buscarTrackBeetrack(codigo : string){
-      this.factura = ''
+      this.factura = []
       this.fechaIngresoSistema = ""
       this.isOK = false
       this.codigoPick = ""
@@ -220,7 +220,7 @@ export class TrackingProductoComponent {
       if(this.productosRuta[0].Notas.indexOf("Electrolux") !== -1){
         this.buscarFacturaElectrolux(codigo)
       }else {
-        this.factura = ''
+        this.factura = []
       }
     }, error => {
       this.arrayError[2] = true

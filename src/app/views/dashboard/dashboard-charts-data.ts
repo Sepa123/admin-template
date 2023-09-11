@@ -2,7 +2,6 @@ import { Injectable  } from '@angular/core';
 import { getStyle, hexToRgba } from '@coreui/utils';
 import { TIService } from 'src/app/service/ti.service';
 import { Subscription, interval } from 'rxjs';
-import mesesDelAño  from 'src/app/models/fechas/rangoFechas'
 
 export interface IChartProps {
   data?: any;
@@ -88,28 +87,6 @@ export class DashboardChartsData {
   }
 
   getData(){
-
-    // Imprimir las fechas de todas las semanas
-   
-    // console.log(mesesDelAño.Enero.inicio)
-  //  this.subHistorico = this.service.get_historico_mensual().subscribe(mensual=> {
-  //     this.historico = mensual
-
-  //     for (let i = 0; i < this.historico.length; i++) {
-  //       this.electrolux.push(this.historico[i].Electrolux)
-  //       this.sportex.push(this.historico[i].Sportex)
-  //       this.easy.push(this.historico[i].Easy)
-  //       this.tiendas.push(this.historico[i].Tiendas)
-  //       this.dias.push(this.historico[i].Dia)
-  //       this.fecha.push(this.historico[i].Fecha)
-  //     }
-  // })
-
-//   this.subProducto = this.service.get_productos_mensual().subscribe(mensual=> {
-//     this.entregado = mensual
-//     ////
-//     this.getDataByWeek(this.entregado)
-// })
 
   }
 

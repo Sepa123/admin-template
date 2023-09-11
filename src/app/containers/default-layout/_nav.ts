@@ -146,7 +146,7 @@ export const navItems: INavDataBar[] = [
         url: '/picking/quadminds'
       },
       {
-        name : 'Rutas predictivas',
+        name : 'Rutas Predictivas',
         url : '/picking/prearmado-ruta'
       }
     ]

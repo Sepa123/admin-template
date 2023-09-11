@@ -2,15 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RutasService } from 'src/app/service/rutas.service';
 import { NombreRutaService } from 'src/app/service/nombre-ruta.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
 import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
-import * as XLSX from 'xlsx';
 import { Nominatim } from '../../../models/nominatim.interface'
-
-
 
 @Component({
   selector: 'app-rutas-activas',
@@ -19,21 +15,24 @@ import { Nominatim } from '../../../models/nominatim.interface'
 })
 export class RutasActivasComponent {
 
-  model! : NgbDateStruct
+  // model! : NgbDateStruct
   nombreRutaActual!:  string
   cantBultos! : number
   isClicked : boolean = false
   isActive: boolean = false
   isRuta: boolean = false
 
+  comunaSeleccionada : string = ""
+
   idRuta! : number
   rutaEnActivo! : RutaEnActivo []
   nombresRutas!: NombresRutasActivas []
-  nombreRuta!: NombresRutasActivas []
+  nombreRuta: NombresRutasActivas [] = []
   arraySKU: any[] = []
   arrayProducto: any[] = []
   arrayDirecciones : string [] = []
 
+  listaComunas : string [] = []
   fechaActual!: string
   patenteRuta! : string
   driverRuta! : string
@@ -45,6 +44,7 @@ export class RutasActivasComponent {
               private router: Router, private http : HttpClient) { 
 
   }
+
 
   dataRecov! : Nominatim []
 
@@ -104,8 +104,6 @@ export class RutasActivasComponent {
     this.nombreRutaService.setCodigo(codigo);
     this.nombreRutaService.setBultos(this.cantBultos)
     this.nombreRutaService.setDataDriver(this.driverRuta,this.patenteRuta)
-    console.log(this.driverRuta)
-    console.log(this.patenteRuta)
     this.router.navigate(['/picking/asignar-ruta']);
   }
   editarRutaActiva() {
@@ -114,7 +112,7 @@ export class RutasActivasComponent {
     this.router.navigate(['/picking/editar-ruta']);
   }
 
-  updateEstadoRuta (nombre_ruta : string, dateObj : any) {
+  updateEstadoRuta (nombre_ruta : string) {
     let isSeguro = confirm("¿Seguro que desea cerrar esta ruta?");
     if (!isSeguro) {
       return console.log("no esta seguro")
@@ -133,23 +131,25 @@ export class RutasActivasComponent {
   }
 
   getNombreByFecha(dateObj : any) {
-
-    console.log(dateObj)
     this.isClicked = false
     this.isActive = false
     this.isDriver = false
     this.rutaEnActivo = []
     this.nombreRutaActual = ""
     if (dateObj === undefined) return alert("Por favor ingrese una fecha")
-    const formattedDate = `${dateObj.year}-${dateObj.month.toString().padStart(2, '0')}-${dateObj.day.toString().padStart(2, '0')}`;
-    this.service.get_nombres_ruta(formattedDate).subscribe((data) => {
-
-      data.length == 0 ? this.isRuta = false : this.isRuta = true
-
-      this.nombresRutas = data
-    })
-
-    console.log(this.nombresRutas)
+    // const formattedDate = `${dateObj.year}-${dateObj.month.toString().padStart(2, '0')}-${dateObj.day.toString().padStart(2, '0')}`;
+    if (this.comunaSeleccionada == '' || this.comunaSeleccionada == 'Todas' || this.comunaSeleccionada == 'Comunas'){
+      this.service.get_nombres_ruta(dateObj).subscribe((data) => {
+        data.length == 0 ? this.isRuta = false : this.isRuta = true
+        this.nombresRutas = data
+      })
+    } else {
+      this.service.filtrar_nombre_rutas_activa_by_comuna(dateObj, this.comunaSeleccionada).subscribe((data) => {
+        data.length == 0 ? this.isRuta = false : this.isRuta = true
+        this.nombresRutas = data
+      })
+    }
+    
   }
 
   ngOnInit() {
@@ -161,19 +161,21 @@ export class RutasActivasComponent {
       month: fecha.getMonth() + 1, 
       day:  fecha.getDate()
     }
-
     let fechaFormateada = fecha.toISOString().split('T')[0];
 
+    this.service.comunas_rutas_activas(fechaFormateada).subscribe((data : any) => {
+      this.listaComunas = data
+    })
+
     this.fechaActual = fechaFormateada
-    this.getNombreByFecha(ObjcurrentDate)
+    // this.getNombreByFecha(ObjcurrentDate)
+    this.getNombreByFecha(this.fechaActual)
   }
 
   buscarRuta (nombreRuta : string,estado_ruta : boolean) {
-    // console.log(this.nombreRuta)
     this.arrayDirecciones = []
     this.service.get_rutas_en_activo(nombreRuta).subscribe((data) => {
-      
-      console.log(data)
+
       this.nombreRutaActual = nombreRuta
       this.rutaEnActivo = data
       this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  sum + bulto.Bultos, 0)
@@ -183,8 +185,7 @@ export class RutasActivasComponent {
         ruta.arraySKU = ruta.SKU.split('@')
         ruta.arrayProductos = ruta.Producto.split('@')
       })
-      // console.log(estado_ruta)
-      
+
       this.isClicked = true
       this.isActive = true
       estado_ruta == false ? this.isActive = false : this.isActive = true
@@ -208,15 +209,11 @@ export class RutasActivasComponent {
 
       this.isDriver = false
     }))
-
-
-    
+  
   }
 
   downloadExcel(nombre_ruta : string, patente: string, driver: string ) {
     this.service.download_ruta_activa(nombre_ruta, patente, driver, this.rutaEnActivo)
-    console.log(patente)
-    console.log(driver)
   }
 
 

@@ -55,4 +55,5 @@ export interface ProductoPicking {
 
 export interface FacturaElectrolux {
     Factura:         string;
+    SKU:             string;
 }

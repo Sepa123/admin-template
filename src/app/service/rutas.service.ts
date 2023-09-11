@@ -29,7 +29,7 @@ export class RutasService {
   }
 
   get_factura_electrolux(pedido : string){
-    return this.http.get<FacturaElectrolux >(this.apiurl + `/buscar/factura/electrolux/${pedido}`)
+    return this.http.get(this.apiurl + `/buscar/factura/electrolux/${pedido}`)
   }
 
   insert_rutas_manual(data : ProductoPicking [][], fecha_pedido : string){
@@ -139,6 +139,14 @@ export class RutasService {
 
   verificar_pedido_en_ruta(pedido_id : number){
     return this.http.get(this.apiurl + `/pedido/en_ruta/${pedido_id}`)
+  }
+
+  comunas_rutas_activas(fecha : string){
+    return this.http.get(this.apiurl + `/activo/comunas?fecha=${fecha}` )
+  }
+
+  filtrar_nombre_rutas_activa_by_comuna(fecha : string, comuna : string){
+    return this.http.get<NombresRutasActivas[]>(this.apiurl + `/activo/nombre_ruta/filtro?fecha=${fecha}&comuna=${comuna}` )
   }
 
 }

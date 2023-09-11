@@ -133,7 +133,12 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
       this.pedidos.filter(pedido => pedido.Cod_entrega == cod_entrega).map(data => {
         data.Seleccionado = !data.Seleccionado
       })
+
+      const codigos = [...new Set(this.pedidos.filter(pedido => pedido.Seleccionado == true).map(seleccion => seleccion.Cod_entrega))]
+      this.bultoSeleccionados = this.pedidos.filter(pedido => pedido.Seleccionado == true).map(seleccion => seleccion.Cod_entrega).length
+      this.pedidosSeleccionados =  codigos.length 
     })
+    
     
     // this.pedidos[index].Seleccionado = !this.pedidos[index].Seleccionado
   }
@@ -194,12 +199,6 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
     this.pedidosSeleccionados =  codigos.length 
     console.log(codigos)
     this.toggleLiveDemo()
-
-    // this.rutaService.armar_ruta_bloque(body).subscribe((data : any) => {
-    //   alert(data.message)
-    // }, error => {
-    //   alert("Error al cargar los datos")
-    // })
 
     this.fecha_ruta = this.obtenerDiaSiguiente()
     console.log(this.body)
