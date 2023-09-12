@@ -28,9 +28,10 @@
   </c-row>
   <p></p>
 
-  <c-row>
+  <c-row >
     <!--  -->
     <div class="table-wrapper">
+    
    <table *ngIf="isDescargar"> 
     <thead>
       <tr>
@@ -158,12 +159,16 @@
           <td>{{beetrack.R}}</td>
           <td>{{beetrack.Pedidos}}</td> -->
       </tr>
+     
       
-    </tbody> 
+    </tbody>  
     </table>
-    <div class="botonGuardar">
-      <button   *ngIf="tablaDesplegada" cButton color="primary"  (click)="guardarValores()" type="submit">Guardar</button>
-    </div>
     
-</div> 
+    
+</div>
+
 </c-row>
+<div *ngIf="isLoadingTable" colspan="2" class="spinner"><img src="../../../assets/images/loading-gif.gif" /></div>
+<div class="botonGuardar">
+  <button   *ngIf="tablaDesplegada" cButton color="primary"  (click)="guardarValores()" type="submit">Guardar</button>
+</div>

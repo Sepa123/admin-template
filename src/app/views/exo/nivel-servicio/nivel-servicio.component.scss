@@ -82,6 +82,13 @@
 .botonGuardar .btn{
   align-self:flex-start;
 }
+.spinner{
+  display :flex;
+  justify-content: center;
+}
+.spinner img{
+  width: 4vw;
+}
 
 // h1 {
 //     text-align: center;

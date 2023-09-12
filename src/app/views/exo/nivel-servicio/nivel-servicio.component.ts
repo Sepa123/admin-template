@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 
 
 
+
 @Component({
   selector: 'app-nivel-servicio',
   templateUrl: './nivel-servicio.component.html',
@@ -19,6 +20,8 @@ export class NivelServicioComponent {
   fecha_fin : string = "" 
 
   isDescargar : boolean = false
+
+  isLoadingTable: boolean = false
 
 
   //DATOS PARA EL ID Y ASIGNAR VALOR
@@ -34,10 +37,15 @@ export class NivelServicioComponent {
 
 
   constructor(
-    private service: PortalTransyanezService, private TIservice: TIService
-  ) {
+    private service: PortalTransyanezService,
+    private TIservice: TIService,
 
+    
+  ) {
+  
    }
+   
+
 
   // Método para capturar el ID de la ruta al hacer clic en un elemento de la lista
   captureRouteId(routeId: number, routeValue: number|null)  {
@@ -54,12 +62,28 @@ export class NivelServicioComponent {
       //se crea el objeto con los datos
       const rutaValores = {id_ruta : this.selectedRouteId, valor_ruta : this.selectedRouteValue, id_user : this.id_usuario, ids_user: this.idMs}
       if(this.selectedRouteValue != null && this.selectedRouteId != null){
-        this.valoresActualizados.push(rutaValores)
+        // if( this.valoresActualizados.includes((valor : any)=> valor.id_ruta === this.selectedRouteId )){
+        // }
+
+        const objetoAActualizar = this.valoresActualizados.find(objeto => objeto.id_ruta === routeId);
+
+        // Verifica si se encontró el objeto
+        if (objetoAActualizar) {
+          // Actualiza la propiedad en el objeto
+          objetoAActualizar.valor_ruta = this.selectedRouteValue;
+        } else {
+          console.log('No se encontró el objeto con el ID especificado.');
+          this.valoresActualizados.push(rutaValores)
+        }
         console.log( this.valoresActualizados, "objeto")
+    
       }
     }   
   }
+  
+  
   guardarValores() {
+ 
     //al guardar los datos se almacena solo los values del objeto
     const valores = this.valoresActualizados.map(valoresArray => ({
       id_ruta: valoresArray.id_ruta,
@@ -73,22 +97,40 @@ export class NivelServicioComponent {
     valores.forEach(()=>{
       registrosRealizados ++;
     })
+    
     let conteo = `${registrosRealizados}`
     this.TIservice.update_valor_ruta(valores).subscribe(
       (response) => {
         console.log(valores);
-        Swal.fire(
-          'Ingreso Realizado Correctamente. Registros insertados :' + conteo,
-          )
+        Swal.fire({
+          title:'Ingreso Realizado Correctamente!',
+          text:'Registros insertados :' + conteo,
+          icon:'success'
+        }
+          ).then(()=>{
+            this.isLoadingTable = true;
+            setTimeout(() => {
+              this.ns_beetrack_rango_fecha(this.fecha_inicio, this.fecha_fin)
+            }, 3000);
+          })
+        this.valoresActualizados = []
         console.log('Valores de rutas actualizados correctamente', response, valores);
       },
       (error) => {
 
-        Swal.fire(
-          'Carga Finalizada con errores. Se registran : 0 cambios, favor validar.!',
-          )
+        Swal.fire({
+          title:'Carga Finalizada con errores',
+          text:'Se registran : 0 cambios, favor validar.!',
+          icon:'error'
+        }
+          ).then(()=>{
+           this.isLoadingTable = true;
+            setTimeout(() => {
+              this.ns_beetrack_rango_fecha(this.fecha_inicio, this.fecha_fin)
+            }, 3000);
+          })
+        this.valoresActualizados = []
         console.error('Error al actualizar los valores de rutas', error);
-        
       }
     ); 
   }
@@ -167,7 +209,12 @@ export class NivelServicioComponent {
     this.TIservice.get_ns_beetrack_por_rango_fecha(fecha_inicio,fecha_termino).subscribe(data => {
       this.tablaDesplegada = true;
       this.nsBeetrack = data
+      this.isLoadingTable = false
+     
+      console.log("htpp actualizado con los rango de fechas")
     })
-  }
+    }
+
+  
   
   }
