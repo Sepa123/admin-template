@@ -535,6 +535,10 @@ export const navItems: INavDataBar[] = [
         name: 'Sportex',
         url: '/recepcion/sportex'
       },
+      {
+        name: 'Producto sin recepcionar',
+        url: '/recepcion/productoSinRecepcion'
+      }
     ]
   },
   {

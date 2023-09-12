@@ -13,9 +13,14 @@ export class RecepcionService {
 
   constructor(private http : HttpClient) { }
 
-  apiurl="https://hela.transyanez.cl/api/recepcion"
-  // apiurl = "http://127.0.0.1:8000/api/recepcion" 
+  //apiurl="https://hela.transyanez.cl/api/recepcion"
+  apiurl = "http://127.0.0.1:8000/api/recepcion" 
 
+  //producto sin recepcion
+
+  getProductoSinRecepcion(){
+    return this.http.get<ProductoOPL[]>(this.apiurl+"/producto_sin_recepcion")
+  }
   getRecepcionEasyOPL(){
     return this.http.get<ProductoOPL[]>(this.apiurl + "/easy_opl")
   }
@@ -34,6 +39,10 @@ export class RecepcionService {
 
 
   //Update cada 15 segundos o 2 minutos
+
+  updateProductoSinRecepcion(){
+    return interval(12000).pipe(switchMap(()=> this.http.get<ProductoOPL[]>(this.apiurl+"/producto_sin_recepcion")))
+  }
 
   updateRecepcionEasyOPL() {
     return interval(12000).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/easy_opl")))

@@ -1,7 +1,10 @@
 export interface ProductoOPL {
+    Fecha_Ingreso:        string;
+    Cliente:              string;
     Codigo_cliente:       string;
     Nombre:               string;
     Calle:                string;
+    Ciudad:               string;
     Provincia:            string;
     Codigo_pedido:        string;
     Fecha_pedido:         Date;
