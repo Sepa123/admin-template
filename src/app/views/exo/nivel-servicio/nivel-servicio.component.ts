@@ -143,7 +143,7 @@ export class NivelServicioComponent {
 
     console.log(fecha_inicio_f,fecha_fin_f)
 
-    if (this.validarDiferenciaFechas(this.fecha_inicio,this.fecha_fin) == false) return alert("La diferencia entre las fechas debe ser de un día o más")
+    if (this.validarDiferenciaFechas(this.fecha_inicio,this.fecha_fin) == false) return alert("La Fecha de inicio no puede ser mayor que la Fecha de fin.")
 
     this.ns_beetrack_rango_fecha(fecha_inicio_f,fecha_fin_f) 
 
@@ -166,7 +166,7 @@ export class NivelServicioComponent {
     const diferenciaDias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
   
     // Comprobar si la diferencia en días es mayor o igual a 1
-    if (diferenciaDias >= 1) {
+    if (diferenciaDias >= 0) {
       return true;
     } else {
       console.error("La diferencia entre las fechas debe ser de un día o más.");
