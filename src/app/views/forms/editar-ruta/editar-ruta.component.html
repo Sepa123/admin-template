@@ -204,12 +204,15 @@
               </tr>
             </table>
           </td>
-
+    
           <div *cdkDragPreview matchSize="true" class="container dragdrop-placeholder">
             {{objeto[0].Nombre}}
           </div>
         </tr>
       </ng-container>
+      <tr>
+        <td *ngIf="isLoadingTable " colspan="15"><img src="../../../assets/images/loading-gif.gif" /></td>
+      </tr>
 
       </tbody>
       </table>

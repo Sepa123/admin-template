@@ -21,6 +21,7 @@ export class EditarRutaComponent {
   fechaPedido!: string
   model! : NgbDateStruct
 
+  isLoadingTable : boolean = true
   idRutaEditar! : any
   nombreRutaEditar! : string 
   isBlockButton: boolean = true
@@ -173,6 +174,7 @@ export class EditarRutaComponent {
     this.getAlertaConductor(this.nombreRutaEditar)
 
       // this.arrayRutasIngresados.unshift(this.arrayRuta)
+      this.isLoadingTable = false
       console.log(this.idRutaEditar)
       console.log(this.arrayRutasIngresados)
     })
