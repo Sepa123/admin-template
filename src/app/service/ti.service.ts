@@ -17,14 +17,13 @@ import { ProductoPicking } from "src/app/models/productoPicking.interface"
 import { CargasComparacion } from '../models/cargasComparacion.interface';
 import { NSBeetrackRango } from '../models/nsBeetrackRango.interface'
 
-import { CacheService } from "src/app/service/cache.service"
 import { interval,Observable, switchMap  } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class TIService {
 
-  constructor(private http: HttpClient, private cacheService: CacheService) { }
+  constructor(private http: HttpClient) { }
 
   apiurl="https://hela.transyanez.cl/api/reportes"
   // apiurl = "http://127.0.0.1:8000/api/reportes"
