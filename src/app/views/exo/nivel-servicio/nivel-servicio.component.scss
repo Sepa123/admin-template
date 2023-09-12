@@ -74,13 +74,20 @@
 
 .botonGuardar{
   display: flex;
-  // justify-content: left ;
+  justify-content: right ;
   margin-top:0.25rem;
   margin-top:0.5rem;
 }
 
 .botonGuardar .btn{
   align-self:flex-start;
+}
+.spinner{
+  display :flex;
+  justify-content: center;
+}
+.spinner img{
+  width: 4vw;
 }
 
 // h1 {

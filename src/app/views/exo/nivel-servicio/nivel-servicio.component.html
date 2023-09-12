@@ -162,8 +162,9 @@
   </tbody> 
   </table>
 </div> 
-<p></p>
-<div class="botonGuardar">
-  <button *ngIf="tablaDesplegada" cButton color="primary"  (click)="guardarValores()" type="submit">Guardar</button>
-</div>
 </c-row>
+
+<div *ngIf="isLoadingTable" colspan="2" class="spinner"><img src="../../../assets/images/loading-gif.gif" /></div>
+<div class="botonGuardar">
+  <button   *ngIf="tablaDesplegada" cButton color="primary"  (click)="guardarValores()" type="submit">Guardar</button>
+</div>
