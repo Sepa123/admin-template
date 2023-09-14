@@ -38,7 +38,7 @@ export class RutasActivasComponent {
   driverRuta! : string
   isDriver : boolean = false
 
-  // arrayRutasEnActivo! : 
+  loadingRuta : boolean = false
 
   constructor(private service: RutasService, private nombreRutaService : NombreRutaService,
               private router: Router, private http : HttpClient) { 
@@ -173,21 +173,26 @@ export class RutasActivasComponent {
   }
 
   buscarRuta (nombreRuta : string,estado_ruta : boolean) {
+    this.nombreRutaActual = nombreRuta
     this.arrayDirecciones = []
+    this.loadingRuta = true
+    const NombreRuta = this.nombresRutas.find(nombre => nombre.Nombre_ruta == nombreRuta)
     this.service.get_rutas_en_activo(nombreRuta).subscribe((data) => {
 
-      this.nombreRutaActual = nombreRuta
+      // this.nombreRutaActual = nombreRuta
       this.rutaEnActivo = data
       this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  sum + bulto.Bultos, 0)
       this.rutaEnActivo.map(ruta => {
-
+        if(ruta.Verificado === false && NombreRuta) NombreRuta.Verificado = false
         this.arrayDirecciones.push(ruta.Direccion_cliente+ ","+ruta.Comuna + ", Chile")
         ruta.arraySKU = ruta.SKU.split('@')
         ruta.arrayProductos = ruta.Producto.split('@')
       })
+      
 
       this.isClicked = true
       this.isActive = true
+      this.loadingRuta = false
       estado_ruta == false ? this.isActive = false : this.isActive = true
       
       this.driverRuta = ""
