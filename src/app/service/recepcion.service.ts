@@ -67,6 +67,25 @@ export class RecepcionService {
   updateVerifiedByInput(url : string, body: any) {
     return this.http.put(this.apiurl + url, body)
   }
+  //agregando datos de bitacora a productos rezagados
+  updateVerifiedByInputBitacora(url : string, datos:any[]){
+    return this.http.put(this.apiurl +  url, datos)
+  }
+
+  updateFieldRecepcionEasyOplBitacora(datos:any[]){
+    return this.http.put(this.apiurl +  "/easy_opl/rezagados-act", datos)
+    
+  }
+
+
+  updateFieldRecepcionEasyCDBitacora(datos:any[]){
+    return this.http.put(this.apiurl + "/easy_cd/rezagados-act", datos)
+  }
+
+  updateVerifiedBitacora(datos:any[]){
+    return this.http.put(this.apiurl + "/verificar-rezagados", datos)
+  }
+
 
   checkElectroluxByPedido(cod_pedido : string) {
     return this.http.get<ProductoOPL[]>(this.apiurl + `/electrolux/${cod_pedido}`)
@@ -83,4 +102,5 @@ export class RecepcionService {
   updateFieldRecepcionEasyOPL(body: any){
     return this.http.put(this.apiurl + "/easy_opl/actualizar", body)
   }
+
 }
