@@ -19,9 +19,10 @@ export class QuadmindsComponent {
   codigosErroneos : string [] = []
   message : string = ""
 
-  tablaQuadmind! : CargaQuadmind[]
+  contador : number = 1
+  tablaQuadmind : CargaQuadmind[] = []
   tablaQuadmindFull! : CargaQuadmind[];
-  tablaQuadmindFilter! : CargaQuadmind[];
+  tablaQuadmindPreview! : CargaQuadmind[];
   regionSeleccionada: string = 'Todas'
   comunas!: string [];
   comunasSeleccionadas: string[] = [];
@@ -30,7 +31,12 @@ export class QuadmindsComponent {
 
   arrDescripcion : string [] = []
 
+  tiendas : string [] = ['/sportex','/electrolux','/retiro_tienda','/easy_opl','/easy_cd']
+
+  tiendaActual : string  = ""
   loadingQuadmind: boolean = true 
+
+  loadQuadmindFull: boolean = true 
 
   public visible = false;
 
@@ -50,8 +56,6 @@ export class QuadmindsComponent {
   }
 
   uploadFile() {
-
-  
     if (this.selectedFile) {
 
       this.termino = false
@@ -95,25 +99,66 @@ export class QuadmindsComponent {
   }
 
   public svgContent!: SafeHtml;
+  timeoutId : any
 
   ngOnInit (): void {
+    const sum = 200
+    for (let i = 0; i < this.tiendas.length ; i++) {
 
-    this.service.get_quadmind().subscribe(data => {
-      this.tablaQuadmindFull = data
-      this.tablaQuadmindFull.map((quadmind) => {
-        quadmind.Provincia = quadmind.Provincia == null ? 'Otro' : quadmind.Provincia
-        quadmind.arrayCodigo = quadmind.Codigo_producto.split(' @ ')
-        quadmind.arrayDescripcion = quadmind.Descripcion_producto.split(' @ ')
-      })
-      this.tablaQuadmind = this.tablaQuadmindFull
-      this.comunas = [...new Set(this.tablaQuadmindFull.map(quadmind => quadmind.Provincia == null ? 'Otro' : quadmind.Provincia ) )].sort((a,b) => a?.localeCompare(b))
-      this.loadingQuadmind = false;
-      console.log(this.comunas)
-    },
-    ((error) => {
-      console.log(error.error.detail)
-      alert("Hubo un error al cargar los datos, por favor intentelo mas tarde")
-    }))
+      // console.log(sum * (i+1));
+      this.timeoutId = setTimeout(() => {
+        this.service.get_quadmind_separado(this.tiendas[i]).subscribe(data => {
+          this.tiendaActual = this.tiendas[i]
+          this.tablaQuadmindPreview = data
+          this.tablaQuadmindPreview.map((quadmind) => {
+            quadmind.Provincia = quadmind.Provincia == null ? 'Otro' : quadmind.Provincia
+            quadmind.arrayCodigo = quadmind.Codigo_producto.split(' @ ')
+            quadmind.arrayDescripcion = quadmind.Descripcion_producto.split(' @ ')
+          })
+          
+          // this.tablaQuadmind = this.tablaQuadmindFull
+          this.tablaQuadmind.push(...this.tablaQuadmindPreview)
+          this.comunas = [...new Set(this.tablaQuadmind.map(quadmind => quadmind.Provincia == null ? 'Otro' : quadmind.Provincia ) )].sort((a,b) => a?.localeCompare(b))
+          this.loadingQuadmind = false;
+          console.log(this.comunas)
+          console.log(this.tablaQuadmind.length)
+          this.tablaQuadmindFull = this.tablaQuadmind
+          this.contador = this.tablaQuadmind.length
+          if (this.tiendaActual === '/easy_cd') {this.loadQuadmindFull = false}
+          
+        },
+        ((error) => {
+          console.log(error.error.detail)
+          alert("Hubo un error al cargar los datos, por favor intentelo mas tarde")
+        }))
+      }, 9000 * i)
+      
+     
+    }
+
+    // this.service.get_quadmind().subscribe(data => {
+    //   this.tablaQuadmindFull = data
+    //   this.tablaQuadmindFull.map((quadmind) => {
+    //     quadmind.Provincia = quadmind.Provincia == null ? 'Otro' : quadmind.Provincia
+    //     quadmind.arrayCodigo = quadmind.Codigo_producto.split(' @ ')
+    //     quadmind.arrayDescripcion = quadmind.Descripcion_producto.split(' @ ')
+    //   })
+    //   this.tablaQuadmind = this.tablaQuadmindFull
+    //   this.comunas = [...new Set(this.tablaQuadmindFull.map(quadmind => quadmind.Provincia == null ? 'Otro' : quadmind.Provincia ) )].sort((a,b) => a?.localeCompare(b))
+    //   this.loadingQuadmind = false;
+    //   console.log(this.comunas)
+    // },
+    // ((error) => {
+    //   console.log(error.error.detail)
+    //   alert("Hubo un error al cargar los datos, por favor intentelo mas tarde")
+    // }))
+  }
+
+  detenerTemporizador() {
+    if (this.contador == 0){
+      clearTimeout(this.timeoutId);
+      console.log("Hata awui llegue")
+    }
   }
 
   filterByRegion( provincia : string){

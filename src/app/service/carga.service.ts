@@ -16,6 +16,14 @@ export class CargaService {
     return this.http.get<CargaQuadmind[]>(this.apiurl+"/quadminds")
   }
 
+  get_quadmind_separado(tienda : string) {
+    return this.http.get<CargaQuadmind[]>(this.apiurl+"/quadminds"+tienda)
+  }
+
+  get_quadmind_limit(offset : number) {
+    return this.http.get<CargaQuadmind[]>(this.apiurl+`/quadminds/limit?offset=${offset}`)
+  }
+
   send_quadmind_download(body : CargaQuadmind[]) {
     return this.http.post(this.apiurl+"/quadminds/descargar", body)
   }

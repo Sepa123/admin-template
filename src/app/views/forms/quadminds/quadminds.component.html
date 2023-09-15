@@ -87,7 +87,10 @@
     </tr> 
     </table>
     <p></p>
-    <p *ngIf="loadingQuadmind == false">Descargar Archivo para planificar en <span style="font-weight: bold;">Quadminds</span></p>
+    <p *ngIf="loadingQuadmind == false">Descargar Archivo para planificar en <span style="font-weight: bold;">Quadminds</span>
+      <img  *ngIf="loadQuadmindFull == true" width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+    </p>
+    
     <p></p>
     <p></p>
 

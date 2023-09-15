@@ -40,6 +40,28 @@ export class RutasActivasComponent {
 
   loadingRuta : boolean = false
 
+  isModalOpen: boolean = false
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    
+    this.isModalOpen = true
+
+    console.log(this.isModalOpen)
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
+
   constructor(private service: RutasService, private nombreRutaService : NombreRutaService,
               private router: Router, private http : HttpClient) { 
 
@@ -142,11 +164,24 @@ export class RutasActivasComponent {
       this.service.get_nombres_ruta(dateObj).subscribe((data) => {
         data.length == 0 ? this.isRuta = false : this.isRuta = true
         this.nombresRutas = data
+        this.nombresRutas.map((ruta) => {
+          if (ruta.Estado === false ){
+            ruta.Verificado = true
+            ruta.Alerta = false
+          }
+        })
       })
     } else {
       this.service.filtrar_nombre_rutas_activa_by_comuna(dateObj, this.comunaSeleccionada).subscribe((data) => {
         data.length == 0 ? this.isRuta = false : this.isRuta = true
         this.nombresRutas = data
+        this.nombresRutas.map((ruta) => {
+          if (ruta.Estado === false ){
+            ruta.Verificado = true
+            ruta.Alerta = false
+          }
+        })
+        
       })
     }
     
