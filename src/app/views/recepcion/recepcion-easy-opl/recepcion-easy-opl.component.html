@@ -45,7 +45,7 @@
 
     <c-row [xs]="1"> 
       <c-col>
-        <input type="text" name="" [(ngModel)]="codigoProducto" (change)="cambiarTicketByInput(codigoProducto)">
+        <input type="text" name="" [(ngModel)]="codigoProducto" (change)="cambiarTicketByInput(codigoProducto)" (click)="getLocation()">
   
       </c-col>
       <c-col>

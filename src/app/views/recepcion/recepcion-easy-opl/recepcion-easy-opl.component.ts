@@ -36,6 +36,12 @@ export class RecepcionEasyOplComponent {
 
   public visible = false;
 
+  //datos geo
+  latitude!: number
+  longitud! :number
+  latStr!: string
+  longStr!: string
+
   toggleLiveDemo() {
     this.visible = !this.visible;
   }
@@ -53,6 +59,38 @@ export class RecepcionEasyOplComponent {
 
   closeModal(){
     this.isModalOpen = false
+  }
+
+  getLocation(): any {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.showPosition(position)
+       
+      });
+    } else {
+      console.log("Localización no disponible");
+    }
+  }
+  showPosition(position: any): any{
+        this.latitude = position.coords.latitude
+        this.longitud= position.coords.longitude 
+       this.latStr = this.latitude.toString()
+        this.longStr = this.longitud.toString()
+
+    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
+  }
+  getLocationAsync(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          resolve(position);
+        }, (error) => {
+          reject(error);
+        });
+      } else {
+        reject("Localización no disponible");
+      }
+    });
   }
 
   subRecepcionEasyOPL(){
@@ -150,7 +188,9 @@ export class RecepcionEasyOplComponent {
             "cod_pedido" : codigo_producto,
             "cod_producto" : codigo_producto,
             "ids_usuario" : this.idPortal,
-             "sku" : this.productosPorVerificarByCP[0].SKU
+            "sku" : this.productosPorVerificarByCP[0].SKU,
+            "latitud": this.latStr,
+            "longitud": this.longStr
           }
 
           // const url = `/easy_opl`
@@ -178,8 +218,9 @@ export class RecepcionEasyOplComponent {
     this.subRecepcion.unsubscribe();
   }
 
-  cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
+  async cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
     
+    const location = await this.getLocationAsync();
 
     let sku = this.productosPorVerificar[arrayIndex].SKU
     if(this.productosPorVerificarByCP.length != 0){
@@ -192,7 +233,8 @@ export class RecepcionEasyOplComponent {
     // console.log(productoAbajo)
     // this.productosOPL.push(productoAbajo[0])
     
-     
+    const lat : string = location.coords.latitude.toString()
+    const long : string = location.coords.longitude.toString()
     const body = {
       "id_usuario" : sessionStorage.getItem('id')+"",
       "cliente" : "Easy OPL",
@@ -200,7 +242,9 @@ export class RecepcionEasyOplComponent {
       "cod_pedido" : cod_pedido,
       "cod_producto" : cod_producto,
       "ids_usuario" : this.idPortal, 
-      "sku" : sku
+      "sku" : sku,
+      "latitud": lat,
+      "longitud": long
     }
 
 
