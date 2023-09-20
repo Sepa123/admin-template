@@ -11,6 +11,8 @@
     width: auto;
     max-height: 400px; /* Altura de ejemplo */
     overflow: auto;
+    position:absolute;
+     z-index:0;
   }
   
   .greenTable  table {
@@ -144,3 +146,18 @@
 .titulo-R{
   padding: 2rem;
 }
+
+.spinner{
+  display :flex;
+  justify-content: center;
+  position:absolute; 
+  z-index:1;
+  left: 0;
+  right: 0;
+
+
+}
+.spinner img{
+  width: 7vw;
+}
+.btnsvg{border:none}
