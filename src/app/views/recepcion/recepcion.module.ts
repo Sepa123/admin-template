@@ -19,6 +19,7 @@ import { RecepcionEasyOplComponent } from './recepcion-easy-opl/recepcion-easy-o
 import { RecepcionElectroluxComponent } from './recepcion-electrolux/recepcion-electrolux.component';
 import { RecepcionSportexComponent } from './recepcion-sportex/recepcion-sportex.component';
 import { ModalModule } from '@coreui/angular';
+import { ProductoSinRecepcionComponent } from './producto-sin-recepcion/producto-sin-recepcion.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ModalModule } from '@coreui/angular';
     RecepcionEasyCdComponent,
     RecepcionEasyOplComponent,
     RecepcionElectroluxComponent,
-    RecepcionSportexComponent
+    RecepcionSportexComponent,
+    ProductoSinRecepcionComponent
   ],
   imports: [
     CommonModule,

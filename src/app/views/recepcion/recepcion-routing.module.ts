@@ -4,7 +4,7 @@ import { RecepcionEasyCdComponent } from './recepcion-easy-cd/recepcion-easy-cd.
 import { RecepcionEasyOplComponent } from './recepcion-easy-opl/recepcion-easy-opl.component';
 import { RecepcionElectroluxComponent } from './recepcion-electrolux/recepcion-electrolux.component';
 import { RecepcionSportexComponent } from './recepcion-sportex/recepcion-sportex.component';
-
+import { ProductoSinRecepcionComponent } from './producto-sin-recepcion/producto-sin-recepcion.component';
 const routes: Routes = [
   {
     path:'',
@@ -43,6 +43,13 @@ const routes: Routes = [
         component : RecepcionSportexComponent,
         data : {
           title : "Recepcion Sportex"
+        }
+      },
+      {
+        path : 'productoSinRecepcion',
+        component : ProductoSinRecepcionComponent,
+        data : {
+          title : "Producto Sin Recepción"
         }
       }
     ]
