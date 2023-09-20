@@ -338,7 +338,7 @@ export const navItems: INavDataBar[] = [
         url: '/recepcion/sportex'
       },
       {
-        name: 'Producto sin recepcionar',
+        name: 'Producto Sin Recepcionar',
         url: '/recepcion/productoSinRecepcion'
       }
     ]
