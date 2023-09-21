@@ -344,6 +344,22 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
+    name: 'RSV',
+    url : '/rsv',
+    roles : ROLES_PERMITIDOS.PANEL,
+    iconComponent: { name: 'cil-window' },
+    children : [
+     {
+       name: 'Catalogo',
+       url: '/rsv/catalogo'
+     },
+    //  {
+    //   name: 'Agregar Producto',
+    //   url: '/rsv/agregar-producto'
+    // },
+   ]
+ },
+  {
     name: 'Panel',
     url : '/panel',
     iconComponent: { name: 'cil-contact' },
@@ -355,6 +371,7 @@ export const navItems: INavDataBar[] = [
       },
     ]
   },
+ 
   // {
   //   name: 'Carga Excel',
   //   url : '/carga',

@@ -3,7 +3,7 @@
   <h2>Sportex</h2>
     <c-row [xs]="1"> 
       <c-col>
-        <input type="text" name="" [(ngModel)]="codigoProducto" id="idRuta" (change)="cambiarTicketByInput(codigoProducto)">
+        <input type="text" name="" [(ngModel)]="codigoProducto" id="idRuta" (change)="cambiarTicketByInput(codigoProducto)" (click)="getLocation()">
   
       </c-col>
       <c-col>

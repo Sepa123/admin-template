@@ -4,7 +4,6 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { ProductoOPL } from "../../../models/productoOPL.interface"
 import { TIService } from "../../../service/ti.service";
-import { CargasComparacion } from '../../../models/cargasComparacion.interface';
 
 import { Subscription } from 'rxjs';
 
@@ -27,9 +26,13 @@ export class ProductoSinRecepcionComponent {
   clientes! : ProductoOPL []
   idPortal!: string
 
+  isLoadingTable: boolean = false
+
   //datos geo
-  latitude!: string
-  longitud! :string 
+  latitude!: number
+  longitud! :number
+  latStr!: string
+  longStr!: string
 
   //datos exclusivos para easy opl algunos compartidos con electrolux
   productosPorVerificarByCP : ProductoOPL [] = []
@@ -76,6 +79,7 @@ export class ProductoSinRecepcionComponent {
   
     return day +"/"+ month+"/"+ year;
   }
+
   getLocation(): any {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -85,16 +89,33 @@ export class ProductoSinRecepcionComponent {
       console.log("Localización no disponible");
     }
   }
+
   showPosition(position: any): any{
         this.latitude = position.coords.latitude
         this.longitud= position.coords.longitude 
         
-    console.log("Longitud : " , this.longitud, "latitud :", this.latitude)
+        this.latStr = this.latitude.toString()
+        this.longStr = this.longitud.toString()
+
+        console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
   }
 
-
+  getLocationAsync(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          resolve(position);
+        }, (error) => {
+          reject(error);
+        });
+      } else {
+        reject("Localización no disponible");
+      }
+    });
+  }
 
   subRecepcionProductos(){
+    this.isLoadingTable = true
     this.subRecepcion = this.service.updateProductoSinRecepcion().subscribe((data) => {
       this.cantRecepcionados = data.filter(producto => producto.Recepcion == true ).length
       this.cantNoRecepcionados = data.filter(producto => producto.Recepcion == false ).length
@@ -105,11 +126,13 @@ export class ProductoSinRecepcionComponent {
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Recepcion == false)
         this.productosVerificados = data.filter(producto => producto.Recepcion == true)
-      }      
+      }  
+      this.isLoadingTable = false    
     })
   }
 
   initRecepcionProductos(){
+    this.isLoadingTable = true
     this.service.getProductoSinRecepcion().subscribe((data) => {
       this.cantRecepcionados = data.filter(producto => producto.Recepcion == true).length
       this.cantNoRecepcionados = data.filter(producto => producto.Recepcion == false).length
@@ -120,7 +143,8 @@ export class ProductoSinRecepcionComponent {
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Recepcion == false)
         this.productosVerificados = data.filter(producto => producto.Recepcion == true)
-      }      
+      }   
+      this.isLoadingTable = false   
     })
   }
 
@@ -153,7 +177,6 @@ export class ProductoSinRecepcionComponent {
 
 
   filterByCliente(nombreCliente : string){
-    // const n = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga).length
     this.clientesActuales = nombreCliente
     this.subRecepcion.unsubscribe();
     if(nombreCliente === "Todos"){
@@ -161,6 +184,7 @@ export class ProductoSinRecepcionComponent {
       this.subRecepcionProductos()
 
     } else {
+    this.isLoadingTable = false
     this.subRecepcion.unsubscribe();
     this.service.getProductoSinRecepcion().subscribe((data) => {
   
@@ -180,9 +204,13 @@ export class ProductoSinRecepcionComponent {
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Recepcion == false && producto.Cliente === nombreCliente)
         this.productosVerificados = data.filter(producto => producto.Recepcion == true && producto.Cliente === nombreCliente)
-      }      
+      }   
+      setTimeout(() => {
+        this.isLoadingTable = false;
+      }, 1000);      
     })
 
+    this.isLoadingTable = true
     this.subRecepcion =  this.service.updateProductoSinRecepcion().subscribe((data) => {
    
       this.productosPorVerificar = this.productosPorVerificar.filter(producto => producto.Cliente === nombreCliente)
@@ -197,7 +225,10 @@ export class ProductoSinRecepcionComponent {
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Recepcion == false && producto.Cliente === nombreCliente)
         this.productosVerificados = data.filter(producto => producto.Recepcion == true && producto.Cliente === nombreCliente)
-      }      
+      }  
+      setTimeout(() => {
+        this.isLoadingTable = false;
+      }, 1000);     
     })
    }
     // alert("cantidad cargas : "+ n)}
@@ -211,7 +242,7 @@ export class ProductoSinRecepcionComponent {
       }else {
         console.log("no se encontro ningun producto")
       }
-      if ( cliente === "Easy Tienda" && cliente === productoEncontrado?.Cliente) {
+      if ( cliente === "Easy Tienda") {
         // Lógica para "Easy Tienda"
         this.ArrCodScanner.push(cod_producto);
         if (this.ArrCodScanner.length === 9) {
@@ -253,7 +284,9 @@ export class ProductoSinRecepcionComponent {
                 "cod_pedido": codigo_product,
                 "cod_producto": codigo_product,
                 "ids_usuario": this.idPortal,
-                "sku": this.productosPorVerificarByCP[0].SKU
+                "sku": this.productosPorVerificarByCP[0].SKU,
+                "latitud": this.latStr,
+                "longitud": this.longStr
               };
               this.service.updateFieldRecepcionEasyOPL(body).subscribe((data: any) => {
                 // alert(data.message)
@@ -274,7 +307,9 @@ export class ProductoSinRecepcionComponent {
           "n_guia": codigo_producto,
           "cod_pedido": codigo_producto,
           "cod_producto": codigo_producto,
-          "ids_usuario": this.idPortal
+          "ids_usuario": this.idPortal,
+          "latitud": this.latStr,
+          "longitud": this.longStr
           // "cod_sku" : sku
         }
         const url = `/easy_cd`
@@ -294,7 +329,9 @@ export class ProductoSinRecepcionComponent {
           "n_guia": codigo_producto,
           "cod_pedido": codigo_producto,
           "cod_producto": codigo_producto,
-          "ids_usuario": this.idPortal
+          "ids_usuario": this.idPortal,
+          "latitud": this.latStr,
+          "longitud": this.longStr
           // "cod_sku" : sku
         }
         const url = `/sportex`
@@ -322,7 +359,9 @@ export class ProductoSinRecepcionComponent {
               "n_guia": codigo_producto,
               "cod_pedido": codigo_producto,
               "cod_producto": codigo_producto,
-              "ids_usuario": this.idPortal
+              "ids_usuario": this.idPortal,
+              "latitud": this.latStr,
+              "longitud": this.longStr
               // "cod_sku" : sku
             }
            
@@ -345,9 +384,10 @@ export class ProductoSinRecepcionComponent {
   
  
 
-  cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
-    
+  async cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
 
+    const location = await this.getLocationAsync();
+    
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
 
     this.nombreCliente.forEach((cliente) =>{
@@ -359,6 +399,8 @@ export class ProductoSinRecepcionComponent {
         }else{
             this.productosPorVerificar[arrayIndex].Recepcion = true
             }
+            const lat : string = location.coords.latitude.toString()
+            const long : string = location.coords.longitude.toString()
             const body = {
                 "id_usuario" : sessionStorage.getItem('id')+"",
                 "cliente" : "Easy OPL",
@@ -366,7 +408,9 @@ export class ProductoSinRecepcionComponent {
                 "cod_pedido" : cod_pedido,
                 "cod_producto" : cod_producto,
                 "ids_usuario" : this.idPortal,
-                "sku" : sku
+                "sku" : sku,
+                "latitud": lat,
+                "longitud": long
               }
           
               const url = `/easy_opl`
@@ -381,13 +425,18 @@ export class ProductoSinRecepcionComponent {
               )
         }if(cliente=="Easy"){
             this.productosPorVerificar[arrayIndex].Recepcion = true
+            const lat : string = location.coords.latitude.toString()
+            const long : string = location.coords.longitude.toString()
+            console.log(long)
             const body = {
                 "id_usuario" : sessionStorage.getItem('id')+"",
                 "cliente" : "Easy CD",
                 "n_guia" : cod_pedido,
                 "cod_pedido" : cod_pedido,
                 "cod_producto" : cod_producto,
-                "ids_usuario" : this.idPortal
+                "ids_usuario" : this.idPortal,
+                "latitud": lat,
+                "longitud": long
               }
           
               const url = `/easy_cd`
@@ -403,13 +452,17 @@ export class ProductoSinRecepcionComponent {
         }if(cliente=="Sportex"){
             this.productosPorVerificar[arrayIndex].Pistoleado = true
             this.productosPorVerificar[arrayIndex].Recepcion = true
+            const lat : string = location.coords.latitude.toString()
+            const long : string = location.coords.longitude.toString()
             const body = {
                 "id_usuario" : sessionStorage.getItem('id')+"",
                 "cliente" : cliente,
                 "n_guia" : cod_pedido,
                 "cod_pedido" : cod_pedido,
                 "cod_producto" : cod_producto,
-                "ids_usuario" : this.idPortal
+                "ids_usuario" : this.idPortal,
+                "latitud": lat,
+                "longitud": long
               }
           
               const url = `/sportex`
@@ -430,14 +483,18 @@ export class ProductoSinRecepcionComponent {
                }else {
                  this.productosPorVerificar[arrayIndex].Pistoleado = true
                }
-            const body = {
-                "id_usuario" : sessionStorage.getItem('id')+"",
-                "cliente" : cliente,
-                "n_guia" : cod_pedido,
-                "cod_pedido" : cod_pedido,
-                "cod_producto" : sku,
-                "ids_usuario" : this.idPortal
-              }
+               const lat : string = location.coords.latitude.toString()
+               const long : string = location.coords.longitude.toString()   
+               const body = {
+                  "id_usuario" : sessionStorage.getItem('id')+"",
+                  "cliente" : cliente,
+                  "n_guia" : cod_pedido,
+                  "cod_pedido" : cod_pedido,
+                  "cod_producto" : sku,
+                  "ids_usuario" : this.idPortal,
+                  "latitud": lat,
+                  "longitud": long
+                  }
           
               const url = `/electrolux`
 

@@ -31,7 +31,43 @@ export class RecepcionEasyCdComponent {
 
   idPortal!: string 
 
+//datos geo
+latitude!: number
+longitud! :number
+latStr!: string
+longStr!: string
 
+getLocation(): any {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.showPosition(position)
+
+    });
+  } else {
+    console.log("Localización no disponible");
+  }
+}
+showPosition(position: any): any{
+      this.latitude = position.coords.latitude
+      this.longitud= position.coords.longitude 
+      this.latStr = this.latitude.toString()
+      this.longStr = this.longitud.toString()
+
+  console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
+}
+getLocationAsync(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        resolve(position);
+      }, (error) => {
+        reject(error);
+      });
+    } else {
+      reject("Localización no disponible");
+    }
+  });
+}
 
   constructor(private service: RecepcionService, private http: HttpClient, private sanitizer: DomSanitizer,
               private tiService : TIService) { }
@@ -153,7 +189,9 @@ export class RecepcionEasyCdComponent {
       "n_guia" : codigo_producto,
       "cod_pedido" : codigo_producto,
       "cod_producto" : codigo_producto,
-      "ids_usuario" : this.idPortal
+      "ids_usuario" : this.idPortal,
+      "latitud": this.latStr,
+      "longitud": this.longStr
       // "cod_sku" : sku
     }
 
@@ -170,10 +208,14 @@ export class RecepcionEasyCdComponent {
   }
 
 
-  cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
+ async cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
     this.productosPorVerificar[arrayIndex].Recepcion = true
 
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+    
+    const location = await this.getLocationAsync();
+    const lat : string = location.coords.latitude.toString()
+    const long : string = location.coords.longitude.toString()
     
     const body = {
       "id_usuario" : sessionStorage.getItem('id')+"",
@@ -181,7 +223,9 @@ export class RecepcionEasyCdComponent {
       "n_guia" : cod_pedido,
       "cod_pedido" : cod_pedido,
       "cod_producto" : cod_producto,
-      "ids_usuario" : this.idPortal
+      "ids_usuario" : this.idPortal,
+      "latitud": lat,
+      "longitud": long
       // "cod_sku" : sku
     }
 

@@ -177,6 +177,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/toc/toc.module').then((m) => m.TocModule )
       },
+      {
+        path: 'rsv',
+        loadChildren: () =>
+          import('./views/rsv/rsv.module').then((m) => m.RsvModule)
+      },
     ],
     canActivate: [UserGuard]
   },

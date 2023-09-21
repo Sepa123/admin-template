@@ -1,4 +1,5 @@
 import {
+  cilWindow,
   cilClipboard,
   cilMenu,
   cilBuilding,
@@ -28,6 +29,7 @@ import {
 } from '@coreui/icons';
 
 export const iconSubset = {
+  cilWindow,
   cilMenu,
   cilClipboard,
   cilBuilding,

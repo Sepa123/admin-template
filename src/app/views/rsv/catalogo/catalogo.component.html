@@ -1,0 +1,144 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="lg">
+  <c-modal-header>
+    <h5 cModalTitle>Agregar Nuevo producto </h5>
+    <button (click)="toggleLiveDemo()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <h2>Agregar nuevo producto</h2>
+
+<form cForm [formGroup]="form" (ngSubmit)="registrar()">
+    <div class="">
+    
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Codigo
+                <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" (change)="codigoExistente()">
+                <span class="error" *ngIf="form.get('Codigo')?.errors?.['required'] && isErrorView">
+                    Falta agregar el codigo del producto
+                </span>
+            </div>
+        </c-col>
+        <c-col [xs]>
+            <div class="noEditar">
+                Codigo Final
+                <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal">
+                <span class="error" *ngIf="form.get('Codigo')?.errors?.['required'] && isErrorView">
+                    Falta agregar el codigo del producto
+                </span>
+            </div>
+        </c-col>
+        <c-col [xs]>
+            <div class="">
+                Unidades por paquete
+                 <input type="number" class="form-control"  placeholder="Unidades por paquete" formControlName="Unid_x_paquete" >
+                 <span class="error" *ngIf="form.get('Unid_x_paquete')?.errors?.['required'] && isErrorView">
+                    Falta agregar las unidades por paquete
+                </span>
+                </div>
+        </c-col>
+        
+    </c-row>
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Producto
+                <input type="text" placeholder="Producto" class="form-control" formControlName="Producto" >
+            </div>
+        </c-col>
+    </c-row>
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Ancho
+                 <input type="number" placeholder="Ancho" class="form-control" formControlName="Ancho" >
+             </div>
+             <div class="">
+                Alto
+                <input type="number" placeholder="Alto" class="form-control" formControlName="Alto" >
+            </div>
+        </c-col>
+        <c-col [xs]>
+            <div class="">
+                Peso
+                 <input type="number" class="form-control"  placeholder="Peso" formControlName="Peso" >
+             </div>
+             <div class="">
+                Largo
+                <input type="number" class="form-control"  placeholder="Largo" formControlName="Largo">
+            </div>
+        </c-col>
+        <c-col [xs]>
+            <div class="">
+                Colores                
+                <select id="Comuna" cSelect formControlName="Color" (change)="cambiarColor()">
+                    <option *ngFor="let color of colores" value={{color.Id}} >
+                        {{color.Nombre_color}}     
+                    </option>
+                </select>
+                <p></p>
+                <div [style.background-color]="selectedCodColor" class="color-box">
+                    
+                  </div>
+             </div>
+        </c-col>
+        <p></p>
+    </c-row>
+</div>
+    <p></p>
+    <c-row>
+        <c-col [xs]>
+            <button class="btn btn-success" type="submit">Guardar 
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+            </button>
+        </c-col>
+    </c-row>
+  </form>
+
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveDemo()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+
+
+<h2>Catalogo RSV</h2>
+<p></p>
+
+<button class="btn btn-success" (click)="toggleLiveDemo()">Agregar nuevo producto 
+  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 512 512"><path fill="currentColor" d="M256 152h208v32H256zm-80 104h288v32H176zm0 104h288v32H176zm16-208h-64V88H96v64H32v32h64v64h32v-64h64v-32z"/></svg>
+</button>
+
+<p></p>
+
+<div class="greenTable">
+    <table  id="tablaProductosPicking" >
+    <thead>
+      <tr>
+          <th>Código</th>
+          <th>Producto</th>
+          <th>Unidades</th>
+          <th>Peso</th>
+          <th>Ancho</th>
+          <th>Alto</th>
+          <th>Largo</th>
+          <th>Color</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let producto of catalogoRSV ;let i = index ">
+      <td>{{producto.Codigo}}</td>
+      <td>{{producto.Producto}}</td>
+      <td>{{producto.Unid_x_paquete}}</td>
+      <td>{{producto.Peso}}</td>
+      <td>{{producto.Ancho}}</td>
+      <td>{{producto.Alto}}</td>
+      <td>{{producto.Largo}}</td>
+      <td>{{producto.Color}}</td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
