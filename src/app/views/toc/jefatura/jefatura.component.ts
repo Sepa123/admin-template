@@ -49,6 +49,9 @@ export class JefaturaComponent {
   public chartVisible = false
   public graficoVisible = false
 
+  isLoadingTable : boolean = true
+  isLoadingFull : boolean = false
+
   regex = /\*/;
 
   portal = /\bportal-\b/;
@@ -114,10 +117,11 @@ export class JefaturaComponent {
   }
 
   bitacoraTOCRangoFecha(fecha_inicio : string, fecha_termino : string){
-    this.bitacorasRangos = []
-    this.service.bitacoras_rango_fecha(fecha_inicio,fecha_termino).subscribe(data => {
-      this.bitacorasRangos = data
-      this.bitacorasRangos.map((bitacora) => {
+    // this.bitacorasRangos = []
+    
+    this.service.bitacoras_rango_fecha(fecha_inicio,fecha_termino).subscribe((data : BitacoraRango [] ) => {
+      // this.bitacorasRangos = data
+      data.map((bitacora) => {
         if (bitacora.Direccion == null || bitacora.Direccion == '') {
           bitacora.Direccion = 'Sin dirección*'
         }
@@ -127,26 +131,34 @@ export class JefaturaComponent {
         if (bitacora.Comuna == null || bitacora.Comuna == '') {
           bitacora.Comuna = 'Sin Comuna*'
         }
+        this.bitacorasRangos.push(bitacora)
       })
+
+      if(this.formatearFecha(this.fecha_fin) == fecha_termino) {
+        this.isLoadingFull = false
+        console.log(false)
+      }
+      
       this.graficoVisible = true
+      this.isLoadingTable = false
       this.contadorNS = this.bitacorasRangos.length
     
     })
 
-    this.service.nombres_usuarios_toc(fecha_inicio,fecha_termino).subscribe(usuarios => {
-      this.usuariosTOC = usuarios
+    // this.service.nombres_usuarios_toc(fecha_inicio,fecha_termino).subscribe(usuarios => {
+    //   this.usuariosTOC = usuarios
 
-      this.usuariosTOC.map((usu) => {
-        this.nombreUsuario.push(usu.Nombre)
-        this.cantidadBitacora.push(usu.Cantidad_bitacora)
-      })
+    //   this.usuariosTOC.map((usu) => {
+    //     this.nombreUsuario.push(usu.Nombre)
+    //     this.cantidadBitacora.push(usu.Cantidad_bitacora)
+    //   })
 
-      // this.data.labels = this.nombreUsuario
-      // this.data.datasets[0].data = this.cantidadBitacora
+    //   // this.data.labels = this.nombreUsuario
+    //   // this.data.datasets[0].data = this.cantidadBitacora
       
-      this.agregar(this.nombreUsuario, this.cantidadBitacora)
-      console.log(this.data)
-    })
+    //   this.agregar(this.nombreUsuario, this.cantidadBitacora)
+    //   console.log(this.data)
+    // })
   }
 
   reemplazarIds(ids : string){
@@ -161,21 +173,16 @@ export class JefaturaComponent {
 
     this.pieChartData.labels = label
     this.pieChartData.datasets[0].data = data
-    // this.data = {
-    //   labels: label,
-    //   datasets: [{
-    //     label: 'My First Dataset',
-    //     data: data,
-    //     backgroundColor: ['#FF6384', '#4BC0C0', '#FFCE56', '#E7E9ED', '#36A2EB'],
-    //     hoverOffset: 4
-    //   }]
-    // };
 
     this.chartVisible = true
    }
 
    buscar() {
+    this.contadorNS = 0
+    this.isLoadingFull = true
+    this.isLoadingTable = true
     this.chartVisible = false
+    this.bitacorasRangos = []
      this.nombreUsuario = []
      this.cantidadBitacora = []
     if(this.fecha_fin == "" || this.fecha_inicio == ""){
@@ -186,12 +193,53 @@ export class JefaturaComponent {
     const fecha_fin_f = this.formatearFecha(this.fecha_fin)
 
     console.log(fecha_inicio_f,fecha_fin_f)
+    const arrayFechas = this.arregloFechas(this.fecha_inicio, this.fecha_fin)
 
     if (this.validarDiferenciaFechas(this.fecha_inicio,this.fecha_fin) == false) return alert("La diferencia entre las fechas debe ser de un día o más")
-
-    this.bitacoraTOCRangoFecha(fecha_inicio_f,fecha_fin_f) 
-
     
+    let myset = [...new Set(arrayFechas)]
+
+    myset.map( (fecha , i) => {
+      setTimeout(() => {
+        this.bitacoraTOCRangoFecha(fecha,fecha) 
+      }, 7500 * i)
+      
+    })
+
+    this.service.nombres_usuarios_toc(fecha_inicio_f,fecha_fin_f).subscribe(usuarios => {
+      this.usuariosTOC = usuarios
+
+      this.usuariosTOC.map((usu) => {
+        this.nombreUsuario.push(usu.Nombre)
+        this.cantidadBitacora.push(usu.Cantidad_bitacora)
+      })
+      
+      this.agregar(this.nombreUsuario, this.cantidadBitacora)
+      console.log(this.data)
+    })
+
+    // this.bitacoraTOCRangoFecha(fecha_inicio_f,fecha_fin_f) 
+
+   }
+
+   arregloFechas(fecha_inicio : string, fecha_fin: string) {
+
+    const fechas = [];
+    let fechaActual = new Date(fecha_inicio);
+
+    if(fecha_inicio == fecha_fin){
+      fechas.push(this.formatearFecha(this.fecha_fin))
+    }else {
+      while (fechaActual <=  new Date(fecha_fin)) {
+        const fechaFormateada = fechaActual.toISOString().slice(0, 10).replace(/-/g, ''); // Formatea como 'YYYYMMDD'
+        fechas.push(fechaFormateada);
+        fechaActual.setDate(fechaActual.getDate() + 1); // Avanza un día
+      }
+      fechas.push(this.formatearFecha(this.fecha_fin))
+    }
+
+    return fechas;
+
    }
 
    validarDiferenciaFechas(fechaInicio: string, fechaFin: string): boolean {
@@ -209,13 +257,6 @@ export class JefaturaComponent {
     const diferenciaMs = fechaFinDt.getTime() - fechaInicioDt.getTime();
     const diferenciaDias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
     return true
-    // Comprobar si la diferencia en días es mayor o igual a 1
-    // if (diferenciaDias >= 1) {
-    //   return true;
-    // } else {
-    //   console.error("La diferencia entre las fechas debe ser de un día o más.");
-    //   return false;
-    // }
 
   }
 
@@ -236,10 +277,23 @@ export class JefaturaComponent {
     const day = currentDate.getDate().toString().padStart(2, '0');
     const formattedDate = `${year}${month}${day}`;
 
+    this.isLoadingTable =  false
     this.bitacoraTOCRangoFecha(formattedDate,formattedDate) 
-    // this.service.bitacoras_rango_fecha('20230801','20230831').subscribe((data) => {
-    //   this.bitacorasRangos = data
-    // })
+
+    this.service.nombres_usuarios_toc(formattedDate,formattedDate).subscribe(usuarios => {
+      this.usuariosTOC = usuarios
+
+      this.usuariosTOC.map((usu) => {
+        this.nombreUsuario.push(usu.Nombre)
+        this.cantidadBitacora.push(usu.Cantidad_bitacora)
+      })
+
+      // this.data.labels = this.nombreUsuario
+      // this.data.datasets[0].data = this.cantidadBitacora
+      
+      this.agregar(this.nombreUsuario, this.cantidadBitacora)
+      console.log(this.data)
+    })
   }
 
 }

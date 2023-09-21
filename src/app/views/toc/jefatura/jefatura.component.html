@@ -36,7 +36,7 @@
       <button  (click)="buscar()" cButton  color="secondary" size="sm">buscar</button>
     </c-col>
     <c-col *ngIf="contadorNS !== 0" >
-      Registros : <label style="font-weight: bold;">{{contadorNS}}</label>
+      Registros : <label style="font-weight: bold;">{{contadorNS}} <img width="40" *ngIf="isLoadingFull" height="50" src="../../../assets/images/loading-gif.gif" /></label>
       <!-- <button  (click)="buscar()" cButton  color="secondary" size="sm">buscar</button> -->
     </c-col>
   </c-row>
@@ -62,6 +62,9 @@
       </tr>
     </thead>
     <tbody>
+    <tr>
+      <td colspan="11" *ngIf="isLoadingTable"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+    </tr>
     <tr *ngFor="let bitacora of bitacorasRangos;let i = index ">
         <td>{{bitacora.Fecha_creacion}}</td>
         <td>{{bitacora.Guia}}</td>
@@ -93,6 +96,7 @@
       no hay registros
      </td> 
     </tr>
+    
     </tbody>
     </table>
   </div>
