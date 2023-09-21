@@ -108,9 +108,39 @@
 <h2>Catalogo RSV</h2>
 <p></p>
 
-<button class="btn btn-success" (click)="toggleLiveDemo()">Agregar nuevo producto 
-  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 512 512"><path fill="currentColor" d="M256 152h208v32H256zm-80 104h288v32H176zm0 104h288v32H176zm16-208h-64V88H96v64H32v32h64v64h32v-64h64v-32z"/></svg>
-</button>
+<c-row>
+    <c-col [xs]>
+        <button class="btn btn-success" (click)="toggleLiveDemo()">Agregar nuevo producto 
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 512 512"><path fill="currentColor" d="M256 152h208v32H256zm-80 104h288v32H176zm0 104h288v32H176zm16-208h-64V88H96v64H32v32h64v64h32v-64h64v-32z"/></svg>
+          </button>
+    </c-col>
+    <c-col [xs]>
+        <!-- <select id="Comuna" cSelect (change)="cambiarColor()" aria-placeholder="Colores">
+            <option *ngFor="let color of colores" value={{color.Id}} >
+                {{color.Nombre_color}}     
+            </option>
+        </select> -->
+        <c-dropdown >
+            <button cButton cDropdownToggle color="secondary">
+              Filtrar por Colores
+            </button>
+            <ul cDropdownMenu>
+                <!-- (click)="filterByRegion(region)" -->
+              <li><a [routerLink]="[]"  cDropdownItem (click)="filtrarColores(0)">Todos los colores</a></li>
+              <li *ngFor="let color of colores" ><a [routerLink]="[]" (click)="filtrarColores(color.Id)" cDropdownItem>{{color.Nombre_color}}</a></li>
+            </ul>
+          </c-dropdown>
+    </c-col>
+    <c-col [xs]>
+        
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+</c-row>
+
+
+
 
 <p></p>
 
@@ -126,6 +156,7 @@
           <th>Alto</th>
           <th>Largo</th>
           <th>Color</th>
+          <th>Editar</th>
       </tr>
     </thead>
     <tbody>
@@ -137,7 +168,9 @@
       <td>{{producto.Ancho}}</td>
       <td>{{producto.Alto}}</td>
       <td>{{producto.Largo}}</td>
-      <td>{{producto.Color}}</td>
+      <td>{{ reemplazarIds(producto.Color) }}</td>
+      <!-- <td>{{producto.Color}}</td> -->
+      <td><svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m18.988 2.012l3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287l-3-3L8 13z"/><path fill="currentColor" d="M19 19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"/></svg></td>
     </tr>
     </tbody>
     </table>

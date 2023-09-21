@@ -17,6 +17,7 @@ export class CatalogoComponent {
   isErrorView : boolean = false
 
   catalogoRSV: CatalogoRSV [] = []
+  catalogoRSVFull : CatalogoRSV [] = []
 
   constructor (public builder: FormBuilder, private service: RsvService){}
 
@@ -41,6 +42,7 @@ export class CatalogoComponent {
 
   obtenerCatalogo(){
     this.service.get_catalogo_rsv().subscribe((data) => {
+      this.catalogoRSVFull = data
       this.catalogoRSV = data
       console.log( this.catalogoRSV)
     })
@@ -96,12 +98,26 @@ export class CatalogoComponent {
       }
     })
   }
+
+  reemplazarIds(ids : number){
+    if(ids == 0) return "Madera"
+    return this.colores.filter(data => data.Id == ids)[0].Nombre_color
+ }
   
   textoCambiado() {
+    this.colores.find(color => color.Id == 1)
     const extension = this.colores.find(color => color.Id === parseInt(this.form.value.Color+""))?.Extension+""
     this.codigoFinal =  this.form.value.Codigo?.trim()+extension+""
     this.codigoFinal = this.codigoFinal.toUpperCase()
     console.log('Texto cambiado a:',  this.codigoFinal);
+  }
+
+  filtrarColores(color : number){
+    if (color === 0) {
+      this.catalogoRSV = this.catalogoRSVFull
+    } else {
+      this.catalogoRSV =  this.catalogoRSVFull.filter(producto => producto.Color === color)
+    }
   }
 
   registrar(){
