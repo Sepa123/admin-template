@@ -353,6 +353,10 @@ export const navItems: INavDataBar[] = [
        name: 'Catalogo',
        url: '/rsv/catalogo'
      },
+     {
+      name: 'Crear Carga',
+      url: '/rsv/crear-carga'
+     }
     //  {
     //   name: 'Agregar Producto',
     //   url: '/rsv/agregar-producto'
