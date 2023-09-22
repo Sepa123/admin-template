@@ -240,7 +240,7 @@ export class EditarRutaComponent {
         return { ...objeto,
             DE : false,
             DP : false,
-            Estado_entrega : objeto.Estado,
+            Estado_entrega : objeto.Estado === "NO SACAR A RUTA" ? "Cancelado" : objeto.Estado,
             Estado : objeto.Estado === "Entregado" ? true : false,
             Id_ruta : this.idRutaEditar,
             Nombre_ruta: this.nombreRutaEditar, 

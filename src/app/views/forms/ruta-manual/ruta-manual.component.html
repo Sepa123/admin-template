@@ -86,39 +86,42 @@
       <tbody cdkDropList (cdkDropListDropped)="drop($event)">
       <ng-container *ngFor="let objeto of arrayRutasIngresados;let i = index">
         <tr  cdkDrag cdkDragLockAxis="y" *ngFor="let producto of objeto; let j = index">
-          <td  [ngClass]="{'entregado' : producto.Estado === true}">{{i + 1}}</td>
-          <td cdkDragHandle [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Nombre}}</td>
-          <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Calle}}</td>
+          <td  [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{i + 1}}</td>
+          <td cdkDragHandle [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Nombre}}</td>
+          <td [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Calle}}</td>
           <th class="comuna">{{producto.Ciudad}}</th>
-          <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Provincia}}</td>
-          <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Codigo_pedido}}</td>         
+          <td [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Provincia}}</td>
+          <td [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Codigo_pedido}}</td>         
           <th [ngClass]="{
             'atrasada': producto.Diferencias_dias <= 0,
             'adelantada': producto.Diferencias_dias > 0 && producto.Diferencias_dias <= 2,
             'muyAdelantada': producto.Diferencias_dias > 2
           }">{{producto.Fecha_pedido}}</th>
-          <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Codigo_producto}}</td>
-          <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Descripcion_producto}}</td>
-          <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Cantidad_producto}}</td>
-          <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Notas}}</td>  
+          <td [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Codigo_producto}}</td>
+          <td [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Descripcion_producto}}</td>
+          <td [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Cantidad_producto}}</td>
+          <td [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Notas}}</td>  
           <!-- Productos pistoleados -->
-          <td *ngIf="producto.Pistoleado" [ngClass]="{'entregado' : producto.Estado === true}">
+          <td *ngIf="producto.Pistoleado" [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">
             <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
           </td>
-          <td *ngIf="!producto.Pistoleado" [ngClass]="{'entregado' : producto.Estado === true}">
+          <td *ngIf="!producto.Pistoleado" [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">
             <svg (click)="cambiarTicket(i,j,producto.Codigo_producto)" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
           </td>
-           <!-- Productos pistoleados -->
-           <td [ngClass]="{'entregado' : producto.Estado === true}" *ngIf="producto.Estado == true">Entregado</td>
-           <td [ngClass]="{'entregado' : producto.Estado === true}" *ngIf="producto.Estado == false">Pendiente</td>
+           <!-- /Productos pistoleados -->
+           <!-- PRUEBA de producto.Estado -->
+           <!-- <td [ngClass]="{'entregado' : producto.Estado == 'Entregado'}" >{{producto.Estado}}</td> -->
+           <td [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Estado}}</td>
+           <!-- <td [ngClass]="{'entregado' : producto.Estado === true}" *ngIf="producto.Estado == true">Entregado</td>
+           <td [ngClass]="{'entregado' : producto.Estado === true}" *ngIf="producto.Estado == false">Pendiente</td> -->
           <!-- Producto En ruta -->
-          <td *ngIf="producto.En_ruta" [ngClass]="{'entregado' : producto.Estado === true}">
+          <td *ngIf="producto.En_ruta" [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">
             <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
           </td>
-          <td *ngIf="!producto.En_ruta" [ngClass]="{'entregado' : producto.Estado === true}">
+          <td *ngIf="!producto.En_ruta" [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">
             <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
           </td>
-          <!-- Producto En ruta -->
+          <!-- /Producto En ruta -->
           <td>
             <!-- <button *ngIf="j === 0" (click)="deleteData(i,producto.Codigo_pedido)">Eliminar</button>  -->
             <div [innerHTML]="svgContent" (click)="deleteData(i,producto.SKU, producto.Codigo_pedido,j)"></div>

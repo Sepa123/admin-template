@@ -145,7 +145,7 @@ export class RutaManualComponent {
         return { ...objeto,
              DE : false,
              DP : false,
-             Estado : objeto.Estado === "Entregado" ? true : false,
+             Estado : objeto.Estado === "NO SACAR A RUTA" ? "Cancelado" : objeto.Estado,
              Nombre_ruta: this.Nombre_ruta, Created_by: this.idUsuario ,
              Id_tabla: resultado,
              Provincia : objeto.Provincia == null ? 'Otro' : objeto.Provincia
