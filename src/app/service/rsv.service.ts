@@ -27,4 +27,8 @@ export class RsvService {
   buscar_producto_existente_rsv(codigo : string) {
     return this.http.get(this.apiurl + `/buscar/${codigo}`)
   }
+
+  editar_producto_rsv(body : any) {
+    return this.http.put(this.apiurl + "/editar/producto", body)
+  }
 }

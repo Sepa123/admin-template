@@ -12,6 +12,9 @@ export interface CatalogoRSV {
     Ids_user:       string;
     Color:          number;
     Habilitado:     boolean;
+    Precio_unitario : number | null;
+	Ubicacion :       string | null
+	Codigo_Original : string | null
 }
 
 export interface ColoresRSV {

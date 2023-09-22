@@ -16,6 +16,8 @@ export class CatalogoComponent {
   codigoFinal: string = ""
   isErrorView : boolean = false
 
+  botonEditar : boolean = false
+
   catalogoRSV: CatalogoRSV [] = []
   catalogoRSVFull : CatalogoRSV [] = []
 
@@ -71,12 +73,12 @@ export class CatalogoComponent {
 
   form = this.builder.group({
     Codigo : this.builder.control("" , [Validators.required]),
-    Producto : this.builder.control("" ),
-    Unid_x_paquete : this.builder.control("" , [Validators.required]),
-    Peso : this.builder.control(""),
-    Ancho : this.builder.control(""),
-    Alto : this.builder.control(""),
-    Largo : this.builder.control(""),
+    Producto : this.builder.control(""),
+    Unid_x_paquete : this.builder.control(0 , [Validators.required]),
+    Peso : this.builder.control(0),
+    Ancho : this.builder.control(0),
+    Alto : this.builder.control(0),
+    Largo : this.builder.control(0),
     Id_user : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
     Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
     Color : this.builder.control(2, [Validators.required]),
@@ -92,16 +94,82 @@ export class CatalogoComponent {
       this.codigoFinal =  this.form.value.Codigo?.trim()+extension+""
       this.codigoFinal = this.codigoFinal.toUpperCase().replace(/\s/g, '')   
     }
-    this.service.buscar_producto_existente_rsv(this.codigoFinal).subscribe((data : any) => {
-      if(data.repetido){
-        alert(data.message)
-      }
-    })
+    // this.service.buscar_producto_existente_rsv(this.codigoFinal).subscribe((data : any) => {
+    //   if(data.repetido){
+    //     alert(data.message)
+    //   }
+    // })
   }
 
   reemplazarIds(ids : number){
     if(ids == 0) return "Madera"
     return this.colores.filter(data => data.Id == ids)[0].Nombre_color
+ }
+
+ editarCatalogo(){
+  // alert("Editar producto correctamente")
+  console.log(this.codigoFinal)
+  this.form.patchValue({
+    Codigo_final : this.codigoFinal
+  })
+
+  this.service.editar_producto_rsv(this.form.value).subscribe((data : any) => {
+     alert(data.message)
+     this.form.reset()
+     this.form.patchValue({
+        Id_user : sessionStorage.getItem("id")?.toString()+"",
+        Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+        Color : 2,
+        Habilitado : true,
+        Codigo_final : ""
+      })
+      this.selectedCodColor = "#FFFFFF"
+      this.obtenerCatalogo()
+      this.toggleLiveDemo()
+      this.codigoFinal = ""
+      
+      this.isErrorView = false
+  }
+  ,(error) => {
+    alert("Hubo un error al registrar los datos")
+  })
+ }
+ agregarCatalogo(){
+  this.form.reset()
+  this.form.patchValue({
+    Id_user : sessionStorage.getItem("id")?.toString()+"",
+    Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+    Color : 2,
+    Habilitado : true,
+    Codigo_final : ""
+  })
+  this.codigoFinal = ""
+  this.botonEditar = false
+ }
+
+ SelectedagregarCatalogo(){
+  this.selectedCodColor = "#FFFFFF"
+  this.toggleLiveDemo()
+ }
+
+ SelecteditarCatalogo(producto : CatalogoRSV) {
+  this.botonEditar = true
+  console.log(producto)
+  // this.codigoFinal = "producto.Codigo"
+
+  this.form.patchValue({
+    // Codigo_final : producto.Codigo,
+    Codigo : producto.Codigo_Original,
+    Unid_x_paquete : producto.Unid_x_paquete,
+    Producto : producto.Producto,
+    Ancho : producto.Ancho,
+    Peso : producto.Peso,
+    Alto : producto.Alto,
+    Largo : producto.Largo,
+    Color : producto.Color
+  })  
+  this.cambiarColor()
+  this.toggleLiveDemo()
  }
   
   textoCambiado() {
@@ -122,6 +190,8 @@ export class CatalogoComponent {
 
   registrar(){
     if(this.form.valid){
+
+      if(!this.botonEditar){
       this.service.buscar_producto_existente_rsv(this.codigoFinal).subscribe((data : any) => {
         if(data.repetido){
           alert(data.message)
@@ -145,11 +215,15 @@ export class CatalogoComponent {
             this.codigoFinal = ""
             this.obtenerCatalogo()
             this.isErrorView = false
+            this.selectedCodColor = "#FFFFFF"
           },(error) => {
             alert("Hubo un error al registrar los datos")
           })
         }
-      })   
+      }) 
+    }  else {
+      this.editarCatalogo()
+    }
     }else{
       this.isErrorView = true
     }
