@@ -11,7 +11,6 @@
 <!-- <form cForm [formGroup]="form" (ngSubmit)="registrar()"> -->
     <form cForm [formGroup]="form" (ngSubmit)="registrar()"> 
     <div class="">
-    
     <c-row>
         <c-col [xs]>
             <div class="">
@@ -55,21 +54,21 @@
     <c-row>
         <c-col [xs]>
             <div class="">
-                Ancho
+                Ancho (mt)
                  <input type="number" placeholder="Ancho" class="form-control" formControlName="Ancho" >
              </div>
              <div class="">
-                Alto
+                Alto (mt)
                 <input type="number" placeholder="Alto" class="form-control" formControlName="Alto" >
             </div>
         </c-col>
         <c-col [xs]>
             <div class="">
-                Peso
+                Peso (kg)
                  <input type="number" class="form-control"  placeholder="Peso" formControlName="Peso" >
              </div>
              <div class="">
-                Largo
+                Largo (mt)
                 <input type="number" class="form-control"  placeholder="Largo" formControlName="Largo">
             </div>
         </c-col>
@@ -86,9 +85,29 @@
                 <div [style.background-color]="selectedCodColor" class="color-box" >
                     
                   </div>
+             </div>        
+        </c-col>
+    </c-row>
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Precio unitario (CLP)
+                <input type="number" placeholder="Precio" class="form-control" formControlName="Precio_unitario" >
+            </div>
+        </c-col>
+        <c-col [xs]>
+            <div class="">
+                Ubicación paquete
+                 <input type="text" class="form-control"  placeholder="Ubicación paquete" formControlName="Ubicacion_p" >
              </div>
         </c-col>
-        <p></p>
+        <c-col [xs]>
+            <div class="">
+                Ubicación unidad
+                 <input type="text" class="form-control"  placeholder="Ubicación unidad" formControlName="Ubicacion_u" >
+             </div>
+            
+        </c-col>
     </c-row>
 </div>
     <p></p>
@@ -125,11 +144,6 @@
           </button>
     </c-col>
     <c-col [xs]>
-        <!-- <select id="Comuna" cSelect (change)="cambiarColor()" aria-placeholder="Colores">
-            <option *ngFor="let color of colores" value={{color.Id}} >
-                {{color.Nombre_color}}     
-            </option>
-        </select> -->
         <c-dropdown >
             <button cButton cDropdownToggle color="secondary">
               Filtrar por Colores
@@ -142,10 +156,10 @@
           </c-dropdown>
     </c-col>
     <c-col [xs]>
-        
+        <input type="text" placeholder="producto" class="form-control"  [(ngModel)]="codigoBuscar" >
     </c-col>
     <c-col [xs]>
-
+        <button class="btn btn-success" (click)=" buscarByCodigo()" >Buscar</button>
     </c-col>
 </c-row>
 

@@ -13,8 +13,9 @@ export interface CatalogoRSV {
     Color:          number;
     Habilitado:     boolean;
     Precio_unitario : number | null;
-	Ubicacion :       string | null
+	Ubicacion_p :     string | null
 	Codigo_Original : string | null
+    Ubicacion_u :     string | null
 }
 
 export interface ColoresRSV {

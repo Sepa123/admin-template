@@ -21,6 +21,8 @@ export class CatalogoComponent {
   catalogoRSV: CatalogoRSV [] = []
   catalogoRSVFull : CatalogoRSV [] = []
 
+  codigoBuscar : string = ""
+
   constructor (public builder: FormBuilder, private service: RsvService){}
 
   isModalOpen: boolean = false
@@ -83,7 +85,10 @@ export class CatalogoComponent {
     Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
     Color : this.builder.control(2, [Validators.required]),
     Habilitado : this.builder.control(true),
-    Codigo_final : this.builder.control("")
+    Codigo_final : this.builder.control(""),
+    Precio_unitario : this.builder.control(0),
+    Ubicacion_p: this.builder.control(""),
+    Ubicacion_u: this.builder.control(""),
   })
 
   cambiarColor(){
@@ -154,8 +159,6 @@ export class CatalogoComponent {
 
  SelecteditarCatalogo(producto : CatalogoRSV) {
   this.botonEditar = true
-  console.log(producto)
-  // this.codigoFinal = "producto.Codigo"
 
   this.form.patchValue({
     // Codigo_final : producto.Codigo,
@@ -166,10 +169,22 @@ export class CatalogoComponent {
     Peso : producto.Peso,
     Alto : producto.Alto,
     Largo : producto.Largo,
-    Color : producto.Color
+    Color : producto.Color,
+    Precio_unitario : producto.Precio_unitario,
+    Ubicacion_p : producto.Ubicacion_p,
+    Ubicacion_u : producto.Ubicacion_u
   })  
   this.cambiarColor()
   this.toggleLiveDemo()
+ }
+
+ buscarByCodigo(){
+  console.log(this.codigoBuscar)
+ this.catalogoRSV =  this.catalogoRSVFull.filter(catalogo => catalogo.Codigo == this.codigoBuscar || catalogo.Codigo_Original == this.codigoBuscar )
+  if(this.catalogoRSV.length == 0){
+    alert("No hay registros")
+    this.catalogoRSV =  this.catalogoRSVFull
+  }
  }
   
   textoCambiado() {
