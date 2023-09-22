@@ -180,7 +180,7 @@ export class CatalogoComponent {
 
  buscarByCodigo(){
   console.log(this.codigoBuscar)
- this.catalogoRSV =  this.catalogoRSVFull.filter(catalogo => catalogo.Codigo == this.codigoBuscar || catalogo.Codigo_Original == this.codigoBuscar )
+ this.catalogoRSV =  this.catalogoRSVFull.filter(catalogo => catalogo.Codigo.trim() == this.codigoBuscar.trim() || catalogo.Codigo_Original == this.codigoBuscar.trim() )
   if(this.catalogoRSV.length == 0){
     alert("No hay registros")
     this.catalogoRSV =  this.catalogoRSVFull
