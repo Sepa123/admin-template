@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
-import {CatalogoRSV, ColoresRSV } from 'src/app/models/catalogoRSV.iterface'
+import {CatalogoRSV, ColoresRSV,CatalogoPorColor } from 'src/app/models/catalogoRSV.iterface'
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +30,24 @@ export class RsvService {
 
   editar_producto_rsv(body : any) {
     return this.http.put(this.apiurl + "/editar/producto", body)
+  }
+
+  agregar_nuevo_catalogo(body : any){
+    return this.http.post(this.apiurl + "/agregar/carga", body)
+  }
+
+  get_carga_rsv(){
+    return this.http.get(this.apiurl + "/cargas")
+  }
+
+  // filtrar catalogo por color
+
+  filtrar_catalogo_por_color(color : number){
+    return this.http.get<CatalogoPorColor[]>(this.apiurl + `/catalogo/color?color=${color}`)
+  }
+
+  // buscar si nombre_carga existe
+  buscar_carga_por_nombre_carga(nombre_carga : string){
+    return this.http.get(this.apiurl + `/carga/buscar?nombre_carga=${nombre_carga}`)
   }
 }

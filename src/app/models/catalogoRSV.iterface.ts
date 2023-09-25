@@ -26,3 +26,9 @@ export interface ColoresRSV {
     Url_imagen:   string | null;
     Extension:    string;
 }
+
+
+export interface CatalogoPorColor {
+    Codigo:         string;
+    Producto:       string;
+}

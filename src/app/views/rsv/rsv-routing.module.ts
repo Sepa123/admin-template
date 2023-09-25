@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { CatalogoComponent } from './catalogo/catalogo.component';
 import { AgregarProductoComponent } from './agregar-producto/agregar-producto.component';
 import { CrearCargaComponent } from './crear-carga/crear-carga.component';
-
+import { VentasComponent } from './ventas/ventas.component';
+import { RecepcionComponent } from './recepcion/recepcion.component';
 const routes: Routes = [
   {
     path:'',
@@ -32,6 +33,20 @@ const routes: Routes = [
           title : "Agregar producto"
         }
       },
+      {
+        path : 'ventas',
+        component : VentasComponent,
+        data : {
+          title : "Ventas"
+        } 
+      },
+      {
+        path : 'recepcion',
+        component : RecepcionComponent,
+        data : {
+          title : "Recepción"
+        } 
+      }
     ]
   }
 ];

@@ -5,10 +5,11 @@ import { CatalogoRSV,ColoresRSV } from 'src/app/models/catalogoRSV.iterface';
 @Component({
   selector: 'app-catalogo',
   templateUrl: './catalogo.component.html',
-  styleUrls: ['./catalogo.component.scss']
+  styleUrls: ['../styles/rsv.component.scss']
 })
 export class CatalogoComponent {
 
+  isLoading : boolean = true
   colores : ColoresRSV [] = []
   selectedColor : number = 2
   selectedCodColor : string = "#FFFFFF"
@@ -48,6 +49,7 @@ export class CatalogoComponent {
     this.service.get_catalogo_rsv().subscribe((data) => {
       this.catalogoRSVFull = data
       this.catalogoRSV = data
+      this.isLoading = false
       console.log( this.catalogoRSV)
     })
   }

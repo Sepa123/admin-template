@@ -18,13 +18,17 @@ import { RsvRoutingModule } from './rsv-routing.module';
 import { CatalogoComponent } from './catalogo/catalogo.component';
 import { AgregarProductoComponent } from './agregar-producto/agregar-producto.component';
 import { CrearCargaComponent } from './crear-carga/crear-carga.component';
+import { VentasComponent } from './ventas/ventas.component';
+import { RecepcionComponent } from './recepcion/recepcion.component';
 
 
 @NgModule({
   declarations: [
     CatalogoComponent,
     AgregarProductoComponent,
-    CrearCargaComponent
+    CrearCargaComponent,
+    VentasComponent,
+    RecepcionComponent
   ],
   imports: [
     CommonModule,

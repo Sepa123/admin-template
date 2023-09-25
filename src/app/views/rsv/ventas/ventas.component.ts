@@ -5,12 +5,11 @@ import { CatalogoRSV,ColoresRSV,CatalogoPorColor } from 'src/app/models/catalogo
 import { CargaRSV } from 'src/app/models/cargaRSV.interface'
 
 @Component({
-  selector: 'app-crear-carga',
-  templateUrl: './crear-carga.component.html',
+  selector: 'app-ventas',
+  templateUrl: './ventas.component.html',
   styleUrls: ['../styles/rsv.component.scss']
 })
-
-export class CrearCargaComponent {
+export class VentasComponent {
   
   skillsForm: FormGroup;
   colores : ColoresRSV[] = []

@@ -1,0 +1,156 @@
+.greenTable{
+    width: auto;
+    max-height: 400px; /* Altura de ejemplo */
+    overflow: auto;
+    
+  }
+  
+  .greenTable  table {
+    border: 1px solid #28A745;
+    background-color: #FFFEF3;
+    width: auto;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .greenTable  table td, table th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  .greenTable  table tbody td {
+    font-size: 11px;
+  }
+  
+  .greenTable  table tbody th {
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .greenTable  table tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  .greenTable table thead {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: #28A745;
+  }
+  .greenTable  table thead th {
+    font-size: 11px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+  .greenTable  table thead th:first-child {
+    border-left: none;
+  }
+  
+  .greenTable  table tfoot {
+    font-size: 13px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: #A40808;
+  }
+  .greenTable table tfoot td {
+    font-size: 13px;
+  }
+  
+  .greenTable  table tfoot .links {
+    text-align: right;
+  }
+  .greenTable  table tfoot .links a{
+    display: inline-block;
+    background: #FFFFFF;
+    color: #A40808;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+  
+  .inline-container {
+    margin: 1px;
+    display: flex;
+    align-items: center; /* Alinea los elementos verticalmente si es necesario */
+  }  
+  
+  .inline-container input,
+  .inline-container c-dropdown,
+  .inline-container span {
+    margin-right: 5px; /* Espacio personalizado entre los elementos */
+  }
+  h2 {
+      text-align: center;
+    }
+    
+  .svgT{
+    fill:#12de20
+  }
+  
+  .svgF{
+    fill:#d60a0a
+  }
+  
+  //  si esta atrasada o tiene entrega hoy que la casilla de la fecha tenga un verde clarito: #58D68D
+  // si tiene hasta dos dias para adelante un amarillo clarito: #F9E79F
+  // y si esta mas de dos dias adelante un rojo Clarito: #EC7063
+  
+  // Cuadro de tabla fecha de pedido segun su numero
+  .atrasada {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  width: 75px;
+  background: #58D68D;
+  }
+  
+  .adelantada {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  width: 75px;
+  background: #F9E79F;
+  }
+  
+  .muyAdelantada {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  width: 75px;
+  background: #EC7063;
+  }
+  .entregado {
+  font-size: 10px;
+  color: #000000;
+  background: #EC7063;
+  }
+  
+  .noRecepcion{
+  display: flex;
+  justify-content: center;
+  }
+  
+  .noRecepcion p{
+  font-weight: bold;
+  font-size: 20px;
+  }
+  
+  .titulo-R{
+  padding: 2rem;
+  }
+
+  .color-box {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000;
+    text-align: center;
+    line-height: 100px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #fff;
+  }
+
+  h2 {
+    text-align: center;
+}
+.error {
+    color : red
+}

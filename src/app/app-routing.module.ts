@@ -179,6 +179,10 @@ const routes: Routes = [
       },
       {
         path: 'rsv',
+        data : {
+          roles : ROLES_PERMITIDOS.RSV
+        },
+        canActivate :[PermissionGuard],
         loadChildren: () =>
           import('./views/rsv/rsv.module').then((m) => m.RsvModule)
       },
