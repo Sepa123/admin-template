@@ -62,7 +62,8 @@ export class VentasComponent {
         Unidades: this.fb.control("", [Validators.required] ),
         Id_user : this.fb.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
         Ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-        Descripcion : this.fb.control("")
+        Descripcion : this.fb.control(""),
+        Precio : this.fb.control("")
     })
   }
 
@@ -93,6 +94,11 @@ export class VentasComponent {
 
     })
 
+  }
+
+  multiplicarPrecio()
+  {
+    
   }
 
 

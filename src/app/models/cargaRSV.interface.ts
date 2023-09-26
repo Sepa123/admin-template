@@ -7,5 +7,7 @@ export interface CargaRSV {
     Unidades: number,
     Id_user : string,
     Ids_user : string,
+    Verificado: boolean | null,
+    Etiquetas: boolean | null
     
 }

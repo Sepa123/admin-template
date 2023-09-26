@@ -5,6 +5,8 @@ import { AgregarProductoComponent } from './agregar-producto/agregar-producto.co
 import { CrearCargaComponent } from './crear-carga/crear-carga.component';
 import { VentasComponent } from './ventas/ventas.component';
 import { RecepcionComponent } from './recepcion/recepcion.component';
+import { ListarCargaComponent } from './listar-carga/listar-carga.component';
+
 const routes: Routes = [
   {
     path:'',
@@ -43,6 +45,13 @@ const routes: Routes = [
       {
         path : 'recepcion',
         component : RecepcionComponent,
+        data : {
+          title : "Recepción"
+        } 
+      },
+      {
+        path : 'listar-carga',
+        component : ListarCargaComponent,
         data : {
           title : "Recepción"
         } 

@@ -14,13 +14,13 @@
         <c-col [xs]>
             <input type="text" placeholder="Nombre Carga" class="form-control" formControlName="Nombre_carga" (change)="cargaUnica()">
                 <span class="error" *ngIf="cargasForm.get('Nombre_carga')?.errors?.['required'] && isErrorView">
-                    Falta agregar el nombre de la carga
+                    requerido nombre de la carga
                 </span> 
         </c-col>
         <c-col [xs]>
             <input type="date" class="form-control" formControlName="Fecha_ingreso" >
             <span class="error" *ngIf="cargasForm.get('Fecha_ingreso')?.errors?.['required'] && isErrorView">
-                Falta agregar la fecha de ingreso
+                requerida fecha de ingreso
             </span> 
         </c-col>
         <c-col [xs]>
@@ -47,7 +47,7 @@
                         </option>
                     </select>
                     <span class="error" *ngIf="carga.get('Color')?.errors?.['required'] && isErrorView">
-                        Falta seleccionar un color
+                        requerid color
                     </span>
                  </div>   
             </c-col>
@@ -65,7 +65,7 @@
                         </option>
                     </select>
                     <span class="error" *ngIf="carga.get('Codigo')?.errors?.['required'] && isErrorView">
-                        Falta seleccionar un código
+                        requerido código
                     </span>
                  </div>   
             </c-col>
@@ -77,13 +77,13 @@
                     <c-col [xs]>
                         <input type="number" placeholder="paquetes" class="form-control" formControlName="Paquetes" >
                         <span class="error" *ngIf="carga.get('Paquetes')?.errors?.['required'] && isErrorView">
-                            Falta agregar la cantidad Paquetes
+                            requerida cantidad Paquetes
                         </span>
                     </c-col>
                     <c-col [xs]>
                         <input type="number" placeholder="Unidades" class="form-control" formControlName="Unidades" >
                         <span class="error" *ngIf="carga.get('Unidades')?.errors?.['required'] && isErrorView">
-                            Falta agregar las Unidades
+                            requerida Unidades
                         </span>
                     </c-col>
                     <c-col [xs]>
