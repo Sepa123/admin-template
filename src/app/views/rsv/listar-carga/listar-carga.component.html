@@ -8,88 +8,6 @@
     </c-modal-header>
     <c-modal-body>
 
-        <form cForm [formGroup]="cargasForm"> 
-            <c-row>
-                <c-col [xs]>
-                    <input type="text" placeholder="Nombre Carga" class="form-control" formControlName="Nombre_carga" (change)="cargaUnica()">
-                        <span class="error" *ngIf="cargasForm.get('Nombre_carga')?.errors?.['required'] && isErrorView">
-                            requerido nombre de la carga
-                        </span> 
-                </c-col>
-                <c-col [xs]>
-                    <input type="date" class="form-control" formControlName="Fecha_ingreso" >
-                    <span class="error" *ngIf="cargasForm.get('Fecha_ingreso')?.errors?.['required'] && isErrorView">
-                        requerida fecha de ingreso
-                    </span> 
-                </c-col>
-                <c-col [xs]>
-            
-                </c-col>
-                <c-col [xs]>
-            
-                </c-col>
-        
-            </c-row>
-            
-            <p></p>
-            <c-row>
-                    <c-col [xs] >
-                        <div class="" >               
-                            <select id="Color" cSelect formControlName="Color"  (click)="cambio()">
-                                <option value="">colores</option>
-                                <option *ngFor="let color of colores" value={{color.Id}}  >
-                                    {{color.Nombre_color}}     
-                                </option>
-                            </select>
-                         </div>   
-                    </c-col>
-                    <c-col [xs]>
-                        <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" >
-                        <span class="error" *ngIf="carga.get('Codigo')?.errors?.['required'] && isErrorView">
-                            Falta agregar el código
-                        </span> -->
-                        <div class="" >    
-                                     
-                            <select id="Codigo" cSelect formControlName="Codigo" (change)="seleccionCodigo()" >
-                                <option value="">Codigos</option>
-                                <option *ngFor="let codigo of codigosProductos" value={{codigo.Codigo}}  >
-                                    {{codigo.Codigo}}     
-                                </option>
-                            </select>
-                         </div>   
-                    </c-col>
-                    <c-col [xs]>
-                        <input type="text" placeholder="Descripcion" class="form-control" formControlName="Descripcion" readonly>
-                    </c-col>
-                    <c-col [xs]>
-                        <c-row>
-                            <c-col [xs]>
-                                <input type="number" placeholder="paquetes" class="form-control" formControlName="Paquetes" >
-                            </c-col>
-                            <c-col [xs]>
-                                <input type="number" placeholder="Unidades" class="form-control" formControlName="Unidades" >
-                            </c-col>
-                        </c-row>
-                    </c-col>
-                </c-row>
-                <p></p>
-                <c-row>
-                    <c-col [xs]>
-                        <button class="btn btn-success" type="submit">Guardar 
-                            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-                        </button>
-                    </c-col>
-                    <c-col [xs]>
-                    </c-col>
-                    <c-col [xs]>
-                        
-                    </c-col>
-                    <c-col [xs]>
-                        
-                    </c-col>
-                </c-row>
-                </form>
-      
     </c-modal-body>
     <c-modal-footer>
       <button (click)="toggleLiveDemo()" cButton color="secondary">
@@ -98,17 +16,55 @@
     </c-modal-footer>
   </c-modal>
 
+
+
+<!-- <button (click)="toggleLiveDemo()">editar</button> -->
+<c-row>
+    <c-col [xs]>
+         Seleccionar mes  :
+        <select id="Mes" cSelect [(ngModel)]="MesSeleccionado">
+            <option value="">Mes</option>
+            <option *ngFor="let mes of meses" value={{mes.Valor}}  >
+                {{mes.Nombre}}     
+            </option>
+        </select>
+    </c-col>
+    <c-col [xs]>
+        Seleccionar año:
+        <select id="Mes" cSelect [(ngModel)]="AnoSeleccionado">
+            <option value="">Año</option>
+            <option *ngFor="let ano of listaAnos" value={{ano}}  >
+                {{ano}}     
+            </option>
+        </select>
+    </c-col>
+    <c-col [xs]>
+        <p></p>
+        <button  cButton  color="secondary" size="lg" (click)="filtrarListaCargaPorMes(AnoSeleccionado+MesSeleccionado)">Buscar</button>
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+</c-row>
+
+
+  <p></p>
 <div class="greenTable">
     <table id="tablaProductosPicking" style="width: 50%">
         <thead>
             <tr>
                 <!-- <th>Código de Cliente</th> -->
+                <th>Sucursal</th>
+                <th>Fecha Ingreso</th>
                 <th>Carga</th>
-                <th>Etiquetas</th>
+                <th>Verificado</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let carga of tablaCarga ">
+                <td>{{carga.Sucursal}}</td>
+                <td>{{carga.Fecha_ingreso}}</td>
                 <td>{{carga.Nombre_carga}}</td>
                  <td *ngIf="carga.Etiquetas === true" >
                     <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
@@ -118,10 +74,17 @@
                   </td>  -->
                   <td *ngIf="carga.Etiquetas === false">
                     <!-- <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m18.988 2.012l3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287l-3-3L8 13z"/><path fill="currentColor" d="M19 19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"/></svg> -->
-                    <button (click)="verificarCarga(carga.Nombre_carga+'')">verificar</button>
+                    <button cButton  color="secondary" size="sm" (click)="verificarCarga(carga.Nombre_carga+'')">verificar</button>
                 </td>
-                <td>
-                    <button (click)="verEtiquetas(carga.Nombre_carga+'')">revisar etiquetas</button>
+                <td *ngIf="carga.Etiquetas === true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verEtiquetas(carga.Nombre_carga+'')"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+
+                    <!-- <button cButton  color="secondary" size="sm" (click)="verEtiquetas(carga.Nombre_carga+'')">revisar etiquetas</button> -->
+                </td>
+            </tr>
+            <tr *ngIf="tablaCarga.length == 0">
+                <td colspan="3">
+                    No hay registros
                 </td>
             </tr>
         </tbody>

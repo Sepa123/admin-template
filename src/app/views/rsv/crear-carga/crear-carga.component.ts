@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angu
 import { RsvService } from 'src/app/service/rsv.service'
 import { CatalogoRSV,ColoresRSV,CatalogoPorColor } from 'src/app/models/catalogoRSV.iterface';
 import { CargaRSV } from 'src/app/models/cargaRSV.interface'
+import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
 
 @Component({
   selector: 'app-crear-carga',
@@ -14,6 +15,7 @@ export class CrearCargaComponent {
   
   skillsForm: FormGroup;
   colores : ColoresRSV[] = []
+  sucursalesRSV : SucursalRSV [] = []
 
   codigosProductos : CatalogoPorColor [] = []
 
@@ -28,6 +30,7 @@ export class CrearCargaComponent {
     this.cargasForm = this.fb.group({
       Nombre_carga : this.fb.control("", [Validators.required] ),
       Fecha_ingreso : this.fb.control("", [Validators.required] ),
+      Sucursal : this.fb.control("", [Validators.required] ),
       arrays : this.fb.array([])
     })
  
@@ -57,6 +60,7 @@ export class CrearCargaComponent {
     return this.fb.group ({
         Nombre_carga : this.fb.control(""),
         Fecha_ingreso : this.fb.control(""),
+        Sucursal : this.fb.control(""),
         Codigo : this.fb.control("", [Validators.required] ),
         Color : this.fb.control("", [Validators.required] ),
         Paquetes : this.fb.control("", [Validators.required] ),
@@ -144,12 +148,17 @@ export class CrearCargaComponent {
           this.cargasForm.value.arrays.map((data : any) => {
             data["Nombre_carga"] = this.cargasForm.value.Nombre_carga
             data["Fecha_ingreso"] = this.cargasForm.value.Fecha_ingreso
+            data["Sucursal"] = this.cargasForm.value.Sucursal
           })
 
           this.service.agregar_nuevo_catalogo(this.cargasForm.value.arrays).subscribe((data : any) => {
             alert(data.message)
 
             this.cargasForm.reset() 
+
+            this.cargasForm.patchValue({
+              Sucursal : ""
+            })
 
             for (let index = indexArray; index >= 0; index--) {
               console.log(index)
@@ -171,8 +180,11 @@ export class CrearCargaComponent {
 
   ngOnInit(){
     this.service.get_colores_rsv().subscribe((data) => {
-      this.colores = data
-      
+      this.colores = data 
+    })
+
+    this.service.get_sucursales().subscribe((data) => {
+      this.sucursalesRSV = data
     })
   }
 

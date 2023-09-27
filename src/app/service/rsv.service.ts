@@ -4,6 +4,8 @@ import { interval,Observable, switchMap  } from 'rxjs';
 import {CatalogoRSV, ColoresRSV,CatalogoPorColor } from 'src/app/models/catalogoRSV.iterface'
 import { EtiquetaRSV } from 'src/app/models/etiquetaRSV.interface'
 import { CargaRSV } from 'src/app/models/cargaRSV.interface'
+import {SucursalRSV} from 'src/app/models/sucursalRSV.interface'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -44,6 +46,11 @@ export class RsvService {
   // lista de solo nombre carga y si tienen etiquetas generadas
   get_listar_cargas(){
     return this.http.get<CargaRSV []>(this.apiurl + "/listar/cargas")
+  }
+
+  // lista de solo nombre carga y si tienen etiquetas generadas filtrado por mes
+  get_listar_cargas_por_mes(mes : string){
+    return this.http.get<CargaRSV []>(this.apiurl + `/listar/cargas/mes?mes=${mes}`)
   }
 
   // lista de solo nombre carga y si tienen etiquetas generadas
@@ -102,5 +109,11 @@ export class RsvService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
+
+  /// sucursal
+
+  get_sucursales(){
+    return this.http.get<SucursalRSV[]>(this.apiurl + "/sucursales") 
   }
 }

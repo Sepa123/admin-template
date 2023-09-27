@@ -8,6 +8,7 @@ export interface CargaRSV {
     Id_user : string,
     Ids_user : string,
     Verificado: boolean | null,
-    Etiquetas: boolean | null
+    Etiquetas: boolean | null,
+    Sucursal: string | null
     
 }

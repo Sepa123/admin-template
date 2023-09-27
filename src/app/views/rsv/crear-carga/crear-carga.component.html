@@ -7,6 +7,7 @@
 
     </button> -->
 
+    
 <p></p>
 
 <form cForm [formGroup]="cargasForm" (ngSubmit)="onSubmit()"> 
@@ -24,7 +25,16 @@
             </span> 
         </c-col>
         <c-col [xs]>
-    
+            <select id="Color" cSelect formControlName="Sucursal">
+                <option value="">Sucursales</option>
+                <option *ngFor="let sucursal of sucursalesRSV" value={{sucursal.Id}}  >
+                    {{sucursal.Nombre}}     
+                </option>
+            </select>
+            <!-- <input type="text" placeholder="Sucursal" class="form-control" formControlName="Sucursal"> -->
+                <span class="error" *ngIf="cargasForm.get('Sucursal')?.errors?.['required'] && isErrorView">
+                    Requerido sucursal
+                </span> 
         </c-col>
         <c-col [xs]>
     

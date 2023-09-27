@@ -4,6 +4,7 @@ import { RsvService } from 'src/app/service/rsv.service'
 import { CatalogoRSV,ColoresRSV,CatalogoPorColor } from 'src/app/models/catalogoRSV.iterface';
 import { CargaRSV } from 'src/app/models/cargaRSV.interface'
 import { EtiquetaRSV } from 'src/app/models/etiquetaRSV.interface';
+import { MES } from 'src/app/models/enum/meses.enum';
 
 @Component({
   selector: 'app-listar-carga',
@@ -16,10 +17,17 @@ export class ListarCargaComponent {
   
   colores : ColoresRSV[] = []
 
+  MesSeleccionado : string = ""
+  AnoSeleccionado : string =""
+  añoActual : string =""
+
+  meses : any [] = []
+
+  listaAnos : string [] = []
+
   codigosProductos : CatalogoPorColor [] = []
 
   arrayCodigosProductos : CatalogoPorColor[][] = []
-  cargasForm : FormGroup;
 
   nombreCargaExiste : boolean = false
 
@@ -52,33 +60,46 @@ export class ListarCargaComponent {
   }
 
   constructor(private fb:FormBuilder,private service: RsvService) {
-
-    this.cargasForm = this.fb.group({
-        Nombre_carga : this.fb.control(""),
-        Fecha_ingreso : this.fb.control(""),
-        Codigo : this.fb.control("", [Validators.required] ),
-        Color : this.fb.control("", [Validators.required] ),
-        Paquetes : this.fb.control("", [Validators.required] ),
-        Unidades: this.fb.control("", [Validators.required] ),
-        Id_user : this.fb.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
-        Ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-        Descripcion : this.fb.control("")
-    })
+    
+    this.meses = [
+      { Nombre: 'Enero', Valor: '01' },
+      { Nombre: 'Febrero', Valor: '02' },
+      { Nombre: 'Marzo', Valor: '03' },
+      { Nombre: 'Abril', Valor:'04' },
+      { Nombre: 'Mayo', Valor: '05' },
+      { Nombre: 'Junio', Valor:'06' },
+      { Nombre: 'Julio', Valor: '07' },
+      { Nombre: 'Agosto', Valor: '08' },
+      { Nombre: 'Septiembre', Valor: '09' },
+      { Nombre: 'Octubre', Valor: '10' },
+      { Nombre: 'Noviembre', Valor: '11' },
+      { Nombre: 'Diciembre', Valor: '12' }
+    ]
 
   }
-
+  
   ngOnInit(){
+
+    const fechaActual = new Date();
+    const añoActual = fechaActual.getFullYear().toString();
+    const mesActual = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+
+    const añoInicial = 2020;
+    const años = [];
+
+    for (let año = añoInicial; año <= parseInt(añoActual); año++) {
+        años.push(año.toString());
+    }
+
+    this.listaAnos = años
+
     this.service.get_colores_rsv().subscribe((data) => {
       this.colores = data
       
     })
-    this.service.get_listar_cargas().subscribe((data)=> {
+    this.service.get_listar_cargas_por_mes(añoActual+''+mesActual).subscribe((data)=> {
       this.tablaCarga = data
     })
-
-    // this.service.getEtiquetaPorCarga("CONTENEDOR05-Inicial","KPS6208NO").subscribe((data) => {
-    //   console.log(data[0].Bar_code)
-    // })
   }
 
   verEtiquetas(nombre_carga : string) {
@@ -100,21 +121,11 @@ export class ListarCargaComponent {
     this.service.downloadEtiquetasExcel(this.cargaSeleccionada, codigo)
   }
 
-  seleccionCodigo(){
-    const codigo : string = this.cargasForm.value.Codigo
-    const producto = this.codigosProductos.find(cod => cod.Codigo == codigo)?.Producto
-    this.cargasForm.patchValue({
-            Descripcion : producto
-          })
 
-    // alert(codigo)
-  }
-
-
-  cambio(){
-    const color : number = this.cargasForm.value.Color
-    this.service.filtrar_catalogo_por_color(color).subscribe((data)=> {
-      this.codigosProductos = data
+  filtrarListaCargaPorMes(año : string){
+    this.arrlistaEtiquetas = []
+    this.service.get_listar_cargas_por_mes(año).subscribe((data)=> {
+      this.tablaCarga = data
     })
   }
 
@@ -128,36 +139,7 @@ export class ListarCargaComponent {
     })
   }
 
-
-
-
-
-
-
-
-
-
- 
-  cargaUnica(){
-    const nombreCarga = this.cargasForm.value.Nombre_carga
-    this.service.buscar_carga_por_nombre_carga(nombreCarga.trim()).subscribe((data : any)=> {
-      if(data.repetido){
-        alert(data.message)
-        this.nombreCargaExiste = true
-      }else{
-        this.nombreCargaExiste = false
-      }
-      this.service.get_listar_cargas().subscribe((data)=> {
-        this.tablaCarga = data
-      })
-    })
-  }
-
-
-
-
-
-  }
+}
 
   
 

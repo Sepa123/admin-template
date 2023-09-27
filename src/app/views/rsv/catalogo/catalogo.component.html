@@ -96,13 +96,13 @@
             </div>
         </c-col>
         <c-col [xs]>
-            <div class="">
+            <div class=""  *ngIf="botonEditar == false">
                 Ubicación paquete
                  <input type="text" class="form-control"  placeholder="Ubicación paquete" formControlName="Ubicacion_p" >
              </div>
         </c-col>
         <c-col [xs]>
-            <div class="">
+            <div class=""  *ngIf="botonEditar == false">
                 Ubicación unidad
                  <input type="text" class="form-control"  placeholder="Ubicación unidad" formControlName="Ubicacion_u" >
              </div>
