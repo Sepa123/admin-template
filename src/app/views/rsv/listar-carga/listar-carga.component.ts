@@ -48,6 +48,8 @@ export class ListarCargaComponent {
 
   cargaSeleccionada : string = ""
 
+  cargaPrevia : number = 0
+
 // modales 
   isModalOpen: boolean = false
   public visible = false;
@@ -242,8 +244,11 @@ export class ListarCargaComponent {
         this.arrays.push(this.addCargaExistente(carga))
         this.arrayCodigosProductos.push(this.codigosProductosFull.filter(codigo => codigo.Color == carga.Color))
 
+        
         this.seleccionCodigo(i)
       })
+
+      this.cargaPrevia = data.length
 
       this.cargasForm.patchValue({
         Nombre_carga : data[0].Nombre_carga,
@@ -283,11 +288,23 @@ export class ListarCargaComponent {
   }
 
   onSubmit(){
-    console.log(this.cargasForm.value.arrays)
+    console.log(this.cargasForm.value)
     console.log("this.codigoEliminar")
-    console.log(this.codigoEliminar)
+    console.log(this.codigoEliminar.toString())
+    this.cargasForm.value.arrays.map((data : any) => {
+      data["Nombre_carga"] = this.cargasForm.value.Nombre_carga
+      data["Fecha_ingreso"] = this.cargasForm.value.Fecha_ingreso
+      data["Sucursal"] = this.cargasForm.value.Sucursal
+    })
     if(this.cargasForm.valid){
-      alert("ok")
+      this.service.delete_lista_codigos_carga(this.codigoEliminar.toString()).subscribe((data) => {
+        console.log(data)
+      })
+      this.service.update_carga(this.cargasForm.value.arrays).subscribe((data : any) => {
+        alert(data.message)
+      },error => {
+        alert(error.error.detail)
+      })
     }else {
       alert("Falta algo")
     }
