@@ -21,6 +21,7 @@ import { CrearCargaComponent } from './crear-carga/crear-carga.component';
 import { VentasComponent } from './ventas/ventas.component';
 import { RecepcionComponent } from './recepcion/recepcion.component';
 import { ListarCargaComponent } from './listar-carga/listar-carga.component';
+import { InventarioSucursalesComponent } from './inventario-sucursales/inventario-sucursales.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ListarCargaComponent } from './listar-carga/listar-carga.component';
     CrearCargaComponent,
     VentasComponent,
     RecepcionComponent,
-    ListarCargaComponent
+    ListarCargaComponent,
+    InventarioSucursalesComponent
   ],
   imports: [
     CommonModule,

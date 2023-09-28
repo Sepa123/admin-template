@@ -1,0 +1,53 @@
+
+<c-row>
+    <c-col [xs]>
+        Seleccionar sucursal :
+        <select id="Mes" cSelect [(ngModel)]="sucursalSeleccionada ">
+            <option value="">Sucursales</option>
+            <option *ngFor="let sucursal of sucursales" value={{sucursal.Id}}  >
+                {{sucursal.Nombre}}     
+            </option>
+        </select>
+    </c-col>
+    <c-col [xs]>
+    </c-col>
+    <c-col [xs]>
+        <p></p>
+        <button  cButton  color="secondary" size="lg" (click)="buscarInventarioPorSucursal()">Buscar</button>
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+</c-row>
+
+
+  <p></p>
+<div class="greenTable" *ngFor="let arr of arrInventarioSucursal; let i = index">
+    <!-- {{arr | json}} -->
+    <table id="tablaProductosPicking" style="width: 60%">
+        <thead>
+            <tr>
+                <th colspan="5" style="justify-content: left;">Color : {{arr[0].Color}}</th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Producto</th>
+                <th>Paquetes</th>
+                <th>Unidades</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inventario of arr">
+                <td>{{inventario.Codigo}}</td>
+                <td>{{inventario.Producto}}</td>
+                <td>{{inventario.Paquetes}}</td>
+                <td>{{inventario.Unidades}}</td>
+                <td>{{inventario.Total}}</td>
+            </tr>
+        </tbody>
+</table>
+<p></p>
+</div>

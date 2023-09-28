@@ -5,7 +5,8 @@ import {CatalogoRSV, ColoresRSV,CatalogoPorColor } from 'src/app/models/catalogo
 import { EtiquetaRSV } from 'src/app/models/etiquetaRSV.interface'
 import { CargaRSV } from 'src/app/models/cargaRSV.interface'
 import {SucursalRSV} from 'src/app/models/sucursalRSV.interface'
-
+import { InventarioSucursal } from 'src/app/models/inventarioSucursal.interface'
+import { DatosCargaRSV } from 'src/app/models/datosCargaRSV.interface'
 @Injectable({
   providedIn: 'root'
 })
@@ -13,8 +14,8 @@ export class RsvService {
 
   constructor( private http : HttpClient) { }
 
-  apiurl = "https://hela.transyanez.cl/api/rsv"
-  // apiurl = "http://127.0.0.1:8000/api/rsv"
+  // apiurl = "https://hela.transyanez.cl/api/rsv"
+  apiurl = "http://127.0.0.1:8000/api/rsv"
 
   get_catalogo_rsv() {
     return this.http.get<CatalogoRSV[]>(this.apiurl + `/catalogo`)
@@ -43,6 +44,16 @@ export class RsvService {
   get_carga_rsv(){
     return this.http.get<CargaRSV []>(this.apiurl + "/cargas")
   }
+  /// obtener datos carga por nombre carga DatosCargaRSV
+
+  get_datos_carga_por_nombre_rsv(nombre_carga : string){
+    return this.http.get<DatosCargaRSV []>(this.apiurl + `/datos/etiquetas/carga/${nombre_carga}`)
+  }
+
+  // filtrar carga por nombre carga
+  get_carga_por_nombre_carga_rsv(nombre_carga : string){
+    return this.http.get<CargaRSV []>(this.apiurl + `/cargas/nombre_carga/${nombre_carga}`)
+  }
   // lista de solo nombre carga y si tienen etiquetas generadas
   get_listar_cargas(){
     return this.http.get<CargaRSV []>(this.apiurl + "/listar/cargas")
@@ -65,6 +76,11 @@ export class RsvService {
   }
 
   // filtrar catalogo por color
+
+  catalogo_por_colo_sin_filtro(){
+    return this.http.get<CatalogoPorColor[]>(this.apiurl + `/catalogo/color/sin_filtro`)
+  }
+
 
   filtrar_catalogo_por_color(color : number){
     return this.http.get<CatalogoPorColor[]>(this.apiurl + `/catalogo/color?color=${color}`)
@@ -96,24 +112,25 @@ export class RsvService {
 
   ///  etiquetas/carga/descargar
 
-  downloadEtiquetasExcel(nombre_carga : string, codigo : string) {
-    let date = new Date();
-    const fechaActual = date.toISOString().split('T')[0];
-
-    this.http.get(this.apiurl + `/etiquetas/carga/descargar?nombre_carga=${nombre_carga}&codigo=${codigo}`, {responseType:"blob"})
+  downloadEtiquetasExcel(nombre_carga : string, codigo : string , tipo : string) {
+    this.http.get(this.apiurl + `/etiquetas/carga/descargar?nombre_carga=${nombre_carga}&codigo=${codigo}&tipo=${tipo}`, {responseType:"blob"})
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url
-      a.download = `${nombre_carga}-${codigo}.xlsx`;
+      a.download = `${nombre_carga}-${codigo}-${tipo}.xlsx`;
         a.click();
         window.URL.revokeObjectURL(url);
     })
   }
 
-  /// sucursal
+ 
 
   get_sucursales(){
     return this.http.get<SucursalRSV[]>(this.apiurl + "/sucursales") 
+  }
+ /// sucursal
+  get_inventario_por_sucursales(sucursal : number){
+    return this.http.get<InventarioSucursal[]>(this.apiurl + `/inventario/sucursales/${sucursal}`) 
   }
 }

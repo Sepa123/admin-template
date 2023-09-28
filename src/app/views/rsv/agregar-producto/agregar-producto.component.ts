@@ -82,7 +82,8 @@ export class AgregarProductoComponent {
   cambio(index : number){
     this.arrayCodigosProductos[index] = [{
       "Codigo": "",
-      "Producto": ""
+      "Producto": "",
+      "Color" : 0
     }]
     const color : number = this.cargasForm.value.arrays[index].Color
 
@@ -125,12 +126,14 @@ export class AgregarProductoComponent {
 
     this.arrayCodigosProductos.push([{
       "Codigo": "",
-      "Producto": ""
+      "Producto": "",
+      "Color" : 0
     }])
 
     this.arrayCodigosProductos[this.arrays.length-1] = [{
       "Codigo": "",
-      "Producto": ""
+      "Producto": "",
+      "Color" : 0
     }]
 
     console.log(this.arrayCodigosProductos)

@@ -31,4 +31,5 @@ export interface ColoresRSV {
 export interface CatalogoPorColor {
     Codigo:         string;
     Producto:       string;
+    Color :         number;
 }

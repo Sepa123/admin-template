@@ -18,7 +18,7 @@ export class CrearCargaComponent {
   sucursalesRSV : SucursalRSV [] = []
 
   codigosProductos : CatalogoPorColor [] = []
-
+  codigosProductosFull : CatalogoPorColor[] = []
   arrayCodigosProductos : CatalogoPorColor[][] = []
   cargasForm : FormGroup;
 
@@ -86,29 +86,41 @@ export class CrearCargaComponent {
   cambio(index : number){
     this.arrayCodigosProductos[index] = [{
       "Codigo": "",
-      "Producto": ""
+      "Producto": "",
+      "Color" : 0
     }]
+
+    
     const color : number = this.cargasForm.value.arrays[index].Color
 
-    this.service.filtrar_catalogo_por_color(color).subscribe((data)=> {
-      this.codigosProductos = data
-      // this.arrayCodigosProductos = data
-      this.arrayCodigosProductos[index] = this.codigosProductos
-      console.log(this.arrayCodigosProductos[index][0].Codigo)
+    this.arrayCodigosProductos[index] = this.codigosProductosFull.filter(codigo => codigo.Color == color)
+    // console.log(this.arrayCodigosProductos[index][0].Codigo)
+    // this.service.filtrar_catalogo_por_color(color).subscribe((data)=> {
+    //   this.codigosProductos = data
+    //   // this.arrayCodigosProductos = data
+    //   this.arrayCodigosProductos[index] = this.codigosProductos
+    //   console.log(this.arrayCodigosProductos[index][0].Codigo)
 
-    })
+    // })
 
   }
 
 
   seleccionCodigo(i : number){
     const codigo : string = this.cargasForm.value.arrays[i].Codigo
+
+    const codigoRepetido = this.cargasForm.value.arrays.filter((dato : any) => dato.Codigo == codigo)
+    console.log(codigoRepetido)
+    if(codigoRepetido.length > 1) {
+      this.arrays.at(i).patchValue({
+        Codigo : ""
+      })
+      return alert("El producto "+codigo+" ya esta registrado en esta carga")
+    }
     const producto = this.arrayCodigosProductos[i].find(cod => cod.Codigo == codigo)?.Producto
     this.arrays.at(i).patchValue({
             Descripcion : producto
           })
-
-    // alert(codigo)
   }
 
   addCargas() {
@@ -116,12 +128,14 @@ export class CrearCargaComponent {
 
     this.arrayCodigosProductos.push([{
       "Codigo": "",
-      "Producto": ""
+      "Producto": "",
+      "Color" : 0
     }])
 
     this.arrayCodigosProductos[this.arrays.length-1] = [{
       "Codigo": "",
-      "Producto": ""
+      "Producto": "",
+      "Color" : 0
     }]
 
     console.log(this.arrayCodigosProductos)
@@ -185,6 +199,10 @@ export class CrearCargaComponent {
 
     this.service.get_sucursales().subscribe((data) => {
       this.sucursalesRSV = data
+    })
+
+    this.service.catalogo_por_colo_sin_filtro().subscribe(data => {
+      this.codigosProductosFull = data
     })
   }
 
