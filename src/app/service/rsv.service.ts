@@ -14,8 +14,8 @@ export class RsvService {
 
   constructor( private http : HttpClient) { }
 
-  // apiurl = "https://hela.transyanez.cl/api/rsv"
-  apiurl = "http://127.0.0.1:8000/api/rsv"
+  apiurl = "https://hela.transyanez.cl/api/rsv"
+  // apiurl = "http://127.0.0.1:8000/api/rsv"
 
   get_catalogo_rsv() {
     return this.http.get<CatalogoRSV[]>(this.apiurl + `/catalogo`)
