@@ -50,18 +50,16 @@ export class VentasComponent {
     this.ventasForm = this.fb.group({
       Id_user : this.fb.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
       Ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-      Nombre_carga : this.fb.control("", [Validators.required] ),
       Cliente : this.fb.control("", [Validators.required] ),
       Sucursal : this.fb.control("", [Validators.required] ),
-      Fecha_ingreso : this.fb.control("", [Validators.required] ),
       Direccion : this.fb.control("", [Validators.required]),
       Region : this.fb.control("", [Validators.required]),
       Comuna : this.fb.control("", [Validators.required]),
       Fecha_entrega : this.fb.control("", [Validators.required]),
       Tipo_despacho : this.fb.control("", [Validators.required]),
       Numero_factura : this.fb.control("", [Validators.required]),
-      Codigo_ty : this.fb.control("", [Validators.required]),
-      Entregado : this.fb.control(false, [Validators.required]),
+      Codigo_ty : this.fb.control(""),
+      Entregado : this.fb.control(false),
       arrays : this.fb.array([])
     })
  
@@ -89,23 +87,13 @@ export class VentasComponent {
 
   newProducto(): FormGroup {
     return this.fb.group ({
-        Id_venta : this.fb.control(""),
+        Id_venta : this.fb.control(0),
         Codigo : this.fb.control("", [Validators.required]),
         Unidades : this.fb.control("", [Validators.required]),
         Id_user : this.fb.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
         Ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
         Descripcion : this.fb.control(""),
-        // Nombre_carga : this.fb.control(""),
-        // Fecha_ingreso : this.fb.control(""),
-        // Sucursal : this.fb.control(""),
-        // Codigo : this.fb.control("", [Validators.required] ),
         Color : this.fb.control("", [Validators.required] ),
-        // Paquetes : this.fb.control("", [Validators.required] ),
-        // Unidades: this.fb.control("", [Validators.required] ),
-        // Id_user : this.fb.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
-        // Ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-        // Descripcion : this.fb.control(""),
-        // Precio : this.fb.control("")
     })
   }
 
@@ -125,6 +113,10 @@ export class VentasComponent {
     const selectedRegionId = event.target.value;
     console.log('Región seleccionada:', selectedRegionId);
     this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
+    this.ventasForm.patchValue({
+      Comuna : this.listaComunas[0].Nombre_comuna
+    })
+
   }
 
   cambio(index : number){
@@ -184,42 +176,52 @@ export class VentasComponent {
     this.isErrorView = true
     const indexArray = this.ventasForm.value.arrays.length
 
-    console.log(this.ventasForm.value.arrays)
+    console.log("this.ventasForm.value.arrays")
+    console.log(this.ventasForm.value.Region)
+    // const comuna = this.listaComunasFull.filter(lista => lista.Id == )
+    const region = this.listaRegiones.filter(lista => lista.Id_region  == this.ventasForm.value.Region)
+    this.ventasForm.patchValue({
+      // Region : region[0].Nombre_region,
+      Codigo_ty : "rsvty"
+    })
 
-    // if(this.ventasForm.valid){
-    //   const nombreCarga = this.ventasForm.value.Nombre_carga
-    //   this.service.buscar_carga_por_nombre_carga(nombreCarga.trim()).subscribe((data : any)=> {
-    //     if(data.repetido){
-    //       alert(data.message)
-    //       this.nombreCargaExiste = true
-    //     }else{
-    //       this.nombreCargaExiste = false
-    //       this.ventasForm.value.arrays.map((data : any) => {
-    //         data["Nombre_carga"] = this.ventasForm.value.Nombre_carga
-    //         data["Fecha_ingreso"] = this.ventasForm.value.Fecha_ingreso
-    //       })
+    if(this.ventasForm.valid){
+      this.ventasForm.patchValue({
+        Region : region[0].Nombre_region,
+        Codigo_ty : "rsvty"
+      })
+        this.service.insert_nota_venta(this.ventasForm.value).subscribe((data:any) => {
+          alert(data.message)
+          this.ventasForm.reset() 
 
-    //       this.service.agregar_nuevo_catalogo(this.ventasForm.value.arrays).subscribe((data : any) => {
-    //         alert(data.message)
+          this.ventasForm.patchValue({
+            Codigo_ty : "rsvty",
+            Id_user : sessionStorage.getItem("id")?.toString()+"",
+            Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+            Cliente : "",
+            Sucursal : "",
+            Direccion : "",
+            Region : "",
+            Comuna :"",
+            Fecha_entrega : "",
+            Tipo_despacho : "",
+            Numero_factura : "",
+            Entregado : false,
+          })
 
-    //         this.ventasForm.reset() 
-
-    //         for (let index = indexArray; index >= 0; index--) {
-    //           console.log(index)
-    //           this.arrays.removeAt(index)
-              
-    //         }
-     
-    //         this.arrayCodigosProductos = []
-      
-    //         this.isErrorView = false
-    //       },(error) => {
-    //         alert(error.error.detail)
-    //       })
-
-    //     }
-    //   })
-    // }
+          for (let index = indexArray; index >= 0; index--) {
+            console.log(index)
+            this.arrays.removeAt(index)
+          }
+          this.arrayCodigosProductos = []
+          
+          this.isErrorView = false
+        },(error) => {
+          alert(error.error.detail)
+        })
+    } else {
+      console.log(this.ventasForm)
+    }
   }
 
   ngOnInit(){

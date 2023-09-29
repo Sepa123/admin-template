@@ -16,8 +16,8 @@ export class RsvService {
 
   constructor( private http : HttpClient) { }
 
-  apiurl = "https://hela.transyanez.cl/api/rsv"
-  // apiurl = "http://127.0.0.1:8000/api/rsv"
+  // apiurl = "https://hela.transyanez.cl/api/rsv"
+  apiurl = "http://127.0.0.1:8000/api/rsv"
 
   get_catalogo_rsv() {
     return this.http.get<CatalogoRSV[]>(this.apiurl + `/catalogo`)
@@ -155,6 +155,6 @@ export class RsvService {
   }
 
   insert_nota_venta(body : any){
-    return this.http.get(this.apiurl + `/agregar/nota_venta`,body) 
+    return this.http.post(this.apiurl + `/agregar/nota_venta`,body) 
   }
 }
