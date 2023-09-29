@@ -1,4 +1,4 @@
-<h2>Ingresar Ventas</h2>
+<h2>Nota de Ventas</h2>
 <P></P>
 
   <!-- <button class="btn btn-info" (click)="addCargas()" >
@@ -9,99 +9,146 @@
 
 <p></p>
 
-<form cForm [formGroup]="cargasForm" (ngSubmit)="onSubmit()"> 
+<form cForm [formGroup]="ventasForm" (ngSubmit)="onSubmit()"> 
     <c-row>
         <c-col [xs]>
-            <input type="text" placeholder="Nombre Carga" class="form-control" formControlName="Nombre_carga" (change)="cargaUnica()">
-                <span class="error" *ngIf="cargasForm.get('Nombre_carga')?.errors?.['required'] && isErrorView">
-                    Falta agregar el nombre de la carga
-                </span> 
+            <c-col [xs]>
+                <select id="Color" cSelect formControlName="Sucursal">
+                    <option value="">Sucursales</option>
+                    <option *ngFor="let sucursal of sucursalesRSV" value={{sucursal.Id}}  >
+                        {{sucursal.Nombre}}     
+                    </option>
+                </select>
+                    <span class="error" *ngIf="ventasForm.get('Sucursal')?.errors?.['required'] && isErrorView">
+                        Requerido sucursal
+                    </span> 
+            </c-col>
         </c-col>
         <c-col [xs]>
-            <input type="date" class="form-control" formControlName="Fecha_ingreso" >
-            <span class="error" *ngIf="cargasForm.get('Fecha_ingreso')?.errors?.['required'] && isErrorView">
+            <input type="date" class="form-control" formControlName="Fecha_entrega" >
+            <span class="error" *ngIf="ventasForm.get('Fecha_entrega')?.errors?.['required'] && isErrorView">
                 Falta agregar la fecha de ingreso
+            </span> 
+        </c-col> 
+        <c-col [xs]>
+            <input type="text" placeholder="Cliente" class="form-control" formControlName="Cliente" >
+            <span class="error" *ngIf="ventasForm.get('Cliente')?.errors?.['required'] && isErrorView">
+                Falta agregar el nombre de la carga
             </span> 
         </c-col>
         <c-col [xs]>
-    
+            <select id="Color" cSelect formControlName="Tipo_despacho">
+                <option value="">Despacho</option>
+                <option *ngFor="let despacho of tipoDespacho" value={{despacho.Id}}  >
+                    {{despacho.Despacho}}     
+                </option>
+            </select>
+                <span class="error" *ngIf="ventasForm.get('Tipo_despacho')?.errors?.['required'] && isErrorView">
+                    Requerido sucursal
+                </span> 
+        </c-col>
+    </c-row>
+    <p></p>
+    <c-row>
+        <c-col [xs]>
+            <c-row>
+                <c-col [xs]>
+                    <div class="">
+                        <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region">
+                            <option value="">Región</option>
+                            <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                        </select>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="">
+                        <select id="Comuna" cSelect formControlName="Comuna">
+                            <!-- <option value="">Comuna</option> -->
+                            <option  *ngFor="let comuna of listaComunas" value={{comuna.Nombre_comuna}} >{{comuna.Nombre_comuna}}</option>
+                        </select>
+                    </div>
+                </c-col>
+            </c-row>
         </c-col>
         <c-col [xs]>
-    
+            <input type="text" placeholder="Dirección" class="form-control" formControlName="Direccion" >
+                <span class="error" *ngIf="ventasForm.get('Direccion')?.errors?.['required'] && isErrorView">
+                    Falta agregar el nombre de la carga
+                </span> 
         </c-col>
+    </c-row>
+    <p></p>
+    <c-row>
+        <c-col [xs]>
+            <input type="text" placeholder="Numero_factura" class="form-control" formControlName="Numero_factura" >
+            <span class="error" *ngIf="ventasForm.get('Numero_factura')?.errors?.['required'] && isErrorView">
+                Falta agregar el nombre de la carga
+            </span> 
+        </c-col>
+        <c-col [xs]>
 
+        </c-col>
+        <c-col [xs]>
+
+        </c-col>
+        <c-col [xs]>
+
+        </c-col>
     </c-row>
     
     <p></p>
-        <div formArrayName="arrays">
+    <div formArrayName="arrays">
         <!-- <c-row> -->
         <c-row *ngFor="let carga of arrays.controls; let i = index">
             <c-row [formGroupName]="i">
                 {{i +1}}
-                <p></p>
+            <c-col [xs] >
+                <div class="" >               
+                    <select id="Color" cSelect formControlName="Color" (change)="cambio(i)" >
+                        <option value="">colores</option>
+                        <option *ngFor="let color of colores" value={{color.Id}}  >
+                            {{color.Nombre_color}}     
+                        </option>
+                    </select>
+                    <span class="error" *ngIf="carga.get('Color')?.errors?.['required'] && isErrorView">
+                        requerid color
+                    </span>
+                 </div>   
+            </c-col>
+            <c-col [xs]>
+                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" >
+                <span class="error" *ngIf="carga.get('Codigo')?.errors?.['required'] && isErrorView">
+                    Falta agregar el código
+                </span> -->
+                <div class="" >    
+                             
+                    <select id="Codigo" cSelect formControlName="Codigo" (change)="seleccionCodigo(i)" >
+                        <option value="">Codigos</option>
+                        <option *ngFor="let codigo of arrayCodigosProductos[i]" value={{codigo.Codigo}}  >
+                            {{codigo.Codigo}}     
+                        </option>
+                    </select>
+                    <span class="error" *ngIf="carga.get('Codigo')?.errors?.['required'] && isErrorView">
+                        requerido código
+                    </span>
+                 </div>   
+            </c-col>
+            <c-col [xs]>
+                <input type="text" placeholder="Descripcion" class="form-control" formControlName="Descripcion" readonly>
+            </c-col>
+            <c-col [xs]>
                 <c-row>
                     <c-col [xs]>
-                         <c-row>
-                            <c-col [xs] >
-                                <div class="" >               
-                                    <select id="Color" cSelect formControlName="Color" (change)="cambio(i)" >
-                                        <option value="">colores</option>
-                                        <option *ngFor="let color of colores" value={{color.Id}}  >
-                                            {{color.Nombre_color}}     
-                                        </option>
-                                    </select>
-                                    <span class="error" *ngIf="carga.get('Color')?.errors?.['required'] && isErrorView">
-                                        Falta seleccionar un color
-                                    </span>
-                                </div>   
-                            </c-col>
-                            <c-col [xs]>
-                                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" >
-                                <span class="error" *ngIf="carga.get('Codigo')?.errors?.['required'] && isErrorView">
-                                    Falta agregar el código
-                                </span> -->
-                                <div class="" >    
-                                            
-                                    <select id="Codigo" cSelect formControlName="Codigo" (change)="seleccionCodigo(i)" >
-                                        <option value="">Codigos</option>
-                                        <option *ngFor="let codigo of arrayCodigosProductos[i]" value={{codigo.Codigo}}  >
-                                            {{codigo.Codigo}}     
-                                        </option>
-                                    </select>
-                                    <span class="error" *ngIf="carga.get('Codigo')?.errors?.['required'] && isErrorView">
-                                        Falta seleccionar un código
-                                    </span>
-                                </div>   
-                            </c-col>
-                         </c-row>
+                        <input type="number" placeholder="Unidades" class="form-control" formControlName="Unidades" >
+                        <span class="error" *ngIf="carga.get('Unidades')?.errors?.['required'] && isErrorView">
+                            requerida Unidades
+                        </span>
                     </c-col>
                     <c-col [xs]>
-                        <input type="text" placeholder="Descripcion" class="form-control" formControlName="Descripcion" readonly>
+                        <svg xmlns="http://www.w3.org/2000/svg" (click)="removeCarga(i)" width="28" height="28" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
                     </c-col>
                 </c-row>
-                <p></p>
-                <c-row>
-                    <c-col [xs]>
-                        <c-row>
-                            <c-col [xs]>
-                                <input type="number" placeholder="Precio" class="form-control" formControlName="Precio" >
-                                <!-- <span class="error" *ngIf="carga.get('Precio')?.errors?.['required'] && isErrorView">
-                                    Falta agregar la cantidad Paquetes
-                                </span> -->
-                            </c-col>
-                            <c-col [xs]>
-                                <input type="number" placeholder="Unidades" class="form-control" formControlName="Unidades" >
-                                <span class="error" *ngIf="carga.get('Unidades')?.errors?.['required'] && isErrorView">
-                                    Falta agregar las Unidades
-                                </span>
-                            </c-col>
-                            <c-col [xs]>
-                                <svg xmlns="http://www.w3.org/2000/svg" (click)="removeCarga(i)" width="28" height="28" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
-                            </c-col>
-                        </c-row>
-                    </c-col>
-                </c-row>
-                <p></p>
+            </c-col>
         </c-row>
             <p></p>
         </c-row>

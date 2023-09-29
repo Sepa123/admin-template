@@ -7,6 +7,8 @@ import { CargaRSV } from 'src/app/models/cargaRSV.interface'
 import {SucursalRSV} from 'src/app/models/sucursalRSV.interface'
 import { InventarioSucursal } from 'src/app/models/inventarioSucursal.interface'
 import { DatosCargaRSV } from 'src/app/models/datosCargaRSV.interface'
+import { TipoDespacho } from 'src/app/models/tipoDespacho.inteface'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -145,5 +147,14 @@ export class RsvService {
   delete_lista_codigos_carga( lista_codigos : string , nombre_carga : string){
     return this.http.put(this.apiurl + "/eliminar/cargas", { lista : lista_codigos ,
                                                              nombre_carga : nombre_carga})
+  }
+
+  /// sucursal
+  get_tipo_despacho(){
+    return this.http.get<TipoDespacho[]>(this.apiurl + `/tipo/despacho`) 
+  }
+
+  insert_nota_venta(body : any){
+    return this.http.get(this.apiurl + `/agregar/nota_venta`,body) 
   }
 }
