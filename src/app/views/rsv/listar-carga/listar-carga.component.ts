@@ -190,8 +190,24 @@ export class ListarCargaComponent {
 
   }
 
+  // seleccionCodigo(i : number){
+  //   const codigo : string = this.cargasForm.value.arrays[i].Codigo
+  //   const producto = this.arrayCodigosProductos[i].find(cod => cod.Codigo == codigo)?.Producto
+  //   this.arrays.at(i).patchValue({
+  //           Descripcion : producto
+  //         })
+  // }
+
   seleccionCodigo(i : number){
     const codigo : string = this.cargasForm.value.arrays[i].Codigo
+    const codigoRepetido = this.cargasForm.value.arrays.filter((dato : any) => dato.Codigo == codigo)
+    console.log(codigoRepetido)
+    if(codigoRepetido.length > 1) {
+      this.arrays.at(i).patchValue({
+        Codigo : ""
+      })
+      return alert("El producto "+codigo+" ya esta registrado en esta carga")
+    }
     const producto = this.arrayCodigosProductos[i].find(cod => cod.Codigo == codigo)?.Producto
     this.arrays.at(i).patchValue({
             Descripcion : producto
@@ -297,13 +313,14 @@ export class ListarCargaComponent {
       data["Sucursal"] = this.cargasForm.value.Sucursal
     })
     if(this.cargasForm.valid){
-      this.service.delete_lista_codigos_carga(this.codigoEliminar.toString()).subscribe((data) => {
-        console.log(data)
-      })
-      this.service.update_carga(this.cargasForm.value.arrays).subscribe((data : any) => {
-        alert(data.message)
-      },error => {
-        alert(error.error.detail)
+      this.service.delete_lista_codigos_carga(this.codigoEliminar.toString(),this.cargasForm.value.Nombre_carga).subscribe((data : any) => {
+          // alert(data.message)
+        this.service.update_carga(this.cargasForm.value.arrays).subscribe((data : any) => {
+          alert(data.message)
+        },error => {
+          alert(error.error.detail)
+        })
+
       })
     }else {
       alert("Falta algo")

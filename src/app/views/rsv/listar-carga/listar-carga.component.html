@@ -22,7 +22,7 @@
                     </span> 
                 </c-col>
                 <c-col [xs]>
-                    <select id="Color" cSelect formControlName="Sucursal" readonly>
+                    <select id="Color" cSelect formControlName="Sucursal">
                         <option value="">Sucursales</option>
                         <option *ngFor="let sucursal of sucursalesRSV" value={{sucursal.Id}}  >
                             {{sucursal.Nombre}}     
@@ -184,8 +184,8 @@
                  <td *ngIf="carga.Etiquetas === true" >
                     <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
                   </td>
-                  <!-- <td *ngIf="carga.Etiquetas === false " > -->
-                    <td>
+                  <td *ngIf="carga.Etiquetas === false " >
+                    <!-- <td> -->
                     <button  cButton  color="secondary" size="sm" (click)="seleccionarCargaEditar(carga.Nombre_carga)">editar</button>
                   </td> 
                   <td *ngIf="carga.Etiquetas === false">

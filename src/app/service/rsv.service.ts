@@ -14,8 +14,8 @@ export class RsvService {
 
   constructor( private http : HttpClient) { }
 
-  // apiurl = "https://hela.transyanez.cl/api/rsv"
-  apiurl = "http://127.0.0.1:8000/api/rsv"
+  apiurl = "https://hela.transyanez.cl/api/rsv"
+  // apiurl = "http://127.0.0.1:8000/api/rsv"
 
   get_catalogo_rsv() {
     return this.http.get<CatalogoRSV[]>(this.apiurl + `/catalogo`)
@@ -142,7 +142,8 @@ export class RsvService {
 
   //eliminar listad de cargas
 
-  delete_lista_codigos_carga( lista_codigos : string){
-    return this.http.put(this.apiurl + "/eliminar/cargas", { lista : lista_codigos})
+  delete_lista_codigos_carga( lista_codigos : string , nombre_carga : string){
+    return this.http.put(this.apiurl + "/eliminar/cargas", { lista : lista_codigos ,
+                                                             nombre_carga : nombre_carga})
   }
 }
