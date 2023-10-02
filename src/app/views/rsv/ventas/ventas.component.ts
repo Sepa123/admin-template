@@ -5,7 +5,7 @@ import { CatalogoRSV,ColoresRSV,CatalogoPorColor } from 'src/app/models/catalogo
 import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
 import { ComunasService } from 'src/app/service/comunas/comunas.service';
 import { TipoDespacho } from 'src/app/models/tipoDespacho.inteface'
-
+import { EvaluacionPedidoRSV} from 'src/app/models/evaluacionPedidoRSV.interface'
 @Component({
   selector: 'app-ventas',
   templateUrl: './ventas.component.html',
@@ -15,6 +15,8 @@ export class VentasComponent {
   
   skillsForm: FormGroup;
   colores : ColoresRSV[] = []
+
+  arrEvaluacionPedidoRSV : EvaluacionPedidoRSV [] = []
 
   codigosProductos : CatalogoPorColor [] = []
 
@@ -29,18 +31,27 @@ export class VentasComponent {
   listaComunas : any [] = []
   listaComunasFull : any [] = []
 
-  // "Id_user" : 1,
-  //   "Ids_user" : "",
-  //   "Sucursal" : 1,
-  //   "Cliente" : "",
-  //   "Direccion" : "",
-  //   "Comuna" : "",
-  //   "Region" : "",
-  //   "Fecha_entrega" : "",
-  //   "Tipo_despacho" : 1,
-  //   "Numero_factura" : "",
-  //   "Codigo_ty" : "",
-  //   "Entregado" : false
+  isModalOpen: boolean = false
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    
+    this.isModalOpen = true
+
+    console.log(this.isModalOpen)
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
 
   nombreCargaExiste : boolean = false
 
@@ -94,6 +105,8 @@ export class VentasComponent {
         Ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
         Descripcion : this.fb.control(""),
         Color : this.fb.control("", [Validators.required] ),
+        Retorno : this.fb.control(""),
+        Mensaje : this.fb.control(""),
     })
   }
 
@@ -137,10 +150,45 @@ export class VentasComponent {
 
   }
 
+  
+  evaluarPedidoUnidad(i : number){
+    const body = {
+      Codigo_producto : this.ventasForm.value.arrays[i].Codigo,
+      Cantidad : this.ventasForm.value.arrays[i].Unidades,
+      Sucursal : this.ventasForm.value.Sucursal
+    }
+    this.service.verificar_existencia_producto(body).subscribe((data) => {
+      // this.arrEvaluacionPedidoRSV.push(data)
+      this.arrays.at(i).patchValue({
+        Retorno : data.Retorno,
+        Mensaje : data.Mensaje
+      })
+    })
+  }
+
+  generarCodigoVenta(){
+    this.service.get_codigo_facturas_ventas().subscribe((data : any)=>{
+      this.ventasForm.patchValue({
+        Codigo_ty : data.Codigo+""
+      })
+    })
+  }
 
   seleccionCodigo(i : number){
     const codigo : string = this.ventasForm.value.arrays[i].Codigo
+
+    const codigoRepetido = this.ventasForm.value.arrays.filter((dato : any) => dato.Codigo == codigo)
     const producto = this.arrayCodigosProductos[i].find(cod => cod.Codigo == codigo)?.Producto
+
+    if(codigoRepetido.length > 1) {
+      this.arrays.at(i).patchValue({
+        Codigo : ""
+      })
+      return alert("El producto "+codigo+" ya esta registrado en esta carga")
+    }
+
+    this.evaluarPedidoUnidad(i)
+    
     this.arrays.at(i).patchValue({
             Descripcion : producto
           })
@@ -149,6 +197,8 @@ export class VentasComponent {
   }
 
   addCargas() {
+    console.log(this.ventasForm.value.Sucursal)
+    if (this.ventasForm.value.Sucursal == "") return alert("Antes de agregar productos, debe seleccionar una sucursal")
     this.arrays.push(this.newProducto());
 
     this.arrayCodigosProductos.push([{
@@ -238,6 +288,8 @@ export class VentasComponent {
       this.listaComunas = data
       this.listaComunasFull = this.listaComunas
     })
+
+    // this.generarCodigoVenta()
 
     setTimeout(() => {
       this.service.get_sucursales().subscribe((data) => {
