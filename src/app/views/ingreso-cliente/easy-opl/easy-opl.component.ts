@@ -135,6 +135,8 @@ export class EasyOplComponent {
       this.productosPorVerificarByCP = data
       this.largo = this.productosPorVerificarByCP.length
 
+      console.log(this.largo)
+
       if(this.largo > 1){
         this.codigoProducto =  this.productosPorVerificarByCP[0].Codigo_pedido
         this.codProductoModal = this.productosPorVerificarByCP[0].Codigo_pedido

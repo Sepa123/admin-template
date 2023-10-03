@@ -18,4 +18,6 @@ export interface RutaEnActivo {
     Verificado:        boolean;
     arraySKU:          string[];
     arrayProductos:    string[];
+    arrayUnidades:     number[] ;
+    arrayBultos:       number[] | void[];
 }

@@ -8,6 +8,7 @@ import { TrackingBeetrack, LineaProducto } from 'src/app/models/trackingBeetrack
 import { TocTracking } from 'src/app/models/tocTracking.interface'
 import { AlertaConductor } from 'src/app/models/alertaConductor.interface'
 import { interval,Observable, switchMap  } from 'rxjs';
+import { CantidadUnidadesRutaActiva } from 'src/app/models/cantidadUnidadesRutaActiva.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -149,4 +150,11 @@ export class RutasService {
     return this.http.get<NombresRutasActivas[]>(this.apiurl + `/activo/nombre_ruta/filtro?fecha=${fecha}&comuna=${comuna}` )
   }
 
+
+  get_cantidad_unidades_ruta_activa(nombre_ruta : string){
+    return this.http.get<CantidadUnidadesRutaActiva[]>(this.apiurl + `/listar/activo/cantidad/productos?nombre_ruta=${nombre_ruta}` )  
+  }
+
+  
+  
 }

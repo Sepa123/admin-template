@@ -8,6 +8,8 @@ import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
 import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
 import { Nominatim } from '../../../models/nominatim.interface'
 
+import { CantidadUnidadesRutaActiva } from 'src/app/models/cantidadUnidadesRutaActiva.interface';
+
 @Component({
   selector: 'app-rutas-activas',
   templateUrl: './rutas-activas.component.html',
@@ -15,6 +17,7 @@ import { Nominatim } from '../../../models/nominatim.interface'
 })
 export class RutasActivasComponent {
 
+  listaUnidades : CantidadUnidadesRutaActiva [] =[]
   // model! : NgbDateStruct
   nombreRutaActual!:  string
   cantBultos! : number
@@ -212,43 +215,56 @@ export class RutasActivasComponent {
     this.arrayDirecciones = []
     this.loadingRuta = true
     const NombreRuta = this.nombresRutas.find(nombre => nombre.Nombre_ruta == nombreRuta)
-    this.service.get_rutas_en_activo(nombreRuta).subscribe((data) => {
+    this.service.get_cantidad_unidades_ruta_activa(this.nombreRutaActual).subscribe((data) => {
+      this.listaUnidades = data
 
-      // this.nombreRutaActual = nombreRuta
-      this.rutaEnActivo = data
-      this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  sum + bulto.Bultos, 0)
-      this.rutaEnActivo.map(ruta => {
-        if(ruta.Verificado === false && NombreRuta) NombreRuta.Verificado = false
-        this.arrayDirecciones.push(ruta.Direccion_cliente+ ","+ruta.Comuna + ", Chile")
-        ruta.arraySKU = ruta.SKU.split('@')
-        ruta.arrayProductos = ruta.Producto.split('@')
-      })
-      
+  
+      this.service.get_rutas_en_activo(nombreRuta).subscribe((data) => {
 
-      this.isClicked = true
-      this.isActive = true
-      this.loadingRuta = false
-      estado_ruta == false ? this.isActive = false : this.isActive = true
-      
-      this.driverRuta = ""
-      this.patenteRuta = ""
+        // this.nombreRutaActual = nombreRuta
+        this.rutaEnActivo = data
+        this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  sum + bulto.Bultos, 0)
+        this.rutaEnActivo.map(ruta => {
+          if(ruta.Verificado === false && NombreRuta) NombreRuta.Verificado = false
+          this.arrayDirecciones.push(ruta.Direccion_cliente+ ","+ruta.Comuna + ", Chile")
+          ruta.arraySKU = ruta.SKU.split('@')
+          ruta.arrayProductos = ruta.Producto.split('@')
+          console.log(this.listaUnidades)
+          ruta.arrayBultos = ruta.arraySKU.map((sku,i) => {
+            console.log(sku)
+            this.listaUnidades.find(lista => lista.Cod_pedido == ruta.Codigo_pedido)?.Bultos
+          })
 
-      this.service.get_patente_driver_by_nombre_ruta(this.nombreRutaActual).subscribe((data : any) => {
+          console.log(ruta.arrayBultos)
+          
+        })
         
-        if(!data.OK){
-          this.isDriver = false
-        }else {
-          this.patenteRuta = data.Patente
-          this.driverRuta = data.Driver
-          this.idRuta = data.Id_ruta
-          this.isDriver = true
-        } 
-      })
-    },
-    ((error) => {
 
-      this.isDriver = false
-    }))
+        this.isClicked = true
+        this.isActive = true
+        this.loadingRuta = false
+        estado_ruta == false ? this.isActive = false : this.isActive = true
+        
+        this.driverRuta = ""
+        this.patenteRuta = ""
+
+        this.service.get_patente_driver_by_nombre_ruta(this.nombreRutaActual).subscribe((data : any) => {
+          
+          if(!data.OK){
+            this.isDriver = false
+          }else {
+            this.patenteRuta = data.Patente
+            this.driverRuta = data.Driver
+            this.idRuta = data.Id_ruta
+            this.isDriver = true
+          } 
+        })
+      },
+      ((error) => {
+
+        this.isDriver = false
+      }))
+    }) // aqui termina el de las unidades
   
   }
 
