@@ -4,7 +4,7 @@ export interface RutaEnActivo {
     Comuna:            string;
     SKU:               string;
     Producto:          string;
-    Unidades:          number;
+    Unidades:          string;
     Bultos:            number;
     Nombre_cliente:    string;
     Direccion_cliente: string;
@@ -18,6 +18,6 @@ export interface RutaEnActivo {
     Verificado:        boolean;
     arraySKU:          string[];
     arrayProductos:    string[];
-    arrayUnidades:     number[] ;
-    arrayBultos:       number[] | void[];
+    arrayUnidades:     string[] ;
+    arrayBultos:       string[] ;
 }

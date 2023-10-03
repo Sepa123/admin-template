@@ -211,16 +211,15 @@ export class RutasActivasComponent {
   }
 
   buscarRuta (nombreRuta : string,estado_ruta : boolean) {
+    let bultos
+    let prevArrayUnidades = []
+    let currentArrayUnidades: string[] = []
     this.nombreRutaActual = nombreRuta
     this.arrayDirecciones = []
+    const regex = /\(EASY\)/;
     this.loadingRuta = true
     const NombreRuta = this.nombresRutas.find(nombre => nombre.Nombre_ruta == nombreRuta)
-    this.service.get_cantidad_unidades_ruta_activa(this.nombreRutaActual).subscribe((data) => {
-      this.listaUnidades = data
-
-  
       this.service.get_rutas_en_activo(nombreRuta).subscribe((data) => {
-
         // this.nombreRutaActual = nombreRuta
         this.rutaEnActivo = data
         this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  sum + bulto.Bultos, 0)
@@ -229,15 +228,31 @@ export class RutasActivasComponent {
           this.arrayDirecciones.push(ruta.Direccion_cliente+ ","+ruta.Comuna + ", Chile")
           ruta.arraySKU = ruta.SKU.split('@')
           ruta.arrayProductos = ruta.Producto.split('@')
-          console.log(this.listaUnidades)
-          ruta.arrayBultos = ruta.arraySKU.map((sku,i) => {
-            console.log(sku)
-            this.listaUnidades.find(lista => lista.Cod_pedido == ruta.Codigo_pedido)?.Bultos
-          })
+          prevArrayUnidades = ruta.Unidades.split('@')
+          let bultos = prevArrayUnidades.reduce((sum,und) => sum + parseInt(und), 0)
 
-          console.log(ruta.arrayBultos)
+
+          for (let i = 0; i < ruta.arraySKU.length; i++) {  
+            currentArrayUnidades.push(prevArrayUnidades[i])
+          }
+          
+          ruta.arrayUnidades = currentArrayUnidades
+          ruta.arrayBultos = currentArrayUnidades
+
+          if(regex.test(ruta.Producto)){
+            ruta.arrayBultos = []
+            console.log("bultos cd",bultos)
+            ruta.arrayBultos.push(bultos.toString())
+          }
+          console.log(ruta.Bultos)
+          console.log("<<sku",ruta.arraySKU.length)
+        
+          console.log("<<unidades",ruta.arrayUnidades.length)
+          currentArrayUnidades = []
           
         })
+
+        
         
 
         this.isClicked = true
@@ -264,7 +279,6 @@ export class RutasActivasComponent {
 
         this.isDriver = false
       }))
-    }) // aqui termina el de las unidades
   
   }
 

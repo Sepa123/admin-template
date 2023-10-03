@@ -173,8 +173,18 @@
           {{producto}}
         </tr>
       </table></td>
-      <td>{{ruta.Unidades }}</td>
-      <td>{{ruta.Bultos }}</td>
+      <!-- <td>{{ruta.Unidades }}</td> -->
+      <td><table>
+        <tr *ngFor="let unidad of ruta.arrayUnidades" >
+          {{unidad}}
+        </tr>
+      </table></td>
+      <!-- <td>{{ruta.Bultos }}</td> -->
+      <td><table>
+        <tr *ngFor="let bultos of ruta.arrayBultos" >
+          {{bultos}}
+        </tr>
+      </table></td>
       <td>{{ruta.Nombre_cliente }}</td>
       <td>{{ruta.Direccion_cliente }}</td>
       <td>{{ruta.Telefono }}</td>
