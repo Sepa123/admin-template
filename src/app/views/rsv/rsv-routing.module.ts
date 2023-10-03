@@ -7,6 +7,7 @@ import { VentasComponent } from './ventas/ventas.component';
 import { RecepcionComponent } from './recepcion/recepcion.component';
 import { ListarCargaComponent } from './listar-carga/listar-carga.component';
 import { InventarioSucursalesComponent } from './inventario-sucursales/inventario-sucursales.component';
+import { UbicacionComponent } from './ubicacion/ubicacion.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,14 @@ const routes: Routes = [
         data : {
           title : "Inventario Sucursal"
         } 
+      },
+      {
+        path : 'ubicacion-producto',
+        component : UbicacionComponent,
+        data : {
+          title : "Inventario Sucursal"
+        }
+        
       }
     ]
   }

@@ -24,6 +24,8 @@ export class CatalogoComponent {
 
   codigoBuscar : string = ""
 
+  public rol = sessionStorage.getItem("rol_id") 
+
   constructor (public builder: FormBuilder, private service: RsvService){}
 
   isModalOpen: boolean = false
@@ -56,7 +58,7 @@ export class CatalogoComponent {
 
   ngOnInit(){
     this.obtenerCatalogo()
-
+    console.log(this.rol)
     this.service.get_colores_rsv().subscribe((data) => {
       this.colores = data
     })

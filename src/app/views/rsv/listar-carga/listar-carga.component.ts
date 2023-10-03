@@ -29,7 +29,7 @@ export class ListarCargaComponent {
   nombreCargaExiste : boolean = false
 
   tablaCarga : CargaRSV [] =[]
-  
+  public rol = sessionStorage.getItem("rol_id") 
 
   MesSeleccionado : string = ""
   AnoSeleccionado : string =""

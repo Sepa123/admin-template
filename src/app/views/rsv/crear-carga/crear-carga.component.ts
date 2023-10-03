@@ -17,6 +17,8 @@ export class CrearCargaComponent {
   colores : ColoresRSV[] = []
   sucursalesRSV : SucursalRSV [] = []
 
+  public rol = sessionStorage.getItem("rol_id") 
+
   codigosProductos : CatalogoPorColor [] = []
   codigosProductosFull : CatalogoPorColor[] = []
   arrayCodigosProductos : CatalogoPorColor[][] = []
@@ -199,6 +201,9 @@ export class CrearCargaComponent {
 
     this.service.get_sucursales().subscribe((data) => {
       this.sucursalesRSV = data
+      if(this.rol !== '5'){
+        this.sucursalesRSV = this.sucursalesRSV.filter(sucursal => sucursal.Id !== 2)
+      }
     })
 
     this.service.catalogo_por_colo_sin_filtro().subscribe(data => {

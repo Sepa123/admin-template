@@ -17,25 +17,19 @@ export class InventarioSucursalesComponent {
   constructor(private service: RsvService) {
 
   } 
-
+  public rol = sessionStorage.getItem("rol_id") 
   sucursalSeleccionada : string = ""
   sucursales : SucursalRSV [] = []
 
   arrInventarioSucursal : InventarioSucursal [][] = []
 
   ngOnInit(){
-    // this.service.get_inventario_por_sucursales(1).subscribe((data) =>{
-    //   const colores = [...new Set(data.map((inventario) => inventario.Color))]
-    //   // arr inventarios
-    //   let array = []
-    //   colores.map(color => {
-    //     array = data.filter( inventario => inventario.Color == color)
-    //     this.arrInventarioSucursal.push(array)
-    //   })
-    // })
-
     this.service.get_sucursales().subscribe((data) => {
       this.sucursales = data
+      console.log()
+      if(this.rol !== '5'){
+        this.sucursales = this.sucursales.filter(sucursal => sucursal.Id !== 2)
+      }
     })
   }
 
