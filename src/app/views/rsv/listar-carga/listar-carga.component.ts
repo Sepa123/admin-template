@@ -7,13 +7,16 @@ import { EtiquetaRSV } from 'src/app/models/etiquetaRSV.interface';
 import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
 import { DatosCargaRSV } from 'src/app/models/datosCargaRSV.interface';
 import { MES } from 'src/app/models/enum/meses.enum';
-
+import { ROLES_ENUM } from 'src/app/models/enum/roles.enum';
 @Component({
   selector: 'app-listar-carga',
   templateUrl: './listar-carga.component.html',
   styleUrls: ['../styles/rsv.component.scss']
 })
 export class ListarCargaComponent {
+
+  verEtiquetasDescargar : string [] = [ROLES_ENUM.ADMIN,ROLES_ENUM.ADMINISTRATIVO_RSV,ROLES_ENUM.JEFE_OPERACIONES,ROLES_ENUM.SUPERVISOR_RSV]
+
 
   codigoEliminar : string [] = []
 

@@ -229,6 +229,7 @@ export class RutasActivasComponent {
           ruta.arraySKU = ruta.SKU.split('@')
           ruta.arrayProductos = ruta.Producto.split('@')
           prevArrayUnidades = ruta.Unidades.split('@')
+          // ruta.arrayBultos = ruta.Bultos.split('@')
           let bultos = prevArrayUnidades.reduce((sum,und) => sum + parseInt(und), 0)
 
 
@@ -242,7 +243,7 @@ export class RutasActivasComponent {
           if(regex.test(ruta.Producto)){
             ruta.arrayBultos = []
             console.log("bultos cd",bultos)
-            ruta.arrayBultos.push(bultos.toString())
+            ruta.arrayBultos.push(ruta.Bultos.toString())
           }
           console.log(ruta.Bultos)
           console.log("<<sku",ruta.arraySKU.length)

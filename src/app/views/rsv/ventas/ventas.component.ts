@@ -16,6 +16,8 @@ export class VentasComponent {
   skillsForm: FormGroup;
   colores : ColoresRSV[] = []
 
+  public rol = sessionStorage.getItem("rol_id") 
+
   arrEvaluacionPedidoRSV : EvaluacionPedidoRSV [] = []
 
   codigosProductos : CatalogoPorColor [] = []
@@ -294,6 +296,9 @@ export class VentasComponent {
     setTimeout(() => {
       this.service.get_sucursales().subscribe((data) => {
         this.sucursalesRSV = data
+        if(this.rol !== '5'){
+          this.sucursalesRSV = this.sucursalesRSV.filter(sucursal => sucursal.Id !== 2)
+        }
       })
     },500)
 

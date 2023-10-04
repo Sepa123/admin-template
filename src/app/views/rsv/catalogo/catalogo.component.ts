@@ -2,12 +2,16 @@ import { Component } from '@angular/core';
 import { RsvService } from 'src/app/service/rsv.service'
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms'
 import { CatalogoRSV,ColoresRSV } from 'src/app/models/catalogoRSV.iterface';
+import { ROLES_ENUM } from 'src/app/models/enum/roles.enum';
+
 @Component({
   selector: 'app-catalogo',
   templateUrl: './catalogo.component.html',
   styleUrls: ['../styles/rsv.component.scss']
 })
 export class CatalogoComponent {
+
+  verEditar : string [] = [ROLES_ENUM.ADMIN,ROLES_ENUM.ADMINISTRATIVO_RSV,ROLES_ENUM.JEFE_OPERACIONES,ROLES_ENUM.SUPERVISOR_RSV]
 
   isLoading : boolean = true
   colores : ColoresRSV [] = []

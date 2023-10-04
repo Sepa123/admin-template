@@ -87,7 +87,7 @@
 <p></p>
 <table *ngIf="nombresRutas">
   <tbody>
-    <tr *ngFor="let grupo of nombresRutas.slice(0, 7); let i = index">
+    <tr *ngFor="let grupo of nombresRutas.slice(0, 11); let i = index">
       <td *ngFor="let nombre of nombresRutas.slice(i * 6, (i + 1) * 6)">
         <button cButton  color="success" size="sm" (click)="buscarRuta(nombre.Nombre_ruta,nombre.Estado)" *ngIf="nombre.Estado == true && nombre.Verificado !== false && nombre.Alerta == false" [disabled]="loadingRuta == true">
           {{nombre.Nombre_ruta}}

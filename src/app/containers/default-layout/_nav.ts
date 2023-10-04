@@ -387,6 +387,34 @@ export const navItems: INavDataBar[] = [
  {
   name: 'RSV',
   url : '/rsv',
+  roles :[ROLES_ENUM.ADMINISTRATIVO_RSV],
+  iconComponent: { name: 'cil-window' },
+  children : [
+   {
+     name: 'Catalogo',
+     url: '/rsv/catalogo'
+   },
+   {
+    name: 'Crear Carga',
+    url: '/rsv/crear-carga'
+   },
+   {
+    name: 'Lista Cargas',
+    url: '/rsv/listar-carga'
+   },
+   {
+    name: 'Lista inventarios',
+    url: '/rsv/inventario-sucursal'
+   },
+  //  {
+  //   name: 'Ubicación',
+  //   url: '/rsv/ubicacion-producto'
+  //  },
+ ]
+},
+ {
+  name: 'RSV',
+  url : '/rsv',
   roles : [ROLES_ENUM.CLIENTE_RSV],
   iconComponent: { name: 'cil-window' },
   children : [
@@ -407,25 +435,17 @@ export const navItems: INavDataBar[] = [
 {
   name: 'RSV',
   url : '/rsv',
-  roles : [ROLES_ENUM.OPERARIO_RSV, ROLES_ENUM.SUPERVISOR_RSV],
+  roles : [ROLES_ENUM.OPERARIO_RSV],
   iconComponent: { name: 'cil-window' },
   children : [
-    {
-      name: 'Catalogo',
-      url: '/rsv/catalogo'
-    },
-    {
-     name: 'Crear Carga',
-     url: '/rsv/crear-carga'
-    },
-    {
-     name: 'Lista Cargas',
-     url: '/rsv/listar-carga'
-    },
-    {
-     name: 'Lista inventarios',
-     url: '/rsv/inventario-sucursal'
-    },
+   {
+     name: 'Catalogo',
+     url: '/rsv/catalogo'
+   },
+   {
+    name: 'Lista inventarios',
+    url: '/rsv/inventario-sucursal'
+   },
  ]
 },
   {
