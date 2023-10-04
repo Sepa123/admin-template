@@ -367,7 +367,7 @@ export const navItems: INavDataBar[] = [
       url: '/rsv/ventas'
      },
      {
-      name: 'Lista Cargas',
+      name: 'Arribo de Cargas',
       url: '/rsv/listar-carga'
      },
      {
@@ -403,7 +403,7 @@ export const navItems: INavDataBar[] = [
     url: '/rsv/crear-carga'
    },
    {
-    name: 'Lista Cargas',
+    name: 'Arribo de Cargas',
     url: '/rsv/listar-carga'
    },
    {
@@ -428,7 +428,7 @@ export const navItems: INavDataBar[] = [
      url: '/rsv/catalogo'
    },
    {
-    name: 'Lista Cargas',
+    name: 'Arribo de Cargas',
     url: '/rsv/listar-carga'
    },
    {
