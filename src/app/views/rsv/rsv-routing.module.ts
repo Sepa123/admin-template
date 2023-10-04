@@ -7,7 +7,7 @@ import { VentasComponent } from './ventas/ventas.component';
 import { RecepcionComponent } from './recepcion/recepcion.component';
 import { ListarCargaComponent } from './listar-carga/listar-carga.component';
 import { InventarioSucursalesComponent } from './inventario-sucursales/inventario-sucursales.component';
-
+import { FiltroUbicacionComponent } from './filtro-ubicacion/filtro-ubicacion.component';
 const routes: Routes = [
   {
     path:'',
@@ -62,6 +62,13 @@ const routes: Routes = [
         component : InventarioSucursalesComponent,
         data : {
           title : "Inventario Sucursal"
+        } 
+      },
+      {
+        path : 'filtro-ubicacion',
+        component : FiltroUbicacionComponent,
+        data : {
+          title : "Ubicacion"
         } 
       }
     ]

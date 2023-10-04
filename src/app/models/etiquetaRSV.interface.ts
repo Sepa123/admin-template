@@ -10,5 +10,6 @@ export interface EtiquetaRSV {
     Posicion:    number;
     Tipo:        string;
     Verificado:  boolean;
+    Ubicacion:   string;
     En_stock:    boolean;
 }

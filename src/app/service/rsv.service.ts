@@ -7,6 +7,7 @@ import { CargaRSV } from 'src/app/models/cargaRSV.interface'
 import {SucursalRSV} from 'src/app/models/sucursalRSV.interface'
 import { InventarioSucursal } from 'src/app/models/inventarioSucursal.interface'
 import { DatosCargaRSV } from 'src/app/models/datosCargaRSV.interface'
+import { MatchSucursalRSV } from '../models/matchSucursalRSV.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,8 +15,31 @@ export class RsvService {
 
   constructor( private http : HttpClient) { }
 
-  apiurl = "https://hela.transyanez.cl/api/rsv"
-  // apiurl = "http://127.0.0.1:8000/api/rsv"
+  // apiurl = "https://hela.transyanez.cl/api/rsv"
+  apiurl = "http://127.0.0.1:8000/api/rsv"
+
+  get_sucursal() {
+    return this.http.get<SucursalRSV[]>(this.apiurl+"/producto")
+  }
+
+  update_ubicacion_bybId(body : any){
+    return this.http.put(this.apiurl + "/producto/editar", body)
+  }
+  validar_sucursal_barc_code(barCode : string){
+    return this.http.get<MatchSucursalRSV[]>(this.apiurl + `/sucursal/valida/${barCode}`)
+  }
+
+  get_producto_pickeado(){
+    return this.http.get<EtiquetaRSV[]>(this.apiurl+"/etiqueta")  
+  }
+
+  get_producto_porId(barCode : string){
+    return this.http.get<EtiquetaRSV[]>(this.apiurl+`/producto/${barCode}`)
+  }
+
+  get_sucursal_porId(id : number){
+    return this.http.get<SucursalRSV[]>(this.apiurl+`/sucursal/${id}`)
+  }
 
   get_catalogo_rsv() {
     return this.http.get<CatalogoRSV[]>(this.apiurl + `/catalogo`)

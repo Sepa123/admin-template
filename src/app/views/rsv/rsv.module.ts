@@ -22,7 +22,7 @@ import { VentasComponent } from './ventas/ventas.component';
 import { RecepcionComponent } from './recepcion/recepcion.component';
 import { ListarCargaComponent } from './listar-carga/listar-carga.component';
 import { InventarioSucursalesComponent } from './inventario-sucursales/inventario-sucursales.component';
-
+import {FiltroUbicacionComponent} from './filtro-ubicacion/filtro-ubicacion.component'
 
 @NgModule({
   declarations: [
@@ -32,7 +32,8 @@ import { InventarioSucursalesComponent } from './inventario-sucursales/inventari
     VentasComponent,
     RecepcionComponent,
     ListarCargaComponent,
-    InventarioSucursalesComponent
+    InventarioSucursalesComponent,
+    FiltroUbicacionComponent
   ],
   imports: [
     CommonModule,
