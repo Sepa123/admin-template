@@ -1,0 +1,43 @@
+<c-container>
+    <h2 class="titulo-R">Asignar ubicación</h2>
+    <c-row [xs]="1"> 
+        <c-col>
+            <div class="inline-container codigo">
+                <p>Ubicación : </p>
+                <input type="text" name="ubicación" [(ngModel)]="ubicacion"  id="ubicacion" (change)="asignarUbicacion(ubicacion)">
+            </div>
+        </c-col>
+        <c-col>  
+            <div class="greenTable ubicacion" *ngIf="ubicacionActual">
+                <div class="inputId">
+                    <p>Ingrese código de barra : </p>
+                    <input [(ngModel)]="barCode" (change)="asignarUbicacionPorId()">
+                </div>
+                <div class="encabezado">
+                    <h3><b>{{codigoCortado}}</b></h3>
+                    <h3 *ngIf="codigoCortado"><b>{{datos[0].Nombre}}</b></h3>
+                </div>
+                <table id="tablaProductosPicking" class="tablaUbicacion" *ngIf="cargas.length >0">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Descripcion</th>
+                            <th>Posicion</th>
+                            <th>verificado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ubicacion of cargas;let i = index">
+                            <td>{{ubicacion.Codigo}}</td>
+                            <td>{{ubicacion.Descripcion}}</td>
+                            <td>{{ubicacion.Ubicacion.split('@')[0]}}</td>
+                            <td *ngIf="ubicacion.Verificado === true" >
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </c-col>
+    </c-row>
+</c-container>

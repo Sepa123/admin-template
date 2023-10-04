@@ -23,6 +23,7 @@ import { RecepcionComponent } from './recepcion/recepcion.component';
 import { ListarCargaComponent } from './listar-carga/listar-carga.component';
 import { InventarioSucursalesComponent } from './inventario-sucursales/inventario-sucursales.component';
 import { UbicacionComponent } from './ubicacion/ubicacion.component';
+import { FiltroUbicacionComponent } from './filtro-ubicacion/filtro-ubicacion.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { UbicacionComponent } from './ubicacion/ubicacion.component';
     RecepcionComponent,
     ListarCargaComponent,
     InventarioSucursalesComponent,
-    UbicacionComponent
+    UbicacionComponent,
+    FiltroUbicacionComponent
   ],
   imports: [
     CommonModule,

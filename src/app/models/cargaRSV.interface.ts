@@ -10,6 +10,6 @@ export interface CargaRSV {
     Verificado: boolean | null,
     Etiquetas: boolean | null,
     Sucursal: string | null
-    // Descripcion: string
+    Descripcion: string
     
 }
