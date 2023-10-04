@@ -9,7 +9,7 @@ import { InventarioSucursal } from 'src/app/models/inventarioSucursal.interface'
 import { DatosCargaRSV } from 'src/app/models/datosCargaRSV.interface'
 import { TipoDespacho } from 'src/app/models/tipoDespacho.inteface'
 import { EvaluacionPedidoRSV} from 'src/app/models/evaluacionPedidoRSV.interface'
-
+import {EstructuraRSV} from 'src/app/models/estructuraRSV.interface'
 @Injectable({
   providedIn: 'root'
 })
@@ -17,8 +17,8 @@ export class RsvService {
 
   constructor( private http : HttpClient) { }
 
-  apiurl = "https://hela.transyanez.cl/api/rsv"
-  // apiurl = "http://127.0.0.1:8000/api/rsv"
+  // apiurl = "https://hela.transyanez.cl/api/rsv"
+  apiurl = "http://127.0.0.1:8000/api/rsv"
 
   get_catalogo_rsv() {
     return this.http.get<CatalogoRSV[]>(this.apiurl + `/catalogo`)
@@ -167,5 +167,10 @@ export class RsvService {
   /// Generar Codigo de factura de ventas
   get_codigo_facturas_ventas(){
     return this.http.get(this.apiurl + `/obtener/factura/venta`) 
+  }
+
+  /// obtener lista estructura
+  get_lista_estructura(){
+    return this.http.get<EstructuraRSV []>(this.apiurl + `/lista/estructura`) 
   }
 }

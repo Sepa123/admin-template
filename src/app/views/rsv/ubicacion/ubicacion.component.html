@@ -1,7 +1,29 @@
+<c-row>
+    <c-col [xs]>
+         Seleccionar Estructura  :
+        <select id="Mes" cSelect [(ngModel)]="estructuraSeleccion" (change)="selecccionarEstructura()">
+            <option value="">Estructura</option>
+            <option *ngFor="let mes of listaEstructura" value={{mes.Nombre}}  >
+                {{mes.Nombre}}     
+            </option>
+        </select>
+    </c-col>
+    <c-col [xs]>
+    
+    </c-col>
+    <c-col [xs]>
+        <p></p>
+        <!-- <button  cButton  color="secondary" size="lg" >Buscar</button> -->
+    </c-col>
+    <c-col [xs]>
 
+    </c-col>
+</c-row>
 
 
 <!-- <div style="text-align: center;"> -->
+
+
     <div class="contenedor">
     
     <img src="../../../../assets/images/rsvModel.png" alt="">
