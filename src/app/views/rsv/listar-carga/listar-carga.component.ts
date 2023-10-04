@@ -17,7 +17,6 @@ export class ListarCargaComponent {
 
   verEtiquetasDescargar : string [] = [ROLES_ENUM.ADMIN,ROLES_ENUM.ADMINISTRATIVO_RSV,ROLES_ENUM.JEFE_OPERACIONES,ROLES_ENUM.SUPERVISOR_RSV]
 
-
   codigoEliminar : string [] = []
 
   colores : ColoresRSV[] = []
@@ -122,7 +121,11 @@ export class ListarCargaComponent {
       this.codigosProductosFull = data
     })
     this.service.get_listar_cargas_por_mes(añoActual+''+mesActual).subscribe((data)=> {
+
       this.tablaCarga = data
+      if(this.rol !== '5'){
+        this.tablaCarga  = this.tablaCarga .filter(sucursal => sucursal.Sucursal !== "Prueba")
+      }
     })
 
     setTimeout(() => {
@@ -158,6 +161,10 @@ export class ListarCargaComponent {
     this.arrlistaEtiquetas = []
     this.service.get_listar_cargas_por_mes(año).subscribe((data)=> {
       this.tablaCarga = data
+      if(this.rol !== '5'){
+        this.tablaCarga  = this.tablaCarga .filter(sucursal => sucursal.Sucursal !== "Prueba")
+      }
+      
     })
   }
 
