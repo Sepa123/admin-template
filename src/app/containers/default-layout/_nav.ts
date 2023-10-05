@@ -382,6 +382,10 @@ export const navItems: INavDataBar[] = [
       name: 'Filtro Ubicacion',
       url: '/rsv/filtro-ubicacion'
      },
+     {
+      name: 'Lista de ventas',
+      url: '/rsv/lista-venta'
+     },
     //  {
     //   name: 'Agregar Producto',
     //   url: '/rsv/agregar-producto'
@@ -414,7 +418,10 @@ export const navItems: INavDataBar[] = [
     name: 'Filtro Ubicacion',
     url: '/rsv/filtro-ubicacion'
    },
-   
+   {
+    name: 'Lista de ventas',
+    url: '/rsv/lista-venta'
+   },
  ]
 },
  {
@@ -435,6 +442,10 @@ export const navItems: INavDataBar[] = [
     name: 'Lista inventarios',
     url: '/rsv/inventario-sucursal'
    },
+   {
+    name: 'Lista de ventas',
+    url: '/rsv/lista-venta'
+   },
  ]
 },
 {
@@ -454,6 +465,10 @@ export const navItems: INavDataBar[] = [
    {
     name: 'Filtro Ubicacion',
     url: '/rsv/filtro-ubicacion'
+   },
+   {
+    name: 'Lista de ventas',
+    url: '/rsv/lista-venta'
    },
  ]
 },

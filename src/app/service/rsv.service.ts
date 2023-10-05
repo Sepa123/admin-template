@@ -11,6 +11,7 @@ import { TipoDespacho } from 'src/app/models/tipoDespacho.inteface'
 import { EvaluacionPedidoRSV} from 'src/app/models/evaluacionPedidoRSV.interface'
 import {EstructuraRSV} from 'src/app/models/estructuraRSV.interface'
 import { MatchSucursalRSV } from '../models/matchSucursalRSV.interface';
+import { DetalleVenta, NotaVenta , NotaVentaProducto } from '../models/notaVenta.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,8 @@ export class RsvService {
 
   constructor( private http : HttpClient) { }
 
-  apiurl = "https://hela.transyanez.cl/api/rsv"
-  // apiurl = "http://127.0.0.1:8000/api/rsv"
+  // apiurl = "https://hela.transyanez.cl/api/rsv"
+  apiurl = "http://127.0.0.1:8000/api/rsv"
 
   //Y
   get_sucursal() {
@@ -200,5 +201,15 @@ export class RsvService {
   /// obtener lista estructura
   get_lista_estructura(){
     return this.http.get<EstructuraRSV []>(this.apiurl + `/lista/estructura`) 
+  }
+
+  get_nota_venta_por_mes_y_sucursal(mes: string, sucursal : string){
+    return this.http.get<NotaVenta []>(this.apiurl + `/notas_ventas/lista?mes=${mes}&sucursal=${sucursal}`) 
+  }
+
+  // /notas_ventas/detalle/lista
+
+  get_detalle_venta_por_id_venta(id_venta : number){
+    return this.http.get<DetalleVenta []>(this.apiurl + `/notas_ventas/detalle/lista?id_venta=${id_venta}`) 
   }
 }

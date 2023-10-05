@@ -2,7 +2,7 @@
     position: relative;
     // width: 500px; /* Ancho de la imagen */
     // height: 300px; /* Altura de la imagen */
-    text-align: center;
+    text-align: left;
 }
 
 .boton {
@@ -13,3 +13,10 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+hr {
+    background-color: red;
+    height: 25px;
+    margin-left: 0%;
+    width: 25px;
+  }

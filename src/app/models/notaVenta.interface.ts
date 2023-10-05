@@ -1,4 +1,5 @@
 export interface NotaVenta {
+    Id:             number;
     Id_user:        number;
     Ids_user:       string;
     Sucursal:       number;
@@ -11,6 +12,9 @@ export interface NotaVenta {
     Numero_factura: string;
     Codigo_ty:      string;
     Entregado:      boolean;
+    Preparado:      boolean;
+    Fecha_preparado:string;
+    Fecha_despacho: string;
 }
 
 export interface NotaVentaProducto {
@@ -19,4 +23,13 @@ export interface NotaVentaProducto {
     Unidades: number;
     Id_user:  number;
     Ids_user: string;
+    Producto: string;
+}
+
+
+export interface DetalleVenta {
+    Bar_code: string;
+    Codigo:   string;
+    Tipo:     string;
+    Cantidad: number;
 }

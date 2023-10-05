@@ -45,7 +45,7 @@ export const ACCESO_ROL : any = {
     [ROLES_ENUM.RUT_PICKEADOR]: 'info/estado',
     [ROLES_ENUM.ANALISTA_EXO]: 'exo/nivel-servicio',
     [ROLES_ENUM.CLIENTE_RSV]: '/rsv/catalogo',
-    [ROLES_ENUM.ADMINISTRATIVO_RSV]: '/rsv/catalogo',
+    [ROLES_ENUM.ADMINISTRATIVO_RSV]: '/rsv/listar-carga',
     [ROLES_ENUM.OPERARIO_RSV]: '/rsv/catalogo',
-    [ROLES_ENUM.SUPERVISOR_RSV]: '/rsv/catalogo',
+    [ROLES_ENUM.SUPERVISOR_RSV]: '/rsv/listar-carga',
 }

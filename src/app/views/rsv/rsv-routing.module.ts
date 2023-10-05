@@ -9,7 +9,7 @@ import { ListarCargaComponent } from './listar-carga/listar-carga.component';
 import { InventarioSucursalesComponent } from './inventario-sucursales/inventario-sucursales.component';
 import { UbicacionComponent } from './ubicacion/ubicacion.component';
 import { FiltroUbicacionComponent } from './filtro-ubicacion/filtro-ubicacion.component';
-
+import { ListaVentasComponent } from './lista-ventas/lista-ventas.component';
 
 const routes: Routes = [
   {
@@ -79,6 +79,13 @@ const routes: Routes = [
         component : FiltroUbicacionComponent,
         data : {
           title : "Ubicacion"
+        } 
+      },
+      {
+        path : 'lista-venta',
+        component : ListaVentasComponent,
+        data : {
+          title : "Lista Ventas"
         } 
       }
     ]
