@@ -20,8 +20,8 @@ export class RsvService {
 
   constructor( private http : HttpClient) { }
 
-  // apiurl = "https://hela.transyanez.cl/api/rsv"
-  apiurl = "http://127.0.0.1:8000/api/rsv"
+  apiurl = "https://hela.transyanez.cl/api/rsv"
+  // apiurl = "http://127.0.0.1:8000/api/rsv"
 
   //Y
   get_sucursal() {
