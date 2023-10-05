@@ -13,7 +13,12 @@ export class ListaVentasComponent {
 
   listaVenta : NotaVenta [] = []
 
-  listaVentaDetalle : DetalleVenta [] = []
+  isNotaProducto : boolean = false
+
+  isBarcode : boolean = false
+
+  listaVentaDetalle : NotaVentaProducto [] = []
+  listaBarcodeDetalle : DetalleVenta [] = []
 
   MesSeleccionado : string = ""
   AnoSeleccionado : string =""
@@ -100,10 +105,22 @@ export class ListaVentasComponent {
   }
 
   verDetalle(id_venta : number){
-    console.log(id_venta)
-    // listaVentaDetalle
+    this.isNotaProducto = true
+    this.isBarcode = false
+
     this.service.get_detalle_venta_por_id_venta(id_venta).subscribe(data => {
       this.listaVentaDetalle = data
+    })
+    this.toggleLiveDemo()
+  }
+
+  verBarCode(id_venta : number){
+    this.isNotaProducto = false
+    this.isBarcode = true
+    console.log(id_venta)
+    // listaVentaDetalle
+    this.service.get_detalle_venta_barcode_por_id_venta(id_venta).subscribe(data => {
+      this.listaBarcodeDetalle = data
     })
     this.toggleLiveDemo()
   }

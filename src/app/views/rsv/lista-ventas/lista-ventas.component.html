@@ -5,7 +5,7 @@
     </c-modal-header>
     <c-modal-body>
         <div class="greenTable">
-            <table id="tablaProductosPicking" style="text-align: center">
+            <table id="tablaProductosPicking" style="text-align: center"  *ngIf="isBarcode == true">
                 <thead>
                     <tr>
                         <th>Código de barra</th>
@@ -15,11 +15,31 @@
                     </tr>         
                 </thead>
                 <tbody>
-                    <tr *ngFor="let lista of listaVentaDetalle ">
+                    <tr *ngFor="let lista of listaBarcodeDetalle ">
                         <td>{{lista.Bar_code}}</td>
                         <td>{{lista.Codigo}}</td>  
                         <td>{{lista.Tipo}}</td>
                         <td>{{lista.Cantidad}}</td>
+                    </tr> 
+                </tbody>
+            </table>
+
+            <p></p>
+
+            <table id="tablaProductosPicking" style="text-align: center" *ngIf="isNotaProducto == true">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Unidades</th>
+                        <th>Producto</th>
+                    </tr>         
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lista of listaVentaDetalle ">
+                        <!-- <td>{{lista.Bar_code}}</td> -->
+                        <td>{{lista.Codigo}}</td>  
+                        <td>{{lista.Unidades}}</td>
+                        <td>{{lista.Producto}}</td>
                     </tr> 
                 </tbody>
             </table>
@@ -84,7 +104,8 @@
                 <th>N° Factura</th>
                 <th>Preparado</th>
                 <th>Entregado</th>
-                <th *ngIf="rol == '5' || rol == '13' || rol == '42' || rol == '43' || rol == '44'">Detalle</th>
+                <th>Detalle</th>
+                <th *ngIf="rol == '5' || rol == '13' || rol == '42' || rol == '43' || rol == '44'">Codigo de barra</th>
             </tr>
         </thead>
         <tbody>
@@ -111,7 +132,9 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
                   </td>
                 <!-- <td>{{lista.Fecha_despacho}}</td>  -->
-                <td *ngIf="rol == '5' || rol == '13' || rol == '42' || rol == '43' || rol == '44'"><svg (click)="verDetalle(lista.Id)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg></td>
+                <td><svg (click)="verDetalle(lista.Id)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg></td>
+
+                <td *ngIf="rol == '5' || rol == '13' || rol == '42' || rol == '43' || rol == '44'"><svg (click)="verBarCode(lista.Id)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg></td>
             </tr>
             <tr *ngIf="listaVenta.length == 0">
                 <td colspan="7">

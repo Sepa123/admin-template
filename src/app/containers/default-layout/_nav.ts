@@ -220,7 +220,7 @@ export const navItems: INavDataBar[] = [
     ]
   },
   { /// Pantalla Informacion Para ADMINISTRADORES
-    name: 'Informacion',
+    name: 'Información',
     url: '/informacion',
     iconComponent : {name : 'cil-magnifying-glass'},
     roles : ROLES_PERMITIDOS.INFORMACION_ADMINISTRADOR,
@@ -244,7 +244,7 @@ export const navItems: INavDataBar[] = [
     ]
   },
   { /// Pantalla Informacion Para OPERACIONES
-    name: 'Informacion',
+    name: 'Información',
     url: '/informacion',
     iconComponent : {name : 'cil-magnifying-glass'},
     roles : ROLES_PERMITIDOS.INFORMACION_OPERACIONES,
@@ -268,7 +268,7 @@ export const navItems: INavDataBar[] = [
     ]
   },
   { /// Pantalla Informacion Para TOC
-    name: 'Informacion',
+    name: 'Información',
     url: '/informacion',
     iconComponent : {name : 'cil-magnifying-glass'},
     roles :[ROLES_ENUM.TOC, ROLES_ENUM.JEFE_TOC],
@@ -284,7 +284,7 @@ export const navItems: INavDataBar[] = [
     ]
   },
   { /// Pantalla Informacion Para PISTOLEADORES
-    name: 'Informacion',
+    name: 'Información',
     url: '/info',
     iconComponent : {name : 'cil-magnifying-glass'},
     roles : ROLES_PERMITIDOS.INFORMACION_PICKING,
@@ -351,7 +351,7 @@ export const navItems: INavDataBar[] = [
     iconComponent: { name: 'cil-window' },
     children : [
      {
-       name: 'Catalogo',
+       name: 'Catálogo',
        url: '/rsv/catalogo'
      },
      {
@@ -379,7 +379,7 @@ export const navItems: INavDataBar[] = [
     //   url: '/rsv/ubicacion-producto'
     //  },
      {
-      name: 'Filtro Ubicacion',
+      name: 'Asignar Ubicación',
       url: '/rsv/filtro-ubicacion'
      },
      {
@@ -399,7 +399,7 @@ export const navItems: INavDataBar[] = [
   iconComponent: { name: 'cil-window' },
   children : [
    {
-     name: 'Catalogo',
+     name: 'Catálogo',
      url: '/rsv/catalogo'
    },
    {
@@ -415,7 +415,7 @@ export const navItems: INavDataBar[] = [
     url: '/rsv/inventario-sucursal'
    },
    {
-    name: 'Filtro Ubicacion',
+    name: 'Asignar Ubicación',
     url: '/rsv/filtro-ubicacion'
    },
    {
@@ -431,7 +431,7 @@ export const navItems: INavDataBar[] = [
   iconComponent: { name: 'cil-window' },
   children : [
    {
-     name: 'Catalogo',
+     name: 'Catálogo',
      url: '/rsv/catalogo'
    },
    {
@@ -455,7 +455,7 @@ export const navItems: INavDataBar[] = [
   iconComponent: { name: 'cil-window' },
   children : [
    {
-     name: 'Catalogo',
+     name: 'Catálogo',
      url: '/rsv/catalogo'
    },
    {
@@ -463,7 +463,7 @@ export const navItems: INavDataBar[] = [
     url: '/rsv/inventario-sucursal'
    },
    {
-    name: 'Filtro Ubicacion',
+    name: 'Asignar Ubicación',
     url: '/rsv/filtro-ubicacion'
    },
    {

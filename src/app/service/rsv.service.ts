@@ -20,8 +20,8 @@ export class RsvService {
 
   constructor( private http : HttpClient) { }
 
-  apiurl = "https://hela.transyanez.cl/api/rsv"
-  // apiurl = "http://127.0.0.1:8000/api/rsv"
+  // apiurl = "https://hela.transyanez.cl/api/rsv"
+  apiurl = "http://127.0.0.1:8000/api/rsv"
 
   //Y
   get_sucursal() {
@@ -209,7 +209,13 @@ export class RsvService {
 
   // /notas_ventas/detalle/lista
 
+  get_detalle_venta_barcode_por_id_venta(id_venta : number){
+    return this.http.get<DetalleVenta []>(this.apiurl + `/notas_ventas/detalle/lista/barcode?id_venta=${id_venta}`) 
+  }
+
+  // /notas_ventas/detalle/lista/barcode
+
   get_detalle_venta_por_id_venta(id_venta : number){
-    return this.http.get<DetalleVenta []>(this.apiurl + `/notas_ventas/detalle/lista?id_venta=${id_venta}`) 
+    return this.http.get<NotaVentaProducto []>(this.apiurl + `/notas_ventas/detalle/lista?id_venta=${id_venta}`) 
   }
 }
