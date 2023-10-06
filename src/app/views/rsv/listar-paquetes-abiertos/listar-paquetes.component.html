@@ -1,0 +1,117 @@
+
+<c-row>
+    <c-col [xs] class="sucursalesPaquetesAbiertos">
+        <div class="buscarSucursal">
+           <b> Seleccionar sucursal :</b>
+            <select id="Mes" cSelect [(ngModel)]="sucursalSeleccionada ">
+                <option value="">Sucursales</option>
+                <option *ngFor="let sucursal of sucursales" value={{sucursal.Id}}  >
+                {{sucursal.Nombre}}     
+                </option>
+            </select>
+        </div>
+        
+        <div class="botonListarPaquetes"  >
+            <button  cButton  color="secondary" size="sm" (click)="paquetesAbiertosPorSucursal()">Paquetes abiertos</button>
+        </div>
+       
+    </c-col>
+    <c-col [xs]>
+       
+    </c-col>
+   
+</c-row>
+<c-row class="contenedorInputs">
+    
+    <c-col [xs] class="paquetesPorAbrir">
+        <h5>Abrir paquete</h5>
+        <div class="busquedaPorAbrir">
+
+            
+            <input type="text"  [(ngModel)]="bar_code"(change)="abrirPaquete(bar_code)" (click)="getLocation()" >
+            <p>Ingresar Código de barra</p>
+        </div>
+       <!-- <div class="buttonPaquetesPorAbrir">
+        <button  cButton  color="secondary" size="sm">Paquetes por abrir</button>
+       </div>  -->
+    </c-col>
+    <c-col [xs] class="paquetesPorAbrir">
+        <h5>Reimprimir Etiqueta</h5>
+        <div class="busquedaPorAbrir">
+
+            
+            <input type="text"  [(ngModel)]="barCode"(change)="reimprimirEtiquetaUnica(barCode)" (click)="getLocation()" >
+            <p>Ingresar Código de barra</p>
+        </div>
+        
+       
+    </c-col>
+</c-row>
+
+<div class="greenTable"  *ngFor="let arr of paquetesOpenSucursal; let i = index">
+    <h3 *ngIf="paquetesOpenSucursal.length !=0">Paquetes abiertos hoy : {{fechaHoy}}</h3>
+    <table id="tablaProductosPicking" style="width: 60%">
+        
+        <thead *ngIf="paquetesOpenSucursal.length !=0">
+            
+            <tr>
+                <th>Fecha</th>
+                <th>Carga</th>
+                <th>Código de producto</th>
+                <th>Código de paquete</th>
+                <th>Etiquetas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inventario of arr">
+                <td>{{inventario.fecha}}</td>
+                <td>{{inventario.carga}}</td>
+                <td>{{inventario.bar_code.split('@')[0]}}</td>
+                <td>{{inventario.bar_code}}</td>
+                <td>
+                    <button cButton color="success" size="sm"(click)="reimprimirEtiqueta(inventario.id)">
+                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+                        </svg> Descargar
+
+                    </button>
+                   
+                </td>       
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="greenTable tablaPaquetesAbiertosFechaAnterior"  *ngFor="let arr of restoPaquetesOpenSucursal; let i = index">
+    <h3>Paquetes abiertos hasta : {{fechaAnterior}}</h3>
+    <table id="tablaProductosPicking" style="width: 60%">
+        
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Carga</th>
+                <th>Código de producto</th>
+                <th>Código de paquete</th>
+                <th>Etiquetas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inventario of arr">
+                <td>{{inventario.fecha}}</td>
+                <td>{{inventario.carga}}</td>
+                <td>{{inventario.bar_code.split('@')[0]}}</td>
+                <td>{{inventario.bar_code}}</td>
+                <td>
+                    <button cButton color="success" size="sm"(click)="reimprimirEtiqueta(inventario.id)">
+                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+                        </svg> Descargar
+
+                    </button>
+                   
+                </td>       
+            </tr>
+        </tbody>
+    </table>
+</div>
+

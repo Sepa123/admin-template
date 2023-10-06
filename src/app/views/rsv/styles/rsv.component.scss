@@ -195,3 +195,56 @@
 .ubicacion h3{
   margin-right: 1rem;
 }
+
+.paquetesPorAbrir{
+  margin-top: 4rem;
+  margin-bottom: 3rem;
+  margin-left: 5rem;
+}
+
+
+
+.sucursalesPaquetesAbiertos{
+  display: flex;
+  justify-content: space-evenly;
+}
+.contenedorInputs{
+  display: flex;
+}
+
+.busquedaPorAbrir{
+  display: flex;
+  flex-direction: column;
+  
+}
+.sucursalesPaquetesAbiertos .botonListarPaquetes  {
+margin-top: 1.6rem;
+
+}
+.busquedaPorAbrir input{
+  max-width: 18vw;
+}
+
+.buscarSucursal p{
+  font-size: 15px;
+}
+
+.buscarSucursal{
+  display: flex;
+  flex-direction: column;
+  
+}
+
+
+.paquetesPorAbrir .buttonPaquetesPorAbrir{
+  margin-top: 2.2rem;
+}
+
+.paquetesPorAbrir h5{
+  margin-bottom: 1rem;
+}
+
+.tablaPaquetesAbiertosFechaAnterior{
+  margin-top: 2.5rem;
+}
+

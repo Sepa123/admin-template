@@ -377,6 +377,10 @@ export const navItems: INavDataBar[] = [
       name: 'Asignar Ubicacion',
       url: '/rsv/filtro-ubicacion'
      },
+     {
+      name: 'Lista de Paquetes Abiertos',
+      url: '/rsv/listar-paquetes'
+     },
     //  {
     //   name: 'Agregar Producto',
     //   url: '/rsv/agregar-producto'

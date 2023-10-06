@@ -8,6 +8,9 @@ import {SucursalRSV} from 'src/app/models/sucursalRSV.interface'
 import { InventarioSucursal } from 'src/app/models/inventarioSucursal.interface'
 import { DatosCargaRSV } from 'src/app/models/datosCargaRSV.interface'
 import { MatchSucursalRSV } from '../models/matchSucursalRSV.interface';
+import { PaquetesAbiertosRSV } from '../models/inventarioPaquetesAbiertos.interface';
+import {ReimpresionEtiqueta} from '../models/reimpresionEtiqueta.interface'
+import {BitacoraRSV} from '../models/bitacoraRsv.interface'
 @Injectable({
   providedIn: 'root'
 })
@@ -17,14 +20,58 @@ export class RsvService {
 
   // apiurl = "https://hela.transyanez.cl/api/rsv"
   apiurl = "http://127.0.0.1:8000/api/rsv"
+  //lista de paquetes abiertos
 
+
+  get_lista_paquetes_abiertos(sucursal : number){
+    return this.http.get<PaquetesAbiertosRSV[]>(this.apiurl + `/lista-paquetes/${sucursal}`)
+  }
+
+  downloadReimpresionEtiquetasExcel( codigo : number) {
+    this.http.get(`${this.apiurl}/etiquetas/reimprimir/descargar?codigo=${codigo}`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `Etiqueta-${codigo}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+  downloadReimpresionEtiquetasUnicasExcel(nombre_carga : string, codigo : string , tipo : string, bar_code: string) {
+    this.http.get(`${this.apiurl}/unica/etiqueta/descargar?nombre_carga=${nombre_carga}&codigo=${codigo}&tipo=${tipo}&bar_code=${bar_code}`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `${nombre_carga}-${codigo}-${tipo}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+  
+
+  get_abrir_paquete_nuevo_rsv(bar_code: string){
+    return this.http.get<PaquetesAbiertosRSV[]>(this.apiurl+`/abrir/paquete/${bar_code}`
+      )
+  }
+
+  bitacora_rsv(body : any){
+    return this.http.put<BitacoraRSV[]>(this.apiurl+"/bitacora/rsv",body)
+  }
+
+
+  //datos de la sucursal especificos
   get_sucursal() {
     return this.http.get<SucursalRSV[]>(this.apiurl+"/producto")
   }
 
+  //captruar la ubicacion del producto
   update_ubicacion_bybId(body : any){
     return this.http.put(this.apiurl + "/producto/editar", body)
   }
+
   validar_sucursal_barc_code(barCode : string){
     return this.http.get<MatchSucursalRSV[]>(this.apiurl + `/sucursal/valida/${barCode}`)
   }
