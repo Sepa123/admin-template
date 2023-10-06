@@ -81,7 +81,7 @@
             </span> 
         </c-col>
         <c-col [xs]>
-            <select id="Color" cSelect formControlName="Tipo_despacho">
+            <select id="Color" cSelect formControlName="Tipo_despacho" (change)="generar_N_factura()">
                 <option value="">Despacho</option>
                 <option *ngFor="let despacho of tipoDespacho" value={{despacho.Id}}  >
                     {{despacho.Despacho}}     

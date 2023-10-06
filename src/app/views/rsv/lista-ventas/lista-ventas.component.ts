@@ -13,7 +13,13 @@ export class ListaVentasComponent {
 
   listaVenta : NotaVenta [] = []
 
+  idVentaSelec! : number 
+
   isNotaProducto : boolean = false
+
+  fechaPreparacion : string = ""
+  fechaEntrega : string = ""
+  isEntregado : boolean = false
 
   isBarcode : boolean = false
 
@@ -33,12 +39,15 @@ export class ListaVentasComponent {
 
   public rol = sessionStorage.getItem("rol_id") 
 
+  
+
   // modales 
   isModalOpen: boolean = false
   public visible = false;
 
   toggleLiveDemo() {
     this.visible = !this.visible;
+    
   }
 
   handleLiveDemoChange(event: any) {
@@ -104,9 +113,18 @@ export class ListaVentasComponent {
     })
   }
 
-  verDetalle(id_venta : number){
+  verDetalle(id_venta : number, fecha_preparado : string, fecha_despacho : string , entregado : boolean){
+    this.isEntregado = entregado
     this.isNotaProducto = true
     this.isBarcode = false
+    this.idVentaSelec = id_venta
+
+    this.fechaPreparacion = fecha_preparado
+    this.fechaEntrega = fecha_despacho
+
+    console.log("Fecha preparacion,",this.fechaPreparacion)
+    console.log("fecha_despacho,",this.fechaEntrega)
+    console.log("isEntregado,",this.isEntregado)
 
     this.service.get_detalle_venta_por_id_venta(id_venta).subscribe(data => {
       this.listaVentaDetalle = data
@@ -114,7 +132,11 @@ export class ListaVentasComponent {
     this.toggleLiveDemo()
   }
 
-  verBarCode(id_venta : number){
+  verBarCode(id_venta : number, fecha_preparado : string, fecha_despacho : string ){
+    this.fechaPreparacion = fecha_preparado
+    this.fechaEntrega = fecha_despacho
+
+    this.isEntregado = true
     this.isNotaProducto = false
     this.isBarcode = true
     console.log(id_venta)
@@ -124,4 +146,33 @@ export class ListaVentasComponent {
     })
     this.toggleLiveDemo()
   }
+  actualizarEstadoEntrega(){
+
+    const fechaActual = new Date();
+    var año = fechaActual.getFullYear();
+    // El mes es devuelto en base 0, por lo que se suma 1 al mes
+    var mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); 
+    var dia = String(fechaActual.getDate()).padStart(2, '0');
+
+    console.log(fechaActual.toJSON())
+    var fechaFormateada = año + '-' + mes + '-' + dia;
+
+    var zonaHorariaOffset = fechaActual.getTimezoneOffset();
+    console.log(zonaHorariaOffset)
+    const body = {
+      Fecha_despacho : fechaFormateada,
+      Id_venta : this.idVentaSelec,
+      Fecha_full_data : fechaActual
+    }
+
+    this.service.update_despacho_nota_venta(body).subscribe((data : any) => {
+      console.log(data)
+      alert(data.message)
+      this.filtrarListaVentaPorMes(this.AnoSeleccionado+this.MesSeleccionado, this.sucursalSeleccionada)
+      this.toggleLiveDemo()
+    })  
+    
+    // alert("OK, ACTUALIZANDO ESTADO")
+  }
+
 }

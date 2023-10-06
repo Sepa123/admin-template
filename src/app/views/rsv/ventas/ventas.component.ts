@@ -310,4 +310,20 @@ export class VentasComponent {
 
   }
 
+
+  generar_N_factura(){
+    console.log(this.ventasForm.value.Region)
+    this.service.generar_codigo_factura(parseInt(this.ventasForm.value.Tipo_despacho)).subscribe((data : any) => {
+      console.log(data.Resultado == 0)
+      if(data.Resultado == 0){
+        this.ventasForm.patchValue({
+          Numero_factura : data.Codigo
+        })
+      }else{
+        alert(data.Mensaje)
+      }
+      
+    })
+  }
+
 }
