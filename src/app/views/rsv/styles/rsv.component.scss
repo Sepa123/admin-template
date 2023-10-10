@@ -198,7 +198,7 @@
 
 .paquetesPorAbrir{
   margin-top: 4rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   margin-left: 5rem;
 }
 
@@ -248,3 +248,12 @@ margin-top: 1.6rem;
   margin-top: 2.5rem;
 }
 
+.contenedor-info{
+  display: flex;
+}
+
+.tituloFecha{
+  margin-top: 2rem;
+  margin-left:4rem ;
+  margin-bottom: 1rem;
+}

@@ -6,6 +6,8 @@ import {PaquetesAbiertosRSV} from 'src/app/models/inventarioPaquetesAbiertos.int
 import { DatosCargaRSV } from 'src/app/models/datosCargaRSV.interface';
 import { ReimpresionEtiqueta } from 'src/app/models/reimpresionEtiqueta.interface';
 import Swal from 'sweetalert2';
+import { InventarioSucursal } from 'src/app/models/inventarioSucursal.interface';
+
 
 @Component({
   selector: 'app-listar-paquetes',
@@ -38,14 +40,17 @@ export class ListarPaquetesAbiertosComponent {
     codigoNeto!:string
     extraCodigo!: string
     finalCodigo!: string
+    produto!:string
 
-    listaEtiquetas :ReimpresionEtiqueta [][] = []
+    listaEtiquetas :EtiquetaRSV[]= []
     id_usuario! : number  
     idMs! : String 
     server! : string 
 
     fechaHoy = this.obtenerFechaActual()
     fechaAnterior = this.obtenerFechaAnterior()
+    
+    etiquetasReimpresas : any [] = []
 
     
     //datos geo
@@ -54,11 +59,45 @@ export class ListarPaquetesAbiertosComponent {
     latStr!: string
     longStr!: string
 
+    
+  isModalOpen: boolean = false
+  public visible1 = false;
+  public visible2 = false;
+
+  toggleLiveDemo() {
+    this.visible1 = !this.visible1;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible1 = event;
+  }
+
+  toggleLive() {
+    this.visible2 = !this.visible2;
+  }
+
+  handleLiveDemo(event: any) {
+    this.visible2 = event;
+  }
+  
+  openModal(){
+    
+    this.isModalOpen = true
+
+   
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
+
 
     ngOnInit(){
         this.service.get_sucursales().subscribe((data) => {
           this.sucursales = data
         })
+
+    
       }
 
     
@@ -100,27 +139,45 @@ export class ListarPaquetesAbiertosComponent {
             this.longStr = this.longitud.toString()
       }
       
-    paquetesAbiertosPorSucursal(){
-        this.paquetesOpenSucursal = []
-        this.restoPaquetesOpenSucursal = []
-        this.service.get_lista_paquetes_abiertos(parseInt(this.sucursalSeleccionada)).subscribe((data) =>{
-        const cargas = [...new Set(data.map((lista) => lista.carga))]
-        let array = []
-        let otroArray = []
-        cargas.map(cargaContenedor => {
-            array = data.filter( lista=> lista.carga == cargaContenedor && lista.fecha == this.fechaHoy)
-            if(array.length !== 0) {
-                this.paquetesOpenSucursal.push(array)
+      paquetesAbiertosPorSucursal() {
+        this.paquetesOpenSucursal = [];
+        this.restoPaquetesOpenSucursal = [];
+        const grupos: { [clave: string]: any[] } = {}; 
+        if (this.sucursalSeleccionada == ""){
+            Swal.fire({
+                icon: 'error',
+                title: 'Seleccione una sucursal',
+                });
+                this.bar_code = ""
+        }
+        this.service.get_lista_paquetes_abiertos(parseInt(this.sucursalSeleccionada)).subscribe((data) => {
+            for (const paquete of data) {
+                this.cargaSeleccionada = paquete.carga;
+                const color = paquete.color;
+                const fechaPaquete = paquete.fecha;
+                const claveCargaColor = `${this.cargaSeleccionada}-${color}`;
+                const claveFecha = fechaPaquete === this.fechaHoy ? 'Hoy' : 'Anteriores';
+                // Construye una clave única para cada grupo
+                const claveGrupo = `${claveCargaColor}-${claveFecha}`;
+                // Si el grupo no existe, créalo
+                if (!grupos[claveGrupo]) {
+                    grupos[claveGrupo] = [];
+                }
+                // Agrega el paquete al grupo correspondiente
+                grupos[claveGrupo].push(paquete);      
             }
-            console.log(this.paquetesOpenSucursal)
-            otroArray = data.filter(lista => lista.carga == cargaContenedor && lista.fecha != this.fechaHoy)
-            this.restoPaquetesOpenSucursal.push(otroArray)
-            })
-           
-         })
+            // Extrae los grupos en un arreglo plano
+            const gruposArray = Object.values(grupos);
+            gruposArray.forEach((grupo) => {
+                if (grupo.some((paquete) => paquete.fecha === this.fechaHoy)) {
+                    this.paquetesOpenSucursal.push(grupo);
+                } else {
+                    this.restoPaquetesOpenSucursal.push(grupo);
+                }
+            });
+        });
+    }
     
-     }
-
     abrirPaquete(bar_code: string){
         this.codigo_barra = this.bar_code.replace(/"/g, '@').replace(/'/g, '-')
         this.service.validar_sucursal_barc_code(this.codigo_barra).subscribe((resultado: any)=>{
@@ -129,7 +186,11 @@ export class ListarPaquetesAbiertosComponent {
                 this.data = resultado[0]
                 this.idEtiqueta = this.data.Id
                 this.sucursalEtiqueta = this.data.id_sucursal
-               
+                this.carga = this.data.carga
+                this.extraCodigo = this.codigo_barra.split('@')[1] 
+                this.finalCodigo = this.extraCodigo.split('-')[1]
+                this.tipo = this.finalCodigo[0]; 
+ 
 
                 //DATOS DEL USUARIO
                 this.id_usuario = parseInt(sessionStorage['id'])
@@ -164,115 +225,167 @@ export class ListarPaquetesAbiertosComponent {
                         //ingreso en bitacora
                         console.log("ingreso con exito")
                         })
-                        this.service.downloadReimpresionEtiquetasExcel(this.idEtiqueta)
+                        this.service.downloadReimpresionEtiquetasExcel(this.carga, this.idEtiqueta, this.tipo)
                       //desplegar la lista actual de paquetes abiertos
-                        this.service.get_lista_paquetes_abiertos(parseInt(this.sucursalEtiqueta)).subscribe((data) =>{
-                        const cargas = [...new Set(data.map((lista) => lista.carga))]
-                        let array = []
-                        cargas.map(cargaContenedor => {
-                        array = data.filter( lista=> lista.carga == cargaContenedor)
-                        this.paquetesOpenSucursal.push(array)
-                        })
-                        })
-                    }
+                      const grupos: { [clave: string]: any[] } = {}; 
+                      this.service.get_lista_paquetes_abiertos(parseInt(this.sucursalSeleccionada)).subscribe((data) => {
+                        for (const paquete of data) {
+                            const carga = paquete.carga;
+                            const color = paquete.color;
+                            const fechaPaquete = paquete.fecha;
+                            const claveCargaColor = `${carga}-${color}`;
+                            const claveFecha = fechaPaquete === this.fechaHoy ? 'Hoy' : 'Anteriores';
+                            const claveGrupo = `${claveCargaColor}-${claveFecha}`;
+                            if (!grupos[claveGrupo]) {
+                                grupos[claveGrupo] = [];
+                            }
+                            grupos[claveGrupo].push(paquete);      
+                        }
+                        const gruposArray = Object.values(grupos);
+                        gruposArray.forEach((grupo) => {
+                            if (grupo.some((paquete) => paquete.fecha === this.fechaHoy)) {
+                                this.paquetesOpenSucursal.push(grupo);
+                            } else {
+                                this.restoPaquetesOpenSucursal.push(grupo);
+                            }
+                        });
+                    });
                         this.bar_code = ""
+                    }
                     })
             }else{
                 Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'El código ingresado es incorrecto',
-                });
+                    icon: 'error',
+                    title: 'El código ingresado es incorrecto',
+                    text: 'por favor validar',
+                    });
             }
         })
     }
 
   
-    reimprimirEtiqueta(codigo: number){
-        this.service.downloadReimpresionEtiquetasExcel(codigo)
+    reimprimirEtiqueta(carga: string, codigo: number, tipo: string){
+        console.log(this.carga)
+        this.service.downloadReimpresionEtiquetasExcel(carga, codigo, tipo)
     }
 
     reimprimirEtiquetaUnica( bar_code: string){
         this.barCode = bar_code
-        this.codigoUnidad = this.barCode.replace(/'(\d+)"/g, '-$1@').replace(/'U(\d+)/g, '$1-');
-        this.codigoProducto = this.codigoUnidad.split('@')[0]
-        this.codigoNeto = this.codigoProducto.split('-')[0]
-        this.extraCodigo = this.codigoUnidad.split('@')[1] 
-        this.finalCodigo = this.extraCodigo.split('-')[1]
-        console.log(this.extraCodigo)
-        console.log(this.finalCodigo)
-        this.tipo = this.finalCodigo[0]; 
-        console.log(this.tipo)
-        if (this.tipo.includes('U')){   
-           
-            this.service.validar_sucursal_barc_code(this.codigoUnidad).subscribe((resultado: any)=>{
-                if (resultado && resultado.length > 0 && resultado[0].Id) {
-                    //validamos de que exista un ID 
-                    this.data = resultado[0]
-                    this.idEtiqueta = this.data.Id
-                    this.sucursalEtiqueta = this.data.id_sucursal
-                    this.carga = this.data.carga
-                
-                    console.log(this.carga)
-    
-                    //DATOS DEL USUARIO
-                    this.id_usuario = parseInt(sessionStorage['id'])
-                    this.server = sessionStorage['server']
-                    this.idMs= this.server+ "-"+this.id_usuario
-                    const body = {
-                    "id_usuario": this.id_usuario ,
-                    "ids_usuario": this.idMs ,
-                    "sucursal": this.sucursalEtiqueta,
-                    "id_etiqueta": this.idEtiqueta ,
-                    "bar_code": this.codigoUnidad ,
-                    "momento": 1 ,
-                    "lat":this.latStr ,
-                    "lng":this.longStr ,
-                    }
-                    console.log(body)
-                    this.service.bitacora_rsv(body).subscribe((resultado) =>{
-                        //ingreso en bitacora
-                        console.log("ingreso con exito")
-                        })
-                      
-                    this.service.downloadReimpresionEtiquetasUnicasExcel(this.carga,this.codigoNeto ,this.tipo, this.codigoUnidad)
-                }
-            })
-
-        }else if (this.tipo.includes('P')){
         
-            this.service.validar_sucursal_barc_code(this.codigoUnidad).subscribe((resultado: any)=>{
-                if (resultado && resultado.length > 0 && resultado[0].Id) {
-                    //validamos de que exista un ID 
-                    this.data = resultado[0]
-                    this.idEtiqueta = this.data.Id
-                    this.sucursalEtiqueta = this.data.id_sucursal
-                    this.carga = this.data.carga
-               
-    
-                    //DATOS DEL USUARIO
-                    this.id_usuario = parseInt(sessionStorage['id'])
-                    this.server = sessionStorage['server']
-                    this.idMs= this.server+ "-"+this.id_usuario
-                    const body = {
-                    "id_usuario": this.id_usuario ,
-                    "ids_usuario": this.idMs ,
-                    "sucursal": this.sucursalEtiqueta,
-                    "id_etiqueta": this.idEtiqueta ,
-                    "bar_code": this.codigoUnidad ,
-                    "momento": 1 ,
-                    "lat":this.latStr ,
-                    "lng":this.longStr ,
+        this.codigoUnidad = this.barCode.replace(/'(\d+)"/g, '-$1@').replace(/'U(\d+)/g, '$1-');
+        if ( this.codigoUnidad.includes("@") && this.codigoUnidad.includes("-")) {
+            this.codigoProducto = this.codigoUnidad.split('@')[0]
+            this.codigoNeto = this.codigoProducto.split('-')[0]
+            this.extraCodigo = this.codigoUnidad.split('@')[1] 
+            this.finalCodigo = this.extraCodigo.split('-')[1]
+            this.tipo = this.finalCodigo[0]; 
+            this.restoPaquetesOpenSucursal = []
+            this.paquetesOpenSucursal = []
+            if (this.tipo.includes('U')){   
+           
+                this.service.validar_sucursal_barc_code(this.codigoUnidad).subscribe((resultado: any)=>{
+                    if (resultado && resultado.length > 0 && resultado[0].Id) {
+                        //validamos de que exista un ID 
+                        this.data = resultado[0]
+                        this.idEtiqueta = this.data.Id
+                        this.sucursalEtiqueta = this.data.id_sucursal
+                        this.carga = this.data.carga
+                        this.barCode = ""
+                        //DATOS DEL USUARIO
+                        this.id_usuario = parseInt(sessionStorage['id'])
+                        this.server = sessionStorage['server']
+                        this.idMs= this.server+ "-"+this.id_usuario
+                        const body = {
+                        "id_usuario": this.id_usuario ,
+                        "ids_usuario": this.idMs ,
+                        "sucursal": this.sucursalEtiqueta,
+                        "id_etiqueta": this.idEtiqueta ,
+                        "bar_code": this.codigoUnidad ,
+                        "momento": 2 ,
+                        "lat":this.latStr ,
+                        "lng":this.longStr ,
+                        }
+                        const datosEtiqueta = {
+                        "carga": this.carga,
+                        "codigo": this.codigoNeto,
+                        "bar_code": this.codigoUnidad,
+                        "tipo": this.tipo,
+                        "id": this.idEtiqueta
+                        }
+                        this.etiquetasReimpresas.push(datosEtiqueta)
+                        console.log(body)
+                        this.service.bitacora_rsv(body).subscribe((resultado) =>{
+                            //ingreso en bitacora
+                            console.log("ingreso con exito")
+                            })
+                      
+                        this.service.downloadReimpresionEtiquetasUnicasExcel(this.carga,this.codigoNeto ,this.tipo, this.codigoUnidad)
+                        Swal.fire({
+                        icon: 'success',
+                        title: 'Descarga realizada',
+                        });
+                      
                     }
-                    console.log(body)
-                    this.service.bitacora_rsv(body).subscribe((resultado) =>{
+                })
+
+            }else if (this.tipo.includes('P')){
+        
+                this.service.validar_sucursal_barc_code(this.codigoUnidad).subscribe((resultado: any)=>{
+                    if (resultado && resultado.length > 0 && resultado[0].Id) {
+                        //validamos de que exista un ID 
+                        this.data = resultado[0]
+                        this.idEtiqueta = this.data.Id
+                        this.sucursalEtiqueta = this.data.id_sucursal
+                        this.carga = this.data.carga
+                        this.barCode = ""
+    
+                        //DATOS DEL USUARIO
+                        this.id_usuario = parseInt(sessionStorage['id'])
+                        this.server = sessionStorage['server']
+                        this.idMs= this.server+ "-"+this.id_usuario
+                        const body = {
+                        "id_usuario": this.id_usuario ,
+                        "ids_usuario": this.idMs ,
+                        "sucursal": this.sucursalEtiqueta,
+                        "id_etiqueta": this.idEtiqueta ,
+                        "bar_code": this.codigoUnidad ,
+                        "momento": 2 ,
+                        "lat":this.latStr ,
+                        "lng":this.longStr ,
+                        }
+                        const datosEtiqueta = {
+                        "carga": this.carga,
+                        "codigo": this.codigoNeto,
+                        "bar_code": this.codigoUnidad,
+                        "tipo": this.tipo,
+                        "id": this.idEtiqueta
+                        }
+                        this.etiquetasReimpresas.push(datosEtiqueta)
+                        console.log(body)
+            
+                        this.service.bitacora_rsv(body).subscribe((resultado) =>{
                         //ingreso en bitacora
                         console.log("ingreso con exito")
                         })
                       
-                    this.service.downloadReimpresionEtiquetasUnicasExcel(this.carga,this.codigoNeto ,this.tipo, this.codigoUnidad)
-                }
-            })
+                        this.service.downloadReimpresionEtiquetasUnicasExcel(this.carga,this.codigoNeto ,this.tipo, this.codigoUnidad)
+                        Swal.fire({
+                        icon: 'success',
+                        title: 'Descarga realizada',
+                        });
+                
+                    }   
+                })
+
+            }
+    
+        }else{
+            this.barCode = ""
+            Swal.fire({
+                icon: 'error',
+                title: 'El código ingresado es incorrecto',
+                text: 'por favor validar',
+                });
 
         }
        

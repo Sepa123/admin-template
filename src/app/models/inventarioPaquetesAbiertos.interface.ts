@@ -4,5 +4,8 @@ export interface PaquetesAbiertosRSV {
     carga : string;
     bar_code: string;
     codigo: string;
+    color: string;
+    descripcion: string;
+    tipo: string;
   
 }

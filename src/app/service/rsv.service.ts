@@ -27,13 +27,13 @@ export class RsvService {
     return this.http.get<PaquetesAbiertosRSV[]>(this.apiurl + `/lista-paquetes/${sucursal}`)
   }
 
-  downloadReimpresionEtiquetasExcel( codigo : number) {
+  downloadReimpresionEtiquetasExcel( nombre_carga : string, codigo : number, tipo : string) {
     this.http.get(`${this.apiurl}/etiquetas/reimprimir/descargar?codigo=${codigo}`, {responseType:"blob"})
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url
-      a.download = `Etiqueta-${codigo}.xlsx`;
+      a.download =`${nombre_carga}-${codigo}-${tipo}.xlsx`; 
         a.click();
         window.URL.revokeObjectURL(url);
     })
@@ -45,8 +45,7 @@ export class RsvService {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url
-      a.download = `${nombre_carga}-${codigo}-${tipo}.xlsx`;
-        a.click();
+      a.download = `${nombre_carga}-${codigo}-${tipo}.xlsx`; 
         window.URL.revokeObjectURL(url);
     })
   }
