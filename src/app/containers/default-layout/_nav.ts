@@ -375,7 +375,7 @@ export const navItems: INavDataBar[] = [
       url: '/rsv/inventario-sucursal'
      },
     //  {
-    //   name: 'Ubicación',
+    //   name: 'Racks estructura',
     //   url: '/rsv/ubicacion-producto'
     //  },
      {

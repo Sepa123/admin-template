@@ -5,7 +5,7 @@ export interface RutaEnActivo {
     SKU:               string;
     Producto:          string;
     Unidades:          string;
-    Bultos:            number;
+    Bultos:            string;
     Nombre_cliente:    string;
     Direccion_cliente: string;
     Telefono:          string;

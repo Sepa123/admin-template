@@ -12,6 +12,7 @@ import { EvaluacionPedidoRSV} from 'src/app/models/evaluacionPedidoRSV.interface
 import {EstructuraRSV} from 'src/app/models/estructuraRSV.interface'
 import { MatchSucursalRSV } from '../models/matchSucursalRSV.interface';
 import { DetalleVenta, NotaVenta , NotaVentaProducto } from '../models/notaVenta.interface';
+import { PesoPosicionSucursal } from "src/app/models/pesoPosicionSucursal.interface"
 
 @Injectable({
   providedIn: 'root'
@@ -225,6 +226,10 @@ export class RsvService {
 
   generar_codigo_factura(tipo_retiro : number){
     return this.http.get(this.apiurl + `/codigo/factura/venta?retiro=${tipo_retiro}`) 
+  }
+
+  get_peso_posicion_sucursal(estructura : string, sucursal : number){
+    return this.http.get<PesoPosicionSucursal []>(this.apiurl + `/peso/posicion/sucursal?estructura=${estructura}&sucursal=${sucursal}`) 
   }
   
   

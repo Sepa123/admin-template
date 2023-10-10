@@ -1,10 +1,12 @@
 import { Component,ElementRef ,ViewChild, AfterViewInit} from '@angular/core';
 import { RsvService } from 'src/app/service/rsv.service'
 import { EstructuraRSV } from 'src/app/models/estructuraRSV.interface';
+import { PesoPosicionSucursal } from "src/app/models/pesoPosicionSucursal.interface"
+import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
 @Component({
   selector: 'app-ubicacion',
   templateUrl: './ubicacion.component.html',
-  styleUrls: ['./ubicacion.component.scss']
+  styleUrls: ['../styles/rsv.component.scss']
 })
 export class UbicacionComponent {
 
@@ -12,9 +14,38 @@ export class UbicacionComponent {
 
 
   listaEstructura : EstructuraRSV [] = []
-  estructuraSeleccion : string = ""
+  estructuraSeleccion : string = "" 
+  sucursalSeleccion : string = "" 
+  sucursalesRSV : SucursalRSV [] = []
+  listaPesoSucursal : PesoPosicionSucursal [] = []
+  public rol = sessionStorage.getItem("rol_id") 
 
   constructor(private service : RsvService) {}
+
+  // modales 
+  isModalOpen: boolean = false
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+    
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    this.isModalOpen = true
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
+
+  buscarEstructura(){
+    
+  }
 
   ngAfterViewInit(){
     const canvas = this.canvas.nativeElement;
@@ -60,7 +91,8 @@ export class UbicacionComponent {
         const area = buttonAreas[i];
         if (mouseX >= area.x && mouseX <= area.x + area.width && mouseY >= area.y && mouseY <= area.y + area.height) {
           // El clic está dentro de esta área de botón
-          alert(`Haz presionado el botón ${i + 1}`);
+          // alert(`Haz presionado el botón ${i + 1}`);
+          this.verProductoPesoEstructura()
           // Realiza las acciones que desees cuando se presione el botón aquí
           break;
         } else {
@@ -74,9 +106,27 @@ export class UbicacionComponent {
     this.service.get_lista_estructura().subscribe(data => {
       this.listaEstructura = data
     })
+
+    setTimeout(() => {
+      this.service.get_sucursales().subscribe((data) => {
+        this.sucursalesRSV = data
+        if(this.rol !== '5'){
+          this.sucursalesRSV = this.sucursalesRSV.filter(sucursal => sucursal.Id !== 2)
+        }
+      })
+    },500)
+    
   }
 
   selecccionarEstructura(){
     alert(this.estructuraSeleccion)
+  }
+
+  verProductoPesoEstructura(){
+    this.service.get_peso_posicion_sucursal("E7", 1).subscribe((data) => {
+      console.log(data)
+      this.listaPesoSucursal = data
+      this.toggleLiveDemo()
+    })
   }
 }

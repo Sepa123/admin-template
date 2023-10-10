@@ -71,57 +71,57 @@ export class RutasActivasComponent {
   }
 
 
-  dataRecov! : Nominatim []
+  // dataRecov! : Nominatim []
 
-  async buscarlalonRutas(rutaActual: RutaEnActivo []){
-    const idsVistos = new Set(); 
-    const rutaFilter = rutaActual.filter(ruta => {
-      if (!idsVistos.has(ruta.Direccion_cliente)) {
-        idsVistos.add(ruta.Direccion_cliente)
-        return true
-      }
-      return false;
-    });
+  // async buscarlalonRutas(rutaActual: RutaEnActivo []){
+  //   const idsVistos = new Set(); 
+  //   const rutaFilter = rutaActual.filter(ruta => {
+  //     if (!idsVistos.has(ruta.Direccion_cliente)) {
+  //       idsVistos.add(ruta.Direccion_cliente)
+  //       return true
+  //     }
+  //     return false;
+  //   });
     
-    const promesas = rutaFilter.map(async ruta => {
-      await this.buscarLatLon(ruta.Comuna, ruta.Direccion_cliente, ruta.Region);
-    });
+  //   const promesas = rutaFilter.map(async ruta => {
+  //     await this.buscarLatLon(ruta.Comuna, ruta.Direccion_cliente, ruta.Region);
+  //   });
   
-    await Promise.all(promesas);
-  }
+  //   await Promise.all(promesas);
+  // }
 
-  buscarLatLon(comuna : string, direccion : string, region : string){
-    // const set =  Array.from(new SetarrayDirecciones)
-    const dir_entregada = direccion+", "+comuna+ ", "+region+", Chile"
+  // buscarLatLon(comuna : string, direccion : string, region : string){
+  //   // const set =  Array.from(new SetarrayDirecciones)
+  //   const dir_entregada = direccion+", "+comuna+ ", "+region+", Chile"
 
-    const  body= {
-      "Id_usuario" : sessionStorage.getItem('id'),
-      "Direccion" : dir_entregada,
-      "Comuna" : comuna,
-      "Region" : region,
-      "Lat" : "",
-      "Lng" : "",
-      "Ids_usuario" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
-      "Display_name" : "",
-      "Type" : ""
-    }
-    this.service.geolocalizar_direcciones(body).subscribe((data : any) => {
-      console.log(data)
-      // alert(JSON.stringify(data))
-    })
-  }
+  //   const  body= {
+  //     "Id_usuario" : sessionStorage.getItem('id'),
+  //     "Direccion" : dir_entregada,
+  //     "Comuna" : comuna,
+  //     "Region" : region,
+  //     "Lat" : "",
+  //     "Lng" : "",
+  //     "Ids_usuario" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+  //     "Display_name" : "",
+  //     "Type" : ""
+  //   }
+  //   this.service.geolocalizar_direcciones(body).subscribe((data : any) => {
+  //     console.log(data)
+  //     // alert(JSON.stringify(data))
+  //   })
+  // }
 
-  buscarDatosDireccion(direccion : string){
-    this.http.get<Nominatim []>(`https://nominatim.openstreetmap.org/search?format=json&limit=5&q=${direccion}`).subscribe((data) => {
-      this.dataRecov = data
-      if (this.dataRecov.length === 0) return console.log("no se encontraron datos")
-      console.log("Direccion: ", direccion)
-      console.log("Latitud :",this.dataRecov[0].lat)
-      console.log("Longitud :",this.dataRecov[0].lon)
-      console.log("Direccion: ",this.dataRecov[0].display_name)
-      console.log(" ")
-    })
-  }
+  // buscarDatosDireccion(direccion : string){
+  //   this.http.get<Nominatim []>(`https://nominatim.openstreetmap.org/search?format=json&limit=5&q=${direccion}`).subscribe((data) => {
+  //     this.dataRecov = data
+  //     if (this.dataRecov.length === 0) return console.log("no se encontraron datos")
+  //     console.log("Direccion: ", direccion)
+  //     console.log("Latitud :",this.dataRecov[0].lat)
+  //     console.log("Longitud :",this.dataRecov[0].lon)
+  //     console.log("Direccion: ",this.dataRecov[0].display_name)
+  //     console.log(" ")
+  //   })
+  // }
 
  public rol = sessionStorage.getItem("rol_id") 
   asignarRuta() {
@@ -222,34 +222,44 @@ export class RutasActivasComponent {
       this.service.get_rutas_en_activo(nombreRuta).subscribe((data) => {
         // this.nombreRutaActual = nombreRuta
         this.rutaEnActivo = data
-        this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  sum + bulto.Bultos, 0)
+        // this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  sum + bulto.Bultos, 0)
+
+        this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  {
+          bulto.arrayBultos = bulto.Bultos.split('@')
+
+          let sumaBultos = bulto.Bultos.split('@').map( str => parseInt(str,10)).reduce((total, num) => total + num, 0)
+          return sum + sumaBultos
+        },0)
+        
         this.rutaEnActivo.map(ruta => {
           if(ruta.Verificado === false && NombreRuta) NombreRuta.Verificado = false
-          this.arrayDirecciones.push(ruta.Direccion_cliente+ ","+ruta.Comuna + ", Chile")
+          //this.arrayDirecciones.push(ruta.Direccion_cliente+ ","+ruta.Comuna + ", Chile")
           ruta.arraySKU = ruta.SKU.split('@')
           ruta.arrayProductos = ruta.Producto.split('@')
-          prevArrayUnidades = ruta.Unidades.split('@')
-          // ruta.arrayBultos = ruta.Bultos.split('@')
-          let bultos = prevArrayUnidades.reduce((sum,und) => sum + parseInt(und), 0)
+          ruta.arrayBultos = ruta.Bultos.split('@')
+          ruta.arrayUnidades = ruta.Unidades.split('@')
+          // prevArrayUnidades = ruta.Unidades.split('@')
+          // // ruta.arrayBultos = ruta.Bultos.split('@')
+          // let bultos = prevArrayUnidades.reduce((sum,und) => sum + parseInt(und), 0)
 
 
-          for (let i = 0; i < ruta.arraySKU.length; i++) {  
-            currentArrayUnidades.push(prevArrayUnidades[i])
-          }
+          // for (let i = 0; i < ruta.arraySKU.length; i++) {  
+          //   currentArrayUnidades.push(prevArrayUnidades[i])
+          // }
           
-          ruta.arrayUnidades = currentArrayUnidades
-          ruta.arrayBultos = currentArrayUnidades
+          // ruta.arrayUnidades = currentArrayUnidades
+          // ruta.arrayBultos = currentArrayUnidades
 
-          if(regex.test(ruta.Producto)){
-            ruta.arrayBultos = []
-            console.log("bultos cd",bultos)
-            ruta.arrayBultos.push(ruta.Bultos.toString())
-          }
-          console.log(ruta.Bultos)
-          console.log("<<sku",ruta.arraySKU.length)
+          // if(regex.test(ruta.Producto)){
+          //   ruta.arrayBultos = []
+          //   console.log("bultos cd",bultos)
+          //   ruta.arrayBultos.push(ruta.Bultos.toString())
+          // }
+          // console.log(ruta.Bultos)
+          // console.log("<<sku",ruta.arraySKU.length)
         
-          console.log("<<unidades",ruta.arrayUnidades.length)
-          currentArrayUnidades = []
+          // console.log("<<unidades",ruta.arrayUnidades.length)
+          // currentArrayUnidades = []
           
         })
 
