@@ -35,7 +35,9 @@
 
 
   <div *ngFor="let navItem of navItems">
-    <c-sidebar-nav *ngIf="rol ? navItem.roles?.includes(rol) : false"
+    <!-- <c-sidebar-nav *ngIf="rol ? navItem.roles?.includes(rol) : false" -->
+    <c-sidebar-nav 
+      *ngIf="(rol ? navItem.roles?.includes(rol) : false) || (email ? navItem.roles?.includes(email) : false)"
       [navItems]="[navItem]" 
       dropdownMode="close"
     >

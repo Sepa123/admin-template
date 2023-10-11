@@ -25,7 +25,7 @@ export class DefaultLayoutComponent implements OnInit {
   
   ngOnInit(): void {
     this.rol = sessionStorage.getItem("rol_id") 
-
+    this.email = sessionStorage.getItem('mail')
   }
   // navItems = navItems;
   public rol = sessionStorage.getItem("rol_id") 
@@ -37,7 +37,9 @@ export class DefaultLayoutComponent implements OnInit {
   };
 
   constructor(private rolService : RolSaveService) {
-    this.rol = sessionStorage.getItem("rol_id") 
+    this.rol = sessionStorage.getItem("rol_id")
+    this.email = sessionStorage.getItem('mail')
+    console.log(this.email) 
   }
 
   isToggle : boolean = true

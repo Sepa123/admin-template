@@ -22,7 +22,7 @@ export class PermissionGuard implements CanActivate {
     this.user_id = sessionStorage.getItem('id')+""
     this.isFabianLara = sessionStorage.getItem('server')+'-'+this.user_id 
     
-    if(route.data['roles'].includes(this.rol_user) || route.data['roles'].includes(this.isFabianLara)){
+    if(route.data['roles'].includes(this.rol_user)){
       return true;
     }else
     {
