@@ -265,7 +265,6 @@ export class ListarPaquetesAbiertosComponent {
 
   
     reimprimirEtiqueta(carga: string, codigo: number, tipo: string){
-        console.log(this.carga)
         this.service.downloadReimpresionEtiquetasExcel(carga, codigo, tipo)
     }
 
@@ -369,6 +368,7 @@ export class ListarPaquetesAbiertosComponent {
                         })
                       
                         this.service.downloadReimpresionEtiquetasUnicasExcel(this.carga,this.codigoNeto ,this.tipo, this.codigoUnidad)
+                        console.log("descarga", this.carga,this.codigoNeto ,this.tipo, this.codigoUnidad)
                         Swal.fire({
                         icon: 'success',
                         title: 'Descarga realizada',

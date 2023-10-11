@@ -46,6 +46,7 @@ export class RsvService {
       const a = document.createElement("a");
       a.href = url
       a.download = `${nombre_carga}-${codigo}-${tipo}.xlsx`; 
+        a.click()
         window.URL.revokeObjectURL(url);
     })
   }
