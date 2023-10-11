@@ -25,6 +25,7 @@ import { InventarioSucursalesComponent } from './inventario-sucursales/inventari
 import { UbicacionComponent } from './ubicacion/ubicacion.component';
 import { FiltroUbicacionComponent } from './filtro-ubicacion/filtro-ubicacion.component';
 import { ListaVentasComponent } from './lista-ventas/lista-ventas.component';
+import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/listar-paquetes-abiertos.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { ListaVentasComponent } from './lista-ventas/lista-ventas.component';
     InventarioSucursalesComponent,
     UbicacionComponent,
     FiltroUbicacionComponent,
-    ListaVentasComponent
+    ListaVentasComponent,
+    ListarPaquetesAbiertosComponent
   ],
   imports: [
     CommonModule,

@@ -10,6 +10,7 @@ import { InventarioSucursalesComponent } from './inventario-sucursales/inventari
 import { UbicacionComponent } from './ubicacion/ubicacion.component';
 import { FiltroUbicacionComponent } from './filtro-ubicacion/filtro-ubicacion.component';
 import { ListaVentasComponent } from './lista-ventas/lista-ventas.component';
+import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/listar-paquetes-abiertos.component';
 
 const routes: Routes = [
   {
@@ -86,6 +87,13 @@ const routes: Routes = [
         component : ListaVentasComponent,
         data : {
           title : "Lista Ventas"
+        } 
+      },
+      {
+        path : 'listar-paquetes',
+        component : ListarPaquetesAbiertosComponent,
+        data : {
+          title : "Lista Paquetes"
         } 
       }
     ]

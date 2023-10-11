@@ -63,8 +63,8 @@ export class UbicacionComponent {
     img2.src = url; 
 
     const buttonAreas = [
-      { x: 200, y: 220, width: 32, height: 32 ,texto: "X" },
-      { x: 200, y: 300, width: 32, height: 32 ,texto: "xxpd"}
+      { x: 200, y: 220, width: 32, height: 32 ,texto: "E1" , pos : '1' },
+      { x: 200, y: 300, width: 32, height: 32 ,texto: "E2", pos : '2'}
       // Área del primer botón (x, y, ancho, alto)
       // Agrega más áreas de botón si es necesario
     ];
@@ -74,7 +74,7 @@ export class UbicacionComponent {
 
       buttonAreas.map((button => {
         ctx?.drawImage(img2, button.x, button.y, button.width, button.height);
-        // ctx?.fillText(button.texto, button.x, button.y);
+        ctx?.fillText(button.texto, button.x, button.y);
       }))
     
       // ctx?.drawImage(img2, 200, 200, 32, 32);
@@ -92,7 +92,10 @@ export class UbicacionComponent {
         if (mouseX >= area.x && mouseX <= area.x + area.width && mouseY >= area.y && mouseY <= area.y + area.height) {
           // El clic está dentro de esta área de botón
           // alert(`Haz presionado el botón ${i + 1}`);
-          this.verProductoPesoEstructura()
+
+          const posicion = this.estructuraSeleccion + area.pos
+          this.verProductoPesoEstructura(posicion, parseInt(this.sucursalSeleccion))
+
           // Realiza las acciones que desees cuando se presione el botón aquí
           break;
         } else {
@@ -122,8 +125,8 @@ export class UbicacionComponent {
     alert(this.estructuraSeleccion)
   }
 
-  verProductoPesoEstructura(){
-    this.service.get_peso_posicion_sucursal("E7", 1).subscribe((data) => {
+  verProductoPesoEstructura(posicion : string , suc : number){
+    this.service.get_peso_posicion_sucursal(posicion, suc).subscribe((data) => {
       console.log(data)
       this.listaPesoSucursal = data
       this.toggleLiveDemo()
