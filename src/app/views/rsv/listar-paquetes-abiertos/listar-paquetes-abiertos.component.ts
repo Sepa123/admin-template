@@ -180,7 +180,7 @@ closeModal(){
   }
   
   abrirPaquete(bar_code: string){
-      this.codigo_barra = this.bar_code.replace(/"/g, '@').replace(/'/g, '-')
+      this.codigo_barra = this.bar_code.replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
       this.service.validar_sucursal_barc_code(this.codigo_barra).subscribe((resultado: any)=>{
           if (resultado && resultado.length > 0 && resultado[0].Id) {
               //validamos de que exista un ID 
@@ -272,7 +272,7 @@ closeModal(){
   reimprimirEtiquetaUnica( bar_code: string){
       this.barCode = bar_code
       
-      this.codigoUnidad = this.barCode.replace(/'(\d+)"/g, '-$1@').replace(/'U(\d+)/g, '$1-');
+      this.codigoUnidad = this.barCode.replace(/'(\d+)"/g, '-$1@').replace(/'U(\d+)/g, '$1-').toUpperCase();
       if ( this.codigoUnidad.includes("@") && this.codigoUnidad.includes("-")) {
           this.codigoProducto = this.codigoUnidad.split('@')[0]
           this.codigoNeto = this.codigoProducto.split('-')[0]

@@ -49,7 +49,7 @@ export class FiltroUbicacionComponent {
     //obtenemos la ultima ubicacion ingresada
     this.ubicacionActual = this.ubicaciones[this.ubicaciones.length - 1];
     //reemplazo de simbolos
-    this.ubicacionCorregida = this.ubicacionActual.replace(/"/g, '@').replace(/'/g, '-')
+    this.ubicacionCorregida = this.ubicacionActual.replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
     this.partes = this.ubicacionCorregida.split('@');
     this.codigoCortado = this.partes[0]
     this.ubicacionActual = this.ubicacionCorregida
@@ -72,7 +72,7 @@ export class FiltroUbicacionComponent {
 
   asignarUbicacionPorId() {
     if(this.barCode){
-    this.codigoBarra = this.barCode.replace(/"/g, '@').replace(/'/g, '-')
+    this.codigoBarra = this.barCode.replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
     if (this.ubicacionActual && this.barCode) {
         this.Verificado = true
         const body={
