@@ -281,5 +281,31 @@ export class RsvService {
     return this.http.get<PesoPosicionSucursal []>(this.apiurl + `/peso/posicion/sucursal?estructura=${estructura}&sucursal=${sucursal}`) 
   }
   
+
+  //descargar Inventario sucursal
+
+  downloadInventarioSucursalExcel(sucursal : number, nombre : string ) {
+    this.http.get(this.apiurl + `/inventario/sucursales/${sucursal}/descargar`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `Inventario-sucursal-${nombre}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+  downloadListaCargaExcel(nombre_carga : string){
+    this.http.get(this.apiurl + `/datos/etiquetas/carga/${nombre_carga}/descargar`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `Lista-${nombre_carga}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
   
 }

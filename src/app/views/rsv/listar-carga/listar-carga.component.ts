@@ -15,6 +15,8 @@ import { ROLES_ENUM } from 'src/app/models/enum/roles.enum';
 })
 export class ListarCargaComponent {
 
+  isCargaSelect : boolean = false
+
   verEtiquetasDescargar : string [] = [ROLES_ENUM.ADMIN,ROLES_ENUM.ADMINISTRATIVO_RSV,ROLES_ENUM.JEFE_OPERACIONES,ROLES_ENUM.SUPERVISOR_RSV]
 
   codigoEliminar : string [] = []
@@ -145,11 +147,17 @@ export class ListarCargaComponent {
       const colores  =  [...new Set(this.listaEtiquetas.map((lista) => lista.Color))]
       // arrlistaEtiquetas
       let array = []
+
+      this.isCargaSelect = true
       colores.map(color => {
         array = this.listaEtiquetas.filter(lista => lista.Color == color)
         this.arrlistaEtiquetas.push(array)
       })
     })
+  }
+
+  descargarLista(){
+    this.service.downloadListaCargaExcel(this.cargaSeleccionada)
   }
 
   descargarEtiquetas(codigo : string, tipo : string){
@@ -169,10 +177,15 @@ export class ListarCargaComponent {
   }
 
   verificarCarga(nombre_carga : string){
+
+    const fechaActual = new Date();
+    const añoActual = fechaActual.getFullYear().toString();
+    const mesActual = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+
     this.service.generar_etiquetas_por_nombre_carga(nombre_carga).subscribe((data :any) =>{
       if(data.alerta == 0){
         alert(data.message)
-        this.service.get_listar_cargas_por_mes(this.AnoSeleccionado+this.MesSeleccionado).subscribe((data)=> {
+        this.service.get_listar_cargas_por_mes(añoActual+mesActual).subscribe((data)=> {
           this.tablaCarga = data
           if(this.rol !== '5'){
             this.tablaCarga  = this.tablaCarga .filter(sucursal => sucursal.Sucursal !== "Prueba")

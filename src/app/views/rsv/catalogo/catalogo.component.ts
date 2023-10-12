@@ -13,6 +13,9 @@ export class CatalogoComponent {
 
   verEditar : string [] = [ROLES_ENUM.ADMIN,ROLES_ENUM.ADMINISTRATIVO_RSV,ROLES_ENUM.JEFE_OPERACIONES,ROLES_ENUM.SUPERVISOR_RSV]
 
+  arrCatalogoRSVFull : CatalogoRSV [][] = []
+  arrCatalogoRSV : CatalogoRSV [][] = []
+
   isLoading : boolean = true
   colores : ColoresRSV [] = []
   selectedColor : number = 2
@@ -51,12 +54,33 @@ export class CatalogoComponent {
     this.isModalOpen = false
   }
 
+  convertirAPesosChilenos(numero : number) {
+    // Utilizamos toLocaleString con opciones específicas para moneda chilena
+    return numero.toLocaleString('es-CL', {
+        style: 'currency',
+        currency: 'CLP'
+    });
+}
+
   obtenerCatalogo(){
     this.service.get_catalogo_rsv().subscribe((data) => {
       this.catalogoRSVFull = data
-      this.catalogoRSV = data
+      // this.catalogoRSV = data
+
+      this.catalogoRSVFull.map((cata) => {
+        cata.Precio_unitario_str = this.convertirAPesosChilenos(parseInt(cata.Precio_unitario+""))
+      })
       this.isLoading = false
-      console.log( this.catalogoRSV)
+
+      const colores = [...new Set(data.map((inventario) => inventario.Color))]
+      // arr inventarios
+      let array = []
+      colores.map(color => {
+        array = data.filter( inventario => inventario.Color == color)
+        this.arrCatalogoRSVFull.push(array)
+      })
+
+      this.arrCatalogoRSV = this.arrCatalogoRSVFull
     })
   }
 
@@ -188,10 +212,17 @@ export class CatalogoComponent {
 
  buscarByCodigo(){
   console.log(this.codigoBuscar)
- this.catalogoRSV =  this.catalogoRSVFull.filter(catalogo => catalogo.Codigo.trim() == this.codigoBuscar.trim() || catalogo.Codigo_Original == this.codigoBuscar.trim() )
+    this.catalogoRSV =  this.catalogoRSVFull.filter(catalogo => catalogo.Codigo.trim() == this.codigoBuscar.trim() || catalogo.Codigo_Original == this.codigoBuscar.trim() )
+    const colores = [...new Set(this.catalogoRSV.map((inventario) => inventario.Color))]
+      // arr inventarios
+      console.log(this.catalogoRSV)
+    this.arrCatalogoRSV = [this.catalogoRSV]
+    console.log(this.arrCatalogoRSV)
+    
   if(this.catalogoRSV.length == 0){
     alert("No hay registros")
-    this.catalogoRSV =  this.catalogoRSVFull
+    // this.catalogoRSV =  this.catalogoRSVFull
+    this.arrCatalogoRSV = this.arrCatalogoRSVFull
   }
  }
   
@@ -205,9 +236,11 @@ export class CatalogoComponent {
 
   filtrarColores(color : number){
     if (color === 0) {
-      this.catalogoRSV = this.catalogoRSVFull
+      // this.catalogoRSV = this.catalogoRSVFull
+      this.arrCatalogoRSV = this.arrCatalogoRSVFull
     } else {
-      this.catalogoRSV =  this.catalogoRSVFull.filter(producto => producto.Color === color)
+      this.arrCatalogoRSV = this.arrCatalogoRSVFull.filter(catalogo => catalogo[0].Color === color)
+      // this.catalogoRSV =  this.catalogoRSVFull.filter(producto => producto.Color === color)
     }
   }
 

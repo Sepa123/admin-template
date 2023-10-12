@@ -17,6 +17,8 @@ export class InventarioSucursalesComponent {
   constructor(private service: RsvService) {
 
   } 
+
+  isClick : boolean = false
   public rol = sessionStorage.getItem("rol_id") 
   sucursalSeleccionada : string = ""
   sucursales : SucursalRSV [] = []
@@ -40,11 +42,19 @@ export class InventarioSucursalesComponent {
       const colores = [...new Set(data.map((inventario) => inventario.Color))]
       // arr inventarios
       let array = []
+      this.isClick = true
       colores.map(color => {
         array = data.filter( inventario => inventario.Color == color)
         this.arrInventarioSucursal.push(array)
       })
     })
+  }
+
+  descargarInventario() {
+    if (this.sucursalSeleccionada == "") return alert ("Seleccione una sucursal")
+    
+    let nombre = this.sucursales.filter(sucursal => sucursal.Id == parseInt(this.sucursalSeleccionada))[0].Nombre
+    this.service.downloadInventarioSucursalExcel(parseInt(this.sucursalSeleccionada), nombre)
   }
 
 
