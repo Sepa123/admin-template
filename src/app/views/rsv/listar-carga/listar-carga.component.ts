@@ -172,6 +172,12 @@ export class ListarCargaComponent {
     this.service.generar_etiquetas_por_nombre_carga(nombre_carga).subscribe((data :any) =>{
       if(data.alerta == 0){
         alert(data.message)
+        this.service.get_listar_cargas_por_mes(this.AnoSeleccionado+this.MesSeleccionado).subscribe((data)=> {
+          this.tablaCarga = data
+          if(this.rol !== '5'){
+            this.tablaCarga  = this.tablaCarga .filter(sucursal => sucursal.Sucursal !== "Prueba")
+          }
+      })
       } else if (data.alerta == 1) {
         alert(data.message)
       }
