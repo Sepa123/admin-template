@@ -3,4 +3,5 @@ export interface EstructuraRSV {
     Sucursal:          number;
     Tipo:              string;
     Cantidad_espacios: number;
+    Balanceo: string | null;
 }

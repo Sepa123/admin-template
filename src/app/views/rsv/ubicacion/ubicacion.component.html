@@ -1,6 +1,6 @@
 <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" >
     <c-modal-header>
-      <h5 cModalTitle ></h5>
+      <h5 cModalTitle >Posición {{posicion}}</h5>
       <button (click)="toggleLiveDemo()" cButtonClose></button>
     </c-modal-header>
     <c-modal-body>
@@ -11,7 +11,7 @@
                         <th>Código</th>
                         <th>Tipo</th>
                         <th>Cantidad</th>
-                        <th>Peso Total</th>
+                        <th>Peso Total (Kg.)</th>
                     </tr>         
                 </thead>
                 <tbody>
@@ -54,7 +54,7 @@
     </c-col>
     <c-col [xs]>
         <p></p>
-        <button class="btn btn-secondary">Buscar </button>
+        <button class="btn btn-secondary" (click)="buscarEstructura()">Buscar </button>
         <!-- <button  cButton  color="secondary" size="lg" >Buscar</button> -->
     </c-col>
     <c-col [xs]>

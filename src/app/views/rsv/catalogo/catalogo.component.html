@@ -209,7 +209,7 @@
         <table id="tablaProductosPicking"  style="width: 75%">
             <thead>
                 <tr>
-                    <th colspan="9" style="justify-content: left;">Color : {{ reemplazarIds(arr[0].Color)}}</th>
+                    <th colspan="10" style="justify-content: left;">Color : {{ reemplazarIds(arr[0].Color)}}</th>
                 </tr>
             </thead>
             <thead>
@@ -223,6 +223,7 @@
                     <th>Largo</th>
                     <th>Valor unitario</th>
                     <th *ngIf="rol ? verEditar?.includes(rol) : false">Editar</th>
+                    <th *ngIf="rol == '5'">Ubicación</th>
                 </tr>
                 </thead>  
             <tbody>
@@ -240,6 +241,9 @@
                 <td>{{producto.Precio_unitario_str}}</td>
                 <!-- <td><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg></td> -->
                 <td *ngIf="rol ? verEditar?.includes(rol) : false"><svg xmlns="http://www.w3.org/2000/svg" (click)="SelecteditarCatalogo(producto)" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m18.988 2.012l3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287l-3-3L8 13z"/><path fill="currentColor" d="M19 19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"/></svg></td>
+                <td *ngIf="rol == '5'"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+                </td>
+
             </tr>
         </tbody>
     </table>

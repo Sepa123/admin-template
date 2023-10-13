@@ -155,6 +155,10 @@ export class RutasService {
     return this.http.get<CantidadUnidadesRutaActiva[]>(this.apiurl + `/listar/activo/cantidad/productos?nombre_ruta=${nombre_ruta}` )  
   }
 
+  actualizar_estado_ruta_a_true(nombre_ruta: string,data = { }) {
+    return this.http.put(this.apiurl + `/actualizar/estado/activo/${nombre_ruta}/abrir`,data)
+  }
+
   
   
 }

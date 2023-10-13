@@ -155,6 +155,24 @@ export class RutasActivasComponent {
   }
   }
 
+  updateEstadoRutaAtrue(nombre_ruta : string) {
+    let isSeguro = confirm("¿Seguro que desea reabrir esta ruta?");
+    if (!isSeguro) {
+      return console.log("no esta seguro")
+    } else {
+    this.service.actualizar_estado_ruta_a_true(nombre_ruta).subscribe( (data: any) => {
+      alert(data.message)
+    },
+    ((error) => {
+      alert(error.error.detail)
+    }))
+
+    this.nombresRutas.map(ruta => {
+      if(ruta.Nombre_ruta == nombre_ruta) ruta.Estado = true
+    })
+  }
+  }
+
   getNombreByFecha(dateObj : any) {
     this.isClicked = false
     this.isActive = false
