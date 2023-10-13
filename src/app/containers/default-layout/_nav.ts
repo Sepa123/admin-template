@@ -203,7 +203,7 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
-    // Pantalla muestra para ruteador_pickeador
+    // Pantalla muestra para ruteador_pickeador Y JEFE TOC
     name: 'Rutas',
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
