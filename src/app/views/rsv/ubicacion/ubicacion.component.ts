@@ -3,7 +3,7 @@ import { RsvService } from 'src/app/service/rsv.service'
 import { EstructuraRSV } from 'src/app/models/estructuraRSV.interface';
 import { PesoPosicionSucursal } from "src/app/models/pesoPosicionSucursal.interface"
 import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
-
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 @Component({
@@ -21,10 +21,19 @@ export class UbicacionComponent {
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
-      legend: {
-        display: true,
-        position: 'right',
-      },
+      datalabels: {
+        color: 'black', // Color del texto
+        formatter: (value, context) => {
+            const dataset = context.chart.data.datasets[context.datasetIndex];
+            if(dataset.data[0] == null || dataset.data[1] == null) {return 0}
+            else{
+              let total = parseFloat(dataset.data[0].toString()) + parseFloat(dataset.data[1].toString())
+              let porcentaje = ((value / total) * 100).toFixed(2) + '%';
+              return porcentaje
+            }
+        },
+        display: true // Mostrar etiquetas de datos
+    }
     },
   };
 
@@ -169,16 +178,13 @@ export class UbicacionComponent {
     this.service.calcular_suma_peso_posicion_sucursal(this.estructuraSeleccion,this.sucursalSeleccion).subscribe((data : any) => {
       console.log(data.Suma_derecha)
       this.estructuraDato = this.listaEstructura.filter(lista => lista.Nombre === this.estructuraSeleccion)
-      this.agregar(["Derecha","Izquierda"], [ data.Suma_derecha, data.Suma_izquerda ] )
+      if(data.Suma_derecha == null || data.Suma_izquerda == null){
+        this.chartVisible = false   
+      }else{
+        this.agregar(["Derecha","Izquierda"], [ data.Suma_derecha, data.Suma_izquerda ] )
+      }
     })
     
-    // const arrBalanceo = this.listaEstructura.find(lista => lista.Nombre == this.estructuraSeleccion)?.Balanceo?.split(' - ')
-    
-    // if (arrBalanceo !== undefined) {
-    //   arrBalanceo.map( bal => {
-    //     console.log(bal.split(' '))
-    //   })
-    // }
 
     img.onload = () => {
       ctx?.clearRect(0, 0, canvas.width, canvas.height);
@@ -190,18 +196,15 @@ export class UbicacionComponent {
     img2.onload = () => {
       // ctx?.fillRect(185, 100,33, 33);
       // ctx?.fillRect(132, 150,140, 33);
-      this.buttonAreas.map((button => {
-        button.texto = this.estructuraSeleccion
-        // ctx?.fillRect(button.x, button.y,button.width, button.height);
 
-        ctx?.drawImage(img2, button.x, button.y, button.width, button.height);
-        ctx?.fillText(button.texto+button.pos, button.x, button.y);
-      }))
+      let espacios = this.listaEstructura.filter(lista => lista.Nombre == this.estructuraSeleccion)[0].Cantidad_espacios
+
+      for (let i = 0; i < espacios; i++) {
+        this.buttonAreas[i].texto = this.estructuraSeleccion
+        ctx?.drawImage(img2,  this.buttonAreas[i].x,  this.buttonAreas[i].y,  this.buttonAreas[i].width,  this.buttonAreas[i].height);
+        ctx?.fillText( this.buttonAreas[i].texto+ this.buttonAreas[i].pos,  this.buttonAreas[i].x,  this.buttonAreas[i].y);
+      }
     }
-
-
-    // this.agregar(["Derecha","Izquierda"], [ 2,5] )
-    
 
   }
 
@@ -259,6 +262,9 @@ export class UbicacionComponent {
   }
 
   ngOnInit(){
+
+    Chart.register(ChartDataLabels);
+    
     this.service.get_lista_estructura().subscribe(data => {
       this.listaEstructura = data
       this.listaEstructura.map(lista=> {
