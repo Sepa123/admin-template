@@ -15,6 +15,7 @@ import { DetalleVenta, NotaVenta , NotaVentaProducto } from '../models/notaVenta
 import { PesoPosicionSucursal } from "src/app/models/pesoPosicionSucursal.interface"
 import { PaquetesAbiertosRSV } from '../models/inventarioPaquetesAbiertos.interface';
 import {ReimpresionEtiqueta} from '../models/reimpresionEtiqueta.interface'
+import { TipoEstructura } from 'src/app/models/tipoEstructuraRSV.interface'
 import {BitacoraRSV} from '../models/bitacoraRsv.interface'
 
 @Injectable({
@@ -312,6 +313,12 @@ export class RsvService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
+
+   // tipo de estructura rsv
+
+   get_tipo_estructura(){
+    return this.http.get<TipoEstructura []>(this.apiurl + `/tipo/estructura`) 
   }
   
 }

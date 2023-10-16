@@ -6,6 +6,9 @@ import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
+import { TipoEstructura } from 'src/app/models/tipoEstructuraRSV.interface'
+
 @Component({
   selector: 'app-ubicacion',
   templateUrl: './ubicacion.component.html',
@@ -84,16 +87,16 @@ export class UbicacionComponent {
 
   chartVisible : boolean = false
 
-  buttonAreas : any [] = [
-    { x: 110, y: 233, width: 32, height: 32 ,texto: "", pos : '1' },
-    { x: 112, y: 278, width: 32, height: 32 ,texto: "", pos : '2'},
-    { x: 112, y: 318, width: 32, height: 32 ,texto: "", pos : '3' },
-    { x: 112, y: 358, width: 32, height: 32 ,texto: "", pos : '4'},
+  buttonAreasFull : any [] = [
+    { x: 110, y: 283, width: 32, height: 32 ,texto: "", pos : '1' },
+    { x: 112, y: 328, width: 32, height: 32 ,texto: "", pos : '2'},
+    { x: 112, y: 368, width: 32, height: 32 ,texto: "", pos : '3' },
+    { x: 112, y: 408, width: 32, height: 32 ,texto: "", pos : '4'},
 
-    { x: 260, y: 233, width: 32, height: 32 ,texto: "", pos : '5'},
-    { x: 260, y: 278, width: 32, height: 32 ,texto: "", pos : '6'},
-    { x: 260, y: 318, width: 32, height: 32 ,texto: "", pos : '7'},
-    { x: 260, y: 358, width: 32, height: 32 ,texto: "", pos : '8'},
+    { x: 260, y: 283, width: 32, height: 32 ,texto: "", pos : '5'},
+    { x: 260, y: 328, width: 32, height: 32 ,texto: "", pos : '6'},
+    { x: 260, y: 368, width: 32, height: 32 ,texto: "", pos : '7'},
+    { x: 260, y: 408, width: 32, height: 32 ,texto: "", pos : '8'},
 
     { x: 43, y: 146, width: 32, height: 32 ,texto: "", pos : '9'},
     { x: 43, y: 114, width: 32, height: 32 ,texto: "", pos : '10'},
@@ -107,14 +110,20 @@ export class UbicacionComponent {
     { x: 333, y: 50,  width: 32, height: 32 ,texto: "", pos : '16'},
     { x: 333, y: 18,  width: 32, height: 32 ,texto: "", pos : '18'},
     
-    { x: 182, y: 170, width: 32, height: 32 ,texto: "", pos : '17'},
+    { x: 182, y: 194, width: 32, height: 32 ,texto: "", pos : '17'},
     
     // Área del primer botón (x, y, ancho, alto
     // Agrega más áreas de botón si es necesario
   ];
 
+  isForm : boolean = false
   
-  constructor(private service : RsvService) {}
+   buttonAreas  = this.buttonAreasFull
+
+  tiposEstructuras : TipoEstructura [] =[]
+
+  
+  constructor(private service : RsvService, public builder: FormBuilder,) {}
 
   // modales
   isModalOpen: boolean = false
@@ -149,7 +158,7 @@ export class UbicacionComponent {
   
 
   buscarEstructura(){
-
+    this.isForm = false
     if(this.estructuraSeleccion == "" ) {
       return alert ("Seleccione una estructura")
     } else if (this.sucursalSeleccion == ""){
@@ -199,6 +208,8 @@ export class UbicacionComponent {
 
       let espacios = this.listaEstructura.filter(lista => lista.Nombre == this.estructuraSeleccion)[0].Cantidad_espacios
 
+      
+      console.log("espacios",espacios)
       for (let i = 0; i < espacios; i++) {
         this.buttonAreas[i].texto = this.estructuraSeleccion
         ctx?.drawImage(img2,  this.buttonAreas[i].x,  this.buttonAreas[i].y,  this.buttonAreas[i].width,  this.buttonAreas[i].height);
@@ -239,6 +250,7 @@ export class UbicacionComponent {
 
 
     canvas.addEventListener('click', (event) => {
+      this.isForm = false
       const rect = canvas.getBoundingClientRect();
       const mouseX = event.clientX - rect.left;
       const mouseY = event.clientY - rect.top;
@@ -261,6 +273,29 @@ export class UbicacionComponent {
     })
   }
 
+  isErrorView : boolean = false
+
+  form = this.builder.group({
+    Nombre : this.builder.control("" , [Validators.required]),
+    Sucursal : this.builder.control("",[Validators.required]),
+    Tipo : this.builder.control("1" , [Validators.required]),
+    Cant_espacios : this.builder.control(""),
+    Balanceo : this.builder.control(""),
+    Frontis : this.builder.control(""),
+    Id_user : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
+    Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
+
+  })
+
+  registrarEstructura(){
+    
+  }
+
+  agregarEstructura(){
+    this.isForm = true
+    this.toggleLiveDemo()
+  }
+
   ngOnInit(){
 
     Chart.register(ChartDataLabels);
@@ -272,6 +307,10 @@ export class UbicacionComponent {
         return lista.Arr_balancelo = lista.Balanceo?.split(' - ')
       })
 
+    })
+
+    this.service.get_tipo_estructura().subscribe((data) => {
+      this.tiposEstructuras = data
     })
 
     setTimeout(() => {
