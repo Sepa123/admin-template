@@ -3,8 +3,8 @@ import { RsvService } from 'src/app/service/rsv.service'
 import { EstructuraRSV } from 'src/app/models/estructuraRSV.interface';
 import { PesoPosicionSucursal } from "src/app/models/pesoPosicionSucursal.interface"
 import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType, ChartOptions,ChartDataset} from 'chart.js';
+
+import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 @Component({
   selector: 'app-ubicacion',
@@ -18,22 +18,14 @@ export class UbicacionComponent {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
 
-  public pieChartOptions: ChartOptions = {
+  public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
       legend: {
         display: true,
         position: 'right',
       },
-      datalabels: { // Configuración específica para chartjs-plugin-datalabels
-        display: true,
-        anchor: "center",
-        color: 'black', // Color del texto de los datos
-        formatter: (value, context) => {
-          return "value"; // Puedes personalizar el formato de los datos aquí
-        }
-      }
-    }
+    },
   };
 
   public pieChartData: ChartData<'pie', number[], string | string[]> = {
@@ -69,6 +61,7 @@ export class UbicacionComponent {
       hoverOffset: 4
     }],
   };
+
   estructuraDato : EstructuraRSV [] = []
 
   listaEstructura : EstructuraRSV [] = []
@@ -175,12 +168,8 @@ export class UbicacionComponent {
 
     this.service.calcular_suma_peso_posicion_sucursal(this.estructuraSeleccion,this.sucursalSeleccion).subscribe((data : any) => {
       console.log(data.Suma_derecha)
-      
-      this.estructuraDato = this.listaEstructura.filter(est => est.Nombre === this.estructuraSeleccion)
+      this.estructuraDato = this.listaEstructura.filter(lista => lista.Nombre === this.estructuraSeleccion)
       this.agregar(["Derecha","Izquierda"], [ data.Suma_derecha, data.Suma_izquerda ] )
-      if(data.Suma_derecha == null || data.Suma_izquerda == null) {
-        this.chartVisible = false
-      }
     })
     
     // const arrBalanceo = this.listaEstructura.find(lista => lista.Nombre == this.estructuraSeleccion)?.Balanceo?.split(' - ')
@@ -201,21 +190,13 @@ export class UbicacionComponent {
     img2.onload = () => {
       // ctx?.fillRect(185, 100,33, 33);
       // ctx?.fillRect(132, 150,140, 33);
-      const espacio = this.listaEstructura.filter(lista => lista.Nombre === this.estructuraSeleccion)[0].Cantidad_espacios
+      this.buttonAreas.map((button => {
+        button.texto = this.estructuraSeleccion
+        // ctx?.fillRect(button.x, button.y,button.width, button.height);
 
-      for (let i = 0; i < espacio; i++) {
-        this.buttonAreas[i].texto = this.estructuraSeleccion
-        ctx?.drawImage(img2,  this.buttonAreas[i].x,  this.buttonAreas[i].y,  this.buttonAreas[i].width,  this.buttonAreas[i].height);
-        ctx?.fillText( this.buttonAreas[i].texto+ this.buttonAreas[i].pos,  this.buttonAreas[i].x,  this.buttonAreas[i].y);
-      }
-
-      // this.buttonAreas.map((button => {
-      //   button.texto = this.estructuraSeleccion
-      //   // ctx?.fillRect(button.x, button.y,button.width, button.height);
-
-      //   ctx?.drawImage(img2, button.x, button.y, button.width, button.height);
-      //   ctx?.fillText(button.texto+button.pos, button.x, button.y);
-      // }))
+        ctx?.drawImage(img2, button.x, button.y, button.width, button.height);
+        ctx?.fillText(button.texto+button.pos, button.x, button.y);
+      }))
     }
 
 
@@ -280,8 +261,8 @@ export class UbicacionComponent {
   ngOnInit(){
     this.service.get_lista_estructura().subscribe(data => {
       this.listaEstructura = data
-      this.listaEstructura.map((lista) => {
-        if(lista.Balanceo === null) return lista.Arr_balancelo = ['','']
+      this.listaEstructura.map(lista=> {
+        if(lista.Balanceo == null) return lista.Arr_balancelo = ['','']
         return lista.Arr_balancelo = lista.Balanceo?.split(' - ')
       })
 
