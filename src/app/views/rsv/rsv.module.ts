@@ -26,8 +26,9 @@ import { UbicacionComponent } from './ubicacion/ubicacion.component';
 import { FiltroUbicacionComponent } from './filtro-ubicacion/filtro-ubicacion.component';
 import { ListaVentasComponent } from './lista-ventas/lista-ventas.component';
 import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/listar-paquetes-abiertos.component';
-
-
+import { ChartjsModule } from '@coreui/angular-chartjs';
+import { NgChartsModule } from 'ng2-charts';
+import { MantenedorComponent } from './mantenedor/mantenedor.component';
 @NgModule({
   declarations: [
     CatalogoComponent,
@@ -40,7 +41,8 @@ import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/list
     UbicacionComponent,
     FiltroUbicacionComponent,
     ListaVentasComponent,
-    ListarPaquetesAbiertosComponent
+    ListarPaquetesAbiertosComponent,
+    MantenedorComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +56,9 @@ import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/list
     ListGroupModule,
     SharedModule,
     FormsModule, ReactiveFormsModule,
-    ModalModule
+    ModalModule,
+    ChartjsModule,
+    NgChartsModule
   ]
 })
 export class RsvModule { }

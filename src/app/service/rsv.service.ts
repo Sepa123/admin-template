@@ -280,6 +280,12 @@ export class RsvService {
   get_peso_posicion_sucursal(estructura : string, sucursal : number){
     return this.http.get<PesoPosicionSucursal []>(this.apiurl + `/peso/posicion/sucursal?estructura=${estructura}&sucursal=${sucursal}`) 
   }
+
+  // suma de inventarios
+
+  calcular_suma_peso_posicion_sucursal(estructura : string, sucursal : string){
+    return this.http.get(this.apiurl + `/peso/posicion/sucursal/suma?estructura=${estructura}&sucursal=${sucursal}`) 
+  }
   
 
   //descargar Inventario sucursal

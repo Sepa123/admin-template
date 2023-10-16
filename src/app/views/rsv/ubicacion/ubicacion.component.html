@@ -66,18 +66,62 @@
 <!-- <div style="text-align: center;"> -->
 
 
-    <div class="contenedor">
-        <p></p>
+
+<c-row>
+    <c-col [xs]>
+        <div class="contenedor">
+            <p></p>
+        <canvas #myCanvas width="400" height="400" style="border:1px solid #000;"></canvas>
+    </div>
+
+    </c-col>
+    <c-col  [xs]>
+        <div style="display: block; width: 300px; height: 400px;">
+            <canvas  *ngIf="chartVisible == true"
+              baseChart
+              class="chart"
+              [data]="pieChartData"
+              [type]="pieChartType"
+              [options]="pieChartOptions"
+            >
+            </canvas>
+          </div>
+    </c-col>
+</c-row>    
+
+<p></p>
+
+<c-row>
+    <c-col [xs]>
+        <div *ngFor="let estructura of estructuraDato">
+            <table>
+                <tr>
+                    <td>Tipo :</td>
+                    <td>{{estructura.Tipo}}</td>
+                </tr>
+                <tr>
+                    <td>Nombre :</td>
+                    <td>{{estructura.Nombre}}</td>
+                </tr>
+                <tr>
+                    <td>Espacios :</td>
+                    <td>{{estructura.Cantidad_espacios}}</td>
+                </tr>
+                <tr *ngIf="estructura.Balanceo">
+                    <td>Frontis:</td>
+                    <td>1 2 3 4 5 6 7 8 17</td>
+                </tr>
+                <tr *ngIf="estructura.Balanceo">
+                    <td>Balanceo izquierda:</td>
+                    <td>{{estructura.Arr_balancelo[0]}}</td>
+                </tr>
+                <tr *ngIf="estructura.Balanceo">
+                    <td>Balanceo derecha:</td>
+                    <td> {{estructura.Arr_balancelo[1]}}</td>
+                </tr>
+            </table>
+
+        </div>
+    </c-col>
+</c-row>
     
-    <!-- <img src="../../../../assets/images/rsvModel.png" alt=""> -->
-
-    <canvas #myCanvas width="400" height="400" style="border:1px solid #000;"></canvas>
-
-    <hr>
-    
-           
-    <!-- <button class="boton">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
-
-    </button> -->
-</div>

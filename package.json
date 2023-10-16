@@ -41,6 +41,7 @@
     "@sweetalert2/ngx-sweetalert2": "^12.2.0",
     "bootstrap": "^5.2.3",
     "chart.js": "^3.9.1",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "crypto-js": "^4.1.1",
     "fastest-levenshtein": "^1.0.16",
     "jquery": "^3.7.0",

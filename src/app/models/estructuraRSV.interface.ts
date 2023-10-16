@@ -4,4 +4,5 @@ export interface EstructuraRSV {
     Tipo:              string;
     Cantidad_espacios: number;
     Balanceo: string | null;
+    Arr_balancelo : string []
 }

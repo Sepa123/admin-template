@@ -11,7 +11,7 @@ import { UbicacionComponent } from './ubicacion/ubicacion.component';
 import { FiltroUbicacionComponent } from './filtro-ubicacion/filtro-ubicacion.component';
 import { ListaVentasComponent } from './lista-ventas/lista-ventas.component';
 import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/listar-paquetes-abiertos.component';
-
+import { MantenedorComponent } from './mantenedor/mantenedor.component';
 const routes: Routes = [
   {
     path:'',
@@ -95,7 +95,14 @@ const routes: Routes = [
         data : {
           title : "Lista Paquetes"
         } 
-      }
+      },
+      {
+        path : 'mantenedor',
+        component : MantenedorComponent,
+        data : {
+          title : "Mantenedor"
+        } 
+      },
     ]
   }
 ];

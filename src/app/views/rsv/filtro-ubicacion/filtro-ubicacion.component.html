@@ -20,16 +20,18 @@
                 <table id="tablaProductosPicking" class="tablaUbicacion" *ngIf="cargas.length >0">
                     <thead>
                         <tr>
-                            <th>Codigo</th>
+                            <th>Código de barra</th>
                             <th>Descripcion</th>
+                            <th>Codigo de producto</th>
                             <th>Posicion</th>
                             <th>verificado</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let ubicacion of cargas;let i = index">
-                            <td>{{ubicacion.Codigo}}</td>
+                            <td>{{ubicacion.Bar_code}}</td>
                             <td>{{ubicacion.Descripcion}}</td>
+                            <td>{{ubicacion.Codigo}}</td>
                             <td>{{ubicacion.Ubicacion.split('@')[0]}}</td>
                             <td *ngIf="ubicacion.Verificado === true" >
                                 <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>

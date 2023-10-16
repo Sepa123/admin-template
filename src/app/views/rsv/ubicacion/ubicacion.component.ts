@@ -3,6 +3,9 @@ import { RsvService } from 'src/app/service/rsv.service'
 import { EstructuraRSV } from 'src/app/models/estructuraRSV.interface';
 import { PesoPosicionSucursal } from "src/app/models/pesoPosicionSucursal.interface"
 import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType, ChartOptions,ChartDataset} from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 @Component({
   selector: 'app-ubicacion',
   templateUrl: './ubicacion.component.html',
@@ -11,7 +14,62 @@ import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
 export class UbicacionComponent {
 
   @ViewChild('myCanvas', { static: false }) canvas!: ElementRef<HTMLCanvasElement>;
+  // grafico pie
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
+
+  public pieChartOptions: ChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'right',
+      },
+      datalabels: { // Configuración específica para chartjs-plugin-datalabels
+        display: true,
+        anchor: "center",
+        color: 'black', // Color del texto de los datos
+        formatter: (value, context) => {
+          return "value"; // Puedes personalizar el formato de los datos aquí
+        }
+      }
+    }
+  };
+
+  public pieChartData: ChartData<'pie', number[], string | string[]> = {
+    labels: ["nada"],
+    datasets: [
+      {
+        data: [1],
+      },
+    ],
+  };
+
+  public pieChartType: ChartType = 'pie';
+
+  options = {
+    plugins : {
+      legend: {
+        display: true,
+        // position : 'right'
+      },
+    },
+  }
+
+  data = {
+    labels: [
+      'Red',
+      'Blue',
+      'Yellow'
+    ],
+    datasets: [{
+      label: 'My First Dataset',
+      data: [300, 50, 100],
+      backgroundColor: ['#FF6384', '#4BC0C0', '#FFCE56', '#E7E9ED', '#36A2EB'],
+      hoverOffset: 4
+    }],
+  };
+  estructuraDato : EstructuraRSV [] = []
 
   listaEstructura : EstructuraRSV [] = []
   estructuraSeleccion : string = ""
@@ -22,37 +80,38 @@ export class UbicacionComponent {
 
   posicion : string = ""
 
-  // buttonAreas : any [] = [
-  //   { x: 100, y: 220, width: 32, height: 32 ,texto: "", pos : '1' },
-  //   { x: 100, y: 300, width: 32, height: 32 ,texto: "", pos : '2'},
-  //   { x: 200, y: 220, width: 32, height: 32 ,texto: "", pos : '3' },
-  //   { x: 200, y: 300, width: 32, height: 32 ,texto: "", pos : '4'},
-
-  //   { x: 132, y: 50, width: 32, height: 32 ,texto: "", pos : '5' },
-  //   { x: 239, y: 50, width: 32, height: 32 ,texto: "", pos : '6'},
-  //   { x: 132, y: 50, width: 32, height: 32 ,texto: "", pos : '7'},
-  //   { x: 239, y: 50, width: 32, height: 32 ,texto: "", pos : '8'}
-    
-  //   // Área del primer botón (x, y, ancho, alto
-  //   // Agrega más áreas de botón si es necesario
-  // ];
-
+  chartVisible : boolean = false
 
   buttonAreas : any [] = [
-    { x: 110, y: 220, width: 32, height: 32 ,texto: "", pos : '9' },
-    { x: 112, y: 278, width: 32, height: 32 ,texto: "", pos : '10'},
-    { x: 112, y: 318, width: 32, height: 32 ,texto: "", pos : '11' },
-    { x: 112, y: 358, width: 32, height: 32 ,texto: "", pos : '12'},
+    { x: 110, y: 233, width: 32, height: 32 ,texto: "", pos : '1' },
+    { x: 112, y: 278, width: 32, height: 32 ,texto: "", pos : '2'},
+    { x: 112, y: 318, width: 32, height: 32 ,texto: "", pos : '3' },
+    { x: 112, y: 358, width: 32, height: 32 ,texto: "", pos : '4'},
 
-    // { x: 132, y: 50, width: 32, height: 32 ,texto: "", pos : '13' },
-    // { x: 239, y: 50, width: 32, height: 32 ,texto: "", pos : '14'},
-    // { x: 132, y: 50, width: 32, height: 32 ,texto: "", pos : '15'},
-    // { x: 239, y: 50, width: 32, height: 32 ,texto: "", pos : '16'}
+    { x: 260, y: 233, width: 32, height: 32 ,texto: "", pos : '5'},
+    { x: 260, y: 278, width: 32, height: 32 ,texto: "", pos : '6'},
+    { x: 260, y: 318, width: 32, height: 32 ,texto: "", pos : '7'},
+    { x: 260, y: 358, width: 32, height: 32 ,texto: "", pos : '8'},
+
+    { x: 43, y: 146, width: 32, height: 32 ,texto: "", pos : '9'},
+    { x: 43, y: 114, width: 32, height: 32 ,texto: "", pos : '10'},
+    { x: 43, y: 82, width: 32, height: 32 ,texto: "", pos : '11'},
+    { x: 43, y: 50, width: 32, height: 32 ,texto: "", pos : '12'},
+    { x: 43, y: 18, width: 32, height: 32 ,texto: "", pos : '19'},
+
+    { x: 333, y: 146, width: 32, height: 32 ,texto: "", pos : '13'},
+    { x: 333, y: 114, width: 32, height: 32 ,texto: "", pos : '14'},
+    { x: 333, y: 82,  width: 32, height: 32 ,texto: "", pos : '15'},
+    { x: 333, y: 50,  width: 32, height: 32 ,texto: "", pos : '16'},
+    { x: 333, y: 18,  width: 32, height: 32 ,texto: "", pos : '18'},
+    
+    { x: 182, y: 170, width: 32, height: 32 ,texto: "", pos : '17'},
     
     // Área del primer botón (x, y, ancho, alto
     // Agrega más áreas de botón si es necesario
   ];
 
+  
   constructor(private service : RsvService) {}
 
   // modales
@@ -76,9 +135,27 @@ export class UbicacionComponent {
     this.isModalOpen = false
   }
 
+
+  agregar(label : string [], data : number []){
+
+    this.pieChartData.labels = label
+    this.pieChartData.datasets[0].data = data
+
+    this.chartVisible = true
+   }
+
   
 
   buscarEstructura(){
+
+    if(this.estructuraSeleccion == "" ) {
+      return alert ("Seleccione una estructura")
+    } else if (this.sucursalSeleccion == ""){
+      return alert ("Seleccione una sucursal")
+    }
+
+    this.chartVisible = false
+
 
     const canvas = this.canvas.nativeElement;
     const ctx = canvas.getContext('2d');
@@ -96,6 +173,24 @@ export class UbicacionComponent {
     const img2 = new Image();
     img2.src = url;
 
+    this.service.calcular_suma_peso_posicion_sucursal(this.estructuraSeleccion,this.sucursalSeleccion).subscribe((data : any) => {
+      console.log(data.Suma_derecha)
+      
+      this.estructuraDato = this.listaEstructura.filter(est => est.Nombre === this.estructuraSeleccion)
+      this.agregar(["Derecha","Izquierda"], [ data.Suma_derecha, data.Suma_izquerda ] )
+      if(data.Suma_derecha == null || data.Suma_izquerda == null) {
+        this.chartVisible = false
+      }
+    })
+    
+    // const arrBalanceo = this.listaEstructura.find(lista => lista.Nombre == this.estructuraSeleccion)?.Balanceo?.split(' - ')
+    
+    // if (arrBalanceo !== undefined) {
+    //   arrBalanceo.map( bal => {
+    //     console.log(bal.split(' '))
+    //   })
+    // }
+
     img.onload = () => {
       ctx?.clearRect(0, 0, canvas.width, canvas.height);
       ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -106,14 +201,26 @@ export class UbicacionComponent {
     img2.onload = () => {
       // ctx?.fillRect(185, 100,33, 33);
       // ctx?.fillRect(132, 150,140, 33);
-      this.buttonAreas.map((button => {
-        button.texto = this.estructuraSeleccion
-        // ctx?.fillRect(button.x, button.y,button.width, button.height);
+      const espacio = this.listaEstructura.filter(lista => lista.Nombre === this.estructuraSeleccion)[0].Cantidad_espacios
 
-        ctx?.drawImage(img2, button.x, button.y, button.width, button.height);
-        ctx?.fillText(button.texto+button.pos, button.x, button.y);
-      }))
+      for (let i = 0; i < espacio; i++) {
+        this.buttonAreas[i].texto = this.estructuraSeleccion
+        ctx?.drawImage(img2,  this.buttonAreas[i].x,  this.buttonAreas[i].y,  this.buttonAreas[i].width,  this.buttonAreas[i].height);
+        ctx?.fillText( this.buttonAreas[i].texto+ this.buttonAreas[i].pos,  this.buttonAreas[i].x,  this.buttonAreas[i].y);
+      }
+
+      // this.buttonAreas.map((button => {
+      //   button.texto = this.estructuraSeleccion
+      //   // ctx?.fillRect(button.x, button.y,button.width, button.height);
+
+      //   ctx?.drawImage(img2, button.x, button.y, button.width, button.height);
+      //   ctx?.fillText(button.texto+button.pos, button.x, button.y);
+      // }))
     }
+
+
+    // this.agregar(["Derecha","Izquierda"], [ 2,5] )
+    
 
   }
 
@@ -173,6 +280,11 @@ export class UbicacionComponent {
   ngOnInit(){
     this.service.get_lista_estructura().subscribe(data => {
       this.listaEstructura = data
+      this.listaEstructura.map((lista) => {
+        if(lista.Balanceo === null) return lista.Arr_balancelo = ['','']
+        return lista.Arr_balancelo = lista.Balanceo?.split(' - ')
+      })
+
     })
 
     setTimeout(() => {
