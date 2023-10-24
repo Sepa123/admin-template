@@ -284,8 +284,9 @@ export class RsvService {
 
   // suma de inventarios
 
-  calcular_suma_peso_posicion_sucursal(estructura : string, sucursal : string){
-    return this.http.get(this.apiurl + `/peso/posicion/sucursal/suma?estructura=${estructura}&sucursal=${sucursal}`) 
+  calcular_suma_peso_posicion_sucursal(body : any){
+    // return this.http.get(this.apiurl + `/peso/posicion/sucursal/suma?estructura=${estructura}&sucursal=${sucursal}`) 
+    return this.http.post(this.apiurl + `/peso/posicion/sucursal/suma`, body) 
   }
   
 
@@ -319,6 +320,10 @@ export class RsvService {
 
    get_tipo_estructura(){
     return this.http.get<TipoEstructura []>(this.apiurl + `/tipo/estructura`) 
+  }
+
+   update_datos_estructura(body : any){
+    return this.http.put(this.apiurl+"/actualizar/estructura",body)
   }
   
 }

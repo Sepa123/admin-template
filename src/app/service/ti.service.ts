@@ -210,7 +210,7 @@ export class TIService {
   }
 
   get_ruta_beetrack_hoy_update():  Observable<any>{
-    return interval(600000).pipe( switchMap(() => this.http.get<RutaBeetrackHoy[]>(this.apiurl + "/ruta/beetrack/hoy")))
+    return interval(60000).pipe( switchMap(() => this.http.get<RutaBeetrackHoy[]>(this.apiurl + "/ruta/beetrack/hoy")))
   }
  
   /// Pedidos pendientes actualización cada 2 minutos

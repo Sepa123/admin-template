@@ -214,8 +214,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let ruta of rutasBeetrackHoy">
-                <td scope="row" [ngClass]="{'bg-success text-white': ruta.Porcentaje == 100 }">{{ ruta.Numero }}</td>
+              <tr *ngFor="let ruta of rutasBeetrackHoy; let i = index">
+                <td scope="row" [ngClass]="{'bg-success text-white': ruta.Porcentaje == 100 }">{{ i + 1 }}</td>
                 <td [ngClass]="{'bg-success text-white': ruta.Porcentaje == 100 }">{{ ruta.Ruta }}</td>
                 <td [ngClass]="{'bg-success text-white': ruta.Porcentaje == 100 }">{{ ruta.Patente }}</td>
                 <td>{{ ruta.Driver }}</td>

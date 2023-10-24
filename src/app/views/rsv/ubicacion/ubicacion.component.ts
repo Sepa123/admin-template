@@ -111,12 +111,93 @@ export class UbicacionComponent {
     { x: 333, y: 18,  width: 32, height: 32 ,texto: "", pos : '18'},
     
     { x: 182, y: 194, width: 32, height: 32 ,texto: "", pos : '17'},
-    
-    // Área del primer botón (x, y, ancho, alto
-    // Agrega más áreas de botón si es necesario
   ];
 
-  isForm : boolean = false
+  buttonAreas19 : any [] = [
+    { x: 110, y: 283, width: 32, height: 32 ,texto: "", pos : '1' },
+    { x: 112, y: 328, width: 32, height: 32 ,texto: "", pos : '2'},
+    { x: 112, y: 368, width: 32, height: 32 ,texto: "", pos : '3' },
+    { x: 112, y: 408, width: 32, height: 32 ,texto: "", pos : '4'},
+
+    { x: 260, y: 283, width: 32, height: 32 ,texto: "", pos : '5'},
+    { x: 260, y: 328, width: 32, height: 32 ,texto: "", pos : '6'},
+    { x: 260, y: 368, width: 32, height: 32 ,texto: "", pos : '7'},
+    { x: 260, y: 408, width: 32, height: 32 ,texto: "", pos : '8'},
+
+    { x: 43, y: 146, width: 32, height: 32 ,texto: "", pos : '9'},
+    { x: 43, y: 114, width: 32, height: 32 ,texto: "", pos : '10'},
+    { x: 43, y: 82, width: 32, height: 32 ,texto: "", pos : '11'},
+    { x: 43, y: 50, width: 32, height: 32 ,texto: "", pos : '12'},
+    { x: 43, y: 18, width: 32, height: 32 ,texto: "", pos : '19'},
+
+    { x: 333, y: 146, width: 32, height: 32 ,texto: "", pos : '13'},
+    { x: 333, y: 114, width: 32, height: 32 ,texto: "", pos : '14'},
+    { x: 333, y: 82,  width: 32, height: 32 ,texto: "", pos : '15'},
+    { x: 333, y: 50,  width: 32, height: 32 ,texto: "", pos : '16'},
+    { x: 333, y: 18,  width: 32, height: 32 ,texto: "", pos : '18'},
+    
+    { x: 182, y: 194, width: 32, height: 32 ,texto: "", pos : '17'},
+  ];
+
+  objButtonAreas : any  = {
+     4 :  [{ x: 110, y: 283, width: 32, height: 32 ,texto: "", pos : '1' },
+            { x: 112, y: 328, width: 32, height: 32 ,texto: "", pos : '2'},
+            { x: 112, y: 368, width: 32, height: 32 ,texto: "", pos : '3' },
+            { x: 112, y: 408, width: 32, height: 32 ,texto: "", pos : '4'}],
+
+     19 :  [{ x: 110, y: 283, width: 32, height: 32 ,texto: "", pos : '1' },
+            { x: 112, y: 328, width: 32, height: 32 ,texto: "", pos : '2'},
+            { x: 112, y: 368, width: 32, height: 32 ,texto: "", pos : '3' },
+            { x: 112, y: 408, width: 32, height: 32 ,texto: "", pos : '4'},
+
+            { x: 260, y: 283, width: 32, height: 32 ,texto: "", pos : '5'},
+            { x: 260, y: 328, width: 32, height: 32 ,texto: "", pos : '6'},
+            { x: 260, y: 368, width: 32, height: 32 ,texto: "", pos : '7'},
+            { x: 260, y: 408, width: 32, height: 32 ,texto: "", pos : '8'},
+
+            { x: 43, y: 146, width: 32, height: 32 ,texto: "", pos : '9'},
+            { x: 43, y: 114, width: 32, height: 32 ,texto: "", pos : '10'},
+            { x: 43, y: 82, width: 32, height: 32 ,texto: "", pos : '11'},
+            { x: 43, y: 50, width: 32, height: 32 ,texto: "", pos : '12'},
+            { x: 43, y: 18, width: 32, height: 32 ,texto: "", pos : '19'},
+
+            { x: 333, y: 146, width: 32, height: 32 ,texto: "", pos : '13'},
+            { x: 333, y: 114, width: 32, height: 32 ,texto: "", pos : '14'},
+            { x: 333, y: 82,  width: 32, height: 32 ,texto: "", pos : '15'},
+            { x: 333, y: 50,  width: 32, height: 32 ,texto: "", pos : '16'},
+            { x: 333, y: 18,  width: 32, height: 32 ,texto: "", pos : '18'},
+            
+            { x: 182, y: 194, width: 32, height: 32 ,texto: "", pos : '17'}],
+
+      21 : [{ x: 110, y: 283, width: 32, height: 32 ,texto: "", pos : '1' },
+            { x: 112, y: 328, width: 32, height: 32 ,texto: "", pos : '2'},
+            { x: 112, y: 368, width: 32, height: 32 ,texto: "", pos : '3' },
+            { x: 112, y: 408, width: 32, height: 32 ,texto: "", pos : '4'},
+
+            { x: 260, y: 283, width: 32, height: 32 ,texto: "", pos : '5'},
+            { x: 260, y: 328, width: 32, height: 32 ,texto: "", pos : '6'},
+            { x: 260, y: 368, width: 32, height: 32 ,texto: "", pos : '7'},
+            { x: 260, y: 408, width: 32, height: 32 ,texto: "", pos : '8'},
+
+            { x: 43, y: 180, width: 32, height: 32 ,texto: "", pos : '9'},
+            { x: 43, y: 146, width: 32, height: 32 ,texto: "", pos : '10'},
+            { x: 43, y: 114, width: 32, height: 32 ,texto: "", pos : '11'},
+            { x: 43, y: 82, width: 32, height: 32 ,texto: "", pos : '12'},
+            { x: 43, y: 50, width: 32, height: 32 ,texto: "", pos : '13'},
+            { x: 43, y: 18, width: 32, height: 32 ,texto: "", pos : '14'},
+
+            { x: 333, y: 180, width: 32, height: 32 ,texto: "", pos : '15'},
+            { x: 333, y: 146, width: 32, height: 32 ,texto: "", pos : '16'},
+            { x: 333, y: 114, width: 32, height: 32 ,texto: "", pos : '17'},
+            { x: 333, y: 82,  width: 32, height: 32 ,texto: "", pos : '18'},
+            { x: 333, y: 50,  width: 32, height: 32 ,texto: "", pos : '19'},
+            { x: 333, y: 18,  width: 32, height: 32 ,texto: "", pos : '20'},
+            
+            // { x: 182, y: 194, width: 32, height: 32 ,texto: "", pos : '17'}],
+            { x: 182, y: 194, width: 32, height: 32 ,texto: "", pos : '21'}],
+  }
+
+
   
    buttonAreas  = this.buttonAreasFull
 
@@ -158,7 +239,6 @@ export class UbicacionComponent {
   
 
   buscarEstructura(){
-    this.isForm = false
     if(this.estructuraSeleccion == "" ) {
       return alert ("Seleccione una estructura")
     } else if (this.sucursalSeleccion == ""){
@@ -184,13 +264,23 @@ export class UbicacionComponent {
     const img2 = new Image();
     img2.src = url;
 
-    this.service.calcular_suma_peso_posicion_sucursal(this.estructuraSeleccion,this.sucursalSeleccion).subscribe((data : any) => {
+    this.estructuraDato = this.listaEstructura.filter(lista => lista.Nombre === this.estructuraSeleccion)
+
+    let body = {
+      Derecha : this.estructuraDato[0].Arr_balancelo[0].split(" "),
+      Izquierda : this.estructuraDato[0].Arr_balancelo[1].split(" "),
+      Estructura : this.estructuraSeleccion,
+      Sucursal : this.sucursalSeleccion
+    }
+
+    this.service.calcular_suma_peso_posicion_sucursal(body).subscribe((data : any) => {
       console.log(data.Suma_derecha)
-      this.estructuraDato = this.listaEstructura.filter(lista => lista.Nombre === this.estructuraSeleccion)
+      
       if(data.Suma_derecha == null || data.Suma_izquerda == null){
         this.chartVisible = false   
       }else{
-        this.agregar(["Derecha","Izquierda"], [ data.Suma_derecha, data.Suma_izquerda ] )
+        // this.agregar(["Derecha","Izquierda"], [ data.Suma_derecha, data.Suma_izquerda ] )
+        this.agregar(["Izquierda","Derecha"], [ data.Suma_izquerda, data.Suma_derecha ] )
       }
     })
     
@@ -211,9 +301,9 @@ export class UbicacionComponent {
       
       console.log("espacios",espacios)
       for (let i = 0; i < espacios; i++) {
-        this.buttonAreas[i].texto = this.estructuraSeleccion
-        ctx?.drawImage(img2,  this.buttonAreas[i].x,  this.buttonAreas[i].y,  this.buttonAreas[i].width,  this.buttonAreas[i].height);
-        ctx?.fillText( this.buttonAreas[i].texto+ this.buttonAreas[i].pos,  this.buttonAreas[i].x,  this.buttonAreas[i].y);
+        this.objButtonAreas[espacios][i].texto = this.estructuraSeleccion
+        ctx?.drawImage(img2,  this.objButtonAreas[espacios][i].x,  this.objButtonAreas[espacios][i].y,  this.objButtonAreas[espacios][i].width,  this.objButtonAreas[espacios][i].height);
+        ctx?.fillText( this.objButtonAreas[espacios][i].texto+ this.objButtonAreas[espacios][i].pos,  this.objButtonAreas[espacios][i].x,  this.objButtonAreas[espacios][i].y);
       }
     }
 
@@ -250,13 +340,13 @@ export class UbicacionComponent {
 
 
     canvas.addEventListener('click', (event) => {
-      this.isForm = false
       const rect = canvas.getBoundingClientRect();
       const mouseX = event.clientX - rect.left;
       const mouseY = event.clientY - rect.top;
 
-      for (let i = 0; i < this.buttonAreas.length; i++) {
-        const area = this.buttonAreas[i];
+      let espacios = this.listaEstructura.filter(lista => lista.Nombre == this.estructuraSeleccion)[0].Cantidad_espacios
+      for (let i = 0; i < this.objButtonAreas[espacios].length; i++) {
+        const area = this.objButtonAreas[espacios][i];
         if (mouseX >= area.x && mouseX <= area.x + area.width && mouseY >= area.y && mouseY <= area.y + area.height) {
           // El clic está dentro de esta área de botón
           // alert(`Haz presionado el botón ${i + 1}`);
@@ -275,24 +365,12 @@ export class UbicacionComponent {
 
   isErrorView : boolean = false
 
-  form = this.builder.group({
-    Nombre : this.builder.control("" , [Validators.required]),
-    Sucursal : this.builder.control("",[Validators.required]),
-    Tipo : this.builder.control("1" , [Validators.required]),
-    Cant_espacios : this.builder.control(""),
-    Balanceo : this.builder.control(""),
-    Frontis : this.builder.control(""),
-    Id_user : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
-    Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-
-  })
 
   registrarEstructura(){
     
   }
 
   agregarEstructura(){
-    this.isForm = true
     this.toggleLiveDemo()
   }
 
