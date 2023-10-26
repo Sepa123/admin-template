@@ -1,10 +1,10 @@
-<form cForm [formGroup]="funForm" > 
+<form cForm [formGroup]="funForm" (ngSubmit)="registrar()"> 
     <c-row>
         <c-col [xs]>
             <c-col [xs]>
                 <input type="text" placeholder="Esquema" class="form-control" formControlName="Esquema" >
                     <span class="error" *ngIf="funForm.get('Esquema')?.errors?.['required'] && isErrorView">
-                        Requerido sucursal
+                        Requerido Esquema
                     </span> 
             </c-col>
         </c-col>
@@ -16,16 +16,120 @@
         </c-col> 
         <c-col [xs]>
             <select id="Tipo_funcion"  cSelect formControlName="Tipo_funcion">
-                <option value="">Tipo_funcion</option>
-                <!-- <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option> -->
+                <option value="">Tipo funcion</option>
+                <option *ngFor="let tipo of tipoFuncion"  [value]="tipo.Id"  >{{tipo.Nombre}}</option>
             </select>
-            <span class="error" *ngIf="funForm.get('Tipo_funcion')?.errors?.['required'] && isErrorView">
-                Falta seleccionar la región
-            </span> 
+        </c-col>
+    </c-row>
+    <p></p>
+    <c-row>
+        <c-col>
+            <textarea rows="2"  cFormContro placeholder="Descripcion" class="form-control" formControlName="Descripcion" ></textarea>
+        </c-col>
+    </c-row> 
+    <p></p>
+    <c-row>
+        <c-col [xs]>
+            <a class="btn btn-info" (click)="addArray('Parametros')">
+                Agregar parametros
+                <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 0 512 512"><path fill="currentColor" d="M256 152h208v32H256zm-80 104h288v32H176zm0 104h288v32H176zm16-208h-64V88H96v64H32v32h64v64h32v-64h64v-32z"/></svg>
+            </a>
         </c-col>
     </c-row>
     <p></p> 
+    <c-row>
+        <div formArrayName="Parametros">
+        <c-row *ngFor="let carga of Parametros.controls; let i = index">
+            <c-row [formGroupName]="i">
+                {{i +1}}
+            <c-col [xs] >
+                <div class="" >               
+                    <input type="text" placeholder="Parametro" class="form-control" formControlName="Parametro">
+                 </div>   
+            </c-col>
+            <c-col [xs]>
+                <div class="" >    
+                    <input type="text" placeholder="Comentario" class="form-control" formControlName="Comentario" >     
+                 </div>   
+            </c-col>
+            <c-col [xs]>
+                <svg (click)="removeArray(i,'Parametros')" xmlns="http://www.w3.org/2000/svg"  width="28" height="28" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
+            </c-col>
+            <c-col [xs]>
     
+            </c-col>
+        </c-row>
+            <p></p>
+        </c-row>
+    </div>
+    </c-row>  
+    <c-row>
+        <c-col [xs]>
+            <a class="btn btn-info" (click)="addArray('Palabra_clave')">
+                Agregar palabras claves
+                <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 0 512 512"><path fill="currentColor" d="M256 152h208v32H256zm-80 104h288v32H176zm0 104h288v32H176zm16-208h-64V88H96v64H32v32h64v64h32v-64h64v-32z"/></svg>
+            </a>
+        </c-col>
+    </c-row>  
+    <p></p>
+    <c-row>
+        <div formArrayName="Palabras_clave">
+        <c-row *ngFor="let carga of Palabras_clave.controls; let i = index">
+            <c-row [formGroupName]="i">
+                {{i +1}}
+            <c-col [xs] >
+                <div class="" >               
+                    <input type="text" placeholder="Palabra clave" class="form-control" formControlName="Palabra_clave" >
+                 </div>   
+            </c-col>
+            <c-col [xs]>
+                <svg (click)="removeArray(i,'Palabra_clave')" xmlns="http://www.w3.org/2000/svg"  width="28" height="28" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
+ 
+            </c-col>
+            <c-col [xs]>
+            </c-col>
+            <c-col [xs]>
+    
+            </c-col>
+        </c-row>
+            <p></p>
+        </c-row>
+    </div>
+    </c-row>
+    <c-row>
+        <c-col [xs]>
+            <a class="btn btn-info" (click)="addArray('Tablas_impactadas')">
+                Tablas impactadas
+                <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 0 512 512"><path fill="currentColor" d="M256 152h208v32H256zm-80 104h288v32H176zm0 104h288v32H176zm16-208h-64V88H96v64H32v32h64v64h32v-64h64v-32z"/></svg>
+            </a>
+        </c-col>
+    </c-row>  
+    <p></p>
+    <c-row>
+        <div formArrayName="Tablas_impactadas">
+        <c-row *ngFor="let carga of Tablas_impactadas.controls; let i = index">
+            <c-row [formGroupName]="i">
+                {{i +1}}
+            <c-col [xs] >
+                <div class="" >               
+                    <input type="text" placeholder="Tabla" class="form-control" formControlName="Tabla">
+                 </div>   
+            </c-col>
+            <c-col [xs]>
+                <svg (click)="removeArray(i,'Tablas_impactadas')" xmlns="http://www.w3.org/2000/svg"  width="28" height="28" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
+ 
+            </c-col>
+            <c-col [xs]>
+            </c-col>
+            <c-col [xs]>
+    
+            </c-col>
+        </c-row>
+            <p></p>
+        </c-row>
+    </div>
+    </c-row>
+
     <c-row>
         <c-col [xs]>
             <button class="btn btn-success" type="submit">Guardar 
@@ -34,10 +138,7 @@
         </c-col>
         <c-col [xs]>
             
-            <a class="btn btn-info" >
-                Agregar producto
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path fill="currentColor" d="M256 152h208v32H256zm-80 104h288v32H176zm0 104h288v32H176zm16-208h-64V88H96v64H32v32h64v64h32v-64h64v-32z"/></svg>
-            </a>
+            
         </c-col>
         <c-col [xs]>
             
