@@ -16,6 +16,40 @@
       </tr>
     </thead>
     <tbody>
+      <tr *ngFor="let funcion of listaFunciones">
+        <td>{{funcion.Id}}</td>
+        <td>{{funcion.Nombre_funcion}}</td>
+        <td>{{funcion.Tipo_funcion}}</td>
+        <td>{{funcion.Descripcion}}</td>
+        <td>
+          <table>
+            <tr *ngFor="let parametro of funcion.Parametros">
+              <td>{{parametro}}</td>
+            </tr>
+         </table>
+        </td>
+        <td>
+          <table>
+            <tr *ngFor="let comentario of funcion.Comentarios_parametros">
+              <td>{{comentario}}</td>
+            </tr>
+         </table>
+        </td>
+        <td>
+          <table>
+            <tr *ngFor="let clave of funcion.Palabras_clave">
+              <td>{{clave}}</td>
+            </tr>
+         </table>
+        </td>
+        <td>
+          <table>
+            <tr *ngFor="let tablas of funcion.Tablas_impactadas">
+              <td>{{tablas}}</td>
+            </tr>
+         </table>
+        </td>
+      </tr>
     </tbody>
     </table>
 </div>

@@ -3,7 +3,7 @@ export interface ListaFuncion {
     Fecha_creacion:         Date;
     Esquema:                string;
     Nombre_funcion:         string;
-    Tipo_funcion:           number;
+    Tipo_funcion:           string;
     Descripcion:            string;
     Parametros:             string[];
     Comentarios_parametros: string[];
