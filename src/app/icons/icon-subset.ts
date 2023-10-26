@@ -28,6 +28,9 @@ import {
   cilChatBubble
 } from '@coreui/icons';
 
+
+
+// const iViking = 
 export const iconSubset = {
   cilWindow,
   cilMenu,

@@ -35,6 +35,22 @@ export const navItems: INavDataBar[] = [
   //   //   },
   //   // ]
   // },
+  // {
+  //   name: 'Area TI',
+  //   url : '/areati',
+  //   icon: "viking",
+  //   roles : ROLES_PERMITIDOS.PANEL,
+  //   children : [
+  //     {
+  //       name: 'Lista de funciones',
+  //       url: '/areati/funciones'
+  //     },
+  //     {
+  //       name: 'Agregar funcion',
+  //       url: '/areati/agregar-funcion'
+  //     },
+  //   ]
+  // },
   {
     name: 'Dashboard',
     url: '/dashboard',
@@ -493,7 +509,8 @@ export const navItems: INavDataBar[] = [
       },
     ]
   },
- 
+  
+
   // {
   //   name: 'Carga Excel',
   //   url : '/carga',

@@ -312,12 +312,26 @@ export class RutasActivasComponent {
   }
 
   downloadExcel(nombre_ruta : string, patente: string, driver: string ) {
-    this.service.download_ruta_activa(nombre_ruta, patente, driver, this.rutaEnActivo)
+    const caracter = this.generarCaracteresRandom(10)
+    this.service.download_ruta_activa(nombre_ruta, patente, driver, this.rutaEnActivo,caracter)
+  }
+
+  generarCaracteresRandom(longitud : number) {
+    let caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let resultado = '';
+  
+    for (let i = 0; i < longitud; i++) {
+      let indice = Math.floor(Math.random() * caracteres.length);
+      resultado += caracteres.charAt(indice);
+    }
+    return resultado;
   }
 
 
   downloadExcelBeetrack(){
-    this.service.descargar_datos_beetrack_by_id(this.idRuta, this.nombreRutaActual)
+    const caracter = this.generarCaracteresRandom(10)
+
+    this.service.descargar_datos_beetrack_by_id(this.idRuta, this.nombreRutaActual,caracter)
   }
 
 

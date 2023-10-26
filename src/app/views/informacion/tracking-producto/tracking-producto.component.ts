@@ -169,6 +169,7 @@ export class TrackingProductoComponent {
 
   buscarTrackBeetrack(codigo : string){
       this.factura = []
+      this.productosRuta = []
       this.fechaIngresoSistema = ""
       this.isOK = false
       this.codigoPick = ""

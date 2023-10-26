@@ -186,6 +186,15 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/rsv/rsv.module').then((m) => m.RsvModule)
       },
+      {
+        path: 'areati',
+        data : {
+          roles : ROLES_PERMITIDOS.PANEL
+        },
+        canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/area-ti/area-ti.module').then((m) => m.AreaTiModule)
+      },
     ],
     canActivate: [UserGuard]
   },
