@@ -1,0 +1,135 @@
+.contenedor-botones{
+    display: flex;
+    justify-content: center;
+ 
+}
+
+.btn-acciones{
+    width: 8rem;
+    min-height: 6rem;
+    margin: 2rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+    
+}
+
+.tipo{
+    border-color: rgba(255, 68, 0, 0.5);
+    background-color: rgb(255, 166, 0);
+    border-width:.25rem;
+    border-radius: 2rem;
+   
+}
+
+.persona{
+    border-color: rgba(0, 38, 255, 0.377);
+    background-color:  rgb(0, 217, 255);
+    border-width:.25rem;
+    border-radius: 2rem;
+}
+.sucursal{
+
+    border-color: rgb(255, 0, 200);
+    background-color:  rgba(0, 255, 34, 0.733);
+    border-width: .25rem;
+    border-radius: 2rem;
+}
+
+.equipo{
+    border-color: rgb(241, 143, 212);
+    background-color:  rgba(240, 243, 36, 0.733);
+    border-width: .25rem;
+    border-radius: 2rem;
+
+}
+
+.greenTable{
+    width: auto;
+    max-height: 400px; /* Altura de ejemplo */
+    overflow: auto;
+    
+  }
+  
+  .greenTable  table {
+    border: 1px solid #28A745;
+    background-color: #FFFEF3;
+    width: auto;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .greenTable  table td, table th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  .greenTable  table tbody td {
+    font-size: 11px;
+  }
+  
+  .greenTable  table tbody th {
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .greenTable  table tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  .greenTable table thead {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: #28A745;
+  }
+  .greenTable  table thead th {
+    font-size: 11px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+  .greenTable  table thead th:first-child {
+    border-left: none;
+  }
+  
+  .greenTable  table tfoot {
+    font-size: 13px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: #A40808;
+  }
+  .greenTable table tfoot td {
+    font-size: 13px;
+  }
+  
+  .greenTable  table tfoot .links {
+    text-align: right;
+  }
+  .greenTable  table tfoot .links a{
+    display: inline-block;
+    background: #FFFFFF;
+    color: #A40808;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+  
+  .inline-container {
+    margin: 1px;
+    display: flex;
+    align-items: center; /* Alinea los elementos verticalmente si es necesario */
+  }  
+  
+  .inline-container input,
+  .inline-container c-dropdown,
+  .inline-container span {
+    margin-right: 5px; /* Espacio personalizado entre los elementos */
+  }
+  h2 {
+      text-align: center;
+    }
+    
+  .svgT{
+    fill:#12de20
+  }
+  
+  .svgF{
+    fill:#d60a0a
+  }

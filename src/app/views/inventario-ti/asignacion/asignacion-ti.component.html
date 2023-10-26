@@ -1,0 +1,164 @@
+<h1>Asignación de Equipo</h1>
+
+<div class="contenedor-botones">
+    <button cButton class="btn-acciones sucursal"  (click)="listaDeAsignaciones()">Asignacion</button>
+</div>
+
+<c-modal id="liveDemoModalAsignar" [visible]="visible" (visibleChange)="handleLiveDemoChangeAsignar($event)" size="lg">
+    <c-modal-header>
+      <h5 cModalTitle>Asignar equipo</h5>
+      <button (click)="toggleLiveDemoAsignar()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <form cForm  (ngSubmit)="registrarAsignacion()" [formGroup]="asignacionForm" (change)="getLocation()" >  
+        <div class="">
+          <c-row>
+            <c-col [xs]>
+              <div class="">
+                <label for ="equipo" >Equipo </label>
+                <select   cSelect    formControlName="equipo" name="equipo">
+                  <option selected>Selecciona un equipo</option>
+                  <option *ngFor="let equipo of equipos" value={{equipo.id}}>
+                    {{ equipo.marca}} - {{equipo.modelo}} -  {{equipo.serial}}
+                  </option>
+                </select> 
+              </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                <label for="nombre">Nombre de Equipo </label>
+                <select   cSelect    formControlName="nombre_equipo" name="nombre_equipo" >
+                  <option selected>Seleccione el nombre del equipo asignado</option>
+                  <option *ngFor="let equipo of tipo" value={{equipo.nombre}}>
+                     {{equipo.nombre}}
+                  </option>
+                </select> 
+              </div>
+            </c-col>
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="">
+                <label for="persona"> Persona  </label>
+                <select   cSelect    formControlName="persona" name="persona">
+                  <option selected>Seleccione la persona a asignar</option>
+                  <option *ngFor="let persona of personas" value={{persona.id}}>
+                     {{ persona.nombres}} {{persona.apellidos}}
+                  </option>
+                </select> 
+              </div>
+            </c-col>
+            <c-col [xs]>
+              <div class=""> 
+                <label for="departamento">Departamento</label>
+                <select   cSelect    formControlName="departamento" name="persona">
+                  <option selected>Seleccione el departamento asignado</option>
+                  <option *ngFor="let departamento of departamentos" value={{departamento.id}}>
+                     {{departamento.nombre}}
+                  </option>
+                </select> 
+              </div>
+            </c-col>
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="">
+                <label for="fecha_entrega">Fecha de entrega</label>
+                <input type="date"  class="form-control" formControlName="fecha_entrega" name="fecha_entrega">
+              </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                <label for="folio"> Folio</label>
+                <input type="text"  class="form-control"  formControlName="folio" name="folio">
+              </div>
+            </c-col>
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class=""> Fecha de devolución
+                <input type="date"  class="form-control"  formControlName="fecha_devolucion">
+              </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                <label for="estado">Estado</label>
+                <select cSelect formControlName="estado">
+                  <option value="true">Entregado</option>
+                  <option value="false">No entregado</option>
+                </select>
+              </div>
+            </c-col>
+            </c-row>
+            <c-row>
+            <c-col [xs]>
+              <div class="">
+                <label  for="observacion"> Observación</label>
+                <textarea type="text" class="form-control"  placeholder="Ingresar observaciones" formControlName="observacion" name="observacion"></textarea>
+              </div>
+            </c-col>
+          </c-row>
+        </div>
+        <button  class="btn btn-success" type="submit"  >Enviar</button>
+      </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemoAsignar()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+</c-modal>
+
+<h3 class="tituloFecha show" *ngIf="mostrarAsignacion">Lista de Sucursales: </h3>
+<button *ngIf="mostrarAsignacion" cButton color="success" size="sm" (click)="toggleLiveDemoAsignar()">
+  <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+  </svg>Crear
+</button>
+<div class="greenTable show"  *ngIf="mostrarAsignacion && asignaciones  && asignaciones.length > 0">
+
+    
+    <table id="tablaProductosPicking" style="width: 60%" >
+        <thead>
+            <tr>
+                <th>Persona Asignada</th>
+                <th>Departamento</th>
+                <th>Nombre del Equipo</th>
+                <th>Equipo</th>
+                <th>Folio</th>
+                <th>Fecha de entrega</th>
+                <th>Fecha de devolución</th>
+                <th>Estado</th>
+                <th>Observación</th>
+                <th>Acciones</th>
+                
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inventario of asignaciones">
+                <td>{{inventario.persona}}</td>
+                <td>{{inventario.departamento}}</td>
+                <td>{{inventario.nombre_equipo}}</td>
+                <td>{{inventario.equipo }}</td>
+                <td>{{inventario.folio || 'No se ha ingeresado N° Folio'}}</td>
+                <td>{{inventario.fecha_entrega || 'Sin fecha de entrega asignada'}}</td>
+                <td>{{inventario.fecha_devolucion || 'No se ha asignado fecha de devolución'}}</td>
+                <td>{{inventario.estado ? 'Entregado' : 'No entregado' }}</td>
+                <td>{{inventario.observacion || 'Sin observación agregada'}}</td>
+                
+
+                <td>
+                    <button cButton color="success" size="sm">
+                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+                        </svg> Editar
+                    </button>
+                    
+                   
+                </td>       
+            </tr>
+        </tbody>
+    </table>
+</div>
+ 

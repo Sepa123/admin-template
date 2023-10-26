@@ -186,6 +186,15 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/rsv/rsv.module').then((m) => m.RsvModule)
       },
+      {
+        path: 'inventario-ti',
+        data:{
+          roles : ROLES_PERMITIDOS.RSV
+        },
+        canActivate:[PermissionGuard],
+        loadChildren:()=>
+          import('./views/inventario-ti/inventario-ti.module').then((m)=> m.InventarioTIModule)
+      },
     ],
     canActivate: [UserGuard]
   },
