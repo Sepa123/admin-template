@@ -116,7 +116,7 @@ export class AgregarFuncionComponent {
     this.funForm.value.Tablas_impactadas.map((pal : any) => {
       arrTabla.push(pal.Tabla)
     })
-    console.log(arrPar)
+    
     this.funForm.patchValue({
       arrParametros : arrPar,
       arrComentario : arrComent,
@@ -126,6 +126,8 @@ export class AgregarFuncionComponent {
 
     this.service.enviar_datos_funciones(this.funForm.value).subscribe(data => {
       console.log(data)
+    }, error => {
+      alert("Error al ingresar los datos")
     })
 
     console.log(this.funForm.value)

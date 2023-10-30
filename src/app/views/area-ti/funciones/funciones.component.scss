@@ -13,7 +13,7 @@ h2 {
     border: 1px solid #28A745;
     background-color: #FFFEF3;
     width: auto;
-    text-align: center;
+    text-align: left;
     border-collapse: separate;
     border-spacing: 0;
   }
@@ -47,5 +47,16 @@ h2 {
   }
   .greenTable  table thead th:first-child {
     border-left: none;
+  }
+
+
+  .centrar {
+    text-align: center;
+    font-size: 10px;
+  }
+
+  .sinCuadro {
+    text-align: left;
+    border: 0
   }
   

@@ -239,7 +239,39 @@
               </tr>
             </tbody>
           </table>
-          </c-col>
+          </c-col>      
+</c-row>
+<p></p>
+<p ngClass="letraGrande">Productos pendientes con fecha de compromiso hasta hoy</p> 
+<c-row>
+  <c-col>
+    <table class="greenTable" *ngIf="ocultarTabla == true">
+      <thead>
+        <tr>         
+          <th scope="col">Cliente</th>
+          <th scope="col">Total</th>
+          <th scope="col">Pickeados</th>
+          <th scope="col">Sin Pickear</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pendiente of pendientesBodega; let i = index">
+          <td>{{pendiente.Cliente}}</td>
+          <td>{{pendiente.Total}}</td>
+          <td>{{pendiente.Pickeados}}</td>
+          <td>{{pendiente.Sin_pickear}}</td>
+
+        </tr>
+        <!-- <tr>
+          <td colspan="15" *ngIf="noData">Sin datos</td>
+        </tr> -->
+        <tr>
+          <td colspan="15" *ngIf="pendientesBodega.length == 0"><img src="../../../assets/images/loading-gif.gif" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </c-col>
 </c-row>
 
 <c-row >

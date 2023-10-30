@@ -14,6 +14,7 @@ import { Pedidos } from 'src/app/models/pedido.interface';
 import { RutaBeetrackHoy } from 'src/app/models/rutaBeetrackHoy.interface'
 import { Subscription } from 'rxjs';
 import { PedidosPendientes } from 'src/app/models/pedidoPendiente.interface';
+import { PendienteBodega } from 'src/app/models/pendienteBodega.interface';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   
   regiones! : string []
 
-
+  pendientesBodega : PendienteBodega [] = []
  
   pedidosPendientesTotal!: PedidosPendientes[]
   pedidosPendientesEntregados!: PedidosPendientes[]
@@ -151,6 +152,22 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
     // this.setData();
+    setTimeout( () => {
+      this.service.get_ruta_beetrack_hoy().subscribe((data) => {
+        this.rutasBeetrackHoy  = data
+        this.rutasBeetrackHoyFullData = this.rutasBeetrackHoy
+        this.isLoadingBeetrack = false
+  
+        this.regiones = [...new Set(this.rutasBeetrackHoyFullData.map(ruta => ruta.Region))];
+  
+        // console.log(this.region)
+  
+        if(this.rutasBeetrackHoy.length == 0) {
+          this.noData = true
+        }
+      })
+    },600)
+
     this.service.get_pedidos().subscribe((data) => {
       this.pedidos = data
       this.pedidos[0]["Total_pedidos"] == null ? alert("Hubo un error al cargar los datos de beetrack, Por favor espere un tiempo") 
@@ -158,20 +175,9 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     })
 
 
-
-    this.service.get_ruta_beetrack_hoy().subscribe((data) => {
-      this.rutasBeetrackHoy  = data
-      this.rutasBeetrackHoyFullData = this.rutasBeetrackHoy
-      this.isLoadingBeetrack = false
-
-      this.regiones = [...new Set(this.rutasBeetrackHoyFullData.map(ruta => ruta.Region))];
-
-      // console.log(this.region)
-
-      if(this.rutasBeetrackHoy.length == 0) {
-        this.noData = true
-      }
-    })
+    setTimeout( () => {
+      this.getPendientesBodegas();
+    },100)
 
     this.getPedidosPendientes();
 
@@ -186,6 +192,12 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
     this.subPedidosPendientes();
 
+  }
+
+  getPendientesBodegas(){
+    this.service.get_pendientes_bodega().subscribe((data) => {
+      this.pendientesBodega = data
+    })
   }
 
   filterByRegion(region : string) {

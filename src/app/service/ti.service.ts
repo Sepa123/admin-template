@@ -16,6 +16,7 @@ import { PedidosPendientes } from "../models/pedidoPendiente.interface"
 import { ProductoPicking } from "src/app/models/productoPicking.interface"
 import { CargasComparacion } from '../models/cargasComparacion.interface';
 import { NSBeetrackRango } from '../models/nsBeetrackRango.interface'
+import { PendienteBodega } from '../models/pendienteBodega.interface'
 
 import { interval,Observable, switchMap  } from 'rxjs';
 @Injectable({
@@ -259,6 +260,17 @@ export class TIService {
 
   get_cargas_easy_wms() {
     return this.http.get<CargasComparacion[]>(this.apiurl + "/cargas_easy/wms")
+  }
+
+  // pendientes en bodega
+
+  get_pendientes_bodega(){
+    return this.http.get <PendienteBodega []>(this.apiurl + "/pendientes/bodega")
+  }
+
+
+  update_pendiente_bodega() : Observable<any>{
+    return interval(30000).pipe(switchMap(() => this.http.get<PendienteBodega []>(this.apiurl + "/pendientes/bodega") ))  
   }
   
 }

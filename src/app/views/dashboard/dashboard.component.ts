@@ -68,8 +68,11 @@ export class DashboardComponent implements OnInit {
 
     // const datosSessionStorage = sessionStorage.getItem('reportesHistoricos');
     this.initCharts();
-    this.getDataHistorico();
-    this.getDataHistoricoHoy();
+    setTimeout(() => {
+      this.getDataHistorico();
+      this.getDataHistoricoHoy();
+    },1000)
+    
 
   }
 
