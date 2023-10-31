@@ -23,7 +23,8 @@ export class PendientesComponent implements OnInit{
   fechaCompromisoList!: any[]
   comunas : string[] = []
   regiones : string[] = []
-  offset : number [] = [0,200,400,600,800,1000,1200]
+  // offset : number [] = [0,200,400,600,800,1000,1200]
+  offset : number [] = [0,100,200,300,400,500,600,700,800,900,1000,1100,1200]
   timeout : number [] = [1000,1000,1000,1000,1000,1000,1000]
 
 
@@ -97,7 +98,7 @@ export class PendientesComponent implements OnInit{
           }, error => {
             alert(error.error.detail)
           });
-        }, 20000 * i);
+        }, 18320 * i);
         // Guardar la referencia al setTimeout en el arreglo
         timeouts.push(timeoutId);
       }

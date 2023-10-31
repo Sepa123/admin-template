@@ -26,7 +26,7 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
   comunasSeleccionadas: string[] = [];
 
   regiones : string[] = []
-  offset : number [] = [0,200,400,600,800,1000,1200]
+  offset : number [] = [0,100,200,300,400,500,600,700,800,900,1000,1100,1200]
 
   body : any = {
     Codigos: "",
@@ -120,7 +120,7 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
           }, error => {
             alert(error.error.detail)
           });
-        }, 22000 * i);
+        }, 18320 * i);
         // Guardar la referencia al setTimeout en el arreglo
         timeouts.push(timeoutId);
       }
