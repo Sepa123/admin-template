@@ -5,4 +5,5 @@ export interface InventarioSucursal {
     Paquetes: number;
     Unidades: number;
     Total:    number;
+    Ubicacion:  Array<null | string>
 }

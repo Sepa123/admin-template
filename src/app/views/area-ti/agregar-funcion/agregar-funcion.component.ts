@@ -126,6 +126,8 @@ export class AgregarFuncionComponent {
 
     this.service.enviar_datos_funciones(this.funForm.value).subscribe(data => {
       console.log(data)
+      alert("Función registrada correctamente")
+      this.funForm.reset()
     }, error => {
       alert("Error al ingresar los datos")
     })

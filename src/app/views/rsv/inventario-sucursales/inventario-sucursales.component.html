@@ -1,3 +1,30 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" >
+    <c-modal-header>
+      <h5 cModalTitle >Ubicación</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <div class="greenTable">
+            <table id="tablaProductosPicking"  style="width: 75%" *ngFor="let inv of inventarioSeleccionado">
+                <thead>
+                    <th >Ubicación</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ubicacion of inv.Ubicacion">
+                        <td>{{ubicacion}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+
 
 <c-row>
     <c-col [xs]>
@@ -33,7 +60,7 @@
     <table id="tablaProductosPicking" style="width: 60%">
         <thead>
             <tr>
-                <th colspan="5" style="justify-content: left;">Color : {{arr[0].Color}}</th>
+                <th colspan="6" style="justify-content: left;">Color : {{arr[0].Color}}</th>
             </tr>
         </thead>
         <thead>
@@ -43,6 +70,7 @@
                 <th>Paquetes</th>
                 <th>Unidades</th>
                 <th>Total</th>
+                <th>Ubicación</th>
             </tr>
         </thead>
         <tbody>
@@ -52,6 +80,9 @@
                 <td>{{inventario.Paquetes}}</td>
                 <td>{{inventario.Unidades}}</td>
                 <td>{{inventario.Total}}</td>
+                <td *ngIf="rol == '5'"><svg (click)="verUbicacion(inventario)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+                </td>
+
             </tr>
         </tbody>
 </table>

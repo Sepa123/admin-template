@@ -18,6 +18,29 @@ export class InventarioSucursalesComponent {
 
   } 
 
+  // modales 
+  isModalOpen: boolean = false
+  public visible = false;
+
+  inventarioSeleccionado : InventarioSucursal []= []
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+    
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    this.isModalOpen = true
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
+
   isClick : boolean = false
   public rol = sessionStorage.getItem("rol_id") 
   sucursalSeleccionada : string = ""
@@ -55,6 +78,12 @@ export class InventarioSucursalesComponent {
     
     let nombre = this.sucursales.filter(sucursal => sucursal.Id == parseInt(this.sucursalSeleccionada))[0].Nombre
     this.service.downloadInventarioSucursalExcel(parseInt(this.sucursalSeleccionada), nombre)
+  }
+
+  verUbicacion( inventario : InventarioSucursal){
+    console.log(inventario)
+    this.inventarioSeleccionado = [inventario]
+    this.toggleLiveDemo()
   }
 
 
