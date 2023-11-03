@@ -36,6 +36,8 @@ export class VentasComponent {
   isModalOpen: boolean = false
   public visible = false;
 
+  etiqueta : string = ""
+
   toggleLiveDemo() {
     this.visible = !this.visible;
   }
@@ -73,7 +75,8 @@ export class VentasComponent {
       Numero_factura : this.fb.control("", [Validators.required]),
       Codigo_ty : this.fb.control(""),
       Entregado : this.fb.control(false),
-      arrays : this.fb.array([])
+      arrays : this.fb.array([]),
+      etiqueta : this.fb.control("")
     })
  
     this.skillsForm = this.fb.group({
@@ -109,6 +112,8 @@ export class VentasComponent {
         Color : this.fb.control("", [Validators.required] ),
         Retorno : this.fb.control(""),
         Mensaje : this.fb.control(""),
+        E_paquetes : this.fb.control(""),
+        E_unidades : this.fb.control(""),
     })
   }
 
@@ -154,11 +159,20 @@ export class VentasComponent {
 
   
   evaluarPedidoUnidad(i : number){
+    let cantidad = this.ventasForm.value.arrays[i].Unidades
+    if(cantidad == "") cantidad = 0
     const body = {
       Codigo_producto : this.ventasForm.value.arrays[i].Codigo,
-      Cantidad : this.ventasForm.value.arrays[i].Unidades,
+      Cantidad : cantidad,
       Sucursal : this.ventasForm.value.Sucursal
     }
+    this.service.get_stock_producto(body).subscribe((data : any) => {
+      this.arrays.at(i).patchValue({
+        E_paquetes : data.E_paquetes + " paq",
+        E_unidades : data.E_unidades + " und",
+      })
+    })
+
     this.service.verificar_existencia_producto(body).subscribe((data) => {
       // this.arrEvaluacionPedidoRSV.push(data)
       this.arrays.at(i).patchValue({
@@ -308,6 +322,17 @@ export class VentasComponent {
       })
     },700)
 
+  }
+
+  pickEtiqueta(){
+    const resultado = this.ventasForm.value.etiqueta.replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
+    console.log(resultado)
+    this.ventasForm.patchValue({
+      etiqueta : ""
+    })
+    // this.ventasForm.patchValue({
+    //   etiqueta : resultado
+    // })
   }
 
 

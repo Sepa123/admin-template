@@ -29,6 +29,7 @@ import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/list
 import { ChartjsModule } from '@coreui/angular-chartjs';
 import { NgChartsModule } from 'ng2-charts';
 import { MantenedorComponent } from './mantenedor/mantenedor.component';
+
 @NgModule({
   declarations: [
     CatalogoComponent,

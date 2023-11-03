@@ -25,6 +25,7 @@ export class RecepcionEasyCdComponent {
 
   productosVerificados : ProductoOPL [] = []
   productosPorVerificar : ProductoOPL [] = []
+  productosUltimo : ProductoOPL [] = []
   codigoProducto!: string
 
   cargas! : CargasComparacion []
@@ -209,7 +210,10 @@ getLocationAsync(): Promise<any> {
 
 
  async cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
+    this.productosUltimo.pop()
     this.productosPorVerificar[arrayIndex].Recepcion = true
+
+    this.productosUltimo.push(this.productosPorVerificar[arrayIndex])
 
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     

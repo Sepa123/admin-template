@@ -325,5 +325,15 @@ export class RsvService {
    update_datos_estructura(body : any){
     return this.http.put(this.apiurl+"/actualizar/estructura",body)
   }
+
+  //lista de ventas 
+
+  get_lista_venta_por_sucursal(sucursal : string){
+    return this.http.get<NotaVenta []>(this.apiurl + `/notas_ventas/lista/completa?sucursal=${sucursal}`) 
+  }
+
+  get_stock_producto(body : any){
+    return this.http.post<NotaVenta []>(this.apiurl + `/verificar/stock/producto`, body) 
+  }
   
 }

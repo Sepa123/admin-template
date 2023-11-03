@@ -19,7 +19,7 @@
         </tr>
         <tr>
             <td>
-                <svg  xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 0 512 512"><path fill="yellow" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>                       
+                <svg  xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 0 512 512"><path fill="yellow" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
             </td>
             <td>
                  Se requiere abrir un paquete para Generar la Venta.
@@ -27,7 +27,7 @@
         </tr>
         <tr>
             <td>
-                <svg  xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 0 512 512"><path fill="red" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>                        
+                <svg  xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 0 512 512"><path fill="red" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
             </td>
             <td>
                 ADVERTENCIA: No Existe Stock para Realizar esta Venta.
@@ -53,43 +53,43 @@
 
 <p></p>
 
-<form cForm [formGroup]="ventasForm" (ngSubmit)="onSubmit()"> 
+<form cForm [formGroup]="ventasForm" >
     <c-row>
         <c-col [xs]>
             <c-col [xs]>
                 <select id="Color" cSelect formControlName="Sucursal">
                     <option value="">Sucursales</option>
                     <option *ngFor="let sucursal of sucursalesRSV" value={{sucursal.Id}}  >
-                        {{sucursal.Nombre}}     
+                        {{sucursal.Nombre}}
                     </option>
                 </select>
                     <span class="error" *ngIf="ventasForm.get('Sucursal')?.errors?.['required'] && isErrorView">
                         Requerido sucursal
-                    </span> 
+                    </span>
             </c-col>
         </c-col>
         <c-col [xs]>
             <input type="date" class="form-control" formControlName="Fecha_entrega" >
             <span class="error" *ngIf="ventasForm.get('Fecha_entrega')?.errors?.['required'] && isErrorView">
                 Falta agregar la fecha de entrega
-            </span> 
-        </c-col> 
+            </span>
+        </c-col>
         <c-col [xs]>
             <input type="text" placeholder="Cliente" class="form-control" formControlName="Cliente" >
             <span class="error" *ngIf="ventasForm.get('Cliente')?.errors?.['required'] && isErrorView">
                 requerido Cliente
-            </span> 
+            </span>
         </c-col>
         <c-col [xs]>
             <select id="Color" cSelect formControlName="Tipo_despacho" (change)="generar_N_factura()">
                 <option value="">Despacho</option>
                 <option *ngFor="let despacho of tipoDespacho" value={{despacho.Id}}  >
-                    {{despacho.Despacho}}     
+                    {{despacho.Despacho}}
                 </option>
             </select>
                 <span class="error" *ngIf="ventasForm.get('Tipo_despacho')?.errors?.['required'] && isErrorView">
                     Requerido tipo despacho
-                </span> 
+                </span>
         </c-col>
     </c-row>
     <p></p>
@@ -104,7 +104,7 @@
                         </select>
                         <span class="error" *ngIf="ventasForm.get('Region')?.errors?.['required'] && isErrorView">
                             Falta seleccionar la región
-                        </span> 
+                        </span>
                     </div>
                 </c-col>
                 <c-col [xs]>
@@ -121,7 +121,7 @@
             <input type="text" placeholder="Dirección" class="form-control" formControlName="Direccion" >
                 <span class="error" *ngIf="ventasForm.get('Direccion')?.errors?.['required'] && isErrorView">
                     requerida la dirección
-                </span> 
+                </span>
         </c-col>
     </c-row>
     <p></p>
@@ -130,7 +130,7 @@
             <input type="text" placeholder="Numero_factura" class="form-control" formControlName="Numero_factura" >
             <span class="error" *ngIf="ventasForm.get('Numero_factura')?.errors?.['required'] && isErrorView">
                 requerido Numero de la factura
-            </span> 
+            </span>
         </c-col>
         <c-col [xs]>
             <svg (click)="toggleLiveDemo()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg>
@@ -143,7 +143,7 @@
 
         </c-col>
     </c-row>
-    
+
     <p></p>
     <c-row *ngIf="arrays.length > 0">
         <c-col [xs]>
@@ -156,8 +156,12 @@
             Descripción
         </c-col>
         <c-col [xs]>
+            No preparado
+        </c-col>
+        <c-col [xs]>
             Unidades
         </c-col>
+
     </c-row>
     <p></p>
     <div formArrayName="arrays">
@@ -165,36 +169,32 @@
         <c-row *ngFor="let carga of arrays.controls; let i = index">
             <c-row [formGroupName]="i">
                 {{i +1}}
+
             <c-col [xs] >
-                <div class="" >               
+                <div class="" >
                     <select id="Color" cSelect formControlName="Color" (change)="cambio(i)" >
                         <option value="">colores</option>
                         <option *ngFor="let color of colores" value={{color.Id}}  >
-                            {{color.Nombre_color}}     
+                            {{color.Nombre_color}}
                         </option>
                     </select>
                     <span class="error" *ngIf="carga.get('Color')?.errors?.['required'] && isErrorView">
                         requerid color
                     </span>
-                 </div>   
+                 </div>
             </c-col>
             <c-col [xs]>
-                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" >
-                <span class="error" *ngIf="carga.get('Codigo')?.errors?.['required'] && isErrorView">
-                    Falta agregar el código
-                </span> -->
-                <div class="" >    
-                             
+                <div class="" >
                     <select id="Codigo" cSelect formControlName="Codigo" (change)="seleccionCodigo(i)" >
                         <option value="">Codigos</option>
                         <option *ngFor="let codigo of arrayCodigosProductos[i]" value={{codigo.Codigo}}  >
-                            {{codigo.Codigo}}     
+                            {{codigo.Codigo}}
                         </option>
                     </select>
                     <span class="error" *ngIf="carga.get('Codigo')?.errors?.['required'] && isErrorView">
                         requerido código
                     </span>
-                 </div>   
+                 </div>
             </c-col>
             <c-col [xs]>
                 <input type="text" placeholder="Descripcion" class="form-control" formControlName="Descripcion" readonly>
@@ -202,7 +202,18 @@
             <c-col [xs]>
                 <c-row>
                     <c-col [xs]>
-                        <input type="number" placeholder="Unidades" class="form-control" formControlName="Unidades" (change)="evaluarPedidoUnidad(i)" >
+                        <input type="text" placeholder="Paquetes" class="form-control" formControlName="E_paquetes" readonly>
+
+                    </c-col>
+                    <c-col [xs]>
+                        <input type="text" placeholder="Unidades" class="form-control" formControlName="E_unidades" readonly>
+                    </c-col>
+                </c-row>
+            </c-col>
+            <c-col [xs]>
+                <c-row>
+                    <c-col [xs]>
+                        <input type="number"  min="1" placeholder="Unidades" class="form-control" formControlName="Unidades" (change)="evaluarPedidoUnidad(i)" >
                         <span class="error" *ngIf="carga.get('Unidades')?.errors?.['required'] && isErrorView">
                             requerida Unidades
                         </span>
@@ -225,27 +236,57 @@
         </c-row>
             <p></p>
         </c-row>
+        
     </div>
+    <c-row *ngIf="arrays.length != 0">
+        <c-col [xs]>
+            <input type="text"   class="form-control" formControlName="etiqueta"  (change)="pickEtiqueta()">
+        </c-col>
+        <c-col [xs]>
+
+        </c-col>
+        <c-col [xs]>
+
+        </c-col>
+        <c-col [xs]>
+
+        </c-col>
+    </c-row> 
         <p></p>
         <c-row>
             <c-col [xs]>
-                <button class="btn btn-success" type="submit">Guardar 
+                <a class="btn btn-success" type="submit" (click)="onSubmit()">Guardar
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-                </button>
+                </a>
             </c-col>
             <c-col [xs]>
-                
+
                 <a class="btn btn-info" (click)="addCargas()"  >
                     Agregar producto
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path fill="currentColor" d="M256 152h208v32H256zm-80 104h288v32H176zm0 104h288v32H176zm16-208h-64V88H96v64H32v32h64v64h32v-64h64v-32z"/></svg>
                 </a>
             </c-col>
             <c-col [xs]>
-                
+
             </c-col>
             <c-col [xs]>
-                
+
             </c-col>
         </c-row>
-        </form> 
+        </form>
+<!-- <p></p>
+        <c-row>
+            <c-col [xs]>
+                <input type="text" name="" id="">
+            </c-col>
+            <c-col [xs]>
+
+            </c-col>
+            <c-col [xs]>
+
+            </c-col>
+            <c-col [xs]>
+
+            </c-col>
+        </c-row> -->
 

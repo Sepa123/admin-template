@@ -102,7 +102,7 @@ const routes: Routes = [
         data : {
           title : "Mantenedor"
         } 
-      },
+      }
     ]
   }
 ];

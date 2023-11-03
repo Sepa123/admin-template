@@ -206,6 +206,8 @@ export class RecepcionEasyOplComponent {
           }
           )
       }
+    }, error => {
+      alert(error.error.detail)
     })
   } else {
     console.log("No se encontró ningún número de SubOrden.");

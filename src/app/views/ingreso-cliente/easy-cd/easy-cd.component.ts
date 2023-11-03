@@ -23,8 +23,10 @@ export class EasyCdComponent {
 
   subRecepcion! : Subscription
 
+  
   productosVerificados : ProductoOPL [] = []
   productosPorVerificar : ProductoOPL [] = []
+  productosUltimo : ProductoOPL [] = []
   codigoProducto!: string
 
   cargas! : CargasComparacion []
@@ -162,6 +164,7 @@ export class EasyCdComponent {
 
     this.service.updateVerifiedByInput(url,body).subscribe((data : any) => {
       // alert(data.message)
+      
       this.codigoProducto = ""
       this.initRecepionEasyCD()
     },(error) => {
@@ -172,7 +175,10 @@ export class EasyCdComponent {
 
 
   cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
+    this.productosUltimo.pop()
     this.productosPorVerificar[arrayIndex].Pistoleado = true
+
+    this.productosUltimo.push(this.productosPorVerificar[arrayIndex])
 
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     
