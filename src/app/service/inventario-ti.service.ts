@@ -51,9 +51,39 @@ import { LicenciaWindows } from '../models/mantenedores/licencia.interface';
     crearLicencia(body:any){
       return this.http.post(this.apiurl+"/licencia",body)
     }
+    //EDITAR
 
+    actualizar_asignacion(body: any){
+      return this.http.put(this.apiurl+"/actualizar/devolucion",body)
+    }
+    actualizar_tipo(body:any){
+      return this.http.put(this.apiurl+"/actualizar/tipo", body)
+    }
+    actualizar_departamento(body:any){
+      return this.http.put(this.apiurl+"/actualizar/departamento", body)
+    }
+    actualizar_licencia(body:any){
+      return this.http.put(this.apiurl+"/actualizar/licencia",body)
+    }
+
+    actualizar_sucursal(body:any){
+      return this.http.put(this.apiurl+"/actualizar/sucursal",body)
+    }
+    actualizar_estado(body:any){
+      return this.http.put(this.apiurl+"/actualizar/estado",body)
+    }
+    actualizar_descripcion_equipo(body:any){
+      return this.http.put(this.apiurl+"/actualizar/descripcion-equipo",body)
+    }
+    actualizar_persona(body:any){
+      return this.http.put(this.apiurl+"/actualizar/persona",body)
+    }
 
     //OBTENCIA DE LA LISTA DE LOS DATOS 
+
+    busquedaPorFolio(id: string){
+      return this.http.get<Asignacion>(this.apiurl+`/folio/${id}`)
+    }
     get_lista_licencias(){
       return this.http.get<LicenciaWindows[]>(this.apiurl+"/lista-licencia")
     }

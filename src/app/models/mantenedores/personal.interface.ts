@@ -17,7 +17,7 @@ export interface Personal {
     comuna: string | null, 
     banco: string | null,
     tipo_cuenta: string | null,
-    numero_cuenta: number | null,
+    numero_cuenta: string | null,
     correo: string | null,
     afp: string | null,
     salud: string | null,

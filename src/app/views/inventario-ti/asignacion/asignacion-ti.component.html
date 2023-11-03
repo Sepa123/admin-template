@@ -1,4 +1,4 @@
-<h1>Asignación de Equipo</h1>
+<h1 >Asignación de Equipo</h1>
 
 <div class="contenedor-botones">
     <button cButton class="btn-acciones sucursal"  (click)="listaDeAsignaciones()">Asignacion</button>
@@ -6,29 +6,30 @@
 
 <c-modal id="liveDemoModalAsignar" [visible]="visible" (visibleChange)="handleLiveDemoChangeAsignar($event)" size="lg">
     <c-modal-header>
-      <h5 cModalTitle>Asignar equipo</h5>
+      <h5 cModalTitle *ngIf="botonEditar == false">Asignar equipo</h5>
+      <h5 cModalTitle *ngIf="botonEditar">Asignar Devolución de Equipo </h5>
       <button (click)="toggleLiveDemoAsignar()" cButtonClose></button>
     </c-modal-header>
     <c-modal-body>
-      <form cForm  (ngSubmit)="registrarAsignacion()" [formGroup]="asignacionForm" (change)="getLocation()" >  
-        <div class="">
+      <form cForm  (ngSubmit)="registrarAsignacion()" [formGroup]="asignacionForm" (change)="getLocation()" >
+         <div class="">
           <c-row>
-            <c-col [xs]>
+            <c-col [xs] *ngIf="botonEditar == false">
               <div class="">
                 <label for ="equipo" >Equipo </label>
                 <select   cSelect    formControlName="equipo" name="equipo">
-                  <option selected>Selecciona un equipo</option>
+                  <option value=0 selected>Selecciona un equipo</option>
                   <option *ngFor="let equipo of equipos" value={{equipo.id}}>
                     {{ equipo.marca}} - {{equipo.modelo}} -  {{equipo.serial}}
                   </option>
                 </select> 
               </div>
             </c-col>
-            <c-col [xs]>
+            <c-col [xs] *ngIf="botonEditar == false">
               <div class="">
                 <label for="nombre">Nombre de Equipo </label>
                 <select   cSelect    formControlName="nombre_equipo" name="nombre_equipo" >
-                  <option selected>Seleccione el nombre del equipo asignado</option>
+                  <option value="" selected>Seleccione el nombre del equipo asignado</option>
                   <option *ngFor="let equipo of tipo" value={{equipo.nombre}}>
                      {{equipo.nombre}}
                   </option>
@@ -37,22 +38,22 @@
             </c-col>
           </c-row>
           <c-row>
-            <c-col [xs]>
+            <c-col [xs] *ngIf="botonEditar == false">
               <div class="">
                 <label for="persona"> Persona  </label>
                 <select   cSelect    formControlName="persona" name="persona">
-                  <option selected>Seleccione la persona a asignar</option>
+                  <option value=0 selected>Seleccionar opción</option>
                   <option *ngFor="let persona of personas" value={{persona.id}}>
                      {{ persona.nombres}} {{persona.apellidos}}
                   </option>
                 </select> 
               </div>
             </c-col>
-            <c-col [xs]>
+            <c-col [xs] *ngIf="botonEditar == false">
               <div class=""> 
                 <label for="departamento">Departamento</label>
-                <select   cSelect    formControlName="departamento" name="persona">
-                  <option selected>Seleccione el departamento asignado</option>
+                <select   cSelect    formControlName="departamento" name="departamento">
+                 <option value=0 selected> Seleccionar opción</option>
                   <option *ngFor="let departamento of departamentos" value={{departamento.id}}>
                      {{departamento.nombre}}
                   </option>
@@ -61,7 +62,7 @@
             </c-col>
           </c-row>
           <c-row>
-            <c-col [xs]>
+            <c-col [xs] >
               <div class="">
                 <label for="fecha_entrega">Fecha de entrega</label>
                 <input type="date"  class="form-control" formControlName="fecha_entrega" name="fecha_entrega">
@@ -70,7 +71,7 @@
             <c-col [xs]>
               <div class="">
                 <label for="folio"> Folio</label>
-                <input type="text"  class="form-control"  formControlName="folio" name="folio">
+                <input type="text"  class="form-control"  formControlName="folio" name="folio" placeholder="Folio">
               </div>
             </c-col>
           </c-row>
@@ -97,9 +98,16 @@
                 <textarea type="text" class="form-control"  placeholder="Ingresar observaciones" formControlName="observacion" name="observacion"></textarea>
               </div>
             </c-col>
+            <!-- <c-col [xs]>
+              <div class="">
+                <label  for="observacion">Agregar Acta</label>
+                <input type="file" class="form-control"  formControlName="acta" name="acta">
+              </div>
+            </c-col> -->
           </c-row>
         </div>
-        <button  class="btn btn-success" type="submit"  >Enviar</button>
+        <button  class="btn btn-success" type="submit"  *ngIf="botonEditar == false" >Asignar Equipo</button>
+        <button  class="btn btn-success" type="submit"  *ngIf="botonEditar" >Asignar Devolución</button>
       </form>
     </c-modal-body>
     <c-modal-footer>
@@ -109,16 +117,16 @@
     </c-modal-footer>
 </c-modal>
 
-<h3 class="tituloFecha show" *ngIf="mostrarAsignacion">Lista de Sucursales: </h3>
-<button *ngIf="mostrarAsignacion" cButton color="success" size="sm" (click)="toggleLiveDemoAsignar()">
-  <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-  </svg>Crear
+<h3 class="tituloFecha show" *ngIf="mostrarAsignacion">Lista de Equipos Asignados: </h3>
+<button  class="btn-crear" *ngIf="mostrarAsignacion" cButton color="info" size="sm" (click)="toggleLiveDemoAsignar()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+  </svg> Nueva Asignación
 </button>
+
 <div class="greenTable show"  *ngIf="mostrarAsignacion && asignaciones  && asignaciones.length > 0">
 
     
-    <table id="tablaProductosPicking" style="width: 60%" >
+    <table id="tablaProductosPicking" style="width: auto" >
         <thead>
             <tr>
                 <th>Persona Asignada</th>
@@ -149,10 +157,12 @@
                 
 
                 <td>
-                    <button cButton color="success" size="sm">
-                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-                        </svg> Editar
+                  <button cButton color="secondary" size="sm" class="btn-edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                  </button>
+
+                    <button  class="btn-crear" cButton color="success" size="sm" (click)="agregarDevolucion(inventario )">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><path fill="currentColor" d="M184 104v32a8 8 0 0 1-8 8H99.31l10.35 10.34a8 8 0 0 1-11.32 11.32l-24-24a8 8 0 0 1 0-11.32l24-24a8 8 0 0 1 11.32 11.32L99.31 128H168v-24a8 8 0 0 1 16 0Zm48-48v144a16 16 0 0 1-16 16H40a16 16 0 0 1-16-16V56a16 16 0 0 1 16-16h176a16 16 0 0 1 16 16Zm-16 144V56H40v144h176Z"/></svg>
                     </button>
                     
                    

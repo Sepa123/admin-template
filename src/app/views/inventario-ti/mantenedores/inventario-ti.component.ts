@@ -31,6 +31,8 @@ export class InventarioTiComponent implements OnInit {
   seleccionTipoEquipo: number | null = null; ;
   seleccionEstadoEquipo: number = 0;
 
+  botonEditar : boolean = false
+
 
   isErrorView : boolean = false
 
@@ -43,6 +45,15 @@ export class InventarioTiComponent implements OnInit {
   estados : EstadoInventario [] = []
   estadoEquipo :   EstadoInventario [] = []
   licencias : LicenciaWindows [] = []
+
+  id!: number
+
+  //Mostrar u ocultar datos
+  genericos : boolean = false // !== 1 y 2
+  pantalla  : boolean  = false //id 5
+  memoria  : boolean  = false // 11 y 12
+  todo : boolean = false
+  
 
   //mostrar por ID el producto asociado a la base de datos
 
@@ -61,6 +72,7 @@ export class InventarioTiComponent implements OnInit {
   longStr!: string
 
 
+  valorSeleccionado: any;
     constructor(private service: InventarioTIService, private fb:FormBuilder) {
    this.personaForm;
     
@@ -154,9 +166,49 @@ export class InventarioTiComponent implements OnInit {
     }
   }
 
+  tipoSeleccionado(event: any) {
+    const idTipo = event.target.value;
+    console.log('ID seleccionado:', idTipo);
+    this.tipo.forEach(idEnData =>{
+      if(idEnData.id == idTipo){
+        console.log("entro")
+        this.id ++
+      
+        if(idTipo !== 1 && idTipo !== 2 ) {
+        console.log(idTipo, "generico")
+         
+          this.genericos = true
+          this.pantalla = false
+          this.memoria = false
+
+          if(idTipo === 11 ||idTipo=== 12 ){
+            console.log(idTipo, "memoria")
+            this.memoria = true
+          }
+          else if(idTipo=== 5){
+            console.log(idTipo, "pantalla")
+            this.pantalla = true
+          }
+        }
+        else{
+          console.log(idTipo, "cel y note")
+          console.log(this.todo)
+          this.todo = true
+          this.genericos = false
+          this.pantalla = false
+          this.memoria = false
+        }
+      }
+    })
+  
+    
+  }
+
+
 // DATOS DEL FORMULARIO PARA AGREGAR UNA PERSONA
 
   personaForm = this.fb.group({
+    id: this.fb.control(0),
     nombres: this.fb.control("", [Validators.required] ),
     apellidos : this.fb.control("", [Validators.required] ),
     rut : this.fb.control("", [Validators.required] ),
@@ -165,10 +217,10 @@ export class InventarioTiComponent implements OnInit {
     ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
     lat: this.fb.control(""),
     long: this.fb.control(""),
-    fecha_nacimiento: this.fb.control(""),
+    fecha_nacimiento: this.fb.control(null as Date | null),
     estado_civil: this.fb.control(""),
     telefono: this.fb.control(""),
-    fecha_ingreso: this.fb.control(""),
+    fecha_ingreso: this.fb.control(null as Date | null),
     cargo: this.fb.control(""),
     domicilio: this.fb.control(""),
     comuna: this.fb.control(""),
@@ -196,8 +248,9 @@ export class InventarioTiComponent implements OnInit {
 // POST DE PERSONA
     registrarPersona(){
       if (this.personaForm.valid) {
-        this.getLocation()
-        this.personaForm.patchValue({
+        if(!this.botonEditar){
+          this.getLocation()
+          this.personaForm.patchValue({
           lat : this.latStr,
           long: this.longStr
         }) 
@@ -212,32 +265,113 @@ export class InventarioTiComponent implements OnInit {
               console.error('Error al registrar la persona:', error);
             }
           );
+
+        }else{
+          this.service.actualizar_persona(this.personaForm.value).subscribe((data)=>{
+            this.listarPersona()
+            this.personaForm.reset()
+            this.botonEditar = false
+            
+          })
         }
+        
+        }
+    }
+    //EDITAR PERSONA
+
+    editarPersona(id:number){
+      const busqueda = this.personas.find(person => person.id == id)
+      if(busqueda){
+        this.botonEditar = true
+        this.personaForm.patchValue({
+          id: busqueda.id,
+          nombres: busqueda.nombres,
+	        apellidos : busqueda.apellidos,
+	        rut : busqueda.rut,
+	        nacionalidad: busqueda.nacionalidad,
+	        fecha_nacimiento : busqueda.fecha_nacimiento,
+	        estado_civil : busqueda.estado_civil,
+	        telefono : busqueda.telefono,
+	        fecha_ingreso: busqueda.fecha_ingreso,
+	        cargo : busqueda.cargo,
+	        domicilio : busqueda.domicilio,
+	        comuna : busqueda.comuna,
+	        banco : busqueda.banco,
+	        tipo_cuenta : busqueda.tipo_cuenta,
+	        numero_cuenta : busqueda.numero_cuenta,
+	        correo : busqueda.correo,
+	        afp : busqueda.afp,
+	        salud : busqueda.salud,
+	        telefono_adicional: busqueda.telefono_adicional,
+	        nombre_contacto : busqueda.nombre_contacto,
+	        seguro_covid : busqueda.seguro_covid,
+	        horario : busqueda.horario,
+	        ceco : busqueda.ceco,
+	        sueldo_base : busqueda.sueldo_base,
+	        tipo_contrato : busqueda.tipo_contrato,
+	        direccion_laboral : busqueda.direccion_laboral,
+	        enfermedad : busqueda.enfermedad,
+	        polera : busqueda.polera,
+	        pantalon : busqueda.pantalon,
+	        poleron: busqueda.poleron,
+	        zapato : busqueda.zapato,
+        })
+        this.toggleLiveDemoPersona()
+      }
     }
 
     // FOMULARIO PARA AGREGAR UN  EQUIPO
     tipoEquipoForm = this.fb.group({
+      id: this.fb.control(0),
       nombre: this.fb.control("", [Validators.required] ),
-      descripcion : this.fb.control("", [Validators.required] ),
+  
     })
 
     registrarTipoEquipo(){
       if (this.tipoEquipoForm.valid) {
-        this.service.crear_tipo_equipo(this.tipoEquipoForm.value).subscribe(
-          (respuesta) => {
-            console.log('Tipo de equipo registrado:', respuesta);
+        if(!this.botonEditar){
+          this.service.crear_tipo_equipo(this.tipoEquipoForm.value).subscribe(
+            (respuesta) => {
+              console.log('Tipo de equipo registrado:', respuesta);
+              this.tipoEquipoForm.reset()
+              this.listarTiposDeEquipos()
+              },
+              (error) => {
+                console.error('Error al registrar el tipo de equipo:', error);
+              }
+            );
+        }else{
+          console.log(this.tipoEquipoForm.value)
+          this.service.actualizar_tipo(this.tipoEquipoForm.value).subscribe((respuesta)=>{
             this.tipoEquipoForm.reset()
             this.listarTiposDeEquipos()
-            },
-            (error) => {
-              console.error('Error al registrar el tipo de equipo:', error);
-            }
-          );
+            this.botonEditar = false
+          })
         }
+       
+        }
+    }
+
+    //EDITAR EQUIPO
+
+    editarTipo(id: number){
+      const busqueda = this.tipo.find(equipo => equipo.id === id)
+      console.log(busqueda)
+      if(busqueda){
+        this.botonEditar = true
+        this.tipoEquipoForm.patchValue({
+        id: busqueda.id,
+        nombre : busqueda.nombre,
+    
+       })
+      }
+      
+       this.toggleLiveDemoTipo() 
     }
     //FORM DEPARTAMENTO
 
     departamentoForm = this.fb.group({
+      id: this.fb.control(0),
       id_user : this.fb.control(parseInt(sessionStorage['id']), [Validators.required]),
       ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
       nombre: this.fb.control(""),
@@ -245,20 +379,45 @@ export class InventarioTiComponent implements OnInit {
 
     registroDepartamento(){
       if (this.departamentoForm.valid) {
-        this.service.creacion_departamento(this.departamentoForm.value).subscribe(
-          (respuesta) => {
-            console.log('Departamento registrada:', respuesta);
+        if(!this.botonEditar){
+          this.service.creacion_departamento(this.departamentoForm.value).subscribe(
+            (respuesta) => {
+              console.log('Departamento registrada:', respuesta);
+              this.departamentoForm.reset()
+              this.listaDepartamento()
+              },
+              (error) => {
+                console.error('Error al registrar el departamento:', error);
+              }
+            );
+        }else{
+          this.service.actualizar_departamento(this.departamentoForm.value).subscribe((data)=>{
             this.departamentoForm.reset()
             this.listaDepartamento()
-            },
-            (error) => {
-              console.error('Error al registrar el departamento:', error);
-            }
-          );
+            this.botonEditar = false
+            
+          })
+          }
         }
     }
+
+    //EDITAR DEPARTAMENTO
+    editarDepartamento(id: number){
+      const busqueda = this.departamentos.find(equipo => equipo.id === id)
+      console.log(busqueda)
+      if(busqueda){
+        this.botonEditar = true
+        this.departamentoForm.patchValue({
+        id: busqueda.id,
+        nombre : busqueda.nombre,
+       })
+      }
+       this.toggleLiveDemoDepartamento() 
+    }
+
     //FORM DE LICENCIA
     licenciaForm = this.fb.group({
+      id: this.fb.control(0),
       id_user : this.fb.control(parseInt(sessionStorage['id']), [Validators.required]),
       ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
       codigo: this.fb.control(""),
@@ -269,8 +428,9 @@ export class InventarioTiComponent implements OnInit {
 //REGISTRO DE LICENCIA
     registroLicencia(){
       if(this.licenciaForm.valid){
-        this.getLocation();
-        this.licenciaForm.patchValue({
+        if(!this.botonEditar){
+          this.getLocation();
+          this.licenciaForm.patchValue({
           lat: this.latStr,
           long: this.longStr
         }) 
@@ -280,13 +440,37 @@ export class InventarioTiComponent implements OnInit {
           this.listaDeLicencias()
         }, (error) => {
           console.error('Error al registrar la licencia:', error);
+          })
+
+        }else{
+          this.service.actualizar_licencia(this.licenciaForm.value).subscribe((data)=>{
+            this.listaDeLicencias()
+            this.licenciaForm.reset()
+            this.botonEditar = false
+           
+            
+          })
+        }
+      }
+    }
+
+    //EDITAR LICENCIA
+    editarLicencia(id:number){
+      const busqueda = this.licencias.find(licencia => licencia.id === id)
+      if(busqueda){
+        this.botonEditar = true
+        this.licenciaForm.patchValue({
+          id : busqueda.id,
+          codigo: busqueda.codigo
         })
+        this.toggleLiveDemoLicencia()
       }
     }
 
     //FORM ESTADO DEL EQUIPO
 
     estadoForm = this.fb.group({
+      id: this.fb.control(0),
       id_user : this.fb.control(parseInt(sessionStorage['id']), [Validators.required]),
       ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
       nombre: this.fb.control(""),
@@ -294,7 +478,7 @@ export class InventarioTiComponent implements OnInit {
 
     registroEstado(){
       if (this.estadoForm.valid) {
-       
+       if(!this.botonEditar){
         this.service.crear_estado_inventario(this.estadoForm.value).subscribe(
           (respuesta) => {
             console.log('Estado registrad:', respuesta);
@@ -304,12 +488,34 @@ export class InventarioTiComponent implements OnInit {
             (error) => {
               console.error('Error al registrar el estado:', error);
             } );
+       }else{
+        this.service.actualizar_estado(this.estadoForm.value).subscribe((data)=>{
+          this.estadoForm.reset()
+          this.listaEstado()
+          this.botonEditar = false
+        })
+       }
+       
         }
+    }
+    //EDITAR ESTADO
+
+    editarEstado(id:number){
+      const busqueda = this.estados.find(estado => estado.id === id)
+      if(busqueda){
+        this.estadoForm.patchValue({
+          id: busqueda.id,
+          nombre: busqueda.nombre
+        })
+        this.botonEditar = true
+        this.toggleLiveDemoEstado()
+      }
     }
 
     //FORM SUCURSAL
 
       sucursalForm = this.fb.group({
+        id: this.fb.control(0),
         nombre : this.fb.control(""),
         pais : this.fb.control(""),
         ciudad : this.fb.control(""),
@@ -323,8 +529,9 @@ export class InventarioTiComponent implements OnInit {
       })
       registroSucursal() {
         if (this.sucursalForm.valid) {
-          this.getLocation();
-          this.sucursalForm.patchValue({
+          if(!this.botonEditar){
+            this.getLocation();
+            this.sucursalForm.patchValue({
             latitud : this.latStr,
             longitud: this.longStr
           }) 
@@ -338,10 +545,38 @@ export class InventarioTiComponent implements OnInit {
             (error) => {
               console.error('Error al registrar la sucursal:', error);
             } );
+          }else{
+            this.service.actualizar_sucursal(this.sucursalForm.value).subscribe((data)=>{
+              this.sucursalForm.reset()
+              this.listaDeSucursales()
+              this.botonEditar = false
+            })
+          }
+          
+        }
+      }
+
+      //EDITAR SUCURSAL
+
+
+      editarSucursal(id: number){
+        const busqueda = this.sucursales.find(sucursal => sucursal.id === id)
+        if(busqueda){
+          this.botonEditar = true
+          this.sucursalForm.patchValue({
+            id: busqueda.id,
+            nombre: busqueda.nombre,
+	          pais: busqueda.pais,
+	          ciudad: busqueda.ciudad,
+	          comuna: busqueda.comuna,
+	          direccion: busqueda.direccion,
+          })
+          this.toggleLiveDemoSucursal()
         }
       }
   //FORM DESCRIPCION DE EQUIPO
     equipoDescripcionForm = this.fb.group({
+      id: this.id,
       id_user : this.fb.control(parseInt(sessionStorage['id']), [Validators.required]),
       ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
       lat: this.fb.control(""),
@@ -351,7 +586,7 @@ export class InventarioTiComponent implements OnInit {
       serial: this.fb.control(""),
       mac_wifi: this.fb.control(""),
       serie: this.fb.control(""),
-      resolucion: this.fb.control(""),
+      resolucion: this.fb.control(0),
       dimensiones: this.fb.control(""),
       descripcion: this.fb.control(""),
       ubicacion: this.fb.control(""),
@@ -363,21 +598,58 @@ export class InventarioTiComponent implements OnInit {
 //REGISTRO DESCRIPCION DE EQUIPO
     registroEquipoDescripcion(){
       if (this.equipoDescripcionForm.valid) {
-        this.getLocation()
-        this.equipoDescripcionForm.patchValue({
-          lat : this.latStr,
-          long : this.longStr
-        })
-        this.service.crear_descripcion_equipo(this.equipoDescripcionForm.value).subscribe(
-          (respuesta) => {
-            console.log('Descripcion de equipo registrada:', respuesta);
-            this.equipoDescripcionForm.reset()
+        if(!this.botonEditar){
+            this.getLocation()
+            this.equipoDescripcionForm.patchValue({
+            lat : this.latStr,
+            long : this.longStr
+          })
+          this.service.crear_descripcion_equipo(this.equipoDescripcionForm.value).subscribe(
+            (respuesta) => {
+              console.log('Descripcion de equipo registrada:', respuesta);
+              this.equipoDescripcionForm.reset()
+              this.listarEquiposyDescripcion()
+              },
+              (error) => {
+                console.error('Error al registrar la descripcion del equipo:', error);
+              });
+        }else{
+          this.service.actualizar_descripcion_equipo(this.equipoDescripcionForm.value).subscribe((data)=>{
             this.listarEquiposyDescripcion()
-            },
-            (error) => {
-              console.error('Error al registrar la descripcion del equipo:', error);
-            } );
+            this.equipoDescripcionForm.reset()
+            this.botonEditar = false
+          })
         }
+       
+        }
+    }
+
+    //EDITAR EQUIPO
+    
+
+    editarEquipo(id: number){
+      const busqueda = this.equipos.find(equipo => equipo.id === id)
+      if(busqueda){
+        this.botonEditar = true
+        this.equipoDescripcionForm.patchValue({
+          id : busqueda.id,
+          marca : busqueda.marca,
+	        modelo: busqueda.modelo,
+	        serial: busqueda.serial,
+	        mac_wifi: busqueda.mac_wifi,
+	        serie: busqueda.serie,
+	        resolucion: busqueda.resolucion,
+	        dimensiones: busqueda.dimensiones,
+	        descripcion: busqueda.descripcion,
+	        ubicacion: busqueda.ubicacion,
+	        almacenamiento: busqueda.almacenamiento,
+	        ram: busqueda.ram,
+	        estado: busqueda.estado,
+	        tipo: busqueda.tipo,
+
+        })
+        this.toggleLiveDemoEquipo()
+      }
     }
     // GET DATOS PERSONALES
     listarPersona(){

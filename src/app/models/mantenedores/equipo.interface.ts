@@ -17,4 +17,6 @@ export interface Equipo {
     ram: number | null,
     estado: number | null,
     tipo: number | null
+    cantidad: number | null
+    nr_equipo: number |null
 }

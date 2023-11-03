@@ -18,6 +18,10 @@ import { Subscription } from 'rxjs';
 export class AsignacionTiComponent {
 
     public visible = false;
+    
+    public visible1 = false;
+
+   objeto  : Asignacion [] = []
     isModalOpen: boolean = false
     mostrarAsignacion: boolean = false;
     asignaciones : Asignacion [] = []
@@ -31,6 +35,8 @@ export class AsignacionTiComponent {
     longitud! : number
     latStr!: string
     longStr!: string
+
+    botonEditar : boolean = false
 
 
   
@@ -62,11 +68,22 @@ export class AsignacionTiComponent {
      
     toggleLiveDemoAsignar() {
     this.visible= !this.visible;
+
+
         }
 
     handleLiveDemoChangeAsignar(event: any) {
     this.visible= event;
         }
+
+
+    toggleLiveDemoDevolucion() {
+    this.visible1= !this.visible1;
+              }
+      
+    handleLiveDemoChangeDevolucion(event: any) {
+    this.visible1= event;
+  }
 
     openModal(){
     this.isModalOpen = true
@@ -74,6 +91,7 @@ export class AsignacionTiComponent {
 
     closeModal(){
     this.isModalOpen = false
+   
     }   
 
     
@@ -99,7 +117,7 @@ export class AsignacionTiComponent {
       persona: this.fb.control(0),
       fecha_entrega: this.fb.control(""),
       estado: this.fb.control(false),
-      fecha_devolucion: this.fb.control(null),
+      fecha_devolucion: this.fb.control(""),
       observacion: this.fb.control(""),
       nombre_equipo: this.fb.control(""),
       folio: this.fb.control(""),
@@ -109,20 +127,30 @@ export class AsignacionTiComponent {
 
     registrarAsignacion(){
       if(this.asignacionForm.valid){
-        this.getLocation()
-        this.asignacionForm.patchValue({
+        if(!this.botonEditar){
+          this.getLocation()
+          this.asignacionForm.patchValue({
           lat : this.latStr,
           long: this.longStr
-        })
-        this.service.crearAsignacion(this.asignacionForm.value).subscribe((respuesta)=>{
+            })
+          this.service.crearAsignacion(this.asignacionForm.value).subscribe((respuesta)=>{
+            console.log('Persona registrada:', respuesta);
+            this.asignacionForm.reset()
+            this.listaDeAsignaciones()
+          }, 
+          (error) => {
+          console.error('Error al registrar la persona:', error);
+          })
+        }else {
+        this.service.actualizar_asignacion(this.asignacionForm.value).subscribe((respuesta)=>{
           console.log('Persona registrada:', respuesta);
           this.asignacionForm.reset()
           this.listaDeAsignaciones()
         }, 
         (error) => {
           console.error('Error al registrar la persona:', error);
+          })
         }
-        )
       }
     }
 
@@ -136,6 +164,39 @@ export class AsignacionTiComponent {
   
         })
       }
+    // buscarIdDeAsignacion(id: string){
+    //   this.service.busquedaPorFolio(id).subscribe((data)=>{
+    //     console.log("data", data)
+
+    //     this.asignacionForm.patchValue({
+    //       equipo: data.equipo,
+    //       persona: data.persona,
+    //       fecha_entrega: data.fecha_entrega,
+    //       estado: data.estado,
+    //       fecha_devolucion: (data.fecha_devolucion !== undefined) ? data.fecha_devolucion : null,
+    //       observacion: data.observacion,
+    //       nombre_equipo: data.nombre_equipo,
+    //       folio: data.folio,
+    //       departamento : data.departamento
+    //     })  
+    //     console.log(this.asignacionForm.value)
+    //     this.toggleLiveDemoAsignar()
+    //   })
+      
+    // }
+
+  
+      agregarDevolucion(producto : Asignacion) {
+        this.botonEditar = true
+        this.asignacionForm.patchValue({    
+          estado: producto.estado,
+          fecha_entrega: producto.fecha_entrega,
+          fecha_devolucion: (producto.fecha_devolucion !== undefined) ? producto.fecha_devolucion : null,
+          observacion: producto.observacion,
+          folio: producto.folio,
+        }) 
+        this.toggleLiveDemoAsignar()
+       }
   
   
 }

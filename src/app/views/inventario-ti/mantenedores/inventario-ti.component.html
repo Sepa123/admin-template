@@ -4,10 +4,10 @@
     <button cButton class="btn-acciones tipo" (click)="listarTiposDeEquipos()" >Tipo<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 512 512"><path fill="currentColor" d="M96 146.025V16H64v130.025a64.009 64.009 0 0 0 0 123.95V496h32V269.975a64.009 64.009 0 0 0 0-123.95ZM80 240a32 32 0 1 1 32-32a32.036 32.036 0 0 1-32 32Zm192 50.025V16h-32v274.025a64.009 64.009 0 0 0 0 123.95V496h32v-82.025a64.009 64.009 0 0 0 0-123.95ZM256 384a32 32 0 1 1 32-32a32.036 32.036 0 0 1-32 32ZM448 82.025V16h-32v66.025a64.009 64.009 0 0 0 0 123.95V496h32V205.975a64.009 64.009 0 0 0 0-123.95ZM432 176a32 32 0 1 1 32-32a32.036 32.036 0 0 1-32 32Z"/></svg></button>
     <button cButton class="btn-acciones equipo" (click)="listarEquiposyDescripcion()">Equipo<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 512 512"><path fill="currentColor" d="M472 232h-48V120a24.028 24.028 0 0 0-24-24H40a24.028 24.028 0 0 0-24 24v246a24.028 24.028 0 0 0 24 24h172v50h-60v32h152v-32h-60v-50h92v58a24.027 24.027 0 0 0 24 24h112a24.027 24.027 0 0 0 24-24V256a24.027 24.027 0 0 0-24-24Zm-136 24v102H48V128h344v104h-32a24.027 24.027 0 0 0-24 24Zm128 184h-96V264h96Z"/></svg></button>
     <button cButton class="btn-acciones sucursal"  (click)="listaDepartamento()">Departamento</button>
-    <button cButton class="btn-acciones sucursal"  (click)="listaEstado()">Estados</button>
+    <button cButton class="btn-acciones persona"  (click)="listaEstado()">Estados</button>
       
-    <button cButton class="btn-acciones sucursal" (click)="listaDeSucursales()">Sucursal</button>
-    <button cButton class="btn-acciones sucursal" (click)="listaDeLicencias()">Licencias</button>
+    <button cButton class="btn-acciones tipo" (click)="listaDeSucursales()">Sucursal</button>
+    <button cButton class="btn-acciones sucursal" (click)="listaDeLicencias()">Licencias<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 32 32"><path fill="currentColor" d="m0 4.599l13-1.796v12.599H0zm14.599-2L32 0v15.197H14.599zM0 16.803h13v12.599L0 27.599zm14.599 0H32V32l-17.197-2.401z"/></svg> </button>
     <button cButton class="btn-acciones persona"  (click)="listarPersona()" >Personas
         <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 512 512"><path fill="currentColor" d="M472 48H40a24.028 24.028 0 0 0-24 24v368a24.028 24.028 0 0 0 24 24h88v-58.822a20.01 20.01 0 0 1 10.284-17.478l91.979-51.123L200 260.919V200a56 56 0 0 1 112 0v60.919l-30.263 75.655l91.979 51.126A20.011 20.011 0 0 1 384 405.178V464h88a24.028 24.028 0 0 0 24-24V72a24.028 24.028 0 0 0-24-24Zm-8 384h-48v-26.822a52.027 52.027 0 0 0-26.738-45.451L321.915 322.3L344 267.081V200a88 88 0 0 0-176 0v67.081l22.085 55.219l-67.347 37.432A52.027 52.027 0 0 0 96 405.178V432H48V80h416Z"/></svg></button>
 
@@ -24,22 +24,19 @@
     <button (click)="toggleLiveDemoTipo()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <h2>Agregar Equipo</h2>
+    <h2 *ngIf="botonEditar == false">Agregar Equipo</h2>
+    <h2 *ngIf="botonEditar">Editar Equipo</h2>
     <form cForm [formGroup]="tipoEquipoForm" (ngSubmit)="registrarTipoEquipo()">
+
       <div class="">
         <c-row>
           <c-col [xs]>
             <div class="">
               <label for="nombre">Nombre:</label>
-              <input type="text" placeholder="Ingresenombre" class="form-control"  id="nombre" name="nombre" formControlName="nombre" required >
+              <input type="text" placeholder="Nombre" class="form-control"  id="nombre" name="nombre" formControlName="nombre" required >
             </div>
           </c-col>
-          <c-col [xs]>
-            <div class="">
-              <label for="descripcion">Descripción del Producto</label>
-              <input type="text" class="form-control" id="descripcion" formControlName="descripcion">
-            </div>
-          </c-col>
+          
         </c-row> 
       </div>    
       <button  class="btn btn-success" type="submit" >Enviar</button>
@@ -52,11 +49,13 @@
 
 <c-modal id="liveDemoModalLicencia" [visible]="visible7" (visibleChange)="handleLiveDemoChangeLicencia($event)" size="lg">
   <c-modal-header>
-    <h5 cModalTitle>Licencias Windows</h5>
+    <h5 cModalTitle  *ngIf="botonEditar == false">Nueva Licencia</h5>
+    <h5 cModalTitle  *ngIf="botonEditar"> Editar Licencia</h5>
     <button (click)="toggleLiveDemoLicencia()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <h2>Agregar Licencia</h2>
+    <h2 *ngIf="botonEditar==false">Agregar Licencia</h2>
+    <h2 *ngIf="botonEditar">Editar Licencia</h2>
     <form cForm [formGroup]="licenciaForm" (ngSubmit)="registroLicencia()">
       <div class="">
         <c-row>
@@ -80,7 +79,8 @@
 
 <c-modal id="liveDemoModalPersona" [visible]="visible4" (visibleChange)="handleLiveDemoChangePersona($event)" size="lg">
   <c-modal-header>
-    <h5 cModalTitle>Persona</h5>
+    <h5 cModalTitle  *ngIf="botonEditar == false">Nueva Persona</h5>
+   <h5 cModalTitle  *ngIf="botonEditar">Editar Persona </h5> 
     <button (click)="toggleLiveDemoPersona()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
@@ -93,7 +93,7 @@
           <c-col [xs]>
             <div class="">
               <label for="nombres">Nombres:</label>
-              <input type="text" placeholder="Ingrese los nombres" class="form-control"  id="nombres" name="nombres" formControlName="nombres" required (change)="getLocation()">
+              <input type="text" placeholder="Nombres" class="form-control"  id="nombres" name="nombres" formControlName="nombres" required (change)="getLocation()">
                    
               <!-- <span class="error" *ngIf="form.get('Codigo')?.errors?.['required'] && isErrorView">Falta agregar el codigo del producto</span> -->
             </div>
@@ -101,7 +101,7 @@
           <c-col [xs]>
             <div class="">
               <label for="apellidos">Apellidos:</label>
-              <input type="text" class="form-control"  placeholder="Ingrese Apellidos"  id="apellidos" name="apellidos"  required formControlName="apellidos" >
+              <input type="text" class="form-control"  placeholder="Apellidos"  id="apellidos" name="apellidos"  required formControlName="apellidos" >
           <!-- <span class="error" *ngIf="form.get('Unid_x_paquete')?.errors?.['required'] && isErrorView"> Falta agregar las unidades por paquete</span> -->
             </div>
           </c-col>
@@ -117,20 +117,20 @@
           <c-col [xs]>
             <div class="">
               <label for="estadoCivil">Estado civil:</label>
-              <input type="text" placeholder="Direccion" class="form-control" id="estadoCivil" name="estadoCivil" formControlName="estado_civil">
+              <input type="text" placeholder="Estado civil" class="form-control" id="estadoCivil" name="estadoCivil" formControlName="estado_civil">
             </div>
           </c-col>
         </c-row>
         <c-row>
           <c-col [xs]>
             <div class="">RUT
-              <input type="text" placeholder="Ingrese RUT" class="form-control"  formControlName="rut">
+              <input type="text" placeholder="RUT" class="form-control"  formControlName="rut">
             </div>
           </c-col>
           <c-col [xs]>
             <div class="">
               <label for="nacionalidad">Nacionalidad:</label>
-              <input type="text" placeholder="Direccion" class="form-control" id="nacionalidad" name="nacionalidad" formControlName="nacionalidad"> 
+              <input type="text" placeholder="Nacionalidad" class="form-control" id="nacionalidad" name="nacionalidad" formControlName="nacionalidad"> 
             </div>
           </c-col>
         </c-row>
@@ -145,7 +145,7 @@
                 
                 <div class="">
                   <label for="sueldoBase">Sueldo base:</label>
-                  <input type="text" placeholder="Departamento" class="form-control" id="sueldoBase" name="sueldoBase" formControlName="sueldo_base">
+                  <input type="text" placeholder="Sueldo base" class="form-control" id="sueldoBase" name="sueldoBase" formControlName="sueldo_base">
                 </div>
           </c-col>
           
@@ -156,13 +156,13 @@
           <c-col [xs]>
                 <div class="">
                   <label for="telefono">Telefono:</label>
-                  <input type="text" class="form-control"  id="telefono" name="telefono" formControlName="telefono">
+                  <input type="text" class="form-control"  id="telefono" name="telefono" formControlName="telefono" placeholder="Telefono">
                 </div>
           </c-col>
           <c-col [xs]>
                 <div class="">
                   <label for="fechaIngreso">Fecha de ingreso:</label>
-                  <input type="date"  class="form-control" id="fechaIngreso" name="fechaIngreso" formControlName="fecha_ingreso" >
+                  <input type="date"  class="form-control" id="fechaIngreso" name="fechaIngreso" formControlName="fecha_ingreso" placeholder="Fecha de ingreso" >
                 </div>
           </c-col>
         </c-row>
@@ -170,13 +170,13 @@
           <c-col [xs]>
                 <div class="">
                   <label for="domicilio">Domicilio:</label>
-                  <input type="text" class="form-control" id="domicilio" name="domicilio" formControlName="domicilio" >
+                  <input type="text" class="form-control" id="domicilio" name="domicilio" formControlName="domicilio" placeholder="Domicilio" >
                 </div>
           </c-col>
           <c-col [xs]>
                 <div class="">
                   <label for="comuna">Comuna:</label>
-                  <input type="text"  class="form-control" id="comuna" name="comuna"  formControlName="comuna">
+                  <input type="text"  class="form-control" id="comuna" name="comuna"  formControlName="comuna" placeholder="Comuna">
                 </div>
           </c-col>
         </c-row>
@@ -184,19 +184,19 @@
           <c-col [xs]>
                 <div class="">
                   <label for="banco">Banco:</label>
-                  <input type="text" class="form-control" id="banco" name="banco"  formControlName="banco">
+                  <input type="text" class="form-control" id="banco" name="banco"  formControlName="banco" placeholder="Banco">
                 </div>
           </c-col>
           <c-col [xs]>
                 <div class="">
                   <label for="tipoCuenta">Tipo de cuenta:</label>
-                  <input type="text"  class="form-control" id="tipoCuenta" name="tipoCuenta" formControlName="tipo_cuenta">
+                  <input type="text"  class="form-control" id="tipoCuenta" name="tipoCuenta" formControlName="tipo_cuenta" placeholder="Tipo de cuenta">
                 </div>
           </c-col>
           <c-col [xs]>
             <div class="">
               <label for="numeroCuenta">Numero de cuenta:</label>
-              <input type="number"  class="form-control" id="numeroCuenta" name="numeroCuenta" formControlName="numero_cuenta">
+              <input type="number"  class="form-control" id="numeroCuenta" name="numeroCuenta" formControlName="numero_cuenta" placeholder="Numero de cuenta">
             </div>
           </c-col>
         </c-row>
@@ -204,19 +204,19 @@
           <c-col [xs]>
                 <div class="">
                   <label for="correo">Correo:</label>
-                  <input type="text" class="form-control" id="correo" name="correo"  formControlName="correo">
+                  <input type="text" class="form-control" id="correo" name="correo"  formControlName="correo" placeholder="Correo">
                 </div>
           </c-col>
           <c-col [xs]>
                 <div class="">
                   <label for="afp">AFP:</label>
-                  <input type="text"  class="form-control" id ="afp" name="afp"  formControlName="afp">
+                  <input type="text"  class="form-control" id ="afp" name="afp"  formControlName="afp" placeholder="AFP">
                 </div>
           </c-col>
           <c-col [xs]>
             <div class="">
               <label for="salud">Salud:</label>
-              <input type="text"  class="form-control"  id="salud" name="salud" formControlName="salud">
+              <input type="text"  class="form-control"  id="salud" name="salud" formControlName="salud" placeholder="Salud">
             </div>
       </c-col>
         </c-row>
@@ -224,13 +224,13 @@
           <c-col [xs]>
                 <div class="">
                   <label for="tlfAdicional">Telefono Adicional:</label>
-                  <input type="text" class="form-control" id="tlfAdicional" name="tlfAdicional" formControlName="telefono_adicional">
+                  <input type="text" class="form-control" id="tlfAdicional" name="tlfAdicional" formControlName="telefono_adicional" placeholder="Telefono Adicional">
                 </div>
           </c-col>
           <c-col [xs]>
                 <div class="">
                   <label for="nombreContacto">Nombre de contacto:</label>
-                  <input type="text"  class="form-control" id="nombreContacto" name="nombreContacto" formControlName="nombre_contacto" >
+                  <input type="text"  class="form-control" id="nombreContacto" name="nombreContacto" formControlName="nombre_contacto" placeholder="Nombre de contacto" >
                 </div>
           </c-col>
           
@@ -239,13 +239,17 @@
           <c-col [xs]>
                 <div class="">
                   <label for="horario">Horario:</label>
-                  <input type="text" class="form-control"  id="horario" name="horario" formControlName="horario">
+                  <input type="text" class="form-control"  id="horario" name="horario" formControlName="horario" placeholder="Horario">
                 </div>
           </c-col>
           <c-col [xs]>
                 <div class="">
                   <label for="seguroCovid">Seguro COVID:</label>
-                  <input type="text"  class="form-control" id="seguroCovid" name="seguroCovid" formControlName="seguro_covid">
+                 <select  cSelect  formControlName="seguro_covid">
+                  <option value="true">Sí</option>
+                  <option value="false">No</option>
+                 </select> 
+                  
                 </div>
           </c-col>
           
@@ -254,13 +258,13 @@
           <c-col [xs]>
                 <div class="">
                   <label for="ceco">CECO:</label>
-                  <input type="text" class="form-control"id="ceco" name="ceco" formControlName="ceco" >
+                  <input type="text" class="form-control"id="ceco" name="ceco" formControlName="ceco" placeholder="CECO">
                 </div>
           </c-col>
           <c-col [xs]>
                 <div class="">
                   <label for="tipoContrato">Tipo de contrato:</label>
-                  <input type="text"  class="form-control" id="tipoContrato" name="tipoContrato" formControlName="tipo_contrato" >
+                  <input type="text"  class="form-control" id="tipoContrato" name="tipoContrato" formControlName="tipo_contrato" placeholder="Tipo de contrato" >
                 </div>
           </c-col>
           
@@ -269,13 +273,13 @@
           <c-col [xs]>
                 <div class="">
                   <label for="direccionLaboral">Direccion Laboral:</label>
-                  <input type="text" class="form-control"  id="direccionLaboral" name="direccionLaboral" formControlName="direccion_laboral">
+                  <input type="text" class="form-control"  id="direccionLaboral" name="direccionLaboral" formControlName="direccion_laboral" placeholder="Direccion Laboral">
                 </div>
           </c-col>
           <c-col [xs]>
                 <div class="">
                   <label for="enfermedad">Enfermedad:</label>
-                  <input type="text"  class="form-control" id="enfermedad" name="enfermedad" formControlName="enfermedad">
+                  <input type="text"  class="form-control" id="enfermedad" name="enfermedad" formControlName="enfermedad" placeholder="Enfermedad">
                 </div>
           </c-col>
           
@@ -284,13 +288,13 @@
           <c-col [xs]>
                 <div class="">
                   <label for="polera">Polera:</label>
-                  <input type="text" class="form-control" id="polera" name="polera" formControlName="polera" >
+                  <input type="text" class="form-control" id="polera" name="polera" formControlName="polera" placeholder="Talla de Polera">
                 </div>
           </c-col>
           <c-col [xs]>
                 <div class="">
                   <label for="pantalon">Pantalon:</label>
-                  <input type="text"  class="form-control" id="pantalon" name="pantalon" formControlName="pantalon"  >
+                  <input type="text"  class="form-control" id="pantalon" name="pantalon" formControlName="pantalon" placeholder="Talla de Pantalon" >
                 </div>
           </c-col>
           
@@ -299,16 +303,26 @@
           <c-col [xs]>
                 <div class="">
                   <label for="poleron">Poleron:</label>
-                  <input type="text" class="form-control" id="poleron" name="poleron" formControlName="poleron">
+                  <input type="text" class="form-control" id="poleron" name="poleron" formControlName="poleron" placeholder="Talla de Poleron">
                 </div>
           </c-col>
           <c-col [xs]>
                 <div class="">
                   <label for="zapato">Zapato:</label>
-                  <input type="text"  class="form-control" id="zapato" name="zapato" formControlName="zapato">
+                  <input type="text"  class="form-control" id="zapato" name="zapato" formControlName="zapato" placeholder="Talla de Zapato">
                 </div>
           </c-col>
           
+        </c-row>
+        <c-row>
+          <c-col [xs]>
+            <label>Agregar Foto</label>
+            <input type="image" src="img_submit.gif" alt="Submit" width="48" height="48" class="form-control">  
+          </c-col>
+          <c-col [xs]>
+            <label for="myfile" >Agregar Documento</label>
+            <input type="file" id="myfile" name="myfile" class="form-control">  
+          </c-col>
         </c-row>
         
         
@@ -326,118 +340,126 @@
     </c-modal-footer>
 </c-modal>
 <c-modal id="liveDemoModalEquipo" [visible]="visible2" (visibleChange)="handleLiveDemoChangeEquipo($event)" size="lg">
-    <c-modal-header>
-      <h5 cModalTitle >Equipo</h5>
-      <button (click)="toggleLiveDemoEquipo()" cButtonClose></button>
-    </c-modal-header>
-    <c-modal-body>
-      <h2 >Datos del equipo</h2>
-
-
-      <form cForm  (ngSubmit)="registroEquipoDescripcion() " [formGroup]="equipoDescripcionForm"> 
+  <c-modal-header>
+    <h5 cModalTitle  *ngIf="botonEditar == false">Nuevo Equipo</h5>
+    <h5 cModalTitle *ngIf="botonEditar">Editar Equipo</h5>
+    <button (click)="toggleLiveDemoEquipo()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <h2 >Datos del equipo</h2>
+    <form cForm  (ngSubmit)="registroEquipoDescripcion() " [formGroup]="equipoDescripcionForm"> 
       <div class="">
         <c-row>
-            <c-col [xs]>
-                <div class="">
-                  Tipo
-                 <select  cSelect  formControlName="tipo" (change)="getLocation()">
-                  <option value="">Selecciona un equipo</option>
-                  <option *ngFor="let equipo of tipo" value={{equipo.id}}>
+          <c-col [xs]>
+            <div class="">
+              <label>Tipo</label>
+              <select  cSelect  formControlName="tipo" (change)="getLocation(); tipoSeleccionado($event)">
+                <option value="">Selecciona un equipo</option>
+                <option *ngFor="let equipo of tipo" value={{equipo.id}} >
                     {{ equipo.nombre }}
-                  </option>
-
-                 </select> 
-                  
-                    
+                </option>
+              </select> 
                     <!-- <span class="error" *ngIf="form.get('Codigo')?.errors?.['required'] && isErrorView">
                       Falta agregar el codigo del producto
                     </span> -->
-                </div>
-            </c-col>
-            <c-col [xs]>
-                <div class="noEditar">
-                  Marca
-                  <input type="text" placeholder="Marca" class="form-control" formControlName="marca">
+            </div>
+          </c-col>
+          <c-col [xs]>
+            <div class="noEditar">
+              <label>Marca</label>
+              <input type="text" placeholder="Marca" class="form-control" formControlName="marca">
               
                     <!-- <span class="error" *ngIf="form.get('Codigo')?.errors?.['required'] && isErrorView">
                       Falta agregar el codigo del producto
                     </span> -->
-                </div>
-            </c-col>
-            <c-col [xs]>
-                <div class="">
-                  Modelo
-                   <input type="text" class="form-control"  placeholder="Modelo" formControlName="modelo" >
+            </div>
+          </c-col>
+        </c-row>
+        <c-row >
+          <c-col [xs]>
+            <div class="">
+              <label>Modelo</label>
+              <input type="text" class="form-control"  placeholder="Modelo" formControlName="modelo" >
                    <!-- <span class="error" *ngIf="form.get('Unid_x_paquete')?.errors?.['required'] && isErrorView">
                       Falta agregar las unidades por paquete
                   </span> -->
-                  </div>
-            </c-col>
-          
+            </div>
+          </c-col>
+          <c-col [xs] *ngIf=" todo">
+            <div class="">
+              <label>Ubicación</label>
+              <input type="text" placeholder="ubicacion del equipo" class="form-control" formControlName="ubicacion" >
+            </div>
+          </c-col>
+       </c-row> 
+        <c-row>
+          <c-col [xs]>
+            <label for="descripcion">Descripción</label>
+            <textarea type="text" class="form-control"  placeholder="Descripción del Equipo"  formControlName="descripcion" name="descripcion"></textarea>
+          </c-col>
+          <c-col [xs]>
+            <div class="">Estado
+              <select   cSelect    formControlName="estado">
+                <option selected>Selecciona un estado</option>
+                <option *ngFor="let estado of estadoEquipo" value={{estado.id}}>
+                       {{ estado.nombre }}
+                </option>
+              </select>      
+            </div>
+          </c-col>  
+        </c-row>
+        <c-row>
+          <c-col [xs] *ngIf="todo">
+            <div class="">
+              <label>Mac WIFI</label>
+              <input type="text" placeholder="Mac WIFI" class="form-control" formControlName="mac_wifi" >
+            </div>
+          </c-col>
+          <c-col [xs]="" *ngIf="todo  ">
+              <div class="">
+                <label>Serie</label>
+                <input type="text" placeholder="Serie" class="form-control" formControlName="serie" >
+              </div>
+          </c-col>
+        </c-row>
+        <c-row>
+          <c-col [xs] *ngIf="todo || pantalla">
+            <div class="">
+              <label>Resolución</label>
+              <input type="text" class="form-control"  placeholder="Resolucion" formControlName="resolucion" >
+            </div>
+          </c-col>
+          <c-col [xs]>
+            <div class="" *ngIf="pantalla || todo">
+                  Dimensiones
+              <input type="text" class="form-control"  placeholder="Dimensiones" formControlName="dimensiones">
+            </div>
+          </c-col>
         </c-row>
         <c-row>
           <c-col [xs]>
-            <div class="">
-              Ubicacion
-                <input type="text" placeholder="ubicacion del equipo" class="form-control" formControlName="ubicacion" >
+            <div class="">Serial
+              <input type="text" placeholder="serial" class="form-control" formControlName="serial" >
             </div>
           </c-col>
-            <c-col [xs]>
-                <div class="">
-                  Serial
-                    <input type="text" placeholder="serial" class="form-control" formControlName="serial" >
-                </div>
+          <c-col [xs]>
+            <div class="" *ngIf="memoria ||todo">
+                  Almacenamiento
+              <input type="number" class="form-control"  placeholder="almacenamiento" formControlName="almacenamiento">
+            </div>
           </c-col>
         </c-row>
-        <c-row>
-            <c-col [xs]>
-                <div class="">
-                  Mac WIFI
-                   <input type="text" placeholder="Mac WIFI" class="form-control" formControlName="mac_wifi" >
-                </div>
-                <div class="">
-                  Serie
-                  <input type="text" placeholder="Serie" class="form-control" formControlName="serie" >
-                </div>
-            </c-col>
-            <c-col [xs]>
-                <div class="">
-                  Resolucion
-                   <input type="text" class="form-control"  placeholder="Resolucion" formControlName="resolucion" >
-                </div>
-                <div class="">
-                  Dimensiones
-                  <input type="text" class="form-control"  placeholder="Dimensiones" formControlName="dimensiones">
-                </div>
-            </c-col>
-            <c-col [xs]>
-                <div class="">
-                    Descripción
-                    <input type="text" class="form-control"  placeholder="agregar descripcion" formControlName="descripcion">
-                </div>
-                <div class="">
-                    Estado
-                
-                    <select   cSelect    formControlName="estado">
-                     <option selected>Selecciona un estado</option>
-                     <option *ngFor="let estado of estadoEquipo" value={{estado.id}}>
-                       {{ estado.nombre }}
-                     </option>
-   
-                    </select> 
-                     
-                </div>
-              </c-col>
-              <c-col [xs]>
-                <div class="">
-                  Almacenamiento
-                  <input type="number" class="form-control"  placeholder="almacenamiento" formControlName="almacenamiento">
-              </div>
-              <div class="">
+        <c-row >
+          <c-col *ngIf="todo">
+            <div class="">
                   RAM
-                  <input type="number" class="form-control"  placeholder="RAM" formControlName="ram">
-              </div>
-            </c-col>
+              <input type="number" class="form-control"  placeholder="RAM" formControlName="ram">
+            </div>
+          </c-col>
+          <c-col>
+           <label>Cantidad</label>
+            <input type="number" class="form-control" placeholder="Cantidad" formControlName="cantidad"/> 
+          </c-col>
         </c-row>
       </div>
       <button  class="btn btn-success" type="submit"  >Enviar</button>
@@ -452,7 +474,8 @@
 
 <c-modal id="liveDemoModalDepartamento" [visible]="visible5" (visibleChange)="handleLiveDemoChangeDepartamento($event)" size="lg">
   <c-modal-header>
-    <h5 cModalTitle >Departamento</h5>
+    <h5 cModalTitle  *ngIf="botonEditar == false ">Nuevo Departamento</h5>
+    <h5 cModalTitle  *ngIf="botonEditar"> Editar Departamento</h5>
     <button (click)="toggleLiveDemoDepartamento()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
@@ -487,7 +510,8 @@
 
 <c-modal id="liveDemoModalEstado" [visible]="visible6" (visibleChange)="handleLiveDemoChangeEstado($event)" size="lg">
   <c-modal-header>
-    <h5 cModalTitle >Estado</h5>
+    <h5 cModalTitle  *ngIf="botonEditar == false">Nuevo Estado</h5>
+   <h5 cModalTitle  *ngIf="botonEditar">Editar Estado</h5> 
     <button (click)="toggleLiveDemoEstado()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
@@ -523,7 +547,8 @@
 
 <c-modal id="liveDemoModalSucursal" [visible]="visible3" (visibleChange)="handleLiveDemoChangeSucursal($event)" size="lg">
   <c-modal-header>
-    <h5 cModalTitle >Sucursal</h5>
+    <h5 cModalTitle *ngIf="botonEditar == false">Nueva Sucursal</h5>
+    <h5 cModalTitle   *ngIf="botonEditar">Editar Sucursal</h5>
     <button (click)="toggleLiveDemoSucursal()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
@@ -589,10 +614,9 @@
 <!---DESPLIEGUE DE LISTA SEGUN SEA EL CASO -->
 
 <h3 class="tituloFecha show" *ngIf="mostrarTipo">Lista de Equipos: </h3>
-<button *ngIf="mostrarTipo" cButton color="success" size="sm" (click)="toggleLiveDemoTipo()">
-  <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-  </svg>Cargar
+<button  class="btn-crear" *ngIf="mostrarTipo" cButton color="info" size="sm" (click)="toggleLiveDemoTipo()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+  </svg>Crear Nuevo
 </button>
 <div class="greenTable show"  *ngIf="mostrarTipo && tipoDeEquipo && tipoDeEquipo.length > 0">
 
@@ -602,7 +626,6 @@
         <thead>
             <tr>
                 <th>Nombre</th>
-                <th>Descripcion</th>
                 <th>Acciones</th>
 
             </tr>
@@ -610,13 +633,14 @@
         <tbody>
             <tr *ngFor="let inventario of tipoDeEquipo">
                 <td>{{inventario.nombre }}</td>
-                <td>{{inventario.descripcion}}</td>
 
-                <td>
-                    <button cButton color="success" size="sm">
-                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-                        </svg> Editar
+
+                <td class="btn-edit-eliminar">
+                    <button cButton color="secondary" size="sm" class="btn-edit"  (click)="editarTipo(inventario.id)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                    </button>
+                    <button cButton color="danger" size="sm" class="btn-edit">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 12 12"><path fill="currentColor" d="M5 3h2a1 1 0 0 0-2 0ZM4 3a2 2 0 1 1 4 0h2.5a.5.5 0 0 1 0 1h-.441l-.443 5.17A2 2 0 0 1 7.623 11H4.377a2 2 0 0 1-1.993-1.83L1.941 4H1.5a.5.5 0 0 1 0-1H4Zm3.5 3a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0V6ZM5 5.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM3.38 9.085a1 1 0 0 0 .997.915h3.246a1 1 0 0 0 .996-.915L9.055 4h-6.11l.436 5.085Z"/></svg>
                     </button>
                     
                    
@@ -628,15 +652,14 @@
 
 
 <h3 class="tituloFecha show" *ngIf="mostrarEquipo">Equipos a detalle: </h3>
-<button *ngIf="mostrarEquipo" cButton color="success" size="sm" (click)="toggleLiveDemoEquipo()">
-  <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-  </svg>Cargar
+<button class="btn-crear"  *ngIf="mostrarEquipo" cButton color="info"size="sm" (click)="toggleLiveDemoEquipo()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+  </svg>Crear Nuevo
 </button>
 <div class="greenTable show" *ngIf=" mostrarEquipo && equipos && equipos.length >0" >
 
     
-    <table id="tablaProductosPicking" style="width: 60%" >
+    <table id="tablaProductosPicking" style="width: 90%" >
        
         <thead>
             <tr>
@@ -654,7 +677,7 @@
                 <th>RAM</th>
                 <th>Tipo</th>
                 <th>Estado</th>
-                <th>Acciones</th>
+                <th style="width: 160px">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -674,10 +697,11 @@
               <td>{{inventario.estado}}</td>
               
               <td>
-                  <button cButton color="success" size="sm">
-                    <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-                      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-                    </svg> Editar
+                  <button cButton color="secondary" size="sm" class="btn-edit" (click)="editarEquipo(inventario.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                  </button>
+                  <button cButton color="danger" size="sm" class="btn-edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 12 12"><path fill="currentColor" d="M5 3h2a1 1 0 0 0-2 0ZM4 3a2 2 0 1 1 4 0h2.5a.5.5 0 0 1 0 1h-.441l-.443 5.17A2 2 0 0 1 7.623 11H4.377a2 2 0 0 1-1.993-1.83L1.941 4H1.5a.5.5 0 0 1 0-1H4Zm3.5 3a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0V6ZM5 5.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM3.38 9.085a1 1 0 0 0 .997.915h3.246a1 1 0 0 0 .996-.915L9.055 4h-6.11l.436 5.085Z"/></svg>
                   </button>
                     
                    
@@ -689,10 +713,9 @@
 
 
 <h3 class="tituloFecha show" *ngIf="mostrarDepartamento">Lista de Departamentos: </h3>
-<button  *ngIf="mostrarDepartamento" cButton color="success" size="sm"  (click)="toggleLiveDemoDepartamento()">
-  <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-  </svg>Crear
+<button class="btn-crear"   *ngIf="mostrarDepartamento" cButton color="info" size="sm"  (click)="toggleLiveDemoDepartamento()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+  </svg>Crear Nuevo
 </button>
 <div class="greenTable show" *ngIf="mostrarDepartamento && departamentos && departamentos.length > 0" >
   
@@ -710,10 +733,11 @@
             <tr *ngFor="let inventario of departamentos">
                 <td>{{inventario.nombre }}</td>
                 <td>
-                    <button cButton color="success" size="sm">
-                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-                        </svg> Editar
+                    <button cButton color="secondary" size="sm" class="btn-edit" (click)="editarDepartamento(inventario.id)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                    </button>
+                    <button cButton color="danger" size="sm" class="btn-edit">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 12 12"><path fill="currentColor" d="M5 3h2a1 1 0 0 0-2 0ZM4 3a2 2 0 1 1 4 0h2.5a.5.5 0 0 1 0 1h-.441l-.443 5.17A2 2 0 0 1 7.623 11H4.377a2 2 0 0 1-1.993-1.83L1.941 4H1.5a.5.5 0 0 1 0-1H4Zm3.5 3a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0V6ZM5 5.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM3.38 9.085a1 1 0 0 0 .997.915h3.246a1 1 0 0 0 .996-.915L9.055 4h-6.11l.436 5.085Z"/></svg>
                     </button>
                   
                 </td>       
@@ -724,10 +748,9 @@
 
 
 <h3 class="tituloFecha show" *ngIf="mostrarEstado">Lista de Estados: </h3>
-<button  *ngIf="mostrarEstado" cButton color="success" size="sm"  (click)="toggleLiveDemoEstado()">
-  <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-  </svg>Crear
+<button class="btn-crear"  *ngIf="mostrarEstado" cButton color="info" size="sm"  (click)="toggleLiveDemoEstado()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+  </svg>Crear Nuevo
 </button>
 <div class="greenTable show" *ngIf="mostrarEstado && estados && estados.length > 0" >
   
@@ -745,10 +768,11 @@
             <tr *ngFor="let inventario of estados">
                 <td>{{inventario.nombre }}</td>
                 <td>
-                    <button cButton color="success" size="sm">
-                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-                        </svg> Editar
+                    <button cButton color="secondary" size="sm" class="btn-edit" (click)="editarEstado(inventario.id)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                    </button>
+                    <button cButton color="danger" size="sm" class="btn-edit" >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 12 12"><path fill="currentColor" d="M5 3h2a1 1 0 0 0-2 0ZM4 3a2 2 0 1 1 4 0h2.5a.5.5 0 0 1 0 1h-.441l-.443 5.17A2 2 0 0 1 7.623 11H4.377a2 2 0 0 1-1.993-1.83L1.941 4H1.5a.5.5 0 0 1 0-1H4Zm3.5 3a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0V6ZM5 5.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM3.38 9.085a1 1 0 0 0 .997.915h3.246a1 1 0 0 0 .996-.915L9.055 4h-6.11l.436 5.085Z"/></svg>
                     </button>
                   
                 </td>       
@@ -760,15 +784,14 @@
 
 
 <h3 class="tituloFecha show" *ngIf="mostrarPersona">Lista de personas: </h3>
-<button  *ngIf="mostrarPersona" colspan="5" style="justify-content: left;" cButton color="success" size="sm"  (click)="toggleLiveDemoPersona()">
-  <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-  </svg>Crear
+<button class="btn-crear"  *ngIf="mostrarPersona" colspan="5" style="justify-content: left;" cButton color="info" size="sm"  (click)="toggleLiveDemoPersona()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+  </svg>Crear Nuevo
 </button>
 <div class="greenTable show" *ngIf="mostrarPersona && personas && personas.length > 0" >
 
     
-    <table id="tablaProductosPicking" style="width: 60%" >
+    <table id="tablaProductosPicking" style="width: auto" >
         <thead>
             <tr>
           
@@ -843,10 +866,11 @@
                 <td>{{persona.poleron}}</td>
                 <td>{{persona.zapato}}</td>
                 <td>
-                    <button cButton color="success" size="sm">
-                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-                        </svg> Editar
+                    <button cButton color="secondary" size="sm" class="btn-edit" (click)="editarPersona(persona.id)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                    </button>
+                    <button cButton color="danger" size="sm" class="btn-edit">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 12 12"><path fill="currentColor" d="M5 3h2a1 1 0 0 0-2 0ZM4 3a2 2 0 1 1 4 0h2.5a.5.5 0 0 1 0 1h-.441l-.443 5.17A2 2 0 0 1 7.623 11H4.377a2 2 0 0 1-1.993-1.83L1.941 4H1.5a.5.5 0 0 1 0-1H4Zm3.5 3a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0V6ZM5 5.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM3.38 9.085a1 1 0 0 0 .997.915h3.246a1 1 0 0 0 .996-.915L9.055 4h-6.11l.436 5.085Z"/></svg>
                     </button>
                    
                    
@@ -859,10 +883,9 @@
 
 
 <h3 class="tituloFecha show" *ngIf="mostrarSucursal">Lista de Sucursales: </h3>
-<button *ngIf="mostrarSucursal" cButton color="success" size="sm" (click)="toggleLiveDemoSucursal()">
-  <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-  </svg>Crear
+<button  class="btn-crear"  *ngIf="mostrarSucursal" cButton color="info" size="sm" (click)="toggleLiveDemoSucursal()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+  </svg>Crear Nuevo
 </button>
 <div class="greenTable show"  *ngIf="mostrarSucursal && sucursales && sucursales.length > 0">
 
@@ -889,10 +912,11 @@
                 <td>{{inventario.direccion}}</td>
 
                 <td>
-                    <button cButton color="success" size="sm">
-                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-                        </svg> Editar
+                    <button cButton color="secondary" size="sm" class="btn-edit" (click)="editarSucursal(inventario.id)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                    </button>
+                    <button cButton color="danger" size="sm" class="btn-edit">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 12 12"><path fill="currentColor" d="M5 3h2a1 1 0 0 0-2 0ZM4 3a2 2 0 1 1 4 0h2.5a.5.5 0 0 1 0 1h-.441l-.443 5.17A2 2 0 0 1 7.623 11H4.377a2 2 0 0 1-1.993-1.83L1.941 4H1.5a.5.5 0 0 1 0-1H4Zm3.5 3a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0V6ZM5 5.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM3.38 9.085a1 1 0 0 0 .997.915h3.246a1 1 0 0 0 .996-.915L9.055 4h-6.11l.436 5.085Z"/></svg>
                     </button>
                     
                    
@@ -904,10 +928,9 @@
 
 
 <h3 class="tituloFecha show" *ngIf="mostrarLicencia">Lista de Licencias: </h3>
-<button  *ngIf="mostrarLicencia" cButton color="success" size="sm"  (click)="toggleLiveDemoLicencia()">
-  <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-  </svg>Crear
+<button class="btn-crear" *ngIf="mostrarLicencia" cButton color="info" size="sm"  (click)="toggleLiveDemoLicencia()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+  </svg>Crear Nuevo
 </button>
 <div class="greenTable show" *ngIf="mostrarLicencia && licencias && licencias.length > 0" >
   
@@ -925,13 +948,15 @@
             <tr *ngFor="let inventario of licencias">
                 <td>{{inventario.codigo }}</td>
                 <td>
-                    <button cButton color="success" size="sm">
-                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
-                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
-                        </svg> Editar
+                    <button cButton color="secondary" size="sm" class="btn-edit" (click)="editarLicencia(inventario.id)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
                     </button>
-                  
-                </td>       
+                    <button cButton color="danger" size="sm" class="btn-edit">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 12 12"><path fill="currentColor" d="M5 3h2a1 1 0 0 0-2 0ZM4 3a2 2 0 1 1 4 0h2.5a.5.5 0 0 1 0 1h-.441l-.443 5.17A2 2 0 0 1 7.623 11H4.377a2 2 0 0 1-1.993-1.83L1.941 4H1.5a.5.5 0 0 1 0-1H4Zm3.5 3a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0V6ZM5 5.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM3.38 9.085a1 1 0 0 0 .997.915h3.246a1 1 0 0 0 .996-.915L9.055 4h-6.11l.436 5.085Z"/></svg>
+                    </button>
+
+                </td>
+
             </tr>
         </tbody>
     </table>

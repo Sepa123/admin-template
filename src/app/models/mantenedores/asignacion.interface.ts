@@ -3,13 +3,14 @@ export interface Asignacion {
     ids_user: string,
     lat: string,
     long: string,
-    equipo: number,
+    equipo: number ,
     persona: number,
-    fecha_entrega: string | null,
+    fecha_entrega: string | undefined,
     estado: boolean | null,
-    fecha_devolucion: string | null,
+    fecha_devolucion: string | undefined,
     observacion: string | null,
     nombre_equipo: string  | null,
-    folio: string | null,
+    folio: string ,
     departamento: number | null
+    acta: string | null 
 }
