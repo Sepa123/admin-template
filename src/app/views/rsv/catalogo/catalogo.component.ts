@@ -16,6 +16,7 @@ export class CatalogoComponent {
   codigoColor : string = ""
   codigoFinal: string = ""
   isErrorView : boolean = false
+  unidadConEtiqueta : boolean = true
 
   botonEditar : boolean = false
 
@@ -62,6 +63,19 @@ export class CatalogoComponent {
     })
   }
 
+  //marcar o desmarcar si el producto tiene unidades con etiquetas 
+  actualizarUnidadConEtiqueta(event : any, codigo: string){
+    console.log(codigo)
+    const estadoUnidad = event.target.checked
+    const body = {
+      "unid_con_etiqueta": estadoUnidad,
+      "codigo": codigo
+    }
+    console.log(estadoUnidad)
+    this.service.update_unid_con_etiqueta(body).subscribe((data)=>{
+
+    })
+  }
   codigoExistente() {
     this.service.buscar_producto_existente_rsv(this.form.value.Codigo+"").subscribe((data : any) => {
       if(data.repetido){

@@ -24,7 +24,7 @@ import { ListarCargaComponent } from './listar-carga/listar-carga.component';
 import { InventarioSucursalesComponent } from './inventario-sucursales/inventario-sucursales.component';
 import {FiltroUbicacionComponent} from './filtro-ubicacion/filtro-ubicacion.component'
 import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/listar-paquetes.component';
-
+import { UnidadSinEtiquetaComponent } from './sin-etiqueta/unidad-sin-etiqueta.component';
 @NgModule({
   declarations: [
     CatalogoComponent,
@@ -35,7 +35,8 @@ import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/list
     ListarCargaComponent,
     InventarioSucursalesComponent,
     FiltroUbicacionComponent,
-    ListarPaquetesAbiertosComponent
+    ListarPaquetesAbiertosComponent,
+    UnidadSinEtiquetaComponent
   ],
   imports: [
     CommonModule,

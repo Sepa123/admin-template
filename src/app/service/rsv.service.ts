@@ -217,4 +217,17 @@ export class RsvService {
     return this.http.put(this.apiurl + "/eliminar/cargas", { lista : lista_codigos ,
                                                              nombre_carga : nombre_carga})
   }
+
+  //update catalogo unidades con etiqueta
+
+  update_unid_con_etiqueta(body: any){
+
+    return this.http.put(this.apiurl+"/actualizar_unid_con_etiquetas", body)
+  }
+
+  //listar unidades sin etiqueta
+
+    get_unidades_sin_etiqueta_rsv(){
+      return this.http.get<CatalogoRSV[]>(this.apiurl + `/catalogo-unidades-sin-etiqueta`)
+    }
 }

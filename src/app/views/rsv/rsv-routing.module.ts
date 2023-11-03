@@ -9,6 +9,7 @@ import { ListarCargaComponent } from './listar-carga/listar-carga.component';
 import { InventarioSucursalesComponent } from './inventario-sucursales/inventario-sucursales.component';
 import { FiltroUbicacionComponent } from './filtro-ubicacion/filtro-ubicacion.component';
 import { ListarPaquetesAbiertosComponent} from './listar-paquetes-abiertos/listar-paquetes.component'
+import {UnidadSinEtiquetaComponent} from './sin-etiqueta/unidad-sin-etiqueta.component'
 const routes: Routes = [
   {
     path:'',
@@ -78,6 +79,13 @@ const routes: Routes = [
         data : {
           title : "Lista Paquetes"
         } 
+      },
+      {
+        path: 'unidad-sin-etiqueta',
+        component: UnidadSinEtiquetaComponent,
+        data:{
+          title: "Unidades Sin Etiqueta"
+        }
       }
     ]
   }

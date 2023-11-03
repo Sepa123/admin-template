@@ -381,6 +381,10 @@ export const navItems: INavDataBar[] = [
       name: 'Lista de Paquetes Abiertos',
       url: '/rsv/listar-paquetes'
      },
+     {
+      name: 'Unidades Sin Etiqueta',
+      url: '/rsv/unidad-sin-etiqueta'
+     }
     //  {
     //   name: 'Agregar Producto',
     //   url: '/rsv/agregar-producto'

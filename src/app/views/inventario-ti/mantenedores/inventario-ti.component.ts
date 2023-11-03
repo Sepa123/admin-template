@@ -173,35 +173,23 @@ export class InventarioTiComponent implements OnInit {
       if(idEnData.id == idTipo){
         console.log("entro")
         this.id ++
-      
-        if(idTipo !== 1 && idTipo !== 2 ) {
-        console.log(idTipo, "generico")
-         
-          this.genericos = true
-          this.pantalla = false
-          this.memoria = false
-
-          if(idTipo === 11 ||idTipo=== 12 ){
-            console.log(idTipo, "memoria")
-            this.memoria = true
-          }
-          else if(idTipo=== 5){
-            console.log(idTipo, "pantalla")
-            this.pantalla = true
-          }
-        }
-        else{
+        if(idTipo == 1 ||idTipo == 2 ) {
           console.log(idTipo, "cel y note")
           console.log(this.todo)
           this.todo = true
-          this.genericos = false
           this.pantalla = false
           this.memoria = false
+        }else if (idTipo == 3  || idTipo == 13){
+          console.log(idTipo, "memoria")
+          this.memoria = true
+          this.todo = false
+          this.pantalla = false
+        }else if(idTipo== 5){
+          console.log(idTipo, "pantalla")
+          this.pantalla = true
         }
       }
     })
-  
-    
   }
 
 
