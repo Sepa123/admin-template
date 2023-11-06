@@ -325,8 +325,25 @@ export class VentasComponent {
   }
 
   pickEtiqueta(){
+    this.addCargas()
     const resultado = this.ventasForm.value.etiqueta.replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
-    console.log(resultado)
+    console.log(this.arrays.length)
+
+
+    const regex = /([a-zA-Z]+)@/;
+    const color : any = regex.exec(resultado);
+
+    console.log(color[1])
+
+    // this.colores.filter(color => color.Extension ==  color[1])
+
+    this.cambio(this.arrays.length - 1)
+    this.arrays.at(this.arrays.length - 1).patchValue({
+      Codigo: "",
+      Producto: "",
+      Descripcion : resultado,
+      Color : 0
+    })
     this.ventasForm.patchValue({
       etiqueta : ""
     })
@@ -334,6 +351,26 @@ export class VentasComponent {
     //   etiqueta : resultado
     // })
   }
+
+  // cambioColorPick(index : number){
+  //   this.arrayCodigosProductos[index] = [{
+  //     "Codigo": "",
+  //     "Producto": "",
+  //     "Color" : 0
+  //   }]
+  //   const color : number = this.ventasForm.value.arrays[index].Color
+
+  //   this.service.filtrar_catalogo_por_color(color).subscribe((data)=> {
+  //     this.codigosProductos = data
+  //     // this.arrayCodigosProductos = data
+
+
+  //     this.arrayCodigosProductos[index] = this.codigosProductos
+  //     console.log(this.arrayCodigosProductos[index][0].Codigo)
+
+  //   })
+
+  // }
 
 
   generar_N_factura(){
