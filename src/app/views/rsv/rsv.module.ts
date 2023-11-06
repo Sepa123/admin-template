@@ -29,6 +29,7 @@ import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/list
 import { ChartjsModule } from '@coreui/angular-chartjs';
 import { NgChartsModule } from 'ng2-charts';
 import { MantenedorComponent } from './mantenedor/mantenedor.component';
+import { UnidadSinEtiquetaComponent } from './unidad-sin-etiqueta/unidad-sin-etiqueta.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { MantenedorComponent } from './mantenedor/mantenedor.component';
     FiltroUbicacionComponent,
     ListaVentasComponent,
     ListarPaquetesAbiertosComponent,
-    MantenedorComponent
+    MantenedorComponent,
+    UnidadSinEtiquetaComponent
   ],
   imports: [
     CommonModule,

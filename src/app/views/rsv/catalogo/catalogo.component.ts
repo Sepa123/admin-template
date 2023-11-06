@@ -12,7 +12,7 @@ import { ROLES_ENUM } from 'src/app/models/enum/roles.enum';
 export class CatalogoComponent {
 
   verEditar : string [] = [ROLES_ENUM.ADMIN,ROLES_ENUM.ADMINISTRATIVO_RSV,ROLES_ENUM.JEFE_OPERACIONES,ROLES_ENUM.SUPERVISOR_RSV]
-
+  cambiarCheckbox : string [] = [ROLES_ENUM.ADMIN,ROLES_ENUM.ADMINISTRATIVO_RSV,ROLES_ENUM.SUPERVISOR_RSV]
   arrCatalogoRSVFull : CatalogoRSV [][] = []
   arrCatalogoRSV : CatalogoRSV [][] = []
 
@@ -23,6 +23,7 @@ export class CatalogoComponent {
   codigoColor : string = ""
   codigoFinal: string = ""
   isErrorView : boolean = false
+  unidadConEtiqueta : boolean = true
 
   botonEditar : boolean = false
 
@@ -61,6 +62,20 @@ export class CatalogoComponent {
         currency: 'CLP'
     });
 }
+
+  //marcar o desmarcar si el producto tiene unidades con etiquetas 
+  actualizarUnidadConEtiqueta(event : any, codigo: string){
+    console.log(codigo)
+    const estadoUnidad = event.target.checked
+    const body = {
+      "unid_con_etiqueta": estadoUnidad,
+      "codigo": codigo
+    }
+    console.log(estadoUnidad)
+    this.service.update_unid_con_etiqueta(body).subscribe((data)=>{
+
+    })
+  }
 
   obtenerCatalogo(){
     this.service.get_catalogo_rsv().subscribe((data) => {

@@ -12,6 +12,8 @@ import { FiltroUbicacionComponent } from './filtro-ubicacion/filtro-ubicacion.co
 import { ListaVentasComponent } from './lista-ventas/lista-ventas.component';
 import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/listar-paquetes-abiertos.component';
 import { MantenedorComponent } from './mantenedor/mantenedor.component';
+import {UnidadSinEtiquetaComponent} from './unidad-sin-etiqueta/unidad-sin-etiqueta.component'
+
 const routes: Routes = [
   {
     path:'',
@@ -102,6 +104,13 @@ const routes: Routes = [
         data : {
           title : "Mantenedor"
         } 
+      },
+      {
+        path: 'unidad-sin-etiqueta',
+        component: UnidadSinEtiquetaComponent,
+        data:{
+          title: "Unidades Sin Etiqueta"
+        }
       }
     ]
   }

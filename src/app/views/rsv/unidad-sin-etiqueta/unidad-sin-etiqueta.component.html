@@ -1,0 +1,39 @@
+<h1 class="sin-etiqueta">Unidades Sin Etiquetas</h1>
+<h3 class="sin-unidades"*ngIf="catalogoRSV.length ==0">Si unidades disponibles</h3>
+<div class="greenTable unid_sin" *ngIf="catalogoRSV.length >0">
+
+    <table  id="tablaProductosPicking" >
+        <thead>
+            <tr>
+            <th>Código</th>
+            <th>Descripción</th>
+            <th>Un x Paq.</th>
+            <th>Peso</th>
+            <th>Ancho</th>
+            <th>Alto</th>
+            <th>Largo</th>
+            <th>Color</th>
+            <th>Valor unitario</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+    <!-- <tr *ngIf="isLoading">
+        <td colspan="10"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+    </tr> -->
+            <tr *ngFor="let producto of catalogoRSV">
+                <td>{{producto.Codigo}}</td>
+                <td>{{producto.Producto}}</td>
+                <td>{{producto.Unid_x_paquete}}</td>
+                <td>{{producto.Peso  ? producto.Peso : 'No Asignado' }}</td>
+                <td>{{producto.Ancho ? producto.Ancho : 'No Asignado'}}</td>
+                <td>{{producto.Alto ? producto.Alto : 'No Asignado'}}</td>
+                <td>{{producto.Largo ? producto.Largo : 'No Asignado'}}</td>
+                <td>{{ producto.Color}}</td>
+                <td>{{producto.Precio_unitario ? producto.Precio_unitario : 'No Asignado'}}</td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>

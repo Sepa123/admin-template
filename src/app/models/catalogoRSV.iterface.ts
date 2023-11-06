@@ -17,6 +17,7 @@ export interface CatalogoRSV {
 	Ubicacion_p :     string | null
 	Codigo_Original : string | null
     Ubicacion_u :     string | null
+    unid_con_etiqueta : boolean
 }
 
 export interface ColoresRSV {
