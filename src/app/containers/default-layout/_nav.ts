@@ -432,6 +432,11 @@ export const navItems: INavDataBar[] = [
       url: '/rsv/ubicacion-producto'
      },
     //  {
+    //   name: 'Armar venta',
+    //   url: '/rsv/armar-venta'
+    //  },
+    
+    //  {
     //   name: 'Unidades Sin Etiqueta',
     //   url: '/rsv/unidad-sin-etiqueta'
     //  }
@@ -527,6 +532,7 @@ export const navItems: INavDataBar[] = [
     name: 'Asignar Ubicación',
     url: '/rsv/filtro-ubicacion'
    },
+   
    
  ]
 },

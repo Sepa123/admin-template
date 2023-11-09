@@ -30,6 +30,7 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { NgChartsModule } from 'ng2-charts';
 import { MantenedorComponent } from './mantenedor/mantenedor.component';
 import { UnidadSinEtiquetaComponent } from './unidad-sin-etiqueta/unidad-sin-etiqueta.component';
+import { ArmarVentaComponent } from './armar-venta/armar-venta.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { UnidadSinEtiquetaComponent } from './unidad-sin-etiqueta/unidad-sin-eti
     ListaVentasComponent,
     ListarPaquetesAbiertosComponent,
     MantenedorComponent,
-    UnidadSinEtiquetaComponent
+    UnidadSinEtiquetaComponent,
+    ArmarVentaComponent
   ],
   imports: [
     CommonModule,

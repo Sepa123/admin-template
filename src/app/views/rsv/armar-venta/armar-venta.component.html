@@ -1,0 +1,118 @@
+<c-row>
+    <c-col [xs]>
+         Seleccionar mes  :
+        <select id="Mes" cSelect [(ngModel)]="MesSeleccionado">
+            <option value="">Mes</option>
+            <option *ngFor="let mes of meses" value={{mes.Valor}}  >
+                {{mes.Nombre}}     
+            </option>
+        </select>
+    </c-col> 
+    <c-col [xs]>
+        Seleccionar año:
+        <select id="Mes" cSelect [(ngModel)]="AnoSeleccionado">
+            <option value="">Año</option>
+            <option *ngFor="let ano of listaAnos" value={{ano}}  >
+                {{ano}}     
+            </option>
+        </select>
+    </c-col>
+    <c-col [xs]>
+        <c-col [xs]>
+            Seleccionar sucursal :
+            <select id="Mes" cSelect [(ngModel)]="sucursalSeleccionada ">
+                <option value="">Sucursales</option>
+                <option *ngFor="let sucursal of sucursales" value={{sucursal.Id}}  >
+                    {{sucursal.Nombre}}     
+                </option>
+            </select>
+        </c-col>
+    </c-col>
+    <c-col [xs]>
+        <p></p>
+        <button  cButton  color="secondary" size="lg" (click)="filtrarListaVentaPorMes(AnoSeleccionado+MesSeleccionado, sucursalSeleccionada)">Buscar</button>
+    </c-col>
+</c-row>
+
+
+  <p></p>
+<div class="greenTable">
+    <table id="tablaProductosPicking" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Dirección</th>
+                <th>Comuna</th>
+                <th>Región</th>
+                <th>Fecha entrega</th>
+                <th>Tipo despacho</th>
+                <th>N° Factura</th>
+                <th>Cód. TY</th>
+                <th>Armar Ruta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let lista of listaVenta ">
+                <td>{{lista.Cliente}}</td>    
+                <td>{{lista.Direccion}}</td>   
+                <td>{{lista.Comuna}}</td>  
+                <td>{{lista.Region}}</td> 
+                <td>{{lista.Fecha_entrega}}</td> 
+                <td>{{lista.Tipo_despacho}}</td> 
+                <td>{{lista.Numero_factura}}</td>
+                <td>{{lista.Codigo_ty}}</td> 
+                <td><button (click)="seleccionarVenta(lista.Codigo_ty)">Seleccionar</button></td> 
+             
+            </tr>
+            <tr *ngIf="listaVenta.length == 0">
+                <td colspan="7">
+                    No hay registros
+                </td>
+            </tr>
+        </tbody>
+</table>
+</div>
+<p></p>
+
+<c-row *ngIf="ventaGenerada.length !== 0">
+    <c-col>
+        <div class="greenTable">
+            <table id="tablaProductosPicking" style="text-align: center">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Unidades Totales</th>
+                        <th>Unidades Agregadas</th>
+                        <th>Producto</th>
+                    </tr>         
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lista of detalleVentaGenerada ">
+                        <!-- <td>{{lista.Bar_code}}</td> -->
+                        <td>{{lista.Codigo}}</td>  
+                        <td>{{lista.Unidades}}</td>
+                        <td>{{lista.UnidadesAgregadas}}</td>
+                        <td>{{lista.Producto}}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </c-col>
+</c-row>
+<p></p>
+<c-row *ngIf="ventaGenerada.length !== 0" >
+    <c-col [xs]>
+        <input type="text" [(ngModel)]="etiqueta"  class="form-control"  (change)="pickEtiqueta()">
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+</c-row> 
+
+
