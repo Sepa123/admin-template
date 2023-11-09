@@ -24,6 +24,7 @@ export interface NotaVentaProducto {
     Id_user:  number;
     Ids_user: string;
     Producto: string;
+    UnidadesAgregadas : number 
 }
 
 

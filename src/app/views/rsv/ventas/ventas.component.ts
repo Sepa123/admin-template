@@ -4,8 +4,10 @@ import { RsvService } from 'src/app/service/rsv.service'
 import { CatalogoRSV,ColoresRSV,CatalogoPorColor } from 'src/app/models/catalogoRSV.iterface';
 import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
 import { ComunasService } from 'src/app/service/comunas/comunas.service';
+import { DetalleVenta, NotaVenta , NotaVentaProducto } from 'src/app/models/notaVenta.interface';
 import { TipoDespacho } from 'src/app/models/tipoDespacho.inteface'
 import { EvaluacionPedidoRSV} from 'src/app/models/evaluacionPedidoRSV.interface'
+
 @Component({
   selector: 'app-ventas',
   templateUrl: './ventas.component.html',
@@ -38,6 +40,8 @@ export class VentasComponent {
 
   etiqueta : string = ""
 
+  unidAgregada : number = 0
+
   toggleLiveDemo() {
     this.visible = !this.visible;
   }
@@ -57,6 +61,8 @@ export class VentasComponent {
     this.isModalOpen = false
   }
 
+  ventaGenerada : NotaVenta [] = []
+  detalleVentaGenerada : NotaVentaProducto [] = []
   nombreCargaExiste : boolean = false
 
   isErrorView : boolean = false
@@ -258,6 +264,8 @@ export class VentasComponent {
       })
         this.service.insert_nota_venta(this.ventasForm.value).subscribe((data:any) => {
           alert(data.message)
+
+          // this.ventaGenerada = this.ventasForm.value
           this.ventasForm.reset() 
 
           this.ventasForm.patchValue({
@@ -282,15 +290,45 @@ export class VentasComponent {
           this.arrayCodigosProductos = []
           
           this.isErrorView = false
+
+          this.service.get_nota_venta_por_id(data.id_venta+"").subscribe((nv) => {
+            this.ventaGenerada.pop()
+            this.ventaGenerada.push(nv)
+            this.service.get_detalle_venta_por_id_venta(parseInt(data.id_venta)).subscribe((detalle) => {
+              this.detalleVentaGenerada = detalle
+              this.detalleVentaGenerada.map(detalle => {
+                detalle.UnidadesAgregadas = 0
+              })
+            })
+          })
+
         },(error) => {
           alert(error.error.detail)
         })
     } else {
       console.log(this.ventasForm)
     }
+
+    console.log("VENTAS GENERADA")
+    console.log(this.ventaGenerada)
   }
 
   ngOnInit(){
+
+
+    // this.service.get_nota_venta_por_id("20").subscribe((nv) => {
+    //   this.ventaGenerada.pop()
+    //   this.ventaGenerada.push(nv)
+    //   this.service.get_detalle_venta_por_id_venta(parseInt("20")).subscribe((detalle) => {
+    //     this.detalleVentaGenerada = detalle
+    //     this.detalleVentaGenerada.map(detalle => {
+    //       detalle.UnidadesAgregadas = 0
+          
+    //     })
+    //   })
+    // })
+
+
     this.service.get_colores_rsv().subscribe((data) => {
       this.colores = data
       
@@ -322,34 +360,61 @@ export class VentasComponent {
       })
     },700)
 
+
+    
+    
   }
 
   pickEtiqueta(){
-    this.addCargas()
     const resultado = this.ventasForm.value.etiqueta.replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
-    console.log(this.arrays.length)
-
-
+    const cod_producto = resultado.split('@')[0].split('-')[0]
     const regex = /([a-zA-Z]+)@/;
     const color : any = regex.exec(resultado);
+    const Id_etiqueta = resultado.split('@')[1].split('-')[0]
 
-    console.log(color[1])
+    console.log(cod_producto.split('-')[0])
 
-    // this.colores.filter(color => color.Extension ==  color[1])
+    const uni = this.detalleVentaGenerada.filter((cod : any) => cod.Codigo == cod_producto)[0].Unidades
+    const uniAgregadas = this.detalleVentaGenerada.filter((cod : any) => cod.Codigo == cod_producto)[0].UnidadesAgregadas
 
-    this.cambio(this.arrays.length - 1)
-    this.arrays.at(this.arrays.length - 1).patchValue({
-      Codigo: "",
-      Producto: "",
-      Descripcion : resultado,
-      Color : 0
+    if (uni == 0 || uni == null){
+      return alert("Por favor agregue las unidades a seleccionar para este paquete")
+    }
+    
+    const body = {
+      "Bar_code" : resultado,
+      "Codigo_producto": cod_producto,
+      "Unidades" : uni,
+      "Id_user" : sessionStorage.getItem("id")?.toString()+"",
+      "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", 
+      "Id_nota_venta": this.detalleVentaGenerada[0].Id_venta,
+      "Uni_agregadas" : uniAgregadas,
+      // Lat: Optional[str]
+      // Lng: Optional[str]
+       "Cantidad": 1
+    }
+
+    this.service.actualizar_stock_etiqueta(body).subscribe((data : any) => {
+      alert(data.message)
+      this.unidAgregada = parseInt(data.unid_x_paq)
+      console.log( )
+      this.detalleVentaGenerada.map(detalle => {
+        if (detalle.Codigo == cod_producto){
+          detalle.UnidadesAgregadas += this.unidAgregada
+        }
+      })
+      this.ventasForm.patchValue({
+        etiqueta : ""
+      })
+    }, error => {
+      alert(error.error.detail)
+      this.ventasForm.patchValue({
+        etiqueta : ""
+      })
     })
-    this.ventasForm.patchValue({
-      etiqueta : ""
-    })
-    // this.ventasForm.patchValue({
-    //   etiqueta : resultado
-    // })
+
+    console.log(body)
+
   }
 
   // cambioColorPick(index : number){

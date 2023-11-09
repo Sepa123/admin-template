@@ -3,7 +3,7 @@ import { PedidoService } from  'src/app/service/pedido.service'
 import { RutasService } from 'src/app/service/rutas.service';
 import { PedidoSinCompromiso } from 'src/app/models/pedidoSinCompromiso.interface';
 import { RutasAsignadas } from 'src/app/models/rutaAsignada.interface'
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-prearmado-ruta',
@@ -27,6 +27,9 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
 
   regiones : string[] = []
   offset : number [] = [0,100,200,300,400,500,600,700,800,900,1000,1100,1200]
+
+  subPedido! :Subscription
+  private timeouts: any[] = [];
 
   body : any = {
     Codigos: "",
@@ -81,18 +84,17 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
   getPedidos() {
 
     // Crear un arreglo para almacenar las referencias a los setTimeout
-      const timeouts : any = [];
       let cantActual : number = 1
 
       for (let i = 0; i < this.offset.length; i++) {
         const timeoutId = setTimeout(() => {
-          this.service.buscar_rutas_pendientes(this.offset[i]).subscribe((data) => {
+          this.subPedido = this.service.buscar_rutas_pendientes(this.offset[i]).subscribe((data) => {
             // console.log(data.length);
             if (data.length === 0) {
               cantActual = 0
               this.isLoadingTable = false
               // alert("productos pendientes listo")
-              clearTimeout(timeouts[i]);
+              clearTimeout(this.timeouts[i]);
             } else {
               for (let j = 0; j < data.length; j++) {
                 data[j].Seleccionado = false
@@ -122,7 +124,7 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
           });
         }, 18320 * i);
         // Guardar la referencia al setTimeout en el arreglo
-        timeouts.push(timeoutId);
+        this.timeouts.push(timeoutId);
       }
   }
 
@@ -301,6 +303,15 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
   this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
   this.cantidadBultos = this.pedidos.length
  }
+
+ ngOnDestroy(): void {
+
+  this.timeouts.forEach(timeout => {
+    clearTimeout(timeout);
+  });
+  // Cancelar la suscripción al destruir el componente
+  this.subPedido.unsubscribe()
+}
 
 
 }

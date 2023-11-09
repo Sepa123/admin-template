@@ -348,5 +348,16 @@ export class RsvService {
     get_unidades_sin_etiqueta_rsv(){
       return this.http.get<CatalogoRSV[]>(this.apiurl + `/catalogo-unidades-sin-etiqueta`)
     }
+
+    actualizar_stock_etiqueta(body : any){
+      return this.http.post(this.apiurl + `/tomar/unidades/paquete`, body)
+    }  
+
+
+    // nota_venta_por_id
+
+    get_nota_venta_por_id(id: string){
+      return this.http.get<NotaVenta>(this.apiurl + `/notas_ventas?id=${id}`) 
+    }
   
 }

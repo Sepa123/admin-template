@@ -43,6 +43,10 @@ export class EstadosComponent implements OnInit {
 
 
   ngOnInit(): void{
+
+    
+
+    
     this.service.get_cargas_por_hora_init().subscribe((data) => {
       this.cargaHora = data;
       this.isLoadingCarga = false;
@@ -60,29 +64,42 @@ export class EstadosComponent implements OnInit {
 
     this.subscripcionCargasComparacion()
 
-    this.service.get_pedidos_sin_tienda().subscribe((data) => {
-      this.pedidoSinTiendas = data
-      this.isLoadingSinTienda = false
-      
-      if(this.pedidoSinTiendas.length === 0){
-        this.noData = true
-      }
-    })
 
-    this.service.get_pedidos_tienda_easy_opl().subscribe((data) => {
-      this.pedidoEasyOPL = data
-      this.isLoadingEasyOPL = false
-    })
+    setTimeout(() => {
+      this.service.get_pedidos_sin_tienda().subscribe((data) => {
+        this.pedidoSinTiendas = data
+        this.isLoadingSinTienda = false
+        
+        if(this.pedidoSinTiendas.length === 0){
+          this.noData = true
+        }
+      })
+    }, 400);
 
-    this.service.get_cargas_easy_api().subscribe(data => {
-      this.cargasEasyAPI = data
-      this.isLoadingCargaComparacionAPI = false;
-    })
+    setTimeout(() => {
+      console.log("Delayed for 1 second.");
+    }, 700);
 
-    this.service.get_cargas_easy_wms().subscribe(data => {
-      this.cargasEasyWMS = data
-      this.isLoadingCargaComparacionWMS = false;
-    })
+    setTimeout(() => {
+      this.service.get_pedidos_tienda_easy_opl().subscribe((data) => {
+        this.pedidoEasyOPL = data
+        this.isLoadingEasyOPL = false
+      })
+    }, 1000);
+
+    setTimeout(() => {
+      this.service.get_cargas_easy_api().subscribe(data => {
+        this.cargasEasyAPI = data
+        this.isLoadingCargaComparacionAPI = false;
+      })
+  
+      this.service.get_cargas_easy_wms().subscribe(data => {
+        this.cargasEasyWMS = data
+        this.isLoadingCargaComparacionWMS = false;
+      })
+    }, 1300);
+
+    
   }
 
   subscripcionCargasComparacion () {

@@ -273,20 +273,103 @@
 
             </c-col>
         </c-row>
-        </form>
-<!-- <p></p>
-        <c-row>
-            <c-col [xs]>
-                <input type="text" name="" id="">
-            </c-col>
-            <c-col [xs]>
+        <!-- </form> -->
 
-            </c-col>
-            <c-col [xs]>
+<p></p>
+<c-row *ngIf="ventaGenerada.length !== 0">
+    <c-col>
+        <div class="greenTable">
+            <table id="tablaProductosPicking" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Dirección</th>
+                        <th>Comuna</th>
+                        <th>Región</th>
+                        <th>Fecha entrega</th>
+                        <th>Tipo despacho</th>
+                        <th>N° Factura</th>
+                        <th>Cód. TY</th>
+                        <!-- <th>Preparado</th>
+                        <th>Entregado</th> -->
+                        <!-- <th>Detalle</th>
+                        <th *ngIf="rol == '5' || rol == '13' || rol == '42' || rol == '43' || rol == '44'">Codigo de barra</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lista of ventaGenerada ">
+                        <td>{{lista.Cliente}}</td>    
+                        <td>{{lista.Direccion}}</td>   
+                        <td>{{lista.Comuna}}</td>  
+                        <td>{{lista.Region}}</td> 
+                        <td>{{lista.Fecha_entrega}}</td> 
+                        <td>{{lista.Tipo_despacho}}</td> 
+                        <td>{{lista.Numero_factura}}</td>
+                        <td>{{lista.Codigo_ty}}</td>  
+                        <!-- <td *ngIf="lista.Preparado === true" >
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                          </td>
+                          <td *ngIf="lista.Preparado !== true " >
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                          </td>
 
-            </c-col>
-            <c-col [xs]>
+                        <td *ngIf="lista.Entregado === true" >
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                        </td>
+                        <td *ngIf="lista.Entregado !== true " >
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                          </td> -->
+                        <!-- <td><svg (click)="verDetalle(lista.Id, lista.Fecha_preparado, lista.Fecha_despacho, lista.Entregado)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg></td>
+                        <td *ngIf="rol == '5' || rol == '13' || rol == '42' || rol == '43' || rol == '44'">
+                            <svg (click)="verBarCode(lista.Id, lista.Fecha_preparado, lista.Fecha_despacho)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="currentColor" d="M16 464h480V56H16ZM48 88h416v344H48Z"/><path fill="currentColor" d="M80 128h32v256H80zm64 0h32v192h-32zm64 0h32v256h-32zm64 0h32v192h-32zm64 0h32v192h-32zm64 0h32v256h-32zM144 352h32v32h-32zm128 0h32v32h-32zm64 0h32v32h-32z"/></svg>
+                        </td> -->
+                    </tr>
+                </tbody>
+        </table>
+        </div>
+    </c-col>
+    
+</c-row>
+<p></p>
+<c-row *ngIf="ventaGenerada.length !== 0">
+    <c-col>
+        <div class="greenTable">
+            <table id="tablaProductosPicking" style="text-align: center">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Unidades Totales</th>
+                        <th>Unidades Agregadas</th>
+                        <th>Producto</th>
+                    </tr>         
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lista of detalleVentaGenerada ">
+                        <!-- <td>{{lista.Bar_code}}</td> -->
+                        <td>{{lista.Codigo}}</td>  
+                        <td>{{lista.Unidades}}</td>
+                        <td>{{lista.UnidadesAgregadas}}</td>
+                        <td>{{lista.Producto}}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </c-col>
+</c-row>
+<p></p>
+<c-row *ngIf="ventaGenerada.length !== 0" >
+    <c-col [xs]>
+        <input type="text"   class="form-control" formControlName="etiqueta"  (change)="pickEtiqueta()">
+    </c-col>
+    <c-col [xs]>
 
-            </c-col>
-        </c-row> -->
+    </c-col>
+    <c-col [xs]>
 
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+</c-row> 
+
+</form>

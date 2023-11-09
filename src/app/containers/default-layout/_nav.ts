@@ -130,7 +130,7 @@ export const navItems: INavDataBar[] = [
     name: 'Operaciones',
     url: '/operaciones',
     iconComponent: { name: 'cil-clipboard' },
-    roles : [ROLES_ENUM.RAUDDY],
+    roles : [ROLES_ENUM.RAUDDY,ROLES_ENUM.JEFE_TRANSPORTE],
     children: [
       {
         name: 'Pendientes',
@@ -232,6 +232,31 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Rutas Activas',
         url: '/picking/rutas-activas'
+      }
+    ]
+  },
+  {
+    // Pantalla muestra para Jefe transporte
+    name: 'Rutas',
+    url: '/picking',
+    iconComponent: { name: 'cil-truck' },
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE],
+    children: [
+      {
+        name: 'Rutas Activas',
+        url: '/picking/rutas-activas'
+      }
+    ]
+  },
+  { /// Pantalla Informacion Para Jefe transporte
+    name: 'Información',
+    url: '/informacion',
+    iconComponent : {name : 'cil-magnifying-glass'},
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE],
+    children: [
+      {
+        name: "Tracking Producto",
+        url : '/informacion/tracking-producto'
       }
     ]
   },
@@ -371,33 +396,28 @@ export const navItems: INavDataBar[] = [
        url: '/rsv/catalogo'
      },
      {
-      name: 'Crear Carga',
-      url: '/rsv/crear-carga'
+      name: 'Lista inventarios',
+      url: '/rsv/inventario-sucursal'
      },
      {
-      name: 'Ventas',
-      url: '/rsv/ventas'
+      name: 'Crear Carga',
+      url: '/rsv/crear-carga'
      },
      {
       name: 'Arribo de Cargas',
       url: '/rsv/listar-carga'
      },
      {
-      name: 'Lista inventarios',
-      url: '/rsv/inventario-sucursal'
-     },
-     {
-      name: 'Racks estructura',
-      url: '/rsv/ubicacion-producto'
-     },
-     
-     {
-      name: 'Asignar Ubicación',
-      url: '/rsv/filtro-ubicacion'
+      name: 'Ventas',
+      url: '/rsv/ventas'
      },
      {
       name: 'Lista de ventas',
       url: '/rsv/lista-venta'
+     },
+     {
+      name: 'Asignar Ubicación',
+      url: '/rsv/filtro-ubicacion'
      },
      {
       name: 'Lista de Paquetes Abiertos',
@@ -406,6 +426,10 @@ export const navItems: INavDataBar[] = [
      {
       name: 'Mantenedor',
       url: '/rsv/mantenedor'
+     },
+     {
+      name: 'Racks estructura',
+      url: '/rsv/ubicacion-producto'
      },
     //  {
     //   name: 'Unidades Sin Etiqueta',
@@ -428,28 +452,28 @@ export const navItems: INavDataBar[] = [
      url: '/rsv/catalogo'
    },
    {
-    name: 'Crear Carga',
-    url: '/rsv/crear-carga'
+    name: 'Lista inventarios',
+    url: '/rsv/inventario-sucursal'
    },
    {
-    name: 'Ventas',
-    url: '/rsv/ventas'
+    name: 'Crear Carga',
+    url: '/rsv/crear-carga'
    },
    {
     name: 'Arribo de Cargas',
     url: '/rsv/listar-carga'
    },
    {
-    name: 'Lista inventarios',
-    url: '/rsv/inventario-sucursal'
-   },
-   {
-    name: 'Asignar Ubicación',
-    url: '/rsv/filtro-ubicacion'
+    name: 'Ventas',
+    url: '/rsv/ventas'
    },
    {
     name: 'Lista de ventas',
     url: '/rsv/lista-venta'
+   },
+   {
+    name: 'Asignar Ubicación',
+    url: '/rsv/filtro-ubicacion'
    },
    {
     name: 'Lista de Paquetes Abiertos',
@@ -468,12 +492,12 @@ export const navItems: INavDataBar[] = [
      url: '/rsv/catalogo'
    },
    {
-    name: 'Arribo de Cargas',
-    url: '/rsv/listar-carga'
-   },
-   {
     name: 'Lista inventarios',
     url: '/rsv/inventario-sucursal'
+   },
+   {
+    name: 'Arribo de Cargas',
+    url: '/rsv/listar-carga'
    },
    {
     name: 'Lista de ventas',
@@ -496,13 +520,14 @@ export const navItems: INavDataBar[] = [
     url: '/rsv/inventario-sucursal'
    },
    {
-    name: 'Asignar Ubicación',
-    url: '/rsv/filtro-ubicacion'
-   },
-   {
     name: 'Lista de ventas',
     url: '/rsv/lista-venta'
    },
+   {
+    name: 'Asignar Ubicación',
+    url: '/rsv/filtro-ubicacion'
+   },
+   
  ]
 },
   {
