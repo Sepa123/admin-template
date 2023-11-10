@@ -10,8 +10,8 @@ export class PedidoService {
 
   constructor(private http: HttpClient) { }
 
-  apiurl="https://hela.transyanez.cl/api/pedidos"
-  // apiurl = "http://127.0.0.1:8000/api/pedidos"
+  // apiurl="https://hela.transyanez.cl/api/pedidos"
+  apiurl = "http://127.0.0.1:8000/api/pedidos"
 
   get_pedidos_sin_despacho() {
     return this.http.get<PedidoSinCompromiso[]>(this.apiurl + "/sin_despacho/")
@@ -36,6 +36,26 @@ export class PedidoService {
 
   buscar_rutas_pendientes(offset : number){
     return  this.http.get<PedidoSinCompromiso []>(this.apiurl + `/pendientes?offset=${offset}`)
+  }
+
+  get_fechas(){
+    return  this.http.get(this.apiurl + `pendientes/fechas`)
+  }
+
+  pendientes_spo_elux(fecha_inicio : string, fecha_fin : string, offset : string) {
+    return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/sportex-electrolux?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=0`)
+  }
+
+  pendientes_retiro_tienda(fecha_inicio : string, fecha_fin : string, offset : string) {
+    return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/retiro_tienda?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=0`)
+  }
+
+  pendientes_opl(fecha_inicio : string, fecha_fin : string, offset : string) {
+    return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/easy_opl?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
+  }
+
+  pendientes_cd(fecha_inicio : string, fecha_fin : string, offset : string) {
+    return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/easy_cd?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
   }
 
   

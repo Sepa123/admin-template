@@ -183,8 +183,17 @@ export class ArmarVentaComponent {
     // alert("OK, ACTUALIZANDO ESTADO")
   }
 
-  seleccionarVenta(cod_ty : string){
-    
+  seleccionarVenta(cod_ty : number){
+    this.service.get_nota_venta_por_id(cod_ty+"").subscribe((nv) => {
+      this.ventaGenerada.pop()
+      this.ventaGenerada.push(nv)
+      this.service.get_detalle_venta_por_id_venta(parseInt(cod_ty+"")).subscribe((detalle) => {
+        this.detalleVentaGenerada = detalle
+        this.detalleVentaGenerada.map(detalle => {
+          detalle.UnidadesAgregadas = 0
+        })
+      })
+    })
   }
 
 
