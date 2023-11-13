@@ -8,6 +8,7 @@ import { Departamentos } from '../models/mantenedores/departamento.interface';
 import {SucursalInventario} from '../models/mantenedores/sucursal.interface'
 import { EstadoInventario } from '../models/mantenedores/estado.interface';
 import { LicenciaWindows } from '../models/mantenedores/licencia.interface';
+import {AsignadosById} from '../models/mantenedores/asignacionPorId.interface'
 @Injectable({
     providedIn: 'root'
   })
@@ -51,6 +52,10 @@ import { LicenciaWindows } from '../models/mantenedores/licencia.interface';
     crearLicencia(body:any){
       return this.http.post(this.apiurl+"/licencia",body)
     }
+
+    datosPDF(body:any){
+      return this.http.post(this.apiurl+"/generar_acta_entrega", body)
+    }
     //EDITAR
 
     actualizar_asignacion(body: any){
@@ -77,6 +82,9 @@ import { LicenciaWindows } from '../models/mantenedores/licencia.interface';
     }
     actualizar_persona(body:any){
       return this.http.put(this.apiurl+"/actualizar/persona",body)
+    }
+    actualizar_crear_acta_entrega(body:any){
+      return this.http.put(this.apiurl+"/actualizar/crear-acta",body)
     }
 
     //OBTENCIA DE LA LISTA DE LOS DATOS 
@@ -115,5 +123,29 @@ import { LicenciaWindows } from '../models/mantenedores/licencia.interface';
       return this.http.get<SucursalInventario[]>(this.apiurl+"/lista-sucursales")
     }
 
+    get_folio_entrega(){
+      return this.http.get<Asignacion[]>(this.apiurl+"/folio_entrega")
+    }
+
+    get_folio_devolucion(){
+      return this.http.get<Asignacion[]>(this.apiurl+"/folio_devolucion")
+    }
+
+    get_nr_equipo(tipo: number){
+      return this.http.get<Equipo[]>(this.apiurl+`/nr_equipo/${tipo}`)
+    }
+
+    get_lista_de_equipos_generales(){
+      return this.http.get<Equipo[]>(this.apiurl+"/equipos-generales")
+    }
+
+    get_lista_asignados_by_id(id:number){
+      return this.http.get<AsignadosById[]>(this.apiurl+`/asignados/${id}`)
+    }
+
+
+   
+      
+    
   
   }  

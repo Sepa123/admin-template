@@ -1,16 +1,17 @@
 import { Component ,OnInit} from '@angular/core';
 import {InventarioTIService} from '../../../service/inventario-ti.service'
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, FormArray } from '@angular/forms'
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { HttpClient } from '@angular/common/http';
+
 import { Personal } from 'src/app/models/mantenedores/personal.interface';
 import {Departamentos} from 'src/app/models/mantenedores/departamento.interface';
 import {Tipo} from 'src/app/models/mantenedores/tipo.interface';
-import {Equipo} from 'src/app/models/mantenedores/equipo.interface';
+import {Equipo, Almacenamiento, Ram} from 'src/app/models/mantenedores/equipo.interface';
 import { SucursalInventario } from 'src/app/models/mantenedores/sucursal.interface';
 import{EstadoInventario } from 'src/app/models/mantenedores/estado.interface'
 import {LicenciaWindows} from 'src/app/models/mantenedores/licencia.interface'
-import { Subscription } from 'rxjs';
+
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-inventario-ti',
@@ -31,6 +32,8 @@ export class InventarioTiComponent implements OnInit {
   seleccionTipoEquipo: number | null = null; ;
   seleccionEstadoEquipo: number = 0;
 
+  seleccionRam : string  |null= null;
+
   botonEditar : boolean = false
 
 
@@ -45,8 +48,32 @@ export class InventarioTiComponent implements OnInit {
   estados : EstadoInventario [] = []
   estadoEquipo :   EstadoInventario [] = []
   licencias : LicenciaWindows [] = []
+  busquedaDeIdSegunTipo :  Equipo [] = []
+  almacenamientos: Almacenamiento [] = Object.values(Almacenamiento) as Almacenamiento[]
+  rams:Ram[] = Object.values(Ram)  as Ram[]
 
   id!: number
+  leyendaEquipo!: string
+  nEquipo!: number
+  //conteo de ID segun el tipo de equipo
+  idCL!: any 
+  idCH!: any
+  idPT!: any
+  idNB!: any
+  idAC!: any
+  idCI!: any
+  idIM!: any
+  nr_equipo ! :any
+  codigoGenerado ! : string
+
+  //variables para el numero de equipo
+  NB: string = 'TY-NB-'
+  AC : string = 'TY-AC-'
+  CL: string = 'TY-CL-'
+  IM: string = 'TY-IM-'
+  CI: string = 'TY-CI-'
+  PT: string = 'TY-PT-'
+
 
   //Mostrar u ocultar datos
   genericos : boolean = false // !== 1 y 2
@@ -73,7 +100,9 @@ export class InventarioTiComponent implements OnInit {
 
 
   valorSeleccionado: any;
-    constructor(private service: InventarioTIService, private fb:FormBuilder) {
+    constructor(private service: InventarioTIService, 
+      private fb:FormBuilder
+    ) {
    this.personaForm;
     
     }
@@ -88,6 +117,7 @@ export class InventarioTiComponent implements OnInit {
       })
 
     }
+
 
    // botones para activar los pop up, uno para cada accion en especifico
    toggleLiveDemoTipo() {
@@ -153,6 +183,10 @@ export class InventarioTiComponent implements OnInit {
     this.isModalOpen = false
   }
 
+  recargar(){
+    location.reload()
+  }
+
   getLocation(): any {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -190,6 +224,51 @@ export class InventarioTiComponent implements OnInit {
         }
       }
     })
+  } 
+
+  generarIdEquipo(event: any){
+    const idTipo = event.target.value
+    this.service.get_nr_equipo(idTipo).subscribe((data)=>{
+      this.busquedaDeIdSegunTipo = data
+      this.nr_equipo = this.busquedaDeIdSegunTipo
+     
+      console.log("nr_equipo0",this.busquedaDeIdSegunTipo)
+    })
+    this.tipo.forEach(idEnData =>{
+      if(idEnData.id == idTipo){
+        if(idTipo == 1){
+          this.nEquipo = this.nr_equipo
+         
+        }else if(idTipo == 2){
+          this.nEquipo = this.nr_equipo
+         
+        
+        }else if(idTipo ==3){
+          this.nEquipo = this.nr_equipo
+         
+          
+        }else if(idTipo == 5){
+          this.nEquipo = this.nr_equipo
+     
+      
+        }else if(idTipo == 6 || idTipo == 8|| idTipo == 9 || idTipo==10 || idTipo ==4 || idTipo == 13 || idTipo == 14  ){
+          this.nEquipo = this.nr_equipo
+
+         
+        }else if(idTipo == 11 || idTipo == 12  || idTipo == 16 || idTipo == 17) {
+          this.nEquipo = this.nr_equipo
+        
+          
+        }else if(idTipo == 7 || idTipo == 15){
+          this.nEquipo = this.nr_equipo
+   
+ 
+        }
+      }
+    })
+
+    
+    
   }
 
 
@@ -200,7 +279,7 @@ export class InventarioTiComponent implements OnInit {
     nombres: this.fb.control("", [Validators.required] ),
     apellidos : this.fb.control("", [Validators.required] ),
     rut : this.fb.control("", [Validators.required] ),
-    nacionalidad: this.fb.control("", [Validators.required] ),
+    nacionalidad: this.fb.control(""),
     id_user : this.fb.control(parseInt(sessionStorage['id']), [Validators.required]),
     ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
     lat: this.fb.control(""),
@@ -233,6 +312,11 @@ export class InventarioTiComponent implements OnInit {
     poleron: this.fb.control(""),
   
     })
+
+    buscar(){
+      const rutDuplicado = this.personas.find(person => person.rut == this.personaForm.value.rut) 
+      console.log("existe", rutDuplicado)  
+    }
 // POST DE PERSONA
     registrarPersona(){
       if (this.personaForm.valid) {
@@ -241,29 +325,56 @@ export class InventarioTiComponent implements OnInit {
           this.personaForm.patchValue({
           lat : this.latStr,
           long: this.longStr
-        }) 
-        
-        this.service.creacion_personal(this.personaForm.value).subscribe(
-          (respuesta) => {
-            console.log('Persona registrada:', respuesta);
-            this.personaForm.reset()
-            this.listarPersona()
-            },
-            (error) => {
-              console.error('Error al registrar la persona:', error);
-            }
-          );
-
+          }) 
+          const rutDuplicado = this.personas.find(person => person.rut == this.personaForm.value.rut) 
+          if(!rutDuplicado){
+            this.service.creacion_personal(this.personaForm.value).subscribe(
+              (respuesta) => {
+                console.log('Persona registrada:', respuesta);
+                this.personaForm.reset()
+                Swal.fire({
+                icon: 'success',
+                title: 'Persona ingresada',
+                text: 'Se ha registrado con éxito',
+                })
+                this.toggleLiveDemoPersona()
+                this.listarPersona()
+                },
+                (error) => {
+                  Swal.fire({
+                  icon: 'error',
+                  title: 'Error al ingresar',
+                  text: 'Validar información',
+                })
+                  console.error('Error al registrar la persona:', error);
+                });
+          }else{
+            Swal.fire({
+              icon: 'error',
+              title: 'El RUT ingresado ya existe',
+              text: 'Validar información',
+              })
+          }
         }else{
-          this.service.actualizar_persona(this.personaForm.value).subscribe((data)=>{
-            this.listarPersona()
-            this.personaForm.reset()
-            this.botonEditar = false
-            
-          })
+            this.service.actualizar_persona(this.personaForm.value).subscribe((data)=>{   
+              this.personaForm.reset()
+              Swal.fire({
+                icon: 'success',
+                title: 'Persona actualizada',
+                text: 'Se ha actualizado los datos con éxito',
+                })
+              this.toggleLiveDemoPersona()
+              this.botonEditar = false
+              this.listarPersona()
+            }, (error)=>{
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al modificar',
+                text: 'Validar información',
+                })
+              })
         }
-        
-        }
+     }        
     }
     //EDITAR PERSONA
 
@@ -322,9 +433,21 @@ export class InventarioTiComponent implements OnInit {
             (respuesta) => {
               console.log('Tipo de equipo registrado:', respuesta);
               this.tipoEquipoForm.reset()
+              Swal.fire({
+                icon: 'success',
+                title: 'Tipo de Equipo ingresado',
+                text: 'Se ha registrado con éxito',
+              })
+              this.toggleLiveDemoTipo()
               this.listarTiposDeEquipos()
+             
               },
               (error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error al modificar',
+                  text: 'Validar información',
+                })
                 console.error('Error al registrar el tipo de equipo:', error);
               }
             );
@@ -332,8 +455,20 @@ export class InventarioTiComponent implements OnInit {
           console.log(this.tipoEquipoForm.value)
           this.service.actualizar_tipo(this.tipoEquipoForm.value).subscribe((respuesta)=>{
             this.tipoEquipoForm.reset()
+            Swal.fire({
+              icon: 'success',
+              title: 'Tipo de Equipo actualizado',
+              text: 'Se ha actualizado con éxito',
+            })
+            this.toggleLiveDemoTipo()
             this.listarTiposDeEquipos()
             this.botonEditar = false
+          }, (error)=>{
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al modificar',
+              text: 'Validar información',
+            })
           })
         }
        
@@ -372,18 +507,41 @@ export class InventarioTiComponent implements OnInit {
             (respuesta) => {
               console.log('Departamento registrada:', respuesta);
               this.departamentoForm.reset()
+              Swal.fire({
+                icon: 'success',
+                title: 'Departamento ingresado',
+                text: 'Se ha registrado con éxito',
+              })
               this.listaDepartamento()
+              this.toggleLiveDemoDepartamento()
               },
               (error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error al ingresar',
+                  text: 'Validar información',
+                })
                 console.error('Error al registrar el departamento:', error);
               }
             );
         }else{
           this.service.actualizar_departamento(this.departamentoForm.value).subscribe((data)=>{
             this.departamentoForm.reset()
+            Swal.fire({
+              icon: 'success',
+              title: 'Departamento actualizado',
+              text: 'Se ha modificado con éxito',
+            })
             this.listaDepartamento()
+            this.toggleLiveDemoDepartamento()
             this.botonEditar = false
             
+          }, (error)=>{
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al modificar',
+              text: 'Validar información',
+            })
           })
           }
         }
@@ -424,22 +582,47 @@ export class InventarioTiComponent implements OnInit {
         }) 
         this.service.crearLicencia(this.licenciaForm.value).subscribe((respuesta)=>{
           console.log('Licencia registrada:', respuesta);
+          Swal.fire({
+            icon: 'success',
+            title: 'Licencia ingresada',
+            text: 'Se ha ingresado con éxito',
+          })
           this.licenciaForm .reset()
-          this.listaDeLicencias()
+          this.toggleLiveDemoLicencia()
+          location.reload();
+         
         }, (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al ingresar',
+            text: 'Validar información',
+          })
           console.error('Error al registrar la licencia:', error);
           })
 
         }else{
           this.service.actualizar_licencia(this.licenciaForm.value).subscribe((data)=>{
-            this.listaDeLicencias()
             this.licenciaForm.reset()
+            Swal.fire({
+              icon: 'success',
+              title: 'Licencia actualizada',
+              text: 'Se ha modificado con éxito',
+            })
+            this.toggleLiveDemoLicencia()
+            location.reload();
             this.botonEditar = false
            
             
+          }, (error)=>{
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al modificar',
+              text: 'Validar información',
+            })
           })
         }
       }
+      this.listaDeLicencias()
     }
 
     //EDITAR LICENCIA
@@ -470,17 +653,40 @@ export class InventarioTiComponent implements OnInit {
         this.service.crear_estado_inventario(this.estadoForm.value).subscribe(
           (respuesta) => {
             console.log('Estado registrad:', respuesta);
-            this.estadoForm .reset()
+            Swal.fire({
+              icon: 'success',
+              title: 'Estado ingresado',
+              text: 'Se ha ingresado con éxito',
+            })
+            this.estadoForm.reset()
+            this.toggleLiveDemoEstado()
             this.listaEstado()
             },
             (error) => {
               console.error('Error al registrar el estado:', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al ingresar',
+                text: 'Validar información',
+              })
             } );
        }else{
         this.service.actualizar_estado(this.estadoForm.value).subscribe((data)=>{
           this.estadoForm.reset()
+          Swal.fire({
+            icon: 'success',
+            title: 'Estado actualizado',
+            text: 'Se ha modificado con éxito',
+          })
           this.listaEstado()
+          this.toggleLiveDemoEstado()
           this.botonEditar = false
+        }, (error)=>{
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al modificar',
+            text: 'Validar información',
+          })
         })
        }
        
@@ -527,17 +733,40 @@ export class InventarioTiComponent implements OnInit {
           this.service.creacion_sucursal(this.sucursalForm.value).subscribe(
             (respuesta) => {
               console.log('Sucursal registrada:', respuesta);
+              Swal.fire({
+                icon: 'success',
+                title: 'Sucursal ingresada',
+                text: 'Se ha modificado con éxito',
+              })
               this.sucursalForm.reset();
+              this.toggleLiveDemoSucursal()
               this.listaDeSucursales();
             },
             (error) => {
               console.error('Error al registrar la sucursal:', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al ingresar',
+                text: 'Validar información',
+              })
             } );
           }else{
             this.service.actualizar_sucursal(this.sucursalForm.value).subscribe((data)=>{
               this.sucursalForm.reset()
+              Swal.fire({
+                icon: 'success',
+                title: 'Sucursal actualizada',
+                text: 'Se ha modificado con éxito',
+              })
+              this.toggleLiveDemoSucursal()
               this.listaDeSucursales()
               this.botonEditar = false
+            }, (error)=>{
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al modificar',
+                text: 'Validar información',
+              })
             })
           }
           
@@ -563,8 +792,13 @@ export class InventarioTiComponent implements OnInit {
         }
       }
   //FORM DESCRIPCION DE EQUIPO
+
+  ramElegida(event:any){
+    this.seleccionRam = event.target.value
+    console.log(this.seleccionRam)
+  }
     equipoDescripcionForm = this.fb.group({
-      id: this.id,
+      id: this.fb.control(0),
       id_user : this.fb.control(parseInt(sessionStorage['id']), [Validators.required]),
       ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
       lat: this.fb.control(""),
@@ -574,14 +808,16 @@ export class InventarioTiComponent implements OnInit {
       serial: this.fb.control(""),
       mac_wifi: this.fb.control(""),
       serie: this.fb.control(""),
-      resolucion: this.fb.control(0),
+      resolucion: this.fb.control(""),
       dimensiones: this.fb.control(""),
       descripcion: this.fb.control(""),
       ubicacion: this.fb.control(""),
-      almacenamiento: this.fb.control(0),
-      ram: this.fb.control(0),
+      almacenamiento: this.fb.control(Almacenamiento.cero),
+      ram: this.fb.control(Ram.cero),
       estado: this.fb.control(0),
-      tipo: this.fb.control(0)
+      tipo: this.fb.control(0),
+      cantidad: this.fb.control(0),
+      nr_equipo: this.fb.control(0)
     })
 //REGISTRO DESCRIPCION DE EQUIPO
     registroEquipoDescripcion(){
@@ -590,22 +826,46 @@ export class InventarioTiComponent implements OnInit {
             this.getLocation()
             this.equipoDescripcionForm.patchValue({
             lat : this.latStr,
-            long : this.longStr
+            long : this.longStr,
+            nr_equipo : this.nr_equipo
           })
           this.service.crear_descripcion_equipo(this.equipoDescripcionForm.value).subscribe(
             (respuesta) => {
               console.log('Descripcion de equipo registrada:', respuesta);
               this.equipoDescripcionForm.reset()
+              Swal.fire({
+                icon: 'success',
+                title: 'Descripción de Equipo ingresada',
+                text: 'Se ha ingresado con éxito',
+              })
+              this.toggleLiveDemoEquipo()
               this.listarEquiposyDescripcion()
               },
               (error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error al ingresar',
+                  text: 'Validar información',
+                })
                 console.error('Error al registrar la descripcion del equipo:', error);
               });
         }else{
           this.service.actualizar_descripcion_equipo(this.equipoDescripcionForm.value).subscribe((data)=>{
-            this.listarEquiposyDescripcion()
             this.equipoDescripcionForm.reset()
+            Swal.fire({
+              icon: 'success',
+              title: 'Descripción de Equipo actualizada',
+              text: 'Se ha modificado con éxito',
+            })
+            this.listarEquiposyDescripcion()
+            this.toggleLiveDemoEquipo()
             this.botonEditar = false
+          }, (error)=>{
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al modificar',
+              text: 'Validar información',
+            })
           })
         }
        

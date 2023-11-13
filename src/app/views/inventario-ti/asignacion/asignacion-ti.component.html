@@ -6,18 +6,18 @@
 
 <c-modal id="liveDemoModalAsignar" [visible]="visible" (visibleChange)="handleLiveDemoChangeAsignar($event)" size="lg">
     <c-modal-header>
-      <h5 cModalTitle *ngIf="botonEditar == false">Asignar equipo</h5>
-      <h5 cModalTitle *ngIf="botonEditar">Asignar Devolución de Equipo </h5>
+      <h5 cModalTitle *ngIf="botonDevolver == false">Asignar equipo</h5>
+      <h5 cModalTitle *ngIf="botonDevolver">Asignar Devolución de Equipo </h5>
       <button (click)="toggleLiveDemoAsignar()" cButtonClose></button>
     </c-modal-header>
     <c-modal-body>
       <form cForm  (ngSubmit)="registrarAsignacion()" [formGroup]="asignacionForm" (change)="getLocation()" >
          <div class="">
           <c-row>
-            <c-col [xs] *ngIf="botonEditar == false">
+            <c-col [xs] *ngIf="botonDevolver == false">
               <div class="">
                 <label for ="equipo" >Equipo </label>
-                <select   cSelect    formControlName="equipo" name="equipo">
+                <select   cSelect    formControlName="equipo" name="equipo" (change)="busquedaCodigo($event)">
                   <option value=0 selected>Selecciona un equipo</option>
                   <option *ngFor="let equipo of equipos" value={{equipo.id}}>
                     {{ equipo.marca}} - {{equipo.modelo}} -  {{equipo.serial}}
@@ -25,23 +25,13 @@
                 </select> 
               </div>
             </c-col>
-            <c-col [xs] *ngIf="botonEditar == false">
-              <div class="">
-                <label for="nombre">Nombre de Equipo </label>
-                <select   cSelect    formControlName="nombre_equipo" name="nombre_equipo" >
-                  <option value="" selected>Seleccione el nombre del equipo asignado</option>
-                  <option *ngFor="let equipo of tipo" value={{equipo.nombre}}>
-                     {{equipo.nombre}}
-                  </option>
-                </select> 
-              </div>
-            </c-col>
+           
           </c-row>
           <c-row>
-            <c-col [xs] *ngIf="botonEditar == false">
+            <c-col [xs] *ngIf="botonDevolver == false">
               <div class="">
                 <label for="persona"> Persona  </label>
-                <select   cSelect    formControlName="persona" name="persona">
+                <select   cSelect    formControlName="persona" name="persona" >
                   <option value=0 selected>Seleccionar opción</option>
                   <option *ngFor="let persona of personas" value={{persona.id}}>
                      {{ persona.nombres}} {{persona.apellidos}}
@@ -49,11 +39,11 @@
                 </select> 
               </div>
             </c-col>
-            <c-col [xs] *ngIf="botonEditar == false">
+            <c-col [xs] *ngIf="botonDevolver == false">
               <div class=""> 
                 <label for="departamento">Departamento</label>
                 <select   cSelect    formControlName="departamento" name="departamento">
-                 <option value=0 selected> Seleccionar opción</option>
+                  <option value=0 selected> Seleccionar opción</option>
                   <option *ngFor="let departamento of departamentos" value={{departamento.id}}>
                      {{departamento.nombre}}
                   </option>
@@ -61,35 +51,33 @@
               </div>
             </c-col>
           </c-row>
-          <c-row>
+          <!-- <c-row>
             <c-col [xs] >
               <div class="">
                 <label for="fecha_entrega">Fecha de entrega</label>
                 <input type="date"  class="form-control" formControlName="fecha_entrega" name="fecha_entrega">
               </div>
             </c-col>
-            <c-col [xs]>
+            <c-col [xs] *ngIf="botonDevolver">
               <div class="">
-                <label for="folio"> Folio</label>
-                <input type="text"  class="form-control"  formControlName="folio" name="folio" placeholder="Folio">
+                <label for="fecha_devolucion">Fecha de Devolución</label>
+                <input type="date"  class="form-control" formControlName="fecha_devolucion" name="fecha_devolucion">
               </div>
             </c-col>
-          </c-row>
+          </c-row> -->
           <c-row>
-            <c-col [xs]>
-              <div class=""> Fecha de devolución
-                <input type="date"  class="form-control"  formControlName="fecha_devolucion">
-              </div>
-            </c-col>
-            <c-col [xs]>
+           
+            <!-- <c-col [xs]>
               <div class="">
                 <label for="estado">Estado</label>
-                <select cSelect formControlName="estado">
-                  <option value="true">Entregado</option>
-                  <option value="false">No entregado</option>
+                <select   cSelect    formControlName="estado">
+                  <option value=0  selected>Selecciona un estado</option>
+                  <option *ngFor="let estado of estados" value={{estado.id}}>
+                         {{ estado.nombre }}
+                  </option>
                 </select>
               </div>
-            </c-col>
+            </c-col> -->
             </c-row>
             <c-row>
             <c-col [xs]>
@@ -106,8 +94,8 @@
             </c-col> -->
           </c-row>
         </div>
-        <button  class="btn btn-success" type="submit"  *ngIf="botonEditar == false" >Asignar Equipo</button>
-        <button  class="btn btn-success" type="submit"  *ngIf="botonEditar" >Asignar Devolución</button>
+        <button  class="btn btn-success" type="submit"  *ngIf="botonDevolver == false" >Asignar Equipo</button>
+        <button  class="btn btn-success" type="submit"  *ngIf="botonDevolver" >Asignar Devolución</button>
       </form>
     </c-modal-body>
     <c-modal-footer>
@@ -123,7 +111,7 @@
   </svg> Nueva Asignación
 </button>
 
-<div class="greenTable show"  *ngIf="mostrarAsignacion && asignaciones  && asignaciones.length > 0">
+<div class="greenTable show"  >
 
     
     <table id="tablaProductosPicking" style="width: auto" >
@@ -131,29 +119,43 @@
             <tr>
                 <th>Persona Asignada</th>
                 <th>Departamento</th>
-                <th>Nombre del Equipo</th>
                 <th>Equipo</th>
-                <th>Folio</th>
-                <th>Fecha de entrega</th>
-                <th>Fecha de devolución</th>
+                <th>Folio de Entrega</th>
+                <th>Fecha de Entrega</th>
+                <th>Firma de Entrega</th>
+                <th>PDF Entrega</th>
+                <th>Folio de Devolución</th>
+                <th>Fecha de Devolución</th>
+                <th>Firma de Devolución</th>
+                <th>PDF Devolución</th>
                 <th>Estado</th>
                 <th>Observación</th>
+                <th>N° Equipo</th>
                 <th>Acciones</th>
                 
 
             </tr>
         </thead>
         <tbody>
+          <!-- <button cButton size="sm" (click)="crearPDF()">Acta Entrega
+          </button>
+          <button cButton size="sm">Acta Devolucion
+         </button>  -->
             <tr *ngFor="let inventario of asignaciones">
                 <td>{{inventario.persona}}</td>
                 <td>{{inventario.departamento}}</td>
-                <td>{{inventario.nombre_equipo}}</td>
                 <td>{{inventario.equipo }}</td>
-                <td>{{inventario.folio || 'No se ha ingeresado N° Folio'}}</td>
+                <td>{{inventario.folio_entrega }}</td>
                 <td>{{inventario.fecha_entrega || 'Sin fecha de entrega asignada'}}</td>
+                <td>{{inventario.firma_entrega}}</td>
+                <td>{{inventario.pdf_entrega}}</td>
+                <td>{{inventario.folio_devolucion}}</td>
                 <td>{{inventario.fecha_devolucion || 'No se ha asignado fecha de devolución'}}</td>
+                <td>{{inventario.firma_devolucion}}</td>
+                <td>{{inventario.pdf_devolucion}}</td>
                 <td>{{inventario.estado ? 'Entregado' : 'No entregado' }}</td>
                 <td>{{inventario.observacion || 'Sin observación agregada'}}</td>
+                <td>{{leyendaEquipo}}</td>
                 
 
                 <td>
@@ -164,7 +166,10 @@
                     <button  class="btn-crear" cButton color="success" size="sm" (click)="agregarDevolucion(inventario )">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><path fill="currentColor" d="M184 104v32a8 8 0 0 1-8 8H99.31l10.35 10.34a8 8 0 0 1-11.32 11.32l-24-24a8 8 0 0 1 0-11.32l24-24a8 8 0 0 1 11.32 11.32L99.31 128H168v-24a8 8 0 0 1 16 0Zm48-48v144a16 16 0 0 1-16 16H40a16 16 0 0 1-16-16V56a16 16 0 0 1 16-16h176a16 16 0 0 1 16 16Zm-16 144V56H40v144h176Z"/></svg>
                     </button>
-                    
+                   <button cButton size="sm" (click)="generarActaEntrega(inventario.id)">Acta Entregado
+                   </button>
+                   <button cButton size="sm">Acta Devolucion
+                  </button> 
                    
                 </td>       
             </tr>

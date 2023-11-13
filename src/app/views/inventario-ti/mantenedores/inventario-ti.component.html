@@ -36,7 +36,6 @@
               <input type="text" placeholder="Nombre" class="form-control"  id="nombre" name="nombre" formControlName="nombre" required >
             </div>
           </c-col>
-          
         </c-row> 
       </div>    
       <button  class="btn btn-success" type="submit" >Enviar</button>
@@ -93,8 +92,7 @@
           <c-col [xs]>
             <div class="">
               <label for="nombres">Nombres:</label>
-              <input type="text" placeholder="Nombres" class="form-control"  id="nombres" name="nombres" formControlName="nombres" required (change)="getLocation()">
-                   
+              <input type="text" placeholder="Nombres" class="form-control"  id="nombres" name="nombres" formControlName="nombres" required (change)="getLocation()"> 
               <!-- <span class="error" *ngIf="form.get('Codigo')?.errors?.['required'] && isErrorView">Falta agregar el codigo del producto</span> -->
             </div>
           </c-col>
@@ -105,7 +103,6 @@
           <!-- <span class="error" *ngIf="form.get('Unid_x_paquete')?.errors?.['required'] && isErrorView"> Falta agregar las unidades por paquete</span> -->
             </div>
           </c-col>
-          
         </c-row>
         <c-row>
           <c-col [xs]>
@@ -124,7 +121,7 @@
         <c-row>
           <c-col [xs]>
             <div class="">RUT
-              <input type="text" placeholder="RUT" class="form-control"  formControlName="rut">
+              <input type="text" placeholder="RUT" class="form-control"  formControlName="rut" >
             </div>
           </c-col>
           <c-col [xs]>
@@ -141,17 +138,13 @@
               <input type="text" class="form-control"  placeholder="Cargo" id="cargo" name="cargo" formControlName="cargo">
             </div>
           </c-col>
-          <c-col [xs]>
-                
+          <c-col [xs]>     
                 <div class="">
                   <label for="sueldoBase">Sueldo base:</label>
                   <input type="text" placeholder="Sueldo base" class="form-control" id="sueldoBase" name="sueldoBase" formControlName="sueldo_base">
                 </div>
-          </c-col>
-          
+          </c-col>   
         </c-row>
-       
-       
         <c-row>
           <c-col [xs]>
                 <div class="">
@@ -237,21 +230,23 @@
         </c-row>
         <c-row>
           <c-col [xs]>
+            <div class="">
+              <label for="seguroCovid">Seguro COVID:</label>
+             <select  cSelect  formControlName="seguro_covid">
+              <option value="">Seleccione una opción</option>
+              <option value="true">Sí</option>
+              <option value="false">No</option>
+             </select> 
+              
+            </div>
+      </c-col>
+          <c-col [xs]>
                 <div class="">
                   <label for="horario">Horario:</label>
                   <input type="text" class="form-control"  id="horario" name="horario" formControlName="horario" placeholder="Horario">
                 </div>
           </c-col>
-          <c-col [xs]>
-                <div class="">
-                  <label for="seguroCovid">Seguro COVID:</label>
-                 <select  cSelect  formControlName="seguro_covid">
-                  <option value="true">Sí</option>
-                  <option value="false">No</option>
-                 </select> 
-                  
-                </div>
-          </c-col>
+         
           
         </c-row>
         <c-row>
@@ -314,7 +309,7 @@
           </c-col>
           
         </c-row>
-        <c-row>
+        <!-- <c-row>
           <c-col [xs]>
             <label>Agregar Foto</label>
             <input type="image" src="img_submit.gif" alt="Submit" width="48" height="48" class="form-control">  
@@ -323,7 +318,7 @@
             <label for="myfile" >Agregar Documento</label>
             <input type="file" id="myfile" name="myfile" class="form-control">  
           </c-col>
-        </c-row>
+        </c-row> -->
         
         
       </div>
@@ -353,8 +348,8 @@
           <c-col [xs]>
             <div class="">
               <label>Tipo</label>
-              <select  cSelect  formControlName="tipo" (change)="getLocation(); tipoSeleccionado($event)">
-                <option value="">Selecciona un equipo</option>
+              <select  cSelect  formControlName="tipo" (change)="getLocation(); tipoSeleccionado($event); generarIdEquipo($event)">
+                <option value="0">Selecciona un equipo</option>
                 <option *ngFor="let equipo of tipo" value={{equipo.id}} >
                     {{ equipo.nombre }}
                 </option>
@@ -400,7 +395,7 @@
           <c-col [xs]>
             <div class="">Estado
               <select   cSelect    formControlName="estado">
-                <option selected>Selecciona un estado</option>
+                <option value=0 selected>Selecciona un estado</option>
                 <option *ngFor="let estado of estadoEquipo" value={{estado.id}}>
                        {{ estado.nombre }}
                 </option>
@@ -444,16 +439,23 @@
           </c-col>
           <c-col [xs]>
             <div class="" *ngIf="memoria ||todo">
-                  Almacenamiento
-              <input type="number" class="form-control"  placeholder="almacenamiento" formControlName="almacenamiento">
+              <label for="ram">Almacenamiento</label>
+              <select id="ram" name="ram" formControlName="ram"  class="form-control" (change)="ramElegida($event)">
+                <option *ngFor="let opciones of almacenamientos" [value]="opciones">{{ opciones }}</option> 
+               </select>
+              
+              <!-- <input type="text" class="form-control"  placeholder="almacenamiento" formControlName="almacenamiento"> -->
             </div>
           </c-col>
         </c-row>
         <c-row >
           <c-col *ngIf="todo">
             <div class="">
-                  RAM
-              <input type="number" class="form-control"  placeholder="RAM" formControlName="ram">
+             <label for="ram">Ram</label>
+             <select id="ram" name="ram" formControlName="ram"  class="form-control" (change)="ramElegida($event)">
+              <option *ngFor="let opcion of rams" [value]="opcion">{{ opcion }}</option> 
+             </select>
+              <!-- <input type="number" class="form-control"  placeholder="RAM" formControlName="ram"> -->
             </div>
           </c-col>
           <c-col>
@@ -633,8 +635,6 @@
         <tbody>
             <tr *ngFor="let inventario of tipoDeEquipo">
                 <td>{{inventario.nombre }}</td>
-
-
                 <td class="btn-edit-eliminar">
                     <button cButton color="secondary" size="sm" class="btn-edit"  (click)="editarTipo(inventario.id)">
                       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
@@ -642,8 +642,6 @@
                     <button cButton color="danger" size="sm" class="btn-edit">
                       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 12 12"><path fill="currentColor" d="M5 3h2a1 1 0 0 0-2 0ZM4 3a2 2 0 1 1 4 0h2.5a.5.5 0 0 1 0 1h-.441l-.443 5.17A2 2 0 0 1 7.623 11H4.377a2 2 0 0 1-1.993-1.83L1.941 4H1.5a.5.5 0 0 1 0-1H4Zm3.5 3a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0V6ZM5 5.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM3.38 9.085a1 1 0 0 0 .997.915h3.246a1 1 0 0 0 .996-.915L9.055 4h-6.11l.436 5.085Z"/></svg>
                     </button>
-                    
-                   
                 </td>       
             </tr>
         </tbody>
@@ -794,12 +792,6 @@
     <table id="tablaProductosPicking" style="width: auto" >
         <thead>
             <tr>
-          
-             
-            </tr>
-        </thead>
-        <thead>
-            <tr>
                 <th>Nombres</th>
                 <th>Apellidos</th>
                 <th>Fecha de nacimiento</th>
@@ -820,8 +812,8 @@
                 <th>Salud</th>
                 <th>Telefono adicional</th>
                 <th>Nombre de contacto</th>
-                <th>Horario</th>
                 <th>Seguro COVID</th>
+                <th>Horario</th>
                 <th>CECO</th>
                 <th>Tipo de contrato</th>
                 <th>Dirección Laboral</th>
@@ -837,35 +829,35 @@
             <tr *ngFor="let persona of personas">
                 <td>{{persona.nombres }}</td>
                 <td>{{persona.apellidos}}</td>
-                <td>{{persona.fecha_nacimiento}}</td>
-                <td>{{persona.estado_civil}}</td>
+                <td>{{persona.fecha_nacimiento ? persona.fecha_nacimiento : '-'}}</td>
+                <td>{{persona.estado_civil ? persona.estado_civil  : '-'}}</td>
                 <td>{{persona.rut}}</td>
-                <td>{{persona.nacionalidad}}</td>
-                <td>{{persona.cargo}}</td>
-                <td>{{persona.sueldo_base}}</td>
-                <td>{{persona.telefono}}</td>
-                <td>{{persona.fecha_ingreso}}</td>
-                <td>{{persona.domicilio}}</td>
-                <td>{{persona.comuna}}</td>
-                <td>{{persona.banco}}</td>
-                <td>{{persona.tipo_cuenta}}</td>
-                <td>{{persona.numero_cuenta }}</td>
-                <td>{{persona.correo}}</td>
-                <td>{{persona.afp}}</td>
-                <td>{{persona.salud}}</td>
-                <td>{{persona.telefono_adicional}}</td>
-                <td>{{persona.nombre_contacto}}</td>
-                <td>{{persona.horario}}</td>
-                <td>{{persona.seguro_covid}}</td>
-                <td>{{persona.ceco}}</td>
-                <td>{{persona.tipo_contrato}}</td>
-                <td>{{persona.direccion_laboral}}</td>
-                <td>{{persona.enfermedad}}</td>
-                <td>{{persona.polera}}</td>
-                <td>{{persona.pantalon}}</td>
-                <td>{{persona.poleron}}</td>
-                <td>{{persona.zapato}}</td>
-                <td>
+                <td>{{persona.nacionalidad ? persona.nacionalidad : '-'}}</td>
+                <td>{{persona.cargo ? persona.cargo : '-'}}</td>
+                <td>{{persona.sueldo_base ? persona.sueldo_base : '-'}}</td>
+                <td>{{persona.telefono ? persona.telefono : '-'}}</td>
+                <td>{{persona.fecha_ingreso ? persona.fecha_ingreso : '-'}}</td>
+                <td>{{persona.domicilio ? persona.domicilio : '-'}}</td>
+                <td>{{persona.comuna ? persona.comuna : '-'}}</td>
+                <td>{{persona.banco ? persona.banco : '-'}}</td>
+                <td>{{persona.tipo_cuenta ? persona.tipo_cuenta : '-'}}</td>
+                <td>{{persona.numero_cuenta ? persona.numero_cuenta : '-'}}</td>
+                <td>{{persona.correo ? persona.correo : '-'}}</td>
+                <td>{{persona.afp ? persona.afp : '-'}}</td>
+                <td>{{persona.salud ? persona.salud : '-'}}</td>
+                <td>{{persona.telefono_adicional ? persona.telefono_adicional : '-'}}</td>
+                <td>{{persona.nombre_contacto ? persona.nombre_contacto : '-'}}</td>
+                <td>{{persona.seguro_covid ? persona.seguro_covid: '-'}}</td>
+                <td>{{persona.horario ? persona.horario : '-'}}</td>
+                <td>{{persona.ceco ? persona.ceco : '-'}}</td>
+                <td>{{persona.tipo_contrato ? persona.tipo_contrato : '-'}}</td>
+                <td>{{persona.direccion_laboral ? persona.direccion_laboral : '-'}}</td>
+                <td>{{persona.enfermedad ? persona.enfermedad : '-'}}</td>
+                <td>{{persona.polera ? persona.polera : '-'}}</td>
+                <td>{{persona.pantalon ? persona.pantalon : '-'}}</td>
+                <td>{{persona.poleron ? persona.poleron : '-'}}</td>
+                <td>{{persona.zapato ? persona.zapato : '-'}}</td>
+                <td class="btn-accion-persona">
                     <button cButton color="secondary" size="sm" class="btn-edit" (click)="editarPersona(persona.id)">
                       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
                     </button>
