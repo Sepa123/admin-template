@@ -48,7 +48,7 @@
                 <th>Tipo despacho</th>
                 <th>N° Factura</th>
                 <th>Cód. TY</th>
-                <th>Armar Ruta</th>
+                <th>Armar Venta</th>
             </tr>
         </thead>
         <tbody>
@@ -61,7 +61,7 @@
                 <td>{{lista.Tipo_despacho}}</td> 
                 <td>{{lista.Numero_factura}}</td>
                 <td>{{lista.Codigo_ty}}</td> 
-                <td><button (click)="seleccionarVenta(lista.Id)">Seleccionar</button></td> 
+                <td><button cButton  color="secondary" size= "sm" (click)="seleccionarVenta(lista.Id, lista.Numero_factura)">Seleccionar</button></td> 
              
             </tr>
             <tr *ngIf="listaVenta.length == 0">
@@ -73,7 +73,8 @@
 </table>
 </div>
 <p></p>
-
+<h2 *ngIf="Numero_factura.length !== 0">N° Factura : {{Numero_factura}}</h2>
+<p></p>
 <c-row *ngIf="ventaGenerada.length !== 0">
     <c-col>
         <div class="greenTable">

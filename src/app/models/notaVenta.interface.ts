@@ -34,3 +34,10 @@ export interface DetalleVenta {
     Tipo:     string;
     Cantidad: number;
 }
+
+
+
+export interface DetalleVentaTotal {
+    Codigo_producto: string;
+    Total:           number;
+}

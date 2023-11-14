@@ -4,7 +4,7 @@ import { RsvService } from 'src/app/service/rsv.service'
 import { CatalogoRSV,ColoresRSV,CatalogoPorColor } from 'src/app/models/catalogoRSV.iterface';
 import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
 import { ComunasService } from 'src/app/service/comunas/comunas.service';
-import { DetalleVenta, NotaVenta , NotaVentaProducto } from 'src/app/models/notaVenta.interface';
+import { DetalleVenta, NotaVenta , NotaVentaProducto, DetalleVentaTotal} from 'src/app/models/notaVenta.interface';
 import { TipoDespacho } from 'src/app/models/tipoDespacho.inteface'
 import { EvaluacionPedidoRSV} from 'src/app/models/evaluacionPedidoRSV.interface'
 
@@ -20,6 +20,8 @@ export class ArmarVentaComponent {
   idVentaSelec! : number 
 
   isNotaProducto : boolean = false
+
+  Numero_factura : string = ""
 
   fechaPreparacion : string = ""
   fechaEntrega : string = ""
@@ -113,6 +115,7 @@ export class ArmarVentaComponent {
   filtrarListaVentaPorMes(año : string, sucursal : string){
     // this.arrlistaEtiquetas = []
     this.service.get_nota_venta_por_mes_y_sucursal(año,sucursal).subscribe(data => {
+      // this.listaVenta = data.filter(venta => venta.Preparado == false || venta.Entregado == false)
       this.listaVenta = data
       if(this.rol !== '5'){
         this.listaVenta  = this.listaVenta .filter(sucursal => sucursal.Sucursal !== 2)
@@ -181,9 +184,10 @@ export class ArmarVentaComponent {
     })  
     
     // alert("OK, ACTUALIZANDO ESTADO")
-  }
+0  }
 
-  seleccionarVenta(cod_ty : number){
+  seleccionarVenta(cod_ty : number, N_factura : string){
+    this.Numero_factura = N_factura
     this.service.get_nota_venta_por_id(cod_ty+"").subscribe((nv) => {
       this.ventaGenerada.pop()
       this.ventaGenerada.push(nv)
@@ -192,19 +196,36 @@ export class ArmarVentaComponent {
         this.detalleVentaGenerada.map(detalle => {
           detalle.UnidadesAgregadas = 0
         })
+      this.service.get_cantidad_actual(cod_ty+"").subscribe((objeto2) => {
+          this.detalleVentaGenerada.map((detalle, i) => {
+            let codigo_producto = detalle.Codigo
+
+            let objetoCorrespondiente = objeto2.find(obj => obj.Codigo_producto === codigo_producto);
+            
+            if (objetoCorrespondiente) {
+              detalle.UnidadesAgregadas = objetoCorrespondiente.Total;
+          }
+      
+          })
+        })
+        
       })
     })
   }
 
 
   pickEtiqueta(){
+    
     const resultado = this.etiqueta.replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
     const cod_producto = resultado.split('@')[0].split('-')[0]
     const regex = /([a-zA-Z]+)@/;
     const color : any = regex.exec(resultado);
     const Id_etiqueta = resultado.split('@')[1].split('-')[0]
 
-    console.log(cod_producto.split('-')[0])
+    if (this.detalleVentaGenerada.filter((cod : any) => cod.Codigo == cod_producto).length == 0) {
+      this.etiqueta = ""
+      return alert("el producto de esta etiqueta no se encuentra en esta ")
+    }
 
     const uni = this.detalleVentaGenerada.filter((cod : any) => cod.Codigo == cod_producto)[0].Unidades
     const uniAgregadas = this.detalleVentaGenerada.filter((cod : any) => cod.Codigo == cod_producto)[0].UnidadesAgregadas
@@ -238,6 +259,8 @@ export class ArmarVentaComponent {
     }, error => {
       alert(error.error.detail)
     })
+
+    this.etiqueta = ""
 
     console.log(body)
 

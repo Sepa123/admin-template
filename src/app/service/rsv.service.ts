@@ -11,7 +11,7 @@ import { TipoDespacho } from 'src/app/models/tipoDespacho.inteface'
 import { EvaluacionPedidoRSV} from 'src/app/models/evaluacionPedidoRSV.interface'
 import {EstructuraRSV} from 'src/app/models/estructuraRSV.interface'
 import { MatchSucursalRSV } from '../models/matchSucursalRSV.interface';
-import { DetalleVenta, NotaVenta , NotaVentaProducto } from '../models/notaVenta.interface';
+import { DetalleVenta, NotaVenta , NotaVentaProducto,DetalleVentaTotal } from '../models/notaVenta.interface';
 import { PesoPosicionSucursal } from "src/app/models/pesoPosicionSucursal.interface"
 import { PaquetesAbiertosRSV } from '../models/inventarioPaquetesAbiertos.interface';
 import {ReimpresionEtiqueta} from '../models/reimpresionEtiqueta.interface'
@@ -358,6 +358,10 @@ export class RsvService {
 
     get_nota_venta_por_id(id: string){
       return this.http.get<NotaVenta>(this.apiurl + `/notas_ventas?id=${id}`) 
+    }
+
+    get_cantidad_actual(id_venta : string){
+      return this.http.get<DetalleVentaTotal []>(this.apiurl + `/obtener/cantidad/producto/${id_venta}`) 
     }
   
 }
