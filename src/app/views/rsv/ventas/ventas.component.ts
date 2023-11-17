@@ -316,10 +316,10 @@ export class VentasComponent {
   ngOnInit(){
 
 
-    // this.service.get_nota_venta_por_id("20").subscribe((nv) => {
+    // this.service.get_nota_venta_por_id("35").subscribe((nv) => {
     //   this.ventaGenerada.pop()
     //   this.ventaGenerada.push(nv)
-    //   this.service.get_detalle_venta_por_id_venta(parseInt("20")).subscribe((detalle) => {
+    //   this.service.get_detalle_venta_por_id_venta(parseInt("35")).subscribe((detalle) => {
     //     this.detalleVentaGenerada = detalle
     //     this.detalleVentaGenerada.map(detalle => {
     //       detalle.UnidadesAgregadas = 0

@@ -7,6 +7,7 @@ import { ComunasService } from 'src/app/service/comunas/comunas.service';
 import { DetalleVenta, NotaVenta , NotaVentaProducto, DetalleVentaTotal} from 'src/app/models/notaVenta.interface';
 import { TipoDespacho } from 'src/app/models/tipoDespacho.inteface'
 import { EvaluacionPedidoRSV} from 'src/app/models/evaluacionPedidoRSV.interface'
+import { UnidadNoPreparada } from 'src/app/models/unidadNoPreparada.interface';
 
 @Component({
   selector: 'app-armar-venta',
@@ -37,6 +38,8 @@ export class ArmarVentaComponent {
   añoActual : string =""
 
   sucursalSeleccionada : string = ""
+
+  unidadNoPreparada : UnidadNoPreparada [] = []
 
   listaAnos : string [] = []
   meses : any [] = []
@@ -193,6 +196,21 @@ export class ArmarVentaComponent {
       this.ventaGenerada.push(nv)
       this.service.get_detalle_venta_por_id_venta(parseInt(cod_ty+"")).subscribe((detalle) => {
         this.detalleVentaGenerada = detalle
+        // sucursalSeleccionada
+        // const codigos = this.detalleVentaGenerada.map((d) => d.Codigo).toString()
+
+        // console.log(codigos)
+        // const body = {
+        //   "Codigo_producto" : codigos,
+        //   "Sucursal" : this.sucursalSeleccionada
+        // }
+
+        // setTimeout( () => {
+        //   this.service.get_stock_no_preparados(body).subscribe((resultado) => {
+        //     this.unidadNoPreparada = resultado
+        //   })
+        // },100)
+
         this.detalleVentaGenerada.map(detalle => {
           detalle.UnidadesAgregadas = 0
         })

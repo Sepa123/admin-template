@@ -17,6 +17,7 @@ import { PaquetesAbiertosRSV } from '../models/inventarioPaquetesAbiertos.interf
 import {ReimpresionEtiqueta} from '../models/reimpresionEtiqueta.interface'
 import { TipoEstructura } from 'src/app/models/tipoEstructuraRSV.interface'
 import {BitacoraRSV} from '../models/bitacoraRsv.interface'
+import { UnidadNoPreparada } from '../models/unidadNoPreparada.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -362,6 +363,11 @@ export class RsvService {
 
     get_cantidad_actual(id_venta : string){
       return this.http.get<DetalleVentaTotal []>(this.apiurl + `/obtener/cantidad/producto/${id_venta}`) 
+    }
+
+
+    get_stock_no_preparados(body : any){
+      return this.http.post<UnidadNoPreparada []>(this.apiurl + `/verificar/stock/productos/no_preparados`, body)
     }
   
 }

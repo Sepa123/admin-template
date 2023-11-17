@@ -1,3 +1,5 @@
+<h1 style="text-align: center;">Armar venta</h1>
+
 <c-row>
     <c-col [xs]>
          Seleccionar mes  :
@@ -99,6 +101,28 @@
             </table>
         </div>
     </c-col>
+    <!-- <c-col>
+        <div class="greenTable">
+            <table id="tablaProductosPicking" style="text-align: center">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Paquetes disponibles</th>
+                        <th>Unidades disponibles</th>
+                        <th>Total unidades</th>
+                    </tr>         
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lista of unidadNoPreparada ">
+                        <td>{{lista.Codigo_producto}}</td>  
+                        <td>{{lista.E_paquetes}}</td>
+                        <td>{{lista.E_unidades}}</td>
+                        <td>{{lista.Total}}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </c-col> -->
 </c-row>
 <p></p>
 <c-row *ngIf="ventaGenerada.length !== 0" >

@@ -23,6 +23,7 @@ export class RecepcionEasyCdComponent {
 
   subRecepcion! : Subscription
 
+  productos : ProductoOPL [] = []
   productosVerificados : ProductoOPL [] = []
   productosPorVerificar : ProductoOPL [] = []
   productosUltimo : ProductoOPL [] = []
@@ -85,6 +86,8 @@ getLocationAsync(): Promise<any> {
 
   subRecepcionEasyCd(){
     this.subRecepcion = this.service.updateRecepcionEasyCD().subscribe((data) => {
+
+      this.productos = data
       this.cantRecepcionados = data.filter(producto => producto.Recepcion == true ).length
       this.cantNoRecepcionados = data.filter(producto => producto.Recepcion == false ).length
 
@@ -180,7 +183,8 @@ getLocationAsync(): Promise<any> {
   cambiarTicketByInput(cod_producto: string){
 
     var codigo_producto = cod_producto.replace(/'/g, "-").trim().toUpperCase()
-  
+
+    
     // codigo_producto = codigo_producto.replace(/-(\d+)/, "");
     // this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     
@@ -197,10 +201,13 @@ getLocationAsync(): Promise<any> {
     }
 
     const url = `/easy_cd`
-
+ 
     this.service.updateFieldRecepcionEasyCD(body).subscribe((data : any) => {
       // alert(data.message)
       this.codigoProducto = ""
+      console.log(codigo_producto)
+      this.productosUltimo = this.productos.filter((producto) => producto.Codigo_producto == codigo_producto)  
+
       this.initRecepionEasyCD()
     },(error) => {
       alert(error.error.detail)
@@ -210,10 +217,6 @@ getLocationAsync(): Promise<any> {
 
 
  async cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
-    this.productosUltimo.pop()
-    this.productosPorVerificar[arrayIndex].Recepcion = true
-
-    this.productosUltimo.push(this.productosPorVerificar[arrayIndex])
 
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     

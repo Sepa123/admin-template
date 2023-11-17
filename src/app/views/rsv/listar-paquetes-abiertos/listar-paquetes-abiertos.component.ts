@@ -43,6 +43,8 @@ export class ListarPaquetesAbiertosComponent {
   finalCodigo!: string
   produto!:string
 
+  public rol = sessionStorage.getItem("rol_id") 
+
   listaEtiquetas :EtiquetaRSV[]= []
   id_usuario! : number  
   idMs! : String 
@@ -96,6 +98,10 @@ closeModal(){
   ngOnInit(){
       this.service.get_sucursales().subscribe((data) => {
         this.sucursales = data
+
+        if(this.rol !== '5'){
+          this.sucursales = this.sucursales.filter(sucursal => sucursal.Id !== 2)
+        }
       })
 
   
