@@ -85,13 +85,13 @@
             <c-col [xs]>
                 <c-row>
                     <c-col [xs]>
-                        <input type="number" placeholder="paquetes" class="form-control" formControlName="Paquetes" >
+                        <input type="number"  min="0" placeholder="paquetes" class="form-control" formControlName="Paquetes" >
                         <span class="error" *ngIf="carga.get('Paquetes')?.errors?.['required'] && isErrorView">
                             requerida cantidad Paquetes
                         </span>
                     </c-col>
                     <c-col [xs]>
-                        <input type="number" placeholder="Unidades" class="form-control" formControlName="Unidades" >
+                        <input type="number"  min="0" placeholder="Unidades" class="form-control" formControlName="Unidades" [readOnly]="(carga.get('unid_con_etiqueta')?.value == false)">
                         <span class="error" *ngIf="carga.get('Unidades')?.errors?.['required'] && isErrorView">
                             requerida Unidades
                         </span>

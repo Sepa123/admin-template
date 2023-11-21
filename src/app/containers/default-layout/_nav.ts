@@ -411,6 +411,10 @@ export const navItems: INavDataBar[] = [
       name: 'Ventas',
       url: '/rsv/ventas'
      },
+      {
+      name: 'Armar venta',
+      url: '/rsv/armar-venta'
+     },
      {
       name: 'Lista de ventas',
       url: '/rsv/lista-venta'
@@ -431,10 +435,7 @@ export const navItems: INavDataBar[] = [
       name: 'Racks estructura',
       url: '/rsv/ubicacion-producto'
      },
-    //  {
-    //   name: 'Armar venta',
-    //   url: '/rsv/armar-venta'
-    //  },
+    
     
     //  {
     //   name: 'Unidades Sin Etiqueta',

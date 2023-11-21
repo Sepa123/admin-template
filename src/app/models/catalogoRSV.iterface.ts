@@ -34,4 +34,5 @@ export interface CatalogoPorColor {
     Codigo:         string;
     Producto:       string;
     Color :         number;
+    unid_con_etiqueta: boolean;
 }

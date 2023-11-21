@@ -149,7 +149,8 @@ export class VentasComponent {
     this.arrayCodigosProductos[index] = [{
       "Codigo": "",
       "Producto": "",
-      "Color" : 0
+      "Color" : 0,
+      "unid_con_etiqueta" : true
     }]
     const color : number = this.ventasForm.value.arrays[index].Color
 
@@ -226,13 +227,15 @@ export class VentasComponent {
     this.arrayCodigosProductos.push([{
       "Codigo": "",
       "Producto": "",
-      "Color" : 0
+      "Color" : 0,
+      "unid_con_etiqueta" : true
     }])
 
     this.arrayCodigosProductos[this.arrays.length-1] = [{
       "Codigo": "",
       "Producto": "",
-      "Color" : 0
+      "Color" : 0,
+      "unid_con_etiqueta" : true
     }]
 
     console.log(this.arrayCodigosProductos)

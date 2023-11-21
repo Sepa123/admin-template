@@ -69,7 +69,8 @@ export class CrearCargaComponent {
         Unidades: this.fb.control("", [Validators.required] ),
         Id_user : this.fb.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
         Ids_user : this.fb.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-        Descripcion : this.fb.control("")
+        Descripcion : this.fb.control(""),
+        unid_con_etiqueta : this.fb.control("")
     })
   }
 
@@ -89,7 +90,8 @@ export class CrearCargaComponent {
     this.arrayCodigosProductos[index] = [{
       "Codigo": "",
       "Producto": "",
-      "Color" : 0
+      "Color" : 0,
+      "unid_con_etiqueta" : true
     }]
 
     
@@ -120,9 +122,22 @@ export class CrearCargaComponent {
       return alert("El producto "+codigo+" ya esta registrado en esta carga")
     }
     const producto = this.arrayCodigosProductos[i].find(cod => cod.Codigo == codigo)?.Producto
-    this.arrays.at(i).patchValue({
-            Descripcion : producto
-          })
+
+    const unidConEtiqueta = this.arrayCodigosProductos[i].find(cod => cod.Codigo == codigo)?.unid_con_etiqueta
+    
+    if(unidConEtiqueta){
+      this.arrays.at(i).patchValue({
+        Descripcion : producto,
+        unid_con_etiqueta : unidConEtiqueta
+      })
+    } else {
+      this.arrays.at(i).patchValue({
+        Descripcion : producto,
+        Unidades : 0,
+        unid_con_etiqueta : unidConEtiqueta
+      })
+    }
+    
   }
 
   addCargas() {
@@ -131,13 +146,15 @@ export class CrearCargaComponent {
     this.arrayCodigosProductos.push([{
       "Codigo": "",
       "Producto": "",
-      "Color" : 0
+      "Color" : 0,
+      "unid_con_etiqueta" : true
     }])
 
     this.arrayCodigosProductos[this.arrays.length-1] = [{
       "Codigo": "",
       "Producto": "",
-      "Color" : 0
+      "Color" : 0,
+      "unid_con_etiqueta" : true
     }]
 
     console.log(this.arrayCodigosProductos)
