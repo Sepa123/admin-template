@@ -283,7 +283,7 @@ export class ArmarVentaComponent {
       console.log(this.detalleVentaGenerada.filter((cod : any) => cod.Codigo == cod_producto))
       if (this.detalleVentaGenerada.filter((cod : any) => cod.Codigo == cod_producto).length == 0) {
         this.etiqueta = ""
-        return alert("el producto de esta etiqueta no se encuentra en esta ")
+        return alert("el producto de esta etiqueta no se encuentra en esta venta")
       }
 
       const uni = this.detalleVentaGenerada.filter((cod : any) => cod.Codigo == cod_producto)[0].Unidades
