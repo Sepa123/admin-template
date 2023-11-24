@@ -50,6 +50,18 @@ export class EditarRutaComponent {
   subAlerta! : Subscription
   verAlertas : boolean = false
 
+  public visibleLeyenda : boolean = false
+
+
+  verModalLeyendas(){
+    this.visibleLeyenda = !this.visibleLeyenda
+  }
+
+  handleLeyendaChange(event: any) {
+    this.visibleLeyenda = event;
+  }
+
+  
   toggleLiveDemo() {
     this.visible = !this.visible;
   }

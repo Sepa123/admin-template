@@ -104,6 +104,9 @@ export class ListaVentasComponent {
 
   filtrarListaVentaPorMes(año : string, sucursal : string){
     // this.arrlistaEtiquetas = []
+    if ( sucursal == ""){
+      return alert ("Por favor, seleccione una sucursal")
+    }
     this.service.get_nota_venta_por_mes_y_sucursal(año,sucursal).subscribe(data => {
       this.listaVenta = data
       if(this.rol !== '5'){
@@ -121,10 +124,6 @@ export class ListaVentasComponent {
 
     this.fechaPreparacion = fecha_preparado
     this.fechaEntrega = fecha_despacho
-
-    console.log("Fecha preparacion,",this.fechaPreparacion)
-    console.log("fecha_despacho,",this.fechaEntrega)
-    console.log("isEntregado,",this.isEntregado)
 
     this.service.get_detalle_venta_por_id_venta(id_venta).subscribe(data => {
       this.listaVentaDetalle = data

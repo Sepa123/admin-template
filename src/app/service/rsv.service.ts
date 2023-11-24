@@ -369,5 +369,14 @@ export class RsvService {
     get_stock_no_preparados(body : any){
       return this.http.post<UnidadNoPreparada []>(this.apiurl + `/verificar/stock/productos/no_preparados`, body)
     }
+
+
+    update_preparado_venta_rsv(body : any){
+      return this.http.put(this.apiurl + `/cambiar/estado/venta`, body) 
+    }
+
+    get_codigo_por_barcode(barcode : string){
+      return this.http.get(this.apiurl + `/obtener/codigo/barcode/${barcode}`) 
+    }
   
 }

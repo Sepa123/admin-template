@@ -318,7 +318,7 @@ export class VentasComponent {
 
   ngOnInit(){
 
-
+    this.getLocation()
     // this.service.get_nota_venta_por_id("35").subscribe((nv) => {
     //   this.ventaGenerada.pop()
     //   this.ventaGenerada.push(nv)
@@ -377,6 +377,11 @@ export class VentasComponent {
 
     console.log(cod_producto.split('-')[0])
 
+    if (this.detalleVentaGenerada.filter((cod : any) => cod.Codigo == cod_producto).length == 0) {
+      this.etiqueta = ""
+      return alert("el producto de esta etiqueta no se encuentra en esta ")
+    }
+
     const uni = this.detalleVentaGenerada.filter((cod : any) => cod.Codigo == cod_producto)[0].Unidades
     const uniAgregadas = this.detalleVentaGenerada.filter((cod : any) => cod.Codigo == cod_producto)[0].UnidadesAgregadas
 
@@ -392,20 +397,34 @@ export class VentasComponent {
       "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", 
       "Id_nota_venta": this.detalleVentaGenerada[0].Id_venta,
       "Uni_agregadas" : uniAgregadas,
-      // Lat: Optional[str]
-      // Lng: Optional[str]
-       "Cantidad": 1
+      "Id_venta": this.detalleVentaGenerada[0].Id_venta,
+      "Lat": this.latitude.toString(),
+      "Lng": this.longitude.toString(),
+      "Cantidad": 1
     }
 
     this.service.actualizar_stock_etiqueta(body).subscribe((data : any) => {
       alert(data.message)
       this.unidAgregada = parseInt(data.unid_x_paq)
-      console.log( )
+
       this.detalleVentaGenerada.map(detalle => {
         if (detalle.Codigo == cod_producto){
           detalle.UnidadesAgregadas += this.unidAgregada
         }
       })
+
+      const sumaUndAgregadas = this.detalleVentaGenerada.reduce((acum, curr) => acum + curr.UnidadesAgregadas, 0)
+
+      const sumaUndTotales = this.detalleVentaGenerada.reduce((acum, curr) => acum + curr.Unidades, 0)
+
+
+      if( (sumaUndTotales - sumaUndAgregadas) == 0){
+        console.log("me voy por aqui")
+        this.service.update_preparado_venta_rsv(body).subscribe((data) => {
+          console.log(data)
+        })
+      }
+      
       this.ventasForm.patchValue({
         etiqueta : ""
       })
@@ -440,6 +459,24 @@ export class VentasComponent {
 
   // }
 
+
+  latitude: number = 0;
+  longitude: number = 0;
+
+  getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        console.log(`Latitude: ${this.latitude}, Longitude: ${this.longitude}`);
+      }, (error) => {
+        console.error(`Error getting location: ${error.message}`);
+      });
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+  }
+  
 
   generar_N_factura(){
     console.log(this.ventasForm.value.Region)
