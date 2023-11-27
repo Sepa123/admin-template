@@ -75,9 +75,9 @@
 </table>
 </div>
 <p></p>
-<h2 *ngIf="Numero_factura.length !== 0">N° Factura : {{Numero_factura}}</h2>
+<h2 *ngIf="mostrarDetalle">N° Factura : {{Numero_factura}}</h2>
 <p></p>
-<c-row *ngIf="ventaGenerada.length !== 0">
+<c-row *ngIf="mostrarDetalle">
     <c-col>
         <div class="greenTable">
             <table id="tablaProductosPicking" style="text-align: center">
@@ -87,6 +87,11 @@
                         <th>Unidades Totales</th>
                         <th>Unidades Agregadas</th>
                         <th>Producto</th>
+                        <th>Paquetes</th>
+                        <th>Unidad</th>
+                        <th>Mensaje</th>
+                        <th></th>
+
                     </tr>         
                 </thead>
                 <tbody>
@@ -96,6 +101,12 @@
                         <td>{{lista.Unidades}}</td>
                         <td>{{lista.UnidadesAgregadas}}</td>
                         <td>{{lista.Producto}}</td>
+                        <td>{{lista.Paquetes}}</td>
+                        <td>{{lista.Unidades}}</td>
+                        <td>{{lista.Retorno}}</td>
+                        <td *ngIf="lista.CheckListo">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                        </td>
                     </tr> 
                 </tbody>
             </table>
@@ -125,7 +136,7 @@
     </c-col> -->
 </c-row>
 <p></p>
-<c-row *ngIf="ventaGenerada.length !== 0" >
+<c-row *ngIf="mostrarDetalle" >
     <c-col [xs]>
         <input type="text" [(ngModel)]="etiqueta"  class="form-control"  (change)="pickEtiqueta()">
     </c-col>

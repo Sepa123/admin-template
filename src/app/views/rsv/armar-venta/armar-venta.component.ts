@@ -8,6 +8,7 @@ import { DetalleVenta, NotaVenta , NotaVentaProducto, DetalleVentaTotal} from 's
 import { TipoDespacho } from 'src/app/models/tipoDespacho.inteface'
 import { EvaluacionPedidoRSV} from 'src/app/models/evaluacionPedidoRSV.interface'
 import { UnidadNoPreparada } from 'src/app/models/unidadNoPreparada.interface';
+import { ArmarVenta } from 'src/app/models/armarVenta.interface';
 
 @Component({
   selector: 'app-armar-venta',
@@ -29,6 +30,7 @@ export class ArmarVentaComponent {
   isEntregado : boolean = false
 
   isBarcode : boolean = false
+  mostrarDetalle : boolean = false
 
   listaVentaDetalle : NotaVentaProducto [] = []
   listaBarcodeDetalle : DetalleVenta [] = []
@@ -38,6 +40,8 @@ export class ArmarVentaComponent {
   añoActual : string =""
 
   sucursalSeleccionada : string = ""
+
+  datosVenta : ArmarVenta [] =[]
 
   unidadNoPreparada : UnidadNoPreparada [] = []
 
@@ -119,6 +123,7 @@ export class ArmarVentaComponent {
 
   filtrarListaVentaPorMes(año : string, sucursal : string){
     // this.arrlistaEtiquetas = []
+    this.mostrarDetalle = false
     if ( sucursal == ""){
       return alert ("Por favor, seleccione una sucursal")
     }
@@ -126,8 +131,9 @@ export class ArmarVentaComponent {
     this.service.get_nota_venta_por_mes_y_sucursal(año,sucursal).subscribe(data => {
       // this.listaVenta = data.filter(venta => venta.Preparado == false || venta.Entregado == false)
       this.listaVenta = data
+      this.listaVenta = this.listaVenta.filter(lista => lista.Preparado == false)
       if(this.rol !== '5'){
-        this.listaVenta  = this.listaVenta .filter(sucursal => sucursal.Sucursal !== 2)
+        this.listaVenta  = this.listaVenta.filter(sucursal => sucursal.Sucursal !== 2)
       }
       
     })
@@ -197,28 +203,16 @@ export class ArmarVentaComponent {
 
   seleccionarVenta(cod_ty : number, N_factura : string){
     this.Numero_factura = N_factura
+
+    this.mostrarDetalle = false
     this.service.get_nota_venta_por_id(cod_ty+"").subscribe((nv) => {
       this.ventaGenerada.pop()
       this.ventaGenerada.push(nv)
       this.service.get_detalle_venta_por_id_venta(parseInt(cod_ty+"")).subscribe((detalle) => {
         this.detalleVentaGenerada = detalle
-        // sucursalSeleccionada
-        // const codigos = this.detalleVentaGenerada.map((d) => d.Codigo).toString()
-
-        // console.log(codigos)
-        // const body = {
-        //   "Codigo_producto" : codigos,
-        //   "Sucursal" : this.sucursalSeleccionada
-        // }
-
-        // setTimeout( () => {
-        //   this.service.get_stock_no_preparados(body).subscribe((resultado) => {
-        //     this.unidadNoPreparada = resultado
-        //   })
-        // },100)
-
         this.detalleVentaGenerada.map(detalle => {
           detalle.UnidadesAgregadas = 0
+          
         })
       this.service.get_cantidad_actual(cod_ty+"").subscribe((objeto2) => {
           this.detalleVentaGenerada.map((detalle, i) => {
@@ -228,8 +222,32 @@ export class ArmarVentaComponent {
             
             if (objetoCorrespondiente) {
               detalle.UnidadesAgregadas = objetoCorrespondiente.Total;
-          }
+            } 
+
+            if (detalle.UnidadesAgregadas == detalle.Unidades) {
+              detalle.CheckListo = true
+            }
       
+          })
+
+          const body = {
+            "Nota_venta" : cod_ty,
+            "Sucursal" : this.sucursalSeleccionada
+          }
+
+          this.service.Armar_venta(body).subscribe((data) => {
+            this.datosVenta = data  
+
+            this.detalleVentaGenerada.map(detalle => {
+              let dato = this.datosVenta.find( dato => dato.Codigo == detalle.Codigo)
+              if(dato !== undefined){
+                detalle.Paquetes = dato.Paquetes
+                detalle.Und = dato.Unidades
+                detalle.Retorno = dato.Retorno
+              }
+            })
+
+            this.mostrarDetalle = true
           })
         })
         
@@ -314,6 +332,9 @@ export class ArmarVentaComponent {
         this.detalleVentaGenerada.map(detalle => {
           if (detalle.Codigo == cod_producto){
             detalle.UnidadesAgregadas += this.unidAgregada
+            if (detalle.UnidadesAgregadas == detalle.Unidades) {
+              detalle.CheckListo = true
+            }
           }
         })
 

@@ -24,7 +24,12 @@ export interface NotaVentaProducto {
     Id_user:  number;
     Ids_user: string;
     Producto: string;
-    UnidadesAgregadas : number 
+    UnidadesAgregadas : number;
+    Paquetes: number;
+    Und: number
+    Retorno : string;
+    CheckListo : boolean;
+
 }
 
 

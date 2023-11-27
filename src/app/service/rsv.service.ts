@@ -18,6 +18,7 @@ import {ReimpresionEtiqueta} from '../models/reimpresionEtiqueta.interface'
 import { TipoEstructura } from 'src/app/models/tipoEstructuraRSV.interface'
 import {BitacoraRSV} from '../models/bitacoraRsv.interface'
 import { UnidadNoPreparada } from '../models/unidadNoPreparada.interface'
+import {ArmarVenta } from '../models/armarVenta.interface' 
 
 @Injectable({
   providedIn: 'root'
@@ -377,6 +378,10 @@ export class RsvService {
 
     get_codigo_por_barcode(barcode : string){
       return this.http.get(this.apiurl + `/obtener/codigo/barcode/${barcode}`) 
+    }
+
+    Armar_venta(body : any){
+      return this.http.post<ArmarVenta []>(this.apiurl + `/armar/venta`, body)
     }
   
 }

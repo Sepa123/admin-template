@@ -474,6 +474,10 @@ export const navItems: INavDataBar[] = [
     url: '/rsv/ventas'
    },
    {
+    name: 'Armar venta',
+    url: '/rsv/armar-venta'
+   },
+   {
     name: 'Lista de ventas',
     url: '/rsv/lista-venta'
    },
