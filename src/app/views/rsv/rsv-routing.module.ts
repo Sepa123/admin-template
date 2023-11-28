@@ -14,6 +14,7 @@ import { ListarPaquetesAbiertosComponent } from './listar-paquetes-abiertos/list
 import { MantenedorComponent } from './mantenedor/mantenedor.component';
 import {UnidadSinEtiquetaComponent} from './unidad-sin-etiqueta/unidad-sin-etiqueta.component'
 import { ArmarVentaComponent } from './armar-venta/armar-venta.component';
+import { ReporteEtiquetasComponent } from './reporte-etiquetas/reporte-etiquetas.component';
 
 const routes: Routes = [
   {
@@ -118,6 +119,13 @@ const routes: Routes = [
         component: ArmarVentaComponent,
         data:{
           title: "Armar venta"
+        }
+      },
+      {
+        path: 'reporte-etiquetas',
+        component: ReporteEtiquetasComponent,
+        data:{
+          title: "Reporte etiquetas"
         }
       }
     ]

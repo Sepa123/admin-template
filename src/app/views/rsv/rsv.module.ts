@@ -31,6 +31,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { MantenedorComponent } from './mantenedor/mantenedor.component';
 import { UnidadSinEtiquetaComponent } from './unidad-sin-etiqueta/unidad-sin-etiqueta.component';
 import { ArmarVentaComponent } from './armar-venta/armar-venta.component';
+import { ReporteEtiquetasComponent } from './reporte-etiquetas/reporte-etiquetas.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ArmarVentaComponent } from './armar-venta/armar-venta.component';
     ListarPaquetesAbiertosComponent,
     MantenedorComponent,
     UnidadSinEtiquetaComponent,
-    ArmarVentaComponent
+    ArmarVentaComponent,
+    ReporteEtiquetasComponent
   ],
   imports: [
     CommonModule,

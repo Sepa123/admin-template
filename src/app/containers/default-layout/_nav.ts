@@ -392,6 +392,10 @@ export const navItems: INavDataBar[] = [
     iconComponent: { name: 'cil-window' },
     children : [
      {
+       name: 'Reporte etiquetas',
+       url: '/rsv/reporte-etiquetas'
+     },
+     {
        name: 'Catálogo',
        url: '/rsv/catalogo'
      },

@@ -20,6 +20,8 @@ import {BitacoraRSV} from '../models/bitacoraRsv.interface'
 import { UnidadNoPreparada } from '../models/unidadNoPreparada.interface'
 import {ArmarVenta } from '../models/armarVenta.interface' 
 
+import { ReporteEtiquetas } from '../models/reporteEtiquetas.interface' 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -382,6 +384,22 @@ export class RsvService {
 
     Armar_venta(body : any){
       return this.http.post<ArmarVenta []>(this.apiurl + `/armar/venta`, body)
+    }
+
+    get_reporte_etiquetas(sucursal_id : string){
+      return this.http.get<ReporteEtiquetas []>(this.apiurl + `/reporte/etiquetas/${sucursal_id}`) 
+    }
+
+    downloadReporteEtiquetasExcel(sucursal_id : string, var_r : string){
+      this.http.get(this.apiurl + `/reporte/etiquetas/${sucursal_id}/descargar/${var_r}`, {responseType:"blob"})
+      .subscribe((blob:Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url
+        a.download = `Reporte-Etiquetas-${sucursal_id}.xlsx`;
+          a.click();
+          window.URL.revokeObjectURL(url);
+      })
     }
   
 }

@@ -199,7 +199,7 @@ export class ArmarVentaComponent {
     })  
     
     // alert("OK, ACTUALIZANDO ESTADO")
-0  }
+  }
 
   seleccionarVenta(cod_ty : number, N_factura : string){
     this.Numero_factura = N_factura
