@@ -40,6 +40,7 @@ export class InventarioSucursalesComponent {
   closeModal(){
     this.isModalOpen = false
   }
+  colores : string [] = []
 
   isClick : boolean = false
   public rol = sessionStorage.getItem("rol_id") 
@@ -47,6 +48,8 @@ export class InventarioSucursalesComponent {
   sucursales : SucursalRSV [] = []
 
   arrInventarioSucursal : InventarioSucursal [][] = []
+  arrInventarioSucursalFull : InventarioSucursal [][] = []
+
 
   ngOnInit(){
     this.service.get_sucursales().subscribe((data) => {
@@ -58,18 +61,30 @@ export class InventarioSucursalesComponent {
     })
   }
 
+  filtrarColores(color : string){
+    if (color === "") {
+      // this.catalogoRSV = this.catalogoRSVFull
+      this.arrInventarioSucursal = this.arrInventarioSucursalFull
+    } else {
+      this.arrInventarioSucursal = this.arrInventarioSucursalFull.filter(catalogo => catalogo[0].Color === color)
+      // this.catalogoRSV =  this.catalogoRSVFull.filter(producto => producto.Color === color)
+    }
+  }
+
   buscarInventarioPorSucursal(){
     this.arrInventarioSucursal = []
     if (this.sucursalSeleccionada == "") return alert ("Seleccione una sucursal")
     this.service.get_inventario_por_sucursales(parseInt(this.sucursalSeleccionada)).subscribe((data) =>{
-      const colores = [...new Set(data.map((inventario) => inventario.Color))]
+      this.colores = [...new Set(data.map((inventario) => inventario.Color))]
       // arr inventarios
       let array = []
       this.isClick = true
-      colores.map(color => {
+      this.colores.map(color => {
         array = data.filter( inventario => inventario.Color == color)
-        this.arrInventarioSucursal.push(array)
+        this.arrInventarioSucursalFull.push(array)
+
       })
+      this.arrInventarioSucursal = this.arrInventarioSucursalFull
     })
   }
 

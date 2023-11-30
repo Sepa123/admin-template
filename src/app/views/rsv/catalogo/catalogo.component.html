@@ -149,7 +149,6 @@
               Filtrar por Colores
             </button>
             <ul cDropdownMenu>
-                <!-- (click)="filterByRegion(region)" -->
               <li><a [routerLink]="[]"  cDropdownItem (click)="filtrarColores(0)">Todos los colores</a></li>
               <li *ngFor="let color of colores" ><a [routerLink]="[]" (click)="filtrarColores(color.Id)" cDropdownItem>{{color.Nombre_color}}</a></li>
             </ul>

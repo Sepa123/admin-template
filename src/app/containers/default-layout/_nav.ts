@@ -391,10 +391,7 @@ export const navItems: INavDataBar[] = [
     roles : ROLES_PERMITIDOS.RSV_ALL,
     iconComponent: { name: 'cil-window' },
     children : [
-     {
-       name: 'Reporte etiquetas',
-       url: '/rsv/reporte-etiquetas'
-     },
+     
      {
        name: 'Catálogo',
        url: '/rsv/catalogo'
@@ -422,6 +419,10 @@ export const navItems: INavDataBar[] = [
      {
       name: 'Lista de ventas',
       url: '/rsv/lista-venta'
+     },
+     {
+      name: 'Reporte etiquetas',
+      url: '/rsv/reporte-etiquetas'
      },
      {
       name: 'Asignar Ubicación',
@@ -486,6 +487,10 @@ export const navItems: INavDataBar[] = [
     url: '/rsv/lista-venta'
    },
    {
+    name: 'Reporte etiquetas',
+    url: '/rsv/reporte-etiquetas'
+   },
+   {
     name: 'Asignar Ubicación',
     url: '/rsv/filtro-ubicacion'
    },
@@ -538,11 +543,13 @@ export const navItems: INavDataBar[] = [
     url: '/rsv/lista-venta'
    },
    {
+    name: 'Reporte etiquetas',
+    url: '/rsv/reporte-etiquetas'
+   },
+   {
     name: 'Asignar Ubicación',
     url: '/rsv/filtro-ubicacion'
    },
-   
-   
  ]
 },
   {
