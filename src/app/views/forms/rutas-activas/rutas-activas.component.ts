@@ -186,7 +186,8 @@ export class RutasActivasComponent {
     this.nombreRutaActual = ""
     if (dateObj === undefined) return alert("Por favor ingrese una fecha")
     // const formattedDate = `${dateObj.year}-${dateObj.month.toString().padStart(2, '0')}-${dateObj.day.toString().padStart(2, '0')}`;
-    if (this.comunaSeleccionada == '' || this.comunaSeleccionada == 'Todas' || this.comunaSeleccionada == 'Comunas'){
+    if ( (this.comunaSeleccionada == '' || this.comunaSeleccionada == 'Todas' || this.comunaSeleccionada == 'Comunas' ) 
+    && (this.regionSeleccionada == 'Todas' || this.regionSeleccionada == 'Regiones')){
       this.service.get_nombres_ruta(dateObj).subscribe((data) => {
         data.length == 0 ? this.isRuta = false : this.isRuta = true
         this.nombresRutas = data
@@ -198,7 +199,7 @@ export class RutasActivasComponent {
         })
       })
     } else {
-      this.service.filtrar_nombre_rutas_activa_by_comuna(dateObj, this.comunaSeleccionada).subscribe((data) => {
+      this.service.filtrar_nombre_rutas_activa_by_comuna(dateObj, this.comunaSeleccionada,this.regionSeleccionada).subscribe((data) => {
         data.length == 0 ? this.isRuta = false : this.isRuta = true
         this.nombresRutas = data
         this.nombresRutas.map((ruta) => {
@@ -245,8 +246,10 @@ export class RutasActivasComponent {
     // console.log(this.regionSeleccionada)
     if(this.regionSeleccionada == 'Regiones' || this.regionSeleccionada == 'Todas'){
       this.listaComunas = this.listaComunasFull
+      this.comunaSeleccionada = "Comunas"
     } else {
       this.listaComunas = this.listaComunasFull.filter(lista => lista.Region == this.regionSeleccionada) 
+      this.comunaSeleccionada = "Comunas"
     }
   }
 

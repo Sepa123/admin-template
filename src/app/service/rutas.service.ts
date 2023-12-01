@@ -147,8 +147,8 @@ export class RutasService {
     return this.http.get <ComunaRutas []>(this.apiurl + `/activo/comunas?fecha=${fecha}` )
   }
 
-  filtrar_nombre_rutas_activa_by_comuna(fecha : string, comuna : string){
-    return this.http.get<NombresRutasActivas[]>(this.apiurl + `/activo/nombre_ruta/filtro?fecha=${fecha}&comuna=${comuna}` )
+  filtrar_nombre_rutas_activa_by_comuna(fecha : string, comuna : string, region : string){
+    return this.http.get<NombresRutasActivas[]>(this.apiurl + `/activo/nombre_ruta/filtro?fecha=${fecha}&comuna=${comuna}&region=${region}` )
   }
 
 

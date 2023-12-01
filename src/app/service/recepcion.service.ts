@@ -26,6 +26,10 @@ export class RecepcionService {
     return this.http.get<ProductoOPL[]>(this.apiurl + "/easy_opl")
   }
 
+  getRecepcionEasyOPLDetalle(){
+    return this.http.get<ProductoOPL[]>(this.apiurl + "/easy_opl/detalle")
+  }
+
   getRecepcionEasyCD(){
     return this.http.get<ProductoOPL[]>(this.apiurl + "/easy_cd")
   }
