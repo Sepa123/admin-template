@@ -1,5 +1,33 @@
 <c-container>
     <h2>Easy OPL</h2>
+
+    <c-modal id="liveDemoModal" [visible]="visibleCantidad" (visibleChange)="handleLiveCantidadChange($event)">
+      <c-modal-header>
+        <h5 cModalTitle>Productos pedido x</h5>
+        <button (click)="toggleLiveCantidad()" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>
+        <div class="greenTable">
+        <table id="tablaProductosPicking" >
+          <thead>
+            <tr>
+                <th>Descripcion</th>
+                <th>Código Producto</th>
+                <th>Cantidad</th>
+                <th>SKU</th>
+                <th>Verificado</th>
+            </tr>
+          </thead>
+          
+          </table>
+        </div>
+      </c-modal-body>
+      <c-modal-footer>
+        <button (click)="toggleLiveCantidad()" cButton color="secondary">
+          Cerrar
+        </button>
+      </c-modal-footer>
+    </c-modal>
   
     <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
       <c-modal-header>
@@ -41,10 +69,29 @@
         </button>
       </c-modal-footer>
     </c-modal>
+
+
+    <!-- <button (click)="toggleLiveCantidad()" >boton pop</button> -->
   
       <c-row [xs]="1"> 
         <c-col>
-          <input type="text" name="" [(ngModel)]="codigoProducto" (change)="cambiarTicketByInput(codigoProducto)">
+          <!-- <input type="text" name="" [(ngModel)]="codigoProducto" (change)="cambiarTicketByInput(codigoProducto)"> -->
+          <c-col>
+            <div class="inline-container">
+                    <input type="text" name="" [(ngModel)]="codigoProducto" id="codigoProducto" (change)="cambiarTicketByInput(codigoProducto)" >
+                    <c-dropdown >
+                      <button cButton cDropdownToggle color="secondary" size="sm">
+                        Cargas
+                      </button>
+                      <ul cDropdownMenu>
+                        <li><a [routerLink]="[]" (click)="filterByCarga('Todas')" cDropdownItem>Todos</a></li>
+                        <li *ngFor="let carga of cargas"><a [routerLink]="[]" (click)="filterByCarga(carga)" cDropdownItem>{{carga}}</a></li>
+                      </ul>
+                    </c-dropdown>
+                  <span>{{cargaActual}}</span> 
+            </div>
+      
+          </c-col>
     
         </c-col>
         <c-col>

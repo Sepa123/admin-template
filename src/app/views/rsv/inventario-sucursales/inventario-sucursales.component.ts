@@ -6,6 +6,7 @@ import { CargaRSV } from 'src/app/models/cargaRSV.interface'
 import { EtiquetaRSV } from 'src/app/models/etiquetaRSV.interface';
 import { InventarioSucursal } from 'src/app/models/inventarioSucursal.interface';
 import { SucursalRSV } from 'src/app/models/sucursalRSV.interface';
+import { UbicacionCantidadRSV } from 'src/app/models/ubicacionCantidadRsv.interface' 
 
 @Component({
   selector: 'app-inventario-sucursales',
@@ -45,10 +46,14 @@ export class InventarioSucursalesComponent {
   isClick : boolean = false
   public rol = sessionStorage.getItem("rol_id") 
   sucursalSeleccionada : string = ""
+
+  codigoSeleccionado : string = ""
   sucursales : SucursalRSV [] = []
 
   arrInventarioSucursal : InventarioSucursal [][] = []
   arrInventarioSucursalFull : InventarioSucursal [][] = []
+
+  UbicacionCantidad : UbicacionCantidadRSV [] = []
 
 
   ngOnInit(){
@@ -71,8 +76,12 @@ export class InventarioSucursalesComponent {
     }
   }
 
+  
+
+
   buscarInventarioPorSucursal(){
     this.arrInventarioSucursal = []
+    this.arrInventarioSucursalFull = []
     if (this.sucursalSeleccionada == "") return alert ("Seleccione una sucursal")
     this.service.get_inventario_por_sucursales(parseInt(this.sucursalSeleccionada)).subscribe((data) =>{
       this.colores = [...new Set(data.map((inventario) => inventario.Color))]
@@ -99,6 +108,22 @@ export class InventarioSucursalesComponent {
     console.log(inventario)
     this.inventarioSeleccionado = [inventario]
     this.toggleLiveDemo()
+  }
+
+  ObtenerUbicacionCantidad(codigo : string){
+    const body = {
+      Sucursal : this.sucursalSeleccionada,
+      Codigo : codigo
+    }
+
+    this.codigoSeleccionado = codigo
+
+    this.service.obtener_ubicacion_y_cantidad(body).subscribe((data) => {
+      this.UbicacionCantidad = data
+      console.log(this.UbicacionCantidad)
+      this.toggleLiveDemo()
+      
+    })
   }
 
 

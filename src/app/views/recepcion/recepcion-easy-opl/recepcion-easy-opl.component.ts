@@ -36,6 +36,12 @@ export class RecepcionEasyOplComponent {
 
   public visible = false;
 
+
+  //
+
+  cargaActual : string = "Todas"
+  cargas : string [] = []
+
     //datos geo
     latitude!: number
     longitud! :number
@@ -123,7 +129,9 @@ export class RecepcionEasyOplComponent {
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Recepcion == false)
         this.productosVerificados = data.filter(producto => producto.Recepcion == true)
-      }      
+      }   
+       
+      this.cargas = [...new Set(data.map(prod => prod.Carga+"" ))]
       // console.log("Cantidad de productos por verificar",this.productosPorVerificar.length)
       // console.log("Cantidad de productos verificados",this.productosVerificados.length)
     })
@@ -256,5 +264,59 @@ export class RecepcionEasyOplComponent {
       this.initRecepcionEasyOPL()
       this.codigoProducto = ""
     })
+  }
+
+
+
+
+  filterByCarga(nro_carga : string){
+    // const n = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga).length
+    this.cargaActual = nro_carga
+    this.subRecepcion.unsubscribe();
+    if(nro_carga === "Todas"){
+      this.initRecepcionEasyOPL()
+      this.subRecepcionEasyOPL()
+
+    } else {
+    this.subRecepcion.unsubscribe();
+    this.service.getRecepcionEasyOPL().subscribe((data) => {
+      console.log("Este esd del filterByCarga init ")
+      
+      this.productosPorVerificar = data.filter(producto => producto.Carga === nro_carga)
+      this.productosVerificados = data.filter(producto => producto.Carga === nro_carga)
+      
+      this.cantVerificados = this.productosVerificados.filter(producto => producto.Recepcion == true).length
+      this.cantNoVerificados = this.productosPorVerificar.filter(producto => producto.Recepcion == false).length
+      
+
+      console.log(this.cantVerificados)
+      console.log(this.cantNoVerificados)
+      if(data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
+        console.log("esta data se repite")
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga)
+        this.productosVerificados = data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga)
+      }      
+    })
+
+    this.subRecepcion =  this.service.updateRecepcionEasyOPL().subscribe((data) => {
+      console.log("Este esd del filterByCarga")
+      this.productosPorVerificar = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga)
+      this.productosVerificados = this.productosVerificados.filter(producto => producto.Carga === nro_carga)
+
+      this.cantVerificados = this.productosVerificados.filter(producto => producto.Recepcion == true).length
+      this.cantNoVerificados = this.productosPorVerificar.filter(producto => producto.Recepcion == false).length
+      
+      if(data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
+        console.log("esta data se repite")
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga)
+        this.productosVerificados = data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga)
+      }      
+    })
+   }
+    // alert("cantidad cargas : "+ n)}
   }
 }

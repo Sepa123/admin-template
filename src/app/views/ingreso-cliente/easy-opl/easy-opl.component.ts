@@ -35,6 +35,30 @@ export class EasyOplComponent {
 
   largo!: number
 
+   //
+
+   public visibleCantidad = false;
+
+    toggleLiveCantidad() {
+      this.visibleCantidad = !this.visibleCantidad;
+    }
+
+    handleLiveCantidadChange(event: any) {
+      this.visibleCantidad = event;
+    }
+    
+    openModalCantidad(){
+      this.isModalOpen = true
+    }
+
+    closeModalCantidad(){
+      this.isModalOpen = false
+    }
+
+
+   cargaActual : string = "Todas"
+   cargas : string [] = []
+
   public visible = false;
 
   toggleLiveDemo() {
@@ -46,10 +70,7 @@ export class EasyOplComponent {
   }
   
   openModal(){
-    
     this.isModalOpen = true
-
-    console.log(this.isModalOpen)
   }
 
   closeModal(){
@@ -86,7 +107,9 @@ export class EasyOplComponent {
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
         this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
-      }      
+      }     
+      
+      this.cargas = [...new Set(data.map(prod => prod.Carga+"" ))]
       // console.log("Cantidad de productos por verificar",this.productosPorVerificar.length)
       // console.log("Cantidad de productos verificados",this.productosVerificados.length)
     })
@@ -181,6 +204,8 @@ export class EasyOplComponent {
     this.subRecepcion.unsubscribe();
   }
 
+  
+
   cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
     
 
@@ -212,5 +237,59 @@ export class EasyOplComponent {
       this.initRecepcionEasyOPL()
       this.codigoProducto = ""
     })
+  }
+
+
+
+  filterByCarga(nro_carga : string){
+    
+    // const n = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga).length
+    this.cargaActual = nro_carga
+    this.subRecepcion.unsubscribe();
+    if(nro_carga === "Todas"){
+      this.initRecepcionEasyOPL()
+      this.subRecepcionEasyOPL()
+
+    } else {
+    this.subRecepcion.unsubscribe();
+    this.service.getRecepcionEasyOPL().subscribe((data) => {
+      console.log("Este esd del filterByCarga init ")
+      
+      this.productosPorVerificar = data.filter(producto => producto.Carga === nro_carga)
+      this.productosVerificados = data.filter(producto => producto.Carga === nro_carga)
+      
+      this.cantVerificados = this.productosVerificados.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = this.productosPorVerificar.filter(producto => producto.Pistoleado == false).length
+      
+
+      console.log(this.cantVerificados)
+      console.log(this.cantNoVerificados)
+      if(data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
+        console.log("esta data se repite")
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga)
+      }      
+    })
+
+    this.subRecepcion =  this.service.updateRecepcionEasyOPL().subscribe((data) => {
+      console.log("Este esd del filterByCarga update")
+      this.productosPorVerificar = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga)
+      this.productosVerificados = this.productosVerificados.filter(producto => producto.Carga === nro_carga)
+
+      this.cantVerificados = this.productosVerificados.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = this.productosPorVerificar.filter(producto => producto.Pistoleado == false).length
+      
+      if(data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
+        console.log("esta data se repite")
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga)
+      }      
+    })
+   }
+    // alert("cantidad cargas : "+ n)}
   }
 }

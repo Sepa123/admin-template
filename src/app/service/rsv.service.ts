@@ -19,7 +19,7 @@ import { TipoEstructura } from 'src/app/models/tipoEstructuraRSV.interface'
 import {BitacoraRSV} from '../models/bitacoraRsv.interface'
 import { UnidadNoPreparada } from '../models/unidadNoPreparada.interface'
 import {ArmarVenta } from '../models/armarVenta.interface' 
-
+import { UbicacionCantidadRSV } from '../models/ubicacionCantidadRsv.interface' 
 import { ReporteEtiquetas } from '../models/reporteEtiquetas.interface' 
 
 @Injectable({
@@ -400,6 +400,11 @@ export class RsvService {
           a.click();
           window.URL.revokeObjectURL(url);
       })
+    }
+
+
+    obtener_ubicacion_y_cantidad(body : any){
+      return this.http.post<UbicacionCantidadRSV []>(this.apiurl + `/inventario/sucursales/ubicaciones`, body)
     }
   
 }

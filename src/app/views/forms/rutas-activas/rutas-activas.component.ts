@@ -9,6 +9,7 @@ import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interfac
 import { Nominatim } from '../../../models/nominatim.interface'
 
 import { CantidadUnidadesRutaActiva } from 'src/app/models/cantidadUnidadesRutaActiva.interface';
+import { ComunaRutas } from 'src/app/models/comunaRutas.interface';
 
 @Component({
   selector: 'app-rutas-activas',
@@ -35,7 +36,9 @@ export class RutasActivasComponent {
   arrayProducto: any[] = []
   arrayDirecciones : string [] = []
 
-  listaComunas : string [] = []
+  listaComunas : ComunaRutas [] = []
+  listaComunasFull : ComunaRutas [] = []
+  listaRegiones : any [] = []
   fechaActual!: string
   patenteRuta! : string
   driverRuta! : string
@@ -45,6 +48,8 @@ export class RutasActivasComponent {
 
   isModalOpen: boolean = false
   public visible = false;
+
+  regionSeleccionada : string = "Regiones"
 
   toggleLiveDemo() {
     this.visible = !this.visible;
@@ -219,13 +224,30 @@ export class RutasActivasComponent {
     }
     let fechaFormateada = fecha.toISOString().split('T')[0];
 
-    this.service.comunas_rutas_activas(fechaFormateada).subscribe((data : any) => {
+    this.service.comunas_rutas_activas(fechaFormateada).subscribe((data) => {
+      this.listaComunasFull = data
       this.listaComunas = data
+
+      this.listaRegiones = [... new Set(data.map( lista => lista.Region))]
+
+      console.log(this.listaRegiones)
+
+
     })
 
     this.fechaActual = fechaFormateada
     // this.getNombreByFecha(ObjcurrentDate)
     this.getNombreByFecha(this.fechaActual)
+  }
+  
+
+  seleccionarRegion(){
+    // console.log(this.regionSeleccionada)
+    if(this.regionSeleccionada == 'Regiones' || this.regionSeleccionada == 'Todas'){
+      this.listaComunas = this.listaComunasFull
+    } else {
+      this.listaComunas = this.listaComunasFull.filter(lista => lista.Region == this.regionSeleccionada) 
+    }
   }
 
   buscarRuta (nombreRuta : string,estado_ruta : boolean) {

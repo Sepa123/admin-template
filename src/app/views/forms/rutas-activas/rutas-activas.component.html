@@ -66,10 +66,19 @@
     </td>
     <td>
       <div class="">
-        <select id="Region" [(ngModel)]="comunaSeleccionada" cSelect  size="1" >
+        <select id="Region" cSelect  size="1" (change)="seleccionarRegion()" [(ngModel)]="regionSeleccionada">
+            <option selected>Regiones</option>
+            <option>Todas</option>
+            <option *ngFor="let region of listaRegiones">{{region}}</option>
+        </select>
+    </div>
+    </td>
+    <td>
+      <div class="">
+        <select id="Comuna" [(ngModel)]="comunaSeleccionada" cSelect  size="1" >
             <option selected>Comunas</option>
             <option>Todas</option>
-            <option *ngFor="let comuna of listaComunas" >{{comuna}}</option>
+            <option *ngFor="let comuna of listaComunas" >{{comuna.Comuna}}</option>
         </select>
     </div>
     </td>

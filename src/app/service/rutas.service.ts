@@ -9,6 +9,7 @@ import { TocTracking } from 'src/app/models/tocTracking.interface'
 import { AlertaConductor } from 'src/app/models/alertaConductor.interface'
 import { interval,Observable, switchMap  } from 'rxjs';
 import { CantidadUnidadesRutaActiva } from 'src/app/models/cantidadUnidadesRutaActiva.interface'
+import { ComunaRutas } from 'src/app/models/comunaRutas.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -143,7 +144,7 @@ export class RutasService {
   }
 
   comunas_rutas_activas(fecha : string){
-    return this.http.get(this.apiurl + `/activo/comunas?fecha=${fecha}` )
+    return this.http.get <ComunaRutas []>(this.apiurl + `/activo/comunas?fecha=${fecha}` )
   }
 
   filtrar_nombre_rutas_activa_by_comuna(fecha : string, comuna : string){
