@@ -15,4 +15,5 @@ export interface ProductoOPL {
     Pistoleado:           boolean;
     Carga? :              string;
     Recepcion?:           boolean;
+    Bultos:                number;
 }

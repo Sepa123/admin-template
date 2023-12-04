@@ -16,11 +16,13 @@ import { IngresoClienteRoutingModule } from './ingreso-cliente-routing.module';
 import { EasyCdComponent } from './easy-cd/easy-cd.component';
 import { EasyOplComponent } from './easy-opl/easy-opl.component';
 import { ModalModule } from '@coreui/angular';
+import { EasyOplNewComponent } from './easy-opl-new/easy-opl-new.component';
 
 @NgModule({
   declarations: [
     EasyCdComponent,
-    EasyOplComponent
+    EasyOplComponent,
+    EasyOplNewComponent
   ],
   imports: [
     CommonModule,

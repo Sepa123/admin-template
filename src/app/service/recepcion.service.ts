@@ -45,6 +45,11 @@ export class RecepcionService {
 
   //Update cada 15 segundos o 2 minutos
 
+  updateRecepcionEasyOPLDetalle(){
+    return interval(12000).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/easy_opl/detalle")))
+   
+  }
+
   updateProductoSinRecepcion(){
     return interval(12000).pipe(switchMap(()=> this.http.get<ProductoOPL[]>(this.apiurl+"/producto_sin_recepcion")))
   }
@@ -87,5 +92,15 @@ export class RecepcionService {
 
   updateFieldRecepcionEasyOPL(body: any){
     return this.http.put(this.apiurl + "/easy_opl/actualizar", body)
+  }
+
+  // actualizar datos de bultos de opl
+
+  agregarBultosOpl( body : any){
+    return this.http.post(this.apiurl + "/easy_opl/bultos", body)
+  }
+
+  actualizarBultosOpl( body : any){
+    return this.http.put(this.apiurl + "/easy_opl/bultos", body)
   }
 }

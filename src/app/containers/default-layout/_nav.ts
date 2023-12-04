@@ -550,6 +550,11 @@ export const navItems: INavDataBar[] = [
     name: 'Asignar Ubicación',
     url: '/rsv/filtro-ubicacion'
    },
+   {
+    name: 'Racks estructura',
+    url: '/rsv/ubicacion-producto'
+   },
+  
  ]
 },
   {

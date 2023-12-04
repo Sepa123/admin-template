@@ -6,19 +6,21 @@ import { ProductoPicking } from 'src/app/models/productoPicking.interface';
 import { ProductoOPL } from "src/app/models/productoOPL.interface"
 import { Subscription } from 'rxjs';
 
-
 @Component({
-  selector: 'app-easy-opl',
-  templateUrl: './easy-opl.component.html',
+  selector: 'app-easy-opl-new',
+  templateUrl: './easy-opl-new.component.html',
   styleUrls: ['../styles/ingreso-cliente.component.scss']
 })
-export class EasyOplComponent {
+export class EasyOplNewComponent {
   public svgContent!: SafeHtml;
+  numBultos : number = 1
 
   subRecepcion! : Subscription
 
   cantVerificados : number = 0
   cantNoVerificados : number = 0
+
+  ListaProductos : ProductoOPL [] = []
 
   productosVerificados : ProductoOPL [] =[]
   productosPorVerificar : ProductoOPL [] = []
@@ -35,14 +37,14 @@ export class EasyOplComponent {
 
   largo!: number
 
-  //datos geo
+  cargaDeProducto : string = ""
+   //
+
+    //datos geo
     latitude!: number
     longitud! :number
     latStr!: string
     longStr!: string
-
-   //
-
    public visibleCantidad = false;
 
     toggleLiveCantidad() {
@@ -83,6 +85,25 @@ export class EasyOplComponent {
     this.isModalOpen = false
   }
 
+  subRecepcionEasyOPL(){
+    this.subRecepcion = this.service.updateRecepcionEasyOPLDetalle().subscribe((data) => {
+
+      this.ListaProductos = data
+      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
+      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
+
+      if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
+
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
+      }      
+      // console.log("Cantidad de productos por verificar",this.productosPorVerificar.length)
+      // console.log("Cantidad de productos verificados",this.productosVerificados.length)
+    })
+  }
+
   getLocation(): any {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -101,39 +122,11 @@ export class EasyOplComponent {
 
     console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
   }
-  getLocationAsync(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          resolve(position);
-        }, (error) => {
-          reject(error);
-        });
-      } else {
-        reject("Localización no disponible");
-      }
-    });
-  }
-  subRecepcionEasyOPL(){
-    this.subRecepcion = this.service.updateRecepcionEasyOPL().subscribe((data) => {
-
-      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
-      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
-
-      if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
-      && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
-
-      }else{
-        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
-        this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
-      }      
-      // console.log("Cantidad de productos por verificar",this.productosPorVerificar.length)
-      // console.log("Cantidad de productos verificados",this.productosVerificados.length)
-    })
-  }
 
   initRecepcionEasyOPL(){
-      this.service.getRecepcionEasyOPL().subscribe((data) => {
+      this.service.getRecepcionEasyOPLDetalle().subscribe((data) => {
+      
+      this.ListaProductos = data
 
       this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
       this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
@@ -155,13 +148,81 @@ export class EasyOplComponent {
   constructor(private service: RecepcionService, private http: HttpClient, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this. getLocation()
 
+    this.getLocation()
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     this.initRecepcionEasyOPL()
     this.subRecepcionEasyOPL()
   }
 
+
+  pickearQR(cod_producto : string){
+    this.ArrCodScanner.push(cod_producto)
+    if (this.ArrCodScanner.length === 9 ){
+      console.log(this.ArrCodScanner)
+
+
+      this.ArrCodScanner = []
+    } 
+        
+    const patronNum = /^\d{10}$/
+    const num_pedido = cod_producto
+
+
+    if (num_pedido.trim().length === 10 && patronNum.test(num_pedido.trim())){
+      
+      cod_producto = `SUBORDEN N ${num_pedido}`
+    }
+
+    // console.log(cod_producto)
+    
+    var codigo_producto = cod_producto.replace(/'/g, "-").trim().toUpperCase()
+    codigo_producto = codigo_producto.replace(/-(\d+)/, "");
+
+    const regex = /SUBORDEN\sN\s(\d{10})/;
+    const match = codigo_producto.match(regex);
+
+    if (match) {
+      const suborden = match[1];
+
+      this.codProductoModal = suborden
+      // this.toggleLiveCantidad()
+      this.service.checkEasyOPLByPedido(codigo_producto).subscribe((data) => {
+        this.productosPorVerificarByCP = data
+        this.cargaDeProducto = data[0].Carga+""
+        this.codProductoModal = data[0].Codigo_pedido
+
+        const bulto = this.ListaProductos.filter(lista => lista.Codigo_producto == data[0].Codigo_producto || lista.Codigo_pedido == data[0].Codigo_pedido)
+        console.log(this.codProductoModal)
+        console.log(bulto)
+        this.numBultos = bulto[0].Bultos
+
+        this.toggleLiveCantidad()
+      },(error) => {
+        alert(error.error.detail)
+      })
+    }
+  }
+
+  guardarDatosBultos(){
+    const body = {
+      "Id_ruta": this.cargaDeProducto,
+      "Suborden": this.codProductoModal,
+      "Bultos": this.numBultos,
+      "Tienda": "",
+      "Lat" : this.latStr,
+      "Long" : this.longStr
+    }
+
+    this.service.agregarBultosOpl(body).subscribe((data : any) => {
+      // console.log(data.message)
+      if(data.mostrar == true){
+        alert(data.message)
+      }
+    }, error => {
+      console.log(error)
+    })
+  }
 
   cambiarTicketByInput(cod_producto: string){
     this.ArrCodScanner.push(cod_producto)
@@ -214,9 +275,7 @@ export class EasyOplComponent {
             "cod_pedido" : codigo_producto,
             "cod_producto" : codigo_producto,
             "ids_usuario" : this.idPortal,
-            "sku" : this.productosPorVerificarByCP[0].SKU,
-            "latitud": this.latStr,
-            "longitud": this.longStr
+             "sku" : this.productosPorVerificarByCP[0].SKU
           }
 
           const url = `/easy_opl`
@@ -246,19 +305,24 @@ export class EasyOplComponent {
 
   
 
-  async cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
+  cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
+    
+    let check 
 
     let sku = this.productosPorVerificar[arrayIndex].SKU
     if(this.productosPorVerificarByCP.length != 0){
-      this.productosPorVerificarByCP[arrayIndex].Pistoleado = true
+       this.productosPorVerificarByCP[arrayIndex].Pistoleado = !this.productosPorVerificarByCP[arrayIndex].Pistoleado 
       sku = this.productosPorVerificarByCP[arrayIndex].SKU
+      check = this.productosPorVerificarByCP[arrayIndex].Pistoleado
      }else{
-      this.productosPorVerificar[arrayIndex].Pistoleado = true
+      this.productosPorVerificar[arrayIndex].Pistoleado =  !this.productosPorVerificarByCP[arrayIndex].Pistoleado 
+      check = this.productosPorVerificarByCP[arrayIndex].Pistoleado
      }
     // let productoAbajo = this.productosOPL.splice(arrayIndex,1);
     // console.log(productoAbajo)
     // this.productosOPL.push(productoAbajo[0])
- 
+    
+     
     const body = {
       "id_usuario" : sessionStorage.getItem('id')+"",
       "cliente" : "Easy OPL",
@@ -267,8 +331,7 @@ export class EasyOplComponent {
       "cod_producto" : cod_producto,
       "ids_usuario" : this.idPortal, 
       "sku" : sku,
-      "latitud": this.latStr,
-      "longitud": this.longStr
+      "check" : check
     }
 
 
@@ -292,7 +355,9 @@ export class EasyOplComponent {
 
     } else {
     this.subRecepcion.unsubscribe();
-    this.service.getRecepcionEasyOPL().subscribe((data) => {
+    this.service.getRecepcionEasyOPLDetalle().subscribe((data) => {
+
+      this.ListaProductos = data
       console.log("Este esd del filterByCarga init ")
       
       this.productosPorVerificar = data.filter(producto => producto.Carga === nro_carga)
@@ -313,7 +378,9 @@ export class EasyOplComponent {
       }      
     })
 
-    this.subRecepcion =  this.service.updateRecepcionEasyOPL().subscribe((data) => {
+    this.subRecepcion =  this.service.updateRecepcionEasyOPLDetalle().subscribe((data) => {
+
+      this.ListaProductos = data
       console.log("Este esd del filterByCarga update")
       this.productosPorVerificar = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga)
       this.productosVerificados = this.productosVerificados.filter(producto => producto.Carga === nro_carga)

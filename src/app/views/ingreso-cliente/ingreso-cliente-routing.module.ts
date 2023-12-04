@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EasyCdComponent } from '../ingreso-cliente/easy-cd/easy-cd.component'
 import { EasyOplComponent } from './easy-opl/easy-opl.component';
+import { EasyOplNewComponent } from './easy-opl-new/easy-opl-new.component';
 
 const routes: Routes = [
   {
@@ -17,9 +18,23 @@ const routes: Routes = [
           title : "Ingreso Easy CD"
         }
       },
+      // {
+      //   path : 'easy-opl',
+      //   component : EasyOplComponent,
+      //   data : {
+      //     title : "Ingreso Easy CD"
+      //   }
+      // },
+      {
+        path : 'easy-opl-new',
+        component : EasyOplNewComponent,
+        data : {
+          title : "Ingreso Easy CD"
+        }
+      },
       {
         path : 'easy-opl',
-        component : EasyOplComponent,
+        component : EasyOplNewComponent,
         data : {
           title : "Ingreso Easy CD"
         }
