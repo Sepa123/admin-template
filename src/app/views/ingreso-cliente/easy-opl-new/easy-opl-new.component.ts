@@ -210,8 +210,12 @@ export class EasyOplNewComponent {
       "Suborden": this.codProductoModal,
       "Bultos": this.numBultos,
       "Tienda": "",
-      "Lat" : this.latStr,
-      "Long" : this.longStr
+      "latitud" : this.latStr,
+      "longitud" : this.longStr,
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "ids_usuario" : this.idPortal,
+      "cliente" : "Easy OPL",
+      "n_guia" :  this.codProductoModal
     }
 
     this.service.agregarBultosOpl(body).subscribe((data : any) => {
