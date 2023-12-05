@@ -495,6 +495,10 @@ export const navItems: INavDataBar[] = [
     url: '/rsv/filtro-ubicacion'
    },
    {
+    name: 'Racks estructura',
+    url: '/rsv/ubicacion-producto'
+   },
+   {
     name: 'Lista de Paquetes Abiertos',
     url: '/rsv/listar-paquetes'
    }

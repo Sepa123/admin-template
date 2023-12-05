@@ -10,7 +10,7 @@
                   </button>
                   <ul cDropdownMenu>
                     <li><a [routerLink]="[]" (click)="filterByCarga('Todas')" cDropdownItem>Todos</a></li>
-                    <li *ngFor="let carga of cargas"><a [routerLink]="[]" (click)="filterByCarga(carga.Nro_carga)" cDropdownItem>{{carga.Nro_carga}}</a></li>
+                    <li *ngFor="let carga of cargas"><a [routerLink]="[]" (click)="filterByCarga(carga)" cDropdownItem>{{carga}}</a></li>
                   </ul>
                 </c-dropdown>
               <span>{{cargaActual}}</span> 

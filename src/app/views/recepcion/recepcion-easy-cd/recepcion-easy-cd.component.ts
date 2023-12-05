@@ -29,7 +29,8 @@ export class RecepcionEasyCdComponent {
   productosUltimo : ProductoOPL [] = []
   codigoProducto!: string
 
-  cargas! : CargasComparacion []
+  // cargas! : CargasComparacion []
+  cargas : string [] = []
 
   idPortal!: string 
 
@@ -112,7 +113,11 @@ getLocationAsync(): Promise<any> {
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Recepcion == false)
         this.productosVerificados = data.filter(producto => producto.Recepcion == true)
-      }      
+      }  
+      
+      this.cargas = [...new Set(data.map(prod => prod.Carga+"" ))]
+
+      // console.log(this.cargas)
     })
   }
 
@@ -123,9 +128,9 @@ getLocationAsync(): Promise<any> {
     console.log(this.idPortal)
     this.subRecepcionEasyCd()
     
-    this.tiService.get_cargas_easy_api().subscribe((data) => {
-        this.cargas = data
-    })
+    // this.tiService.get_cargas_easy_api().subscribe((data) => {
+    //     this.cargas = data
+    // })
     this.initRecepionEasyCD()
   }
 
