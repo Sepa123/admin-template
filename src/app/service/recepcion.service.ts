@@ -74,6 +74,10 @@ export class RecepcionService {
     return this.http.put(this.apiurl + "/verificar", body)
   }
 
+  updateVerifiedOpl(body: any) {
+    return this.http.put(this.apiurl + "/verificar/opl", body)
+  }
+
   updateVerifiedByInput(url : string, body: any) {
     return this.http.put(this.apiurl + url, body)
   }

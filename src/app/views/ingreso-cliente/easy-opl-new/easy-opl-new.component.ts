@@ -214,7 +214,7 @@ export class EasyOplNewComponent {
       "longitud" : this.longStr,
       "id_usuario" : sessionStorage.getItem('id')+"",
       "ids_usuario" : this.idPortal,
-      "cliente" : "Easy OPL",
+      "cliente" : "Easy OPL - Bultos",
       "n_guia" :  this.codProductoModal
     }
 
@@ -325,6 +325,8 @@ export class EasyOplNewComponent {
     // let productoAbajo = this.productosOPL.splice(arrayIndex,1);
     // console.log(productoAbajo)
     // this.productosOPL.push(productoAbajo[0])
+
+     console.log(check)
     
      
     const body = {
@@ -335,13 +337,15 @@ export class EasyOplNewComponent {
       "cod_producto" : cod_producto,
       "ids_usuario" : this.idPortal, 
       "sku" : sku,
-      "check" : check
+      "check" : check,
+      "latitud" : this.latStr,
+      "longitud" : this.longStr,
     }
 
 
-    this.service.updateVerified(body).subscribe((data : any) => {
+    this.service.updateVerifiedOpl(body).subscribe((data : any) => {
       // alert(data.message)
-      this.initRecepcionEasyOPL()
+      // this.initRecepcionEasyOPL()
       this.codigoProducto = ""
     })
   }

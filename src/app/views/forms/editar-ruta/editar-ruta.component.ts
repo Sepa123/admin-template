@@ -212,21 +212,29 @@ export class EditarRutaComponent {
       })
     })
   }
-  
+
   todosEnRuta(): boolean {
     console.log(this.arrayRutasIngresados)
     if (this.arrayRutasIngresados.length === 0){
       return this.isBlockButton = false
     }
-    for (const subArray of this.arrayRutasIngresados) {
-      for (const item of subArray) {
-        if (item.Pistoleado == false) {
-          return this.isBlockButton = false;
-        }
-      }
-    }
     return this.isBlockButton = true;
   }
+  
+  // todosEnRuta(): boolean {
+  //   console.log(this.arrayRutasIngresados)
+  //   if (this.arrayRutasIngresados.length === 0){
+  //     return this.isBlockButton = false
+  //   }
+  //   for (const subArray of this.arrayRutasIngresados) {
+  //     for (const item of subArray) {
+  //       if (item.Pistoleado == false) {
+  //         return this.isBlockButton = false;
+  //       }
+  //     }
+  //   }
+  //   return this.isBlockButton = true;
+  // }
 
   getRuta(pedido: string) {
     var resultado = pedido.replace(/'/g, "-").trim().toUpperCase()
