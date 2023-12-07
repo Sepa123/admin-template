@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 
+import { ModalModule } from '@coreui/angular';
+
+
 
 // CoreUI Modules
 import {
@@ -9,12 +12,14 @@ import {
   BadgeModule,
   BreadcrumbModule,
   ButtonModule,
-  CardModule,
   GridModule,
   ListGroupModule,
   TableModule,
-  UtilitiesModule
+  UtilitiesModule,
+  CardModule,
+  DropdownModule,
 } from '@coreui/angular';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 // utils
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
@@ -29,6 +34,7 @@ import { TestComponent } from './test/test.component';
 @NgModule({
   imports: [
     FormsModule, ReactiveFormsModule,
+    ModalModule,
     CommonModule,
     BaseRoutingModule,
     AccordionModule,
@@ -42,6 +48,8 @@ import { TestComponent } from './test/test.component';
     ListGroupModule,
     TableModule,
     DocsComponentsModule,
+    DropdownModule,
+    NgSelectModule
   ],
   declarations: [
     ReportesComponent,

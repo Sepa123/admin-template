@@ -138,6 +138,7 @@ export class EditarRutaComponent {
 
     this.idUsuario = sessionStorage.getItem("id")+""
     this.nombreRutaEditar = this.nombreRutaService.getCodigo()
+    // this.nombreRutaEditar= '02883-0092-20231207'
     this.service.get_ruta_by_nombre_ruta(this.nombreRutaEditar).subscribe((data) => {
       this.arrayRuta = data
       this.idRutaEditar = this.arrayRuta[0].Id_ruta
@@ -453,6 +454,11 @@ export class EditarRutaComponent {
       alert("No se han ingresado producto nuevos a la ruta")
       this.router.navigate(['/picking/rutas-activas']);
     }
+
+
+    let isSeguro = confirm("¿Seguro que desea guardar esta ruta?");
+    if (!isSeguro) return console.log("no esta seguro")
+
 
     // alert(this.fechaPedido)
     this.guardarClicked = true

@@ -67,15 +67,17 @@ export class RutasService {
   }
 
   download_ruta_activa(nombre_ruta : string, patente : string, driver : string , RutaEnActivo : RutaEnActivo [], var_random : string){
-    this.http.post(this.apiurl + `/descargar/${var_random}?nombre_ruta=${nombre_ruta}&patente=${patente}&driver=${driver}`, RutaEnActivo,{responseType:"blob"})
-    .subscribe((blob:Blob) => {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url
-      a.download = `${nombre_ruta}.xlsx`;
-        a.click();
-        window.URL.revokeObjectURL(url);
-    })
+    return this.http.post(this.apiurl + `/descargar/${var_random}?nombre_ruta=${nombre_ruta}&patente=${patente}&driver=${driver}`, RutaEnActivo,{responseType:"blob"})
+    // .subscribe((blob:Blob) => {
+    //   const url = window.URL.createObjectURL(blob);
+    //   const a = document.createElement("a");
+    //   a.href = url
+    //   a.download = `${nombre_ruta}.xlsx`;
+    //     a.click();
+    //     window.URL.revokeObjectURL(url);
+    // })
+
+    
   }
 
   asignar_ruta_activa(data : any) {
@@ -95,15 +97,9 @@ export class RutasService {
 
   descargar_datos_beetrack_by_id(id_ruta : number,nombre_ruta: string ,caracter : string){
 
-    this.http.get(this.apiurl + `/beetrack/${nombre_ruta}/descargar/${caracter}`, {responseType:"blob"})
-    .subscribe((blob:Blob) => {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url
-      a.download = `beetrack-${nombre_ruta}.xlsx`;
-        a.click();
-        window.URL.revokeObjectURL(url);
-    })
+   return this.http.get(this.apiurl + `/beetrack/${nombre_ruta}/descargar/${caracter}`, {responseType:"blob"})
+    
+
   }
 
   recuperar_tracking_beetrack(codigo : string){

@@ -46,6 +46,8 @@ export class RutasActivasComponent {
 
   loadingRuta : boolean = false
 
+  loadingArchivo : boolean = false
+
   isModalOpen: boolean = false
   public visible = false;
 
@@ -337,8 +339,17 @@ export class RutasActivasComponent {
   }
 
   downloadExcel(nombre_ruta : string, patente: string, driver: string ) {
+    this.loadingArchivo = true
     const caracter = this.generarCaracteresRandom(10)
-    this.service.download_ruta_activa(nombre_ruta, patente, driver, this.rutaEnActivo,caracter)
+    this.service.download_ruta_activa(nombre_ruta, patente, driver, this.rutaEnActivo,caracter).subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `${nombre_ruta}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.loadingArchivo = false
+    })
   }
 
   generarCaracteresRandom(longitud : number) {
@@ -356,7 +367,20 @@ export class RutasActivasComponent {
   downloadExcelBeetrack(){
     const caracter = this.generarCaracteresRandom(10)
 
-    this.service.descargar_datos_beetrack_by_id(this.idRuta, this.nombreRutaActual,caracter)
+    this.loadingArchivo = true
+
+    this.service.descargar_datos_beetrack_by_id(this.idRuta, this.nombreRutaActual,caracter).subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `beetrack-${this.nombreRutaActual}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+
+        this.loadingArchivo = false
+    })
+
+    
   }
 
 
