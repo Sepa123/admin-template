@@ -29,19 +29,36 @@ export class TestComponent {
   regiones : string[] = []
   offset : number [] = [0,100,200,300,400,500,600,700,800,900,1000,1100,1200]
 
-  funciones : any = {
-    "rt" : this.service.pendientes_retiro_tienda,
-    "1" : this.service.pendientes_spo_elux,
-    "2" : this.service.pendientes_opl,
-    "3" : this.service.pendientes_cd,
-    "4" : "",
-    "5" : "",
-    "6" : "",
-    "7" : "",
-    "8" : "",
-    "9" : "",
-    "10" : "",
-  }
+  tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","sportex-electrolux","fin"]
+
+  // funciones : any = {
+  //   "rt" : this.service.pendientes_retiro_tienda,
+  //   "1" : this.service.pendientes_spo_elux,
+  //   "2" : this.service.pendientes_opl,
+  //   "3" : this.service.pendientes_cd,
+  //   "4" : "",
+  //   "5" : "",
+  //   "6" : "",
+  //   "7" : "",
+  //   "8" : "",
+  //   "9" : "",
+  //   "10" : "",
+  // }
+
+  funciones : any [] = [
+    {
+      "fun" : this.pendienteSpoElux,
+    },
+    {
+      "fun" : this.pendienteseOpl,
+    },
+    {
+      "fun" : this.retiroTienda,
+    },
+    {
+      "fun" : this.pendientesCD,
+    }
+  ]
 
   subPedido! :Subscription
   private timeouts: any[] = [];
@@ -103,10 +120,12 @@ export class TestComponent {
       this.fecha_inicio = data.Fecha_inicio
       this.fecha_fin = data.Fecha_fin
 
+      this.getPedidos()
+
 
      // this.retiroTienda()
 
-     this.pendienteseOpl()
+    // this.pendienteseOpl()
     })
   }
 
@@ -153,7 +172,7 @@ export class TestComponent {
 
     let cantActual : number = 1
 
-    this.subPedido = this.service.pendientes_spo_elux(this.fecha_inicio,this.fecha_fin,"0").subscribe((data) => {
+    this.subPedido = this.service.pendientes_spo_elux(this.fecha_inicio,this.fecha_fin).subscribe((data) => {
       // console.log(data.length);
       if (data.length === 0) {
         cantActual = 0
@@ -231,22 +250,62 @@ export class TestComponent {
 
   }
 
+  pendientesCD(){
+    let cantActual : number = 1
+
+    this.subPedido = this.service.pendientes_cd(this.fecha_inicio,this.fecha_fin,"0").subscribe((data) => {
+      // console.log(data.length);
+      if (data.length === 0) {
+        cantActual = 0
+        this.isLoadingTable = false
+        // alert("productos pendientes listo")
+      } else {
+        for (let j = 0; j < data.length; j++) {
+          data[j].Seleccionado = false
+          // console.log("pedido N", j);
+          this.pedidos.push(data[j]);
+          this.pedidos = this.pedidosFull
+          this.origen = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Origen)
+            ).map(str => (JSON.parse(str))))]
+          this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
+            ).map(str => (JSON.parse(str))))]
+
+          this.regiones = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Region)
+            ).map(str => (JSON.parse(str))))]
+          this.loadPedidos = false
+          this.cantidad = this.pedidos.length
+        }
+        this.loadPedidos = false;
+        // this.cantidad = this.pedidos.length;
+        // this.cantidadBultos = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length
+        this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+        this.cantidadBultos = this.pedidos.length
+        // this.cantidadBultos = this.pedidos.reduce((acum, pedido) => acum + pedido.Bultos, 0)
+
+      }
+    }, error => {
+      alert(error.error.detail)
+    });
+
+  }
+
 
   getPedidos() {
 
     // Crear un arreglo para almacenar las referencias a los setTimeout
-      let cantActual : number = 1
+      let cantActual : number = 0
 
-      for (let i = 0; i < this.offset.length; i++) {
+      for (let i = 0; i < this.tienda.length; i++) {
+        // console.log("hola")
         const timeoutId = setTimeout(() => {
-          this.subPedido = this.service.buscar_rutas_pendientes(this.offset[i]).subscribe((data) => {
-            // console.log(data.length);
-            if (data.length === 0) {
-              cantActual = 0
-              this.isLoadingTable = false
-              // alert("productos pendientes listo")
-              clearTimeout(this.timeouts[i]);
-            } else {
+          console.log("ssdadas")
+          if (this.tienda[i] === "fin") {
+            cantActual = 0
+            console.log("its Over")
+            this.isLoadingTable = false
+            // alert("productos pendientes listo")
+          } else {
+            this.subPedido = this.service.pendientes_choice(this.fecha_inicio,this.fecha_fin,"0",this.tienda[i]).subscribe((data) => {
               for (let j = 0; j < data.length; j++) {
                 data[j].Seleccionado = false
                 // console.log("pedido N", j);
@@ -256,7 +315,7 @@ export class TestComponent {
                   ).map(str => (JSON.parse(str))))]
                 this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
                   ).map(str => (JSON.parse(str))))]
-
+      
                 this.regiones = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Region)
                   ).map(str => (JSON.parse(str))))]
                 this.loadPedidos = false
@@ -268,14 +327,16 @@ export class TestComponent {
               this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
               this.cantidadBultos = this.pedidos.length
               // this.cantidadBultos = this.pedidos.reduce((acum, pedido) => acum + pedido.Bultos, 0)
-
-            }
+      
+            // }
           }, error => {
             alert(error.error.detail)
           });
-        }, 18320 * i);
+        }
+        }, 15320 * i);
         // Guardar la referencia al setTimeout en el arreglo
         this.timeouts.push(timeoutId);
+        
       }
   }
 

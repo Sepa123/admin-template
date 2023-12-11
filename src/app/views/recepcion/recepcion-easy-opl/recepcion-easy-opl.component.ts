@@ -207,7 +207,8 @@ export class RecepcionEasyOplComponent {
           
           this.service.updateFieldRecepcionEasyOPL(body).subscribe((data : any) => {
             // alert(data.message)
-            this.initRecepcionEasyOPL()
+            // this.initRecepcionEasyOPL()
+            this.filterByCarga(this.cargaActual)
             this.codigoProducto = ""
           },(error) => {
             alert(error.error.detail)
@@ -261,7 +262,8 @@ export class RecepcionEasyOplComponent {
 
     this.service.updateFieldRecepcionEasyOPL(body).subscribe((data : any) => {
       // alert(data.message)
-      this.initRecepcionEasyOPL()
+      // this.initRecepcionEasyOPL()
+      this.filterByCarga(this.cargaActual)
       this.codigoProducto = ""
     })
   }

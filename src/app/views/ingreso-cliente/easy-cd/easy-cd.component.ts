@@ -171,7 +171,8 @@ export class EasyCdComponent {
       // alert(data.message)
       
       this.codigoProducto = ""
-      this.initRecepionEasyCD()
+      // this.initRecepionEasyCD()
+      this.filterByCarga(this.cargaActual)
     },(error) => {
       alert(error.error.detail)
     }
@@ -200,7 +201,8 @@ export class EasyCdComponent {
     this.service.updateVerified(body).subscribe((data : any) => {
       // alert(data.message)
       this.codigoProducto = ""
-      this.initRecepionEasyCD()
+      // this.initRecepionEasyCD()
+      this.filterByCarga(this.cargaActual)
     })
   }
 

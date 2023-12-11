@@ -42,7 +42,7 @@ export class PedidoService {
     return  this.http.get(this.apiurl + `/pendientes/fechas`)
   }
 
-  pendientes_spo_elux(fecha_inicio : string, fecha_fin : string, offset : string) {
+  pendientes_spo_elux(fecha_inicio : string, fecha_fin : string) {
     return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/pendientes/sportex-electrolux?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=0`)
   }
 
@@ -51,11 +51,15 @@ export class PedidoService {
   }
 
   pendientes_opl(fecha_inicio : string, fecha_fin : string, offset : string) {
-    return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/pendientes/easy_opl/mio?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
+    return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/pendientes/easy_opl?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
   }
 
   pendientes_cd(fecha_inicio : string, fecha_fin : string, offset : string) {
     return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/pendientes/easy_cd?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
+  }
+
+  pendientes_choice(fecha_inicio : string, fecha_fin : string, offset : string, choice : string) {
+    return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/pendientes/${choice}?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
   }
 
   

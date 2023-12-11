@@ -103,7 +103,9 @@ getLocationAsync(): Promise<any> {
   }
 
   initRecepionEasyCD(){
+    
     this.service.getRecepcionEasyCD().subscribe((data) => {
+      
       this.cantRecepcionados = data.filter(producto => producto.Recepcion == true).length
       this.cantNoRecepcionados = data.filter(producto => producto.Recepcion == false).length
 
@@ -126,6 +128,7 @@ getLocationAsync(): Promise<any> {
     
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     console.log(this.idPortal)
+    console.log("Carga actual ",this.cargaActual)
     this.subRecepcionEasyCd()
     
     // this.tiService.get_cargas_easy_api().subscribe((data) => {
@@ -213,7 +216,10 @@ getLocationAsync(): Promise<any> {
       console.log(codigo_producto)
       this.productosUltimo = this.productos.filter((producto) => producto.Codigo_producto == codigo_producto)  
 
-      this.initRecepionEasyCD()
+      //  this.initRecepionEasyCD()
+
+      this.filterByCarga(this.cargaActual)
+
     },(error) => {
       alert(error.error.detail)
     }
@@ -244,7 +250,8 @@ getLocationAsync(): Promise<any> {
     this.service.updateFieldRecepcionEasyCD(body).subscribe((data : any) => {
       // alert(data.message)
       this.codigoProducto = ""
-      this.initRecepionEasyCD()
+      // this.initRecepionEasyCD()
+      this.filterByCarga(this.cargaActual)
     },(error) => {
       alert(error.error.detail)
     }

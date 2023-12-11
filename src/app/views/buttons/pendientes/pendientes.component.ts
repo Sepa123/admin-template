@@ -41,45 +41,90 @@ export class PendientesComponent implements OnInit{
   origen: any[] = []
 
 
+  fecha_inicio : string =""
+  fecha_fin : string =""
+
+  tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","sportex-electrolux","fin"]
+
   ngOnInit():void {
     // this.getData()
-    
-    this.getPedidos()
-    // const body = { "Fecha_inicio" : "null", "Fecha_fin": "20230831" }
-    // this.service.test_pendientes("null","null").subscribe((data) => {
-    //   this.pedidosFull = data
-    //   this.pedidos = this.pedidosFull
-    //   this.isLoadingTable = false
-    //   this.origen = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Origen)
-    //     ).map(str => (JSON.parse(str))))]
-    //   this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
-    //     ).map(str => (JSON.parse(str))))]
+    // this.getPedidos()
 
-    //   this.regiones = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Region)
-    //     ).map(str => (JSON.parse(str))))]
-    //   this.loadPedidos = false
-    //   this.cantidad = this.pedidos.length
-    // }, (error) => {
-    //   alert(error.error.detail)
-    // })
+
+    this.service.get_fechas().subscribe((data : any) => {
+      this.fecha_inicio = data.Fecha_inicio
+      this.fecha_fin = data.Fecha_fin
+
+      this.getPedidos()
+
+
+     // this.retiroTienda()
+
+    // this.pendienteseOpl()
+    })
   }
+
+  // getPedidos() {
+
+  //   // Crear un arreglo para almacenar las referencias a los setTimeout
+  //     let cantActual : number = 1
+
+  //     for (let i = 0; i < this.offset.length; i++) {
+  //       const timeoutId = setTimeout(() => {
+  //          this.subPedido = this.service.buscar_rutas_pendientes(this.offset[i]).subscribe((data) => {
+  //           // console.log(data.length);
+  //           if (data.length === 0) {
+  //             cantActual = 0
+  //             this.isLoadingTable = false
+  //             // alert("productos pendientes listo")
+  //             clearTimeout(this.timeouts[i]);
+  //           } else {
+  //             for (let j = 0; j < data.length; j++) {
+  //               // console.log("pedido N", j);
+  //               this.pedidos.push(data[j]);
+  //               this.pedidos = this.pedidosFull
+  //               this.origen = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Origen)
+  //                 ).map(str => (JSON.parse(str))))]
+  //               this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
+  //                 ).map(str => (JSON.parse(str))))]
+
+  //               this.regiones = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Region)
+  //                 ).map(str => (JSON.parse(str))))]
+  //               this.loadPedidos = false
+  //               this.cantidad = this.pedidos.length
+  //             }
+  //             this.loadPedidos = false;
+  //             this.cantidad = this.pedidos.length;
+
+  //           }
+  //         }, error => {
+  //           alert(error.error.detail)
+  //         });
+  //       }, 18320 * i);
+  //       // Guardar la referencia al setTimeout en el arreglo
+  //       this.timeouts.push(timeoutId);
+  //     }
+  // }
+
 
   getPedidos() {
 
     // Crear un arreglo para almacenar las referencias a los setTimeout
-      let cantActual : number = 1
+      let cantActual : number = 0
 
-      for (let i = 0; i < this.offset.length; i++) {
+      for (let i = 0; i < this.tienda.length; i++) {
+        // console.log("hola")
         const timeoutId = setTimeout(() => {
-           this.subPedido = this.service.buscar_rutas_pendientes(this.offset[i]).subscribe((data) => {
-            // console.log(data.length);
-            if (data.length === 0) {
-              cantActual = 0
-              this.isLoadingTable = false
-              // alert("productos pendientes listo")
-              clearTimeout(this.timeouts[i]);
-            } else {
+          console.log("ssdadas")
+          if (this.tienda[i] === "fin") {
+            cantActual = 0
+            console.log("its Over")
+            this.isLoadingTable = false
+            // alert("productos pendientes listo")
+          } else {
+            this.subPedido = this.service.pendientes_choice(this.fecha_inicio,this.fecha_fin,"0",this.tienda[i]).subscribe((data) => {
               for (let j = 0; j < data.length; j++) {
+                data[j].Seleccionado = false
                 // console.log("pedido N", j);
                 this.pedidos.push(data[j]);
                 this.pedidos = this.pedidosFull
@@ -87,22 +132,28 @@ export class PendientesComponent implements OnInit{
                   ).map(str => (JSON.parse(str))))]
                 this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
                   ).map(str => (JSON.parse(str))))]
-
+      
                 this.regiones = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Region)
                   ).map(str => (JSON.parse(str))))]
                 this.loadPedidos = false
                 this.cantidad = this.pedidos.length
               }
               this.loadPedidos = false;
-              this.cantidad = this.pedidos.length;
-
-            }
+              // this.cantidad = this.pedidos.length;
+              // this.cantidadBultos = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length
+              this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+              // this.cantidadBultos = this.pedidos.length
+              // this.cantidadBultos = this.pedidos.reduce((acum, pedido) => acum + pedido.Bultos, 0)
+      
+            // }
           }, error => {
             alert(error.error.detail)
           });
-        }, 18320 * i);
+        }
+        }, 15320 * i);
         // Guardar la referencia al setTimeout en el arreglo
         this.timeouts.push(timeoutId);
+        
       }
   }
 
