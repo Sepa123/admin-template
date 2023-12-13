@@ -195,7 +195,14 @@ export class EasyOplNewComponent {
         const bulto = this.ListaProductos.filter(lista => lista.Codigo_producto == data[0].Codigo_producto || lista.Codigo_pedido == data[0].Codigo_pedido)
         console.log(this.codProductoModal)
         console.log(bulto)
-        this.numBultos = bulto[0].Bultos
+        if (bulto.length == 0){
+          this.service.getBultosOPL(this.productosPorVerificarByCP[0].Codigo_pedido).subscribe((data) => {
+            this.numBultos = data.Bultos
+          })
+        } else {
+          this.numBultos = bulto[0].Bultos
+        }
+        
 
         this.toggleLiveCantidad()
       },(error) => {

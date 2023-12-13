@@ -30,6 +30,10 @@ export class RecepcionService {
     return this.http.get<ProductoOPL[]>(this.apiurl + "/easy_opl/detalle")
   }
 
+  getBultosOPL( suborden : string){
+    return this.http.get<ProductoOPL>(this.apiurl + `/easy_opl/bultos?suborden=${suborden}`)
+  }
+
   getRecepcionEasyCD(){
     return this.http.get<ProductoOPL[]>(this.apiurl + "/easy_cd")
   }
