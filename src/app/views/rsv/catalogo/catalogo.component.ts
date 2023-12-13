@@ -176,6 +176,9 @@ export class CatalogoComponent {
         Codigo_final : ""
       })
       this.selectedCodColor = "#FFFFFF"
+
+      this.arrCatalogoRSVFull  = []
+      this.arrCatalogoRSV  = []
       this.obtenerCatalogo()
       this.toggleLiveDemo()
       this.codigoFinal = ""
