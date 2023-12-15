@@ -63,10 +63,15 @@ export const navItems: INavDataBar[] = [
         roles : ['5','13','14']
       },
       {
+        name: 'NS Verificados',
+        url: '/dashboard/ns-verificados'
+       },
+      {
         name: 'Hoy',
         url: '/dashboard/hoy',
         roles : ['5','13','14']
       },
+      
     ]
   },
   {

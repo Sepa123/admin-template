@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 
 import {
   AvatarModule,
@@ -22,6 +22,7 @@ import { DashboardComponent } from './dashboard.component';
 
 import { WidgetsModule } from '../widgets/widgets.module';
 import { HoyComponent } from './hoy/hoy.component';
+import { NsVerificadosComponent } from './ns-verificados/ns-verificados.component';
 
 @NgModule({
   imports: [
@@ -41,9 +42,10 @@ import { HoyComponent } from './hoy/hoy.component';
     ChartjsModule,
     AvatarModule,
     TableModule,
+    FormsModule,
     WidgetsModule
   ],
-  declarations: [DashboardComponent, HoyComponent]
+  declarations: [DashboardComponent, HoyComponent, NsVerificadosComponent]
 })
 export class DashboardModule {
 }

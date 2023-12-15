@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from './dashboard.component';
 import { HoyComponent } from './hoy/hoy.component';
+import { NsVerificadosComponent } from './ns-verificados/ns-verificados.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,14 @@ const routes: Routes = [
           title: 'Hoy'
         }
       },
+      {
+        path: 'ns-verificados',
+        component: NsVerificadosComponent,
+        data: {
+          title: 'Ns verificados'
+        }
+        
+      }
     ]
   }
 ];

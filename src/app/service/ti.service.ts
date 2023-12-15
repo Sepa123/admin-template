@@ -17,6 +17,7 @@ import { ProductoPicking } from "src/app/models/productoPicking.interface"
 import { CargasComparacion } from '../models/cargasComparacion.interface';
 import { NSBeetrackRango } from '../models/nsBeetrackRango.interface'
 import { PendienteBodega } from '../models/pendienteBodega.interface'
+import { NsVerificado } from '../models/nsVerificado.interface'
 
 import { interval,Observable, switchMap  } from 'rxjs';
 @Injectable({
@@ -134,7 +135,7 @@ export class TIService {
   }
 
   get_reportes_easy_region(): Observable<any> {
-    return interval(3500).pipe( switchMap(() => this.http.get<ReporteEasyRegion[]>(this.apiurl+"/productos/easy_region")))
+    return interval(10000).pipe( switchMap(() => this.http.get<ReporteEasyRegion[]>(this.apiurl+"/productos/easy_region")))
   }
 
   get_pedidos_sin_despacho() {
@@ -271,6 +272,12 @@ export class TIService {
 
   update_pendiente_bodega() : Observable<any>{
     return interval(30000).pipe(switchMap(() => this.http.get<PendienteBodega []>(this.apiurl + "/pendientes/bodega") ))  
+  }
+
+
+  get_ns_verificados(fecha : string){
+    return this.http.get <NsVerificado []>(this.apiurl + `/ns/verificados?fecha=${fecha}`)
+
   }
   
 }

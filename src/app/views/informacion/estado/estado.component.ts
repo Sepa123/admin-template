@@ -43,10 +43,8 @@ export class EstadoComponent implements OnInit {
 
 
   ngOnInit(): void{
-    this.service.get_cargas_por_hora_init().subscribe((data) => {
-      this.cargaHora = data;
-      this.isLoadingCarga = false;
-    })
+
+    
     
     this.subscription = this.service.get_cargas_por_hora().subscribe((data) => {
       this.cargaHora = data;
@@ -60,29 +58,101 @@ export class EstadoComponent implements OnInit {
 
     this.subscripcionCargasComparacion()
 
-    this.service.get_pedidos_sin_tienda().subscribe((data) => {
-      this.pedidoSinTiendas = data
-      this.isLoadingSinTienda = false
+
+    setTimeout(() => {
+      this.service.get_pedidos_sin_tienda().subscribe((data) => {
+        this.pedidoSinTiendas = data
+        this.isLoadingSinTienda = false
+        
+        if(this.pedidoSinTiendas.length === 0){
+          this.noData = true
+        }
+      })
+    }, 400);
+
+    setTimeout(() => {
+      this.service.get_ns_verificados("20231211").subscribe(data => {
+      console.log(data)
+    })
+    }, 700);
+
+    setTimeout(() => {
+      this.service.get_pedidos_tienda_easy_opl().subscribe((data) => {
+        this.pedidoEasyOPL = data
+        this.isLoadingEasyOPL = false
+      })
+    }, 1000);
+
+    setTimeout(() => {
+      this.service.get_cargas_easy_api().subscribe(data => {
+        this.cargasEasyAPI = data
+        this.isLoadingCargaComparacionAPI = false;
+      })
+  
+      this.service.get_cargas_easy_wms().subscribe(data => {
+        this.cargasEasyWMS = data
+        this.isLoadingCargaComparacionWMS = false;
+      })
+    }, 1300);
+
+
+    setTimeout(() => {
+      this.service.get_cargas_por_hora_init().subscribe((data) => {
+        this.cargaHora = data;
+        this.isLoadingCarga = false;
+      })
+
+    }, 2100);
+
+
+
+    // this.service.get_cargas_por_hora_init().subscribe((data) => {
+    //   this.cargaHora = data;
+    //   this.isLoadingCarga = false;
+    // })
+    
+    // this.subscription = this.service.get_cargas_por_hora().subscribe((data) => {
+    //   this.cargaHora = data;
+    //   this.isLoadingCarga = false;
+    // })
+
+    // this.subscriptionRegion = this.service.get_reportes_easy_region().subscribe(data => {
+    //   this.easyRegion = data;
+    //   this.isLoadingEasyRegion = false;
+    // })
+
+    // this.subscripcionCargasComparacion()
+
+    // this.service.get_pedidos_sin_tienda().subscribe((data) => {
+    //   this.pedidoSinTiendas = data
+    //   this.isLoadingSinTienda = false
       
-      if(this.pedidoSinTiendas.length === 0){
-        this.noData = true
-      }
-    })
+    //   if(this.pedidoSinTiendas.length === 0){
+    //     this.noData = true
+    //   }
+    // })
 
-    this.service.get_pedidos_tienda_easy_opl().subscribe((data) => {
-      this.pedidoEasyOPL = data
-      this.isLoadingEasyOPL = false
-    })
+    // this.service.get_pedidos_tienda_easy_opl().subscribe((data) => {
+    //   this.pedidoEasyOPL = data
+    //   this.isLoadingEasyOPL = false
+    // })
 
-    this.service.get_cargas_easy_api().subscribe(data => {
-      this.cargasEasyAPI = data
-      this.isLoadingCargaComparacionAPI = false;
-    })
+    // this.service.get_cargas_easy_api().subscribe(data => {
+    //   this.cargasEasyAPI = data
+    //   this.isLoadingCargaComparacionAPI = false;
+    // })
 
-    this.service.get_cargas_easy_wms().subscribe(data => {
-      this.cargasEasyWMS = data
-      this.isLoadingCargaComparacionWMS = false;
-    })
+    // this.service.get_cargas_easy_wms().subscribe(data => {
+    //   this.cargasEasyWMS = data
+    //   this.isLoadingCargaComparacionWMS = false;
+    // })
+
+    
+
+
+
+    
+
   }
 
   subscripcionCargasComparacion () {

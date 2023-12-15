@@ -6,23 +6,19 @@ import { Subscription } from 'rxjs';
 import { RutasService } from 'src/app/service/rutas.service';
 import { TIService } from 'src/app/service/ti.service';
 import { NsVerificado } from 'src/app/models/nsVerificado.interface'
+
 @Component({
-  selector: 'app-test',
-  templateUrl: './test.component.html',
-  styleUrls: ['./test.component.scss']
+  selector: 'app-ns-verificados',
+  templateUrl: './ns-verificados.component.html',
+  styleUrls: ['./ns-verificados.component.scss']
 })
-export class TestComponent {
+export class NsVerificadosComponent {
+
   public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger'];
 
   isLoadingTable: boolean = true;
 
-  constructor(private service:TIService, private rutaService : RutasService) { }
-
-  subPedido! :Subscription
-
-  body : any = {
-
-  }
+  constructor(private service:TIService) { }
 
   nsVerificados : NsVerificado [] = []
 
@@ -31,44 +27,30 @@ export class TestComponent {
 
   loadPedidos : boolean = true
 
-
-  isModalOpen: boolean = false
-  public visible = false;
-
-  toggleLiveDemo() {
-    this.visible = !this.visible;
-  }
-
-  handleLiveDemoChange(event: any) {
-    this.visible = event;
-  }
-  
-  openModal(){
-    this.isModalOpen = true
-  }
-
-  closeModal(){
-    this.isModalOpen = false
-  }
-
-
   buscarNsPorFecha(){
+    this.nsVerificados = []
+    this.isLoadingTable = true
     const fecharFormateada = this.fechaNs.split('-').join('')
     this.service.get_ns_verificados(fecharFormateada).subscribe(data => {
       this.nsVerificados = data
+      this.isLoadingTable = false
     })
   }
 
   ngOnInit():void {
 
     const fecha = new Date();
-    let fechaFormateada = fecha.toISOString().split('T')[0];
+    let fechaFormateada = fecha.toLocaleDateString().split('-').reverse().join('-')
+    // let fechaFormateada = fecha.toISOString().split('T')[0];
 
+    console.log(fechaFormateada)
     this.fechaNs = fechaFormateada
 
     setTimeout(() => {
       this.service.get_ns_verificados(this.fechaNs).subscribe(data => {
+      
       this.nsVerificados = data
+      this.isLoadingTable = false
     })
     }, 700);
 
@@ -77,5 +59,6 @@ export class TestComponent {
  ngOnDestroy(): void {
 
   }
+
 
 }

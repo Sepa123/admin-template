@@ -43,14 +43,14 @@ export class EstadosComponent implements OnInit {
 
 
   ngOnInit(): void{
-
     
+    setTimeout(() => {
+      this.service.get_cargas_por_hora_init().subscribe((data) => {
+        this.cargaHora = data;
+        this.isLoadingCarga = false;
+      })
 
-    
-    this.service.get_cargas_por_hora_init().subscribe((data) => {
-      this.cargaHora = data;
-      this.isLoadingCarga = false;
-    })
+    }, 2100);
     
     this.subscription = this.service.get_cargas_por_hora().subscribe((data) => {
       this.cargaHora = data;
