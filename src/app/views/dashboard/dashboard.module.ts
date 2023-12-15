@@ -19,7 +19,7 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
-
+import { NgChartsModule } from 'ng2-charts';
 import { WidgetsModule } from '../widgets/widgets.module';
 import { HoyComponent } from './hoy/hoy.component';
 import { NsVerificadosComponent } from './ns-verificados/ns-verificados.component';
@@ -43,7 +43,8 @@ import { NsVerificadosComponent } from './ns-verificados/ns-verificados.componen
     AvatarModule,
     TableModule,
     FormsModule,
-    WidgetsModule
+    WidgetsModule,
+    NgChartsModule
   ],
   declarations: [DashboardComponent, HoyComponent, NsVerificadosComponent]
 })

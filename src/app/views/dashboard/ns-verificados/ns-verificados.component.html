@@ -1,5 +1,6 @@
 <h2> Nivel Servicio Verificados </h2>
 <p></p>
+
 <table> 
     <tr>
       <td>
@@ -32,8 +33,20 @@
     </tr>
     <tr>
       <td colspan="4" *ngIf="isLoadingTable"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
-
     </tr>
-  
   </tbody>
 </table>  
+<c-row>
+<div style="display: block; width: 400px; height: 300px;">
+  <canvas
+  *ngIf="chartVisible == true && graficoVisible == true"
+    baseChart
+    class="chart"
+    [data]="pieChartData"
+    [type]="pieChartType"
+    [options]="pieChartOptions"
+  >
+  </canvas>
+</div>  
+</c-row>
+<p></p>
