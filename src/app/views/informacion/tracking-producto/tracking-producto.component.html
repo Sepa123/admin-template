@@ -154,15 +154,16 @@
           <table class="greenTable" >
             <thead>
               <tr>
-                  <th>Código de Pedido</th>
-                  <th>Fecha de Pedido</th>
-                  <th>Código de Producto</th>
-                  <th>Descripción del Producto</th>
+                  <th>Código Pedido</th>
+                  <th>Fecha Pedido</th>
+                  <th>Fecha Pedido Orignal</th>
+                  <th>Código Producto</th>
+                  <th>Descripción Producto</th>
                   <th>SKU</th>
-                  <th>Cantidad de Producto</th>
+                  <th>Cantidad</th>
                   <th>Notas</th>
                   <th>Verificado</th>
-                  <th *ngIf="factura !== [] "> Factura</th>
+                  <th *ngIf="factura.length !== 0 "> Factura</th>
               </tr>
             </thead>
             <tbody>
@@ -174,6 +175,7 @@
                   'adelantada': producto.Diferencias_dias > 0 && producto.Diferencias_dias <= 2,
                   'muyAdelantada': producto.Diferencias_dias > 2
                 }">{{producto.Fecha_pedido}}</th>
+                <td >{{producto.Fecha_original_pedido}}</td>
                 <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Codigo_producto}}</td>
                 <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Descripcion_producto}}</td>
                 <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.SKU}}</td>

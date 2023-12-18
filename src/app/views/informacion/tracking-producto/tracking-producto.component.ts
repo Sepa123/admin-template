@@ -167,7 +167,10 @@ export class TrackingProductoComponent {
       });
   }
 
+  isElux : boolean = false
   buscarTrackBeetrack(codigo : string){
+    this.isElux = false
+    
       this.factura = []
       this.productosRuta = []
       this.fechaIngresoSistema = ""
@@ -220,6 +223,7 @@ export class TrackingProductoComponent {
 
       if(this.productosRuta[0].Notas.indexOf("Electrolux") !== -1){
         this.buscarFacturaElectrolux(codigo)
+        this.isElux = true
       }else {
         this.factura = []
       }

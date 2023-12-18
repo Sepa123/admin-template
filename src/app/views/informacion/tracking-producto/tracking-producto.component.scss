@@ -182,8 +182,9 @@ fill:#000000
   }
   
   table.greenTable tbody th {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
+    white-space: nowrap;
   }
   table.greenTable tr:nth-child(even) {
     background: #FFFEF3;
