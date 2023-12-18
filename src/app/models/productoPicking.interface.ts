@@ -12,6 +12,7 @@ export interface ProductoPicking {
     Email:                string;
     Codigo_pedido:        string;
     Fecha_pedido:         string;
+    Fecha_original_pedido: string;
     Diferencias_dias:    number;
     Operacion:            string;
     Codigo_producto:      string;

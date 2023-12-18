@@ -15,31 +15,26 @@ import { BaseChartDirective } from 'ng2-charts';
   styleUrls: ['./ns-verificados.component.scss']
 })
 export class NsVerificadosComponent {
+  
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
+    maintainAspectRatio: false, 
     plugins: {
-    //   datalabels: {
-    //     color: 'black', // Color del texto
-    //     formatter: (value, context) => {
-    //         const dataset = context.chart.data.datasets[context.datasetIndex];
-    //         console.log("ASSDAS")
-    //         if(dataset.data[0] == null || dataset.data[1] == null) {return 0}
-    //         else{
-
-    //           let total = parseFloat(dataset.data[0].toString()) + parseFloat(dataset.data[1].toString())
-    //           let porcentaje = ((value / total) * 100).toFixed(2) + '%';
-    //           console.log(porcentaje)
-    //           return porcentaje
-    //         }
-    //     },
-    //     display: true // Mostrar etiquetas de datos
-    // },
-      legend: {
-        display: true,
-        position: 'right',
-      },
+      datalabels: {
+        color: 'black', // Color del texto
+        formatter: (value, context) => {
+            const dataset = context.chart.data.datasets[context.datasetIndex];
+            if(dataset.data[0] == null || dataset.data[1] == null) {return 0}
+            else{
+              let total = parseFloat(dataset.data[0].toString()) + parseFloat(dataset.data[1].toString())
+              let porcentaje = ((value / total) * 100).toFixed(2) + '%';
+              return porcentaje
+            }
+        },
+        display: true // Mostrar etiquetas de datos
+    }
     },
   };
 
@@ -48,6 +43,10 @@ export class NsVerificadosComponent {
     datasets: [
       {
         data: [1],
+        backgroundColor: [
+          '#28A745',
+          '#EC7063'
+        ],
       },
     ],
   };
@@ -76,11 +75,9 @@ export class NsVerificadosComponent {
 
   loadPedidos : boolean = true
 
-  nombreTienda : string [] = ["Verificados", "Total registros"]
+  nombreTienda : string [] = ["Verificados", "Sin verificar"]
 
   porcentaje : number [] = []
-
-
 
   options = {
     plugins : {
@@ -93,13 +90,18 @@ export class NsVerificadosComponent {
 
   data = {
     labels: [
-      'green',
-      'Red'
+      'Green',
+      'Red',
+      'Yellow'
     ],
     datasets: [{
       label: 'My First Dataset',
       data: [300, 50, 100],
-      backgroundColor: ['#33FF36', '#F41414'],
+      backgroundColor: [
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)'],
+      
       hoverOffset: 4
     }],
   };
@@ -113,8 +115,9 @@ export class NsVerificadosComponent {
       
       this.nsVerificados = data
       this.porcentaje = []
+      const resta = this.nsVerificados[4].Total_registros - this.nsVerificados[4].Productos_verificados
       this.porcentaje.push(this.nsVerificados[4].Productos_verificados)
-      this.porcentaje.push(this.nsVerificados[4].Total_registros)
+      this.porcentaje.push(resta)
       this.agregar(this.nombreTienda,  this.porcentaje)
       this.graficoVisible = true
       this.isLoadingTable = false
@@ -124,8 +127,14 @@ export class NsVerificadosComponent {
   ngOnInit():void {
 
     const fecha = new Date();
-    let fechaFormateada = fecha.toLocaleDateString().split('-').reverse().join('-')
+    // let fechaFormateada = fecha.toLocaleDateString().split('-').reverse().join('-')
     // let fechaFormateada = fecha.toISOString().split('T')[0];
+
+        // Restar 4 horas
+    fecha.setHours(fecha.getHours() - 4);
+
+    // Formatear la fecha en el formato yyyymmdd
+    const fechaFormateada = fecha.toISOString().split('T')[0];
 
     console.log(fechaFormateada)
     this.fechaNs = fechaFormateada
@@ -133,8 +142,9 @@ export class NsVerificadosComponent {
     setTimeout(() => {
       this.service.get_ns_verificados(this.fechaNs).subscribe(data => {
       this.nsVerificados = data
+      const resta = this.nsVerificados[4].Total_registros - this.nsVerificados[4].Productos_verificados
       this.porcentaje.push(this.nsVerificados[4].Productos_verificados)
-      this.porcentaje.push(this.nsVerificados[4].Total_registros)
+      this.porcentaje.push(resta)
       this.agregar(this.nombreTienda,  this.porcentaje)
       this.graficoVisible = true
       this.isLoadingTable = false

@@ -209,6 +209,7 @@ export class EasyOplNewComponent {
         alert(error.error.detail)
       })
     }
+    this.codigoProducto = ""
   }
 
   guardarDatosBultos(){
@@ -230,6 +231,7 @@ export class EasyOplNewComponent {
       if(data.mostrar == true){
         alert(data.message)
       }
+      this.toggleLiveCantidad()
     }, error => {
       console.log(error)
     })

@@ -112,6 +112,7 @@
             <th>Provincia/Estado</th>
             <th>Código de Pedido</th>
             <th>Fecha de Pedido</th>
+            <th>Fecha Pedido Original</th>
             <th>Código de Producto</th>
             <th>Descripción del Producto</th>
             <th>Cantidad de Producto</th>
@@ -139,6 +140,11 @@
             'adelantada': producto.Diferencias_dias > 0 && producto.Diferencias_dias <= 2,
             'muyAdelantada': producto.Diferencias_dias > 2
           }">{{producto.Fecha_pedido}}</th>
+          <th [ngClass]="{
+            'atrasada': producto.Diferencias_dias <= 0,
+            'adelantada': producto.Diferencias_dias > 0 && producto.Diferencias_dias <= 2,
+            'muyAdelantada': producto.Diferencias_dias > 2
+          }">{{producto.Fecha_original_pedido}}</th>
           <td [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Codigo_producto}}</td>
           <td [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Descripcion_producto}}</td>
           <td [ngClass]="producto.Estado == 'Entregado' ?  'entregado' : producto.Estado == 'Cancelado' ? 'cancelado' : '' ">{{producto.Cantidad_producto}}</td>

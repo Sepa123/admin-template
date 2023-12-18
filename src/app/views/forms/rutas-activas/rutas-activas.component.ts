@@ -225,6 +225,8 @@ export class RutasActivasComponent {
       month: fecha.getMonth() + 1, 
       day:  fecha.getDate()
     }
+    fecha.setHours(fecha.getHours() - 4);
+
     let fechaFormateada = fecha.toISOString().split('T')[0];
 
     this.service.comunas_rutas_activas(fechaFormateada).subscribe((data) => {
@@ -241,6 +243,16 @@ export class RutasActivasComponent {
     this.fechaActual = fechaFormateada
     // this.getNombreByFecha(ObjcurrentDate)
     this.getNombreByFecha(this.fechaActual)
+  }
+
+
+  eliminarRuta() {
+    let isSeguro = confirm(`¿Seguro que desea eliminar la ruta ${this.nombreRutaActual} ?`);
+    if (!isSeguro) return console.log("no esta seguro")
+
+    this.service.delete_ruta(this.nombreRutaActual).subscribe( (data : any) => {
+      alert(data.message)
+    })
   }
   
 

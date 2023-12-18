@@ -50,7 +50,7 @@ export class RecepcionService {
   //Update cada 15 segundos o 2 minutos
 
   updateRecepcionEasyOPLDetalle(){
-    return interval(12000).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/easy_opl/detalle")))
+    return interval(5300).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + "/easy_opl/detalle")))
    
   }
 

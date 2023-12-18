@@ -62,6 +62,10 @@ export class RutasService {
     return this.http.delete(this.apiurl + `/eliminar/producto/${cod_producto}/${nombre_ruta}`)
   }
 
+  delete_ruta(nombre_ruta: string) {
+    return this.http.delete(this.apiurl + `/eliminar/ruta/${nombre_ruta}`)
+  }
+
   insert_ruta_existente_activa(fecha_ruta : string ,data : ProductoPicking [][]){
     return this.http.post(this.apiurl + `/agregar/ruta_activa_existente?fecha_ruta_nueva=${fecha_ruta}`,data)
   }
