@@ -160,6 +160,11 @@ export class RutasService {
     return this.http.put(this.apiurl + `/actualizar/estado/activo/${nombre_ruta}/abrir`,data)
   }
 
+
+  eliminar_productos_por_fila(data : any) {
+    return this.http.put(this.apiurl + `/eliminar/productos`,data)
+  }
+
   
   
 }

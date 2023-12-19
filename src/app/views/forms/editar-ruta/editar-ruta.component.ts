@@ -138,7 +138,7 @@ export class EditarRutaComponent {
 
     this.idUsuario = sessionStorage.getItem("id")+""
     this.nombreRutaEditar = this.nombreRutaService.getCodigo()
-    // this.nombreRutaEditar= '02883-0092-20231207'
+    // this.nombreRutaEditar= '03152-1190-20231219'
     this.service.get_ruta_by_nombre_ruta(this.nombreRutaEditar).subscribe((data) => {
       this.arrayRuta = data
       this.idRutaEditar = this.arrayRuta[0].Id_ruta
@@ -196,6 +196,30 @@ export class EditarRutaComponent {
 
   }
  //2906175306
+
+  eliminaFila(index : number, arrayRuta : ProductoPicking []){  
+
+    console.log(index + 1)
+    console.log(arrayRuta)
+    let isSeguro = confirm("¿Seguro que desea eliminar estos productos?");
+    if (!isSeguro) return console.log("no esta seguro")
+
+    let lista = arrayRuta.map((ruta) => ruta.Codigo_pedido).join(',')
+    const body = {
+      nombre_ruta : this.nombreRutaEditar,
+      lista : lista
+    }
+
+    console.log(body)
+
+    this.service.eliminar_productos_por_fila(body).subscribe((data : any ) => {
+      this.arrayRutasIngresados.splice(index,1)
+      if(data.mostrar == true) {
+        alert(data.message)
+      }
+    })
+  }
+
 
   getAlertaConductor(nombre_ruta: string){
     let carga_actual 
