@@ -130,6 +130,8 @@ export class EditarRutaComponent {
   ngOnInit() {
     this.loadSvg()  
     
+
+    this.getLocation()
     const fecha = new Date();
 
     let fechaFormateada = fecha.toISOString().split('T')[0];
@@ -137,6 +139,7 @@ export class EditarRutaComponent {
     this.fechaPedido = fechaFormateada
 
     this.idUsuario = sessionStorage.getItem("id")+""
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     this.nombreRutaEditar = this.nombreRutaService.getCodigo()
     // this.nombreRutaEditar= '03191-1190-20231220'
     this.service.get_ruta_by_nombre_ruta(this.nombreRutaEditar).subscribe((data) => {
@@ -245,21 +248,32 @@ export class EditarRutaComponent {
     }
     return this.isBlockButton = true;
   }
+
+  //datos geo
+  latitude!: number
+  longitud! :number
+  latStr!: string
+  longStr!: string
   
-  // todosEnRuta(): boolean {
-  //   console.log(this.arrayRutasIngresados)
-  //   if (this.arrayRutasIngresados.length === 0){
-  //     return this.isBlockButton = false
-  //   }
-  //   for (const subArray of this.arrayRutasIngresados) {
-  //     for (const item of subArray) {
-  //       if (item.Pistoleado == false) {
-  //         return this.isBlockButton = false;
-  //       }
-  //     }
-  //   }
-  //   return this.isBlockButton = true;
-  // }
+  getLocation(): any {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.showPosition(position)
+
+      });
+    } else {
+      console.log("Localización no disponible");
+    }
+  }
+  showPosition(position: any): any{
+        this.latitude = position.coords.latitude
+        this.longitud= position.coords.longitude 
+       this.latStr = this.latitude.toString()
+        this.longStr = this.longitud.toString()
+
+    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
+  }
+
 
   getRuta(pedido: string) {
     var resultado = pedido.replace(/'/g, "-").trim().toUpperCase()
@@ -274,8 +288,23 @@ export class EditarRutaComponent {
     this.idUsuario = sessionStorage.getItem("id")+""
     const fechaActual = this.obtenerFechaActual();
     this.Nombre_ruta = sessionStorage.getItem("id") + "-"+fechaActual
+
+    // this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+
+
+    const body = {
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "cliente" : "",
+      "n_guia" : resultado,
+      "cod_pedido" : resultado,
+      "cod_producto" : resultado,
+      "ids_usuario" : this.idPortal,
+      "latitud" : this.latStr,
+      "longitud" : this.longStr
+      // "cod_sku" : sku
+    }
     
-    this.service.get_rutas_manual(resultado).subscribe((data) => { 
+    this.service.get_rutas_manual(body).subscribe((data) => { 
       this.arrayRuta = data.map(objeto => {
         this.idPedido = ""
 

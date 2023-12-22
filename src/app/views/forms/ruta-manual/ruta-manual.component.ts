@@ -37,6 +37,12 @@ export class RutaManualComponent {
   isModalOpen: boolean = false
   public visible = false;
 
+  //datos geo
+  latitude!: number
+  longitud! :number
+  latStr!: string
+  longStr!: string
+
   // isDE : boolean = false
   // isDP : boolean = false
 
@@ -96,6 +102,26 @@ export class RutaManualComponent {
   }
 
 
+  getLocation(): any {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.showPosition(position)
+
+      });
+    } else {
+      console.log("Localización no disponible");
+    }
+  }
+  showPosition(position: any): any{
+        this.latitude = position.coords.latitude
+        this.longitud= position.coords.longitude 
+       this.latStr = this.latitude.toString()
+        this.longStr = this.longitud.toString()
+
+    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
+  }
+
+
   calcularDiferencias(arrayRuta : ProductoPicking []) {
     const fechaActual = new Date();
     arrayRuta.forEach(item => {
@@ -107,8 +133,11 @@ export class RutaManualComponent {
   }
 
   ngOnInit() {
+
+    this.getLocation()
     this.loadSvg()
 
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     const fecha = new Date();
 
     let fechaFormateada = fecha.toISOString().split('T')[0];
@@ -142,9 +171,23 @@ export class RutaManualComponent {
     this.Nombre_ruta = sessionStorage.getItem("id") + "-"+fechaActual
 
     console.log(this.Nombre_ruta)
+
+    // this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+
+    const body = {
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "cliente" : "",
+      "n_guia" : resultado,
+      "cod_pedido" : resultado,
+      "cod_producto" : resultado,
+      "ids_usuario" : this.idPortal,
+      "latitud" : this.latStr,
+      "longitud" : this.longStr
+      // "cod_sku" : sku
+    }
     
     console.log(this.arrayRutasIngresados.length)
-    this.service.get_rutas_manual(resultado).subscribe((data) => { 
+    this.service.get_rutas_manual(body).subscribe((data) => { 
       this.posicion = this.arrayRutasIngresados.length + 1
       this.arrayRuta = data.map(objeto => {
         this.idPedido = ""
