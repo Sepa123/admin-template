@@ -138,7 +138,7 @@ export class EditarRutaComponent {
 
     this.idUsuario = sessionStorage.getItem("id")+""
     this.nombreRutaEditar = this.nombreRutaService.getCodigo()
-    // this.nombreRutaEditar= '03152-1190-20231219'
+    // this.nombreRutaEditar= '03191-1190-20231220'
     this.service.get_ruta_by_nombre_ruta(this.nombreRutaEditar).subscribe((data) => {
       this.arrayRuta = data
       this.idRutaEditar = this.arrayRuta[0].Id_ruta

@@ -127,7 +127,7 @@ export class PendientesComponent implements OnInit{
                 data[j].Seleccionado = false
                 // console.log("pedido N", j);
                 this.pedidos.push(data[j]);
-                this.pedidos = this.pedidosFull
+                this.pedidosFull = this.pedidos
                 this.origen = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Origen)
                   ).map(str => (JSON.parse(str))))]
                 this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
@@ -144,7 +144,7 @@ export class PendientesComponent implements OnInit{
               this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
               // this.cantidadBultos = this.pedidos.length
               // this.cantidadBultos = this.pedidos.reduce((acum, pedido) => acum + pedido.Bultos, 0)
-      
+               this.pedidosFull = this.pedidos
             // }
           }, error => {
             alert(error.error.detail)
@@ -197,7 +197,7 @@ export class PendientesComponent implements OnInit{
 
   sortByName(origen: any) : void{
     this.pedidos = this.pedidosFull.filter(pedido => pedido.Origen == origen)
-    this.cantidad = this.pedidos.length
+    this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
   }
 
   filterByFecha() : void {
@@ -210,12 +210,13 @@ export class PendientesComponent implements OnInit{
     var fechaHoyString = año + '-' + mes.toString().padStart(2, '0') + '-' + dia.toString().padStart(2, '0');
 
     this.pedidos = this.pedidos.filter((pedido) => pedido.Fecha_ingreso != fechaHoyString)
-    this.cantidad = this.pedidos.length
+    this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
   }
 
   getFullData(){
     this.pedidos = this.pedidosFull
-    this.cantidad = this.pedidosFull.length
+
+    this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
   }
 
   OrdenFechaIngreso (){
@@ -232,17 +233,17 @@ export class PendientesComponent implements OnInit{
        const fechaB: Date = new Date(b.Fecha_compromiso);
        return fechaB.getTime() - fechaA.getTime() ;
      });
-     this.cantidad = this.pedidos.length
+     this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
  }
 
  filtrarPorComuna (comuna : string){
   this.pedidos = this.pedidosFull.filter(pedido => pedido.Comuna == comuna)
-  this.cantidad = this.pedidos.length
+  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
  }
 
  filtrarPorRegion (region : string){
   this.pedidos = this.pedidosFull.filter(pedido => pedido.Region == region)
-  this.cantidad = this.pedidos.length
+  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
  }
 
  filtrarPorRangoFechaCompromiso(fecha_min : string,fecha_max: string){
@@ -250,7 +251,7 @@ export class PendientesComponent implements OnInit{
     return  new Date(pedido.Fecha_compromiso) >= new Date(fecha_min)
             && new Date(pedido.Fecha_compromiso) >= new Date(fecha_max)
   })
-  this.cantidad = this.pedidos.length
+  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
  }
 
  downloadExcel() : void{
