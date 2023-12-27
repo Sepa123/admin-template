@@ -122,6 +122,18 @@ export const navItems: INavDataBar[] = [
     name: 'Operaciones',
     url: '/operaciones',
     iconComponent: { name: 'cil-clipboard' },
+    roles : [ROLES_ENUM.PICKEADOR_TIENDA],
+    children: [
+      {
+        name: 'Estados',
+        url: '/operaciones/estados'
+      }
+    ]
+  },
+  {
+    name: 'Operaciones',
+    url: '/operaciones',
+    iconComponent: { name: 'cil-clipboard' },
     roles : [ROLES_ENUM.TOC,ROLES_ENUM.JEFE_TOC],
     children: [
       {
@@ -169,6 +181,10 @@ export const navItems: INavDataBar[] = [
       {
         name : 'Rutas Predictivas',
         url : '/picking/prearmado-ruta'
+      },
+      {
+        name : 'Buscar ruta',
+        url : '/picking/buscar-ruta'
       }
     ]
   },
@@ -349,12 +365,24 @@ export const navItems: INavDataBar[] = [
     name: 'Ingreso cliente',
     url: '/ingreso-cliente',
     iconComponent : {name : 'cil-building'},
-    roles : ROLES_PERMITIDOS.INGRESO_CLIENTE,
+    roles : ROLES_PERMITIDOS.INGRESO_CLIENTE_FULL,
     children: [
       {
         name: "Anden Easy",
         url : '/ingreso-cliente/easy-cd'
       },
+      {
+        name: "Easy Tienda",
+        url : '/ingreso-cliente/easy-opl'
+      }
+    ]
+  },
+  {
+    name: 'Ingreso cliente',
+    url: '/ingreso-cliente',
+    iconComponent : {name : 'cil-building'},
+    roles : [ROLES_ENUM.PICKEADOR_TIENDA],
+    children: [
       {
         name: "Easy Tienda",
         url : '/ingreso-cliente/easy-opl'

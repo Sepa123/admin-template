@@ -51,6 +51,7 @@ export interface ProductoPicking {
     Estado_entrega:       string | null;
     Carga_v?:             boolean | null;
     Alerta_conductor?:     boolean | null;  
+    Encontrado?:          boolean;
 }
 
 

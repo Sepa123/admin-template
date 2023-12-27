@@ -15,13 +15,15 @@ export enum ROLES_ENUM {
     SEGURIDAD = '16',
     JEFE_FINANZAS = '17',
     PICKING = '18',
-    RAUDDY = '19',
+    PICKEADOR_TIENDA = '19',
     TOC = '20',
     RUT_PICKEADOR = '21',
     JEFE_TOC = '22',
+    RAUDDY = '23',
     ANALISTA_EXO = '30',
     CLIENTE_RSV = '40',
     OPERARIO_RSV = '42',
     ADMINISTRATIVO_RSV = '43',
-    SUPERVISOR_RSV = '44'
+    SUPERVISOR_RSV = '44',
+
 }

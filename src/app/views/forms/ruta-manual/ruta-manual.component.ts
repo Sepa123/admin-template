@@ -209,7 +209,7 @@ export class RutaManualComponent {
 
       if (this.arrayRutasIngresados.some((array) => array[0].Codigo_pedido === this.arrayRuta[0].Codigo_pedido)) 
       return alert("Este producto ya fue ingresado")
-      
+      console.log(this.arrayRuta)
       this.calcularDiferencias(this.arrayRuta)
       this.arrayRutasIngresados.unshift(this.arrayRuta)
       this.pedidosIngresados = this.arrayRutasIngresados.length

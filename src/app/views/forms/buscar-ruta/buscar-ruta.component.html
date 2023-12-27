@@ -1,0 +1,175 @@
+<h2>Buscar Ruta</h2>
+<!-- <table style="width: 70%;">
+    <tr>
+      <td> -->
+        <input type="text" name="" id="idRuta"  [(ngModel)]="idPedido" (change)="getRuta(idPedido)">
+        <p></p>
+      <!-- </td>
+    </tr>
+
+</table> -->
+
+<p style="font-weight: bold;">{{Descripcion_producto}}</p>
+
+<table class="greenTable">
+  <thead>
+      <tr>
+          <th> Código pedido</th>
+          <th>Ciente</th>
+          <th>Comuna</th>
+          <th>Fecha Pedido</th>
+          <th>Fecha Pedido Original</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let producto of productoRuta; let j = index">
+          <td >{{producto.Codigo_pedido}}</td>
+          <td >{{producto.Notas}}</td>
+          <td>{{producto.Ciudad}}</td>      
+          <td>{{producto.Fecha_pedido}}</td>
+          <td >{{producto.Fecha_original_pedido}}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+      <tr *ngIf="productoRuta.length == 0">
+        <td colspan="5">Sin registro</td>
+      </tr>
+    </tfoot>
+</table>
+
+
+    <c-row *ngIf="productoRuta.length !== 0">
+        <c-col>
+            Ruta : {{this.nombreRuta}}
+        </c-col>
+    </c-row>
+
+<p></p>
+    <select id="Ruta" cSelect  size="1" (change)="seleccionarRuta()" [(ngModel)]="rutaSeleccionada" style="width:auto;  display: inline-block;">
+        <option>Seleccione una ruta</option>
+        <option *ngFor="let ruta of arrNombreRutas">{{ruta.Nombre_ruta}}</option>
+    </select>
+<p></p>
+    <table class="greenTable" id="tablaProductosPicking" >
+        <thead>
+          <tr>
+              <th>Posición</th>
+              <th>Nombre</th>
+              <!-- <th>Ciudad</th>
+              <th>Provincia/Estado</th> -->
+              <th>Código Pedido</th>
+              <th>Fecha Pedido</th>
+              <th>Fecha Pedido Original</th>
+              <!-- <th>Código Producto</th> -->
+              <th>Descripción Producto</th>
+              <th>Cantidad</th>
+              <th>Notas</th>
+              <th>Verificado</th>
+              <th>Encontrado</th>
+          </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+        <ng-container >
+          <tr *ngFor="let objeto of arrayRutasIngresados;let i = index">
+            <td cdkDrag cdkDragLockAxis="y" [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' ">{{i + 1}}</td>
+  
+            <td [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' ">{{objeto[0].Nombre}}</td>
+  
+            <!-- <th class="comuna">{{objeto[0].Ciudad}}</th>
+  
+            <td>{{objeto[0].Provincia}}</td> -->
+  
+            <td [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' ">{{objeto[0].Codigo_pedido}}</td>
+  
+            <th [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' ">{{objeto[0].Fecha_pedido}}</th>
+            <td style="white-space: nowrap;  border: 1px solid #000; padding: 8px">{{objeto[0].Fecha_original_pedido}}</td>
+  
+            <!-- <td><table><tr *ngFor="let producto of objeto; let j = index"><td style="white-space: nowrap;">{{producto.Codigo_producto}}</td></tr>
+            </table></td>
+   -->
+           <td [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' "><table><tr *ngFor="let producto of objeto; let j = index" >
+            <td [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' ">
+            {{producto.Descripcion_producto}}</td></tr>
+           </table></td>
+  
+            <td [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' "><table><tr *ngFor="let producto of objeto; let j = index">
+              <td [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' ">
+              {{producto.Cantidad_producto}}</td></tr>
+            </table></td>
+  
+            <th [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' ">{{objeto[0].Notas}}</th>
+  
+            <!-- verificados -->
+            <td [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' "><table ><tr *ngFor="let producto of objeto; let j = index">
+              <td *ngIf="producto.Pistoleado" [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' ">
+                <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+              </td>
+              <td *ngIf="!producto.Pistoleado" [ngClass]="objeto[0].Encontrado == true ?  '' : 'encontrado' ">
+                <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+              </td>
+            </tr>
+            </table></td>
+            <td *ngIf="objeto[0].Encontrado">
+              <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado(i)" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+            </td>
+            <td *ngIf="!objeto[0].Encontrado">
+                <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado(i)"  height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+            </td>
+            <div *cdkDragPreview matchSize="true" class="container dragdrop-placeholder">
+              {{objeto[0].Nombre}}
+            </div>
+          </tr>
+        </ng-container>
+        <tr>
+          <td *ngIf="isLoadingTable " colspan="15"><img src="../../../assets/images/loading-gif.gif" /></td>
+        </tr>
+  
+        </tbody>
+        <tfoot>
+          <tr *ngIf="!isLoadingTable && arrayRutasIngresados.length == 0">
+            <td colspan="10">Sin registro</td>
+          </tr>
+        </tfoot>
+        </table>
+
+<p></p>
+<p>Pickeado</p>
+
+<c-row>
+  <c-col>
+    <table class="greenTable">
+      <thead>
+        <tr>
+            <th>Posición</th>
+            <th>Código pedido</th>
+            <th>Cliente</th>
+            <th>Ciudad</th>
+            <th>Fecha de Pedido</th>
+            <th>Fecha Pedido Original</th>
+            <!-- <th>Código de Producto</th> -->
+            <th>Descripción del Producto</th> 
+            <th>Ruta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <ng-container *ngFor="let objeto of arrProductosRuta;let i = index"> -->
+          <tr *ngFor="let producto of arrProductosRuta; let j = index">
+            <td >{{j + 1}}</td>
+            <td >{{producto.Codigo_pedido}}</td>
+            <td >{{producto.Notas}}</td>
+            <td>{{producto.Ciudad}}</td>      
+            <th>{{producto.Fecha_pedido}}</th>
+            <td >{{producto.Fecha_original_pedido}}</td>
+            <td >{{producto.Descripcion_producto}}</td>
+            <td>{{producto.Nombre_ruta}}</td>
+          </tr>
+        <!-- </ng-container> -->
+      </tbody>
+      <tfoot>
+        <tr *ngIf="arrProductosRuta.length == 0">
+          <td colspan="8">Sin registro</td>
+        </tr>
+      </tfoot>
+    </table>
+  </c-col>
+</c-row>

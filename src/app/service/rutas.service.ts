@@ -28,10 +28,21 @@ export class RutasService {
   //   return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/${pedido}`)
   // }
 
+
+  //get rutas_activas
+
+  get_rutas_activas() {
+    return this.http.get<NombresRutasActivas[]>(this.apiurl + `/buscar/rutas/activas`)
+
+  }
   //metodo post zzzz
 
   get_rutas_manual(body: any) {
     return this.http.post<ProductoPicking[]>(this.apiurl + `/buscar`, body)
+  }
+
+  get_datos_producto_en_ruta(body: any) {
+    return this.http.post<ProductoPicking[]>(this.apiurl + `/buscar/producto/ruta`, body)
   }
 
   get_rutas_manual_sin_filtro(pedido: string) {
