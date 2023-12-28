@@ -52,25 +52,9 @@ export class TestComponent {
   }
 
 
-  buscarNsPorFecha(){
-    const fecharFormateada = this.fechaNs.split('-').join('')
-    this.service.get_ns_verificados(fecharFormateada).subscribe(data => {
-      this.nsVerificados = data
-    })
-  }
 
   ngOnInit():void {
 
-    const fecha = new Date();
-    let fechaFormateada = fecha.toISOString().split('T')[0];
-
-    this.fechaNs = fechaFormateada
-
-    setTimeout(() => {
-      this.service.get_ns_verificados(this.fechaNs).subscribe(data => {
-      this.nsVerificados = data
-    })
-    }, 700);
 
   }
 

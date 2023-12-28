@@ -183,7 +183,7 @@ export const navItems: INavDataBar[] = [
         url : '/picking/prearmado-ruta'
       },
       {
-        name : 'Buscar ruta',
+        name : 'Buscar Ruta',
         url : '/picking/buscar-ruta'
       }
     ]

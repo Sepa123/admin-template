@@ -275,8 +275,8 @@ export class TIService {
   }
 
 
-  get_ns_verificados(fecha : string){
-    return this.http.get <NsVerificado []>(this.apiurl + `/ns/verificados?fecha=${fecha}`)
+  get_ns_verificados(fecha_inicio : string,fecha_fin: string){
+    return this.http.get <NsVerificado []>(this.apiurl + `/ns/verificados?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`)
 
   }
   

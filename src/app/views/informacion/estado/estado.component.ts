@@ -71,12 +71,6 @@ export class EstadoComponent implements OnInit {
     }, 400);
 
     setTimeout(() => {
-      this.service.get_ns_verificados("20231211").subscribe(data => {
-      console.log(data)
-    })
-    }, 700);
-
-    setTimeout(() => {
       this.service.get_pedidos_tienda_easy_opl().subscribe((data) => {
         this.pedidoEasyOPL = data
         this.isLoadingEasyOPL = false

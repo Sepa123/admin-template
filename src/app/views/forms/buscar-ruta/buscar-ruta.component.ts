@@ -167,6 +167,8 @@ export class BuscarRutaComponent {
   }
 
   seleccionarRuta(){
+
+    if(this.rutaSeleccionada == 'Seleccione una ruta') return console.log("selecciona una ruta zoquete")
     this.arrayRutasIngresados = []
     this.isLoadingTable =true
     this.service.get_ruta_by_nombre_ruta(this.rutaSeleccionada).subscribe((data) => {
@@ -205,6 +207,11 @@ export class BuscarRutaComponent {
     console.log( "Array de array",arrayDeArray);
 
     arrayDeArray.forEach(array => {
+
+      let prueba = array.filter(dato => this.arrProductosRuta.some(some => some.Codigo_pedido == dato.Codigo_pedido || some.Codigo_producto == dato.Codigo_producto))
+      if(prueba.length != 0){
+        array[0].Encontrado = true
+      }
       this.arrayRutasIngresados.push(array)
     });
 

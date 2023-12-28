@@ -70,8 +70,8 @@ export class NsVerificadosComponent {
 
   nsVerificados : NsVerificado [] = []
 
-  fechaNs : string = ""
-
+  fechaNsInicio : string = ""
+  fechaNsFin : string =""
 
   loadPedidos : boolean = true
 
@@ -110,8 +110,9 @@ export class NsVerificadosComponent {
     this.nsVerificados = []
     this.isLoadingTable = true
     this.graficoVisible = false
-    const fecharFormateada = this.fechaNs.split('-').join('')
-    this.service.get_ns_verificados(fecharFormateada).subscribe(data => {
+    const fecharFormateadaInicio = this.fechaNsInicio.split('-').join('')
+    const fecharFormateadaFin = this.fechaNsFin.split('-').join('')
+    this.service.get_ns_verificados(fecharFormateadaInicio,fecharFormateadaFin).subscribe(data => {
       
       this.nsVerificados = data
       this.porcentaje = []
@@ -137,10 +138,11 @@ export class NsVerificadosComponent {
     const fechaFormateada = fecha.toISOString().split('T')[0];
 
     console.log(fechaFormateada)
-    this.fechaNs = fechaFormateada
+    this.fechaNsInicio = fechaFormateada
+    this.fechaNsFin = fechaFormateada
 
     setTimeout(() => {
-      this.service.get_ns_verificados(this.fechaNs).subscribe(data => {
+      this.service.get_ns_verificados(fechaFormateada,fechaFormateada).subscribe(data => {
       this.nsVerificados = data
       const resta = this.nsVerificados[4].Total_registros - this.nsVerificados[4].Productos_verificados
       this.porcentaje.push(this.nsVerificados[4].Productos_verificados)
