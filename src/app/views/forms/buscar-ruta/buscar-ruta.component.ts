@@ -128,7 +128,8 @@ export class BuscarRutaComponent {
       "cod_producto" : resultado,
       "ids_usuario" : this.idPortal,
       "latitud" : this.latStr,
-      "longitud" : this.longStr
+      "longitud" : this.longStr,
+      "observacion" : "Pickeo producto en Buscar Ruta"
       // "cod_sku" : sku
     }
 

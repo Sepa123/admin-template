@@ -243,7 +243,8 @@ export class RutaManualComponent {
       "n_guia" : cod_producto,
       "cod_pedido" : cod_producto,
       "cod_producto" : cod_producto,
-      "ids_usuario" : this.idPortal
+      "ids_usuario" : this.idPortal,
+      "observacion" : "Actualización estado producto en Crear Ruta"
       // "cod_sku" : sku
     }
 

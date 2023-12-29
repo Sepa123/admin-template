@@ -198,7 +198,8 @@ export class RecepcionEasyOplComponent {
             "ids_usuario" : this.idPortal,
             "sku" : this.productosPorVerificarByCP[0].SKU,
             "latitud": this.latStr,
-            "longitud": this.longStr
+            "longitud": this.longStr,
+            "observacion" : "Actualización recepcion por pickeo en Recepción Easy OPL"
           }
 
           // const url = `/easy_opl`
@@ -256,7 +257,8 @@ export class RecepcionEasyOplComponent {
       "ids_usuario" : this.idPortal, 
       "sku" : sku,
       "latitud": lat,
-      "longitud": long
+      "longitud": long,
+      "observacion" : "Actualización recepcion por click en Recepción Easy OPL"
     }
 
 

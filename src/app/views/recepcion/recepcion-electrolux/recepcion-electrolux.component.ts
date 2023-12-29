@@ -165,7 +165,9 @@ export class RecepcionElectroluxComponent {
         "cod_producto" : codigo_producto,
         "ids_usuario" : this.idPortal,
         "latitud": this.latStr,
-        "longitud": this.longStr
+        "longitud": this.longStr,
+        "observacion" : "Actualización recepcion por click en Recepción Electrolux"
+        
         // "cod_sku" : sku
       }
   
@@ -219,7 +221,8 @@ export class RecepcionElectroluxComponent {
       "cod_producto" : cod_producto,
       "ids_usuario" : this.idPortal,
       "latitud": lat,
-      "longitud": long
+      "longitud": long,
+      "observacion" : "Actualización recepcion por pickeo en Recepción Electrolux"
     }
 
 

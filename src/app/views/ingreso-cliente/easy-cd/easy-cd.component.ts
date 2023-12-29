@@ -161,7 +161,8 @@ export class EasyCdComponent {
       "n_guia" : codigo_producto,
       "cod_pedido" : codigo_producto,
       "cod_producto" : codigo_producto,
-      "ids_usuario" : this.idPortal
+      "ids_usuario" : this.idPortal,
+      "observacion" : "Actualización estado por pickeo en Anden Easy"
       // "cod_sku" : sku
     }
 
@@ -194,7 +195,8 @@ export class EasyCdComponent {
       "n_guia" : cod_pedido,
       "cod_pedido" : cod_pedido,
       "cod_producto" : cod_producto,
-      "ids_usuario" : this.idPortal
+      "ids_usuario" : this.idPortal,
+      "observacion" : "Actualización estado por click en Anden Easy"
       // "cod_sku" : sku
     }
 

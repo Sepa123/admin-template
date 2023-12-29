@@ -286,7 +286,8 @@ export class ProductoSinRecepcionComponent {
                 "ids_usuario": this.idPortal,
                 "sku": this.productosPorVerificarByCP[0].SKU,
                 "latitud": this.latStr,
-                "longitud": this.longStr
+                "longitud": this.longStr,
+                "observacion" : "Actualización recepcion por pickeo en Producto sin recepción"
               };
               this.service.updateFieldRecepcionEasyOPL(body).subscribe((data: any) => {
                 // alert(data.message)
@@ -309,7 +310,8 @@ export class ProductoSinRecepcionComponent {
           "cod_producto": codigo_producto,
           "ids_usuario": this.idPortal,
           "latitud": this.latStr,
-          "longitud": this.longStr
+          "longitud": this.longStr,
+          "observacion" : "Actualización recepcion por pickeo en Producto sin recepción"
           // "cod_sku" : sku
         }
         const url = `/easy_cd`
@@ -331,7 +333,8 @@ export class ProductoSinRecepcionComponent {
           "cod_producto": codigo_producto,
           "ids_usuario": this.idPortal,
           "latitud": this.latStr,
-          "longitud": this.longStr
+          "longitud": this.longStr,
+          "observacion" : "Actualización recepcion por pickeo en Producto sin recepción"
           // "cod_sku" : sku
         }
         const url = `/sportex`
@@ -361,7 +364,8 @@ export class ProductoSinRecepcionComponent {
               "cod_producto": codigo_producto,
               "ids_usuario": this.idPortal,
               "latitud": this.latStr,
-              "longitud": this.longStr
+              "longitud": this.longStr,
+              "observacion" : "Actualización recepcion por pickeo en Producto sin recepción"
               // "cod_sku" : sku
             }
            
@@ -410,7 +414,8 @@ export class ProductoSinRecepcionComponent {
                 "ids_usuario" : this.idPortal,
                 "sku" : sku,
                 "latitud": lat,
-                "longitud": long
+                "longitud": long,
+                "observacion" : "Actualización recepcion por click en Producto sin recepción"
               }
           
               const url = `/easy_opl`
@@ -436,7 +441,8 @@ export class ProductoSinRecepcionComponent {
                 "cod_producto" : cod_producto,
                 "ids_usuario" : this.idPortal,
                 "latitud": lat,
-                "longitud": long
+                "longitud": long,
+                "observacion" : "Actualización recepcion por click en Producto sin recepción"
               }
           
               const url = `/easy_cd`
@@ -462,7 +468,8 @@ export class ProductoSinRecepcionComponent {
                 "cod_producto" : cod_producto,
                 "ids_usuario" : this.idPortal,
                 "latitud": lat,
-                "longitud": long
+                "longitud": long,
+                "observacion" : "Actualización recepcion por click en Producto sin recepción"
               }
           
               const url = `/sportex`
@@ -493,7 +500,8 @@ export class ProductoSinRecepcionComponent {
                   "cod_producto" : sku,
                   "ids_usuario" : this.idPortal,
                   "latitud": lat,
-                  "longitud": long
+                  "longitud": long,
+                  "observacion" : "Actualización recepcion por click en Producto sin recepción"
                   }
           
               const url = `/electrolux`

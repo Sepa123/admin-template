@@ -204,7 +204,8 @@ getLocationAsync(): Promise<any> {
       "cod_producto" : codigo_producto,
       "ids_usuario" : this.idPortal,
       "latitud": this.latStr,
-      "longitud": this.longStr
+      "longitud": this.longStr,
+      "observacion" : "Actualización recepcion por pickeo en Recepción Easy CD"
       // "cod_sku" : sku
     }
 
@@ -243,7 +244,8 @@ getLocationAsync(): Promise<any> {
       "cod_producto" : cod_producto,
       "ids_usuario" : this.idPortal,
       "latitud": lat,
-      "longitud": long
+      "longitud": long,
+      "observacion" : "Actualización recepcion por click en Recepción Easy CD"
       // "cod_sku" : sku
     }
 

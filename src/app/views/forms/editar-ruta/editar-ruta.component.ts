@@ -300,7 +300,8 @@ export class EditarRutaComponent {
       "cod_producto" : resultado,
       "ids_usuario" : this.idPortal,
       "latitud" : this.latStr,
-      "longitud" : this.longStr
+      "longitud" : this.longStr,
+      "observacion" : "Producto agredado en Editar Ruta"
       // "cod_sku" : sku
     }
     
@@ -370,7 +371,8 @@ export class EditarRutaComponent {
       "n_guia" : cod_producto,
       "cod_pedido" : cod_producto,
       "cod_producto" : cod_producto,
-      "ids_usuario" : this.idPortal
+      "ids_usuario" : this.idPortal,
+      "observacion" : "Actualización estado producto con click en Editar Ruta"
       // "cod_sku" : sku
     }
     this.service.update_estado_producto(cod_producto, body).subscribe((response : any) => {
