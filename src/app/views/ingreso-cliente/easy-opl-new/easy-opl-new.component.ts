@@ -179,7 +179,7 @@ export class EasyOplNewComponent {
     var codigo_producto = cod_producto.replace(/'/g, "-").trim().toUpperCase()
     codigo_producto = codigo_producto.replace(/-(\d+)/, "");
 
-    const regex = /SUBORDEN\sN\s(\d{10})/;
+    const regex = /\d+/;
     const match = codigo_producto.match(regex);
 
     if (match) {
@@ -223,7 +223,8 @@ export class EasyOplNewComponent {
       "id_usuario" : sessionStorage.getItem('id')+"",
       "ids_usuario" : this.idPortal,
       "cliente" : "Easy OPL - Bultos",
-      "n_guia" :  this.codProductoModal
+      "n_guia" :  this.codProductoModal,
+      "observacion" : "Guardando bultos producto en Ingreso Cliente Easy Tienda"
     }
 
     this.service.agregarBultosOpl(body).subscribe((data : any) => {
@@ -260,7 +261,7 @@ export class EasyOplNewComponent {
     var codigo_producto = cod_producto.replace(/'/g, "-").trim().toUpperCase()
     codigo_producto = codigo_producto.replace(/-(\d+)/, "");
 
-    const regex = /SUBORDEN\sN\s(\d{10})/;
+    const regex = /\d+/;
     const match = codigo_producto.match(regex);
 
     if (match) {
@@ -349,6 +350,7 @@ export class EasyOplNewComponent {
       "check" : check,
       "latitud" : this.latStr,
       "longitud" : this.longStr,
+      "observacion" : " Actualizando verificado producto en Ingreso Cliente Easy Tienda"
     }
 
 

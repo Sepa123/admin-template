@@ -182,7 +182,8 @@ export class RutaManualComponent {
       "cod_producto" : resultado,
       "ids_usuario" : this.idPortal,
       "latitud" : this.latStr,
-      "longitud" : this.longStr
+      "longitud" : this.longStr,
+      "observacion" : "Ingresando producto en Crear Ruta"
       // "cod_sku" : sku
     }
     

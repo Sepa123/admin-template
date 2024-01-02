@@ -148,6 +148,7 @@ export class RecepcionEasyOplComponent {
 
 
   cambiarTicketByInput(cod_producto: string){
+    console.log(cod_producto)
     this.ArrCodScanner.push(cod_producto)
     if (this.ArrCodScanner.length === 9 ){
       console.log(this.ArrCodScanner)
@@ -170,8 +171,9 @@ export class RecepcionEasyOplComponent {
     var codigo_producto = cod_producto.replace(/'/g, "-").trim().toUpperCase()
     codigo_producto = codigo_producto.replace(/-(\d+)/, "");
 
-    const regex = /SUBORDEN\sN\s(\d{10})/;
+    const regex = /\d+/;
     const match = codigo_producto.match(regex);
+    console.log(match)
 
     if (match) {
       const suborden = match[1];

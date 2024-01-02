@@ -27,6 +27,16 @@ export class RutasService {
   // get_rutas_manual(pedido: string) {
   //   return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/${pedido}`)
   // }
+  //reportes de rutas mensuales
+  get_reporte_rutas_mensuales(mes : string) {
+    return this.http.get(this.apiurl + `/reporte/mensual?mes=${mes}`)
+
+  }
+
+  get_reporte_rutas_diaria(dia : string) {
+    return this.http.get(this.apiurl + `/reporte/diario?dia=${dia}`)
+
+  }
 
 
   //get rutas_activas
@@ -35,6 +45,7 @@ export class RutasService {
     return this.http.get<NombresRutasActivas[]>(this.apiurl + `/buscar/rutas/activas`)
 
   }
+  
   //metodo post zzzz
 
   get_rutas_manual(body: any) {

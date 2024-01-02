@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { ModalModule } from '@coreui/angular';
 
 
@@ -49,7 +49,8 @@ import { TestComponent } from './test/test.component';
     TableModule,
     DocsComponentsModule,
     DropdownModule,
-    NgSelectModule
+    NgSelectModule,
+    FullCalendarModule
   ],
   declarations: [
     ReportesComponent,

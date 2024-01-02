@@ -12,6 +12,8 @@ import {
   PerfectScrollbarModule,
 } from 'ngx-perfect-scrollbar';
 
+import { FullCalendarModule } from '@fullcalendar/angular';
+
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
@@ -72,6 +74,7 @@ const APP_CONTAINERS = [
 @NgModule({
   declarations: [AppComponent, ...APP_CONTAINERS],
   imports: [
+    FullCalendarModule,
     DragDropModule,
     CommonModule,
     NgSelectModule,
