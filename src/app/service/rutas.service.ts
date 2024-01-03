@@ -38,6 +38,24 @@ export class RutasService {
 
   }
 
+  get_reporte_rutas_diario_excel(dia : string) {
+    return this.http.get(this.apiurl + `/reporte/diario/excel/descargar?dia=${dia}`)
+
+  }
+
+  download_reporte_rutas_diario_excel( dia : string) {
+    this.http.get(`${this.apiurl}/reporte/diario/excel/descargar?dia=${dia}`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`inventario-${dia}.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+
 
   //get rutas_activas
 

@@ -537,6 +537,55 @@ export const navItems: INavDataBar[] = [
    }
  ]
 },
+//NUEVO ROL (Yerko)
+{
+  name: 'RSV',
+  url : '/rsv',
+  roles :[ROLES_ENUM.NROL_RSV],
+  iconComponent: { name: 'cil-window' },
+  children : [
+   {
+     name: 'Catálogo',
+     url: '/rsv/catalogo'
+   },
+   {
+    name: 'Lista inventarios',
+    url: '/rsv/inventario-sucursal'
+   },
+   {
+    name: 'Arribo de Cargas',
+    url: '/rsv/listar-carga'
+   },
+   {
+    name: 'Ventas',
+    url: '/rsv/ventas'
+   },
+   {
+    name: 'Armar venta',
+    url: '/rsv/armar-venta'
+   },
+   {
+    name: 'Lista de ventas',
+    url: '/rsv/lista-venta'
+   },
+   {
+    name: 'Reporte etiquetas',
+    url: '/rsv/reporte-etiquetas'
+   },
+   {
+    name: 'Asignar Ubicación',
+    url: '/rsv/filtro-ubicacion'
+   },
+   {
+    name: 'Racks estructura',
+    url: '/rsv/ubicacion-producto'
+   },
+   {
+    name: 'Lista de Paquetes Abiertos',
+    url: '/rsv/listar-paquetes'
+   }
+ ]
+},
  {
   name: 'RSV',
   url : '/rsv',

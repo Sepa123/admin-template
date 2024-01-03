@@ -34,6 +34,9 @@ export class TestComponent {
   };
   fechasEntregadas : string [] = []
 
+  datosMes : any = {}
+  ArrDatosMes : any []= []
+  
   eventos : any [] = []
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -45,9 +48,13 @@ export class TestComponent {
         const fechaFormateada = fechaSeleccionada.getFullYear() +
         ('0' + (fechaSeleccionada.getMonth() + 1)).slice(-2) +
         ('0' + fechaSeleccionada.getDate()).slice(-2);
-        this.rutaService.get_reporte_rutas_diaria(fechaFormateada).subscribe((data) => {
-          console.log(data)
-        })
+
+        const fechaMuestra = fechaSeleccionada.getFullYear() + "-"+
+        ('0' + (fechaSeleccionada.getMonth() + 1)).slice(-2) + "-"+
+        ('0' + fechaSeleccionada.getDate()).slice(-2);
+
+        if(info.event.title === "0") return alert(`En el dia ${fechaMuestra} no se encuentran rutas`)
+        this.rutaService.download_reporte_rutas_diario_excel(fechaFormateada)
 
       }
     },
@@ -61,17 +68,22 @@ export class TestComponent {
       const mes = fecha[0]
       const año = fecha[1]
       const fechaFormateada = año+this.mesesNumeros[mes]
-      console.log(fechaFormateada)
+      
       
       if (this.fechasEntregadas.includes(fechaFormateada) == false){
         this.rutaService.get_reporte_rutas_mensuales(fechaFormateada).subscribe((data : any) => {
+          // 
+          this.fechasEntregadas.push(fechaFormateada)
+          this.datosMes[fechaFormateada] = data
           this.eventos = data
           this.calendarOptions.events = this.eventos
-          
-          console.log(this.eventos)
         })
 
+      } else {
+        this.calendarOptions.events = this.datosMes[fechaFormateada]
       }
+        
+      // this.calendarOptions.events = this.eventos
     },
     plugins: [interactionPlugin ]
     
@@ -92,6 +104,7 @@ export class TestComponent {
     this.fechasEntregadas.push(fechaFormateada)
     this.rutaService.get_reporte_rutas_mensuales(fechaFormateada).subscribe((data : any) => {
       this.eventos = data
+      this.datosMes[fechaFormateada] = data
       this.calendarOptions.events = this.eventos
       console.log(this.eventos)
     })
