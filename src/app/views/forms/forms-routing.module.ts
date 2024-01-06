@@ -16,6 +16,7 @@ import { QuadmindsComponent } from './quadminds/quadminds.component'
 import { CargaQuadmindComponent } from './carga-quadmind/carga-quadmind.component'
 import { PrearmadoRutaComponent } from './prearmado-ruta/prearmado-ruta.component';
 import { BuscarRutaComponent } from './buscar-ruta/buscar-ruta.component';
+import { ResumenRutasComponent } from './resumen-rutas/resumen-rutas.component';
 const routes: Routes = [
   {
     path: '',
@@ -110,7 +111,15 @@ const routes: Routes = [
         data : {
           title : 'buscar-ruta'
         }
-      }
+      },
+      {
+        path : 'resumen-rutas',
+        component : ResumenRutasComponent,
+        data : {
+          title : 'resumen-rutas'
+        }
+      },
+      
     ]
   }
 ];

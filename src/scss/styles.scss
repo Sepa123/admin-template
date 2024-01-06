@@ -138,5 +138,9 @@ ng-select .ng-select-container {
   background: url('https://api.iconify.design/game-icons/viking-head.svg') no-repeat center center / contain;
 }
 
+a {
+  text-decoration: none  !important;
+}
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';

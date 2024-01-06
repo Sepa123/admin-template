@@ -21,6 +21,13 @@ export class IngresoProductoComponent {
   listaRegiones : any [] = []
   listaComunas : any [] = []
   listaComunasFull : any [] = []
+  idPortal! : string
+
+  //datos geo
+  latitude!: number
+  longitud! :number
+  latStr!: string
+  longStr!: string
 
   selectedRegion! : string 
 
@@ -48,6 +55,11 @@ export class IngresoProductoComponent {
   isErrorView = false;
 
   ngOnInit(){
+
+    this.getLocation()
+
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+
     this.comunaService.getListaRegiones().subscribe((data : any) => {
       this.listaRegiones = data
     })
@@ -56,6 +68,28 @@ export class IngresoProductoComponent {
       this.listaComunas = data
       this.listaComunasFull = this.listaComunas
     })
+
+
+
+  }
+
+  getLocation(): any {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.showPosition(position)
+
+      });
+    } else {
+      console.log("Localización no disponible");
+    }
+  }
+  showPosition(position: any): any{
+        this.latitude = position.coords.latitude
+        this.longitud= position.coords.longitude 
+       this.latStr = this.latitude.toString()
+        this.longStr = this.longitud.toString()
+
+    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
   }
 
   buscarComunas(event: any){
@@ -91,7 +125,23 @@ export class IngresoProductoComponent {
 
   buscarEnvioAsociado(){
     const cod_pedido : any = this.form.value.Envio_asociado
-    this.rutaService.get_rutas_manual(cod_pedido).subscribe((data) => {
+
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+
+    const body = {
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "cliente" : "Ingreso E/R",
+      "n_guia" : cod_pedido,
+      "cod_pedido" : cod_pedido,
+      "cod_producto" : cod_pedido,
+      "ids_usuario" : this.idPortal,
+      "latitud" : this.latStr,
+      "longitud" : this.longStr,
+      "observacion" : "Ingresando producto en Ingreso Producto"
+      // "cod_sku" : sku
+    }
+
+    this.rutaService.get_rutas_manual(body).subscribe((data) => {
       const filterComuna = this.listaComunasFull.find(comuna => comuna.Nombre_comuna.toUpperCase() == data[0].Ciudad.toUpperCase())  
       let comunaRuta = ""
       let regionRuta = ""

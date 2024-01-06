@@ -38,7 +38,8 @@ import { QuadmindsComponent } from './quadminds/quadminds.component';
 import { CargaQuadmindComponent } from './carga-quadmind/carga-quadmind.component';
 import { PrearmadoRutaComponent } from './prearmado-ruta/prearmado-ruta.component';
 import { BuscarRutaComponent } from './buscar-ruta/buscar-ruta.component';
-
+import { ResumenRutasComponent } from './resumen-rutas/resumen-rutas.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 @NgModule({
   declarations: [
     RangesComponent,
@@ -57,7 +58,8 @@ import { BuscarRutaComponent } from './buscar-ruta/buscar-ruta.component';
     QuadmindsComponent,
     CargaQuadmindComponent,
     PrearmadoRutaComponent,
-    BuscarRutaComponent
+    BuscarRutaComponent,
+    ResumenRutasComponent
   ],
   imports: [
     CommonModule,
@@ -78,7 +80,8 @@ import { BuscarRutaComponent } from './buscar-ruta/buscar-ruta.component';
     SharedModule,
     ListGroupModule,
     NgbAlertModule, NgbPaginationModule, NgbDatepickerModule,
-    NgSelectModule
+    NgSelectModule,
+    FullCalendarModule
   ]
 })
 export class CoreUIFormsModule {

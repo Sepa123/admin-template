@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PedidoService } from  'src/app/service/pedido.service'
-import { PedidoSinCompromiso } from 'src/app/models/pedidoSinCompromiso.interface';
-import { RutasAsignadas } from 'src/app/models/rutaAsignada.interface'
 import { Subscription } from 'rxjs';
 import { RutasService } from 'src/app/service/rutas.service';
 import { TIService } from 'src/app/service/ti.service';
@@ -40,6 +37,12 @@ export class TestComponent {
   eventos : any [] = []
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
+    headerToolbar : {
+      // left: 'prev,next today',
+      left : '',
+      center: 'title',
+      // right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+    },
     eventClick: (info) => {
       const fechaSeleccionada = info.event.start;
       

@@ -111,7 +111,7 @@ export class ArmarVentaComponent {
     const añoActual = fechaActual.getFullYear().toString();
     const mesActual = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
 
-    const añoInicial = 2020;
+    const añoInicial = 2021;
     const años = [];
 
     for (let año = añoInicial; año <= parseInt(añoActual); año++) {

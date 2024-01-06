@@ -18,6 +18,9 @@ import { ComunaRutas } from 'src/app/models/comunaRutas.interface';
 })
 export class RutasActivasComponent {
 
+  verBotonesCorreo : string [] = ['priscilla.gre@transyanez.cl','francisco.benavides@transyanez.cl'
+                                  ,'jp@gmail.com','gojiris216@fitwl.com']
+
   listaUnidades : CantidadUnidadesRutaActiva [] =[]
   // model! : NgbDateStruct
   nombreRutaActual!:  string
@@ -129,7 +132,7 @@ export class RutasActivasComponent {
   //     console.log(" ")
   //   })
   // }
-
+ public mail = sessionStorage.getItem("mail")
  public rol = sessionStorage.getItem("rol_id") 
   asignarRuta() {
     const codigo = this.nombreRutaActual;

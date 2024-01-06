@@ -159,12 +159,46 @@ export const navItems: INavDataBar[] = [
       },
     ]
   },
+  ///Pantalla Full
   {
-    
     name: 'Rutas',
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
-    roles : ROLES_PERMITIDOS.PICKING_ALL,
+    // roles : ROLES_PERMITIDOS.PICKING_ALL,
+    roles : [ROLES_ENUM.ADMIN],
+    children: [
+      {
+        name: 'Crear Ruta',
+        url: '/picking/ruta-manual'
+      },
+      {
+        name: 'Rutas Activas',
+        url: '/picking/rutas-activas'
+      },
+      {
+        name : 'Quadminds',
+        url: '/picking/quadminds'
+      },
+      {
+        name : 'Rutas Predictivas',
+        url : '/picking/prearmado-ruta'
+      },
+      {
+        name : 'Buscar Ruta',
+        url : '/picking/buscar-ruta'
+      },
+      {
+        name : 'Resumen Rutas',
+        url : '/picking/resumen-rutas'
+      }
+    ]
+  },
+// Pantalla casi todas
+  {
+    name: 'Rutas',
+    url: '/picking',
+    iconComponent: { name: 'cil-truck' },
+    roles : ROLES_PERMITIDOS.PICKING_CASI_ALL,
     children: [
       {
         name: 'Crear Ruta',
@@ -188,6 +222,8 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
+
+
   {
     // Pantalla completa TOC
     name: 'TOC',
