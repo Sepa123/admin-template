@@ -32,6 +32,7 @@ export interface ProductoPicking {
     Habilidades:          string;
     SKU:                  string;
     // numero?:              number;
+    arrayNombreRuta?:     string[];
     arrayCodigo?:         string[];
     arrayDescripcion?:    string[];
     Pistoleado?:          string | boolean;

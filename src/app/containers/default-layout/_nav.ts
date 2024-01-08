@@ -165,7 +165,7 @@ export const navItems: INavDataBar[] = [
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
     // roles : ROLES_PERMITIDOS.PICKING_ALL,
-    roles : [ROLES_ENUM.ADMIN],
+    roles : ROLES_PERMITIDOS.PICKING_ALL,
     children: [
       {
         name: 'Crear Ruta',

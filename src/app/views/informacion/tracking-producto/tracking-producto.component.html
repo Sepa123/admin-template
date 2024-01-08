@@ -195,7 +195,16 @@
                 <!-- Producto En ruta -->
 
                 <!-- ruta hela -->
-                <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Nombre_ruta}}</td>
+                <td [ngClass]="{'entregado' : producto.Estado === true}">
+
+                  <table>
+                    <tr *ngFor="let ruta of producto.arrayNombreRuta;let i = index">
+                      <td>{{ruta}}</td>
+                    </tr>
+                  </table>
+                  <!-- {{producto.Nombre_ruta}} -->
+                
+                </td>
                 <!-- Si el producto es un electrolux -->
                 <td *ngIf="producto.Notas.indexOf('Electrolux') !== -1 " >{{factura[i][producto.SKU]}}</td> 
                 

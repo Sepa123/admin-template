@@ -33,6 +33,9 @@ export class TrackingProductoComponent {
     "Linea": [0,0,0,0,0]
   }
 
+
+  ruta_hela : string [] = []
+
   linea_cambio = [0,0,0,0,0]
 
   public rol = sessionStorage.getItem("rol_id") 
@@ -220,6 +223,18 @@ export class TrackingProductoComponent {
       this.codigoPickeado = codigo
       // console.log(data)
       this.isOK = true
+
+      this.productosRuta.map((ruta) => {
+        ruta.arrayNombreRuta = ruta.Nombre_ruta?.split("@")
+
+      })
+
+      // const algo = this.productosRuta[0].Nombre_ruta?.split("@")
+
+      // if(algo !== undefined){
+      //   this.ruta_hela =  algo
+      // }
+      
 
       if(this.productosRuta[0].Notas.indexOf("Electrolux") !== -1){
         this.buscarFacturaElectrolux(codigo)
