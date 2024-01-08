@@ -1,7 +1,7 @@
-<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="xl">
   <c-modal-header>
-    <h5 cModalTitle *ngIf="isParametro">Parametros </h5>
-    <h5 cModalTitle *ngIf="!isParametro">Tablas impactadas </h5>
+    <h5 cModalTitle *ngIf="isParametro">Código Codigo_fuente</h5>
+    <h5 cModalTitle *ngIf="!isParametro">Argumentos </h5>
     <button (click)="toggleLiveDemo()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
@@ -10,16 +10,14 @@
           <thead>
             <tr>
               <th>Parametro</th>
-              <th>Descripción</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let parametro of funcion.Parametros ; let i = index">
+            <tr>
               <td>
-                {{parametro}}
-              </td>
-              <td>
-                {{funcion.Comentarios_parametros[i]}}
+                <pre>
+                {{funcion.Codigo_fuente}}
+              </pre>
               </td>
             </tr>
           </tbody>
@@ -28,13 +26,15 @@
          <table *ngIf="!isParametro">
           <thead>
             <tr>
-              <th>Tablas</th>
+              <th>Argumentos</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let tabla of funcion.Tablas_impactadas let i = index">
+            <tr>
               <td>
-                {{tabla}}
+
+                {{funcion.Tipo_retorno}}
+
               </td>
             </tr>
           </tbody>
@@ -75,29 +75,25 @@
         <tr>
           <th>Esquema</th>
           <th>Nombre de la Función</th>
-          <th>Tipo de Función</th>
-          <th>Descripción</th>
-          <th>Parámetros</th>
-          <!-- <th>Comentarios de Parámetros</th> -->
-          <!-- <th>Palabras Clave</th> -->
-          <th>Tablas Impactadas</th>
+          <th>Tipo de Retorno</th>
+          <th>Argumentos</th>
+          <th>Código Fuente</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let funcion of listaFunciones">
           <td>{{funcion.Esquema}}</td>
           <td>{{funcion.Nombre_funcion}}</td>
-          <td>{{funcion.Tipo_funcion}}</td>
-          <td>{{funcion.Descripcion}}</td>
+          <!-- <td>{{funcion.Tipo_funcion}}</td> -->
           <td class="centrar">
-            <label *ngIf="funcion.Parametros[0] == 'Sin parametros'">Sin parametros</label>
-            <svg *ngIf="funcion.Parametros[0] !== 'Sin parametros'" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verArrays(funcion,true)"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+            <svg  xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verArrays(funcion,false)"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
           </td>
-          <td class="centrar"> 
-            <svg (click)="verArrays(funcion,false)" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512"><path fill="currentColor" d="M472 48H40a24.028 24.028 0 0 0-24 24v376a24.028 24.028 0 0 0 24 24h432a24.028 24.028 0 0 0 24-24V72a24.028 24.028 0 0 0-24-24Zm-8 32v64H48V80ZM48 176h192v264H48Zm224 264V176h192v264Z"/></svg>
-            <!-- <div *ngFor="let tablas of funcion.Tablas_impactadas">
-              {{tablas}}
-            </div> -->
+          <td>
+            <label *ngIf="funcion.Argumentos.length == 0">Sin argumentos</label>
+            <label *ngIf="funcion.Argumentos.length !== 0">{{funcion.Argumentos}}</label>
+            </td>
+          <td class="centrar">
+            <svg  xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verArrays(funcion,true)"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
           </td>
         </tr>
       </tbody>

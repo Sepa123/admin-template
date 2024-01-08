@@ -48,7 +48,7 @@ export class FuncionesComponent {
 
   buscarFuncion(){
     if(this.buscador === "") return alert("Ingrese una palabra clave ")
-    const data = this.listaFuncionesFull.filter(fun => fun.Palabras_clave.includes(this.buscador.trim()))
+    const data = this.listaFuncionesFull.filter(fun => fun.Esquema.includes(this.buscador.trim()) || fun.Nombre_funcion.includes(this.buscador.trim()) )
     console.log(data.length)
     if(data.length == 0) return alert("Palabra clave no encontrada ")
     this.listaFunciones = data

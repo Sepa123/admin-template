@@ -9,4 +9,8 @@ export interface ListaFuncion {
     Comentarios_parametros: string[];
     Palabras_clave:         string[];
     Tablas_impactadas:      string[];
+    Codigo_fuente :         string;
+    Argumentos :            string;
+    Tipo_retorno:           string;
+
 }
