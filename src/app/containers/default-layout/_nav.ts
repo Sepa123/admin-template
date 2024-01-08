@@ -45,10 +45,10 @@ export const navItems: INavDataBar[] = [
         name: 'Lista de funciones',
         url: '/areati/funciones'
       },
-      {
-        name: 'Agregar funcion',
-        url: '/areati/agregar-funcion'
-      },
+      // {
+      //   name: 'Agregar funcion',
+      //   url: '/areati/agregar-funcion'
+      // },
     ]
   },
   {

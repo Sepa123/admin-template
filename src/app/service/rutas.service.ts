@@ -78,6 +78,10 @@ export class RutasService {
     return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/sin_filtro/${pedido}`)
   }
 
+  get_rutas_tracking(pedido: string) {
+    return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/tracking/${pedido}`)
+  }
+
   get_factura_electrolux(pedido : string){
     return this.http.get(this.apiurl + `/buscar/factura/electrolux/${pedido}`)
   }

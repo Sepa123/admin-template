@@ -163,6 +163,7 @@
                   <th>Cantidad</th>
                   <th>Notas</th>
                   <th>Verificado</th>
+                  <th>Ruta Hela</th>
                   <th *ngIf="factura.length !== 0 "> Factura</th>
               </tr>
             </thead>
@@ -193,6 +194,8 @@
                 <td [ngClass]="{'entregado' : producto.Estado === true}" *ngIf="producto.Estado == false">Pendiente</td>
                 <!-- Producto En ruta -->
 
+                <!-- ruta hela -->
+                <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Nombre_ruta}}</td>
                 <!-- Si el producto es un electrolux -->
                 <td *ngIf="producto.Notas.indexOf('Electrolux') !== -1 " >{{factura[i][producto.SKU]}}</td> 
                 

@@ -215,7 +215,7 @@ export class TrackingProductoComponent {
       this.arrayError[1] = true
     })
 
-    this.service.get_rutas_manual_sin_filtro(codigo).subscribe((data) => {
+    this.service.get_rutas_tracking(codigo).subscribe((data) => {
       this.productosRuta = data
       this.codigoPickeado = codigo
       // console.log(data)

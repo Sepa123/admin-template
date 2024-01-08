@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RutasService } from 'src/app/service/rutas.service';
-// import { TIService } from 'src/app/service/ti.service';
-// import { NsVerificado } from 'src/app/models/nsVerificado.interface'
 import { CalendarOptions ,DateSelectArg } from '@fullcalendar/core'; // useful for typechecking
 import interactionPlugin  from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
@@ -112,15 +110,12 @@ export class ResumenRutasComponent {
     var customHtml = "<h5 style= 'text-decoration: none; color: black;'>"+ renderProps.dayNumberText + "</h5>";
     return { html : customHtml }
   },
-  // allDayContent :
-  
-  
   plugins: [interactionPlugin ]
    
  };
 
+ 
  ngOnInit(){
-
    const fechaActual = new Date();
 
    // Obtener los componentes de la fecha
@@ -153,15 +148,9 @@ export class ResumenRutasComponent {
 
  subPedido! :Subscription
 
- body : any = {
-
- }
-
  fechaNs : string = ""
 
-
  loadPedidos : boolean = true
-
 
  isModalOpen: boolean = false
  public visible = false;
