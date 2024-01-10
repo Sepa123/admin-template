@@ -1,4 +1,5 @@
 import {
+  cilSwapHorizontal,
   cilWindow,
   cilClipboard,
   cilMenu,
@@ -32,6 +33,7 @@ import {
 
 // const iViking = 
 export const iconSubset = {
+  cilSwapHorizontal,
   cilWindow,
   cilMenu,
   cilClipboard,

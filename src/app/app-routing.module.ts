@@ -195,6 +195,15 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/area-ti/area-ti.module').then((m) => m.AreaTiModule)
       },
+      {
+        path: 'log-inversa',
+        data : {
+          roles : ROLES_PERMITIDOS.PANEL
+        },
+        canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/logistica-inversa/logistica-inversa.module').then((m) => m.LogisticaInversaModule)
+      },
     ],
     canActivate: [UserGuard]
   },

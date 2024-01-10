@@ -5,7 +5,7 @@ import { ReportesComponent } from './reportes/reportes.component';
 import { PendientesComponent } from './pendientes/pendientes.component';
 import { EstadosComponent } from './estados/estados.component';
 import { ProductosSinClasificacionComponent } from './productos-sin-clasificacion/productos-sin-clasificacion.component';
-
+import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendientes.component';
 
 const routes: Routes = [
   {
@@ -47,6 +47,13 @@ const routes: Routes = [
           title: 'Reportes'
         }
       },
+      {
+        path: 'edicion-pendientes',
+        component: EdicionPendientesComponent,
+        data: {
+          title: 'Edicion Pendientes'
+        }
+      }
     ]
   }
 ];

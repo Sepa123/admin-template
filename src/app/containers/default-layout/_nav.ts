@@ -52,6 +52,22 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
+    name: 'Logistica Inversa',
+    url : '/log-inversa',
+    iconComponent: { name: 'cil-swap-horizontal' },
+    roles : ROLES_PERMITIDOS.PANEL,
+    children : [
+      {
+        name: 'Edicion Pendientes',
+        url: '/log-inversa/edicion-pendiente'
+      },
+      // {
+      //   name: 'Agregar funcion',
+      //   url: '/areati/agregar-funcion'
+      // },
+    ]
+  },
+  {
     name: 'Dashboard',
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },

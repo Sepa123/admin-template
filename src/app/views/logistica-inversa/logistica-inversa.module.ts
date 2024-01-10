@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ButtonsRoutingModule } from './buttons-routing.module';
 import { ModalModule } from '@coreui/angular';
 import {
   ButtonGroupModule,
@@ -21,44 +20,34 @@ import {
   UtilitiesModule
 } from '@coreui/angular';
 
-// import { IconModule } from '@coreui/icons-angular';
-import { ReportesComponent } from './reportes/reportes.component';
-import { PendientesComponent } from './pendientes/pendientes.component';
-import { EstadosComponent } from './estados/estados.component';
-import { ProductosSinClasificacionComponent } from './productos-sin-clasificacion/productos-sin-clasificacion.component';
+import { LogisticaInversaRoutingModule } from './logistica-inversa-routing.module';
 import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendientes.component';
+
 
 @NgModule({
   declarations: [
-    ReportesComponent,
-    PendientesComponent,
-    EstadosComponent,
-    ProductosSinClasificacionComponent,
-    EdicionPendientesComponent,
+    EdicionPendientesComponent
   ],
   imports: [
-    FormsModule,
-    NgSelectModule,
     CommonModule,
-    TableModule,
-    ButtonsRoutingModule,
-    ButtonModule,
-    ButtonGroupModule,
-    GridModule,
-    // IconModule,
+    LogisticaInversaRoutingModule,
     ModalModule,
-    CardModule,
-    UtilitiesModule,
-    DropdownModule,
-    SharedModule,
-    FormModule,
+    NgSelectModule,
     ReactiveFormsModule,
     DocsComponentsModule,
-    NavbarModule,
+    FormsModule,
+    ButtonGroupModule,
+    TableModule,
+    ButtonModule,
+    CardModule,
     CollapseModule,
+    DropdownModule,
+    FormModule,
+    GridModule,
+    NavbarModule,
     NavModule,
-    NavbarModule
+    SharedModule,
+   UtilitiesModule
   ]
 })
-export class ButtonsModule {
-}
+export class LogisticaInversaModule { }

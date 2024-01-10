@@ -1,0 +1,242 @@
+<c-row>
+   <h2>Edición Pendientes</h2> 
+    <form cForm [formGroup]="formEdicion" (ngSubmit)="registrarEdicion()"> 
+    <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" >
+        <c-modal-header>
+          <h5 cModalTitle>Datos</h5>
+          <button (click)="toggleLiveDemo()" cButtonClose></button>
+        </c-modal-header>
+        <c-modal-body>
+            
+            <table>
+                <tr *ngFor="let pedido of pedidoSeleccionado">
+                    <td>
+                        <table>
+                            <tr>
+                              <td> O.C. : </td>
+                              <td> <span>{{pedido.Cod_entrega}}</span></td>
+                            </tr>
+                            <tr >
+                              <td> Descripción : </td>
+                              <td> <span>{{pedido.Descripcion}}</span> </td>
+                            </tr>
+                            <tr >
+                                <td> Estado : </td>
+                                <td> <span>{{pedido.Estado}}</span> </td>
+                              </tr>
+                              <tr>
+                                <td> Subestado : </td>
+                                <td> <span> {{pedido.Subestado}} </span></td>
+                              </tr>
+                          </table>
+                    </td>
+                </tr>
+            </table>
+                <table>
+                        <tr>
+                            <td>Editar</td>
+                        </tr>
+                        <tr>
+                            <td>Estado : 
+                                <select aria-label="Estado_final" id="Estado_final" cSelect formControlName="Estado_final" (change)="seleccionSubestados()">
+                                    <option  *ngFor="let estado of estados" value={{estado.Estado}} >{{estado.Descripcion}}</option>
+                                </select>
+                                <!-- <input type="text" formControlName="Estado_final"> -->
+                            </td>
+                            <td>Subestado :
+                                <select aria-label="Subestado_final" id="Subestado_final" cSelect formControlName="Subestado_final">
+                                    <option  *ngFor="let subestado of subestados" value={{subestado.Code}} >{{subestado.Nombre}}</option>
+                                </select>
+                                 <!-- <input type="text" formControlName="Subestado_final"> -->
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                Observación:
+                                <textarea name="" id="" cols="55" rows="7"  formControlName="Observacion"></textarea>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                Link Beetrack:
+                                <input type="text" formControlName="Link">   
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  colspan="2">
+                                <span class="error" *ngIf="formEdicion.get('Link')?.errors?.['required'] && isErrorView">
+                                    Falta el link a beetrack
+                                </span>
+                            </td>
+                        </tr>
+                    
+                </table>
+
+        </c-modal-body>
+        <c-modal-footer>
+            <button class="btn btn-success" type="submit"  >Guardar 
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+            </button>       
+          <button (click)="toggleLiveDemo()" cButton color="secondary">
+            Cerrar
+          </button>
+        </c-modal-footer>
+      </c-modal>
+    </form>
+
+  <!-- <table class="loadPendientes" > 
+    <tr>
+        <div>
+         <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+         Cargando Datos 
+     </div>
+    </tr> 
+   </table> -->
+
+
+   <!-- <c-row  *ngIf="!loadPedidos"> -->
+    <c-row  >
+    <c-col [xs]>
+        <div class="">
+            Seleccione fecha
+            <input type="date"  class="form-control" placeholder="Fecha" [(ngModel)]="fecha_fin">
+        </div>
+    </c-col>
+    <c-col [xs]>
+        <p></p>
+        <!-- <div class="">
+            Fecha Compromiso fin
+            <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fecha_max">
+        </div> -->
+    </c-col>
+   </c-row>
+
+   <!-- <button (click)="toggleLiveDemo()" cButton color="secondary">soss</button> -->
+  
+  <!-- <div class="fade-in" *ngIf="!loadPedidos"> -->
+    <div class="fade-in">
+    <c-row ngPreserveWhitespaces>
+      <div>
+        <div class="col-md-12 mx-auto">
+          <!-- <table>
+            <tr>
+              <td>
+                <c-dropdown >
+                  <button cButton cDropdownToggle color="secondary" size="sm">
+                    Origen
+                  </button>
+                  <ul cDropdownMenu>
+                    <li *ngFor="let tienda of origen"><a [routerLink]="[]" (click)="sortByName(tienda)" cDropdownItem>{{tienda}}</a></li>
+                  </ul>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="filterByFecha()">
+                    Ingreso dias anteriores
+                  </button>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="getFullData()">
+                    Ingreso hasta hoy
+                  </button>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="OrdenFechaIngreso()">
+                    Ordenar por fecha ingreso
+                  </button>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="OrdenFechaCompromiso()">
+                    Ordenar por fecha compromiso
+                  </button>
+                </c-dropdown>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+              <c-dropdown >
+                <button cButton cDropdownToggle color="secondary" size="sm">
+                  Región
+                </button>
+                <ul cDropdownMenu class="scrollable-list">
+                  <li *ngFor="let region of regiones"><a [routerLink]="[]" (click)="filtrarPorRegion(region)" cDropdownItem>{{region}}</a></li>
+                </ul>
+              </c-dropdown>
+            </td>
+            </tr>
+          </table> -->
+          <p></p>
+          <button cButton color="secondary" size="sm" (click)="buscarPorFecha()" [disabled]="bloqBoton">Buscar</button>
+          <p></p>
+          Cantidad : <label style="font-weight: bold;">{{cantidad}}</label> <img width="40" *ngIf="isLoadingTable" height="50" src="../../../assets/images/loading-gif.gif" />
+          <p></p>
+          <div class="greenTable">
+            <table >
+              <thead>
+                <tr>
+                  <th>Origen</th>
+                  <th >Código Entrega</th>
+                  <th>Fecha Ingreso</th>
+                  <th >Fecha Compromiso</th>
+                  <th >Región</th>
+                  <th >Comuna</th>
+                  <th >Descripción</th>
+                  <th >Bultos</th>
+                  <th >Estado</th>
+                  <th >Subestado</th>
+                  <th >Verificado</th>
+                  <th >Recibido</th>
+                  <th> Editar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pedido of pedidos">
+                  <td scope="row">{{ pedido.Origen}}</td>
+                  <th>{{ pedido.Cod_entrega }}</th>
+                  <td>{{ pedido.Fecha_ingreso }}</td>
+                  <td>{{ pedido.Fecha_compromiso }}</td>
+                  <td>{{ pedido.Region }}</td>
+                  <td>{{ pedido.Comuna }}</td>
+                  <td>{{ pedido.Descripcion }}</td>
+                  <td>{{ pedido.Bultos }}</td>
+                  <td>{{ pedido.Estado }}</td>
+                  <td>{{ pedido.Subestado }}</td>
+                  <!-- <td>{{ pedido.Verificado }}</td> -->
+                  <td *ngIf="pedido.Verificado" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                  </td>
+                  <td *ngIf="!pedido.Verificado" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                  </td>
+                  <!-- <td>{{ pedido.Recibido }}</td> -->
+                  <td *ngIf="pedido.Recibido" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                  </td>
+                  <td *ngIf="!pedido.Recibido" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                  </td>
+                  <td>
+                    <svg xmlns="http://www.w3.org/2000/svg" (click)="editarEstado(pedido)" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m18.988 2.012l3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287l-3-3L8 13z"/><path fill="currentColor" d="M19 19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"/></svg></td>
+
+                </tr>
+                <tr>
+                  <td colspan="8" *ngIf="pedidos.length == 0">No hay registros</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+    </c-row>
+  </div>
+  </c-row>
+  
