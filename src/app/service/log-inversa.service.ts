@@ -7,8 +7,8 @@ export class LogInversaService {
 
   constructor(private http: HttpClient) { }
 
-  // apiurl="https://hela.transyanez.cl/api/log_inversa"
-  apiurl = "http://127.0.0.1:8000/api/log_inversa"
+  apiurl="https://hela.transyanez.cl/api/log_inversa"
+  // apiurl = "http://127.0.0.1:8000/api/log_inversa"
 
   get_estados_pedidos() {
     return this.http.get(this.apiurl + "/estados")
