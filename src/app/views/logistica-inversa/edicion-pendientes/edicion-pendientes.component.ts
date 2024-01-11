@@ -193,11 +193,12 @@ export class EdicionPendientesComponent {
   bloqBoton : boolean = false
   buscarPorFecha(){
     this.bloqBoton = true
-    this.fecha_inicio = this.fecha_fin
+    // this.fecha_inicio = this.fecha_fin
+    this.cantidad = 0
     this.pedidos = [];
     this.pedidosFull = []
 
-    if(this.fecha_fin == "") {
+    if(this.fecha_fin == "" ||  this.fecha_inicio == "" ) {
       this.bloqBoton = false
       return alert('Por favor, seleccione una fecha ')
     } 
@@ -250,7 +251,7 @@ export class EdicionPendientesComponent {
             alert(error.error.detail)
           });
         }
-        },5000 * i);
+        },7500 * i);
         // Guardar la referencia al setTimeout en el arreglo
         this.timeouts.push(timeoutId);
         
@@ -259,11 +260,21 @@ export class EdicionPendientesComponent {
 
   ngOnDestroy(): void {
 
-    this.timeouts.forEach(timeout => {
-      clearTimeout(timeout);
-    });
-    // Cancelar la suscripción al destruir el componente
-    this.subPedido.unsubscribe()
+    console.log("subpedido")
+    console.log(this.subPedido)
+
+    if(this.subPedido !== undefined){
+      this.timeouts.forEach(timeout => {
+        clearTimeout(timeout);
+      });
+      // Cancelar la suscripción al destruir el componente
+      this.subPedido.unsubscribe()
+
+    }
+
+
+
+    
   }
   
 
@@ -356,8 +367,8 @@ export class EdicionPendientesComponent {
 
   if(this.formEdicion.valid){
 
-    this.lgService.registrar_bitacora_lg(this.formEdicion.value).subscribe((data) =>{
-      console.log(data)
+    this.lgService.registrar_bitacora_lg(this.formEdicion.value).subscribe((data : any) =>{
+      alert(data.message)
       this.formEdicion.reset()
       this.toggleLiveDemo()
     })

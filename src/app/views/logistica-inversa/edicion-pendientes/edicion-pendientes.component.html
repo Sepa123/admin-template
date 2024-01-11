@@ -99,17 +99,16 @@
    <!-- <c-row  *ngIf="!loadPedidos"> -->
     <c-row  >
     <c-col [xs]>
+      Seleccione Fecha Compromiso inicio
         <div class="">
-            Seleccione fecha
-            <input type="date"  class="form-control" placeholder="Fecha" [(ngModel)]="fecha_fin">
+            <input type="date"  class="form-control" placeholder="Fecha" [(ngModel)]="fecha_inicio">
         </div>
     </c-col>
     <c-col [xs]>
-        <p></p>
-        <!-- <div class="">
-            Fecha Compromiso fin
-            <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fecha_max">
-        </div> -->
+      Seleccione Fecha Compromiso fin
+         <div class="">
+            <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fecha_fin">
+        </div> 
     </c-col>
    </c-row>
 
