@@ -81,13 +81,25 @@ export class EdicionPendientesComponent {
     Subestado_inicial : this.builder.control(""),
     Estado_final : this.builder.control(""),
     Subestado_final : this.builder.control(""),
-    Link: this.builder.control("", [Validators.required]),
+    Link: this.builder.control(""),
     Observacion: this.builder.control(""),
     Latitud: this.builder.control(""),
     Longitud: this.builder.control(""),
     Origen: this.builder.control(""),
     Codigo_pedido : this.builder.control("")
   })
+
+  linkValidator() {
+    const estadoFinalControl = this.formEdicion.value.Estado_final;
+    const linkControl =this.formEdicion.value.Link;
+  
+    if (estadoFinalControl === '1' && !linkControl) {
+      return false
+    } else {
+      return true
+    }
+    
+  }
 
   toggleLiveDemo() {
     this.visible = !this.visible;
@@ -141,22 +153,7 @@ export class EdicionPendientesComponent {
       this.estados = data.estado
       this.subestadosFull = data.subestado
 
-      // console.log(this.estado,this.subestado)
-
-
     })
-
-    // this.service.get_fechas().subscribe((data : any) => {
-    //   this.fecha_inicio = data.Fecha_inicio
-    //   this.fecha_fin = data.Fecha_fin
-
-    //   // this.getPedidos()
-
-
-    //  // this.retiroTienda()
-
-    // // this.pendienteseOpl()
-    // })
   }
 
   pedidoSeleccionado : PedidoSinCompromiso [] = []
@@ -189,6 +186,8 @@ export class EdicionPendientesComponent {
     console.log(pedido)
     
   }
+
+
   bloqDescarga : boolean = false
   bloqBoton : boolean = false
   buscarPorFecha(){
@@ -364,7 +363,12 @@ export class EdicionPendientesComponent {
     return console.log("no esta seguro")
   }
 
-  if(this.formEdicion.valid){
+  console.log(this.formEdicion.valid)
+
+
+  
+
+  if(this.formEdicion.valid && this.linkValidator() ){
 
     this.lgService.registrar_bitacora_lg(this.formEdicion.value).subscribe((data : any) =>{
       alert(data.message)
