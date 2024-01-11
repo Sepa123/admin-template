@@ -189,9 +189,10 @@ export class EdicionPendientesComponent {
     console.log(pedido)
     
   }
-
+  bloqDescarga : boolean = false
   bloqBoton : boolean = false
   buscarPorFecha(){
+    this.bloqDescarga = false
     this.bloqBoton = true
     // this.fecha_inicio = this.fecha_fin
     this.cantidad = 0
@@ -221,6 +222,7 @@ export class EdicionPendientesComponent {
             console.log("its Over")
             this.bloqBoton = false
             this.isLoadingTable = false
+            this.bloqDescarga = true
             // alert("productos pendientes listo")
           } else {
             this.subPedido = this.service.pendientes_choice(this.fecha_inicio,this.fecha_fin,"0",this.tienda[i]).subscribe((data) => {
@@ -251,7 +253,7 @@ export class EdicionPendientesComponent {
             alert(error.error.detail)
           });
         }
-        },7500 * i);
+        },7100 * i);
         // Guardar la referencia al setTimeout en el arreglo
         this.timeouts.push(timeoutId);
         
@@ -272,9 +274,6 @@ export class EdicionPendientesComponent {
 
     }
 
-
-
-    
   }
   
 
@@ -375,6 +374,13 @@ export class EdicionPendientesComponent {
   } else {
     this.isErrorView = true
   }
+  
+ }
+
+ descargarExcel(){
+  this.pedidos 
+
+  this.lgService.descargar_pendientes(this.pedidos,this.fecha_inicio,this.fecha_fin)
   
  }
  
