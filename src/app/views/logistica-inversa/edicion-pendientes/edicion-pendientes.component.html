@@ -1,6 +1,4 @@
 <c-row>
-
-  <!-- <button (click)="descargarExcel()">descargar</button> -->
    <h2>Edición Pendientes</h2> 
     <form cForm [formGroup]="formEdicion" (ngSubmit)="registrarEdicion()"> 
     <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" >
@@ -9,7 +7,6 @@
           <button (click)="toggleLiveDemo()" cButtonClose></button>
         </c-modal-header>
         <c-modal-body>
-            
             <table>
                 <tr *ngFor="let pedido of pedidoSeleccionado">
                     <td>
@@ -59,7 +56,6 @@
                                 <textarea name="" id="" cols="55" rows="7"  formControlName="Observacion"></textarea>
                             </td>
                         </tr>
-
                         <tr>
                             <td colspan="2">
                                 Link Beetrack:
@@ -87,18 +83,6 @@
         </c-modal-footer>
       </c-modal>
     </form>
-
-  <!-- <table class="loadPendientes" > 
-    <tr>
-        <div>
-         <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
-         Cargando Datos 
-     </div>
-    </tr> 
-   </table> -->
-
-
-   <!-- <c-row  *ngIf="!loadPedidos"> -->
     <c-row  >
     <c-col [xs]>
       Seleccione Fecha Compromiso inicio
@@ -113,68 +97,10 @@
         </div> 
     </c-col>
    </c-row>
-
-   <!-- <button (click)="toggleLiveDemo()" cButton color="secondary">soss</button> -->
-  
-  <!-- <div class="fade-in" *ngIf="!loadPedidos"> -->
     <div class="fade-in">
     <c-row ngPreserveWhitespaces>
       <div>
         <div class="col-md-12 mx-auto">
-          <!-- <table>
-            <tr>
-              <td>
-                <c-dropdown >
-                  <button cButton cDropdownToggle color="secondary" size="sm">
-                    Origen
-                  </button>
-                  <ul cDropdownMenu>
-                    <li *ngFor="let tienda of origen"><a [routerLink]="[]" (click)="sortByName(tienda)" cDropdownItem>{{tienda}}</a></li>
-                  </ul>
-                </c-dropdown>
-              </td>
-              <td>
-                <c-dropdown >
-                  <button cButton  color="secondary" size="sm" (click)="filterByFecha()">
-                    Ingreso dias anteriores
-                  </button>
-                </c-dropdown>
-              </td>
-              <td>
-                <c-dropdown >
-                  <button cButton  color="secondary" size="sm" (click)="getFullData()">
-                    Ingreso hasta hoy
-                  </button>
-                </c-dropdown>
-              </td>
-              <td>
-                <c-dropdown >
-                  <button cButton  color="secondary" size="sm" (click)="OrdenFechaIngreso()">
-                    Ordenar por fecha ingreso
-                  </button>
-                </c-dropdown>
-              </td>
-              <td>
-                <c-dropdown >
-                  <button cButton  color="secondary" size="sm" (click)="OrdenFechaCompromiso()">
-                    Ordenar por fecha compromiso
-                  </button>
-                </c-dropdown>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-              <c-dropdown >
-                <button cButton cDropdownToggle color="secondary" size="sm">
-                  Región
-                </button>
-                <ul cDropdownMenu class="scrollable-list">
-                  <li *ngFor="let region of regiones"><a [routerLink]="[]" (click)="filtrarPorRegion(region)" cDropdownItem>{{region}}</a></li>
-                </ul>
-              </c-dropdown>
-            </td>
-            </tr>
-          </table> -->
           <p></p>
           <button cButton color="secondary" size="sm" (click)="buscarPorFecha()" [disabled]="bloqBoton">Buscar</button>
           <p></p>

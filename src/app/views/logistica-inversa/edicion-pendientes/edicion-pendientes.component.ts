@@ -117,8 +117,6 @@ export class EdicionPendientesComponent {
     this.isModalOpen = false
   }
 
-
-
   isErrorView : boolean = false
 
   fecha_inicio : string =""
@@ -241,11 +239,9 @@ export class EdicionPendientesComponent {
                 this.cantidad = this.pedidos.length
               }
               this.loadPedidos = false;
-              // this.cantidad = this.pedidos.length;
-              // this.cantidadBultos = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length
+
               this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
-              // this.cantidadBultos = this.pedidos.length
-              // this.cantidadBultos = this.pedidos.reduce((acum, pedido) => acum + pedido.Bultos, 0)
+
                this.pedidosFull = this.pedidos
             // }
           }, error => {
@@ -362,11 +358,6 @@ export class EdicionPendientesComponent {
   if (!isSeguro) {
     return console.log("no esta seguro")
   }
-
-  console.log(this.formEdicion.valid)
-
-
-  
 
   if(this.formEdicion.valid && this.linkValidator() ){
 
