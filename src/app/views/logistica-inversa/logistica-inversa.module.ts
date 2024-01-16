@@ -22,11 +22,13 @@ import {
 
 import { LogisticaInversaRoutingModule } from './logistica-inversa-routing.module';
 import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendientes.component';
+import { RecepcionOcComponent } from './recepcion-oc/recepcion-oc.component';
 
 
 @NgModule({
   declarations: [
-    EdicionPendientesComponent
+    EdicionPendientesComponent,
+    RecepcionOcComponent
   ],
   imports: [
     CommonModule,

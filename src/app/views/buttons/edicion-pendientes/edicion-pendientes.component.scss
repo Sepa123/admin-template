@@ -1,81 +1,92 @@
 .greenTable{
-    width: auto;
-    height: 400px; /* Altura de ejemplo */
-    overflow: auto;
-  }
-  
-  table.loadPendientes {
+  width: auto;
+  height: 400px; /* Altura de ejemplo */
+  overflow: auto;
+}
+
+table.loadPendientes {
+  width: 100%;
+  text-align: center;
+}
+
+.scrollable-list {
+  max-height: 300px; /* Establece la altura máxima para la lista */
+  overflow-y: auto; /* Agrega una barra de desplazamiento vertical cuando sea necesario */
+  list-style: none; /* Elimina los marcadores de lista predeterminados */
+  padding: 0; /* Elimina el relleno predeterminado de la lista */
+}
+
+.greenTable table {
+    border: 1px solid #28A745;
+    background-color: #FFFEF3;
     width: 100%;
     text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .greenTable table td, table th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  .greenTable table tbody td {
+    font-size: 10px;
+    // white-space: nowrap;
+  }
+  // .greenTable  table tr:nth-child(even) {
+  //   background: #FFFEF3;
+  // }
+  .greenTable  table thead {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: #28A745;
+  }
+  .greenTable table thead th {
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+  .greenTable  table thead th:first-child {
+    border-left: none;
   }
   
-  .scrollable-list {
-    max-height: 300px; /* Establece la altura máxima para la lista */
-    overflow-y: auto; /* Agrega una barra de desplazamiento vertical cuando sea necesario */
-    list-style: none; /* Elimina los marcadores de lista predeterminados */
-    padding: 0; /* Elimina el relleno predeterminado de la lista */
+  .greenTable  table tfoot {
+    font-size: 13px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: #A40808;
   }
-  
-  .greenTable table {
-      border: 1px solid #28A745;
-      background-color: #FFFEF3;
-      width: 100%;
+  .greenTable  table tfoot td {
+    font-size: 13px;
+  }
+  .greenTable  table tfoot .links {
+    text-align: right;
+  }
+  .greenTable table tfoot .links a{
+    display: inline-block;
+    background: #FFFFFF;
+    color: #A40808;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+
+  h2 {
       text-align: center;
-      border-collapse: separate;
-      border-spacing: 0;
+  }
+  .svgT{
+    fill:#12de20
+  }
+
+  .svgF{
+    fill:#d60a0a
+  }
+
+  .error {
+      color : red
     }
-    .greenTable table td, table th {
-      border: 0px solid #AAAAAA;
-      padding: 3px 2px;
-    }
-    .greenTable table tbody td {
-      font-size: 10px;
-      // white-space: nowrap;
-    }
-    // .greenTable  table tr:nth-child(even) {
-    //   background: #FFFEF3;
-    // }
-    .greenTable  table thead {
-      position: sticky;
-      top: 0;
-      left: 0;
-      background: #28A745;
-    }
-    .greenTable table thead th {
-      font-size: 10px;
-      font-weight: bold;
-      color: #FFFFFF;
-      text-align: center;
-      border-left: 2px solid #28A745;
-    }
-    .greenTable  table thead th:first-child {
-      border-left: none;
-    }
-    
-    .greenTable  table tfoot {
-      font-size: 13px;
-      font-weight: bold;
-      color: #FFFFFF;
-      background: #A40808;
-    }
-    .greenTable  table tfoot td {
-      font-size: 13px;
-    }
-    .greenTable  table tfoot .links {
-      text-align: right;
-    }
-    .greenTable table tfoot .links a{
-      display: inline-block;
-      background: #FFFFFF;
-      color: #A40808;
-      padding: 2px 8px;
-      border-radius: 5px;
-    }
-  
-    .svgT{
-      fill:#12de20
-    }
-  
-    .svgF{
-      fill:#d60a0a
-    }
+
+  span {
+      font-weight: bolder;
+  }

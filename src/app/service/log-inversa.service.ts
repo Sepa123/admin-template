@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
+import { RutaProducto } from 'src/app/models/log_inversa/rutaProducto.interface'
+import { ProductoPicking } from '../models/productoPicking.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,6 +29,22 @@ export class LogInversaService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
+
+  obtener_ruta_producto(body : any,tipo: boolean){
+    if (tipo == false) { 
+      return this.http.post<RutaProducto []>(this.apiurl + "/ruta/buscar/producto",body)
+    } else {
+      return this.http.post<RutaProducto []>(this.apiurl + "/ruta/buscar/nombre",body)
+    }
+  }
+
+  lista_productos_ruta(ruta : string){
+    return this.http.get(this.apiurl + `/ruta?nombre_ruta=${ruta}`)
+  }
+
+  get_estado_producto(cod_pedido : string){
+    return this.http.get(this.apiurl + `/ruta/estados?cod_pedido=${cod_pedido}`)
   }
 
 }

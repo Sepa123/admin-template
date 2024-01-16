@@ -16,7 +16,7 @@ export class EdicionPendientesComponent {
 
   public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger'];
 
-  isLoadingTable: boolean = true;
+  isLoadingTable: boolean = false;
 
   constructor(public builder: FormBuilder, private service:PedidoService, private lgService : LogInversaService) { }
 
@@ -53,6 +53,7 @@ export class EdicionPendientesComponent {
 
   estados  : Estado [] = []
   subestados : Subestado [] = []
+  subestadosFull : Subestado [] = []
 
   getLocation(): any {
     if (navigator.geolocation) {
@@ -88,6 +89,18 @@ export class EdicionPendientesComponent {
     Codigo_pedido : this.builder.control("")
   })
 
+  linkValidator() {
+    const estadoFinalControl = this.formEdicion.value.Estado_final;
+    const linkControl =this.formEdicion.value.Link;
+  
+    if (estadoFinalControl === '1' && !linkControl) {
+      return false
+    } else {
+      return true
+    }
+    
+  }
+
   toggleLiveDemo() {
     this.visible = !this.visible;
   }
@@ -104,12 +117,30 @@ export class EdicionPendientesComponent {
     this.isModalOpen = false
   }
 
-
+  isErrorView : boolean = false
 
   fecha_inicio : string =""
   fecha_fin : string =""
 
   tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","sportex-electrolux","fin"]
+
+
+  seleccionSubestados(){
+    
+    const estado = this.formEdicion.value.Estado_final
+    console.log("El estado es",estado)
+
+    if (estado === null || estado === undefined) {
+      console.log(null) // Devuelve null si es nulo o indefinido
+    } else {
+      this.subestados = this.subestadosFull.filter((sub) => sub.Parent_code == parseInt(estado))
+      console.log(this.subestados)
+      this.formEdicion.patchValue({
+        Subestado_final : this.subestados[0].Code.toString()
+      })
+    }
+    
+  }
 
   ngOnInit():void {
     // this.getData()
@@ -118,24 +149,9 @@ export class EdicionPendientesComponent {
     this.lgService.get_estados_pedidos().subscribe((data : any) => {
       console.log(data) 
       this.estados = data.estado
-      this.subestados = data.subestado
-
-      // console.log(this.estado,this.subestado)
-
+      this.subestadosFull = data.subestado
 
     })
-
-    // this.service.get_fechas().subscribe((data : any) => {
-    //   this.fecha_inicio = data.Fecha_inicio
-    //   this.fecha_fin = data.Fecha_fin
-
-    //   // this.getPedidos()
-
-
-    //  // this.retiroTienda()
-
-    // // this.pendienteseOpl()
-    // })
   }
 
   pedidoSeleccionado : PedidoSinCompromiso [] = []
@@ -143,14 +159,14 @@ export class EdicionPendientesComponent {
   editarEstado(pedido : PedidoSinCompromiso){
     this.pedidoSeleccionado.pop()
     this.pedidoSeleccionado.push(pedido)
-    let subestado = this.subestados.find((dato) => dato.Nombre == pedido.Subestado) 
+    let subestado = this.subestadosFull.find((dato) => dato.Nombre == pedido.Subestado) 
     let estado = this.estados.find((dato) => dato.Descripcion == pedido.Estado) 
 
     console.log("subestados")
     
     console.log()
 
-    this.subestados = this.subestados.filter((sub) => sub.Parent_code == estado?.Estado)
+    this.subestados = this.subestadosFull.filter((sub) => sub.Parent_code == estado?.Estado)
 
     this.formEdicion.patchValue({
       Id_user : sessionStorage.getItem("id")?.toString()+"",
@@ -159,7 +175,6 @@ export class EdicionPendientesComponent {
       Subestado_inicial : subestado?.Code.toString(),
       Estado_final : estado?.Estado.toString(),
       Subestado_final : subestado?.Code.toString(),
-      Link: "",
       Latitud: this.latStr,
       Longitud: this.longStr,
       Origen: pedido.Origen,
@@ -170,12 +185,21 @@ export class EdicionPendientesComponent {
     
   }
 
+
+  bloqDescarga : boolean = false
   bloqBoton : boolean = false
   buscarPorFecha(){
+    this.bloqDescarga = false
     this.bloqBoton = true
-    this.fecha_inicio = this.fecha_fin
+    // this.fecha_inicio = this.fecha_fin
+    this.cantidad = 0
     this.pedidos = [];
     this.pedidosFull = []
+
+    if(this.fecha_fin == "" ||  this.fecha_inicio == "" ) {
+      this.bloqBoton = false
+      return alert('Por favor, seleccione una fecha ')
+    } 
 
 
     this.getPedidos()
@@ -183,7 +207,7 @@ export class EdicionPendientesComponent {
   }
 
   getPedidos() {
-
+    this.isLoadingTable = true
     // Crear un arreglo para almacenar las referencias a los setTimeout
       let cantActual : number = 0
 
@@ -195,6 +219,7 @@ export class EdicionPendientesComponent {
             console.log("its Over")
             this.bloqBoton = false
             this.isLoadingTable = false
+            this.bloqDescarga = true
             // alert("productos pendientes listo")
           } else {
             this.subPedido = this.service.pendientes_choice(this.fecha_inicio,this.fecha_fin,"0",this.tienda[i]).subscribe((data) => {
@@ -214,18 +239,16 @@ export class EdicionPendientesComponent {
                 this.cantidad = this.pedidos.length
               }
               this.loadPedidos = false;
-              // this.cantidad = this.pedidos.length;
-              // this.cantidadBultos = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length
+
               this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
-              // this.cantidadBultos = this.pedidos.length
-              // this.cantidadBultos = this.pedidos.reduce((acum, pedido) => acum + pedido.Bultos, 0)
+
                this.pedidosFull = this.pedidos
             // }
           }, error => {
             alert(error.error.detail)
           });
         }
-        },5000 * i);
+        },7100 * i);
         // Guardar la referencia al setTimeout en el arreglo
         this.timeouts.push(timeoutId);
         
@@ -234,11 +257,18 @@ export class EdicionPendientesComponent {
 
   ngOnDestroy(): void {
 
-    this.timeouts.forEach(timeout => {
-      clearTimeout(timeout);
-    });
-    // Cancelar la suscripción al destruir el componente
-    this.subPedido.unsubscribe()
+    console.log("subpedido")
+    console.log(this.subPedido)
+
+    if(this.subPedido !== undefined){
+      this.timeouts.forEach(timeout => {
+        clearTimeout(timeout);
+      });
+      // Cancelar la suscripción al destruir el componente
+      this.subPedido.unsubscribe()
+
+    }
+
   }
   
 
@@ -329,11 +359,23 @@ export class EdicionPendientesComponent {
     return console.log("no esta seguro")
   }
 
-  this.lgService.registrar_bitacora_lg(this.formEdicion.value).subscribe((data) =>{
-    console.log(data)
-    this.formEdicion.reset()
-    this.toggleLiveDemo()
-  })
+  if(this.formEdicion.valid && this.linkValidator() ){
+
+    this.lgService.registrar_bitacora_lg(this.formEdicion.value).subscribe((data : any) =>{
+      alert(data.message)
+      this.formEdicion.reset()
+      this.toggleLiveDemo()
+    })
+  } else {
+    this.isErrorView = true
+  }
+  
+ }
+
+ descargarExcel(){
+  this.pedidos 
+
+  this.lgService.descargar_pendientes(this.pedidos,this.fecha_inicio,this.fecha_fin)
   
  }
  

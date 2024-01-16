@@ -57,14 +57,14 @@ export const navItems: INavDataBar[] = [
     iconComponent: { name: 'cil-swap-horizontal' },
     roles : ROLES_PERMITIDOS.PANEL,
     children : [
-      {
-        name: 'Edicion Pendientes',
-        url: '/log-inversa/edicion-pendiente'
-      },
       // {
-      //   name: 'Agregar funcion',
-      //   url: '/areati/agregar-funcion'
+      //   name: 'Edicion Pendientes',
+      //   url: '/log-inversa/edicion-pendiente'
       // },
+      {
+        name: 'Recepción',
+        url: '/log-inversa/recepcion'
+      },
     ]
   },
   {
@@ -131,7 +131,11 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Productos sin clasificación',
         url: '/operaciones/productos-sin-clasificacion'
-      }
+      },
+      {
+        name: 'Edicion Pendientes',
+        url: '/operaciones/edicion-pendientes'
+      },
     ]
   },
   {

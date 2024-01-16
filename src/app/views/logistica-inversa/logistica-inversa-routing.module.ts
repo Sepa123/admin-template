@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendientes.component';
+import { RecepcionOcComponent } from './recepcion-oc/recepcion-oc.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,13 @@ const routes: Routes = [
         component : EdicionPendientesComponent,
         data : {
           title : "Edición Pendiente"
+        }
+      },
+      {
+        path : 'recepcion',
+        component : RecepcionOcComponent,
+        data : {
+          title : "Recepción Log Inversa"
         }
       },
     ]
