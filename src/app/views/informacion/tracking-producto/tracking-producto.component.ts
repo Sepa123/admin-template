@@ -4,6 +4,7 @@ import { TocService } from 'src/app/service/toc.service';
 import { TrackingBeetrack,LineaProducto } from 'src/app/models/trackingBeetrack.interface'
 import { ProductoPicking,FacturaElectrolux } from 'src/app/models/productoPicking.interface';
 import { TocTracking } from 'src/app/models/tocTracking.interface'
+import { BitacoraLITracking } from "src/app/models/log_inversa/bitacoraLITracking.interface" 
 
 @Component({
   selector: 'app-tracking-producto',
@@ -12,6 +13,8 @@ import { TocTracking } from 'src/app/models/tocTracking.interface'
 })
 export class TrackingProductoComponent {
   isOK : boolean = false
+
+  bitacoraLI : BitacoraLITracking [] = []
 
   arrayError : boolean [] = [false,false,false,false]
 
@@ -185,7 +188,7 @@ export class TrackingProductoComponent {
         "Cliente": "",
         "Linea": [0,0,0,0,0]
       }
-      this.arrayError = [false,false,false]
+      this.arrayError = [false,false,false,false]
 
     var resultado = codigo.replace(/'/g, "-").trim().toUpperCase()
     resultado = codigo.replace(/-(\d+)/, "");
@@ -260,6 +263,12 @@ export class TrackingProductoComponent {
           }
         })
         
+    }, error => {
+      this.arrayError[3] = true
+    })
+
+    this.service.get_bitacora_li_tracking(codigo).subscribe(data => {
+      this.bitacoraLI = data
     }, error => {
       this.arrayError[3] = true
     })

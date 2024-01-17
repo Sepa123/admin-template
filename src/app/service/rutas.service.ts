@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 //  Modelos
+import { BitacoraLITracking } from "src/app/models/log_inversa/bitacoraLITracking.interface" 
 import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
 import { ProductoPicking, FacturaElectrolux } from "src/app/models/productoPicking.interface"
 import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
@@ -217,6 +218,8 @@ export class RutasService {
     return this.http.put(this.apiurl + `/eliminar/productos`,data)
   }
 
-  
+  get_bitacora_li_tracking(cod_pedido : string){
+    return this.http.get<BitacoraLITracking[]>(this.apiurl + `/bitacora/log_inversa?cod_pedido=${cod_pedido}` )  
+  }
   
 }

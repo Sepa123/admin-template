@@ -114,11 +114,12 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
+  // FULL PANTALLA
   {
     name: 'Operaciones',
     url: '/operaciones',
     iconComponent: { name: 'cil-clipboard' },
-    roles : ROLES_PERMITIDOS.OPERACIONES_VIEWS,
+    roles : ROLES_PERMITIDOS.OPERACIONES_VIEWS_FULL,
     children: [
       {
         name: 'Pendientes',
@@ -136,6 +137,26 @@ export const navItems: INavDataBar[] = [
         name: 'Edicion Pendientes',
         url: '/operaciones/edicion-pendientes'
       },
+    ]
+  },
+  {
+    name: 'Operaciones',
+    url: '/operaciones',
+    iconComponent: { name: 'cil-clipboard' },
+    roles : ROLES_PERMITIDOS.OPERACIONES_VIEWS,
+    children: [
+      {
+        name: 'Pendientes',
+        url: '/operaciones/pendientes'
+      },
+      {
+        name: 'Estados',
+        url: '/operaciones/estados'
+      },
+      {
+        name: 'Productos sin clasificación',
+        url: '/operaciones/productos-sin-clasificacion'
+      }
     ]
   },
   {
