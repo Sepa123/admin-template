@@ -5,6 +5,7 @@ import { LogInversaService } from 'src/app/service/log-inversa.service'
 import { RutaProducto } from 'src/app/models/log_inversa/rutaProducto.interface';
 import { ProductoPicking } from 'src/app/models/productoPicking.interface';
 import { Estado,Subestado } from 'src/app/models/estados.interface'
+import { PendienteDia } from 'src/app/models/log_inversa/pendientesDia.interface'
 
 @Component({
   selector: 'app-recepcion-oc',
@@ -12,6 +13,8 @@ import { Estado,Subestado } from 'src/app/models/estados.interface'
   styleUrls: ['./recepcion-oc.component.scss']
 })
 export class RecepcionOcComponent {
+
+  pendientesDia : PendienteDia [] = []
 
   codProducto : string = ""
 
@@ -40,11 +43,38 @@ export class RecepcionOcComponent {
   subestados : Subestado [] = []
   subestadosFull : Subestado [] = []
 
+  fecha_min : string = ""
+  fecha_max : string = ""
+
+  
+
   ngOnInit() {
+
+    var fechaActual = new Date();
+
+    this.fecha_max =  fechaActual.toISOString().split('T')[0];
+
+    // Restar 7 días a la fecha actual
+    fechaActual.setDate(fechaActual.getDate() - 7);
+  
+    // Formatear la fecha a un formato que acepte el atributo "max" del input date
+    var fechaMaxima = fechaActual.toISOString().split('T')[0];
+
+
+    this.fecha_min = fechaMaxima
+
+    setTimeout(() => {
+      this.service.get_pendientes_dia(this.fecha_max).subscribe((data) => {
+        this.pendientesDia = data
+      }) 
+    }, 550);
+    
 
     this.getLocation()
 
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+
+
 
     this.service.get_estados_pedidos().subscribe((data : any) => {
       console.log(data) 
