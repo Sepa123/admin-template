@@ -104,7 +104,7 @@
         </c-col>
           <c-col [xs]>
             <div class="">
-              <input type="text"  class="form-control"  [(ngModel)]="nombreRuta" (change)="obtenerRutaProductoPorRuta()" >
+              <input type="text"  class="form-control"  [(ngModel)]="nombreRuta" (change)="obtenerRutaProductoPorRuta('')" >
           </div>
         </c-col>
         <c-col [xs]>
@@ -147,6 +147,9 @@
                     <td>{{pedido.Patente}}</td>
                     <td>{{pedido.Driver}}</td>
                  </tr>
+                 <tr>
+                  <td colspan="4" *ngIf="rutaProducto.length == 0">No hay registros</td>
+                </tr>
                 
                </tbody>
              </table>
@@ -190,6 +193,17 @@
                     <svg xmlns="http://www.w3.org/2000/svg" (click)="editarEstado(producto)" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m18.988 2.012l3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287l-3-3L8 13z"/><path fill="currentColor" d="M19 19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"/></svg>
                    </td>
                 </tr>
+                <tr>
+                  <td colspan="12" *ngIf="productosNoEntregados.length == 0 && !isLoading">No hay registros</td>
+                </tr>
+                <tr>
+                  <td colspan="12" *ngIf="isLoading == true">
+                    <div>
+                      <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+                      Cargando Datos
+                    </div>
+                  </td>
+                </tr>
                
               </tbody>
             </table>
@@ -227,6 +241,17 @@
                   <td>{{producto.Notas}}</td>
                   <td>{{producto.Estado}}</td>
                </tr>
+               <tr>
+                <td colspan="11" *ngIf="productosEntregados.length == 0 && !isLoading">No hay registros</td>
+              </tr>
+              <tr>
+                <td colspan="12" *ngIf="isLoading == true">
+                  <div>
+                    <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+                    Cargando Datos
+                  </div>
+                </td>
+              </tr>
               
              </tbody>
            </table>
@@ -234,8 +259,49 @@
 
          <p></p>
          <span>Productos de rutas entregados</span> 
-         <input type="date" class="form-control" id="fecha" name="fecha"  [min]="fecha_min" [max]="fecha_max" [value]="fecha_max">
+         
 
+         <p></p>
+
+         <c-row>
+          <c-col>
+            <input type="date" class="form-control" id="fecha" name="fecha"  [min]="fecha_min" [max]="fecha_max" [value]="fecha_max"
+            [(ngModel)]="fecha_seleccionada" (change)="seleccionFechaPendiente()" >
+          </c-col>
+          <c-col>
+          </c-col>
+          <c-col>
+          </c-col>
+         </c-row>
+         <p></p>
+         <div class="greenTable">
+          <table >
+            <thead>
+              <tr>
+                <th>Ruta</th>
+                <th>Region</th>
+                <th>Patente</th>
+                <th>Driver</th>
+                <th>Pendientes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let pendiente  of pendientesDia">
+                 <td>
+                  <a class="custom-link" (click)="obtenerRutaProductoPorRuta(pendiente.Nombre_ruta)">{{pendiente.Nombre_ruta}}</a>
+                  
+                </td>
+                 <td>{{pendiente.Region}}</td>
+                 <td>{{pendiente.Patente}}</td>
+                 <td>{{pendiente.Driver}}</td>
+                 <td>{{pendiente.Pendientes}}</td>
+              </tr>
+              <tr>
+                <td colspan="5" *ngIf="pendientesDia.length == 0">No hay registros</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
  
        </div>
      </div>

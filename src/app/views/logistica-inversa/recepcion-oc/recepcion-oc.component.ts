@@ -46,8 +46,9 @@ export class RecepcionOcComponent {
   fecha_min : string = ""
   fecha_max : string = ""
 
-  
+  fecha_seleccionada : string = ""
 
+  isLoading : boolean = false  
   ngOnInit() {
 
     var fechaActual = new Date();
@@ -62,6 +63,8 @@ export class RecepcionOcComponent {
 
 
     this.fecha_min = fechaMaxima
+
+    this.fecha_seleccionada = this.fecha_max
 
     setTimeout(() => {
       this.service.get_pendientes_dia(this.fecha_max).subscribe((data) => {
@@ -87,6 +90,12 @@ export class RecepcionOcComponent {
     // let fechaFormateada = fecha.toISOString().split('T')[0];
 
     // this.fechaPedido = fechaFormateada
+  }
+
+  seleccionFechaPendiente(){
+    this.service.get_pendientes_dia(this.fecha_seleccionada).subscribe((data) => {
+      this.pendientesDia = data
+    }) 
   }
 
   seleccionSubestados(){
@@ -145,7 +154,11 @@ export class RecepcionOcComponent {
   })
 
   obtenerRutaProducto(){
+
+    console.log("furro")
     this.rutaProducto = []
+    
+    this.isLoading = true
 
     this.productosEntregados = []
     this.productosNoEntregados = [] 
@@ -169,26 +182,31 @@ export class RecepcionOcComponent {
     this.service.obtener_ruta_producto(body,false).subscribe((data) => {
       this.rutaProducto = data
       this.codProducto = ""
-
+      this.isLoading = true
       this.service.lista_productos_ruta(data[0].Ruta_ty).subscribe((data : any) => {
-
+        
+        this.isLoading = false
         this.productosEntregados = data.entregados
         this.productosNoEntregados = data.no_entregado
         
       })
     }, error => {
+
+      this.isLoading = false
       alert(error.error.detail)
       this.codProducto = ""
     })
   }
 
 
-  obtenerRutaProductoPorRuta(){
+  obtenerRutaProductoPorRuta(ruta : string){
     this.rutaProducto = []
-
+    this.isLoading = true
     this.productosEntregados = []
     this.productosNoEntregados = [] 
-    var resultado = this.nombreRuta
+    var resultado = ruta
+    if(ruta == '') resultado = this.nombreRuta
+    
 
     
     const body = {
@@ -208,12 +226,13 @@ export class RecepcionOcComponent {
       this.rutaProducto = data
       this.nombreRuta = ""
       this.service.lista_productos_ruta(data[0].Ruta_ty).subscribe((data : any) => {
-
+        this.isLoading = false
         this.productosEntregados = data.entregados
         this.productosNoEntregados = data.no_entregado
         
       })
     }, error => {
+      this.isLoading = false
       alert(error.error.detail)
       this.nombreRuta = ""
     })

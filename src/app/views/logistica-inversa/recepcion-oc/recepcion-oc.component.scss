@@ -20,6 +20,16 @@
   .fechas {
     white-space: nowrap;
   }
+
+  .custom-link {
+    color: #070707; /* Cambia el color del texto según tus preferencias */
+    text-decoration: underline; /* Puedes ajustar o quitar la subrayado según tus preferencias */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+}
+
+  .custom-link:hover {
+    cursor: pointer; /* Puedes cambiarlo a 'pointer', 'grab', 'crosshair', etc. según tus preferencias */
+  } 
   
   .greenTable table {
       border: 1px solid #28A745;
