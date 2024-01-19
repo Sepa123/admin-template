@@ -17,6 +17,10 @@ export class LogInversaService {
     return this.http.get(this.apiurl + "/estados")
   }
 
+  get_estados_pedidos_logistica_inversa() {
+    return this.http.get(this.apiurl + "/estados/li")
+  }
+
   registrar_bitacora_lg(body : any) {
     return this.http.post(this.apiurl + "/registrar",body)
   }

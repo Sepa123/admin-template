@@ -208,10 +208,26 @@ export class EditarRutaComponent {
     if (!isSeguro) return console.log("no esta seguro")
 
     let lista = arrayRuta.map((ruta) => ruta.Codigo_pedido).join(',')
+
     const body = {
       nombre_ruta : this.nombreRutaEditar,
-      lista : lista
+      lista : lista,
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "cliente" : arrayRuta[0].Notas,
+      "n_guia" : arrayRuta[0].Codigo_pedido,
+      "cod_pedido" : arrayRuta[0].Codigo_pedido,
+      "cod_producto" : arrayRuta[0].Codigo_pedido,
+      "ids_usuario" : this.idPortal,
+      "latitud" : this.latStr,
+      "longitud" : this.longStr,
+      "observacion" : "Lista productos eliminado de la ruta "+this.nombreRutaEditar
     }
+
+    this.idUsuario = sessionStorage.getItem("id")+""
+    const fechaActual = this.obtenerFechaActual();
+    this.Nombre_ruta = sessionStorage.getItem("id") + "-"+fechaActual
+
+    // this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
 
     console.log(body)
 
@@ -301,7 +317,7 @@ export class EditarRutaComponent {
       "ids_usuario" : this.idPortal,
       "latitud" : this.latStr,
       "longitud" : this.longStr,
-      "observacion" : "Producto agredado en Editar Ruta"
+      "observacion" : "Producto agregado en Editar Ruta"
       // "cod_sku" : sku
     }
     
@@ -391,12 +407,25 @@ export class EditarRutaComponent {
     // this.todosEnRuta()
   }
 
-  deleteData(index:number, cod_producto : string,cod_pedido :string, index_producto : number) {
+  deleteData(index:number, cod_producto : string,cod_pedido :string, index_producto : number, notas : string) {
     console.log(cod_producto)
     let isSeguro = confirm("¿Seguro que desea eliminar esta producto?");
     if (!isSeguro) return console.log("no esta seguro")
 
-    this.service.delete_producto_ruta_activa(cod_producto, this.nombreRutaEditar).subscribe((data : any) => {
+    const body = {
+      nombre_ruta : this.nombreRutaEditar,
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "cliente" : notas,
+      "n_guia" : cod_pedido,
+      "cod_pedido" : cod_pedido,
+      "cod_producto" : cod_producto,
+      "ids_usuario" : this.idPortal,
+      "latitud" : this.latStr,
+      "longitud" : this.longStr,
+      "observacion" : "producto eliminado de la ruta "+this.nombreRutaEditar
+    }
+
+    this.service.delete_producto_ruta_activa(body,cod_producto).subscribe((data : any) => {
       alert(data.message)
     },
     ((error) => {

@@ -79,7 +79,7 @@ export class RecepcionOcComponent {
 
 
 
-    this.service.get_estados_pedidos().subscribe((data : any) => {
+    this.service.get_estados_pedidos_logistica_inversa().subscribe((data : any) => {
       console.log(data) 
       this.estados = data.estado
       this.subestadosFull = data.subestado

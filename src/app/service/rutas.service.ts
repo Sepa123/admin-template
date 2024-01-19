@@ -111,8 +111,8 @@ export class RutasService {
     return this.http.get<ProductoPicking[]>(this.apiurl + `/datos_ruta/${nombre_ruta}`)
   }
 
-  delete_producto_ruta_activa(cod_producto: string,nombre_ruta: string) {
-    return this.http.delete(this.apiurl + `/eliminar/producto/${cod_producto}/${nombre_ruta}`)
+  delete_producto_ruta_activa(body: any, cod_producto: string) {
+    return this.http.put(this.apiurl + `/eliminar/producto/${cod_producto}`,body)
   }
 
   delete_ruta(nombre_ruta: string) {
