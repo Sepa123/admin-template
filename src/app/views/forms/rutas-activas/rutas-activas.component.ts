@@ -45,6 +45,7 @@ export class RutasActivasComponent {
   fechaActual!: string
   patenteRuta! : string
   driverRuta! : string
+  despachador! : string
   isDriver : boolean = false
 
   loadingRuta : boolean = false
@@ -138,7 +139,7 @@ export class RutasActivasComponent {
     const codigo = this.nombreRutaActual;
     this.nombreRutaService.setCodigo(codigo);
     this.nombreRutaService.setBultos(this.cantBultos)
-    this.nombreRutaService.setDataDriver(this.driverRuta,this.patenteRuta)
+    this.nombreRutaService.setDataDriver(this.driverRuta,this.patenteRuta,this.despachador)
     this.router.navigate(['/picking/asignar-ruta']);
   }
   editarRutaActiva() {
@@ -333,6 +334,7 @@ export class RutasActivasComponent {
         
         this.driverRuta = ""
         this.patenteRuta = ""
+        this.despachador = ""
 
         this.service.get_patente_driver_by_nombre_ruta(this.nombreRutaActual).subscribe((data : any) => {
           
@@ -342,6 +344,7 @@ export class RutasActivasComponent {
             this.patenteRuta = data.Patente
             this.driverRuta = data.Driver
             this.idRuta = data.Id_ruta
+            this.despachador = data.Despachador
             this.isDriver = true
           } 
         })
@@ -356,7 +359,7 @@ export class RutasActivasComponent {
   downloadExcel(nombre_ruta : string, patente: string, driver: string ) {
     this.loadingArchivo = true
     const caracter = this.generarCaracteresRandom(10)
-    this.service.download_ruta_activa(nombre_ruta, patente, driver, this.rutaEnActivo,caracter).subscribe((blob:Blob) => {
+    this.service.download_ruta_activa(nombre_ruta, patente, driver, this.rutaEnActivo,caracter,this.despachador).subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url

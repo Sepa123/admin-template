@@ -123,8 +123,8 @@ export class RutasService {
     return this.http.post(this.apiurl + `/agregar/ruta_activa_existente?fecha_ruta_nueva=${fecha_ruta}`,data)
   }
 
-  download_ruta_activa(nombre_ruta : string, patente : string, driver : string , RutaEnActivo : RutaEnActivo [], var_random : string){
-    return this.http.post(this.apiurl + `/descargar/${var_random}?nombre_ruta=${nombre_ruta}&patente=${patente}&driver=${driver}`, RutaEnActivo,{responseType:"blob"})
+  download_ruta_activa(nombre_ruta : string, patente : string, driver : string , RutaEnActivo : RutaEnActivo [], var_random : string,despachador : string){
+    return this.http.post(this.apiurl + `/descargar/${var_random}?nombre_ruta=${nombre_ruta}&patente=${patente}&driver=${driver}&despachador=${despachador}`, RutaEnActivo,{responseType:"blob"})
     // .subscribe((blob:Blob) => {
     //   const url = window.URL.createObjectURL(blob);
     //   const a = document.createElement("a");

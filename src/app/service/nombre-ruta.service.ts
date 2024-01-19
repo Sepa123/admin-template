@@ -10,6 +10,7 @@ export class NombreRutaService {
   private patente!: string;
   private isUpdate: boolean = false
   private fecha! : string
+  private despachador! : string
 
   constructor() { }
  // Para el obtener el nombre de la ruta
@@ -31,9 +32,10 @@ export class NombreRutaService {
     return this.bultos
   }
 
-  setDataDriver(driver: string, patente: string){
+  setDataDriver(driver: string, patente: string,despachador : string){
     this.driver = driver
     this.patente = patente
+    this.despachador = despachador
     this.driver == "" && this.patente == "" ? this.isUpdate = false : this.isUpdate = true
   }
 
@@ -50,6 +52,7 @@ export class NombreRutaService {
     return {
       "driver": this.driver,
       "patente" : this.patente,
+      "despachador" : this.despachador,
       "isUpdate": this.isUpdate
     }
   }

@@ -13,7 +13,6 @@ import {
 } from 'ngx-perfect-scrollbar';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
-
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';

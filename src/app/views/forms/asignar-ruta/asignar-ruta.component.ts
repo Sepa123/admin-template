@@ -19,6 +19,7 @@ export class AsignarRutaComponent {
   driver! : string
   patent! : string
   bultos! : number
+  despachado : string = ""
   regionInicial : string ="XIII - Metropolitana"
 
   constructor (private service: RutasService, private router: Router, 
@@ -32,7 +33,9 @@ export class AsignarRutaComponent {
     patente: this.builder.control("",[Validators.required, Validators.minLength(6), Validators.maxLength(6), Validators.pattern('^[a-zA-Z0-9]+$')]),
     conductor: this.builder.control("",[Validators.required]),
     cantidad_producto: this.builder.control("",[Validators.required,Validators.min(1)]),
-    region: this.builder.control("",[Validators.required])
+    region: this.builder.control("",[Validators.required]),
+    despachador: this.builder.control("",[Validators.required])
+
   })
   // , Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\']+')
   ngOnInit() {
@@ -41,6 +44,7 @@ export class AsignarRutaComponent {
     this.bultos = this.nombreRutaService.getBultos()
     this.driver = this.nombreRutaService.getDataDriver().driver
     this.patent = this.nombreRutaService.getDataDriver().patente
+    this.despachado = this.nombreRutaService.getDataDriver().despachador
    
     // this.asignarRutaForm.patchValue({region: "ccdddd"})
   }

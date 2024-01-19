@@ -225,16 +225,19 @@ export class RecepcionOcComponent {
     this.service.obtener_ruta_producto(body,true).subscribe((data) => {
       this.rutaProducto = data
       this.nombreRuta = ""
-      this.service.lista_productos_ruta(data[0].Ruta_ty).subscribe((data : any) => {
-        this.isLoading = false
-        this.productosEntregados = data.entregados
-        this.productosNoEntregados = data.no_entregado
-        
-      })
+      
     }, error => {
       this.isLoading = false
-      alert(error.error.detail)
+      // alert(error.error.detail)
       this.nombreRuta = ""
+    })
+
+
+    this.service.lista_productos_ruta(resultado).subscribe((data : any) => {
+      this.isLoading = false
+      this.productosEntregados = data.entregados
+      this.productosNoEntregados = data.no_entregado
+      
     })
   }
 

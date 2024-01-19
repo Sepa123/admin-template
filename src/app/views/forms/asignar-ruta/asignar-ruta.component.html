@@ -15,6 +15,12 @@
         <label for="validationDefault02">Conductor</label>
         <input type="text" class="form-control" placeholder="Conductor" formControlName="conductor" [(ngModel)]="driver" required>
       </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="validationDefault02">Despachador</label>
+        <input type="text" class="form-control" placeholder="Despachador" formControlName="despachador" [(ngModel)]="despachado" required>
+      </div>
+
     </div>
     <div class="form-row">
       <div class="col-md-3 mb-3">
@@ -35,6 +41,8 @@
             <option value="V - Valparaiso">V - Valparaiso</option>
           </select>
       </div>
+
+      
       <!-- <div *ngIf=" asignarRutaForm.get('region')?.errors?.['required']">
         la cantidad minima debe ser 1
       </div> -->
