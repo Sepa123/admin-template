@@ -6,6 +6,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import {
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface,
@@ -71,6 +72,7 @@ const APP_CONTAINERS = [
 @NgModule({
   declarations: [AppComponent, ...APP_CONTAINERS],
   imports: [
+    SweetAlert2Module,
     DragDropModule,
     CommonModule,
     NgSelectModule,

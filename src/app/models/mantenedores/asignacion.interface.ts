@@ -17,5 +17,8 @@ export interface Asignacion {
     pdf_entrega: string |null,
     pdf_devolucion: string |null,
     departamento: number | null
+    n_equipo: string  | null,
+    equipo_id: number  | null,
+    id_asignacion: number  | null
  
 }

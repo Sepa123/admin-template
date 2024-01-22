@@ -33,7 +33,10 @@ export interface Personal {
     polera: string | null,
     pantalon: string | null,
     poleron: string | null,
-    zapato: number | null
+    zapato: number | null,
+    req_comp: boolean | null,
+    req_cel: boolean | null
+    habilitado: boolean |null
 
 
 

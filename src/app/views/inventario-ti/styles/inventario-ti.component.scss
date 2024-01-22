@@ -13,40 +13,97 @@
     
 }
 
+.container-botones{
+  border-radius: 2rem;
+  background-color:  #dbcd8cbe;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  max-width: 60vw;
+  margin-left: 10vw;
+}
+.tituloBox{
+  text-align: center;
+  margin-top: 2rem;
+  // border-top-style: solid;
+  padding-top: 2rem;
+  // border-top-width: 60%;
+}
+.licencia-asignada{
+  margin-bottom: 2rem;
+}
+
 .tipo{
-    border-color: rgba(255, 68, 0, 0.5);
-    background-color: rgb(255, 166, 0);
+    border-color: rgba(59, 87, 63, 0.74);
+    // background-color: rgb(165, 57, 8);
+    background-color: rgb(47, 70, 50);
     border-width:.25rem;
     border-radius: 2rem;
-   
+    font-weight: bold;  
 }
 
-.persona{
-    border-color: rgba(0, 38, 255, 0.377);
-    background-color:  rgb(0, 217, 255);
+.tipo:hover{
+  background-color: rgb(63, 99, 68);
+}
+
+.persona, .equipo, .estados, .sucursal{
+    border-color: #ffffff;
+    background-color:  #ffffff;
     border-width:.25rem;
     border-radius: 2rem;
-}
-.sucursal{
-
-    border-color: rgb(255, 0, 200);
-    background-color:  rgba(0, 255, 34, 0.733);
-    border-width: .25rem;
-    border-radius: 2rem;
+    color:black;
+    font-weight: bold;
 }
 
-.equipo{
-    border-color: rgb(241, 143, 212);
-    background-color:  rgba(240, 243, 36, 0.733);
-    border-width: .25rem;
-    border-radius: 2rem;
-
+.persona:hover, .equipo:hover, .estados:hover, .sucursal:hover {
+  background-color:  rgb(236, 233, 232);
+  border-color: rgb(236, 233, 232);
 }
+
+.departamento{
+  border-color: rgba(79, 136, 86, 0.61);
+  background-color:  rgb(55, 107, 61);
+  // background-color:  rgb(64, 155, 75);
+  border-width:.25rem;
+  border-radius: 2rem;
+  font-weight: bold;
+}
+.departamento:hover{
+  border-color: rgba(66, 131, 73);
+  background-color:  rgb(66, 131, 73);
+}
+
+.licencia{
+  border-color: rgba(71, 179, 84, 0.575);
+  background-color:  rgb(64, 155, 75);
+  // background-color:  rgb(53, 219, 47);
+  border-width:.25rem;
+  border-radius: 2rem;
+  font-weight: bold;
+}
+
+.licencia:hover{
+  border-color: rgba(68, 175, 80);
+  background-color:  rgb(68, 175, 80);
+}
+.subestado{
+  border-color: rgba(82, 211, 78, 0.637);
+  background-color:  rgb(48, 138, 45);
+  border-width:.25rem;
+  border-radius: 2rem;
+  font-weight: bold;
+}
+
+.subestado:hover{
+  border-color: rgba(56, 177, 52);
+  background-color:  rgb(56, 177, 52);
+}
+
 
 .greenTable{
     width: auto;
     max-height: 400px; /* Altura de ejemplo */
     overflow: auto;
+    display: flex;
+    justify-content: center;
     
   }
   
@@ -135,7 +192,72 @@
   }
 
   .btn-crear{
-    margin-bottom: 1rem;
+    margin-bottom: 3rem;
+    // background-color: rgb(9, 165, 30);
+    // color: #fff
+  }
+  .btn-persona{
+    margin-left: 5.5rem;
+  }
+  .btn-extra{
+    margin-left: 18vw;
+  }
+
+  // .btn-repuesto{
+  //   margin-top: 5rem;
+  // }
+  .btn-equipo{
+    margin-left: 12vw;
+  }
+
+  .contenedor-buscar-persona{
+    margin-left: 18vw;
+  }
+
+  //clase para la tabla de asignacion
+  // .btn-accion-persona .ver-mas{
+
+  // }
+  .ver-mas{
+    background-color: white;
+    border: none;
+    color:rgb(75, 74, 74);
+  }
+  .btn-firma{
+    background-color: #FFFFFF;
+    border: 1px solid black;
+    color:black
+  }
+  .btn-firma:hover{
+    color:#ffffff;
+    background-color: black;
+    border: none;
+  }
+  .acciones{
+    cursor: pointer
+  }
+  .btn-entrega{
+    // background-color: rgb(7, 196, 196);
+    border: 3px solid rgb(27, 117, 27);
+    color: rgb(27, 117, 27);
+    background-color: #FFFFFF;
+  }
+
+  .btn-entrega:hover{
+    background-color: rgb(27, 117, 27);
+    color: #ffffff
+  }
+  .btn-devolucion{
+    // background-color: #c50b0b;
+    border: 3px solid rgb(245, 5, 5);
+    color:rgb(197, 11, 11);
+    background-color: #FFFFFF;
+  }
+
+  .btn-devolucion:hover{
+    background-color:rgb(197, 11, 11);
+    color: #ffffff;
+    border:none
   }
 
   .btn{margin-top: 1rem;}
@@ -156,4 +278,132 @@
 
   .greenTable table tbody tr .btn-accion-persona{
     display: flex;
+  
   }
+
+  .contenedor-filtro-busqueda{
+    display: flex;
+    justify-content:space-around;
+  }
+
+  .contenedor-filtro{
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    margin-left: 17rem;
+    margin-bottom: 3rem;
+  }
+
+  .contenedor-filtro-asignacion{
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    margin-bottom: 3rem;
+  }
+  .contenedor-licencia-asignada{
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    margin-right: 14rem;
+    flex-wrap: wrap;
+  }
+
+  .contenedor-licencia-asignada div p{
+    margin-bottom: 1px;
+  }
+  .filtro-persona{
+    margin-top: 3rem;
+  }
+
+  .contenedor-filtro b{
+    margin-bottom: -1rem;
+  }
+
+  .contenedor-filtro-persona{
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+  }
+
+  .contenedor-filtro-persona div{
+    width: 20vw;
+
+  }
+  .contenedor-asignacion{
+    display: flex;
+    flex-direction: column;
+  }
+  .nueva-asignacion{
+    align-content: flex-end;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-right: 2rem;
+  }
+
+  .contenor-devolucion{
+    display: flex;
+  
+   
+  }
+  .checkbox-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .contenor-devolucion select{
+    margin-right: 2rem;
+  }
+  .contenor-devolucion .devolucion_equipo{
+  display: flex;
+  flex-direction: column;
+  margin-right: 2rem;
+  
+ 
+  }
+
+  .checkbox-container .checkbox{
+    margin-left: .5rem
+    ;
+  }
+
+// .container-persona{
+//   display: flex;
+// }
+
+.persona-botones{
+  display: flex;
+  justify-content: space-between;
+  margin-right: 2vw;
+  
+  
+}
+.persona-botones .descarga{
+  margin-right: 14rem;
+}
+
+
+ .container-licencia{
+  display: flex;
+  flex-direction: column;
+  width: 15vw;
+ }
+
+ .campos-info{
+  display: flex;
+  flex-direction: column;
+ }
+.pdf{
+  background-color: #FFFFFF;
+  color:red;
+  border: 1px solid black;
+}
+
+.pdf:hover{
+  background-color: red ;
+  color:#ffffff;
+  border:none
+}

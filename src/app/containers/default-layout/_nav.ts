@@ -406,7 +406,7 @@ export const navItems: INavDataBar[] = [
   {
     name: 'Inventario TI',
     url : '/inventario-ti',
-    iconComponent: { name: '' },
+    iconComponent: { name: 'cilDevices' },
     roles : ROLES_PERMITIDOS.RSV,
     children : [
       {

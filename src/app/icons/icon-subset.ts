@@ -25,7 +25,8 @@ import {
   cilAccountLogout,
   cilPlus,
   cilMinus,
-  cilChatBubble
+  cilChatBubble,
+  cilDevices
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -55,7 +56,8 @@ export const iconSubset = {
   cilPlus,
   cilMinus,
   cilBarChart,
-  cilChatBubble
+  cilChatBubble,
+  cilDevices
 };
 
 export enum IconSubset { 

@@ -1,8 +1,129 @@
 <h1 >Asignación de Equipo</h1>
-
-<div class="contenedor-botones">
-    <button cButton class="btn-acciones sucursal"  (click)="listaDeAsignaciones()">Asignacion</button>
+<div class="container-botones">
+  <div class="contenedor-botones">
+    <button cButton class="btn-acciones departamento"  (click)="listaDeAsignaciones()">Asignar Equipo<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 512 512"><path fill="currentColor" d="M472 232h-48V120a24.028 24.028 0 0 0-24-24H40a24.028 24.028 0 0 0-24 24v246a24.028 24.028 0 0 0 24 24h172v50h-60v32h152v-32h-60v-50h92v58a24.027 24.027 0 0 0 24 24h112a24.027 24.027 0 0 0 24-24V256a24.027 24.027 0 0 0-24-24Zm-136 24v102H48V128h344v104h-32a24.027 24.027 0 0 0-24 24Zm128 184h-96V264h96Z"/></svg></button>
+    <button  cButton class="btn-acciones sucursal"  (click)="listaDeAccesorios()">Asignar Accesorio<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 512 512"><path fill="currentColor" d="M420 128.1V16H92v112.1A80.1 80.1 0 0 0 16 208v192h68v-32H48V208a48.054 48.054 0 0 1 48-48h320a48.054 48.054 0 0 1 48 48v160h-44v32h76V208a80.1 80.1 0 0 0-76-79.9m-32-.1H124V48h264Z"/><path fill="currentColor" d="M396 200h32v32h-32zm-280 64H76v32h40v200h272V296h40v-32zm240 200H148V296h208Z"/></svg></button> 
 </div>
+
+</div>
+
+
+<c-modal id="liveDemoInfoLicenciaAsignada" [visible]="visible9" (visibleChange)="handleLiveInfoLicenciaAsignada($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Considerar</h5>
+    <button (click)="toggleLiveInfoLicenciaAsignada()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <table>
+      <tr class="campos-info">
+        <td>Muestra la lista de las personas y la licencia asignada</td>
+       <td>
+        <b>Acciones</b>
+      </td>
+      <td>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 2048 2048"><path fill="currentColor" d="m2011 1728l-318 317l-90-90l163-163h-614v-128h614l-163-163l90-90zm-669 192l128 128H128V0h1115l549 549v734l-128-128V640h-512V128H256v1792zm-62-1408h293l-293-293z"/></svg>
+        Devolución de la licenciada asignada.
+      </td>
+    
+      </tr>
+    </table>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveInfoLicenciaAsignada()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+
+<c-modal id="liveDemoDevolucionAccesorio" [visible]="visible8" (visibleChange)="handleLiveDevolverAccesorio($event)" size="lg">
+  <c-modal-header>
+    <h5 cModalTitle>Devolución de Accesorio</h5>
+    <button (click)="toggleLiveDevolverAccesorio()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm  >
+      <div >
+        <!-- <div class="checkbox-container">
+            <label><b>Equipo : </b>{{equipo.equipo}}</label>
+            <input type="checkbox" [(ngModel)]="selectedEquipos" value={{equipo.equipo_id}} (change)="listado($event, equipo.id)">
+            <span class="checkmark"></span>
+        </div> -->
+        <div class="contenor-devolucion">
+          
+          <div class="devolucion_equipo">
+            <label>Estado del Equipo:</label>
+            <select id="estado" name="estado"  class="form-control" (change)="elegirEstado($event);getLocation()" >
+              <option value=0 selected>Selecciona un Estado</option>
+              <option *ngFor="let opciones of estado"  value={{opciones.id}}>{{ opciones.descripcion }}</option>
+            </select>
+          </div>
+          <div>
+            <label>Subestado del Equipo:</label>
+            <select id="subestado" name="subestado"  class="form-control"   (change)="elegirSubestado($event)">
+              <option value=0 selected>Selecciona un subestado</option>
+              <option *ngFor="let opciones of subestado"  value={{opciones.code}}>{{ opciones.descripcion }}</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label>Observaciones:</label>
+          <textarea placeholder="Añadir Observación" class="form-control" (change)="observacionDevolucion($event)"></textarea>
+        </div>
+       
+      </div>
+      <button  class="btn btn-success" type="submit" (click)="enviarDevolucionAccesorio(id)"  >Enviar</button>
+  </form>
+  </c-modal-body>
+  <c-modal-footer>
+      <button (click)="toggleLiveDevolverAccesorio()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+<c-modal id="liveDemoInfo" [visible]="visible7" (visibleChange)="handleLiveInfo($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Considerar</h5>
+    <button (click)="toggleLiveInfo()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <table>
+      <tr class="campos-info">
+        <td><b>Firma de  Entrega y Devolución</b></td>
+        <td><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19.7 12.9L14 18.6h-2.3v-2.3l5.7-5.7zm3.4-.8c0 .3-.3.6-.6.9L20 15.5l-.9-.9l2.6-2.6l-.6-.6l-.7.7l-2.3-2.3l2.2-2.1c.2-.2.6-.2.9 0l1.4 1.4c.2.2.2.6 0 .9c-.2.2-.4.4-.4.6c0 .2.2.4.4.6c.3.3.6.6.5.9M3 20V4h7v5h5v1.5l2-2V8l-6-6H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm8-2.9c-.2 0-.4.1-.5.1L10 15H8.5l-2.1 1.7L7 14H5.5l-1 5H6l2.9-2.6l.6 2.3h1l.5-.1z"/></svg>
+          Ingresar PDF firmado.</td>
+        <td><input type="checkbox" checked disabled> PDF firmado recibido.</td>
+      </tr>
+      <tr class="campos-info">
+          <td ><b>PDF Entrega y Devolución</b></td>
+          <td><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="currentColor" d="M17.924 7.154h-.514l.027-1.89a.464.464 0 0 0-.12-.298L12.901.134A.393.393 0 0 0 12.618 0h-9.24a.8.8 0 0 0-.787.784v6.37h-.515c-.285 0-.56.118-.76.328A1.14 1.14 0 0 0 1 8.275v5.83c0 .618.482 1.12 1.076 1.12h.515v3.99A.8.8 0 0 0 3.38 20h13.278c.415 0 .78-.352.78-.784v-3.99h.487c.594 0 1.076-.503 1.076-1.122v-5.83c0-.296-.113-.582-.315-.792a1.054 1.054 0 0 0-.76-.328M3.95 1.378h6.956v4.577a.4.4 0 0 0 .11.277a.37.37 0 0 0 .267.115h4.759v.807H3.95zm0 17.244v-3.397h12.092v3.397zM12.291 1.52l.385.434l2.58 2.853l.143.173h-2.637c-.2 0-.325-.033-.378-.1c-.053-.065-.084-.17-.093-.313zM3 14.232v-6h1.918c.726 0 1.2.03 1.42.09c.34.09.624.286.853.588c.228.301.343.69.343 1.168c0 .368-.066.678-.198.93c-.132.25-.3.447-.503.59a1.72 1.72 0 0 1-.62.285c-.285.057-.698.086-1.239.086h-.779v2.263zm1.195-4.985v1.703h.654c.471 0 .786-.032.945-.094a.786.786 0 0 0 .508-.762a.781.781 0 0 0-.19-.54a.823.823 0 0 0-.48-.266c-.142-.027-.429-.04-.86-.04zm4.04-1.015h2.184c.493 0 .868.038 1.127.115c.347.103.644.288.892.552c.247.265.436.589.565.972c.13.384.194.856.194 1.418c0 .494-.06.92-.182 1.277c-.148.437-.36.79-.634 1.06c-.207.205-.487.365-.84.48c-.263.084-.616.126-1.057.126H8.235zM9.43 9.247v3.974h.892c.334 0 .575-.019.723-.057c.194-.05.355-.132.482-.25c.128-.117.233-.31.313-.579c.081-.269.121-.635.121-1.099c0-.464-.04-.82-.12-1.068a1.377 1.377 0 0 0-.34-.581a1.132 1.132 0 0 0-.553-.283c-.167-.038-.494-.057-.98-.057zm4.513 4.985v-6H18v1.015h-2.862v1.42h2.47v1.015h-2.47v2.55z"/></svg>
+            Permite descargar el PDF del acta.
+          </td>
+      </tr>
+      <tr class="campos-info">
+        <td ><b>Acciones</b></td>
+        <td><svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+          Muestra detalle de la Asignación.
+        </td>
+    </tr>
+    <tr class="campos-info">
+      <td ><b>Generar Actas</b></td>
+        <td> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 2048 2048"><path fill="currentColor" d="m2011 1728l-318 317l-90-90l163-163h-614v-128h614l-163-163l90-90zm-669 192l128 128H128V0h1115l549 549v734l-128-128V640h-512V128H256v1792zm-62-1408h293l-293-293z"/></svg>
+        Generar PDF de entrega o Devolución.
+      </td>
+  </tr>
+     
+     
+    </table>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveInfo()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
 
 <c-modal id="liveDemoModalAsignar" [visible]="visible" (visibleChange)="handleLiveDemoChangeAsignar($event)" size="lg">
     <c-modal-header>
@@ -13,19 +134,31 @@
     <c-modal-body>
       <form cForm  (ngSubmit)="registrarAsignacion()" [formGroup]="asignacionForm" (change)="getLocation()" >
          <div class="">
+          
           <c-row>
-            <c-col [xs] *ngIf="botonDevolver == false">
-              <div class="">
-                <label for ="equipo" >Equipo </label>
-                <select   cSelect    formControlName="equipo" name="equipo" (change)="busquedaCodigo($event)">
-                  <option value=0 selected>Selecciona un equipo</option>
-                  <option *ngFor="let equipo of equipos" value={{equipo.id}}>
-                    {{ equipo.marca}} - {{equipo.modelo}} -  {{equipo.serial}}
+            <c-col [xs]>
+              <div>
+                <label for ="tipo" >Tipo</label>
+                <select   cSelect    formControlName="tipo" name="tipo" (change)="encontrarTipo($event)">
+                  <option value=0 selected>Selecciona el Tipo de Equipo</option>
+                  <option *ngFor="let equipo of tipo" value={{equipo.id}}>
+                    {{ equipo.nombre}} 
                   </option>
                 </select> 
               </div>
             </c-col>
-           
+            <c-col [xs] *ngIf="botonDevolver == false">
+              <div class="">
+                <label for ="equipo" >Equipo </label>
+                <select   cSelect    formControlName="equipo" name="equipo">
+                  <option value=0 selected>Selecciona un equipo</option>
+                  <option *ngFor="let equipo of equipos" value={{equipo.id}}>
+                    {{ equipo.marca}} - {{equipo.modelo ? equipo.modelo: equipo.descripcion}} -  {{equipo.serial}}
+                  </option>
+                </select> 
+              </div>
+            </c-col>
+
           </c-row>
           <c-row>
             <c-col [xs] *ngIf="botonDevolver == false">
@@ -51,20 +184,6 @@
               </div>
             </c-col>
           </c-row>
-          <!-- <c-row>
-            <c-col [xs] >
-              <div class="">
-                <label for="fecha_entrega">Fecha de entrega</label>
-                <input type="date"  class="form-control" formControlName="fecha_entrega" name="fecha_entrega">
-              </div>
-            </c-col>
-            <c-col [xs] *ngIf="botonDevolver">
-              <div class="">
-                <label for="fecha_devolucion">Fecha de Devolución</label>
-                <input type="date"  class="form-control" formControlName="fecha_devolucion" name="fecha_devolucion">
-              </div>
-            </c-col>
-          </c-row> -->
           <c-row>
            
             <!-- <c-col [xs]>
@@ -80,18 +199,48 @@
             </c-col> -->
             </c-row>
             <c-row>
+              <c-col [xs]>
+                <label for="ubicacion">Ubicacion</label>
+                <select id="ubicacion" name="ubicacion" formControlName="ubicacion" class="form-control" >
+                  <option *ngFor="let opciones of ubicacion" [value]="opciones">{{ opciones }}</option>
+                </select>
+              </c-col>
+
             <c-col [xs]>
               <div class="">
                 <label  for="observacion"> Observación</label>
                 <textarea type="text" class="form-control"  placeholder="Ingresar observaciones" formControlName="observacion" name="observacion"></textarea>
               </div>
             </c-col>
-            <!-- <c-col [xs]>
+          </c-row>
+          <c-row>
+            <c-col [xs]>
               <div class="">
-                <label  for="observacion">Agregar Acta</label>
-                <input type="file" class="form-control"  formControlName="acta" name="acta">
+                <label  for="ubicacionarchivo">Foto del Equipo</label>
+                <input type="file" class="form-control"  formControlName="ubicacionarchivo" name="ubicacionarchivo"/>
               </div>
-            </c-col> -->
+            </c-col>
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="container-licencia">
+                <label>Asignar Licencia</label>
+                <button class="btn btn-info" type="button" (click)="asignarLicencia()">Licencia</button>
+
+              </div>
+             
+            </c-col>
+          </c-row>
+          <c-row *ngIf="datosLicencia">
+            <c-col [xs]>
+              <div >
+                <label for="licencia">Licencia</label>
+                <select id="licencia" name="licencia" formControlName="licencia" class="form-control" (change)="licenciaElegida($event)">
+                  <option *ngFor="let opciones of licencias" value={{opciones.id}}>{{ opciones.codigo }}</option>
+                </select>
+              </div>
+              
+            </c-col>
           </c-row>
         </div>
         <button  class="btn btn-success" type="submit"  *ngIf="botonDevolver == false" >Asignar Equipo</button>
@@ -105,13 +254,355 @@
     </c-modal-footer>
 </c-modal>
 
-<h3 class="tituloFecha show" *ngIf="mostrarAsignacion">Lista de Equipos Asignados: </h3>
-<button  class="btn-crear" *ngIf="mostrarAsignacion" cButton color="info" size="sm" (click)="toggleLiveDemoAsignar()">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
-  </svg> Nueva Asignación
-</button>
 
-<div class="greenTable show"  >
+<c-modal id="liveDemoModalEquipoPorPersona" [visible]="visible2" (visibleChange)="handleLiveListaAsignados($event)" size="lg"
+*ngIf="equiposPorPersona.length >1">
+  <c-modal-header>
+    <h5 cModalTitle> Equipos Asignados</h5>
+    <button (click)="toggleLiveListaAsignados()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm  >
+      <label><b>Empleado: {{personaConVariosEquipos}}</b></label> 
+      <b>Equipos : </b>
+      <div *ngFor="let equipo of equiposPorPersona">
+        
+        <label class="checkbox-container">
+          {{equipo.equipo}}
+          <input type="checkbox" [(ngModel)]="selectedEquipos" value={{equipo.equipo_id}} (change)="listado($event, equipo.equipo_id)">
+          <span class="checkmark"></span>
+          
+        </label>
+      </div>
+
+
+    <button  class="btn btn-success" type="submit" (click)=" enviarDatosActa()"  >Enviar</button>
+  </form>
+  </c-modal-body>
+  <c-modal-footer>
+      <button (click)="toggleLiveListaAsignados()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+<c-modal id="liveDemoModalDetalles" [visible]="visible3" (visibleChange)="handleLiveDetalle($event)" size="lg">
+  <c-modal-header>
+    <h5 cModalTitle> Detalles del Equipo Asignado</h5>
+    <button (click)="toggleLiveDetalle()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm  >
+      <div *ngFor="let equipo of personaAsignada">
+        <label><b>Empleado</b></label> 
+        <p>{{empleado}} </p>
+        <p> <b>Equipo : </b>{{leyendaEquipo}} {{equipoDescripcion}}</p>
+        <p><b>Fecha de entrega :</b>{{equipo.fecha_entrega}}</p>
+        <p><b>Acta N° </b> TY-AE-{{equipo.folio_entrega}}</p>
+      </div>
+    
+  </form>
+  </c-modal-body>
+  <c-modal-footer>
+      <button (click)="toggleLiveDetalle()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+<c-modal id="liveDemoModalDevolucion" [visible]="visible1" (visibleChange)="handleLiveDemoDevolucion($event)" size="lg" *ngIf="equiposPorPersona.length >1">
+  <c-modal-header>
+    <h5 cModalTitle>Devolución de Equipo</h5>
+    <button (click)="toggleLiveDemoDevolucion()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm  >
+      
+      <label><b>Empleado</b></label>
+      <p>Equipos disponibles para devolución</p>
+      <div *ngFor="let equipo of equiposPorPersona">
+        
+        <label class="checkbox-container">
+          <b>Equipo : </b>{{equipo.equipo}}
+          <input type="checkbox" [(ngModel)]="selectedEquipos" value={{equipo.equipo_id}} (change)="listado($event, equipo.id)">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <button  class="btn btn-success" type="submit" (click)=" enviarDatosActa()"  >Enviar</button>
+
+      
+  </form>
+  </c-modal-body>
+  <c-modal-footer>
+      <button (click)="toggleLiveDemoDevolucion()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+
+<c-modal id="liveDemoDevolucionEstado" [visible]="visible4" (visibleChange)="handleLiveDevolucionEstado($event)" size="lg">
+  <c-modal-header>
+    <h5 cModalTitle>Estado del Equipo Devuelto</h5>
+    <button (click)="toggleLiveDevolucionEstado()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm  >
+      
+      <label><b>Empleado</b></label>
+
+      <div *ngFor="let equipo of personaAsignada">
+        <div class="checkbox-container">
+            <label><b>Equipo : </b>{{equipo.equipo}}</label>
+            <input type="checkbox" [(ngModel)]="selectedEquipos" value={{equipo.equipo_id}} (change)="listado($event, equipo.id)">
+            <span class="checkmark"></span>
+        </div>
+        <div class="contenor-devolucion">
+          
+          <div class="devolucion_equipo">
+            <label>Estado del Equipo:</label>
+            <select id="estado" name="estado"  class="form-control" (change)="elegirEstado($event)" >
+              <option value=0 selected>Selecciona un Estado</option>
+              <option *ngFor="let opciones of estado"  value={{opciones.id}}>{{ opciones.descripcion }}</option>
+            </select>
+          </div>
+          <div>
+            <label>Subestado del Equipo:</label>
+            <select id="subestado" name="subestado"  class="form-control"   (change)="elegirSubestado($event)">
+              <option value=0 selected>Selecciona un subestado</option>
+              <option *ngFor="let opciones of subestado"  value={{opciones.code}}>{{ opciones.descripcion }}</option>
+            </select>
+          </div>
+         
+          
+        </div>
+        <div>
+          <label>Observaciones:</label>
+          <textarea placeholder="Añadir Observación" class="form-control" (change)="observacionDevolucion($event)"></textarea>
+        </div>
+        <div xlass="devolucion_equipo">
+         <label>PDF firmado:</label> 
+         <input type="file" class="form-control" formControlName="pdf_devolucion" (change)="enviarPDFScaneado($event)">
+        </div>
+        <c-row>
+          <c-col [xs]>
+            <div class="">
+              <label  for="ubicacionarchivo">Foto del Equipo</label>
+              <input type="file" class="form-control"  formControlName="ubicacionarchivo" name="ubicacionarchivo" (change)="capturaFotoEquipoDevuelto($event)"/>
+            </div>
+          </c-col>
+        </c-row>
+        
+          
+
+        
+      </div>
+      <button  class="btn btn-success" type="submit" (click)=" enviarFirmaDevolucion(id)"  >Enviar</button>
+
+      
+  </form>
+  </c-modal-body>
+  <c-modal-footer>
+      <button (click)="toggleLiveDevolucionEstado()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+
+<c-modal id="liveDemoEntregaEstado" [visible]="visible5" (visibleChange)="handleLiveEntregaEstado($event)" size="lg">
+  <c-modal-header>
+    <h5 cModalTitle>Estado del Equipo  entregado</h5>
+    <button (click)="toggleLiveEntregaEstado()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm  >
+      
+      <label><b>Empleado</b></label>
+
+      <div *ngFor="let equipo of personaAsignada">
+        <div class="checkbox-container">
+            <label><b>Equipo : </b>{{equipo.equipo}}</label>
+            <input type="checkbox" [(ngModel)]="selectedEquipos" value={{equipo.equipo_id}} (change)="listado($event, equipo.id)">
+            <span class="checkmark"></span>
+        </div>
+        <div class="contenor-devolucion">
+          
+          <div class="devolucion_equipo">
+            <label>Estado del Equipo:</label>
+            <select id="estado" name="estado"  class="form-control" (change)="elegirEstado($event)" >
+              <option value=0 selected>Selecciona un Estado</option>
+              <option *ngFor="let opciones of estado"  value={{opciones.id}}>{{ opciones.descripcion }}</option>
+            </select>
+          </div>
+          <div>
+            <label>Subestado del Equipo:</label>
+            <select id="subestado" name="subestado"  class="form-control"   (change)="elegirSubestado($event)">
+              <option value=0 selected>Selecciona un subestado</option>
+              <option *ngFor="let opciones of subestado"  value={{opciones.code}}>{{ opciones.descripcion }}</option>
+            </select>
+          </div>
+         
+          
+        </div>
+        <div>
+          <label>Observaciones:</label>
+          <textarea placeholder="Añadir Observación" class="form-control" (change)="observacionDevolucion($event)"></textarea>
+        </div>
+        <div xlass="devolucion_equipo">
+         <label>PDF firmado:</label> 
+         <input type="file" class="form-control" formControlName="pdf_entrega" (change)="enviarPDFScaneado($event)">
+        </div>
+        <div *ngIf="previsualizacion">
+          <!-- <ngx-extended-pdf-viewer [src]="previsualizacion"></ngx-extended-pdf-viewer> -->
+
+          <!-- <iframe value="previsualizacion" ></iframe> -->
+          <!-- <embed [src]="previsualizacion"  type="application/pdf" /> -->
+          <!-- <img [src]="previsualizacion" alt="" width="70%" height="300px"> -->
+          <!-- <ngx-extended-pdf-viewer
+          [src]="'/assets/pdfs/The Public Domain - Enclosing the Commons of the Mind.pdf'"
+          [height]="'auto'" 
+          [textLayer]="true" 
+          [showHandToolButton]="true"> 
+     </ngx-extended-pdf-viewer> -->
+        </div>
+        
+          
+
+        
+      </div>
+      <button  class="btn btn-success" type="submit" (click)=" asignarFirmaEntrega(id);"  >Enviar</button>
+
+      
+  </form>
+  </c-modal-body>
+  <c-modal-footer>
+      <button (click)="toggleLiveEntregaEstado()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+<c-modal id="liveDemoRepuesto" [visible]="visible6" (visibleChange)="handleLiveRepuesto($event)" size="lg">
+  <c-modal-header>
+    <h5 cModalTitle>Asignar Repuesto a Equipos y/o accesorios</h5>
+    <button (click)="toggleLiveRepuesto()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm  >
+       
+      <label>Departamento</label>
+      <select id="departamento" name="departamento"  class="form-control"  (change)="departamentoElegido($event);getLocation()">
+        <option value=0 selected>Selecciona un Departamento</option>
+        <option *ngFor="let opciones of departamentos"  value={{opciones.id}}>{{ opciones.nombre }}</option>
+      </select>
+
+      <div >
+      
+        <div class="contenor-devolucion">
+          
+          <!-- <div class="devolucion_equipo">
+            <label>Estado del Equipo:</label>
+            <select id="estado" name="estado"  class="form-control" (change)="elegirEstado($event)" >
+              <option value=0 selected>Selecciona un Estado</option>
+              <option *ngFor="let opciones of estado"  value={{opciones.id}}>{{ opciones.descripcion }}</option>
+            </select>
+          </div>
+          <div>
+            <label>Subestado del Equipo:</label>
+            <select id="subestado" name="subestado"  class="form-control"   (change)="elegirSubestado($event)">
+              <option value=0 selected>Selecciona un subestado</option>
+              <option *ngFor="let opciones of subestado"  value={{opciones.code}}>{{ opciones.descripcion }}</option>
+            </select>
+          </div>
+         
+           -->
+        </div>
+        <c-row>
+          <c-col [xs]>
+            <div>
+              <label for ="tipo" >Tipo</label>
+              <select   cSelect    formControlName="tipo" name="tipo" (change)="encontrarTipo($event)">
+                <option value=0 selected>Selecciona el Tipo de Equipo</option>
+                <option *ngFor="let equipo of tipo" value={{equipo.id}}>
+                  {{ equipo.nombre}} 
+                </option>
+              </select> 
+            </div>
+          </c-col>
+          <c-col [xs] *ngIf="botonDevolver == false">
+            <div class="">
+              <label for ="equipo" >Equipo </label>
+              <select   cSelect    formControlName="equipo" name="equipo" (change)="equipoElegido($event)">
+                <option value=0 selected>Selecciona un equipo</option>
+                <option *ngFor="let equipo of equipos" value={{equipo.id}}>
+                  {{ equipo.marca ?equipo.marca : equipo.descripcion}} - {{equipo.modelo ? equipo.modelo: equipo.descripcion}} -  {{equipo.serial}}
+                </option>
+              </select> 
+            </div>
+          </c-col>
+
+        </c-row>
+        <div>
+          <label>Observaciones:</label>
+          <textarea placeholder="Añadir Observación" class="form-control" (change)="observacionDevolucion($event)"></textarea>
+        </div>
+
+      </div>
+     
+
+
+    <button  class="btn btn-success" type="submit" (click)=" enviarRepuestoAccesorio()"  >Enviar</button>
+  </form>
+  </c-modal-body>
+  <c-modal-footer>
+      <button (click)="toggleLiveRepuesto()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+<h3 class="tituloBox" *ngIf="mostrarAsignacion">Equipos Asignados a personal <svg  (click)="informacionSimbolos()"xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg></h3>
+<div class="contenedor-filtro-asignacion" *ngIf="mostrarAsignacion">
+  <b> Filtrar por Departamento:</b>
+  <c-dropdown >
+    <button cButton cDropdownToggle color="secondary" size="sm">
+      Departamentos
+    </button>
+    <ul cDropdownMenu>
+      <li><a [routerLink]="[]" (click)="filterByDepartamento('Todos')" cDropdownItem>Todos</a></li>
+      <li *ngFor="let dpto of departamentos"><a [routerLink]="[]" (click)="filterByDepartamento(dpto.nombre)" cDropdownItem>{{dpto.nombre}}</a></li>
+    </ul>
+  </c-dropdown> 
+</div>
+
+<div class="contenedor-filtro-asignacion" *ngIf="mostrarAsignacion">
+  <b> Filtrar por Equipo:</b>
+  <c-dropdown >
+    <button cButton cDropdownToggle color="secondary" size="sm">
+      Equipo
+    </button>
+    <ul cDropdownMenu>
+      <li><a [routerLink]="[]" (click)="filterByEquipo('Todos')" cDropdownItem>Todos</a></li>
+      <li *ngFor="let equipo of tipo"><a [routerLink]="[]" (click)="filterByEquipo(equipo.nombre)" cDropdownItem>{{equipo.nombre}}</a></li>
+    </ul>
+  </c-dropdown> 
+</div>
+
+
+<div class="nueva-asignacion">
+  <div *ngIf="mostrarAsignacion">
+    <button  class="btn-crear"  cButton color="info" size="sm" (click)="toggleLiveDemoAsignar()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+      </svg> Nueva Asignación
+    </button>
+  </div>
+
+</div>
+
+
+
+<div class="greenTable show" *ngIf="mostrarAsignacion && asignaciones && asignaciones.length > 0"  >
 
     
     <table id="tablaProductosPicking" style="width: auto" >
@@ -130,50 +621,183 @@
                 <th>PDF Devolución</th>
                 <th>Estado</th>
                 <th>Observación</th>
-                <th>N° Equipo</th>
                 <th>Acciones</th>
-                
-
+                <th>Acta de Entrega</th>
+                <th>Acta de Devolución</th>
             </tr>
         </thead>
         <tbody>
-          <!-- <button cButton size="sm" (click)="crearPDF()">Acta Entrega
-          </button>
-          <button cButton size="sm">Acta Devolucion
-         </button>  -->
             <tr *ngFor="let inventario of asignaciones">
                 <td>{{inventario.persona}}</td>
                 <td>{{inventario.departamento}}</td>
                 <td>{{inventario.equipo }}</td>
-                <td>{{inventario.folio_entrega }}</td>
+                <td>{{inventario.folio_entrega  === 0 ? 'Sin asignación' : inventario.folio_entrega }}</td>
                 <td>{{inventario.fecha_entrega || 'Sin fecha de entrega asignada'}}</td>
-                <td>{{inventario.firma_entrega}}</td>
-                <td>{{inventario.pdf_entrega}}</td>
-                <td>{{inventario.folio_devolucion}}</td>
-                <td>{{inventario.fecha_devolucion || 'No se ha asignado fecha de devolución'}}</td>
-                <td>{{inventario.firma_devolucion}}</td>
-                <td>{{inventario.pdf_devolucion}}</td>
-                <td>{{inventario.estado ? 'Entregado' : 'No entregado' }}</td>
-                <td>{{inventario.observacion || 'Sin observación agregada'}}</td>
-                <td>{{leyendaEquipo}}</td>
-                
-
                 <td>
-                  <button cButton color="secondary" size="sm" class="btn-edit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                  <button  size="sm"  class="btn-firma" cButton *ngIf="!inventario.firma_entrega" (click)="asignarEstadoEntrega( inventario.id); getLocation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19.7 12.9L14 18.6h-2.3v-2.3l5.7-5.7zm3.4-.8c0 .3-.3.6-.6.9L20 15.5l-.9-.9l2.6-2.6l-.6-.6l-.7.7l-2.3-2.3l2.2-2.1c.2-.2.6-.2.9 0l1.4 1.4c.2.2.2.6 0 .9c-.2.2-.4.4-.4.6c0 .2.2.4.4.6c.3.3.6.6.5.9M3 20V4h7v5h5v1.5l2-2V8l-6-6H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm8-2.9c-.2 0-.4.1-.5.1L10 15H8.5l-2.1 1.7L7 14H5.5l-1 5H6l2.9-2.6l.6 2.3h1l.5-.1z"/></svg>
                   </button>
-
-                    <button  class="btn-crear" cButton color="success" size="sm" (click)="agregarDevolucion(inventario )">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><path fill="currentColor" d="M184 104v32a8 8 0 0 1-8 8H99.31l10.35 10.34a8 8 0 0 1-11.32 11.32l-24-24a8 8 0 0 1 0-11.32l24-24a8 8 0 0 1 11.32 11.32L99.31 128H168v-24a8 8 0 0 1 16 0Zm48-48v144a16 16 0 0 1-16 16H40a16 16 0 0 1-16-16V56a16 16 0 0 1 16-16h176a16 16 0 0 1 16 16Zm-16 144V56H40v144h176Z"/></svg>
-                    </button>
-                   <button cButton size="sm" (click)="generarActaEntrega(inventario.id)">Acta Entregado
+                  <input type="checkbox"  *ngIf="inventario.firma_entrega" [checked]="inventario.firma_entrega" disabled style="margin-top:.8rem">
+                </td>
+                <td>
+                  <p *ngIf="!inventario.pdf_entrega">No Emitido </p>
+                  <button class="pdf" *ngIf="inventario.pdf_entrega" size="sm" cButton (click)="descargarPDFEntrega(inventario.id)"> 
+                    <!-- <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+                    <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+                  </svg> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="currentColor" d="M17.924 7.154h-.514l.027-1.89a.464.464 0 0 0-.12-.298L12.901.134A.393.393 0 0 0 12.618 0h-9.24a.8.8 0 0 0-.787.784v6.37h-.515c-.285 0-.56.118-.76.328A1.14 1.14 0 0 0 1 8.275v5.83c0 .618.482 1.12 1.076 1.12h.515v3.99A.8.8 0 0 0 3.38 20h13.278c.415 0 .78-.352.78-.784v-3.99h.487c.594 0 1.076-.503 1.076-1.122v-5.83c0-.296-.113-.582-.315-.792a1.054 1.054 0 0 0-.76-.328M3.95 1.378h6.956v4.577a.4.4 0 0 0 .11.277a.37.37 0 0 0 .267.115h4.759v.807H3.95zm0 17.244v-3.397h12.092v3.397zM12.291 1.52l.385.434l2.58 2.853l.143.173h-2.637c-.2 0-.325-.033-.378-.1c-.053-.065-.084-.17-.093-.313zM3 14.232v-6h1.918c.726 0 1.2.03 1.42.09c.34.09.624.286.853.588c.228.301.343.69.343 1.168c0 .368-.066.678-.198.93c-.132.25-.3.447-.503.59a1.72 1.72 0 0 1-.62.285c-.285.057-.698.086-1.239.086h-.779v2.263zm1.195-4.985v1.703h.654c.471 0 .786-.032.945-.094a.786.786 0 0 0 .508-.762a.781.781 0 0 0-.19-.54a.823.823 0 0 0-.48-.266c-.142-.027-.429-.04-.86-.04zm4.04-1.015h2.184c.493 0 .868.038 1.127.115c.347.103.644.288.892.552c.247.265.436.589.565.972c.13.384.194.856.194 1.418c0 .494-.06.92-.182 1.277c-.148.437-.36.79-.634 1.06c-.207.205-.487.365-.84.48c-.263.084-.616.126-1.057.126H8.235zM9.43 9.247v3.974h.892c.334 0 .575-.019.723-.057c.194-.05.355-.132.482-.25c.128-.117.233-.31.313-.579c.081-.269.121-.635.121-1.099c0-.464-.04-.82-.12-1.068a1.377 1.377 0 0 0-.34-.581a1.132 1.132 0 0 0-.553-.283c-.167-.038-.494-.057-.98-.057zm4.513 4.985v-6H18v1.015h-2.862v1.42h2.47v1.015h-2.47v2.55z"/></svg>
+                </button> 
+                </td>
+                <td>{{inventario.folio_devolucion  === 0 ? 'Sin asignación' : inventario.folio_devolucion}}</td>
+                <td>{{inventario.fecha_devolucion || 'No se ha asignado fecha de devolución'}}</td>
+                <td>
+                  <button size="sm" class="btn-firma" cButton *ngIf="!inventario.firma_devolucion" (click)="asignarEstadoDevolucion( inventario.id); getLocation()" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19.7 12.9L14 18.6h-2.3v-2.3l5.7-5.7zm3.4-.8c0 .3-.3.6-.6.9L20 15.5l-.9-.9l2.6-2.6l-.6-.6l-.7.7l-2.3-2.3l2.2-2.1c.2-.2.6-.2.9 0l1.4 1.4c.2.2.2.6 0 .9c-.2.2-.4.4-.4.6c0 .2.2.4.4.6c.3.3.6.6.5.9M3 20V4h7v5h5v1.5l2-2V8l-6-6H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm8-2.9c-.2 0-.4.1-.5.1L10 15H8.5l-2.1 1.7L7 14H5.5l-1 5H6l2.9-2.6l.6 2.3h1l.5-.1z"/></svg>
+                  </button>
+                  <input type="checkbox" *ngIf="inventario.firma_devolucion" [checked]="inventario.firma_devolucion" disabled style="margin-top:.8rem"></td>
+                <td>  
+                  <p *ngIf="!inventario.pdf_devolucion">No Emitido </p>
+                  <button  class="pdf" *ngIf="inventario.pdf_devolucion" size="sm" cButton (click)="descargarPDFDevolucion(inventario.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="currentColor" d="M17.924 7.154h-.514l.027-1.89a.464.464 0 0 0-.12-.298L12.901.134A.393.393 0 0 0 12.618 0h-9.24a.8.8 0 0 0-.787.784v6.37h-.515c-.285 0-.56.118-.76.328A1.14 1.14 0 0 0 1 8.275v5.83c0 .618.482 1.12 1.076 1.12h.515v3.99A.8.8 0 0 0 3.38 20h13.278c.415 0 .78-.352.78-.784v-3.99h.487c.594 0 1.076-.503 1.076-1.122v-5.83c0-.296-.113-.582-.315-.792a1.054 1.054 0 0 0-.76-.328M3.95 1.378h6.956v4.577a.4.4 0 0 0 .11.277a.37.37 0 0 0 .267.115h4.759v.807H3.95zm0 17.244v-3.397h12.092v3.397zM12.291 1.52l.385.434l2.58 2.853l.143.173h-2.637c-.2 0-.325-.033-.378-.1c-.053-.065-.084-.17-.093-.313zM3 14.232v-6h1.918c.726 0 1.2.03 1.42.09c.34.09.624.286.853.588c.228.301.343.69.343 1.168c0 .368-.066.678-.198.93c-.132.25-.3.447-.503.59a1.72 1.72 0 0 1-.62.285c-.285.057-.698.086-1.239.086h-.779v2.263zm1.195-4.985v1.703h.654c.471 0 .786-.032.945-.094a.786.786 0 0 0 .508-.762a.781.781 0 0 0-.19-.54a.823.823 0 0 0-.48-.266c-.142-.027-.429-.04-.86-.04zm4.04-1.015h2.184c.493 0 .868.038 1.127.115c.347.103.644.288.892.552c.247.265.436.589.565.972c.13.384.194.856.194 1.418c0 .494-.06.92-.182 1.277c-.148.437-.36.79-.634 1.06c-.207.205-.487.365-.84.48c-.263.084-.616.126-1.057.126H8.235zM9.43 9.247v3.974h.892c.334 0 .575-.019.723-.057c.194-.05.355-.132.482-.25c.128-.117.233-.31.313-.579c.081-.269.121-.635.121-1.099c0-.464-.04-.82-.12-1.068a1.377 1.377 0 0 0-.34-.581a1.132 1.132 0 0 0-.553-.283c-.167-.038-.494-.057-.98-.057zm4.513 4.985v-6H18v1.015h-2.862v1.42h2.47v1.015h-2.47v2.55z"/></svg>
                    </button>
-                   <button cButton size="sm">Acta Devolucion
-                  </button> 
+                <td>{{inventario.estado ? 'Entregado' : 'Por Entregar' }}</td>
+                <td>{{inventario.observacion || 'Sin observación agregada'}}</td>
+
+
+                <td class="btn-accion-persona">
+                  <!-- <button cButton color="secondary" size="sm" class="btn-edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                  </button> -->
+
+                    <button  class="ver-mas" cButton  size="sm" (click)="verMas(inventario.id)">
+                      <svg  xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+                      <!-- <button cButton color="danger" size="sm" class="btn-edit">
+                      <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><path fill="currentColor" d="M184 104v32a8 8 0 0 1-8 8H99.31l10.35 10.34a8 8 0 0 1-11.32 11.32l-24-24a8 8 0 0 1 0-11.32l24-24a8 8 0 0 1 11.32 11.32L99.31 128H168v-24a8 8 0 0 1 16 0Zm48-48v144a16 16 0 0 1-16 16H40a16 16 0 0 1-16-16V56a16 16 0 0 1 16-16h176a16 16 0 0 1 16 16Zm-16 144V56H40v144h176Z"/></svg> -->
+                    </button>
+                  
                    
-                </td>       
+                </td> 
+                <td >
+                  <button cButton size="sm"  class="btn-entrega" *ngIf="!inventario.firma_entrega"(click)="generarActaEntrega(inventario.id); getLocation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 2048 2048"><path fill="currentColor" d="m2011 1728l-318 317l-90-90l163-163h-614v-128h614l-163-163l90-90zm-669 192l128 128H128V0h1115l549 549v734l-128-128V640h-512V128H256v1792zm-62-1408h293l-293-293z"/></svg>
+                  </button>
+                  <svg *ngIf="inventario.firma_entrega" style="margin-top:.8rem" color="warn "xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M6 8a6 6 0 1 1 12 0h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2zm6-4a4 4 0 0 1 4 4H8a4 4 0 0 1 4-4m2 10a2 2 0 0 1-1 1.732V17a1 1 0 1 1-2 0v-1.268A2 2 0 0 1 12 12a2 2 0 0 1 2 2"/></g></svg>
+                </td>
+                <td>
+                  <button cButton size="sm" class="btn-devolucion" *ngIf="!inventario.firma_devolucion && inventario.pdf_entrega"size="sm" (click)="generarActaDevolucion(inventario.id); getLocation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 2048 2048"><path fill="currentColor" d="m2011 1728l-318 317l-90-90l163-163h-614v-128h614l-163-163l90-90zm-669 192l128 128H128V0h1115l549 549v734l-128-128V640h-512V128H256v1792zm-62-1408h293l-293-293z"/></svg>
+                  </button>
+                  <svg *ngIf="inventario.firma_devolucion || !inventario.pdf_devolucion" style="margin-top:.8rem" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M6 8a6 6 0 1 1 12 0h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2zm6-4a4 4 0 0 1 4 4H8a4 4 0 0 1 4-4m2 10a2 2 0 0 1-1 1.732V17a1 1 0 1 1-2 0v-1.268A2 2 0 0 1 12 12a2 2 0 0 1 2 2"/></g></svg>
+                </td>
+                
             </tr>
         </tbody>
     </table>
 </div>
  
+<h3 class="tituloBox" *ngIf="mostrarAccesorio">Repuestos y/o Accesorios asignados </h3>
+
+<div class="contenedor-asignacion">
+  <div *ngIf="mostrarAccesorio">
+    <button  class="btn-crear btn-extra btn-repuesto"  cButton color="info" size="sm" (click)="toggleLiveRepuesto()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+      </svg>Asignar Repuesto
+    </button> 
+  </div>
+</div>
+
+
+<div *ngIf="mostrarAccesorio" class="contenedor-licencia-asignada" style="margin-bottom: 4rem; margin-top: 3rem;">
+  <div>
+    <p>
+      <b>Lista de Licencias Asignadas
+        <svg (click)="infoLicenciaAsignada()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
+          <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
+        </svg>
+      </b>
+    </p>
+    <button cButton type="button" *ngIf="mostrarLicencia" (click)="obtenerLicenciaAsignadaAEquipo()">Personas Asignadas</button>
+  </div>
+</div>
+
+
+<div class="greenTable" *ngIf=" mostrarAccesorio && accesoriosAsignados && accesoriosAsignados.length > 0"  >
+
+    
+    <table id="tablaProductosPicking" style="width: auto" >
+        <thead>
+            <tr>
+                <th>Departamento</th>
+                <th>Equipo</th>
+                <th>Fecha de Entrega</th>
+                <th>Estado</th>
+                <th>Observación</th>
+                <th>Acciones</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inventario of accesoriosAsignados">
+        
+                <td>{{inventario.departamento}}</td>
+                <td>{{inventario.equipo }}</td>
+                <td>{{inventario.fecha_entrega}}</td>
+                <td>{{inventario.estado ? 'Entregado' : 'Por Entregar' }}</td>
+                <td>{{inventario.observacion || 'Sin observación agregada'}}</td>
+                <td>
+                  <button cButton size="sm" class="btn-entrega" (click)="devolverAccesorio(inventario.id)" >Liberar
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 2048 2048"><path fill="currentColor" d="m2011 1728l-318 317l-90-90l163-163h-614v-128h614l-163-163l90-90zm-669 192l128 128H128V0h1115l549 549v734l-128-128V640h-512V128H256v1792zm-62-1408h293l-293-293z"/></svg>
+                  </button>
+                </td>
+                <!-- <td class="btn-accion-persona">
+                  <button cButton color="secondary" size="sm" class="btn-edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                  </button>
+
+                    <button  class="btn-crear" cButton color="success" size="sm" (click)="verMas(inventario.id)">
+                      Ver más<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><path fill="currentColor" d="M184 104v32a8 8 0 0 1-8 8H99.31l10.35 10.34a8 8 0 0 1-11.32 11.32l-24-24a8 8 0 0 1 0-11.32l24-24a8 8 0 0 1 11.32 11.32L99.31 128H168v-24a8 8 0 0 1 16 0Zm48-48v144a16 16 0 0 1-16 16H40a16 16 0 0 1-16-16V56a16 16 0 0 1 16-16h176a16 16 0 0 1 16 16Zm-16 144V56H40v144h176Z"/></svg>
+                    </button>
+
+                </td>  -->
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h3 class="tituloBox licencia-asignada"*ngIf="mostrarLicenciaYEquipo">Licencias asignadas a Equipos
+  <svg (click)="infoLicenciaAsignada()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
+    <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
+  </svg></h3>
+
+
+<div class="greenTable " *ngIf="mostrarLicenciaYEquipo && licenciaYEquipo && licenciaYEquipo.length > 0" >
+  
+ 
+  <table id="tablaProductosPicking" style="width: 60%" >
+
+      <thead>
+          <tr>
+            <th>Persona</th>
+            <th>Equipo</th>
+            <th>Serial</th>
+            <th>Códigos de Licencias</th>
+            <th>Acciones</th>
+   
+   
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let inventario of licenciaYEquipo">
+              <td>{{inventario.persona}}</td>
+              <td>{{inventario.equipo}}</td>
+              <td>{{inventario.serial}}</td>
+              <td>{{inventario.codigo }}</td>
+              <td>
+                <button cButton size="sm" class="btn-entrega" (click)="liberarLicencia(inventario.id)" >Liberar
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 2048 2048"><path fill="currentColor" d="m2011 1728l-318 317l-90-90l163-163h-614v-128h614l-163-163l90-90zm-669 192l128 128H128V0h1115l549 549v734l-128-128V640h-512V128H256v1792zm-62-1408h293l-293-293z"/></svg>
+                </button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
