@@ -14,7 +14,6 @@ import { SubEstado } from '../models/mantenedores/subEstado.interface';
 import{Estado} from 'src/app/models/mantenedores/estados.interface'
 import{LicenciaYEquipo} from 'src/app/models/mantenedores/licenciaYEquipo.interface'
 import { Observable } from 'rxjs';
-import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'

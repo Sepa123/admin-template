@@ -97,23 +97,32 @@
        </div> 
    </c-col>
   </c-row>
-<p></p>
-  <c-dropdown >
-    <button cButton cDropdownToggle color="secondary" size="sm">
-      Región
-    </button>
-    <ul cDropdownMenu class="scrollable-list">
-      <li ><a [routerLink]="[]" (click)="filtrarPorRegion('')" cDropdownItem>Todas las regiones</a></li>
-      <li *ngFor="let region of regiones"><a [routerLink]="[]" (click)="filtrarPorRegion(region)" cDropdownItem>{{region}}</a></li>
-    </ul>
-  </c-dropdown>
 
    <div class="fade-in">
    <c-row ngPreserveWhitespaces>
      <div>
        <div class="col-md-12 mx-auto">
          <p></p>
-         <button cButton color="secondary" size="sm" (click)="buscarPorFecha()" [disabled]="bloqBoton">Buscar</button>
+        <table>
+          <tr>
+            <td>
+              <button cButton color="secondary" size="sm" (click)="buscarPorFecha()" [disabled]="bloqBoton">Buscar</button> 
+            </td>
+            <td>
+              <c-dropdown >
+                <button cButton cDropdownToggle color="secondary" size="sm">
+                 Filtrar por Región
+                </button>
+                <ul cDropdownMenu class="scrollable-list">
+                  <li ><a [routerLink]="[]" (click)="filtrarPorRegion('')" cDropdownItem>Todas las regiones</a></li>
+                  <li *ngFor="let region of regiones"><a [routerLink]="[]" (click)="filtrarPorRegion(region)" cDropdownItem>{{region}}</a></li>
+                </ul>
+              </c-dropdown>
+      
+            </td>
+          </tr>
+         </table>
+
          <p></p>
          Cantidad : <label style="font-weight: bold;">{{cantidad}}</label> <img width="40" *ngIf="isLoadingTable" height="50" src="../../../assets/images/loading-gif.gif" />
          <p></p>

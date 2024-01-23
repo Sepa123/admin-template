@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ProductoPicking } from 'src/app/models/productoPicking.interface'; 
 import { CargaQuadmind } from '../models/cargas/cargaQuadmind.interface';
 @Injectable({
   providedIn: 'root'
