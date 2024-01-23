@@ -338,8 +338,13 @@ export class EdicionPendientesComponent {
  }
 
  filtrarPorRegion (region : string){
-  this.pedidos = this.pedidosFull.filter(pedido => pedido.Region == region)
-  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+  if (region == '') {
+    this.pedidos = this.pedidosFull
+    this.cantidad = [...new Set(this.pedidosFull.map(seleccion => seleccion.Cod_entrega))].length;
+  }else {
+    this.pedidos = this.pedidosFull.filter(pedido => pedido.Region == region)
+    this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+  }
  }
 
  filtrarPorRangoFechaCompromiso(fecha_min : string,fecha_max: string){
@@ -362,6 +367,12 @@ export class EdicionPendientesComponent {
   if(this.formEdicion.valid && this.linkValidator() ){
 
     this.lgService.registrar_bitacora_lg(this.formEdicion.value).subscribe((data : any) =>{
+
+      let cod = this.formEdicion.value.Codigo_pedido+''
+
+      this.pedidosFull = this.pedidosFull.filter(obj => obj.Cod_entrega.toString() !== cod)
+      this.pedidos = this.pedidos.filter(obj => obj.Cod_entrega.toString() !== cod)
+      this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
       alert(data.message)
       this.formEdicion.reset()
       this.toggleLiveDemo()

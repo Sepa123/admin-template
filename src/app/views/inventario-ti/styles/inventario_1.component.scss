@@ -1,0 +1,215 @@
+.contenedor-botones{
+    display: flex;
+    justify-content: center;
+ 
+}
+
+.btn-acciones{
+    width: 8rem;
+    min-height: 6rem;
+    margin: 2rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+    
+}
+
+.container-botones{
+  border-radius: 2rem;
+  background-color:  #dbcd8cbe;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  max-width: 60vw;
+  margin-left: 10vw;
+}
+.tituloBox{
+  text-align: center;
+  margin-top: 2rem;
+  // border-top-style: solid;
+  padding-top: 2rem;
+  // border-top-width: 60%;
+}
+.licencia-asignada{
+  margin-bottom: 2rem;
+}
+
+.tipo{
+    border-color: rgba(59, 87, 63, 0.74);
+    // background-color: rgb(165, 57, 8);
+    background-color: rgb(47, 70, 50);
+    border-width:.25rem;
+    border-radius: 2rem;
+    font-weight: bold;  
+}
+
+.tipo:hover{
+  background-color: rgb(63, 99, 68);
+}
+
+.persona, .equipo, .estados, .sucursal{
+    border-color: #ffffff;
+    background-color:  #ffffff;
+    border-width:.25rem;
+    border-radius: 2rem;
+    color:black;
+    font-weight: bold;
+}
+
+.persona:hover, .equipo:hover, .estados:hover, .sucursal:hover {
+  background-color:  rgb(236, 233, 232);
+  border-color: rgb(236, 233, 232);
+}
+
+.departamento{
+  border-color: rgba(79, 136, 86, 0.61);
+  background-color:  rgb(55, 107, 61);
+  // background-color:  rgb(64, 155, 75);
+  border-width:.25rem;
+  border-radius: 2rem;
+  font-weight: bold;
+}
+.departamento:hover{
+  border-color: rgba(66, 131, 73);
+  background-color:  rgb(66, 131, 73);
+}
+
+.licencia{
+  border-color: rgba(71, 179, 84, 0.575);
+  background-color:  rgb(64, 155, 75);
+  // background-color:  rgb(53, 219, 47);
+  border-width:.25rem;
+  border-radius: 2rem;
+  font-weight: bold;
+}
+
+.licencia:hover{
+  border-color: rgba(68, 175, 80);
+  background-color:  rgb(68, 175, 80);
+}
+.subestado{
+  border-color: rgba(82, 211, 78, 0.637);
+  background-color:  rgb(48, 138, 45);
+  border-width:.25rem;
+  border-radius: 2rem;
+  font-weight: bold;
+}
+
+.subestado:hover{
+  border-color: rgba(56, 177, 52);
+  background-color:  rgb(56, 177, 52);
+}
+
+
+.greenTable{
+    width: auto;
+    max-height: 400px; /* Altura de ejemplo */
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    
+  }
+  
+  .greenTable  table {
+    border: 1px solid #28A745;
+    background-color: #FFFEF3;
+    width: auto;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .greenTable  table td, table th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  .greenTable  table tbody td {
+    font-size: 11px;
+  }
+  
+  .greenTable  table tbody th {
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .greenTable  table tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  .greenTable table thead {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: #28A745;
+  }
+  .greenTable  table thead th {
+    font-size: 11px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+  .greenTable  table thead th:first-child {
+    border-left: none;
+  }
+  
+  .greenTable  table tfoot {
+    font-size: 13px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: #A40808;
+  }
+  .greenTable table tfoot td {
+    font-size: 13px;
+  }
+  
+  .greenTable  table tfoot .links {
+    text-align: right;
+  }
+  .greenTable  table tfoot .links a{
+    display: inline-block;
+    background: #FFFFFF;
+    color: #A40808;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+  
+  .inline-container {
+    margin: 1px;
+    display: flex;
+    align-items: center; /* Alinea los elementos verticalmente si es necesario */
+  }  
+  
+  .inline-container input,
+  .inline-container c-dropdown,
+  .inline-container span {
+    margin-right: 5px; /* Espacio personalizado entre los elementos */
+  }
+  h2 {
+      text-align: center;
+    }
+    
+  .svgT{
+    fill:#12de20
+  }
+  
+  .svgF{
+    fill:#d60a0a
+  }
+
+  .btn-crear{
+    margin-bottom: 3rem;
+    // background-color: rgb(9, 165, 30);
+    // color: #fff
+  }
+  .btn-persona{
+    margin-left: 5.5rem;
+  }
+  .btn-extra{
+    margin-left: 18vw;
+  }
+
+  // .btn-repuesto{
+  //   margin-top: 5rem;
+  // }
+  .btn-equipo{
+    margin-left: 12vw;
+  }
+
+  .contenedor-buscar-persona{
+    margin-left: 18vw;
+  }

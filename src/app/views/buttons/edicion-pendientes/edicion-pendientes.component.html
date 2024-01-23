@@ -97,6 +97,17 @@
        </div> 
    </c-col>
   </c-row>
+<p></p>
+  <c-dropdown >
+    <button cButton cDropdownToggle color="secondary" size="sm">
+      Región
+    </button>
+    <ul cDropdownMenu class="scrollable-list">
+      <li ><a [routerLink]="[]" (click)="filtrarPorRegion('')" cDropdownItem>Todas las regiones</a></li>
+      <li *ngFor="let region of regiones"><a [routerLink]="[]" (click)="filtrarPorRegion(region)" cDropdownItem>{{region}}</a></li>
+    </ul>
+  </c-dropdown>
+
    <div class="fade-in">
    <c-row ngPreserveWhitespaces>
      <div>

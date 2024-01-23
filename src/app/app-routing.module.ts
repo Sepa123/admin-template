@@ -204,6 +204,15 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/logistica-inversa/logistica-inversa.module').then((m) => m.LogisticaInversaModule)
       },
+      {
+        path: 'inventario-ti',
+        data:{
+          roles : ROLES_PERMITIDOS.PANEL
+        },
+        canActivate:[PermissionGuard],
+        loadChildren:()=>
+          import('./views/inventario-ti/inventario-ti.module').then((m)=> m.InventarioTiModule)
+      },
     ],
     canActivate: [UserGuard]
   },

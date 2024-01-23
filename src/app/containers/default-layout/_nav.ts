@@ -733,7 +733,22 @@ export const navItems: INavDataBar[] = [
     ]
   },
   
-
+  {
+    name: 'Inventario TI',
+    url : '/inventario-ti',
+    iconComponent: { name: 'cilDevices' },
+    roles : ROLES_PERMITIDOS.RSV,
+    children : [
+      {
+        name: 'Mantenedores',
+        url: '/inventario-ti/mantenedores'
+      },
+      {
+        name: 'Asignación de Equipos',
+        url: '/inventario-ti/asignacion'
+      }
+    ]
+  }
   // {
   //   name: 'Carga Excel',
   //   url : '/carga',
