@@ -16,6 +16,8 @@ export class EdicionPendientesComponent {
 
   public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger'];
 
+  regionSeleccionada : string = ""
+
   isLoadingTable: boolean = false;
 
   constructor(public builder: FormBuilder, private service:PedidoService, private lgService : LogInversaService) { }
@@ -345,6 +347,8 @@ export class EdicionPendientesComponent {
     this.pedidos = this.pedidosFull.filter(pedido => pedido.Region == region)
     this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
   }
+
+  this.regionSeleccionada = region
  }
 
  filtrarPorRangoFechaCompromiso(fecha_min : string,fecha_max: string){
