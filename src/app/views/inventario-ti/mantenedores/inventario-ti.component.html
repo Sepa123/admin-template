@@ -901,18 +901,17 @@
 
 
 <h3 class="tituloBox" *ngIf="mostrarEquipo">Descripción de los Equipos </h3>
-<button class="btn-crear btn-equipo"  *ngIf="mostrarEquipo" cButton color="info"size="sm" (click)="toggleLiveDemoEquipo(); getLocation()">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
-  </svg>Crear Nuevo
-</button>
-<div class="contenedor-filtro-busqueda" *ngIf="mostrarEquipo">
- 
+<div class="contenedor-filtro-busqueda" *ngIf="mostrarEquipo" style=" padding-bottom: -.5rem">
+  <button class="btn-crear btn-equipo"  *ngIf="mostrarEquipo" cButton color="info"size="sm" (click)="toggleLiveDemoEquipo(); getLocation()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+    </svg>Crear Nuevo
+  </button>
   <div>
     <b>Búsqueda por Serial</b>
     <input type="text" class="form-control" (change)="filterBySerial($event)" placeholder="Serial">
   </div>
   <div class="contenedor-filtro">
-    <b> Filtrar por tipo de Equipo :</b>
+    <b> Filtrar por tipo de Equipo</b>
     <c-dropdown >
       <button cButton cDropdownToggle color="secondary" size="sm">
         Equipos
@@ -921,9 +920,35 @@
         <li><a [routerLink]="[]" (click)="filterByEquipo('Todos')" cDropdownItem>Todos los Equipos</a></li>
         <li *ngFor="let equipo of tipo"><a [routerLink]="[]" (click)="filterByEquipo(equipo.nombre)" cDropdownItem>{{equipo.nombre}}</a></li>
       </ul>
-
     </c-dropdown> 
   </div>
+</div>
+
+<div class="greenTable show" *ngIf=" mostrarEquipo  && equipos.length ==0" >   
+  <table id="tablaProductosPicking" style="width: 90%" >      
+      <thead>
+          <tr>               
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Serial</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>SubEstado</th>
+              <th style="width: 160px" class="acciones">Acciones  <svg (click)="infoEquipo()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg></th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>Sin información</td>
+            <td>-</td>
+            <td>-</td>          
+            <td>-</td>       
+          </tr>
+      </tbody>
+  </table>
 </div>
 
 <div class="greenTable show" *ngIf=" mostrarEquipo && equipos && equipos.length >0" >   
@@ -1044,7 +1069,7 @@
 
 
 <h3 class="tituloBox" *ngIf="mostrarPersona">Lista de personas  </h3>
-<div class="container-persona btn-equipo">
+<!-- <div class="container-persona btn-equipo">
   <div class="persona-botones">
     <button class="btn-crear btn-persona "  *ngIf="mostrarPersona" colspan="5" style="justify-content: left;" cButton color="info" size="sm"  (click)="toggleLiveDemoPersona(); getLocation()">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
@@ -1055,14 +1080,24 @@
         <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
     </svg>Descargar Planilla</button>
   </div>
-</div>
+</div> -->
 
-  <div class="contenedor-filtro-persona " *ngIf="mostrarPersona">
-    <div class="contenedor-buscar-persona">
+  <div class="contenedor-filtro-busqueda " *ngIf="mostrarPersona" style=" padding-bottom: 1.5rem">
+    <button class=" btn-persona "  *ngIf="mostrarPersona" colspan="5" style="justify-content: left; " cButton color="info" size="sm"  (click)="toggleLiveDemoPersona(); getLocation()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+      </svg>Crear Nuevo
+    </button>
+    <button *ngIf="mostrarPersona" class="descarga btn-persona" cButton color="success" size="sm" (click)="imprimirPlanillaPersonas(fechaHoy)">
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+        <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+    </svg>Descargar Planilla</button>
+    <div>
+      <!-- class="contenedor-buscar-persona" -->
       <b>Buscar Persona</b>
       <input type="text" class="form-control" (change)="filterByPersona($event)" placeholder="Ingrese RUT">
     </div>
-    <div class="contenedor-filtro filtro-persona">
+    <div class="contenedor-filtro ">
+      <!-- filtro-persona -->
       <b> Filtrar personal activo:</b>
       <c-dropdown >
         <button cButton cDropdownToggle color="secondary" size="sm">
@@ -1074,6 +1109,37 @@
       </c-dropdown> 
     </div>
   </div>
+
+
+  <div class="greenTable" *ngIf="mostrarPersona && personas.length == 0" >
+    <table id="tablaProductosPicking" style="width: auto" >
+        <thead>
+            <tr>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Fecha de nacimiento</th>
+                <th>RUT</th>
+                <th>Cargo</th>
+                <th>Telefono</th>
+                <th>Fecha de ingreso</th>
+                <th class="acciones">Acciones <svg (click)="infoPersona()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>Sin información</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>       
+            </tr>
+        </tbody>
+    </table>
+</div>
+
   
 <div class="greenTable" *ngIf="mostrarPersona && personas && personas.length > 0" >
     <table id="tablaProductosPicking" style="width: auto" >
@@ -1156,12 +1222,14 @@
 
 
 <h3 class="tituloBox" *ngIf="mostrarLicencia">Lista de Licencias: </h3>
-<button class="btn-crear btn-extra" *ngIf="mostrarLicencia" cButton color="info" size="sm"  (click)="toggleLiveDemoLicencia()">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
-  </svg>Crear Nuevo
-</button>
-<div *ngIf="mostrarLicencia" class="contenedor-licencia-asignada">
-  <div>
+
+<div *ngIf="mostrarLicencia" class="contenedor-filtro-busqueda" style="padding-right:18rem ; padding-bottom:2rem">
+  <!-- class="contenedor-licencia-asignada" -->
+  <button class=" btn-extra" *ngIf="mostrarLicencia" cButton color="info" size="sm"  (click)="toggleLiveDemoLicencia()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+    </svg>Crear Nuevo
+  </button>
+  <div class="contenedor-licencia">
     <p>
       <b>Lista de Asignados 
         <svg (click)="infoLicenciaAsignada()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
@@ -1171,21 +1239,41 @@
     </p>
     <button cButton type="button" *ngIf="mostrarLicencia" (click)="obtenerLicenciaAsignadaAEquipo()">Personas Asignadas</button>
   </div>
+
+  <div class="contenedor-licencia" *ngIf="mostrarLicencia">
+    <div>
+      <b> Filtro Licencias :</b>
+      <c-dropdown >
+      <button cButton cDropdownToggle color="secondary" size="sm">
+        Licencias Asignadas
+      </button>
+      <ul cDropdownMenu>
+        <li *ngFor="let licencia of seleccion"><a [routerLink]="[]" (click)="filterByLicencia(licencia.valor)" cDropdownItem>{{licencia.label}}</a></li>
+      </ul>
+      </c-dropdown> 
+    </div>
+  </div>
 </div>
 
 
-<div class="contenedor-filtro" *ngIf="mostrarLicencia">
-  <div>
-    <b> Filtro Licencias :</b>
-    <c-dropdown >
-    <button cButton cDropdownToggle color="secondary" size="sm">
-      Licencias Asignadas
-    </button>
-    <ul cDropdownMenu>
-      <li *ngFor="let licencia of seleccion"><a [routerLink]="[]" (click)="filterByLicencia(licencia.valor)" cDropdownItem>{{licencia.label}}</a></li>
-    </ul>
-    </c-dropdown> 
-  </div>
+<div class="greenTable" *ngIf="mostrarLicencia  && licencias.length== 0" >
+  
+ 
+  <table id="tablaProductosPicking" style="width: 60%" >
+      <thead>
+          <tr>
+              <th>Códigos de Licencias</th>
+             <th class="acciones">Acciones <svg (click)="infoAcciones()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg></th> 
+   
+          </tr>
+      </thead>
+      <tbody>
+          <tr >
+              <td>-</td>
+              <td>Sin Información</td>     
+          </tr>
+      </tbody>
+  </table>
 </div>
 
 <div class="greenTable" *ngIf="mostrarLicencia && licencias && licencias.length > 0" >

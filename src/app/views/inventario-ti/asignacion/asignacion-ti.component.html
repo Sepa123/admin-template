@@ -562,8 +562,45 @@
   </c-modal-footer>
 </c-modal>
 
-<h3 class="tituloBox" *ngIf="mostrarAsignacion">Equipos Asignados a personal <svg  (click)="informacionSimbolos()"xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg></h3>
-<div class="contenedor-filtro-asignacion" *ngIf="mostrarAsignacion">
+<h3 class="tituloBox" *ngIf="mostrarAsignacion">Equipos Asignados a personal <svg  (click)="informacionSimbolos()"xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg></h3>  
+<div class="contenedor-filtro-busqueda"  *ngIf="mostrarAsignacion">
+  <div *ngIf="mostrarAsignacion" class="btn-crear" >
+    <button   cButton color="info" size="sm" (click)="toggleLiveDemoAsignar()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+      </svg> Nueva Asignación
+    </button>
+  </div>
+
+  <div class="contenedor-filtro-asignacion" *ngIf="mostrarAsignacion">
+    <b> Filtrar por Departamento</b>
+    <c-dropdown >
+      <button cButton cDropdownToggle color="primary" size="sm">
+        Departamentos
+      </button>
+      <ul cDropdownMenu>
+        <li><a [routerLink]="[]" (click)="filterByDepartamento('Todos')" cDropdownItem>Todos</a></li>
+        <li *ngFor="let dpto of departamentos"><a [routerLink]="[]" (click)="filterByDepartamento(dpto.nombre)" cDropdownItem>{{dpto.nombre}}</a></li>
+      </ul>
+    </c-dropdown> 
+  </div>
+
+  <div class="contenedor-filtro-asignacion" *ngIf="mostrarAsignacion">
+    <b> Filtrar por Equipo</b>
+    <c-dropdown >
+      <button cButton cDropdownToggle color="secondary" size="sm">
+        Equipo
+      </button>
+      <ul cDropdownMenu>
+        <li><a [routerLink]="[]" (click)="filterByEquipo('Todos')" cDropdownItem>Todos</a></li>
+        <li *ngFor="let equipo of tipo"><a [routerLink]="[]" (click)="filterByEquipo(equipo.nombre)" cDropdownItem>{{equipo.nombre}}</a></li>
+      </ul>
+    </c-dropdown> 
+  </div>
+  
+
+</div>
+
+<!-- <div class="contenedor-filtro-asignacion" *ngIf="mostrarAsignacion">
   <b> Filtrar por Departamento:</b>
   <c-dropdown >
     <button cButton cDropdownToggle color="secondary" size="sm">
@@ -587,9 +624,9 @@
       <li *ngFor="let equipo of tipo"><a [routerLink]="[]" (click)="filterByEquipo(equipo.nombre)" cDropdownItem>{{equipo.nombre}}</a></li>
     </ul>
   </c-dropdown> 
-</div>
+</div> -->
 
-
+<!-- 
 <div class="nueva-asignacion">
   <div *ngIf="mostrarAsignacion">
     <button  class="btn-crear"  cButton color="info" size="sm" (click)="toggleLiveDemoAsignar()">
@@ -598,11 +635,32 @@
     </button>
   </div>
 
+</div> -->
+
+<div  class="greenTable"  *ngIf="mostrarAsignacion && asignaciones.length == 0">
+  <table id="tablaProductosPicking" style="width: 60%" >
+    <thead>
+        <tr>
+            <th>Departamento</th>
+            <th>Equipo</th>
+            <th>Fecha de Entrega</th>
+            <th>Estado</th>
+            <th>Observación</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>-</td>
+          <td>-</td>
+          <td>Sin Información</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+    </tbody>
+</table>
 </div>
 
-
-
-<div class="greenTable show" *ngIf="mostrarAsignacion && asignaciones && asignaciones.length > 0"  >
+<div class="greenTable" *ngIf="mostrarAsignacion && asignaciones && asignaciones.length > 0"  >
 
     
     <table id="tablaProductosPicking" style="width: auto" >
@@ -674,8 +732,6 @@
                       <!-- <button cButton color="danger" size="sm" class="btn-edit">
                       <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><path fill="currentColor" d="M184 104v32a8 8 0 0 1-8 8H99.31l10.35 10.34a8 8 0 0 1-11.32 11.32l-24-24a8 8 0 0 1 0-11.32l24-24a8 8 0 0 1 11.32 11.32L99.31 128H168v-24a8 8 0 0 1 16 0Zm48-48v144a16 16 0 0 1-16 16H40a16 16 0 0 1-16-16V56a16 16 0 0 1 16-16h176a16 16 0 0 1 16 16Zm-16 144V56H40v144h176Z"/></svg> -->
                     </button>
-                  
-                   
                 </td> 
                 <td >
                   <button cButton size="sm"  class="btn-entrega" *ngIf="!inventario.firma_entrega"(click)="generarActaEntrega(inventario.id); getLocation()">
@@ -697,29 +753,58 @@
  
 <h3 class="tituloBox" *ngIf="mostrarAccesorio">Repuestos y/o Accesorios asignados </h3>
 
-<div class="contenedor-asignacion">
+<!-- <div class="contenedor-asignacion">
   <div *ngIf="mostrarAccesorio">
     <button  class="btn-crear btn-extra btn-repuesto"  cButton color="info" size="sm" (click)="toggleLiveRepuesto()">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
       </svg>Asignar Repuesto
     </button> 
   </div>
-</div>
+</div> -->
 
 
-<div *ngIf="mostrarAccesorio" class="contenedor-licencia-asignada" style="margin-bottom: 4rem; margin-top: 3rem;">
-  <div>
-    <p>
-      <b>Lista de Licencias Asignadas
-        <svg (click)="infoLicenciaAsignada()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
-          <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
-        </svg>
-      </b>
-    </p>
+<div *ngIf="mostrarAccesorio" class="contenedor-filtro-accesorio" style="margin-bottom: 4rem; margin-top: 3rem;">
+  <div class="contenedor-asignacion">
+    <div *ngIf="mostrarAccesorio">
+      <button  class="btn-crear btn-extra"  cButton color="info" size="sm" (click)="toggleLiveRepuesto()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+        </svg>Asignar Repuesto
+      </button> 
+    </div>
+  </div>
+  <div class="contenedor-filtro-asignacion">
+    <b>Lista de Licencias Asignadas
+      <svg (click)="infoLicenciaAsignada()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
+        <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
+      </svg>
+    </b>
+
     <button cButton type="button" *ngIf="mostrarLicencia" (click)="obtenerLicenciaAsignadaAEquipo()">Personas Asignadas</button>
   </div>
 </div>
 
+<div  class="greenTable"  *ngIf="mostrarAccesorio && accesoriosAsignados.length == 0">
+  <table id="tablaProductosPicking" style="width: 60%" >
+    <thead>
+        <tr>
+            <th>Departamento</th>
+            <th>Equipo</th>
+            <th>Fecha de Entrega</th>
+            <th>Estado</th>
+            <th>Observación</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>-</td>
+          <td>-</td>
+          <td>Sin Información</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+    </tbody>
+</table>
+</div>
 
 <div class="greenTable" *ngIf=" mostrarAccesorio && accesoriosAsignados && accesoriosAsignados.length > 0"  >
 

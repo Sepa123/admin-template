@@ -1,7 +1,7 @@
 .contenedor-botones{
     display: flex;
     justify-content: center;
- 
+
 }
 
 .btn-acciones{
@@ -10,7 +10,7 @@
     margin: 2rem;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 
-    
+
 }
 
 .container-botones{
@@ -24,7 +24,7 @@
   text-align: center;
   margin-top: 2rem;
   // border-top-style: solid;
-  padding-top: 2rem;
+  padding-top: 1rem;
   // border-top-width: 60%;
 }
 .licencia-asignada{
@@ -37,7 +37,7 @@
     background-color: rgb(47, 70, 50);
     border-width:.25rem;
     border-radius: 2rem;
-    font-weight: bold;  
+    font-weight: bold;
 }
 
 .tipo:hover{
@@ -104,9 +104,9 @@
     overflow: auto;
     display: flex;
     justify-content: center;
-    
+
   }
-  
+
   .greenTable  table {
     border: 1px solid #28A745;
     background-color: #FFFEF3;
@@ -122,7 +122,7 @@
   .greenTable  table tbody td {
     font-size: 11px;
   }
-  
+
   .greenTable  table tbody th {
     font-size: 13px;
     font-weight: bold;
@@ -146,7 +146,7 @@
   .greenTable  table thead th:first-child {
     border-left: none;
   }
-  
+
   .greenTable  table tfoot {
     font-size: 13px;
     font-weight: bold;
@@ -156,7 +156,7 @@
   .greenTable table tfoot td {
     font-size: 13px;
   }
-  
+
   .greenTable  table tfoot .links {
     text-align: right;
   }
@@ -167,13 +167,13 @@
     padding: 2px 8px;
     border-radius: 5px;
   }
-  
+
   .inline-container {
     margin: 1px;
     display: flex;
     align-items: center; /* Alinea los elementos verticalmente si es necesario */
-  }  
-  
+  }
+
   .inline-container input,
   .inline-container c-dropdown,
   .inline-container span {
@@ -182,11 +182,11 @@
   h2 {
       text-align: center;
     }
-    
+
   .svgT{
     fill:#12de20
   }
-  
+
   .svgF{
     fill:#d60a0a
   }
@@ -197,7 +197,7 @@
     // color: #fff
   }
   .btn-persona{
-    margin-left: 5.5rem;
+    margin-left: 2rem;
   }
   .btn-extra{
     margin-left: 18vw;
@@ -278,39 +278,93 @@
 
   .greenTable table tbody tr .btn-accion-persona{
     display: flex;
-  
+
   }
 
   .contenedor-filtro-busqueda{
     display: flex;
-    justify-content:space-around;
+    justify-content:space-evenly;
+    padding-right: 6rem;
+    margin: 2rem 4rem;
+    background-color: #aaaaaa8a;
+    padding-top: 1rem;
+    border-radius: 2rem;
+  }
+
+  .contenedor-filtro-accesorio{
+    display: flex;
+    justify-content:space-evenly;
+    padding-right: 16rem;
+    margin: 4rem 4rem;
+    background-color: #aaaaaa8a;
+    padding-top: 1rem;
+    border-radius: 2rem;
+  }
+
+  .contenedor-filtro-accesorio .btn-crear{
+    margin-top: 2.2rem;
   }
 
   .contenedor-filtro{
     display: flex;
     flex-direction: column;
-    justify-content: right;
-    margin-left: 17rem;
-    margin-bottom: 3rem;
+    // justify-content: right;
+    // margin-left: 17rem;
+    // margin-bottom: 3rem;
   }
 
+  .contenedor-filtro-busqueda .btn-extra{
+    margin-top: 2rem;
+  }
+
+  .contenedor-filtro-busqueda .btn-persona{
+    margin-top: 1.5rem;
+  }
+
+  .contenedor-filtro-busqueda .btn-crear{
+    margin-top: .8rem;
+  }
+  .sinInfo p{
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+  }
+
+  .sinInfo {
+    display: flex;
+    flex-direction: column;
+   
+  }
+
+  .sinInfo svg{
+    justify-content: center;
+    align-self: center;
+  }
   .contenedor-filtro-asignacion{
     display: flex;
     flex-direction: column;
     justify-content: right;
     margin-bottom: 3rem;
   }
-  .contenedor-licencia-asignada{
-    display: flex;
-    flex-direction: column;
-    align-content: flex-end;
-    margin-right: 14rem;
-    flex-wrap: wrap;
-  }
 
-  .contenedor-licencia-asignada div p{
-    margin-bottom: 1px;
+  .contenedor-filtro-asignacion b{
+    margin-bottom: -10px;
   }
+  // .contenedor-licencia-asignada{
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-content: flex-end;
+  //   margin-right: 14rem;
+  //   flex-wrap: wrap;
+  // }
+  .contenedor-licencia p {
+    margin-bottom:-12px;
+  }
+  // .contenedor-licencia-asignada div p{
+  //   margin-bottom: 1px;
+  // }
   .filtro-persona{
     margin-top: 3rem;
   }
@@ -344,8 +398,8 @@
 
   .contenor-devolucion{
     display: flex;
-  
-   
+
+
   }
   .checkbox-container{
     display: flex;
@@ -361,8 +415,8 @@
   display: flex;
   flex-direction: column;
   margin-right: 2rem;
-  
- 
+
+
   }
 
   .checkbox-container .checkbox{
@@ -378,8 +432,8 @@
   display: flex;
   justify-content: space-between;
   margin-right: 2vw;
-  
-  
+
+
 }
 .persona-botones .descarga{
   margin-right: 14rem;
