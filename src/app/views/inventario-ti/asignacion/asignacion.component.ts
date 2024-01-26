@@ -1204,6 +1204,8 @@ capturaFotoEquipoDevuelto(event: any){
      verMas(id:number){
       console.log("ver mas",id)
       this.busquedaCodigo(this.asignadosSinSjoin[0].equipo)
+      console.log("1",this.asignadosSinSjoin[0])
+      console.log("2", this.asignadosSinSjoin[0].equipo)
       this.service.get_lista_de_asignados_sin_join_por_id(id).subscribe((data)=>{
         this.asignadosSinSjoin = data
       })

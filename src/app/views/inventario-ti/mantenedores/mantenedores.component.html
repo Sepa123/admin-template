@@ -159,10 +159,10 @@
           <td *ngIf="inventario.ubicacion!== ''">
             <b>Ubicación: </b>{{inventario.ubicacion}}
           </td>
-          <td *ngIf="inventario.almacenamiento !== ''">
+          <td *ngIf="inventario.almacenamiento !== null">
             <b>Almacenamiento :</b>{{inventario.almacenamiento}}
           </td>
-          <td *ngIf="inventario.ram !== ''">
+          <td *ngIf="inventario.ram !== null">
             <b>RAM : </b>{{inventario.ram}}
           </td>
           <td *ngIf="inventario.tipo !== null">
@@ -533,23 +533,14 @@
                     {{ equipo.nombre }}
                 </option>
               </select> 
-                    <!-- <span class="error" *ngIf="form.get('Codigo')?.errors?.['required'] && isErrorView">
-                      Falta agregar el codigo del producto
-                    </span> -->
             </div>
           </c-col>
           <c-col [xs]>
             <div class="noEditar">
               <label>Marca</label>
-              <!-- <input type="text" placeholder="Marca" class="form-control" formControlName="marca"> -->
               <select id="marca" name="marca" formControlName="marca"  class="form-control" (change)="almacenamientoElegido($event)">
                 <option *ngFor="let opciones of marca" [value]="opciones">{{ opciones }}</option> 
                </select>
-              
-              
-                    <!-- <span class="error" *ngIf="form.get('Codigo')?.errors?.['required'] && isErrorView">
-                      Falta agregar el codigo del producto
-                    </span> -->
             </div>
           </c-col>
         </c-row>
@@ -558,40 +549,15 @@
             <div class="">
               <label>Modelo</label>
               <input type="text" class="form-control"  placeholder="Modelo" formControlName="modelo" >
-                   <!-- <span class="error" *ngIf="form.get('Unid_x_paquete')?.errors?.['required'] && isErrorView">
-                      Falta agregar las unidades por paquete
-                  </span> -->
             </div>
           </c-col>
-          <c-col [xs] *ngIf=" todo">
-            <div class="">
-              <label for="ubicacion">Ubicación</label>
-              <select id="ubicacion" name="ubicacion" formControlName="ubicacion" class="form-control" >
-                <option *ngFor="let opciones of ubicacion" [value]="opciones">{{ opciones }}</option>
-              </select>
-            </div>
-
-            <label for="ram">Almacenamiento</label>
-              <select id="ram" name="ram" formControlName="almacenamiento"  class="form-control" (change)="almacenamientoElegido($event)">
-                <option *ngFor="let opciones of almacenamientos" [value]="opciones">{{ opciones }}</option> 
-               </select>
-              
-          </c-col>
-       </c-row> 
-        <c-row>
           <c-col [xs]>
             <label for="descripcion">Descripción</label>
             <textarea type="text" class="form-control"  placeholder="Descripción del Equipo"  formControlName="descripcion" name="descripcion"></textarea>
-          </c-col>
+          </c-col>  
+       </c-row> 
+        <c-row>
           <c-col [xs]>
-            <!-- <div class="">Estado
-              <select   cSelect    formControlName="estado">
-                <option value=0 selected>Selecciona un estado</option>
-                <option *ngFor="let estado of estadoEquipo" value={{estado.id}}>
-                       {{ estado.nombre }}
-                </option>
-              </select>      
-            </div> -->
             <div>Estado
               <select cSelect    formControlName="estado" (change)="asignarEstado($event)">
                 <option  value=0 selected>Selecciona un estado</option>
@@ -644,32 +610,41 @@
               <input type="text" placeholder="serial" class="form-control" formControlName="serial" >
             </div>
           </c-col>
-          <c-col [xs]>
-            <div class="" *ngIf="memoria ||todo">
-              <label for="ram">Almacenamiento</label>
-              <select id="ram" name="ram" formControlName="almacenamiento"  class="form-control" (change)="almacenamientoElegido($event)">
-                <option *ngFor="let opciones of almacenamientos" [value]="opciones">{{ opciones }}</option> 
-               </select>
-              
-              <!-- <input type="text" class="form-control"  placeholder="almacenamiento" formControlName="almacenamiento"> -->
-            </div>
-          </c-col>
+          <c-col  [xs]>
+            <label>Cantidad</label>
+             <input type="number" class="form-control" placeholder="Cantidad" formControlName="cantidad"/> 
+           </c-col>
         </c-row>
         <c-row >
-          <c-col *ngIf="todo">
+          <c-col  [xs] *ngIf="todo">
             <div class="">
              <label for="ram">Ram</label>
              <select id="ram" name="ram" formControlName="ram"  class="form-control" (change)="ramElegida($event)">
               <option *ngFor="let opcion of rams" [value]="opcion">{{ opcion }}</option> 
              </select>
-              <!-- <input type="number" class="form-control"  placeholder="RAM" formControlName="ram"> -->
             </div>
           </c-col>
-          <c-col>
-           <label>Cantidad</label>
-            <input type="number" class="form-control" placeholder="Cantidad" formControlName="cantidad"/> 
+          <c-col [xs]>
+            <div class="" *ngIf="memoria ||todo">
+              <label for="almacenamiento">Almacenamiento</label>
+              <select id="almacenamiento" name="ram" formControlName="almacenamiento"  class="form-control" (change)="almacenamientoElegido($event)">
+                <option *ngFor="let opciones of almacenamientos" [value]="opciones">{{ opciones }}</option> 
+               </select>
+            </div>
           </c-col>
-          <c-col>
+        </c-row>
+        <c-row *ngIf="todo" style=" max-width: 60%;">
+          <c-col [xs] >
+            <div class="">
+              <label for="ubicacion">Ubicación</label>
+              <select id="ubicacion" name="ubicacion" formControlName="ubicacion" class="form-control" >
+                <option *ngFor="let opciones of ubicacion" [value]="opciones">{{ opciones }}</option>
+              </select>
+            </div>
+          </c-col>
+        </c-row>
+        <c-row style=" max-width: 60%;">
+          <c-col  [xs]>
             <label>Foto</label>
              <input type="file"class="form-control" placeholder="foto" formControlName="ubicacionarchivo"/> 
            </c-col>
