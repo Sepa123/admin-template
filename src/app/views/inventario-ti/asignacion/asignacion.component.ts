@@ -355,18 +355,18 @@ filterByDepartamento(nombre : string){
     this.listaDeAsignaciones()
   }else{
     this.service.get_lista_de_asignaciones().subscribe((data)=>{
-      this.asignaciones =data.filter(dpto => dpto.departamento?.toString() == nombre)
+      this.asignaciones =data.filter((dpto) => dpto.departamento?.toString() == nombre)
+      console.log("Filtered asignaciones:", this.asignaciones);
     })
   }
 }
 //ubicar los equipos asignados segun el tipo
 filterByEquipo(nombre : string){
-  this.TodosDeptos = nombre
-  if(nombre === "Todos"){
+  if(nombre  === "Todos"){
     this.listaDeAsignaciones()
   }else{
     this.service.get_lista_de_asignaciones().subscribe((data)=>{
-      this.asignaciones =data.filter(dpto => dpto.equipo?.toString() == nombre)
+      this.asignaciones =data.filter(dpto => dpto.tipo?.toString() == nombre  )
     })
   }
 }

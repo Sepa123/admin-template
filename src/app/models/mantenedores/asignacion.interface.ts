@@ -19,6 +19,7 @@ export interface Asignacion {
     departamento: number | null
     n_equipo: string  | null,
     equipo_id: number  | null,
-    id_asignacion: number  | null
+    id_asignacion: number  | null,
+    tipo: string | null
  
 }

@@ -13,7 +13,7 @@ export enum Marca{
 
 }
 export enum Ram{
-    "" = "Seleccione una opcion",
+    null= "Seleccione una opcion",
     "2 GB" = "2 GB",
     "3 GB" = "3 GB",
     "4 GB" = "4 GB",
@@ -26,7 +26,7 @@ export enum Ram{
 }
 
 export enum Almacenamiento{
-    "" = "Seleccione una opcion",
+    null = "Seleccione una opcion",
     "57.6GB SSD" = "57.6GB SSD",
     "64GB SSD" = "64GB SSD",
     "120GB SSD" = "120GB SSD",
@@ -71,8 +71,8 @@ export interface Equipo {
     dimensiones: string | null,
     descripcion: string | null,
     ubicacion: Ubicacion| null | "", 
-    almacenamiento:  Almacenamiento | null| "",
-    ram: Ram| null| "",
+    almacenamiento:  Almacenamiento | null,
+    ram: Ram| null,
     estado: number | null,
     tipo: number
     cantidad: number | null
