@@ -379,6 +379,10 @@ export const navItems: INavDataBar[] = [
       {
         name: "Ingreso Producto",
         url : '/informacion/ingreso-producto'
+      },
+      {
+        name: "Historial Producto",
+        url: '/informacion/timeline',
       }
     ]
   },
@@ -748,7 +752,8 @@ export const navItems: INavDataBar[] = [
         url: '/inventario-ti/asignacion'
       }
     ]
-  }
+  },
+
   // {
   //   name: 'Carga Excel',
   //   url : '/carga',

@@ -27,6 +27,7 @@ import { EstadoComponent } from './estado/estado.component';
 import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { TrackingProductoComponent } from './tracking-producto/tracking-producto.component';
 import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.component';
+import { TimelineComponent } from './timeline/timeline.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.co
     BuscarSkuComponent,
     TrackingProductoComponent,
     IngresoProductoComponent,
+    TimelineComponent,
     
   ],
   imports: [

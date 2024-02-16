@@ -3,7 +3,7 @@ import { TocService } from 'src/app/service/toc.service'
 import { AlertasVigente } from 'src/app/models/alertasVigentes.interface';
 import { UsuarioTOC } from 'src/app/models/usuariosTOC.interface'
 import { TocTracking } from 'src/app/models/tocTracking.interface'
-import {FormBuilder, Validators, ValidationErrors } from '@angular/forms'
+import { FormBuilder, Validators, ValidationErrors } from '@angular/forms'
 import { AlertaExistenteTOC } from 'src/app/models/editarTOC.interface'
 import { ComunasService } from 'src/app/service/comunas/comunas.service';
 import { Codigo1 } from 'src/app/models/Codigos1.interface';
@@ -119,7 +119,7 @@ export class AlertasVigentesComponent {
   }
 
   
-  codigoEditar  : string = ""
+ codigoEditar  : string = ""
   updateData( codigo : string) {
 
     this.service.buscar_alerta_by_ids_transyanez(codigo).subscribe(data => {
@@ -131,7 +131,7 @@ export class AlertasVigentesComponent {
         Observacion : data[0].Observacion,
         Direccion_correcta : data[0].Direccion_correcta,
         Fecha_reprogramada : data[0].Fecha_Reprogramada,
-        Comuna_correcta : data[0].Comuna_correcta,
+        Comuna_correcta : data[ 0].Comuna_correcta,
         Codigo1Str : data[0].Codigo1,
         Subestado_esperado : data[0].Subestado_esperado,
         Ids_transyanez : codigo,

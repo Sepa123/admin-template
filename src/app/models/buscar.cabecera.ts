@@ -1,0 +1,40 @@
+export interface BuscarCabeceraProducto{
+
+    Codigo_cliente:number;
+    Nombre: string;
+    Calle:string;
+    Direccion_textual:string;
+    Ciudad:string;
+    Provincia: string;
+    Longitud: null;
+    Telefono: number;
+    Email: string;
+    Codigo_pedido: string;
+    Fecha_pedido: string;
+    Fecha_original_pedido: string;
+    Operacion:string;
+    Codigo_producto: string;
+    Descripcion_producto: string;
+    Cantidad_producto: number; 
+    Peso: number;
+    Volumen: number;
+    Dinero: number;
+    Duracion_min: string;
+    Ventana_horaria_1: string;
+    Ventana_horaria_2: string;
+    Notas: string;
+    Agrupador:string;
+    Email_remitentes:string;
+    Eliminar_pedido:string;
+    Vehiculo: string;
+    Habilidades: string;
+    SKU: string;
+    Pistoleado: string;
+    Tamaño: string;
+    Estado: string;
+    En_ruta: string;
+    TOC: null|string;
+    Obs_TOC: null|string;
+    Sistema: true|string;
+    Obs_sistema: string;
+}
