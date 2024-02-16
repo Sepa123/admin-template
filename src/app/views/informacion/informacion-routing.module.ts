@@ -4,6 +4,8 @@ import { EstadoComponent } from './estado/estado.component';
 import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { TrackingProductoComponent } from './tracking-producto/tracking-producto.component';
 import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.component'
+import { TimelineComponent } from './timeline/timeline.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -39,6 +41,12 @@ const routes: Routes = [
           title: "Ingreso Producto"
         }
       },
+      {
+        path : 'timeline',
+        component: TimelineComponent,
+        data:{
+        title : ""}
+      }
     ]
   }
 ];

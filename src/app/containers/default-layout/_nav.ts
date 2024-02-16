@@ -379,6 +379,22 @@ export const navItems: INavDataBar[] = [
       {
         name: "Ingreso Producto",
         url : '/informacion/ingreso-producto'
+      },
+      {
+        name: "Historial Producto",
+        url: '/informacion/timeline',
+      }
+    ]
+  },
+  { /// Pantalla Informacion Para SEGURIDAD
+    name: 'Información',
+    url: '/informacion',
+    iconComponent : {name : 'cil-magnifying-glass'},
+    roles : ROLES_PERMITIDOS.INFORMACION_SEGURIDAD,
+    children: [
+      {
+        name: "Historial Producto",
+        url: '/informacion/timeline',
       }
     ]
   },
