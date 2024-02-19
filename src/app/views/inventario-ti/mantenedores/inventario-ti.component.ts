@@ -1161,15 +1161,12 @@ cambioHabilitarPersona(id: number){
             subestado : this.subestadoSeleccionado,
             estado: this.estadoAsignado,
             status:  this.estadoAsignado
-   
-            
           })
           this.service.crear_descripcion_equipo(this.equipoDescripcionForm.value).subscribe(
             (respuesta) => {
               console.log(this.equipoDescripcionForm.value)
               this.service.get_ultimo_equipo_creado().subscribe((data)=>{
                 const body={
-                 
                   "id": data[0],
                   "id_user": parseInt(sessionStorage['id']),
                   "ids_user": sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
@@ -1191,7 +1188,6 @@ cambioHabilitarPersona(id: number){
                 this.listarEquiposyDescripcion()
                 })
                 })
-              
               },
               (error) => {
                 Swal.fire({

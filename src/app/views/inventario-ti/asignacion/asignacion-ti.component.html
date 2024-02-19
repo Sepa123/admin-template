@@ -412,7 +412,7 @@
 
 <c-modal id="liveDemoEntregaEstado" [visible]="visible5" (visibleChange)="handleLiveEntregaEstado($event)" size="lg">
   <c-modal-header>
-    <h5 cModalTitle>Estado del Equipo  entregado</h5>
+    <h5 cModalTitle>Estado del Equipo entregado</h5>
     <button (click)="toggleLiveEntregaEstado()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
@@ -427,7 +427,7 @@
             <span class="checkmark"></span>
         </div>
         <div class="contenor-devolucion">
-          
+<!--           
           <div class="devolucion_equipo">
             <label>Estado del Equipo:</label>
             <select id="estado" name="estado"  class="form-control" (change)="elegirEstado($event)" >
@@ -441,7 +441,7 @@
               <option value=0 selected>Selecciona un subestado</option>
               <option *ngFor="let opciones of subestado"  value={{opciones.code}}>{{ opciones.descripcion }}</option>
             </select>
-          </div>
+          </div> -->
          
           
         </div>
@@ -715,10 +715,15 @@
                   <input type="checkbox" *ngIf="inventario.firma_devolucion" [checked]="inventario.firma_devolucion" disabled style="margin-top:.8rem"></td>
                 <td>  
                   <p *ngIf="!inventario.pdf_devolucion">No Emitido </p>
-                  <button  class="pdf" *ngIf="inventario.pdf_devolucion" size="sm" cButton (click)="descargarPDFDevolucion(inventario.id)">
+                  <button  class="pdf" *ngIf="inventario.pdf_devolucion" size="sm" cButton (click)="descargarPDFDevolucion(inventario.id)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="currentColor" d="M17.924 7.154h-.514l.027-1.89a.464.464 0 0 0-.12-.298L12.901.134A.393.393 0 0 0 12.618 0h-9.24a.8.8 0 0 0-.787.784v6.37h-.515c-.285 0-.56.118-.76.328A1.14 1.14 0 0 0 1 8.275v5.83c0 .618.482 1.12 1.076 1.12h.515v3.99A.8.8 0 0 0 3.38 20h13.278c.415 0 .78-.352.78-.784v-3.99h.487c.594 0 1.076-.503 1.076-1.122v-5.83c0-.296-.113-.582-.315-.792a1.054 1.054 0 0 0-.76-.328M3.95 1.378h6.956v4.577a.4.4 0 0 0 .11.277a.37.37 0 0 0 .267.115h4.759v.807H3.95zm0 17.244v-3.397h12.092v3.397zM12.291 1.52l.385.434l2.58 2.853l.143.173h-2.637c-.2 0-.325-.033-.378-.1c-.053-.065-.084-.17-.093-.313zM3 14.232v-6h1.918c.726 0 1.2.03 1.42.09c.34.09.624.286.853.588c.228.301.343.69.343 1.168c0 .368-.066.678-.198.93c-.132.25-.3.447-.503.59a1.72 1.72 0 0 1-.62.285c-.285.057-.698.086-1.239.086h-.779v2.263zm1.195-4.985v1.703h.654c.471 0 .786-.032.945-.094a.786.786 0 0 0 .508-.762a.781.781 0 0 0-.19-.54a.823.823 0 0 0-.48-.266c-.142-.027-.429-.04-.86-.04zm4.04-1.015h2.184c.493 0 .868.038 1.127.115c.347.103.644.288.892.552c.247.265.436.589.565.972c.13.384.194.856.194 1.418c0 .494-.06.92-.182 1.277c-.148.437-.36.79-.634 1.06c-.207.205-.487.365-.84.48c-.263.084-.616.126-1.057.126H8.235zM9.43 9.247v3.974h.892c.334 0 .575-.019.723-.057c.194-.05.355-.132.482-.25c.128-.117.233-.31.313-.579c.081-.269.121-.635.121-1.099c0-.464-.04-.82-.12-1.068a1.377 1.377 0 0 0-.34-.581a1.132 1.132 0 0 0-.553-.283c-.167-.038-.494-.057-.98-.057zm4.513 4.985v-6H18v1.015h-2.862v1.42h2.47v1.015h-2.47v2.55z"/></svg>
                    </button>
-                <td>{{inventario.estado ? 'Entregado' : 'Por Entregar' }}</td>
+                <td>
+                  <p *ngIf="inventario.estado == true && inventario.firma_devolucion == false ">Entregado</p>
+                  <p *ngIf="inventario.estado == false && inventario.firma_devolucion == false && !inventario.pdf_devolucion">Por Entregar</p>
+                  <p *ngIf="inventario.estado == false && inventario.firma_devolucion == false && inventario.pdf_devolucion">Por Devolver</p>
+                  <p *ngIf="inventario.estado == false && inventario.firma_devolucion == true">Devuelto</p>
+                  <!-- {{inventario.estado ? 'Entregado' : 'Por Entregar' }}</td> -->
                 <td>{{inventario.observacion || 'Sin observación agregada'}}</td>
 
 
@@ -743,7 +748,7 @@
                   <button cButton size="sm" class="btn-devolucion" *ngIf="!inventario.firma_devolucion && inventario.pdf_entrega"size="sm" (click)="generarActaDevolucion(inventario.id); getLocation()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 2048 2048"><path fill="currentColor" d="m2011 1728l-318 317l-90-90l163-163h-614v-128h614l-163-163l90-90zm-669 192l128 128H128V0h1115l549 549v734l-128-128V640h-512V128H256v1792zm-62-1408h293l-293-293z"/></svg>
                   </button>
-                  <svg *ngIf="inventario.firma_devolucion || !inventario.pdf_devolucion" style="margin-top:.8rem" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M6 8a6 6 0 1 1 12 0h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2zm6-4a4 4 0 0 1 4 4H8a4 4 0 0 1 4-4m2 10a2 2 0 0 1-1 1.732V17a1 1 0 1 1-2 0v-1.268A2 2 0 0 1 12 12a2 2 0 0 1 2 2"/></g></svg>
+                  <svg *ngIf="inventario.firma_devolucion && inventario.pdf_devolucion || !inventario.pdf_entrega" style="margin-top:.8rem" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M6 8a6 6 0 1 1 12 0h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2zm6-4a4 4 0 0 1 4 4H8a4 4 0 0 1 4-4m2 10a2 2 0 0 1-1 1.732V17a1 1 0 1 1-2 0v-1.268A2 2 0 0 1 12 12a2 2 0 0 1 2 2"/></g></svg>
                 </td>
                 
             </tr>

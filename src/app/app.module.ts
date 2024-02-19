@@ -7,6 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+// import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
+
+
 import {
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface,
@@ -49,6 +53,7 @@ import {
   SidebarModule,
   TabsModule,
   UtilitiesModule,
+
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
@@ -106,7 +111,10 @@ const APP_CONTAINERS = [
     NgbModule,
     NgbPaginationModule, NgbAlertModule,
     NgbDatepickerModule,
-    NgChartsModule
+    NgChartsModule,
+    NgbTooltipModule,
+
+
   ],
   providers: [
     {
