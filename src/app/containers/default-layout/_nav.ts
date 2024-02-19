@@ -338,7 +338,7 @@ export const navItems: INavDataBar[] = [
     name: 'Rutas',
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
-    roles : [ROLES_ENUM.JEFE_TRANSPORTE],
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE,ROLES_ENUM.JEFE_SEGURIDAD],
     children: [
       {
         name: 'Rutas Activas',
@@ -392,6 +392,10 @@ export const navItems: INavDataBar[] = [
     iconComponent : {name : 'cil-magnifying-glass'},
     roles : ROLES_PERMITIDOS.INFORMACION_SEGURIDAD,
     children: [
+      {
+        name: "Tracking Producto",
+        url : '/informacion/tracking-producto'
+      },
       {
         name: "Historial Producto",
         url: '/informacion/timeline',
