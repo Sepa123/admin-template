@@ -40,25 +40,25 @@ import { Observable } from 'rxjs';
     
   }
 
-  downloadPDF_entrega(id:number) {
+  downloadPDF_entrega(id:number, nombre: string) {
     this.http.get(`${this.apiurl}/descargar/entrega?id=${id}`, {responseType:"blob"})
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url
-      a.download =`hola.pdf`; 
+      a.download =`${nombre}`;
         a.click();
         window.URL.revokeObjectURL(url);
     })
   }
 
-  downloadPDF_devolucion(id:number) {
+  downloadPDF_devolucion(id:number, nombre: string) {
   this.http.get(`${this.apiurl}/descargar/devolucion?id=${id}`, {responseType:"blob"})
   .subscribe((blob:Blob) => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url
-    a.download =`hola.pdf`; 
+    a.download =`${nombre}`; 
       a.click();
       window.URL.revokeObjectURL(url);
   })

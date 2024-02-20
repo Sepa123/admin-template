@@ -17,8 +17,10 @@ import {LicenciaWindows} from 'src/app/models/mantenedores/licencia.interface'
 import{FirmaEntrega} from 'src/app/models/mantenedores/firma_entrega.interface'
 import{LicenciaYEquipo} from 'src/app/models/mantenedores/licenciaYEquipo.interface'
 // import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+// import bootstrap from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
-
+// import {MatTooltipModule} from '@angular/material/tooltip';
+// import {MatButtonModule} from '@angular/material/button';
 @Component({
   selector: 'app-asignacion',
   templateUrl: './asignacion.component.html',
@@ -175,6 +177,8 @@ rutaDevolucion: AsignadosById[] =[]
        }
 
        ngOnInit(){
+        // const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        // const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
         //trae los equipos que se pueden asignar, aquellos con estado devuelto o chip
         this.service.get_lista_equipos_disponibles().subscribe((data)=>{
@@ -213,11 +217,13 @@ rutaDevolucion: AsignadosById[] =[]
         this.service.get_folio_entrega().subscribe((data=>{
           this.folioEntrega = data
           this.folioE = this.folioEntrega
+          console.log(this.folioE)
         }))
       
         this.service.get_folio_devolucion().subscribe((data)=>{
           this.folioDevolucion = data
           this.folioD = this.folioDevolucion
+          console.log(this.folioD)
         })
 
         this.service.get_lista_de_equipos_generales().subscribe((data)=>{
@@ -482,7 +488,8 @@ asignacionForm = this.fb.group({
   tipo: this.fb.control(0),
   ubicacion: this.fb.control(""),
   ubicacionarchivo: this.fb.control(""),
-  asignado: this.fb.control(false)
+  asignado: this.fb.control(false),
+  firma_devolucion: this.fb.control(false)
   // ubicacionarchivo: this.fb.control("")   
 })
 
@@ -507,14 +514,6 @@ registrarAsignacion(){
         this.service.crearAsignacion(this.asignacionForm.value).subscribe((respuesta)=>{
           console.log('Persona registrada:', respuesta);
           this.asignacionForm.reset()
-          this.asignacionForm.patchValue({
-
-            equipo: 0,
-            persona: 0,
-            departamento :0,
-            tipo: 0
-    
-          })
           this.toggleLiveDemoAsignar()
           this.listaDeAsignaciones()
         }, (error) => {
@@ -543,7 +542,6 @@ registrarAsignacion(){
         console.error('Error al registrar la persona:', error);
         })
       }
-     
     }else {
     this.service.actualizar_asignacion(this.asignacionForm.value).subscribe((respuesta)=>{
       console.log('Persona registrada:', respuesta);
@@ -667,7 +665,6 @@ generarActaEntrega(id: number){
             "observacion": "Se ha generado acta de entrega",
             "lat":this.latStr,
             "long":this.longStr,
-
             }
             console.log(datos)
             //se obtiene datos personales como nombre y apellido
@@ -713,7 +710,6 @@ generarActaEntrega(id: number){
               "equipo_id": this.equiposPorPersona[0].equipo_id
 
             }
-
             //servicio para crear el PDF del acta de entrega
             this.service.datosPDF(body).subscribe((data)=>{
             console.log(data)
@@ -722,7 +718,9 @@ generarActaEntrega(id: number){
               title: 'Acta Generada',
               text: 'Se ha generado el acta con éxito',
               })
-            }) 
+              this.listaDeAsignaciones()
+            })
+            
             //se actualiza el estado del equipo en la tabla asignacion y equipo al realizar la entrega
             this.service.actualizar_crear_acta_entrega(datos).subscribe((data)=>{
               console.log("datos enviados act",datos)
@@ -737,7 +735,7 @@ generarActaEntrega(id: number){
           title: 'No se generó el Acta',
           text: 'Ya existe un acta creado anteriormente, validar información',
         })
-      }    
+      }      
     })    
   }
 }
@@ -752,7 +750,7 @@ generarActaDevolucion(id: number){
     if(idEncontrado){
       this.service.get_lista_asignados_by_id(id).subscribe((data)=>{
         this.personaAsignada = data
-        if(this.personaAsignada[0].folio_devolucion == null){
+        if(this.personaAsignada[0].folio_devolucion == null || this.personaAsignada[0].folio_devolucion == 0 ){
           this.generarFolioDevolucion(this.folioD)
           // console.log("generado folio", this.folioD)
           this.service.get_lista_equipos_asignados_para_Devolver(this.personaAsignada[0].rut).subscribe((data)=>{
@@ -806,6 +804,7 @@ generarActaDevolucion(id: number){
               title: 'Acta Generada',
               text: 'Se ha generado el acta con éxito',
               })
+              this.listaDeAsignaciones()
             }) 
 
             //modelo de datos que permite actualizar el estado del equipo y la asignacion
@@ -1131,21 +1130,39 @@ capturaFotoEquipoDevuelto(event: any){
                 this.asignaciones = data})
             })
           }
-        })
+        })  
     }
 
   
     asignarEstadoDevolucion( id: number){
-      this.toggleLiveDevolucionEstado()
       this.service.get_lista_asignados_by_id(id).subscribe((data)=>{
         this.personaAsignada = data
+        if(this.personaAsignada[0].firma_entrega == true && this.personaAsignada[0].pdf_devolucion){
+          this.toggleLiveDevolucionEstado()
+        }else{
+          Swal.fire({
+            icon: 'error',
+            title: 'No se ha generado Firma',
+            text: 'Verifique que existe una acta de devolución previamente firmada',
+          })
+        }
       })
+      
+      
    }
 
    asignarEstadoEntrega( id: number){
-    this.toggleLiveEntregaEstado()
     this.service.get_lista_asignados_by_id(id).subscribe((data)=>{
       this.personaAsignada = data
+      if(this.personaAsignada[0].pdf_entrega){
+        this.toggleLiveEntregaEstado()
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'No se ha generado Firma',
+          text: 'Verifique que existe una acta de entrega',
+        })
+      }
     })
  }
 
@@ -1165,18 +1182,23 @@ capturaFotoEquipoDevuelto(event: any){
     //por tal motivo el tratamiento de datos para el archivo escaneado es distinto
     this.service.get_firma_devolucion(id).subscribe((data)=>{
       this.firma = data
-      if(this.firma[0].firma_entrega == true){
-        //obtenemos la ruta del pdf para extraer el nombre del archivo el cual se enviara al servicio
-        const rutaPDF = this.firma[0].pdf_entrega
-        const partePDF = rutaPDF?.split("/")
-        if(partePDF){
-          const nombre = partePDF[partePDF?.length-1]
-          if(nombre){
+      console.log(this.firma)
+       //obtenemos la ruta del pdf para extraer el nombre del archivo el cual se enviara al servicio
+       const rutaPDF = this.firma[0].pdf_devolucion
+       const partePDF = rutaPDF?.split("/")
+       if(partePDF){
+        const nombre = partePDF[partePDF?.length-1]
+        console.log(nombre)
+        if(nombre){
+          if(this.firma[0].firma_devolucion == true){
             //se generara la descarga con el nombre del pdf extraido desde la base de datos
             this.service.downloadEscaneado_devolucion(id,nombre)
+          }else{
+            this.service.downloadPDF_devolucion(id, nombre)
           }
         }
-      }this.service.downloadPDF_devolucion(id)
+       }
+  
     })
       
    }
@@ -1184,18 +1206,30 @@ capturaFotoEquipoDevuelto(event: any){
    descargarPDFEntrega(id:number){
     this.service.get_firma_entrega(id).subscribe((data)=>{
       this.firma = data
-      if(this.firma[0].firma_entrega == true){
-        const rutaPDF = this.firma[0].pdf_entrega
-        const partePDF = rutaPDF?.split("/")
-        if(partePDF){
-          const nombre = partePDF[partePDF?.length-1]
-          if(nombre){
+      const rutaPDF = this.firma[0].pdf_entrega
+      const partePDF = rutaPDF?.split("/")
+      if(partePDF){
+        const nombre = partePDF[partePDF?.length-1]
+        if(nombre){
+          if(this.firma[0].firma_entrega == true){
             this.service.downloadEscaneado_entrega(id, nombre)
+          }else{
+            this.service.downloadPDF_entrega(id,nombre)
           }
-        }
-      }else{
-        this.service.downloadPDF_entrega(id)
+        } 
       }
+      // if(this.firma[0].firma_entrega == true){
+      //   const rutaPDF = this.firma[0].pdf_entrega
+      //   const partePDF = rutaPDF?.split("/")
+      //   if(partePDF){
+      //     const nombre = partePDF[partePDF?.length-1]
+      //     if(nombre){
+      //       this.service.downloadEscaneado_entrega(id, nombre)
+      //     }
+      //   }
+      // }else{
+      //   this.service.downloadPDF_entrega(id,nombre)
+      // }
     })
     
   }
@@ -1208,6 +1242,7 @@ capturaFotoEquipoDevuelto(event: any){
       console.log("2", this.asignadosSinSjoin[0].equipo)
       this.service.get_lista_de_asignados_sin_join_por_id(id).subscribe((data)=>{
         this.asignadosSinSjoin = data
+        console.log("3",this.asignadosSinSjoin)
       })
 
       this.service.get_lista_asignados_by_id(id).subscribe((data)=>{

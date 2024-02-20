@@ -50,6 +50,7 @@ export class BuscarRutaComponent {
   latStr!: string
   longStr!: string
 
+  existeEnRuta : boolean = false
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.arrayRutasIngresados, event.previousIndex, event.currentIndex);
 
@@ -135,13 +136,24 @@ export class BuscarRutaComponent {
 
     this.service.get_datos_producto_en_ruta(body).subscribe((data) => { 
 
-      this.productoRuta = data
+      this.productoRuta = [data[0]]
+      console.log(this.productoRuta[0].Nombre_ruta+"")
+      console.log("La ruta es",this.nombreRuta)
+      if (this.rutaSeleccionada == this.productoRuta[0].Nombre_ruta+""){
+        this.existeEnRuta = true
+      }else{
+        this.existeEnRuta = false
+      }
 
       this.arrProductosRuta.push(this.productoRuta[0])
 
       this.Descripcion_producto = this.productoRuta[0].Descripcion_producto
 
       this.nombreRuta = this.productoRuta[0].Nombre_ruta+""
+
+      console.log(this.existeEnRuta)
+
+      
 
       if(this.arrayRutasIngresados.length == 0){
 
@@ -155,6 +167,7 @@ export class BuscarRutaComponent {
           
        })
       }
+      this.idPedido = ""
     },
     ((error) => {
       this.idPedido = ""
@@ -173,6 +186,8 @@ export class BuscarRutaComponent {
     this.arrayRutasIngresados = []
     this.isLoadingTable =true
     this.service.get_ruta_by_nombre_ruta(this.rutaSeleccionada).subscribe((data) => {
+
+      this.nombreRuta = this.rutaSeleccionada
       this.arrayRuta = data
       this.fechaPedido = this.arrayRuta[0].Fecha_ruta+""
       const agrupadoPorPosicion : any = {};
