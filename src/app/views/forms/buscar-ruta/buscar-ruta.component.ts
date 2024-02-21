@@ -19,6 +19,7 @@ export class BuscarRutaComponent {
   arrayRuta! : ProductoPicking []
 
   productoRuta : ProductoPicking [] = []
+  productoRutaModal : ProductoPicking [] = []
   arrProductosRuta: ProductoPicking[] = []
 
   arrayRutasIngresados : ProductoPicking[] [] = []
@@ -95,6 +96,22 @@ export class BuscarRutaComponent {
     });
   }
 
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    this.isModalOpen = true
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
+
   ngOnInit() {
 
     this.getLocation()
@@ -135,6 +152,8 @@ export class BuscarRutaComponent {
     }
 
     this.service.get_datos_producto_en_ruta(body).subscribe((data) => { 
+
+      this.productoRutaModal = data
 
       this.productoRuta = [data[0]]
       console.log(this.productoRuta[0].Nombre_ruta+"")
@@ -178,6 +197,26 @@ export class BuscarRutaComponent {
 
   cambiarEncontrado(index : number){
     this.arrayRutasIngresados[index][0].Encontrado = !this.arrayRutasIngresados[index][0].Encontrado
+
+    this.arrayRutasIngresados[index][0].Notas
+
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+    this.idUsuario = sessionStorage.getItem("id")+""
+    const body = {
+      "id_usuario": parseInt(sessionStorage.getItem("id")+""),
+      "cliente": this.arrayRutasIngresados[index][0].Notas,
+      "n_guia": this.arrayRutasIngresados[index][0].Codigo_pedido,
+      "sku": this.arrayRutasIngresados[index][0].SKU,
+      "cod_pedido": this.arrayRutasIngresados[index][0].Codigo_pedido,
+      "cod_producto" : this.arrayRutasIngresados[index][0].Codigo_producto,
+      "ids_usuario" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+      "latitud" : this.latStr,
+      "longitud" : this.longStr,
+      "observacion" : "Pickeo producto en Buscar Ruta por click ticket"
+    }
+    this.service.registar_producto_ticket(body).subscribe((data : any) => {
+      console.log(data.message)
+    })
   }
 
   seleccionarRuta(){
@@ -186,6 +225,12 @@ export class BuscarRutaComponent {
     this.arrayRutasIngresados = []
     this.isLoadingTable =true
     this.service.get_ruta_by_nombre_ruta(this.rutaSeleccionada).subscribe((data) => {
+
+      if (this.rutaSeleccionada == this.nombreRuta){
+        this.existeEnRuta = true
+      }else{
+        this.existeEnRuta = false
+      }
 
       this.nombreRuta = this.rutaSeleccionada
       this.arrayRuta = data

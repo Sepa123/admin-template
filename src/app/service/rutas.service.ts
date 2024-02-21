@@ -221,5 +221,9 @@ export class RutasService {
   get_bitacora_li_tracking(cod_pedido : string){
     return this.http.get<BitacoraLITracking[]>(this.apiurl + `/bitacora/log_inversa?cod_pedido=${cod_pedido}` )  
   }
+
+  registar_producto_ticket(body: any) {
+    return this.http.post(this.apiurl + `/encontrar/producto/ruta`, body)
+  }
   
 }
