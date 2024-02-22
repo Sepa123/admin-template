@@ -8,7 +8,9 @@ export enum Marca{
     "Iphone" = "Iphone",
     "Samsung" = "Samsung",
     "Entel" = "Entel",
-    "Genéricos" =  "Genéricos"
+    "Genéricos" =  "Genéricos",
+    "Kensington" = "Kensington",
+    "TP-Link" = "TP-Link"
 
 
 }
