@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RutasService } from 'src/app/service/rutas.service';
 import { TocService } from 'src/app/service/toc.service';
 import { TrackingBeetrack,LineaProducto } from 'src/app/models/trackingBeetrack.interface'
@@ -266,7 +266,8 @@ verObservacion(obs : string | null){
   }
 
   buscarTrackBeetrack(codigo : string){
-      this.service.get_lista_funciones(codigo).subscribe(data => {this.arrayProductos = data; console.log(this.arrayProductos)})
+      this.service.get_lista_funciones(codigo).subscribe(data => {this.arrayProductos = data; console.log(this.arrayProductos)
+      return })
     }
     
   buscarAlerta(codigo : string){
@@ -277,6 +278,7 @@ verObservacion(obs : string | null){
         if(data.length !== 0){
           this.service.buscar_guia_by_codigo(codigo).subscribe((data : any)=> {
             this.guiaActual = data.Guia
+            
           })
         }
         this.arrayTOCTracking.map(toc => {
@@ -291,6 +293,7 @@ verObservacion(obs : string | null){
           }
         })
         this.buscaAlerta = true
+        this.codigoPick = ''
         
     }, error => {
   
