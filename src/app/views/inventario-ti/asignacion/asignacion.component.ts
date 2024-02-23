@@ -1154,6 +1154,7 @@ capturaFotoEquipoDevuelto(event: any){
    asignarEstadoEntrega( id: number){
     this.service.get_lista_asignados_by_id(id).subscribe((data)=>{
       this.personaAsignada = data
+      console.log(this.personaAsignada)
       if(this.personaAsignada[0].pdf_entrega){
         this.toggleLiveEntregaEstado()
       }else{

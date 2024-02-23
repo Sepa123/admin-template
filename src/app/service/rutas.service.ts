@@ -192,6 +192,10 @@ export class RutasService {
     return this.http.post(this.apiurl + "/armar/bloque", body)
   }
 
+  recalcular_posicion_rutas(nombre_ruta : number){
+    return this.http.get(this.apiurl + `/recalcular/ruta/${nombre_ruta}`)
+  }
+
   verificar_pedido_en_ruta(pedido_id : number){
     return this.http.get(this.apiurl + `/pedido/en_ruta/${pedido_id}`)
   }

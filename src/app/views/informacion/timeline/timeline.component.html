@@ -8,17 +8,16 @@
 </head>
 <body>
     
-    <div>
-        <input class="input" placeholder="Codigo Pedido"  *ngIf="!loadingData" [(ngModel)]="codigoPick" (change)="buscarAlerta(codigoPick)" (change)="buscarCabecera(codigoPick)" (change)="buscarTrackBeetrack(codigoPick)">
+    <div id="formulario">
+        <input class="input"   placeholder="Codigo Pedido"  *ngIf="!loadingData" [(ngModel)]="codigoPick" name="codigoPick" (change)="buscarAlerta(codigoPick)" (change)="buscarCabecera(codigoPick)" (change)="buscarTrackBeetrack(codigoPick)">
 
-        <!-- <input class="buscarAlerta" Placeholder="Buscar Alerta" type="text" *ngIf="!loadingData" [(ngModel)]="codigoPedido" (change)="buscarAlerta(codigoPedido)"> -->
     </div>
   
-    
-     <section id="timeline">
-        <br>
-        <h1 class="heading">Historial de pedido: {{codigoPick}}</h1>
-        <div *ngFor="let Cabecera of arrayBuscarCabecera">
+     <section id="timeline" *ngFor="let Cabecera of arrayBuscarCabecera">
+        <br >
+        <br >
+        <h1 class="heading">Historial de pedido: {{Cabecera.Codigo_pedido}}</h1>
+        <div >
           <h2>{{Cabecera.Descripcion_producto}}</h2>
         </div>
 
@@ -51,6 +50,7 @@
                           <svg *ngIf="Producto.Icono == 7"  class="fa-brands fa-html5" xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 512 512"><path fill="currentColor" d="M425.706 86.294A240 240 0 0 0 86.294 425.705A240 240 0 0 0 425.706 86.294M256 48a207.1 207.1 0 0 1 135.528 50.345L98.345 391.528A207.1 207.1 0 0 1 48 256c0-114.691 93.309-208 208-208m0 416a207.084 207.084 0 0 1-134.986-49.887l293.1-293.1A207.084 207.084 0 0 1 464 256c0 114.691-93.309 208-208 208"/></svg>
                           <svg *ngIf="Producto.Icono == 6"  class="fa-brands fa-html5" xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 512 512"><path fill="currentColor" d="M448.205 392.507c30.519-27.2 47.8-63.455 47.8-101.078c0-39.984-18.718-77.378-52.707-105.3C410.218 158.963 366.432 144 320 144s-90.218 14.963-123.293 42.131C162.718 214.051 144 251.445 144 291.429s18.718 77.378 52.707 105.3c33.075 27.168 76.861 42.13 123.293 42.13c6.187 0 12.412-.273 18.585-.816l10.546 9.141A199.849 199.849 0 0 0 480 496h16v-34.057l-4.686-4.685a199.17 199.17 0 0 1-43.109-64.751M370.089 423l-21.161-18.341l-7.056.865A180.275 180.275 0 0 1 320 406.857c-79.4 0-144-51.781-144-115.428S240.6 176 320 176s144 51.781 144 115.429c0 31.71-15.82 61.314-44.546 83.358l-9.215 7.071l4.252 12.035a231.287 231.287 0 0 0 37.882 67.817A167.839 167.839 0 0 1 370.089 423"/><path fill="currentColor" d="M60.185 317.476a220.491 220.491 0 0 0 34.808-63.023l4.22-11.975l-9.207-7.066C62.918 214.626 48 186.728 48 156.857C48 96.833 109.009 48 184 48c55.168 0 102.767 26.43 124.077 64.3c3.957-.192 7.931-.3 11.923-.3q12.027 0 23.834 1.167c-8.235-21.335-22.537-40.811-42.2-56.961C270.072 30.279 228.3 16 184 16S97.928 30.279 66.364 56.206C33.886 82.885 16 118.63 16 156.857c0 35.8 16.352 70.295 45.25 96.243a188.4 188.4 0 0 1-40.563 60.729L16 318.515V352h16a190.643 190.643 0 0 0 85.231-20.125a157.3 157.3 0 0 1-5.071-33.645a158.729 158.729 0 0 1-51.975 19.246"/></svg>
                           <svg *ngIf="Producto.Icono == 8"  class="fa-brands fa-html5" xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 512 512"><path fill="currentColor" d="M408 406.545V248H288v158.545ZM320 280h56v94.545h-56Z"/><path fill="currentColor" d="M271.078 33.749a34 34 0 0 0-47.066.984L32 226.745V496h112V336h64v160h272V225.958ZM448 464H240V304H112v160H64V240L249.412 57.356V57.3L448 240Z"/></svg> 
+                          <svg *ngIf="Producto.Icono == 9"  class="fa-brands fa-html5" xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 512 512"><path fill="currentColor" d="M448 80a24.027 24.027 0 0 0 24-24V16h-32v32H264a24.027 24.027 0 0 0-24 24v40h-31.375A88.725 88.725 0 0 0 120 200.625v159.946C120 435.247 180.753 496 255.429 496h1.142C331.247 496 392 435.247 392 360.571V200.625A88.725 88.725 0 0 0 303.375 112H272V80ZM152 200.625A56.689 56.689 0 0 1 208.625 144H240v88h-88Zm208 159.946A103.545 103.545 0 0 1 256.571 464h-1.142A103.545 103.545 0 0 1 152 360.571V264h208ZM303.375 144A56.689 56.689 0 0 1 360 200.625V232h-88v-88Z"/></svg>
 
                               * {{Producto.Origen}}. || Creado por <span><b>{{Producto.Created_by}}</b></span>
                         </p>
@@ -84,16 +84,16 @@
           </tr>
         </thead>
         <tbody >
-            <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
-              <c-modal-header style="justify-content: center;">
-                <h5 cModalTitle>Observación </h5>
-                <button  (click)="toggleLiveDemo()"cButtonClose></button>
+            <c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+              <c-modal-header class="modal-header-custom">
+                <h5 cModalTitle class="modal-title">Observación </h5>
+                <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
               </c-modal-header>
-              <c-modal-body>
+              <c-modal-body class="modal-body-custom">
                   <p style="font-size:15px;">{{observacionActual}}</p>
               </c-modal-body>
-              <c-modal-footer style=" text-size-adjust: 10px;" >
-                <button (click)="toggleLiveDemo()" cButton color="secondary">
+              <c-modal-footer class="modal-footer-custom" >
+                <button class="cButtonClose" (click)="toggleLiveDemo()" cButton color="secondary">
                   Cerrar
                 </button>
               </c-modal-footer>
@@ -114,6 +114,7 @@
             <!-- <td *ngIf="rol == '5' || rol == '22' ">{{toc.Creado_por}}</td> -->
           </tr>
         <!-- </ng-container> -->
+        </tbody>
 
         </table>
       </div>

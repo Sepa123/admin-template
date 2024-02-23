@@ -147,7 +147,7 @@ export class BuscarRutaComponent {
       "ids_usuario" : this.idPortal,
       "latitud" : this.latStr,
       "longitud" : this.longStr,
-      "observacion" : "Pickeo producto en Buscar Ruta"
+      "observacion" : "Pickeo producto en Despacho Ruta"
       // "cod_sku" : sku
     }
 
@@ -212,7 +212,7 @@ export class BuscarRutaComponent {
       "ids_usuario" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
       "latitud" : this.latStr,
       "longitud" : this.longStr,
-      "observacion" : "Pickeo producto en Buscar Ruta por click ticket"
+      "observacion" : "Pickeo producto en Despacho Ruta por click ticket"
     }
     this.service.registar_producto_ticket(body).subscribe((data : any) => {
       console.log(data.message)

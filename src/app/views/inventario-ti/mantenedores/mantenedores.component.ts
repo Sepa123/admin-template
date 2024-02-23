@@ -381,6 +381,13 @@ export class MantenedoresComponent implements OnInit {
     this.rut = event.target.value
     this.service.get_persona_por_rut(this.rut).subscribe((data)=>{
       this.personas = data
+      if(this.personas.length == 0){
+        Swal.fire({ 
+          icon: 'error',
+          title: 'RUT no encontrado',
+          text: 'Por favor, validar que el RUT ingresado sea válido',
+          })
+      }
     })
 
   }

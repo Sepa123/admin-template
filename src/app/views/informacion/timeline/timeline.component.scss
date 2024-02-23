@@ -268,7 +268,28 @@ body{
     text-align: center;
   }
 
-  
+  .modal-header-custom {
+    background-color: transparent;
+    padding: 4px; /* Cambiar el color de fondo del encabezado */
+  }
+  /* Modificar el estilo del título del modal */
+  .modal-title {
+    color: black; /* Cambiar el color del título */
+    font-size: 20px;
+    padding: 7px; /* Cambiar el tamaño del texto */
+  }
 
+  /* Modificar el estilo del cuerpo del modal */
+  .modal-body-custom {
+    font-size: 30px;
+    padding: 15px;     /* Cambiar el tamaño del texto del cuerpo */
+  }
 
-  
+  /* Modificar el estilo del pie del modal */
+  .modal-footer-custom {
+    text-align: center; 
+    padding: 10px; /* Centrar el contenido del pie */
+  }
+  .cButtonClose{
+    padding: 7px;
+  }
