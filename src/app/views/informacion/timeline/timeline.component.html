@@ -10,14 +10,14 @@
     
     <div id="formulario">
         <input class="input"   placeholder="Codigo Pedido"  *ngIf="!loadingData" [(ngModel)]="codigoPick" name="codigoPick" (change)="buscarAlerta(codigoPick)" (change)="buscarCabecera(codigoPick)" (change)="buscarTrackBeetrack(codigoPick)">
-
     </div>
   
     
-     <section id="timeline" *ngFor="let Cabecera of arrayBuscarCabecera">
-        <br >
-        <h1 class="heading">Historial de pedido: {{Cabecera.Codigo_pedido}}</h1>
-        <div >
+     <section id="timeline"> 
+        <div *ngFor="let Cabecera of arrayBuscarCabecera.slice(0 , 1)">
+          <h1 class="heading">Historial de pedido: {{Cabecera.Codigo_pedido}}</h1>
+        </div>
+        <div *ngFor="let Cabecera of arrayBuscarCabecera">
           <h2>{{Cabecera.Descripcion_producto}}</h2>
         </div>
 
