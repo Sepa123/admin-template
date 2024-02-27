@@ -13,11 +13,12 @@
 
     </div>
   
-     <section id="timeline" *ngFor="let Cabecera of arrayBuscarCabecera">
-        <br >
-        <br >
+
+    <section id="timeline"> 
+      <div *ngFor="let Cabecera of arrayBuscarCabecera.slice(0 , 1)">
         <h1 class="heading">Historial de pedido: {{Cabecera.Codigo_pedido}}</h1>
-        <div >
+      </div>
+        <div *ngFor="let Cabecera of arrayBuscarCabecera">  
           <h2>{{Cabecera.Descripcion_producto}}</h2>
         </div>
 

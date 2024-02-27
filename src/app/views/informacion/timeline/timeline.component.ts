@@ -261,15 +261,17 @@ verObservacion(obs : string | null){
       });
   }
 
-  buscarCabecera(codigo:string){
+  buscarCabecera(codigo: string){
     this.service.buscar_cabecera_producto(codigo).subscribe(data => {this.arrayBuscarCabecera = data; console.log(this.arrayBuscarCabecera)})
     console.log(this.buscarCabecera)
   }
 
   buscarTrackBeetrack(codigo : string){
-    this.service.get_lista_funciones(codigo).subscribe(data => {this.arrayProductos = data; console.log(this.arrayProductos)
-       })
-    }
+    this.service.get_lista_funciones(codigo).subscribe(data => {
+      this.arrayProductos = data; 
+      console.log(this.arrayProductos)
+    })
+  }
     
   buscarAlerta(codigo : string){
 
