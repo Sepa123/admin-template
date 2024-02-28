@@ -24,7 +24,7 @@ import Swal from 'sweetalert2';
 })
 export class InventarioTiComponent implements OnInit {
 
-    
+  show: boolean = false
   isModalOpen: boolean = false
   mostrarTipo: boolean = false;
   mostrarEquipo: boolean = false;
@@ -369,6 +369,25 @@ export class InventarioTiComponent implements OnInit {
       })
     }
   }
+  estadoChip(){
+    this.service.get_subestado_chip().subscribe((data)=> {
+      this.subestados = data
+      this.show = true
+    })
+  }
+  filterByChip(nombreEquipo : string){
+    this.TodosEquipos = nombreEquipo
+    if(nombreEquipo === "Todos"){
+      this.service.get_lista_descripcion_por_equipo().subscribe((data)=>{
+        this.equipos =data.filter(equipo => equipo.tipo?.toString() == "Chip")
+      })
+    }else{
+      this.service.get_chip_by_estado().subscribe((data)=>{
+        this.equipos =data.filter(equipo => equipo.subestado?.toString() == nombreEquipo)
+      })
+    }  
+  }
+
 
   filterBySerial(event: any){
     this.serial = event.target.value
@@ -525,7 +544,8 @@ cambioHabilitarPersona(id: number){
     poleron: this.fb.control(""),
     req_comp: this.fb.control(false),
     req_cel: this.fb.control(false),
-    observacion: this.fb.control("Nueva Persona creada")
+    observacion: this.fb.control("Nueva Persona creada"),
+    habilitado: true
   
     })
     //validacion, si el rut del usuario ya existe no se deberia poder crear otra persona con el mismo

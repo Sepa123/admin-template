@@ -212,7 +212,9 @@ import { HttpHeaders } from '@angular/common/http';
     }
 
     //OBTENCIA DE LA LISTA DE LOS DATOS 
-
+    get_chip_by_estado(){
+      return this.http.get<Equipo[]>(this.apiurl+"/chip-by-estado")
+    }
     busquedaPorFolio(id: string){
       return this.http.get<Asignacion>(this.apiurl+`/folio/${id}`)
     }
@@ -293,6 +295,9 @@ import { HttpHeaders } from '@angular/common/http';
     }
     get_lista_de_subestados(){
       return this.http.get<SubEstado[]>(this.apiurl+"/lista-subestado")
+    }
+    get_subestado_chip(){
+      return this.http.get<SubEstado[]>(this.apiurl+"/lista-subestado-chip")
     }
 
     get_lista_de_sucursal(){
