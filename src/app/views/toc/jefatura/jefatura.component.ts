@@ -198,6 +198,7 @@ export class JefaturaComponent {
     if (this.validarDiferenciaFechas(this.fecha_inicio,this.fecha_fin) == false) return alert("La diferencia entre las fechas debe ser de un día o más")
     
     let myset = [...new Set(arrayFechas)]
+    console.log(myset)
 
     myset.map( (fecha , i) => {
       setTimeout(() => {

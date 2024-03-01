@@ -1,0 +1,83 @@
+<c-row ngPreserveWhitespaces>  
+
+    
+    <!-- <div class="col-md-6 mx-auto"> -->
+        <h2>Diferencia fechas Easy</h2>
+  <c-row>
+    <c-col [xs]>
+      Fecha Inicio
+  <input type="date"  class="form-control" placeholder="Fecha" [(ngModel)]="fecha_inicio"  required>
+    </c-col>
+    
+    <c-col [xs]>
+      Fecha Fin
+      <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fecha_fin"  required>
+    </c-col>
+  </c-row>
+  <p></p>
+
+  <c-row>
+    <c-col >
+      <button  (click)="buscar()" cButton  color="secondary" size="sm" [disabled]="bloqBuscar">buscar</button>
+    </c-col>
+    <c-col *ngIf="contador !== 0" >
+      Registros : <label style="font-weight: bold;">{{contador}} <img width="40" *ngIf="isLoadingFull" height="50" src="../../../assets/images/loading-gif.gif" /></label>
+      <!-- <button  (click)="buscar()" cButton  color="secondary" size="sm">buscar</button> -->
+    </c-col>
+  </c-row>
+  <p></p>
+  <div class="greenTable" >
+    <p></p>
+    <table id="tablaProductosPicking" >
+    <thead>
+      <tr>
+        <th>Ciente</th>
+        <th>Ingreso sistema</th>
+        <th>Fecha compromiso</th>
+        <th>Ultima actualización</th>
+        <th>Dias Ejecución</th>
+        <!-- <th>Observación</th> -->
+        <th>Código Pedido</th>
+        <!-- <th>Dirección</th> -->
+        <th>Comuna</th>
+        <th>Descripción</th>
+        <!-- <th>Unidades</th> -->
+        <th>Estado</th>
+        <th>Subestado</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <!-- <td colspan="11" *ngIf="isLoadingFull"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td> -->
+    </tr>
+    <tr *ngFor="let dato of datosDif;let i = index ">
+        <td>{{dato.Cliente}}</td>
+        <td>{{dato.Ingreso_sistema}}</td>
+        <td>{{dato.Fecha_compromiso}}</td>
+        <td>{{dato.Ultima_actualizacion}}</td>
+        <td>{{dato.Dias_ejecucion}}</td>
+        <!-- <td>{{dato.Cod_pedido}}</td> -->
+        <td>{{dato.Id_entrega}}</td>
+        <!-- <td >{{dato.Direccion}}</td>  -->
+        <td>{{dato.Comuna}}</td>
+        <td>{{dato.Descripcion}}</td>
+        <!-- <td>{{dato.Unidades}}</td> -->
+        <td>{{dato.Estado}}</td>
+        <td>{{dato.Subestado}}</td>
+    </tr>
+    <tr *ngIf="noHayRegistro">
+     <td colspan="11">
+      no hay registros
+     </td> 
+    </tr>
+    
+    </tbody>
+    </table>
+  </div>
+
+  <p></p>
+  <button (click)="descargarExcel()">descargar</button>
+  <c-row>
+    
+
+</c-row>

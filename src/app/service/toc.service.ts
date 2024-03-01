@@ -11,6 +11,7 @@ import { ActividadDiariaTOC } from 'src/app/models/actividadesDiariasTOC.interfa
 import { BackofficeUsuarioTOC } from 'src/app/models/backofficeUsuarioTOC.interface'
 import { TocTracking } from 'src/app/models/tocTracking.interface'
 import { EditarTOC, AlertaExistenteTOC } from 'src/app/models/editarTOC.interface'
+import { MainDifFechasEasy,Dato } from 'src/app/models/TOC/difFechasEasy.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,8 @@ export class TocService {
 
   constructor(private http: HttpClient) { }
 
-  apiurl = "https://hela.transyanez.cl/api/toc"
-  // apiurl = "http://127.0.0.1:8000/api/toc"
+  // apiurl = "https://hela.transyanez.cl/api/toc"
+  apiurl = "http://127.0.0.1:8000/api/toc"
 
   buscar_producto_toc(cod_producto : string){
     return this.http.get<ProductoToc>(this.apiurl + `/buscar_producto/${cod_producto}`)
@@ -85,5 +86,24 @@ export class TocService {
 
   buscar_guia_by_codigo(codigo : string){
     return this.http.get(this.apiurl + `/guia/${codigo}`)
+  }
+
+  get_diferencia_fechas_easy(fecha_inicio : string,fecha_fin : string,offset : number){
+    return this.http.get<MainDifFechasEasy>(this.apiurl + `/diferencia/fechas/easy?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
+  }
+
+
+  download_reporte_easy_diferencia(body : Dato [], var_random : string){
+    this.http.post(this.apiurl + `/diferencia/fechas/easy/descargar`, body,{responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `preuba.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+
+    
   }
 }

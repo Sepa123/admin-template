@@ -56,8 +56,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgChartsModule } from 'ng2-charts';
 
 
-
-
 // import { RutaManulaComponent } from './views/ruta-manula/ruta-manula.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
