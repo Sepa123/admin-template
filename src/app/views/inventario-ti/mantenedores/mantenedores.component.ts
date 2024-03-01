@@ -23,7 +23,7 @@ import Swal from 'sweetalert2';
 })
 export class MantenedoresComponent implements OnInit {
 
-    
+  show: boolean = false
   isModalOpen: boolean = false
   mostrarTipo: boolean = false;
   mostrarEquipo: boolean = false;
@@ -368,6 +368,25 @@ export class MantenedoresComponent implements OnInit {
       })
     }
   }
+  estadoChip(){
+    this.service.get_subestado_chip().subscribe((data)=> {
+      this.subestados = data
+      this.show = true
+    })
+  }
+  filterByChip(nombreEquipo : string){
+    this.TodosEquipos = nombreEquipo
+    if(nombreEquipo === "Todos"){
+      this.service.get_lista_descripcion_por_equipo().subscribe((data)=>{
+        this.equipos =data.filter(equipo => equipo.tipo?.toString() == "Chip")
+      })
+    }else{
+      this.service.get_chip_by_estado().subscribe((data)=>{
+        this.equipos =data.filter(equipo => equipo.subestado?.toString() == nombreEquipo)
+      })
+    }  
+  }
+
 
   filterBySerial(event: any){
     this.serial = event.target.value
@@ -389,6 +408,7 @@ export class MantenedoresComponent implements OnInit {
           })
       }
     })
+   
 
   }
 
@@ -523,7 +543,8 @@ cambioHabilitarPersona(id: number){
     poleron: this.fb.control(""),
     req_comp: this.fb.control(false),
     req_cel: this.fb.control(false),
-    observacion: this.fb.control("Nueva Persona creada")
+    observacion: this.fb.control("Nueva Persona creada"),
+    habilitado: true
   
     })
     //validacion, si el rut del usuario ya existe no se deberia poder crear otra persona con el mismo
@@ -1167,15 +1188,12 @@ cambioHabilitarPersona(id: number){
             subestado : this.subestadoSeleccionado,
             estado: this.estadoAsignado,
             status:  this.estadoAsignado
-   
-            
           })
           this.service.crear_descripcion_equipo(this.equipoDescripcionForm.value).subscribe(
             (respuesta) => {
               console.log(this.equipoDescripcionForm.value)
               this.service.get_ultimo_equipo_creado().subscribe((data)=>{
                 const body={
-                 
                   "id": data[0],
                   "id_user": parseInt(sessionStorage['id']),
                   "ids_user": sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
@@ -1197,7 +1215,6 @@ cambioHabilitarPersona(id: number){
                 this.listarEquiposyDescripcion()
                 })
                 })
-              
               },
               (error) => {
                 Swal.fire({

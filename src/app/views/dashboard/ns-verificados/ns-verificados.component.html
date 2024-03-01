@@ -57,4 +57,54 @@
     <p></p>
     </c-col>
 </c-row>
+<p>
+</p>
 
+<c-row>
+  <c-col>
+    <h2> Nivel de Servicio Fecha Compromiso Inicial</h2>
+    <p></p>
+    <table> 
+      <tr>
+        <td>
+          <input  type="date" class="form-control" name="" id="" [(ngModel)]="fechaNsCompromiso">
+        </td>
+        <td>
+          <input type="button" class="form-control" value="buscar" (click)="buscarNsCompromisoPorFecha()" >
+        </td>
+      </tr>
+  
+  </table>
+    <p></p>
+    <table class="greenTable">
+      <thead>
+        <tr >
+          <th scope="col">Cliente</th>
+          <th scope="col">Compromiso Real</th>
+          <th scope="col">Entregados</th>
+          <th scope="col">Anulados</th>
+          <th scope="col">Nivel Servicio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ns of datosNs">
+          <td>{{ ns.Cliente }}</td>
+          <td>{{ ns.Compromiso_real }}</td>
+          <td>{{ ns.Entregados }}</td>
+          <td>{{ ns.Anulados }}</td>
+          <td>{{ ns.Nivel_servicio }} %</td>
+        </tr>
+        <tr *ngIf="isLoadingTableNS == false" >
+          <td > <label for=""  style="font-weight: bolder;">Promedio</label></td>
+          <td ></td>
+          <td ></td>
+          <td ></td>
+          <td > <label for=""  style="font-weight: bolder;">{{promedio}}</label> %</td>
+        </tr>
+        <tr>
+          <td colspan="5" *ngIf="isLoadingTableNS"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+        </tr>
+      </tbody>
+     </table> 
+  </c-col>
+</c-row>

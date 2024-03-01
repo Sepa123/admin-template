@@ -202,7 +202,7 @@ export class JefaturaComponent {
     myset.map( (fecha , i) => {
       setTimeout(() => {
         this.bitacoraTOCRangoFecha(fecha,fecha) 
-      }, 7500 * i)
+      }, 10500 * i)
       
     })
 

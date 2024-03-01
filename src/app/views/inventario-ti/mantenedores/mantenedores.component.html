@@ -897,6 +897,19 @@
       </ul>
     </c-dropdown> 
   </div>
+  <div class="contenedor-filtro">
+    <button size="sm" cButton (click)="estadoChip()"><b>Estado Chip</b></button>
+    <c-dropdown *ngIf="show">
+      <button cButton cDropdownToggle color="secondary" size="sm">
+        Chip
+      </button>
+      <ul cDropdownMenu>
+        <li><a [routerLink]="[]" (click)="filterByChip('Todos')" cDropdownItem>Todos los chips</a></li>
+        <li *ngFor="let equipo of subestados"><a [routerLink]="[]" (click)="filterByChip(equipo.descripcion)" cDropdownItem>{{equipo.descripcion}}</a></li>
+      </ul>
+    </c-dropdown> 
+
+  </div>
 </div>
 
 <div class="greenTable show" *ngIf=" mostrarEquipo  && equipos.length ==0" >   
@@ -950,7 +963,7 @@
         <tbody>
             <tr *ngFor="let inventario of equipos">
               <td>{{inventario.marca ? inventario.marca :'---'}}</td>
-              <td>{{inventario.modelo ? inventario.modelo :'---'}}</td>
+              <td>{{inventario.modelo ? inventario.modelo :inventario.descripcion}}</td>
               <td>{{inventario.serial ? inventario.serial :'---'}}</td>
       
               <!-- <td>{{inventario.mac_wifi}}</td>
@@ -1342,4 +1355,3 @@
         </tbody>
     </table>
 </div>
- 

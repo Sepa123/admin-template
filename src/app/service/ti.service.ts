@@ -18,6 +18,7 @@ import { CargasComparacion } from '../models/cargasComparacion.interface';
 import { NSBeetrackRango } from '../models/nsBeetrackRango.interface'
 import { PendienteBodega } from '../models/pendienteBodega.interface'
 import { NsVerificado } from '../models/nsVerificado.interface'
+import { MainNs } from '../models/nivel_servicio/nsFechaCompromisoReal.interface'
 
 import { interval,Observable, switchMap  } from 'rxjs';
 @Injectable({
@@ -218,11 +219,11 @@ export class TIService {
   /// Pedidos pendientes actualización cada 2 minutos
   
   get_pedidos_pendientes_total_update() {
-    return interval(110000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/total")))
+    return interval(118000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/total")))
   }
 
   get_pedidos_pendientes_entregados_update() {
-    return interval(110000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/entregados")))
+    return interval(112000).pipe(switchMap(() => this.http.get<PedidosPendientes[]>(this.apiurl + "/pedidos/pendientes/entregados")))
   }
 
   get_pedidos_pendientes_no_entregados_update() {
@@ -241,6 +242,7 @@ export class TIService {
   get_cargas_easy_wms_update() : Observable<any> {
     return interval(120000).pipe(switchMap(() => this.http.get<CargasComparacion[]>(this.apiurl + "/cargas_easy/wms")))
   }
+  
 
   //
 
@@ -271,12 +273,26 @@ export class TIService {
 
 
   update_pendiente_bodega() : Observable<any>{
-    return interval(30000).pipe(switchMap(() => this.http.get<PendienteBodega []>(this.apiurl + "/pendientes/bodega") ))  
+    return interval(30900).pipe(switchMap(() => this.http.get<PendienteBodega []>(this.apiurl + "/pendientes/bodega") ))  
   }
 
 
   get_ns_verificados(fecha_inicio : string,fecha_fin: string){
     return this.http.get <NsVerificado []>(this.apiurl + `/ns/verificados?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`)
+
+  }
+
+
+  get_ns_fecha_compromiso_real(fecha: string){
+    return this.http.get<MainNs>(this.apiurl + `/ns/fecha_c_real?fecha=${fecha}`)
+
+  }
+
+
+  ns_fecha_compromiso_real_update(fecha: string){
+
+    return interval(41200).pipe(switchMap(() => this.http.get<MainNs>(this.apiurl + `/ns/fecha_c_real?fecha=${fecha}`)))  
+    // return this.http.get<MainNs>(this.apiurl + `/ns/fecha_c_real?fecha=${fecha}`)
 
   }
   

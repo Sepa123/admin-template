@@ -79,7 +79,7 @@ export const navItems: INavDataBar[] = [
         roles : ['5','13','14']
       },
       {
-        name: 'NS Verificados',
+        name: 'Nivel Servicio',
         url: '/dashboard/ns-verificados'
        },
       {
@@ -317,7 +317,7 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
-    // Pantalla muestra para ruteador_pickeador Y JEFE TOC
+    // Pantalla muestra para ruteador_pickeador
     name: 'Rutas',
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
@@ -330,6 +330,31 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Rutas Activas',
         url: '/picking/rutas-activas'
+      },
+      {
+        name : 'Despacho Ruta',
+        url : '/picking/buscar-ruta'
+      }
+    ]
+  },
+  {
+    // Pantalla muestra para JEFE TOC
+    name: 'Rutas',
+    url: '/picking',
+    iconComponent: { name: 'cil-truck' },
+    roles : [ROLES_ENUM.JEFE_TOC],
+    children: [
+      {
+        name: 'Crear Ruta',
+        url: '/picking/ruta-manual'
+      },
+      {
+        name: 'Rutas Activas',
+        url: '/picking/rutas-activas'
+      },
+      {
+        name : 'Despacho Ruta',
+        url : '/picking/buscar-ruta'
       }
     ]
   },
@@ -504,10 +529,10 @@ export const navItems: INavDataBar[] = [
         name: 'Electrolux',
         url: '/recepcion/electrolux'
       },
-      {
-        name: 'Sportex',
-        url: '/recepcion/sportex'
-      },
+      // {
+      //   name: 'Sportex',
+      //   url: '/recepcion/sportex'
+      // },
       {
         name: 'Producto Sin Recepcionar',
         url: '/recepcion/productoSinRecepcion'

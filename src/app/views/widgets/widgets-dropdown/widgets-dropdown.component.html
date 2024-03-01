@@ -151,6 +151,44 @@
     </c-col>
   </c-row>
 
+  <p ngClass="letraGrande">Nivel de Servicio Fecha Compromiso Inicial</p> 
+
+  <c-row>
+    <c-col>
+      <table class="greenTable">
+        <thead>
+          <tr >
+            <th scope="col">Cliente</th>
+            <th scope="col">Compromiso Real</th>
+            <th scope="col">Entregados</th>
+            <th scope="col">Anulados</th>
+            <th scope="col">Nivel Servicio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ns of datosNs">
+            <td>{{ ns.Cliente }}</td>
+            <td>{{ ns.Compromiso_real }}</td>
+            <td>{{ ns.Entregados }}</td>
+            <td>{{ ns.Anulados }}</td>
+            <td>{{ ns.Nivel_servicio }} %</td>
+          </tr>
+          <tr *ngIf="isLoadingTableNS == false" >
+            <td > <label for=""  style="font-weight: bolder;">Promedio</label></td>
+            <td ></td>
+            <td ></td>
+            <td ></td>
+            <td > <label for=""  style="font-weight: bolder;">{{promedio}}</label> %</td>
+          </tr>
+          <tr>
+            <td colspan="5" *ngIf="isLoadingTableNS"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+          </tr>
+        </tbody>
+       </table>
+    </c-col>
+  </c-row>
+  <br>
+
 * Sportex, Easy, Electrolux
 </div>
 

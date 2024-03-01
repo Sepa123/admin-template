@@ -34,6 +34,11 @@ export class RutasService {
 
   }
 
+  registrar_producto_en_despacho_ruta(body : any) {
+    return this.http.post(this.apiurl + `/agregar/porDespachoRuta`, body)
+
+  }
+
   get_reporte_rutas_diaria(dia : string) {
     return this.http.get(this.apiurl + `/reporte/diario?dia=${dia}`)
 
@@ -73,6 +78,10 @@ export class RutasService {
 
   get_datos_producto_en_ruta(body: any) {
     return this.http.post<ProductoPicking[]>(this.apiurl + `/buscar/producto/ruta`, body)
+  }
+
+  get_datos_producto_en_ruta_por_4_digitos(codigo_pedido: any) {
+    return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/4_digitos/${codigo_pedido}`)
   }
 
   get_rutas_manual_sin_filtro(pedido: string) {

@@ -8,6 +8,7 @@ import { TIService } from 'src/app/service/ti.service';
 import { NsVerificado } from 'src/app/models/nsVerificado.interface'
 import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { Dato } from 'src/app/models/nivel_servicio/nsFechaCompromisoReal.interface';
 
 @Component({
   selector: 'app-ns-verificados',
@@ -73,6 +74,8 @@ export class NsVerificadosComponent {
   fechaNsInicio : string = ""
   fechaNsFin : string =""
 
+  fechaNsCompromiso : string = ""
+
   loadPedidos : boolean = true
 
   nombreTienda : string [] = ["Verificados", "Sin verificar"]
@@ -106,6 +109,11 @@ export class NsVerificadosComponent {
     }],
   };
 
+  datosNs : Dato[] = []
+  promedio : number = 0
+
+  isLoadingTableNS : boolean = true
+
   buscarNsPorFecha(){
     this.nsVerificados = []
     this.isLoadingTable = true
@@ -125,12 +133,24 @@ export class NsVerificadosComponent {
     })
   }
 
+  buscarNsCompromisoPorFecha(){
+    this.datosNs = []
+    this.isLoadingTableNS = true
+    const fecharFormateadaInicio = this.fechaNsCompromiso.split('-').join('')
+    this.service.get_ns_fecha_compromiso_real(fecharFormateadaInicio).subscribe((data) => {
+      this.promedio = data.promedio
+      this.datosNs = data.datos
+
+      this.isLoadingTableNS = false 
+    })
+  }
+
   ngOnInit():void {
 
     const fecha = new Date();
     // let fechaFormateada = fecha.toLocaleDateString().split('-').reverse().join('-')
     // let fechaFormateada = fecha.toISOString().split('T')[0];
-
+    
         // Restar 4 horas
     fecha.setHours(fecha.getHours() - 4);
 
@@ -140,6 +160,7 @@ export class NsVerificadosComponent {
     console.log(fechaFormateada)
     this.fechaNsInicio = fechaFormateada
     this.fechaNsFin = fechaFormateada
+    this.fechaNsCompromiso = fechaFormateada
 
     setTimeout(() => {
       this.service.get_ns_verificados(fechaFormateada,fechaFormateada).subscribe(data => {
@@ -153,7 +174,17 @@ export class NsVerificadosComponent {
     })
     }, 700);
 
+    this.service.get_ns_fecha_compromiso_real(fechaFormateada).subscribe((data) => {
+      this.promedio = data.promedio
+      this.datosNs = data.datos
+
+      this.isLoadingTableNS = false 
+    })
+
   }
+
+
+
 
  ngOnDestroy(): void {
 

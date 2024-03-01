@@ -213,6 +213,10 @@ import { Observable } from 'rxjs';
 
     //OBTENCIA DE LA LISTA DE LOS DATOS 
 
+    get_chip_by_estado(){
+      return this.http.get<Equipo[]>(this.apiurl+"/chip-by-estado")
+    }
+
     busquedaPorFolio(id: string){
       return this.http.get<Asignacion>(this.apiurl+`/folio/${id}`)
     }
@@ -291,6 +295,11 @@ import { Observable } from 'rxjs';
     get_lista_de_departamentos(){
       return this.http.get<Departamentos[]>(this.apiurl+"/lista-departamentos")
     }
+
+    get_subestado_chip(){
+      return this.http.get<SubEstado[]>(this.apiurl+"/lista-subestado-chip")
+    }
+
     get_lista_de_subestados(){
       return this.http.get<SubEstado[]>(this.apiurl+"/lista-subestado")
     }

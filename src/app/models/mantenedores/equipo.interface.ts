@@ -10,12 +10,14 @@ export enum Marca{
     "Entel" = "Entel",
     "Genéricos" = "Genéricos",
     "Kensington" = "Kensington",
-    "TP-Link" = "TP-Link"
+    "TP-Link" = "TP-Link",
+    "Huawei" = "Huawei"
 
 
 }
 export enum Ram{
     null= "Seleccione una opcion",
+    "1 GB"= "1 GB",
     "2 GB" = "2 GB",
     "3 GB" = "3 GB",
     "4 GB" = "4 GB",
@@ -29,6 +31,8 @@ export enum Ram{
 
 export enum Almacenamiento{
     null = "Seleccione una opcion",
+    "16 GB SSD" = "16 GB SSD",
+    "32 GB SSD" = "32 GB SSD",
     "57.6GB SSD" = "57.6GB SSD",
     "64GB SSD" = "64GB SSD",
     "120GB SSD" = "120GB SSD",
@@ -36,6 +40,7 @@ export enum Almacenamiento{
     "256GB SSD" = "256GB SSD",
     "500GB SSD" = "500GB SSD",
     "1TB SSD" = "1TB SSD",
+    "512GB SSD" = "512GB SSD",
     "500GB HHDD" = "500GB HHDD",
     "1TB HHDD" = "1TB HHDD"
 }
@@ -82,4 +87,5 @@ export interface Equipo {
     subestado: number | null
     ubicacionarchivo: string |null,
     observacion: string |null
+    subestados: string
 }
