@@ -15,6 +15,7 @@ import{Estado} from 'src/app/models/mantenedores/estados.interface'
 import{LicenciaYEquipo} from 'src/app/models/mantenedores/licenciaYEquipo.interface'
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
+import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
 @Injectable({
     providedIn: 'root'
   })
@@ -231,6 +232,10 @@ import { HttpHeaders } from '@angular/common/http';
     get_licencias_asignadas_a_equipos(){
       return this.http.get<LicenciaYEquipo[]>(this.apiurl+"/licencias-asignadas-a-equipos")
     }
+
+    get_chip_asignados_a_equipos(){
+      return this.http.get<ChipYEquipo[]>(this.apiurl+"/chip-asignados-a-equipos")
+    }
     get_lista_datos_personales() {
         return this.http.get<Personal[]>(this.apiurl+"/lista-personas")
       }
@@ -298,6 +303,10 @@ import { HttpHeaders } from '@angular/common/http';
     }
     get_subestado_chip(){
       return this.http.get<SubEstado[]>(this.apiurl+"/lista-subestado-chip")
+    }
+
+    get_chip_no_asignados(){
+      return this.http.get<Equipo[]>(this.apiurl+"/chip-no-asignado")
     }
 
     get_lista_de_sucursal(){

@@ -96,7 +96,7 @@ export class InventarioTiComponent implements OnInit {
 
   licenciaYEquipo: LicenciaYEquipo [] = []
 
-
+  camposChip : boolean = false
   id!: number
   leyendaEquipo!: string
   nEquipo!: number
@@ -365,6 +365,7 @@ export class InventarioTiComponent implements OnInit {
     }else{
       this.service.get_lista_descripcion_por_equipo().subscribe((data)=>{
         this.equipos =data.filter(equipo => equipo.tipo?.toString() == nombreEquipo)
+      
 
       })
     }
@@ -378,10 +379,12 @@ export class InventarioTiComponent implements OnInit {
   filterByChip(nombreEquipo : string){
     this.TodosEquipos = nombreEquipo
     if(nombreEquipo === "Todos"){
+      this.camposChip = true
       this.service.get_lista_descripcion_por_equipo().subscribe((data)=>{
         this.equipos =data.filter(equipo => equipo.tipo?.toString() == "Chip")
       })
     }else{
+      this.camposChip = true
       this.service.get_chip_by_estado().subscribe((data)=>{
         this.equipos =data.filter(equipo => equipo.subestado?.toString() == nombreEquipo)
       })
@@ -391,6 +394,11 @@ export class InventarioTiComponent implements OnInit {
 
   filterBySerial(event: any){
     this.serial = event.target.value
+    if(this.serial.trim()===''){
+      this.service.get_lista_descripcion_por_equipo().subscribe((data)=>{
+        this.equipos = data
+      })
+    }
     this.service.get_equipo_por_serial(this.serial).subscribe((data)=>{
       this.equipos = data
     })
@@ -399,18 +407,26 @@ export class InventarioTiComponent implements OnInit {
   }
   filterByPersona(event: any){
     this.rut = event.target.value
-    this.service.get_persona_por_rut(this.rut).subscribe((data)=>{
-      this.personas = data
-      if(this.personas.length == 0){
-        Swal.fire({ 
-          icon: 'error',
-          title: 'RUT no encontrado',
-          text: 'Por favor, validar que el RUT ingresado sea válido',
-          })
-      }
-    })
+    const rutCorregido = this.rut.toUpperCase().replace(/\./g, '')
+    if(this.rut.trim()=== ''){
+      this.service.get_lista_datos_personales().subscribe((data)=>{
+        this.personas = data
+      })
+    }else{
+      this.service.get_persona_por_rut(rutCorregido).subscribe((data)=>{
+        this.personas = data
+        if(this.personas.length == 0){
+          Swal.fire({ 
+            icon: 'error',
+            title: 'RUT no encontrado',
+            text: 'Por favor, validar que el RUT ingresado sea válido',
+            })
+        }
+      })
+    }
+    
    
-
+    this.rut = ""
   }
 
 
@@ -1396,7 +1412,22 @@ cambioHabilitarPersona(id: number){
       }
     }
 
+    cambiarEstadoChip(id:number){
+      const busqueda = this.equipoSinJoin.find(equipo => equipo.id === id)
+      if (busqueda){
+        this.equipoDescripcionForm.patchValue({
+          id : busqueda.id,
+          subestado: busqueda.subestado,
+        })
+        this.toggleLiveDemoEquipo()
+      }
+    }
+
   
+
+
+    
+     
     // GET DATOS PERSONALES
     listarPersona(){
       this.mostrarPersona = true

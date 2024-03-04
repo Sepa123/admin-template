@@ -16,6 +16,7 @@ import { SubEstado } from 'src/app/models/mantenedores/subEstado.interface';
 import {LicenciaWindows} from 'src/app/models/mantenedores/licencia.interface'
 import{FirmaEntrega} from 'src/app/models/mantenedores/firma_entrega.interface'
 import{LicenciaYEquipo} from 'src/app/models/mantenedores/licenciaYEquipo.interface'
+import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 // import bootstrap from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
@@ -31,6 +32,8 @@ import Swal from 'sweetalert2';
 })
 export class AsignacionTiComponent {
 
+    showLicencia : boolean = false
+    showChip : boolean = false
     public visible = false;
     public visible1 = false;
     public visible2 = false;
@@ -86,11 +89,17 @@ export class AsignacionTiComponent {
   
     encargado: string |null = sessionStorage.getItem('usuario')
     nameParts: string[] = [];
+    //mostrar los campos para asignar chip disponibles
+    datosChip: boolean = false
+    ChipSeleccionada!: number
+    ChipCapturada: boolean =false
+    chipYEquipo: ChipYEquipo [] = []
 
     //mostrar los campos para asignar licencia
     datosLicencia: boolean = false
     licenciaSeleccionada!: number
     licenciaCapturada: boolean =false
+    mostrarChipYEquipo:  boolean = false
 
     //datos para asignar accesorios y repuestos que no son asignados a una persona si no departament
     //estos no requieren acta de entrega
@@ -100,7 +109,7 @@ export class AsignacionTiComponent {
 
     //aplicar filtros de busqueda
     TodosDeptos : string = "Todas"
-
+    equipoChip : Equipo []= []
     fechaHoy = this.obtenerFechaActual()
     conjuntoLeyenda: any[] = [];
     parLeyenda = {}
@@ -383,6 +392,12 @@ export class AsignacionTiComponent {
   encontrarTipo(event:any){
     this.tipoAsignado = event.target.value
     console.log(this.tipoAsignado)
+    if(this.tipoAsignado == 1){
+      this.showLicencia = true
+    }
+    else if(this.tipoAsignado == 2){
+      this.showChip = true
+    }
     this.encontrarEquipo(this.tipoAsignado)
   }
 
@@ -492,7 +507,10 @@ export class AsignacionTiComponent {
     ubicacion: this.fb.control(""),
     ubicacionarchivo: this.fb.control(""),
     asignado: this.fb.control(false),
-    firma_devolucion: this.fb.control(false)
+    firma_devolucion: this.fb.control(false),
+    id_chip: this.fb.control(0), 
+    estadoChip: this.fb.control(0),
+    subestadoChip: this.fb.control(0),
     // ubicacionarchivo: this.fb.control("")   
   })
 
@@ -512,7 +530,6 @@ export class AsignacionTiComponent {
           status: 1,
           folio_entrega : this.folioE,
           asignado: true,
-
           })
           this.service.crearAsignacion(this.asignacionForm.value).subscribe((respuesta)=>{
             console.log('Persona registrada:', respuesta);
@@ -522,7 +539,31 @@ export class AsignacionTiComponent {
           }, (error) => {
           console.error('Error al registrar la persona:', error);
           })
-        }else{
+        }else if(this.ChipCapturada){
+          this.getLocation()
+          this.asignacionForm.patchValue({
+          id_user: parseInt(sessionStorage['id']),
+          ids_user: sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+          lat : this.latStr,
+          long: this.longStr,
+          id_chip: this.ChipSeleccionada,
+          observacion: "Se asigna chip a celular",
+          status: 1,
+          estadoChip:4,
+          subestadoChip: 4, 
+          folio_entrega : this.folioE,
+          asignado: true,
+          })
+          this.service.crearAsignacion(this.asignacionForm.value).subscribe((respuesta)=>{
+            console.log('Persona registrada:', respuesta);
+            this.asignacionForm.reset()
+            this.toggleLiveDemoAsignar()
+            this.listaDeAsignaciones()
+          }, (error) => {
+          console.error('Error al registrar la persona:', error);
+          })
+        }
+        else{
           //si no se selecciona licencia windows
           this.getLocation()
           this.asignacionForm.patchValue({
@@ -530,7 +571,8 @@ export class AsignacionTiComponent {
           ids_user: sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
           lat : this.latStr,
           long: this.longStr,
-          id_licencia: null, //no se asigna licencia por lo cual campo es nulo
+          id_licencia: null, 
+          id_chip:null,//no se asigna licencia por lo cual campo es nulo
           status: 1, // de entregado
           observacion: "Se asigna Equipo",
           
@@ -563,6 +605,7 @@ export class AsignacionTiComponent {
       this.mostrarAsignacion = true
       this.mostrarAccesorio = false
       this.mostrarLicenciaYEquipo = false
+      this.mostrarChipYEquipo
       this.service.get_lista_de_asignaciones().subscribe((data)=>{
         this.asignaciones = data
       })
@@ -575,6 +618,7 @@ export class AsignacionTiComponent {
       this.mostrarAccesorio = true
       this.mostrarAsignacion = false
       this.mostrarLicenciaYEquipo = false
+      this.mostrarChipYEquipo = false
       this.mostrarLicencia = true
       this.service.get_lista_accesorios_asignados().subscribe((data)=>{
         this.accesoriosAsignados = data
@@ -598,6 +642,24 @@ export class AsignacionTiComponent {
     licenciaElegida(event:any){
       this.licenciaSeleccionada = event.target.value
       this.licenciaCapturada = true
+    }
+
+
+    asignarChip(){
+      if(!this.datosChip){
+        this.datosChip =true
+        this.service.get_chip_no_asignados().subscribe((data)=>{
+          this.equipoChip = data
+        })
+      }else{
+        this.datosChip=false
+      }
+    }
+
+    chipElegido(event:any){
+      this.ChipSeleccionada = event.target.value
+      this.ChipCapturada = true
+      console.log(this.ChipSeleccionada)
     }
 
 
@@ -993,6 +1055,12 @@ export class AsignacionTiComponent {
               title: 'No se pudo generar la Firma',
               text: 'Validar que exista un acta de entrega antes de generar la firma',
             })
+          }
+          else if(this.pdfScaneado.size < 0){
+            Swal.fire({
+              icon: 'error',
+              title: 'Adjunte el PDF Escaneado',
+            })
           }else{
             this.subirArchivos(this.idAsignado)
             this.service.actualizarFirmaActaEntrega(body).subscribe(()=>{
@@ -1332,6 +1400,7 @@ export class AsignacionTiComponent {
         console.log(this.licenciaYEquipo)
       })
     }
+
        async liberarLicencia(id:number){
         console.log(id)
         await this.getLocation()
@@ -1359,6 +1428,24 @@ export class AsignacionTiComponent {
           })
         }
        
+      }
+
+      obtenerChipAsignadoAEquipo(){
+        this.service.get_chip_asignados_a_equipos().subscribe((data)=>{
+          this.chipYEquipo  = data
+          console.log(this.chipYEquipo)
+          if(!this.mostrarChipYEquipo ){
+            this.mostrarChipYEquipo= true
+            this.mostrarLicenciaYEquipo = false
+            this.mostrarAccesorio = false
+            this.mostrarAsignacion = false
+  
+          }else{
+            this.mostrarChipYEquipo = false
+          }
+          
+          console.log(this.chipYEquipo)
+        })
       }
 
       devolverAccesorio(id:number){

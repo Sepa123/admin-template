@@ -37,6 +37,7 @@ export enum Almacenamiento{
     "64GB SSD" = "64GB SSD",
     "120GB SSD" = "120GB SSD",
     "128GB SSD" = "128GB SSD",
+    "237GB SSD" = "237GB SSD",
     "256GB SSD" = "256GB SSD",
     "500GB SSD" = "500GB SSD",
     "512GB SSD" = "512GB SSD",
