@@ -20,8 +20,8 @@ export class TocService {
 
   constructor(private http: HttpClient) { }
 
-  // apiurl = "https://hela.transyanez.cl/api/toc"
-  apiurl = "http://127.0.0.1:8000/api/toc"
+  apiurl = "https://hela.transyanez.cl/api/toc"
+  // apiurl = "http://127.0.0.1:8000/api/toc"
 
   buscar_producto_toc(cod_producto : string){
     return this.http.get<ProductoToc>(this.apiurl + `/buscar_producto/${cod_producto}`)
@@ -93,13 +93,13 @@ export class TocService {
   }
 
 
-  download_reporte_easy_diferencia(body : Dato [], var_random : string){
+  download_reporte_easy_diferencia(body : Dato [], var_random : string, fusion_fecha : string){
     this.http.post(this.apiurl + `/diferencia/fechas/easy/descargar`, body,{responseType:"blob"})
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url
-      a.download = `preuba.xlsx`;
+      a.download = `Diferencia_Easy_${fusion_fecha}.xlsx`;
         a.click();
         window.URL.revokeObjectURL(url);
     })

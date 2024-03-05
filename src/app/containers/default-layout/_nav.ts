@@ -138,7 +138,7 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/edicion-pendientes'
       },
       {
-        name: 'Diferencias Fechas Easy',
+        name: 'Diferencia Fechas Easy',
         url: '/operaciones/dif-fechas-easy'
       },
     ]

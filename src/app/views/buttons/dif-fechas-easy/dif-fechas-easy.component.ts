@@ -20,6 +20,7 @@ export class DifFechasEasyComponent {
   isLoadingFull : boolean = true
   noHayRegistro : boolean = true
   bloqBuscar : boolean = false
+  libreExcel : boolean = false
 
   regex = /\*/;
 
@@ -29,6 +30,7 @@ export class DifFechasEasyComponent {
 
   fecha_inicio : string = ""
   fecha_fin : string = ""
+  fusionFecha : string = ""
 
   observacionActual : string | null = ""
 
@@ -135,6 +137,7 @@ export class DifFechasEasyComponent {
         this.isLoadingTable = false
         this.isLoadingFull = false
         this.bloqBuscar = false
+        this.libreExcel = true
       }else if(pos == 'inicio'){
         this.isLoadingTable = true
       }
@@ -150,6 +153,8 @@ export class DifFechasEasyComponent {
   }
 
   buscar(){
+    this.fusionFecha = ""
+    this.libreExcel = false
     this.bloqBuscar = true
     this.noHayRegistro = true
     this.contador = 0
@@ -167,7 +172,7 @@ export class DifFechasEasyComponent {
     const fecha_inicio_f = this.formatearFecha(this.fecha_inicio)
     const fecha_fin_f = this.formatearFecha(this.fecha_fin)
 
-    console.log(fecha_inicio_f,fecha_fin_f)
+    this.fusionFecha = fecha_inicio_f + fecha_fin_f
     const arrayFechas = this.generarParesDeFechas(this.fecha_inicio, this.fecha_fin)
 
     if (this.validarDiferenciaFechas(this.fecha_inicio,this.fecha_fin) == false) return alert("La diferencia entre las fechas debe ser de un día o más")
@@ -211,13 +216,14 @@ export class DifFechasEasyComponent {
           // }, 10500 * i)
         } 
         
-      }, 10500 * i);
+      }, 12500 * i);
       
     })
   }
 
 
-  descargarExcel(){
-    this.service.download_reporte_easy_diferencia(this.datosDif,'')
+  descargarExcel(){ 
+
+    this.service.download_reporte_easy_diferencia(this.datosDif,'',this.fusionFecha)
   }
 }

@@ -14,6 +14,7 @@ import { SubEstado } from '../models/mantenedores/subEstado.interface';
 import{Estado} from 'src/app/models/mantenedores/estados.interface'
 import{LicenciaYEquipo} from 'src/app/models/mantenedores/licenciaYEquipo.interface'
 import { Observable } from 'rxjs';
+import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
 
 @Injectable({
     providedIn: 'root'
@@ -212,6 +213,15 @@ import { Observable } from 'rxjs';
     }
 
     //OBTENCIA DE LA LISTA DE LOS DATOS 
+
+    get_chip_asignados_a_equipos(){
+      return this.http.get<ChipYEquipo[]>(this.apiurl+"/chip-asignados-a-equipos")
+    }
+
+    get_chip_no_asignados(){
+      return this.http.get<Equipo[]>(this.apiurl+"/chip-no-asignado")
+    }
+
 
     get_chip_by_estado(){
       return this.http.get<Equipo[]>(this.apiurl+"/chip-by-estado")
