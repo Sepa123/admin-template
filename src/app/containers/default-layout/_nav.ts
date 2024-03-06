@@ -283,6 +283,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'NS TOC',
         url: '/toc/jefatura'
+      },
+      {
+        name: 'Reporte entregas Diarias',
+        url: '/toc/reporte-entrega.diaria'
       }
     ]
   },

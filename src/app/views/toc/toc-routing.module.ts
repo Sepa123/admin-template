@@ -4,6 +4,7 @@ import { BitacoraTocComponent } from './bitacora-toc/bitacora-toc.component';
 import { AlertasVigentesComponent } from './alertas-vigentes/alertas-vigentes.component';
 import { JefaturaComponent } from './jefatura/jefatura.component';
 import { EditarTocComponent } from './editar-toc/editar-toc.component';
+import { ReporteEntregaDiariaComponent } from './reporte-entrega.diaria/reporte-entrega.diaria.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,13 @@ const routes: Routes = [
         component : EditarTocComponent,
         data : {
           title : "Editar"
+        }
+      },
+      {
+        path: 'reporte-entrega.diaria',
+        component : ReporteEntregaDiariaComponent,
+        data : {
+          title: "Reporte Entregas"
         }
       }
     ]

@@ -325,6 +325,7 @@ verObservacion(obs : string | null){
         this.toggleEditar()
       })
       
+      
     }
     
 
