@@ -406,5 +406,9 @@ export class RsvService {
     obtener_ubicacion_y_cantidad(body : any){
       return this.http.post<UbicacionCantidadRSV []>(this.apiurl + `/inventario/sucursales/ubicaciones`, body)
     }
+
+    obtener_notificaciones_api_defontana(body : any){
+      return this.http.post(this.apiurl + `/notificiones`, body)
+    }
   
 }

@@ -29,13 +29,15 @@ import { JefaturaComponent } from './jefatura/jefatura.component';
 import { ModalModule } from '@coreui/angular';
 import { NgChartsModule } from 'ng2-charts';
 import { EditarTocComponent } from './editar-toc/editar-toc.component';
+import { ReporteEntregaDiariaComponent } from './reporte-entrega.diaria/reporte-entrega.diaria.component';
 
 @NgModule({
   declarations: [
     BitacoraTocComponent,
     AlertasVigentesComponent,
     JefaturaComponent,
-    EditarTocComponent
+    EditarTocComponent,
+    ReporteEntregaDiariaComponent
   ],
   imports: [
     CommonModule,

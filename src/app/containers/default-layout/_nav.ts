@@ -163,6 +163,31 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
+  //// operaciones COORDINADORES
+  {
+    name: 'Operaciones',
+    url: '/operaciones',
+    iconComponent: { name: 'cil-clipboard' },
+    roles : [ROLES_ENUM.COORDINADOR],
+    children: [
+      {
+        name: 'Pendientes',
+        url: '/operaciones/pendientes'
+      },
+      {
+        name: 'Estados',
+        url: '/operaciones/estados'
+      },
+      {
+        name: 'Productos sin clasificación',
+        url: '/operaciones/productos-sin-clasificacion'
+      },
+      {
+        name: 'Diferencia Fechas Easy',
+        url: '/operaciones/dif-fechas-easy'
+      },
+    ]
+  },
   {
     name: 'Operaciones',
     url: '/operaciones',
@@ -184,7 +209,11 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Pendientes',
         url: '/operaciones/pendientes'
-      }
+      },
+      {
+        name: 'Diferencia Fechas Easy',
+        url: '/operaciones/dif-fechas-easy'
+      },
     ]
   }
   ,
@@ -287,6 +316,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'NS TOC',
         url: '/toc/jefatura'
+      },
+      {
+        name: 'Reporte entregas Diarias',
+        url: '/toc/reporte-entrega.diaria'
       }
     ]
   },
@@ -507,7 +540,7 @@ export const navItems: INavDataBar[] = [
     name: 'Ingreso cliente',
     url: '/ingreso-cliente',
     iconComponent : {name : 'cil-building'},
-    roles : [ROLES_ENUM.PICKEADOR_TIENDA],
+    roles : [ROLES_ENUM.PICKEADOR_TIENDA, ROLES_ENUM.RAUDDY],
     children: [
       {
         name: "Easy Tienda",
