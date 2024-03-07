@@ -9,8 +9,7 @@
             <td>
                 <div class="">
                     <select id="Region" cSelect size="1" (change)="filtrarPorRegion()" [(ngModel)]="regionSeleccionada">
-                        <option selected>Regiones</option>
-                        <option>Todas</option>
+                        <option selected>Todas</option>
                         <option *ngFor="let region of arrayRegion">{{region.region}}</option>
                     </select>
                 </div>
@@ -18,8 +17,7 @@
             <td>
                 <div class="">
                     <select id="Tienda" cSelect size="1" (change)="filtrarPortienda()" [(ngModel)]="tiendaSeleccionada">
-                        <option selected>Tienda</option>
-                        <option>Todas</option>
+                        <option selected>Todas</option>
                         <option *ngFor="let Nombre of Tiendas">{{Nombre}}</option>
                     </select>
                 </div>

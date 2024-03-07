@@ -25,7 +25,7 @@ export class ReporteEntregaDiariaService {
   eficienciaConductor(fecha: string, tienda?: any, region?: any) {  
     return this.http.get< ReporteEfectividadConductor>(this.apiurl2 +  `/media/eficiencia/conductor?fecha=${fecha}&tienda=${tienda}&region=${region}`)
   }
-  reporteEntregaConductor(fecha:string, tienda?:string, region?:string ){
+  reporteEntregaConductor(fecha:string, tienda?:any, region?:any ){
     return this.http.get<ReporteEntregasConductor[]>(this.apiurl3 + `/eficiencia/conductor?fecha=${fecha}&tienda=${tienda}&region=${region}`)
   }
   getNombreRegion(){

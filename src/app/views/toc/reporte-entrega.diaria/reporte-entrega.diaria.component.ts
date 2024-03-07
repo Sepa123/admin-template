@@ -360,7 +360,7 @@ export class ReporteEntregaDiariaComponent {
   // Método para filtrar los datos según la región seleccionada por el usuario
   filtrarPorRegion() {
     // Verificar si se ha seleccionado una región válida
-    if (this.regionSeleccionada !== 'Regiones') {
+    if (this.regionSeleccionada !== 'Todas') {
       // Filtrar el array de regiones para obtener solo los datos correspondientes a la región seleccionada
       this.arrayRegion = this.arrayRegion.filter((region) => region.region === this.regionSeleccionada);
       
@@ -368,8 +368,8 @@ export class ReporteEntregaDiariaComponent {
     } 
     else {
       // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
-      this.getRegiones();
       this.regionSeleccionada = 'undefined'
+      this.getRegiones();
     }
   }
     filtrarPortienda() {
@@ -381,6 +381,8 @@ export class ReporteEntregaDiariaComponent {
         console.log(this.tiendaSeleccionada)
       } if (this.tiendaSeleccionada === 'Todas'){
         // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
+        this.tiendaSeleccionada = 'undefined';
+      }else{
         this.tiendaSeleccionada = 'undefined';
       }
   
