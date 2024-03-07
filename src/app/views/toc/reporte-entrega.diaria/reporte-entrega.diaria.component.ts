@@ -15,6 +15,7 @@ import { RutasService } from 'src/app/service/rutas.service'
 import { NumberLiteralType } from 'typescript/lib/tsserverlibrary';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { bottom } from '@popperjs/core';
 
 
 
@@ -52,8 +53,8 @@ export class ReporteEntregaDiariaComponent {
 
   listaRegiones : any [] = []
   TiendaFull:  Tienda[]=[]
-  tiendaSeleccionada: string = "Tienda"
-  regionSeleccionada: string = ""
+  tiendaSeleccionada: any = 'Undefined'
+  regionSeleccionada: any = 'Undefined'
   listaComunas: ComunaRutas[]=[]
   listaTiendas: Tienda[]=[]
   tienda?: string;
@@ -70,6 +71,9 @@ export class ReporteEntregaDiariaComponent {
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
+      legend:{
+        position: 'bottom',
+      },
       datalabels:{
         color: 'black', // Color del texto
         formatter: (value, context) => {
@@ -361,11 +365,11 @@ export class ReporteEntregaDiariaComponent {
       this.arrayRegion = this.arrayRegion.filter((region) => region.region === this.regionSeleccionada);
       
       console.log(this.regionSeleccionada)
-      
     } 
     else {
       // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
       this.getRegiones();
+      this.regionSeleccionada = 'undefined'
     }
   }
     filtrarPortienda() {
@@ -375,9 +379,9 @@ export class ReporteEntregaDiariaComponent {
         this.tiendaFiltrada = this.Tiendas.filter((tienda) => tienda === this.tiendaSeleccionada);
         
         console.log(this.tiendaSeleccionada)
-      } else {
+      } if (this.tiendaSeleccionada === 'Todas'){
         // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
-        this.tiendaFiltrada = this.Tiendas;
+        this.tiendaSeleccionada = 'undefined';
       }
   
 }
