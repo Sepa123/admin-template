@@ -32,6 +32,7 @@ export class ProductosIngresadosEasyComponent {
   fusionFecha : string = ""
 
   observacionActual : string | null = ""
+  rangoFechas : string [] [] = []
 
 
   constructor( private service : TocService, private elementRef: ElementRef){
@@ -54,7 +55,7 @@ export class ProductosIngresadosEasyComponent {
 
   generarParesDeFechas(rangoInicio : string, rangoFin : string) {
     const milisegundosPorDia = 24 * 60 * 60 * 1000;
-    const diferenciaDiasMaxima = 14;
+    const diferenciaDiasMaxima = 10;
 
     // Convertir las fechas a objetos de tipo Date
     const fechaInicio = new Date(rangoInicio);
@@ -142,10 +143,11 @@ export class ProductosIngresadosEasyComponent {
       }
 
       this.noHayRegistro = false
-      // this.datosDif = data.datos
-      data.datos.map((dato) => {
-        this.datosDif.push(dato)
-      })
+      this.datosDif =  this.datosDif.concat(data.datos)
+      console.log(this.datosDif)
+      // data.datos.map((dato) => {
+      //   this.datosDif.push(dato)
+      // })
       this.contador= this.contador + data.items
     })
 
@@ -177,6 +179,8 @@ export class ProductosIngresadosEasyComponent {
     if (this.validarDiferenciaFechas(this.fecha_inicio,this.fecha_fin) == false) return alert("La diferencia entre las fechas debe ser de un día o más")
     
     let myset = [...new Set(arrayFechas)]
+
+    this.rangoFechas = myset
 
     // this.service.get_diferencia_fechas_easy(fecha_inicio_f,fecha_fin_f,0).subscribe((data) => {
     //   this.datosDif = data.datos
@@ -215,7 +219,7 @@ export class ProductosIngresadosEasyComponent {
           // }, 10500 * i)
         } 
         
-      }, 12500 * i);
+      }, 15000 * i);
       
     })
   }
@@ -223,6 +227,6 @@ export class ProductosIngresadosEasyComponent {
 
   descargarExcel(){ 
 
-    this.service.download_productos_ingresados_easy(this.datosDif,'',this.fusionFecha)
+    this.service.download_productos_ingresados_easy(this.datosDif,this.rangoFechas,this.fusionFecha)
   }
 }

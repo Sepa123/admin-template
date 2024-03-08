@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { ProductoToc } from '../models/productosToc.interface'
 import { Subestados } from 'src/app/models/subestados.interface';
 import { Codigo1 } from 'src/app/models/Codigos1.interface';
@@ -20,8 +20,19 @@ export class TocService {
 
   constructor(private http: HttpClient) { }
 
+
+  httpOptions = {
+  "headers": {
+    "Content-Encoding": "gzip",
+    "Content-Type": "application/json"
+  },
+  "responseType": "blob"
+}
+
+  
   apiurl = "https://hela.transyanez.cl/api/toc"
   // apiurl = "http://127.0.0.1:8000/api/toc"
+
 
   buscar_producto_toc(cod_producto : string){
     return this.http.get<ProductoToc>(this.apiurl + `/buscar_producto/${cod_producto}`)
@@ -109,13 +120,19 @@ export class TocService {
     })
   }
 
-  download_productos_ingresados_easy(body : DatoPI [], var_random : string, fusion_fecha : string){
-    this.http.post(this.apiurl + `/productos_ingresados/fechas/easy/descargar`, body,{responseType:"blob"})
+  download_productos_ingresados_easy(body : DatoPI [], rango : string [] [], fusion_fecha : string){
+    this.http.post(this.apiurl + `/productos_ingresados/fechas/easy/descargar`, {'Rango_fecha' :rango },{
+      headers: {
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json"
+      },
+      responseType:"blob"
+    })
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url
-      a.download = `Diferencia_Easy_${fusion_fecha}.xlsx`;
+      a.download = `Productos_${fusion_fecha}.xlsx`;
         a.click();
         window.URL.revokeObjectURL(url);
     })
