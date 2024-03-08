@@ -390,7 +390,7 @@ export class ReporteEntregaDiariaComponent {
         // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
         this.tiendaSeleccionada = 'undefined';
       }else{
-        this.tiendaSeleccionada = 'undefined';
+        // this.tiendaSeleccionada = 'undefined';
       }
   
 }
