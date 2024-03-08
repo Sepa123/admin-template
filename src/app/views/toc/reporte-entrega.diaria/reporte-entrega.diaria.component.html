@@ -122,7 +122,7 @@
             <tbody *ngFor="let EstadoEntregas of arrayEntregasConductor">
                 <th>{{EstadoEntregas.Descripcion}}</th>
                 <th>{{EstadoEntregas.Tag}}</th>
-                <th>{{EstadoEntregas.Total}}</th>
+                <th value="">{{EstadoEntregas.Total}}</th>
                 <!-- <div *ngFor="let EstadoEntregas of arrayEntregasConductor">
                     <th>
                         {{EstadoEntregas.Total}}
@@ -131,7 +131,7 @@
             </tbody>
         </table>
         <div size="sm"
-            style="display: flex; flex-direction: row; justify-content: flex-end ; width: 400px; height: 300px;">
+            style="display: block;width: 400px; height: 300px;">
             <canvas
                 *ngIf="chartVisible == true && graficoVisible == true" 
                 baseChart 

@@ -16,6 +16,7 @@ import { NumberLiteralType } from 'typescript/lib/tsserverlibrary';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { bottom } from '@popperjs/core';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 
 
@@ -35,10 +36,10 @@ export class ReporteEntregaDiariaComponent {
 
   arrayProductosConductor: ReporteEntregasConductor[] = [];
 
-  arrayRegion: NombreRegion [] =[];
+  arrayRegion: NombreRegion[] = [];
 
-  Tiendas: string[] = ['Electrolux' ,'Easy'];
-  arrayTiendas: Tienda [] = [];
+  Tiendas: string[] = ['Electrolux', 'Easy'];
+  arrayTiendas: Tienda[] = [];
   public Descripcion: string[] = [];
 
   public Total: number[] = [];
@@ -49,14 +50,13 @@ export class ReporteEntregaDiariaComponent {
   isClicked: boolean = false;
   isActive: boolean = false;
   isRuta: boolean = false;
-  
 
-  listaRegiones : any [] = []
-  TiendaFull:  Tienda[]=[]
-  tiendaSeleccionada: any = 'Undefined'
-  regionSeleccionada: any = 'Undefined'
-  listaComunas: ComunaRutas[]=[]
-  listaTiendas: Tienda[]=[]
+  listaRegiones: any[] = [];
+  TiendaFull: Tienda[] = [];
+  tiendaSeleccionada: any = 'Undefined';
+  regionSeleccionada: any = 'Undefined';
+  listaComunas: ComunaRutas[] = [];
+  listaTiendas: Tienda[] = [];
   tienda?: string;
   region?: string;
 
@@ -71,23 +71,26 @@ export class ReporteEntregaDiariaComponent {
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
-      legend:{
-        position: 'bottom',
-      },
-      datalabels:{
+      datalabels: {
         color: 'black', // Color del texto
         formatter: (value, context) => {
           const dataset = context.chart.data.datasets[context.datasetIndex];
-          if(dataset.data[0] == null || dataset.data[1] == null) {return 0}
-          else{
-            let total = parseFloat(dataset.data[0].toString()) + parseFloat(dataset.data[1].toString())
-              let porcentaje = ((value / total) * 100).toFixed(2) + '%';
-              return porcentaje
+          if (dataset.data[0] == null || dataset.data[1] == null) {
+            return 0;
+          } else {
+            let total =
+              parseFloat(dataset.data[0].toString()) +
+              parseFloat(dataset.data[1].toString());
+            let porcentaje = ((value / total) * 100).toFixed(2) + '%';
+            return porcentaje;
+            
           }
         },
-        
-      display: true
-      }
+        display: true,
+      },
+      legend: {
+        position: 'bottom'
+      },
     },
   };
 
@@ -101,6 +104,15 @@ export class ReporteEntregaDiariaComponent {
   };
 
   public pieChartType: ChartType = 'pie';
+
+  options = {
+    plugins: {
+      legend: {
+        display: true,
+        // position : 'right'
+      },
+    },
+  };
 
   data = {
     labels: ['Red', 'Blue', 'Yellow'],
@@ -119,10 +131,11 @@ export class ReporteEntregaDiariaComponent {
       },
     ],
   };
+
   isLoadingTable: boolean = true;
   isLoadingFull: boolean = false;
 
-  tiendaFiltrada : string [] = [];
+  tiendaFiltrada: string[] = [];
   fechaActual!: string;
 
   patenteRuta!: string;
@@ -195,8 +208,6 @@ export class ReporteEntregaDiariaComponent {
     return fechas;
   }
 
-
-
   buscar() {
     this.contadorNS = 0;
     this.isLoadingFull = false;
@@ -220,8 +231,6 @@ export class ReporteEntregaDiariaComponent {
     let fechaFormateada = fecha_f.toString().split('T')[0];
     myset.map((fecha, i) => {
       setTimeout(() => {});
-
-    
 
       this.getEstadoEntregas(fechaFormateada, this.tienda, this.region);
       this.service2
@@ -349,12 +358,11 @@ export class ReporteEntregaDiariaComponent {
     // const diferenciaDias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
     return true;
   }
-  getRegiones(){
-    this.service2.getNombreRegion().subscribe(
-      data => { this.arrayRegion = data;
-      console.log(this.arrayRegion)
-    })
-    
+  getRegiones() {
+    this.service2.getNombreRegion().subscribe((data) => {
+      this.arrayRegion = data;
+      console.log(this.arrayRegion);
+    });
   }
 
   // Método para filtrar los datos según la región seleccionada por el usuario
@@ -362,32 +370,32 @@ export class ReporteEntregaDiariaComponent {
     // Verificar si se ha seleccionado una región válida
     if (this.regionSeleccionada !== 'Todas') {
       // Filtrar el array de regiones para obtener solo los datos correspondientes a la región seleccionada
-      this.arrayRegion = this.arrayRegion.filter((region) => region.region === this.regionSeleccionada);
-      
-      console.log(this.regionSeleccionada)
-    } 
-    else {
+      this.arrayRegion = this.arrayRegion.filter(
+        (region) => region.region === this.regionSeleccionada
+      );
+
+      console.log(this.regionSeleccionada);
+    } else {
       // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
-      this.regionSeleccionada = 'undefined'
+      this.regionSeleccionada = 'undefined';
       this.getRegiones();
     }
   }
-    filtrarPortienda() {
-      // Verificar si se ha seleccionado una región válida
-      if (this.tiendaSeleccionada !== 'Tienda') {
-        // Filtrar el array de regiones para obtener solo los datos correspondientes a la región seleccionada
-        this.tiendaFiltrada = this.Tiendas.filter((tienda) => tienda === this.tiendaSeleccionada);
-        
-        console.log(this.tiendaSeleccionada)
-      } if (this.tiendaSeleccionada === 'Todas'){
-        // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
-        this.tiendaSeleccionada = 'undefined';
-      }else{
-        this.tiendaSeleccionada = 'undefined';
-      }
-  
-}
+  filtrarPortienda() {
+    // Verificar si se ha seleccionado una región válida
+    if (this.tiendaSeleccionada !== 'Tienda') {
+      // Filtrar el array de regiones para obtener solo los datos correspondientes a la región seleccionada
+      this.tiendaFiltrada = this.Tiendas.filter((tienda) => tienda === this.tiendaSeleccionada);
 
+      console.log(this.tiendaSeleccionada);
+    }
+    if (this.tiendaSeleccionada === 'Todas') {
+      // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
+      this.tiendaSeleccionada = 'undefined';
+    } else {
+
+    }
+  }
 
   ngOnInit() {
     const fecha2 = new Date();
@@ -396,19 +404,17 @@ export class ReporteEntregaDiariaComponent {
       month: fecha2.getMonth() + 1,
       day: fecha2.getDate(),
     };
+    Chart.register(ChartDataLabels);
     
-
     fecha2.setHours(fecha2.getHours() - 4);
 
     let fechaFormateada = fecha2.toISOString().split('T')[0];
 
-  
+    this.chartVisible = false;
+    this.graficoVisible = false;
+    this.Descripcion = []; // Limpiamos el arreglo de descripciones
+    this.Total = [];
 
-      this.chartVisible = false;
-      this.graficoVisible = false;
-      this.Descripcion = []; // Limpiamos el arreglo de descripciones
-      this.Total = [];
-    
     this.fechaActual = fechaFormateada;
 
     console.log(this.agregar(this.Descripcion, this.Total));
@@ -425,7 +431,6 @@ export class ReporteEntregaDiariaComponent {
         });
         this.chartVisible = true;
         this.graficoVisible = true;
-       
 
         this.arrayProductosConductor = [];
         this.service2
@@ -442,9 +447,10 @@ export class ReporteEntregaDiariaComponent {
             this.arrayeConductor = [data];
             console.log(this.arrayeConductor);
           });
-      }); this.isLoadingTable = false;
-      
-      this.getRegiones()
+      });
+    this.isLoadingTable = false;
+
+    this.getRegiones();
   }
 }
 
