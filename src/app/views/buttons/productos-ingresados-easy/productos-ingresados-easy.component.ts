@@ -1,19 +1,19 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TocService } from 'src/app/service/toc.service'
-// import { MainProductoIngresado, DatoPI } from 'src/app/models/TOC/productosIngresadosEasy.interface'
-import { Dato} from 'src/app/models/TOC/difFechasEasy.interface'
+import { BitacoraRango } from 'src/app/models/alertasVigentes.interface';
+import { UsuarioTOC } from 'src/app/models/usuariosTOC.interface';
+import { MainProductoIngresado, DatoPI } from 'src/app/models/TOC/productosIngresadosEasy.interface'
 // import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 // import { BaseChartDirective } from 'ng2-charts';
 
-
 @Component({
-  selector: 'app-dif-fechas-easy',
-  templateUrl: './dif-fechas-easy.component.html',
-  styleUrls: ['./dif-fechas-easy.component.scss']
+  selector: 'app-productos-ingresados-easy',
+  templateUrl: './productos-ingresados-easy.component.html',
+  styleUrls: ['./productos-ingresados-easy.component.scss']
 })
-export class DifFechasEasyComponent {
+export class ProductosIngresadosEasyComponent {
 
-  datosDif : Dato[] = []
+  datosDif : DatoPI[] = []
 
   isLoadingTable : boolean = false
   isLoadingFull : boolean = true
@@ -128,7 +128,7 @@ export class DifFechasEasyComponent {
 
 
   diferenciaFechasEasy(fecha_inicio : string, fecha_fin : string,pos : string){
-    this.service.get_diferencia_fechas_easy(fecha_inicio,fecha_fin,0).subscribe((data) => {
+    this.service.get_productos_ingresados_easy(fecha_inicio,fecha_fin,0).subscribe((data) => {
 
 
 
@@ -223,6 +223,6 @@ export class DifFechasEasyComponent {
 
   descargarExcel(){ 
 
-    this.service.download_reporte_easy_diferencia(this.datosDif,'',this.fusionFecha)
+    this.service.download_productos_ingresados_easy(this.datosDif,'',this.fusionFecha)
   }
 }

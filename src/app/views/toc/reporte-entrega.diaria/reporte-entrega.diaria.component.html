@@ -9,17 +9,15 @@
             <td>
                 <div class="">
                     <select id="Region" cSelect size="1" (change)="filtrarPorRegion()" [(ngModel)]="regionSeleccionada">
-                        <option selected>Regiones</option>
-                        <option>Todas</option>
+                        <option selected>Todas</option>
                         <option *ngFor="let region of arrayRegion">{{region.region}}</option>
                     </select>
                 </div>
             </td>
             <td>
                 <div class="">
-                    <select id="Tienda" cSelect size="1" [(ngModel)]="tiendaSeleccionada">
-                        <option selected>Tienda</option>
-                        <option>Todas</option>
+                    <select id="Tienda" cSelect size="1" (change)="filtrarPortienda()" [(ngModel)]="tiendaSeleccionada">
+                        <option selected>Todas</option>
                         <option *ngFor="let Nombre of Tiendas">{{Nombre}}</option>
                     </select>
                 </div>
@@ -59,7 +57,7 @@
         <td coolspan="11" *ngIf="isLoadingTable"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
         </td>
         <div class="container">
-            <table class="greenTable" size="sm" style="position:-ms-page;">
+            <table class="greenTable" size="sm">
     
                 <thead>
                     <th>Total</th>
@@ -73,7 +71,7 @@
                         <th><b>{{eficiencia.Suma}}</b></th>
                         <th><b>{{eficiencia.T_ent}}</b></th>
                         <th><b>{{eficiencia.N_ent}}</b></th>
-                        <th><b>{{eficiencia.Efectividad_entrega.toFixed(2)}}%</b></th>
+                        <th><b>{{eficiencia.Efectividad_entrega}}%</b></th>
                     </tr>
     
                 </tbody>
@@ -137,7 +135,7 @@
             <canvas
                 *ngIf="chartVisible == true && graficoVisible == true" 
                 baseChart 
-                class="chart" 
+                class="chart"
                 [data]="pieChartData"
                 [type]="pieChartType" 
                 [options]="pieChartOptions">

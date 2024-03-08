@@ -141,6 +141,10 @@ export const navItems: INavDataBar[] = [
         name: 'Diferencia Fechas Easy',
         url: '/operaciones/dif-fechas-easy'
       },
+      {
+        name: 'Productos Ingresados',
+        url: '/operaciones/productos-ingresados-easy'
+      },
     ]
   },
   {
@@ -186,6 +190,10 @@ export const navItems: INavDataBar[] = [
         name: 'Diferencia Fechas Easy',
         url: '/operaciones/dif-fechas-easy'
       },
+      {
+        name: 'Productos Ingresados',
+        url: '/operaciones/productos-ingresados-easy'
+      },
     ]
   },
   {
@@ -213,6 +221,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Diferencia Fechas Easy',
         url: '/operaciones/dif-fechas-easy'
+      },
+      {
+        name: 'Productos Ingresados',
+        url: '/operaciones/productos-ingresados-easy'
       },
     ]
   }

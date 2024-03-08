@@ -20,7 +20,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
   idUsuario : string = ""
   mail : string = ""
 
-  // direccion : string = ''
+  direccion : string = ''
 
 
   constructor(private classToggler: ClassToggleService, private service : RsvService) {
@@ -28,7 +28,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
   }
 
   ngOnInit(): void {
-    // this.direccion = ACCESO_ROL[sessionStorage.getItem('rol_id')+'']
+    this.direccion = ACCESO_ROL[sessionStorage.getItem('rol_id')+'']
     
     // setTimeout(() => {
     //   this.idUsuario = sessionStorage.getItem('server')+'-'+sessionStorage.getItem('id')+''

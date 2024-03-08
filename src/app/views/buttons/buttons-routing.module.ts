@@ -7,6 +7,7 @@ import { EstadosComponent } from './estados/estados.component';
 import { ProductosSinClasificacionComponent } from './productos-sin-clasificacion/productos-sin-clasificacion.component';
 import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendientes.component';
 import { DifFechasEasyComponent } from './dif-fechas-easy/dif-fechas-easy.component';
+import { ProductosIngresadosEasyComponent } from './productos-ingresados-easy/productos-ingresados-easy.component';
 
 const routes: Routes = [
   {
@@ -60,6 +61,13 @@ const routes: Routes = [
         component: DifFechasEasyComponent,
         data: {
           title: 'Diferencia Fechas Easy'
+        }
+      },
+      {
+        path: 'productos-ingresados-easy',
+        component: ProductosIngresadosEasyComponent,
+        data: {
+          title: 'Productoss Ingresados Easy'
         }
       }
     ]

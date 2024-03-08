@@ -15,6 +15,7 @@ import { RutasService } from 'src/app/service/rutas.service'
 import { NumberLiteralType } from 'typescript/lib/tsserverlibrary';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { bottom } from '@popperjs/core';
 
 
 
@@ -52,8 +53,8 @@ export class ReporteEntregaDiariaComponent {
 
   listaRegiones : any [] = []
   TiendaFull:  Tienda[]=[]
-  tiendaSeleccionada: string = "Tienda"
-  regionSeleccionada: string = ""
+  tiendaSeleccionada: any = 'undefined'
+  regionSeleccionada: any = 'undefined'
   listaComunas: ComunaRutas[]=[]
   listaTiendas: Tienda[]=[]
   tienda?: string;
@@ -70,6 +71,9 @@ export class ReporteEntregaDiariaComponent {
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
+      legend:{
+        position: 'bottom',
+      },
       datalabels:{
         color: 'black', // Color del texto
         formatter: (value, context) => {
@@ -92,19 +96,8 @@ export class ReporteEntregaDiariaComponent {
     datasets: [
       {
         data: [1],
-        backgroundColor: [
-          '#FF6384',
-          '#4BC0C0',
-          '#FFCE56',
-          '#E7E9ED',
-          '#36A2EB',
-          '#FFFFFF',
-          '#800080',
-          '#000000',
-        ],
       },
     ],
-    
   };
 
   public pieChartType: ChartType = 'pie';
@@ -121,9 +114,6 @@ export class ReporteEntregaDiariaComponent {
           '#FFCE56',
           '#E7E9ED',
           '#36A2EB',
-          '#FFFFFF',
-          '#800080',
-          '#000000',
         ],
         hoverOffset: 4,
       },
@@ -262,6 +252,8 @@ export class ReporteEntregaDiariaComponent {
     this.graficoVisible = false;
     this.Descripcion = []; // Limpiamos el arreglo de descripciones
     this.Total = [];
+
+    if(region == 'Todas') region = undefined
     this.service2
       .EntregasFechaConductor(fecha, tienda, region)
       .subscribe((data) => {
@@ -279,6 +271,7 @@ export class ReporteEntregaDiariaComponent {
 
   getReporteConductor(fecha: string, tienda?: any, region?: any) {
     this.arrayProductosConductor = [];
+    if (region == 'Todas') region = undefined
     this.service2
       .reporteEntregaConductor(fecha, tienda, region)
       .subscribe((data) => {
@@ -293,6 +286,7 @@ export class ReporteEntregaDiariaComponent {
 
   getEfectividadConductor(fecha: string, tienda?: any, region?: any) {
     this.arrayeConductor = [];
+    if(region == 'Todas') region = undefined
     this.service2
       .eficienciaConductor(fecha, tienda, region)
       .subscribe((data) => {
@@ -370,16 +364,19 @@ export class ReporteEntregaDiariaComponent {
   // Método para filtrar los datos según la región seleccionada por el usuario
   filtrarPorRegion() {
     // Verificar si se ha seleccionado una región válida
-    if (this.regionSeleccionada !== 'Regiones') {
+    if (this.regionSeleccionada !== 'Todas') {
       // Filtrar el array de regiones para obtener solo los datos correspondientes a la región seleccionada
-      this.arrayRegion = this.arrayRegion.filter((region) => region.region === this.regionSeleccionada);
+      // porque haces esto ?????
+      // this.arrayRegion = this.arrayRegion.filter((region) => region.region === this.regionSeleccionada);
       
       console.log(this.regionSeleccionada)
-      
+
     } 
     else {
       // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
-      this.getRegiones();
+      // this.regionSeleccionada = 'undefined'
+      // porque haces esto ?????
+      // this.getRegiones();
     }
   }
     filtrarPortienda() {
@@ -389,9 +386,11 @@ export class ReporteEntregaDiariaComponent {
         this.tiendaFiltrada = this.Tiendas.filter((tienda) => tienda === this.tiendaSeleccionada);
         
         console.log(this.tiendaSeleccionada)
-      } else {
+      } if (this.tiendaSeleccionada === 'Todas'){
         // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
-        this.tiendaFiltrada = this.Tiendas;
+        this.tiendaSeleccionada = 'undefined';
+      }else{
+        this.tiendaSeleccionada = 'undefined';
       }
   
 }

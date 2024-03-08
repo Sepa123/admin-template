@@ -12,7 +12,7 @@ import { BackofficeUsuarioTOC } from 'src/app/models/backofficeUsuarioTOC.interf
 import { TocTracking } from 'src/app/models/tocTracking.interface'
 import { EditarTOC, AlertaExistenteTOC } from 'src/app/models/editarTOC.interface'
 import { MainDifFechasEasy,Dato } from 'src/app/models/TOC/difFechasEasy.interface'
-
+import { MainProductoIngresado, DatoPI } from 'src/app/models/TOC/productosIngresadosEasy.interface'
 @Injectable({
   providedIn: 'root'
 })
@@ -92,6 +92,10 @@ export class TocService {
     return this.http.get<MainDifFechasEasy>(this.apiurl + `/diferencia/fechas/easy?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
   }
 
+  get_productos_ingresados_easy(fecha_inicio : string,fecha_fin : string,offset : number){
+    return this.http.get<MainProductoIngresado>(this.apiurl + `/productos_ingresados/fechas/easy?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
+  }
+
 
   download_reporte_easy_diferencia(body : Dato [], var_random : string, fusion_fecha : string){
     this.http.post(this.apiurl + `/diferencia/fechas/easy/descargar`, body,{responseType:"blob"})
@@ -103,7 +107,17 @@ export class TocService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
 
-    
+  download_productos_ingresados_easy(body : DatoPI [], var_random : string, fusion_fecha : string){
+    this.http.post(this.apiurl + `/productos_ingresados/fechas/easy/descargar`, body,{responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `Diferencia_Easy_${fusion_fecha}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
   }
 }
