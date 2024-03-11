@@ -30,6 +30,7 @@ import { ModalModule } from '@coreui/angular';
 import { NgChartsModule } from 'ng2-charts';
 import { EditarTocComponent } from './editar-toc/editar-toc.component';
 import { ReporteEntregaDiariaComponent } from './reporte-entrega.diaria/reporte-entrega.diaria.component';
+import { ReporteTelefonoComponent } from './reporte-telefono/reporte-telefono.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ReporteEntregaDiariaComponent } from './reporte-entrega.diaria/reporte-
     AlertasVigentesComponent,
     JefaturaComponent,
     EditarTocComponent,
-    ReporteEntregaDiariaComponent
+    ReporteEntregaDiariaComponent,
+    ReporteTelefonoComponent
   ],
   imports: [
     CommonModule,

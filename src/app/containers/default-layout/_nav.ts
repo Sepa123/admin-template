@@ -332,6 +332,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Reporte entregas Diarias',
         url: '/toc/reporte-entrega.diaria'
+      },
+      {
+        name: 'Reporte Telefonos',
+        url: '/toc/reporte-telefonos'
       }
     ]
   },

@@ -5,6 +5,7 @@ import { AlertasVigentesComponent } from './alertas-vigentes/alertas-vigentes.co
 import { JefaturaComponent } from './jefatura/jefatura.component';
 import { EditarTocComponent } from './editar-toc/editar-toc.component';
 import { ReporteEntregaDiariaComponent } from './reporte-entrega.diaria/reporte-entrega.diaria.component';
+import { ReporteTelefonoComponent } from './reporte-telefono/reporte-telefono.component';
 const routes: Routes = [
   {
     path:'',
@@ -43,6 +44,13 @@ const routes: Routes = [
       {
         path: 'reporte-entrega.diaria',
         component : ReporteEntregaDiariaComponent,
+        data : {
+          title: "Reporte Entregas"
+        }
+      },
+      {
+        path: 'reporte-telefonos',
+        component : ReporteTelefonoComponent,
         data : {
           title: "Reporte Entregas"
         }
