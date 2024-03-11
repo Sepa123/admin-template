@@ -3,8 +3,7 @@
     <table class="imput_table">
         <tr>
             <td>
-                <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fechaActual"
-                    (input)="toggleContent()">
+                <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fechaActual"                     (input)="toggleContent()">
             </td>
             <td>
                 <div class="">
@@ -54,11 +53,8 @@
 <div  style="display: flex; flex-wrap: wrap; justify-content: space-around; padding: 30px;">
     
     <div>
-        <td coolspan="11" *ngIf="isLoadingTable"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
-        </td>
         <div class="container">
             <table class="greenTable" size="sm">
-    
                 <thead>
                     <th>Total</th>
                     <th>T_ent</th>
@@ -66,14 +62,15 @@
                     <th>Efectividad de entrega</th>
                 </thead>
                 <tbody>
-                    <tr></tr>
                     <tr *ngFor="let eficiencia of arrayeConductor">
                         <th><b>{{eficiencia.Suma}}</b></th>
                         <th><b>{{eficiencia.T_ent}}</b></th>
                         <th><b>{{eficiencia.N_ent}}</b></th>
                         <th><b>{{eficiencia.Efectividad_entrega}}%</b></th>
                     </tr>
-    
+                    <tr>
+                        <td colspan="2" *ngIf="isLoadingTable"><img width="50" height="50" src="../../../assets/images/loading-gif.gif"/></td>
+                    </tr>
                 </tbody>
             </table>
     
@@ -86,14 +83,19 @@
                     <th>No entregados</th>
                     <th>Efectividad de entrega</th>
                 </thead>
-                <tbody *ngFor="let eConductor of arrayProductosConductor">
-    
-                    <th>{{eConductor.Driver}}</th>
-                    <th>{{eConductor.Patente}}</th>
-                    <th>{{eConductor.Total}}</th>
-                    <th>{{eConductor.Entregados}}</th>
-                    <th>{{eConductor.No_entregado}}</th>
-                    <th>{{eConductor.E_entrega}}%</th>
+                <tbody >
+                    <tr *ngFor="let eConductor of arrayProductosConductor">
+                        <th>{{eConductor.Driver}}</th>
+                        <th>{{eConductor.Patente}}</th>
+                        <th>{{eConductor.Total}}</th>
+                        <th>{{eConductor.Entregados}}</th>
+                        <th>{{eConductor.No_entregado}}</th>
+                        <th>{{eConductor.E_entrega}}%</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2" *ngIf="isLoadingFull"><img width="50" height="50"
+                                src="../../../assets/images/loading-gif.gif" /></td>
+                    </tr>
                 </tbody>
             </table>
     
@@ -113,25 +115,32 @@
       >
     </c-chart> -->
     <div>
-        <table class="greenTable" size="sm">
+        <table class="greenTable" size="sm" >
             <thead>
                 <th>Descripción</th>
                 <th>Tag</th>
                 <th>Total</th>
             </thead>
             <tbody *ngFor="let EstadoEntregas of arrayEntregasConductor">
-                <th>{{EstadoEntregas.Descripcion}}</th>
-                <th>{{EstadoEntregas.Tag}}</th>
-                <th value="">{{EstadoEntregas.Total}}</th>
+                <tr>
+                    <th>{{EstadoEntregas.Descripcion}}</th>
+                    <th>{{EstadoEntregas.Tag}}</th>
+                    <th>{{EstadoEntregas.Total}}</th>
+                </tr>
+                <tr>
+                    <td colspan="2" *ngIf="isLoadingChart"><img width="50" height="50"
+                            src="../../../assets/images/loading-gif.gif" />
+                    </td>
+                </tr>
                 <!-- <div *ngFor="let EstadoEntregas of arrayEntregasConductor">
-                    <th>
-                        {{EstadoEntregas.Total}}
-                    </th>
-                </div> -->
+                                            <th>
+                                                {{EstadoEntregas.Total}}
+                                            </th>
+                                        </div> -->
             </tbody>
         </table>
         <div size="sm"
-            style="display: block;width: 400px; height: 300px;">
+            style="display: block; width: 500px; height: 400px;">
             <canvas
                 *ngIf="chartVisible == true && graficoVisible == true" 
                 baseChart 

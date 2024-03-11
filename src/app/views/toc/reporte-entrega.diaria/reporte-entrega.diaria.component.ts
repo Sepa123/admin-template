@@ -20,12 +20,14 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 
 
+
 @Component({
   selector: 'app-reporte-entrega.diaria',
   templateUrl: './reporte-entrega.diaria.component.html',
   styleUrls: ['./reporte-entrega.diaria.component.scss'],
 })
 export class ReporteEntregaDiariaComponent {
+  @ViewChild('myCanvas', { static: false }) canvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   listaUnidades: CantidadUnidadesRutaActiva[] = [];
@@ -53,8 +55,8 @@ export class ReporteEntregaDiariaComponent {
 
   listaRegiones: any[] = [];
   TiendaFull: Tienda[] = [];
-  tiendaSeleccionada: any = 'Undefined';
-  regionSeleccionada: any = 'Undefined';
+  tiendaSeleccionada: any = 'undefined';
+  regionSeleccionada: any = 'undefined';
   listaComunas: ComunaRutas[] = [];
   listaTiendas: Tienda[] = [];
   tienda?: string;
@@ -73,15 +75,15 @@ export class ReporteEntregaDiariaComponent {
     plugins: {
       datalabels: {
         color: 'black', // Color del texto
-        formatter: (value, context) => {
+        formatter: ( value, context) => {
           const dataset = context.chart.data.datasets[context.datasetIndex];
           if (dataset.data[0] == null || dataset.data[1] == null) {
             return 0;
           } else {
             let total =
-              parseFloat(dataset.data[0].toString()) +
-              parseFloat(dataset.data[1].toString());
-            let porcentaje = ((value / total) * 100).toFixed(2) + '%';
+                dataset.data.reduce((result: number, numero : any) => result + numero, 0);
+              console.log(dataset.data)
+            let porcentaje = (( value / total)* 100 ).toFixed(2) + '%';
             return porcentaje;
             
           }
@@ -115,7 +117,7 @@ export class ReporteEntregaDiariaComponent {
   };
 
   data = {
-    labels: ['Red', 'Blue', 'Yellow'],
+    labels: ['Red', 'Blue', 'Yellow', ],
     datasets: [
       {
         label: 'My First Dataset',
@@ -126,6 +128,13 @@ export class ReporteEntregaDiariaComponent {
           '#FFCE56',
           '#E7E9ED',
           '#36A2EB',
+          '#DE10B8',
+          '#DE6F10',
+          '#DE6859',
+          '#A74281',
+          '#22FEF6',
+          '#45D479',
+          '#65D110',
         ],
         hoverOffset: 4,
       },
@@ -133,7 +142,8 @@ export class ReporteEntregaDiariaComponent {
   };
 
   isLoadingTable: boolean = true;
-  isLoadingFull: boolean = false;
+  isLoadingChart: boolean = true;
+  isLoadingFull: boolean = true;
 
   tiendaFiltrada: string[] = [];
   fechaActual!: string;
@@ -210,8 +220,6 @@ export class ReporteEntregaDiariaComponent {
 
   buscar() {
     this.contadorNS = 0;
-    this.isLoadingFull = false;
-    this.isLoadingTable = true;
     this.chartVisible = false;
     this.Descripcion = [];
     this.Total = [];
@@ -259,8 +267,10 @@ export class ReporteEntregaDiariaComponent {
   getEstadoEntregas(fecha: string, tienda: any, region: any) {
     this.chartVisible = false;
     this.graficoVisible = false;
+    this.isLoadingChart = true;
     this.Descripcion = []; // Limpiamos el arreglo de descripciones
     this.Total = [];
+    if(region == 'Todas') region = undefined
     this.service2
       .EntregasFechaConductor(fecha, tienda, region)
       .subscribe((data) => {
@@ -270,6 +280,7 @@ export class ReporteEntregaDiariaComponent {
           this.Descripcion.push(En.Descripcion);
           this.Total.push(En.Total);
           this.agregar(this.Descripcion, this.Total);
+          this.isLoadingChart = false;
         });
         this.chartVisible = true;
         this.graficoVisible = true;
@@ -278,6 +289,7 @@ export class ReporteEntregaDiariaComponent {
 
   getReporteConductor(fecha: string, tienda?: any, region?: any) {
     this.arrayProductosConductor = [];
+    if(region == 'Todas') region = undefined
     this.service2
       .reporteEntregaConductor(fecha, tienda, region)
       .subscribe((data) => {
@@ -292,6 +304,7 @@ export class ReporteEntregaDiariaComponent {
 
   getEfectividadConductor(fecha: string, tienda?: any, region?: any) {
     this.arrayeConductor = [];
+    if (region == 'Todas') region = undefined
     this.service2
       .eficienciaConductor(fecha, tienda, region)
       .subscribe((data) => {
@@ -378,6 +391,7 @@ export class ReporteEntregaDiariaComponent {
     } else {
       // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
       this.regionSeleccionada = 'undefined';
+      this.isLoadingTable =  false;
       this.getRegiones();
     }
   }
@@ -405,7 +419,7 @@ export class ReporteEntregaDiariaComponent {
       day: fecha2.getDate(),
     };
     Chart.register(ChartDataLabels);
-    
+
     fecha2.setHours(fecha2.getHours() - 4);
 
     let fechaFormateada = fecha2.toISOString().split('T')[0];
@@ -428,6 +442,8 @@ export class ReporteEntregaDiariaComponent {
           this.Descripcion.push(En.Descripcion);
           this.Total.push(En.Total);
           this.agregar(this.Descripcion, this.Total);
+          this.isLoadingChart = false
+
         });
         this.chartVisible = true;
         this.graficoVisible = true;
@@ -438,6 +454,7 @@ export class ReporteEntregaDiariaComponent {
           .subscribe((data) => {
             this.arrayProductosConductor = data;
             console.log(this.arrayProductosConductor);
+            this.isLoadingTable = false
           });
 
         this.arrayeConductor = [];
@@ -445,10 +462,12 @@ export class ReporteEntregaDiariaComponent {
           .eficienciaConductor(fechaFormateada, undefined, undefined)
           .subscribe((data) => {
             this.arrayeConductor = [data];
+            this.isLoadingFull = false
             console.log(this.arrayeConductor);
           });
+          
       });
-    this.isLoadingTable = false;
+    
 
     this.getRegiones();
   }
