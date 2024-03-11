@@ -280,14 +280,15 @@ export class ReporteEntregaDiariaComponent {
           this.Descripcion.push(En.Descripcion);
           this.Total.push(En.Total);
           this.agregar(this.Descripcion, this.Total);
-          this.isLoadingChart = false;
         });
         this.chartVisible = true;
         this.graficoVisible = true;
+        this.isLoadingChart = false;
       });
   }
 
   getReporteConductor(fecha: string, tienda?: any, region?: any) {
+    this.isLoadingTable = true
     this.arrayProductosConductor = [];
     if(region == 'Todas') region = undefined
     this.service2
@@ -295,6 +296,7 @@ export class ReporteEntregaDiariaComponent {
       .subscribe((data) => {
         this.arrayProductosConductor = data;
         console.log(this.arrayProductosConductor);
+        this.isLoadingTable = false
       });
 
     // this.service.get_lista_funciones(codigo).subscribe(data =>
@@ -303,6 +305,7 @@ export class ReporteEntregaDiariaComponent {
   }
 
   getEfectividadConductor(fecha: string, tienda?: any, region?: any) {
+    this.isLoadingFull = true;
     this.arrayeConductor = [];
     if (region == 'Todas') region = undefined
     this.service2
@@ -310,6 +313,8 @@ export class ReporteEntregaDiariaComponent {
       .subscribe((data) => {
         this.arrayeConductor = [data];
         console.log(this.arrayeConductor);
+        
+        this.isLoadingFull = false;
       });
 
     //       // this.service.get_lista_funciones(codigo).subscribe(data =>
@@ -318,9 +323,12 @@ export class ReporteEntregaDiariaComponent {
   }
 
   getNombreByFecha(dateObj: any) {
+
+
     this.isClicked = false;
     this.isActive = false;
     this.isDriver = false;
+    this.isLoadingFull = true;
     this.rutaEnActivo = [];
     this.nombreRutaActual = '';
     if (dateObj === undefined) return alert('Por favor ingrese una fecha');
@@ -338,8 +346,7 @@ export class ReporteEntregaDiariaComponent {
         this.nombresRutas.map((ruta) => {
           if (ruta.Estado === false) {
             ruta.Verificado = true;
-            ruta.Alerta = false;
-          }
+            ruta.Alerta = false;}
         });
       });
       // } else {
@@ -384,14 +391,11 @@ export class ReporteEntregaDiariaComponent {
     if (this.regionSeleccionada !== 'Todas') {
       // Filtrar el array de regiones para obtener solo los datos correspondientes a la región seleccionada
       this.arrayRegion = this.arrayRegion.filter(
-        (region) => region.region === this.regionSeleccionada
-      );
-
+        (region) => region.region === this.regionSeleccionada);
       console.log(this.regionSeleccionada);
     } else {
       // Si se selecciona 'Regiones', mostrar todos los datos nuevamente
       this.regionSeleccionada = 'undefined';
-      this.isLoadingTable =  false;
       this.getRegiones();
     }
   }
