@@ -246,7 +246,7 @@ export class BuscarRutaComponent {
     }
     
     this.service.registrar_producto_en_despacho_ruta(body).subscribe((data) => { 
-      alert(data)
+      alert('Producto agregado exitosamente')
 
       this.seleccionarRuta()
 

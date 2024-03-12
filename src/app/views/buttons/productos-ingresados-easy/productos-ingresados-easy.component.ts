@@ -82,9 +82,6 @@ export class ProductosIngresadosEasyComponent {
     return paresDeFechas;
 }
 
-
-
-
    arregloFechas(fecha_inicio : string, fecha_fin: string) {
 
     const fechas = [];
@@ -226,7 +223,6 @@ export class ProductosIngresadosEasyComponent {
 
 
   descargarExcel(){ 
-
-    this.service.download_productos_ingresados_easy(this.datosDif,this.rangoFechas,this.fusionFecha)
+    this.service.download_productos_ingresados_easy(this.datosDif,this.rangoFechas,this.fusionFecha,this.fecha_inicio, this.fecha_fin)
   }
 }

@@ -125,8 +125,8 @@ export class TocService {
     })
   }
 
-  download_reporte_telefonos_truncados(rango : string [] [], fusion_fecha : string){
-    this.http.post(this.apiurl + `/telefonos/truncados/descargar`,  {'Rango_fecha' :rango },{responseType:"blob"})
+  download_reporte_telefonos_truncados(rango : string [] [], fusion_fecha : string, fecha_inicio : string, fecha_fin : string){
+    this.http.post(this.apiurl + `/telefonos/truncados/descargar`,  {'Rango_fecha' :rango , 'Fecha_inicio_f' : fecha_inicio, 'Fecha_final_f' : fecha_fin },{responseType:"blob"})
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -137,8 +137,8 @@ export class TocService {
     })
   }
 
-  download_productos_ingresados_easy(body : DatoPI [], rango : string [] [], fusion_fecha : string){
-    this.http.post(this.apiurl + `/productos_ingresados/fechas/easy/descargar`, {'Rango_fecha' :rango },{
+  download_productos_ingresados_easy(body : DatoPI [], rango : string [] [], fusion_fecha : string, fecha_inicio : string, fecha_fin : string){
+    this.http.post(this.apiurl + `/productos_ingresados/fechas/easy/descargar`, {'Rango_fecha' :rango, 'Fecha_inicio_f' : fecha_inicio, 'Fecha_final_f' : fecha_fin },{
       headers: {
         "Content-Encoding": "gzip",
         "Content-Type": "application/json"

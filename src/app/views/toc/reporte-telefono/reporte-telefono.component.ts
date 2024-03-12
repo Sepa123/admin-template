@@ -226,7 +226,7 @@ export class ReporteTelefonoComponent {
 
   descargarExcel(){ 
 
-    this.service.download_reporte_telefonos_truncados(this.rangoFechas,this.fusionFecha)
+    this.service.download_reporte_telefonos_truncados(this.rangoFechas,this.fusionFecha,this.fecha_inicio, this.fecha_fin)
   }
 }
 

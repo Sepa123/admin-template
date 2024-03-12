@@ -49,7 +49,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'reporte-telefonos',
+        path: 'reporte-telefono',
         component : ReporteTelefonoComponent,
         data : {
           title: "Reporte Entregas"

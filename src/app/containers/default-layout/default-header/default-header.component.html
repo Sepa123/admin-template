@@ -33,14 +33,15 @@
     </c-header-nav>
 
     <c-header-nav class="d-none d-lg-flex">
-      <!-- <c-nav-item *ngIf="time !== undefined">
-        <c-dropdown alignment="end" variant="nav-item">
+      <c-nav-item *ngIf="time !== undefined">
+        <c-dropdown alignment="end" variant="nav-item" *ngIf="roles_notificaciones.includes('perfil')">
           <button
             cButton
             color=""
             [caret]="false"
             cDropdownToggle
             class="py-0"
+            (click)="revisar_notificaciones()"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 512 512">
               <path fill="currentColor" d="m450.27 348.569l-43.67-80.624V184c0-83.813-68.187-152-152-152s-152 68.187-152 152v83.945l-43.672 80.623A24 24 0 0 0 80.031 384h86.935a88.866 88.866 0 0 0-.367 8a88 88 0 0 0 176 0c0-2.7-.129-5.364-.367-8h86.935a24 24 0 0 0 21.1-35.431ZM310.6 392a56 56 0 1 1-111.419-8h110.837a56.14 56.14 0 0 1 .582 8M93.462 352l41.138-75.945V184a120 120 0 0 1 240 0v92.055L415.736 352Z" />
@@ -54,14 +55,14 @@
             </li>
 
             <li *ngFor="let folio of numeroFolios; let i = index">
-              <a cDropdownItem>
+              <a cDropdownItem >
                Se agrego Numero de folio {{folio.Numero_Factura}}
               </a>
             </li>
            
           </ul>
         </c-dropdown>
-      </c-nav-item> -->
+      </c-nav-item>
       <!-- <c-nav-item>
         <a routerLink="./" cNavLink>
           <svg cIcon name="cilList" size="lg"></svg>

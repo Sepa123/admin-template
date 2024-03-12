@@ -335,7 +335,7 @@ export const navItems: INavDataBar[] = [
       },
       {
         name: 'Reporte Telefonos',
-        url: '/toc/reporte-telefonos'
+        url: '/toc/reporte-telefono'
       }
     ]
   },
@@ -353,7 +353,12 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Alertas Vigentes',
         url: '/toc/alertas-vigentes'
+      },
+      {
+        name: 'Reporte entregas Diarias',
+        url: '/toc/reporte-entrega.diaria'
       }
+      
     ]
   },
   {

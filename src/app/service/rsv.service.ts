@@ -410,5 +410,9 @@ export class RsvService {
     obtener_notificaciones_api_defontana(body : any){
       return this.http.post(this.apiurl + `/notificiones`, body)
     }
+
+    revisar_notificaciones_defontana(body : any){
+      return this.http.post(this.apiurl + `/notificiones/revisar`, body)
+    }
   
 }
