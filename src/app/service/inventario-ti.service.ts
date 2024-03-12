@@ -16,6 +16,7 @@ import{LicenciaYEquipo} from 'src/app/models/mantenedores/licenciaYEquipo.interf
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
+import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona.interface'
 @Injectable({
     providedIn: 'root'
   })
@@ -23,8 +24,8 @@ import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
 
     constructor( private http : HttpClient) { }
   
-    // apiurl = "https://hela.transyanez.cl/api/inventario-ti"
-    apiurl = "http://127.0.0.1:8000/api/inventario-ti"
+    apiurl = "https://hela.transyanez.cl/api/inventario-ti"
+    // apiurl = "http://127.0.0.1:8000/api/inventario-ti"
 
     //descarga de excel de la planilla completa de datos de personas RRHH
 
@@ -287,6 +288,9 @@ import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
     get_lista_accesorios_asignados(){
       return this.http.get<Asignacion[]>(this.apiurl+"/lista-accesorios-asignados")
     }
+    get_lista_insumos_asignados(){
+      return this.http.get<Asignacion[]>(this.apiurl+"/lista-insumos-asignados")
+    }
     get_lista_de_asignados_sin_join(){
       return this.http.get<Asignacion[]>(this.apiurl+"/tabla-asignados")
     }
@@ -342,6 +346,15 @@ import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
 
     get_lista_equipos_asignados_por_persona(id: string){
       return this.http.get<AsignadosById[]>(this.apiurl+`/lista-equipos-por-persona/${id}`)
+    }
+
+    get_all_equipos_asignados_por_persona(rut: string){
+      return this.http.get<AsignadosPorPersona[]>(this.apiurl+`/all-equipos-por-persona/${rut}`)
+    }
+
+
+    get_equipo_asignado_por_serial(serial: string){
+      return this.http.get<AsignadosPorPersona[]>(this.apiurl+`/equipos-asignado-por-serial/${serial}`)
     }
 
     get_lista_equipos_asignados_para_Devolver(id: string){

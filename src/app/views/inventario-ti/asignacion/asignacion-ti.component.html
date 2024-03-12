@@ -3,10 +3,38 @@
   <div class="contenedor-botones">
     <button cButton class="btn-acciones departamento"  (click)="listaDeAsignaciones()">Asignar Equipo<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 512 512"><path fill="currentColor" d="M472 232h-48V120a24.028 24.028 0 0 0-24-24H40a24.028 24.028 0 0 0-24 24v246a24.028 24.028 0 0 0 24 24h172v50h-60v32h152v-32h-60v-50h92v58a24.027 24.027 0 0 0 24 24h112a24.027 24.027 0 0 0 24-24V256a24.027 24.027 0 0 0-24-24Zm-136 24v102H48V128h344v104h-32a24.027 24.027 0 0 0-24 24Zm128 184h-96V264h96Z"/></svg></button>
     <button  cButton class="btn-acciones sucursal"  (click)="listaDeAccesorios()">Asignar Accesorio<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 512 512"><path fill="currentColor" d="M420 128.1V16H92v112.1A80.1 80.1 0 0 0 16 208v192h68v-32H48V208a48.054 48.054 0 0 1 48-48h320a48.054 48.054 0 0 1 48 48v160h-44v32h76V208a80.1 80.1 0 0 0-76-79.9m-32-.1H124V48h264Z"/><path fill="currentColor" d="M396 200h32v32h-32zm-280 64H76v32h40v200h272V296h40v-32zm240 200H148V296h208Z"/></svg></button> 
-</div>
+    <button cButton class="btn-acciones tipo" (click)="hojaDeVida()">Hoja de vida<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 576 512"><path fill="currentColor" d="M528 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h480c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48m0 400H48V80h480zM208 256c35.3 0 64-28.7 64-64s-28.7-64-64-64s-64 28.7-64 64s28.7 64 64 64m-89.6 128h179.2c12.4 0 22.4-8.6 22.4-19.2v-19.2c0-31.8-30.1-57.6-67.2-57.6c-10.8 0-18.7 8-44.8 8c-26.9 0-33.4-8-44.8-8c-37.1 0-67.2 25.8-67.2 57.6v19.2c0 10.6 10 19.2 22.4 19.2M360 320h112c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8H360c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8m0-64h112c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8H360c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8m0-64h112c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8H360c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8"/></svg></button> 
+  </div>
 
 </div>
 
+
+<c-modal id="liveDemoInfoChipAsignado" [visible]="visible10" (visibleChange)="handleLiveInfoChipAsignado($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Considerar</h5>
+    <button (click)="toggleLiveInfoChipAsignado()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <table>
+      <tr class="campos-info">
+        <td>Muestra la lista de las chips y los celulalares vinculados a personas</td>
+       <td>
+        <b>Acciones</b>
+      </td>
+      <td>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 2048 2048"><path fill="currentColor" d="m2011 1728l-318 317l-90-90l163-163h-614v-128h614l-163-163l90-90zm-669 192l128 128H128V0h1115l549 549v734l-128-128V640h-512V128H256v1792zm-62-1408h293l-293-293z"/></svg>
+        Permite editar el estado del Chip.
+      </td>
+    
+      </tr>
+    </table>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveInfoChipAsignado()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
 
 <c-modal id="liveDemoInfoLicenciaAsignada" [visible]="visible9" (visibleChange)="handleLiveInfoLicenciaAsignada($event)">
   <c-modal-header>
@@ -506,17 +534,54 @@
     <h5 cModalTitle>Asignar Repuesto a Equipos y/o accesorios</h5>
     <button (click)="toggleLiveRepuesto()" cButtonClose></button>
   </c-modal-header>
-  <c-modal-body>
-    <form cForm  >
-       
-      <label>Departamento</label>
-      <select id="departamento" name="departamento"  class="form-control"  (change)="departamentoElegido($event);getLocation()">
-        <option value=0 selected>Selecciona un Departamento</option>
-        <option *ngFor="let opciones of departamentos"  value={{opciones.id}}>{{ opciones.nombre }}</option>
-      </select>
-
+  <c-modal-body cForm style="width: 50vw;">
+    <form >
+      <c-row style="width: 40vw;">
+        <c-col [xs]>
+          <div>
+            <label for ="tipo" >Tipo</label>
+            <select   cSelect    formControlName="tipo" name="tipo" (change)="encontrarTipo($event)">
+              <option value=0 selected>Selecciona el Tipo de Equipo</option>
+              <option *ngFor="let equipo of tipo" value={{equipo.id}}>
+                {{ equipo.nombre}} 
+              </option>
+            </select> 
+          </div>
+        </c-col>
+      </c-row>
+      <c-row style="width: 40vw;" >
+        <c-col [xs] *ngIf="botonDevolver == false">
+          <div class="">
+            <label for ="equipo" >Equipo </label>
+            <select   cSelect    formControlName="equipo" name="equipo" (change)="equipoElegido($event)">
+              <option value=0 selected>Selecciona un equipo</option>
+              <option *ngFor="let equipo of equipos" value={{equipo.id}}>
+                {{ equipo.marca ?equipo.marca : equipo.descripcion}} - {{equipo.modelo ? equipo.modelo: equipo.descripcion}} -  {{equipo.serial}}
+              </option>
+            </select> 
+          </div>
+        </c-col>
+      </c-row>
+      <c-row style="width: 40vw;">
+        <c-col [xs]>
+          <label>Departamento</label>
+          <select id="departamento" name="departamento"  class="form-control"  (change)="departamentoElegido($event);getLocation()">
+            <option value=0 selected>Selecciona un Departamento</option>
+            <option *ngFor="let opciones of departamentos"  value={{opciones.id}}>{{ opciones.nombre }}</option>
+          </select>
+        </c-col>
+        
+      </c-row>
+      <c-row style="width: 40vw;" *ngIf="hideCampos">
+        <c-col [xs]>
+          <label>Persona</label>
+          <select id="persona" name="persona"  class="form-control"  (change)="personaElegida($event);getLocation()">
+            <option value=0 selected>Seleccione el personal</option>
+            <option *ngFor="let opciones of personas"  value={{opciones.id}}>{{ opciones.nombres }} {{opciones.apellidos}}</option>
+          </select>
+        </c-col> 
+      </c-row>
       <div >
-      
         <div class="contenor-devolucion">
           
           <!-- <div class="devolucion_equipo">
@@ -535,37 +600,17 @@
           </div>
          
            -->
-        </div>
-        <c-row>
-          <c-col [xs]>
-            <div>
-              <label for ="tipo" >Tipo</label>
-              <select   cSelect    formControlName="tipo" name="tipo" (change)="encontrarTipo($event)">
-                <option value=0 selected>Selecciona el Tipo de Equipo</option>
-                <option *ngFor="let equipo of tipo" value={{equipo.id}}>
-                  {{ equipo.nombre}} 
-                </option>
-              </select> 
-            </div>
-          </c-col>
-          <c-col [xs] *ngIf="botonDevolver == false">
-            <div class="">
-              <label for ="equipo" >Equipo </label>
-              <select   cSelect    formControlName="equipo" name="equipo" (change)="equipoElegido($event)">
-                <option value=0 selected>Selecciona un equipo</option>
-                <option *ngFor="let equipo of equipos" value={{equipo.id}}>
-                  {{ equipo.marca ?equipo.marca : equipo.descripcion}} - {{equipo.modelo ? equipo.modelo: equipo.descripcion}} -  {{equipo.serial}}
-                </option>
-              </select> 
-            </div>
-          </c-col>
-
-        </c-row>
-        <div>
+        </div> 
+      <c-row style="width: 40vw;">
+        <c-col [xs]>
           <label>Observaciones:</label>
           <textarea placeholder="Añadir Observación" class="form-control" (change)="observacionDevolucion($event)"></textarea>
+     
+        </c-col>
+      </c-row>
+        <div>
+         
         </div>
-
       </div>
      
 
@@ -775,7 +820,11 @@
 </div>
  
 <h3 class="tituloBox" *ngIf="mostrarAccesorio">Repuestos y/o Accesorios asignados </h3>
-
+<h3 class="tituloBox"  *ngIf="mostrarChipYEquipo">Lista de Chip Asignados a Personal </h3>
+<h3 class="tituloBox licencia-asignada"*ngIf="mostrarLicenciaYEquipo">Licencias asignadas a Equipos<svg (click)="infoLicenciaAsignada()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
+  <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
+</svg></h3>
+<h3  class="tituloBox" *ngIf="mostrarInsumo">Insumos Asignados</h3>
 <!-- <div class="contenedor-asignacion">
   <div *ngIf="mostrarAccesorio">
     <button  class="btn-crear btn-extra btn-repuesto"  cButton color="info" size="sm" (click)="toggleLiveRepuesto()">
@@ -786,36 +835,66 @@
 </div> -->
 
 
-<div *ngIf="mostrarAccesorio" class="contenedor-filtro-accesorio" style="margin-bottom: 4rem; margin-top: 3rem;">
-  <div class="contenedor-asignacion">
-    <div *ngIf="mostrarAccesorio">
-      <button  class="btn-crear btn-extra"  cButton color="info" size="sm" (click)="toggleLiveRepuesto()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
-        </svg>Asignar Repuesto
-      </button> 
+<div *ngIf="botoneraAccesorio" class="contenedor-filtro-accesorio" style="margin-bottom: 4rem; margin-top: 3rem; padding-right: 8rem;">
+  <div style="display:flex; justify-content: center; margin-left: 120px;">
+    <div class="contenedor-asignacion">
+      <div *ngIf="mostrarAccesorio || botoneraAccesorio">
+        <button  class="btn-repuesto"  cButton color="info" size="sm" (click)="toggleLiveRepuesto()" style="margin-top:2rem">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4V5Zm4 0h-2v5a1 1 0 0 1-1 1H5v2h5a1 1 0 0 1 1 1v5h2v-5a1 1 0 0 1 1-1h5v-2h-5a1 1 0 0 1-1-1V5Z"/></g>
+          </svg>Asignar Repuesto
+        </button> 
+      </div>
     </div>
-  </div>
-  <div class="contenedor-filtro-asignacion">
-    <b>Lista de Licencias Asignadas
-      <svg (click)="infoLicenciaAsignada()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
-        <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
-      </svg>
-    </b>
+    <div class="contenedor-filtro-asignacion chip-licencia">
+      <b>Licencias Asignadas
+        <svg (click)="infoLicenciaAsignada()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
+          <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
+        </svg>
+      </b>
+  
+      <button cButton type="button" class="btn-licencia-chip"  *ngIf="mostrarLicencia" (click)="obtenerLicenciaAsignadaAEquipo()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 28 28"><path fill="currentColor" d="M20.143 20.277v4.484C18.482 25.545 16.373 26 14 26c-5.79 0-10-2.567-10-6.285V19a3 3 0 0 1 3-3h10.857a5.14 5.14 0 0 0 2.286 4.277M14 2a6 6 0 1 1 0 12a6 6 0 0 1 0-12m10.143 17.834A4.002 4.002 0 0 0 23 12a4 4 0 0 0-1.714 7.615v6.687c0 .151.06.297.167.404l1.125 1.125c.23.23.605.222.825-.017l2.084-2.268a.571.571 0 0 0-.017-.79l-1.327-1.327l1.31-1.31a.572.572 0 0 0 0-.809L24.143 20zM24 15a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg>
+      </button>
+    </div>
+    <div class="contenedor-filtro-asignacion chip-licencia" style="min-width: 12vw;">
+      <b>Chip Asignados
+        <svg (click)="infoChipAsignado()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
+          <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
+        </svg>
+      </b>
+  
+      <button cButton type="button" class="btn-licencia-chip" *ngIf="mostrarLicencia" (click)="obtenerChipAsignadoAEquipo()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="currentColor" d="M14 21.372V14H4.253a2.249 2.249 0 0 0-2.25 2.249v.92c0 .572.18 1.13.511 1.596C4.056 20.929 6.58 22 10 22c1.51 0 2.847-.209 4-.629M10 2.005a5 5 0 1 1 0 10a5 5 0 0 1 0-10M21.255 10c.966 0 1.75.784 1.75 1.75v9.5a1.75 1.75 0 0 1-1.75 1.75H16.75A1.75 1.75 0 0 1 15 21.25v-9.5c0-.966.784-1.75 1.75-1.75zm-2.002 8.997h-.5l-.102.007a.75.75 0 0 0 .102 1.493h.5l.101-.007a.75.75 0 0 0-.101-1.493"/></svg>
+      </button>
+    </div>
+    <div class="contenedor-filtro-asignacion chip-licencia">
+      <b>Accesorios Asignados
+        <svg (click)="infoChipAsignado()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
+          <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
+        </svg>
+      </b>
+  
+      <button cButton type="button" class="btn-licencia-chip"  (click)="obtenerAccesoriosAsignados()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 14 14"><path fill="currentColor" fill-rule="evenodd" d="M5.659 1.94A1.5 1.5 0 0 1 8.219 3v.25a2.75 2.75 0 0 0 5.5 0v-1.5a.75.75 0 0 0-1.5 0v1.5a1.25 1.25 0 0 1-2.5 0V3a3 3 0 0 0-5.93-.64a4.758 4.758 0 0 1 1.559.033a1.5 1.5 0 0 1 .31-.454Zm2.28 5.09A3.47 3.47 0 0 0 1 7.03v3.47a3.47 3.47 0 1 0 6.939 0zM5.094 5.97a.625.625 0 1 0-1.25 0v1a.625.625 0 1 0 1.25 0z" clip-rule="evenodd"/></svg>
+      </button>
+    </div>
+    <div class="contenedor-filtro-asignacion chip-licencia">
+      <b>Insumos Asignados
+        <svg (click)="infoChipAsignado()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
+          <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
+        </svg>
+      </b>
+  
+      <button cButton type="button" class="btn-licencia-chip" (click)="obtenerInsumosAsignados()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="currentColor" d="M10.507 14.142a1.35 1.35 0 1 0 1.35 1.35a1.348 1.348 0 0 0-1.35-1.35"/><path fill="currentColor" d="M14 2.01H6a1.997 1.997 0 0 0-1.99 2l-.01 16a1.997 1.997 0 0 0 1.99 2H18a2.006 2.006 0 0 0 2-2v-12Zm.863 14.958l-.9 1.557a.236.236 0 0 1-.279.099l-1.125-.45a3.328 3.328 0 0 1-.756.44l-.17 1.189a.231.231 0 0 1-.226.189h-1.8a.224.224 0 0 1-.225-.19l-.17-1.187a3.079 3.079 0 0 1-.766-.441l-1.116.45a.228.228 0 0 1-.279-.1l-.9-1.556a.234.234 0 0 1 .054-.288l.954-.747a3.618 3.618 0 0 1 0-.882l-.954-.747a.223.223 0 0 1-.054-.288l.9-1.557a.236.236 0 0 1 .28-.1l1.115.45a3.593 3.593 0 0 1 .765-.44l.171-1.188a.231.231 0 0 1 .225-.19h1.8a.215.215 0 0 1 .216.19l.171 1.188a3.078 3.078 0 0 1 .765.44l1.116-.45a.228.228 0 0 1 .28.1l.9 1.557a.234.234 0 0 1-.055.288l-.954.747a2.368 2.368 0 0 1 .036.44a3.495 3.495 0 0 1-.036.442l.963.747a.234.234 0 0 1 .054.288M13 9.01v-5.5l5.5 5.5Z"/></svg>
+      </button>
+    </div>
 
-    <button cButton type="button" *ngIf="mostrarLicencia" (click)="obtenerLicenciaAsignadaAEquipo()">Personas Asignadas</button>
   </div>
-  <div class="contenedor-filtro-asignacion">
-    <b>Lista de Chip Asignados
-      <svg (click)="infoLicenciaAsignada()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
-        <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
-      </svg>
-    </b>
-
-    <button cButton type="button" *ngIf="mostrarLicencia" (click)="obtenerChipAsignadoAEquipo()">Asignados a Celulares</button>
-  </div>
+ 
 </div>
 
-<h3 class="tituloBox"  *ngIf="mostrarChipYEquipo">Lista de Chip Asignados a Personal </h3>
+
 
 <div  class="greenTable"  *ngIf="mostrarChipYEquipo && chipYEquipo.length > 0" >
   <table id="tablaProductosPicking" style="width: 60%; margin-top:3rem" >
@@ -882,6 +961,7 @@
             <tr>
                 <th>Departamento</th>
                 <th>Equipo</th>
+                <th>Persona</th>
                 <th>Fecha de Entrega</th>
                 <th>Estado</th>
                 <th>Observación</th>
@@ -891,6 +971,72 @@
         </thead>
         <tbody>
             <tr *ngFor="let inventario of accesoriosAsignados">
+        
+                <td>{{inventario.departamento}}</td>
+                <td>{{inventario.equipo }}</td>
+                <td>{{inventario.persona || 'N/A'}}</td>
+                <td>{{inventario.fecha_entrega}}</td>
+                <td>{{inventario.estado ? 'Entregado' : 'Por Entregar' }}</td>
+                <td>{{inventario.observacion || 'Sin observación agregada'}}</td>
+                <td>
+                  <button cButton size="sm" class="btn-entrega" (click)="devolverAccesorio(inventario.id)" >Liberar
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 2048 2048"><path fill="currentColor" d="m2011 1728l-318 317l-90-90l163-163h-614v-128h614l-163-163l90-90zm-669 192l128 128H128V0h1115l549 549v734l-128-128V640h-512V128H256v1792zm-62-1408h293l-293-293z"/></svg>
+                  </button>
+                </td>
+                <!-- <td class="btn-accion-persona">
+                  <button cButton color="secondary" size="sm" class="btn-edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
+                  </button>
+
+                    <button  class="btn-crear" cButton color="success" size="sm" (click)="verMas(inventario.id)">
+                      Ver más<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><path fill="currentColor" d="M184 104v32a8 8 0 0 1-8 8H99.31l10.35 10.34a8 8 0 0 1-11.32 11.32l-24-24a8 8 0 0 1 0-11.32l24-24a8 8 0 0 1 11.32 11.32L99.31 128H168v-24a8 8 0 0 1 16 0Zm48-48v144a16 16 0 0 1-16 16H40a16 16 0 0 1-16-16V56a16 16 0 0 1 16-16h176a16 16 0 0 1 16 16Zm-16 144V56H40v144h176Z"/></svg>
+                    </button>
+
+                </td>  -->
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div  class="greenTable"  *ngIf="mostrarInsumo&& insumosAsignados.length == 0">
+  <table id="tablaProductosPicking" style="width: 60%" >
+    <thead>
+        <tr>
+            <th>Departamento</th>
+            <th>Equipo</th>
+            <th>Fecha de Entrega</th>
+            <th>Estado</th>
+            <th>Observación</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>-</td>
+          <td>-</td>
+          <td>Sin Información</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<div class="greenTable" *ngIf=" mostrarInsumo && insumosAsignados && insumosAsignados.length > 0"  >
+
+    
+    <table id="tablaProductosPicking" style="width: auto" >
+        <thead>
+            <tr>
+                <th>Departamento</th>
+                <th>Equipo</th>
+                <th>Fecha de Entrega</th>
+                <th>Estado</th>
+                <th>Observación</th>
+                <th>Acciones</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inventario of insumosAsignados">
         
                 <td>{{inventario.departamento}}</td>
                 <td>{{inventario.equipo }}</td>
@@ -917,10 +1063,7 @@
     </table>
 </div>
 
-<h3 class="tituloBox licencia-asignada"*ngIf="mostrarLicenciaYEquipo">Licencias asignadas a Equipos
-  <svg (click)="infoLicenciaAsignada()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256">
-    <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/>
-  </svg></h3>
+  
 
 
 <div class="greenTable " *ngIf="mostrarLicenciaYEquipo && licenciaYEquipo && licenciaYEquipo.length > 0" >
@@ -954,3 +1097,114 @@
       </tbody>
   </table>
 </div>
+<div class="contenedor-filtro-busqueda " *ngIf="mostrarHojaDeVida" style=" padding-bottom: 1.5rem">
+  
+  <button *ngIf="mostrarHojaDeVida" class="descarga btn-persona" cButton color="success" size="sm" >
+    <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+  </svg>Descargar Planilla</button>
+  <div>
+    <!-- class="contenedor-buscar-persona" -->
+    <b>Buscar Persona</b>
+    <input type="text" class="form-control" (change)="filterByPersona($event)"  placeholder="Ingrese RUT">
+  </div>
+  <div>
+    <!-- class="contenedor-buscar-persona" -->
+    <b>Buscar Serial</b>
+    <input type="text" class="form-control" (change)="filterBySerial($event)"  placeholder="Ingresar Serial">
+  </div>
+  
+</div>
+
+<div class="greenTable" *ngIf=" mostrarHojaDeVida && todasLasAsignacionesPorPersona && todasLasAsignacionesPorPersona.length > 0"  >
+
+    
+  <table id="tablaProductosPicking" style="width: auto" >
+      <thead>
+          <tr>
+              <th>Persona</th>
+              <th>RUT</th>
+              <th>Cargo</th>
+              <th>Departamento</th>
+              <th>Marca</th>
+              <th>Serial</th>
+              <th>Fecha de Entrega</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let inventario of todasLasAsignacionesPorPersona">
+      
+              <td>{{inventario.persona}}</td>
+              <td>{{inventario.rut}}</td>
+              <td>{{inventario.cargo}}</td>
+              <td>{{inventario.departamento}}</td>
+              <td>{{inventario.marca}}</td>
+              <td>{{inventario.serial }}</td>
+              <td>{{inventario.fecha_entrega}}</td>
+              <td>{{inventario.tipo}}</td> 
+              <td>{{inventario.estado ? 'Entregado' : 'Por Entregar' }}</td>
+              <td>
+                <button cButton size="sm" class="btn-entrega" (click)="devolverAccesorio(inventario.id)" >Liberar
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 2048 2048"><path fill="currentColor" d="m2011 1728l-318 317l-90-90l163-163h-614v-128h614l-163-163l90-90zm-669 192l128 128H128V0h1115l549 549v734l-128-128V640h-512V128H256v1792zm-62-1408h293l-293-293z"/></svg>
+                </button>
+              </td>
+             
+          </tr>
+      </tbody>
+  </table>
+</div>
+<!-- <div>
+  <span class="circle"  >HOLA</span>
+</div> -->
+
+<div>
+  <ul>
+    <li>
+      <div>
+        <span *ngIf="asignadosPorSerial.length >0"class="circle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 15 15"><path fill="none" stroke="currentColor" d="M9.5 14.5h4a1 1 0 0 0 1-1v-12a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm0 0H4m2.5-3v3m2-9h6m-4.5 6h3m-11.5-8h7v8h-7a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1Z"/></svg>
+        </span>
+      </div>
+    
+      <div *ngFor="let inventario of asignadosPorSerial" style="background-color: gray; padding: 1rem; border-radius: 15px; margin-bottom: 1rem; margin-top: 3rem;">
+        <div>
+         <h5>Equipo {{inventario.tipo}}</h5>
+         <p>Modelo {{inventario.modelo}}</p> 
+         <p>Serial{{inventario.serial}}</p>
+        </div>
+       </div>
+    </li>
+    <li>
+     
+      <span *ngIf="asignadosPorSerial.length >0" class="circle"  > 
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 48 48"><path fill="#d1c4e9" d="M38 7H10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h28c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2m0 12H10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h28c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2m0 12H10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h28c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2"/><path fill="#607d8b" d="M45.2 38.1c.1-.4.1-.8.1-1.1s0-.8-.1-1.1l2.3-1.7c.2-.2.3-.5.2-.7l-2.3-3.9c-.1-.2-.4-.3-.7-.2l-2.6 1.2c-.6-.5-1.3-.9-2-1.2l-.3-2.9c0-.3-.3-.5-.5-.5h-4.5c-.3 0-.5.2-.5.5l-.3 2.9c-.7.3-1.4.7-2 1.2l-2.6-1.2c-.3-.1-.6 0-.7.2l-2.3 3.9c-.1.2-.1.6.2.7l2.3 1.7c-.1.4-.1.8-.1 1.1s0 .8.1 1.1l-2.3 1.7c-.2.2-.3.5-.2.7l2.3 3.9c.1.2.4.3.7.2l2.6-1.2c.6.5 1.3.9 2 1.2l.3 2.9c0 .3.3.5.5.5h4.5c.3 0 .5-.2.5-.5l.3-2.9c.7-.3 1.4-.7 2-1.2l2.6 1.2c.3.1.6 0 .7-.2l2.3-3.9c.1-.2.1-.6-.2-.7zM37 42.2c-2.9 0-5.2-2.3-5.2-5.2c0-2.9 2.3-5.2 5.2-5.2c2.9 0 5.2 2.3 5.2 5.2c0 2.9-2.3 5.2-5.2 5.2"/><path fill="#455a64" d="M37 31c-3.3 0-6 2.7-6 6s2.7 6 6 6s6-2.7 6-6s-2.7-6-6-6m0 9c-1.7 0-3-1.3-3-3s1.3-3 3-3s3 1.3 3 3s-1.3 3-3 3"/>
+        </svg>
+      </span>
+      <div *ngFor="let inventario of asignadosPorSerial" style="background-color: rgb(216, 175, 122); padding: 1rem; border-radius: 15px; margin-bottom: 1rem;">
+        <div>
+          <h5>Estado</h5>
+          <h6>Asignado a {{inventario.persona}}</h6>
+          <p>{{inventario.estado}} {{inventario.fecha_entrega}} </p>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<!-- <div *ngFor="let inventario of asignadosPorSerial" style="background-color: gray; padding: 1rem; border-radius: 15px; margin-bottom: 1rem; margin-top: 3rem;">
+ <div>
+  <h5>Equipo {{inventario.tipo}}</h5>
+  <p>Modelo {{inventario.modelo}}</p> 
+  <p>Serial{{inventario.serial}}</p>
+ </div>
+</div>
+<div *ngFor="let inventario of asignadosPorSerial" style="background-color: rgb(216, 175, 122); padding: 1rem; border-radius: 15px; margin-bottom: 1rem;">
+  <div>
+    <h5>Estado</h5>
+    <h6>Asignado a {{inventario.persona}}</h6>
+    <p>{{inventario.estado}} {{inventario.fecha_entrega}} </p>
+  </div>
+</div> -->
