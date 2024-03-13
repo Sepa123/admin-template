@@ -265,6 +265,8 @@ export class BuscarRutaComponent {
 
     this.productoRutas4Digitos[index].Encontrado = !this.productoRutas4Digitos[index].Encontrado 
 
+    console.log(this.productoRutas4Digitos[index])
+
     this.arrayRutasIngresados.map(ruta => {
       let res = ruta.filter((prod) =>  prod.Codigo_pedido == this.productoRutas4Digitos[index].Codigo_pedido || prod.Codigo_producto == this.productoRutas4Digitos[index].Codigo_producto)
           console.log(res)
@@ -274,9 +276,9 @@ export class BuscarRutaComponent {
       
     })
 
-    this.arrayRutasIngresados[index][0].Encontrado = !this.arrayRutasIngresados[index][0].Encontrado
+    // this.arrayRutasIngresados[index][0].Encontrado = !this.arrayRutasIngresados[index][0].Encontrado
 
-    this.arrayRutasIngresados[index][0].Notas
+    // this.arrayRutasIngresados[index][0].Notas
     
 
     
@@ -431,6 +433,7 @@ export class BuscarRutaComponent {
     this.productoRutas4Digitos =  this.productoRutas4Digitos.filter(producto => producto.Codigo_pedido.endsWith(resultado))
 
     if(this.productoRutas4Digitos.length == 0){
+      this.idPedidoRuta4Digitos = ""
       return alert("No se encuentran similitudes")
     }
 
@@ -446,6 +449,8 @@ export class BuscarRutaComponent {
       "observacion" : "Pickeo producto en Despacho Ruta"
       // "cod_sku" : sku
     }
+
+    this.idPedidoRuta4Digitos = ""
 
   //   this.arrayRutasIngresados.map((ruta) => {
   //     let res = ruta.filter((prod) =>  prod.Codigo_pedido == resultado || prod.Codigo_producto == resultado)

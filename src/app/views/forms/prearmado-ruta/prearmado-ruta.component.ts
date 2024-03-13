@@ -292,13 +292,14 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
     console.log(this.body)
 
     this.rutaService.armar_ruta_bloque(this.body).subscribe((data : any) => {
-      alert(data)
       const separador = data.split(" ")
 
       console.log(separador[1])
 
-      this.rutaService.recalcular_posicion_rutas(separador[1])
-
+      this.rutaService.recalcular_posicion_rutas(separador[1]).subscribe((sos)=> {
+        alert(data)
+      })
+      
       this.toggleLiveDemo()
     }, error => {
       alert("Error al cargar los datos")

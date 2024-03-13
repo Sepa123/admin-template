@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { interval } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
 import { ACCESO_ROL, ROLES_PERMITIDOS} from 'src/app/rolesPermitidos.const';
@@ -27,6 +27,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   perfil =   sessionStorage.getItem('rol_id')+''
 
+  subNotificaciones!: Subscription
+
 
   constructor(private classToggler: ClassToggleService, private service : RsvService) {
     
@@ -37,8 +39,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
     this.perfil =   sessionStorage.getItem('rol_id')+''
     this.direccion = ACCESO_ROL[sessionStorage.getItem('rol_id')+'']
 
-    // if ( this.roles_notificaciones.includes(sessionStorage.getItem('rol_id')+'')){
-      if ( this.roles_notificaciones.includes('sos')){
+    if ( this.roles_notificaciones.includes(sessionStorage.getItem('rol_id')+'')){
+      // if ( this.roles_notificaciones.includes('sos')){
     setTimeout(() => {
       this.idUsuario = sessionStorage.getItem('server')+'-'+sessionStorage.getItem('id')+''
       this.mail = sessionStorage.getItem('mail')+""
@@ -49,6 +51,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
       this.service.obtener_notificaciones_api_defontana(body).subscribe((data : any) => {
         this.contadorDefontana = data.Cantidad
         this.numeroFolios = data.Folios
+
+        this.subNotificacionesDefontana(body)
       })
     }, 1000);
 
@@ -74,6 +78,20 @@ export class DefaultHeaderComponent extends HeaderComponent {
         this.contadorDefontana = data.Cantidad
         this.numeroFolios = data.Folios
     })
+  }
+
+
+  subNotificacionesDefontana(body : any) {
+    this.subNotificaciones = this.service.update_notificaciones_api_defontana(body).subscribe((data : any) => {
+      this.contadorDefontana = data.Cantidad
+      this.numeroFolios = data.Folios
+    })
+  }
+
+  ngOnDestroy(): void {
+    // Cancelar la suscripción al destruir el componente
+    this.subNotificaciones.unsubscribe()
+    console.log('destrui la notificacion alv')
   }
 
   Logout(){

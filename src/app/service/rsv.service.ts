@@ -411,6 +411,12 @@ export class RsvService {
       return this.http.post(this.apiurl + `/notificiones`, body)
     }
 
+    //sub de notificacion
+
+    update_notificaciones_api_defontana(body : any) : Observable<any> {
+      return interval(600000).pipe(switchMap(() => this.http.post(this.apiurl + `/notificiones`, body)))
+    }
+
     revisar_notificaciones_defontana(body : any){
       return this.http.post(this.apiurl + `/notificiones/revisar`, body)
     }

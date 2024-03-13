@@ -80,6 +80,8 @@ export class NsVerificadosComponent {
 
   nombreTienda : string [] = ["Verificados", "Sin verificar"]
 
+  nsTiendas : string[] = ['easy', 'opl', 'elux']
+
   porcentaje : number [] = []
 
   options = {
@@ -137,12 +139,81 @@ export class NsVerificadosComponent {
     this.datosNs = []
     this.isLoadingTableNS = true
     const fecharFormateadaInicio = this.fechaNsCompromiso.split('-').join('')
-    this.service.get_ns_fecha_compromiso_real(fecharFormateadaInicio).subscribe((data) => {
-      this.promedio = data.promedio
-      this.datosNs = data.datos
 
-      this.isLoadingTableNS = false 
+    this.service.get_ns_fecha_compromiso_real_tienda(fecharFormateadaInicio,'easy').subscribe(data => {
+
+      data.datos.map((informe) => {
+        this.datosNs.push(informe)
+      })
+
+      this.service.get_ns_fecha_compromiso_real_tienda(fecharFormateadaInicio,'opl').subscribe(dataOpl => {
+
+        dataOpl.datos.map((informe) => {
+          this.datosNs.push(informe)
+        })
+
+
+        this.service.get_ns_fecha_compromiso_real_tienda(fecharFormateadaInicio,'elux').subscribe(dataElux => {
+
+
+          dataElux.datos.map((informe) => {
+            this.datosNs.push(informe)
+          })
+
+          this.isLoadingTableNS = false 
+          const tota_compromiso = this.datosNs.reduce((accumulator, currentValue) => accumulator + currentValue.Compromiso_real,0,);
+          const tota_entregados = this.datosNs.reduce((accumulator, currentValue) => accumulator + currentValue.Entregados,0,);
+          this.promedio = (tota_entregados * 100) /tota_compromiso
+
+          this.promedio = parseFloat(this.promedio.toFixed(2))
+        
+        })
+      })
+
+      // if( tienda == 'elux') {
+      //   this.isLoadingTableNS = false 
+      //   const tota_compromiso = this.datosNs.reduce((accumulator, currentValue) => accumulator + currentValue.Compromiso_real,0,);
+      //   const tota_entregados = this.datosNs.reduce((accumulator, currentValue) => accumulator + currentValue.Entregados,0,);
+
+      //   this.promedio = (tota_entregados * 100) /tota_compromiso
+      // }
     })
+
+    
+    // this.nsTiendas.map((tienda, i) => {
+
+    //   setTimeout(() => {
+    //     this.service.get_ns_fecha_compromiso_real_tienda(fecharFormateadaInicio,tienda).subscribe(data => {
+
+    //       data.datos.map((informe) => {
+    //         this.datosNs.push(informe)
+    //       })
+
+    //       if( tienda == 'elux') {
+    //         this.isLoadingTableNS = false 
+    //         const tota_compromiso = this.datosNs.reduce((accumulator, currentValue) => accumulator + currentValue.Compromiso_real,0,);
+    //         const tota_entregados = this.datosNs.reduce((accumulator, currentValue) => accumulator + currentValue.Entregados,0,);
+
+    //         this.promedio = (tota_entregados * 100) /tota_compromiso
+    //       }
+    //     })
+        
+    //   }, 25000 * i);
+    // })
+
+
+    
+
+    console.log(this.promedio)
+
+
+
+    // this.service.get_ns_fecha_compromiso_real(fecharFormateadaInicio).subscribe((data) => {
+    //   this.promedio = data.promedio
+    //   this.datosNs = data.datos
+
+    //   this.isLoadingTableNS = false 
+    // })
   }
 
   ngOnInit():void {

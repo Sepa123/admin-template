@@ -295,5 +295,11 @@ export class TIService {
     // return this.http.get<MainNs>(this.apiurl + `/ns/fecha_c_real?fecha=${fecha}`)
 
   }
-  
+
+
+  get_ns_fecha_compromiso_real_tienda(fecha: string, tienda : string){
+    return this.http.get<MainNs>(this.apiurl + `/ns/fecha_c_real/easy?fecha=${fecha}&tienda=${tienda}`)
+
+  }
+
 }
