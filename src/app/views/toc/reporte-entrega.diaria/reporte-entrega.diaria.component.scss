@@ -1,8 +1,27 @@
 h2 {
     text-align: center;
 }
+.title{
+  background-color: #AAAAAA;
+}
 body{
   overflow-x: hidden;
+}
+.Body-tablechart{
+transform: translate(70px);
+
+}
+
+.Body-container{
+  background-color: white;
+  border-radius: 5%;
+  
+}
+.Title-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color:#ebedef ;
 }
 .container{
   display: flex;
@@ -16,8 +35,19 @@ body{
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
   height: 10vh; /* Altura del contenedor al 100% de la altura de la ventana */
+  background-color:#ebedef ;
 }
 
+table.greenTable2 {
+  border: 1px solid #28A745;
+  background-color: #FFFEF3;
+  width: auto;
+  text-align: left;
+  table-layout:auto;
+  padding: 30px;
+  margin-bottom: 20px;
+  align-items: center;
+}
 table.greenTable {
     border: 1px solid #28A745;
     background-color: #FFFEF3;
@@ -32,6 +62,15 @@ table.greenTable td, table.greenTable th {
     padding: 3px 2px;
     justify-content: center;
   }
+  table.greenTable2 td, table.greenTable2 th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+    justify-content: center;
+  }
+  table.greenTable2 tbody td {
+    font-size: 10px;
+    
+  }
 table.greenTable tbody td {
     font-size: 10px;
     
@@ -41,6 +80,13 @@ table.greenTable tbody td {
     padding: 3px 2px;
   }
 table.greenTable tbody th {
+    font-size: 12px;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  table.greenTable2 tbody th {
     font-size: 12px;
     justify-content: center;
     white-space: nowrap;
@@ -61,6 +107,20 @@ table.greenTable thead th {
     border-left: 2px solid #28A745;
   }
 table.greenTable thead th:first-child {
+    border-left: none;
+  }
+
+table.greenTable2 thead {
+    background: #28A745;
+  }
+table.greenTable2 thead th {
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+table.greenTable2 thead th:first-child {
     border-left: none;
   }
   
