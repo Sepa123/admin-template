@@ -5,11 +5,8 @@ import { AlertasVigentesComponent } from './alertas-vigentes/alertas-vigentes.co
 import { JefaturaComponent } from './jefatura/jefatura.component';
 import { EditarTocComponent } from './editar-toc/editar-toc.component';
 import { ReporteEntregaDiariaComponent } from './reporte-entrega.diaria/reporte-entrega.diaria.component';
-<<<<<<< HEAD
-
-=======
 import { ReporteTelefonoComponent } from './reporte-telefono/reporte-telefono.component';
->>>>>>> c1cb59773de176a518b0158439f3c78500f09a42
+
 const routes: Routes = [
   {
     path:'',
@@ -51,8 +48,6 @@ const routes: Routes = [
         data : {
           title: "Reporte Entregas"
         }
-<<<<<<< HEAD
-=======
       },
       {
         path: 'reporte-telefono',
@@ -60,7 +55,7 @@ const routes: Routes = [
         data : {
           title: "Reporte Entregas"
         }
->>>>>>> c1cb59773de176a518b0158439f3c78500f09a42
+
       }
     ]
   }
