@@ -1,11 +1,14 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EstadoComponent } from './estado/estado.component';
 import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { TrackingProductoComponent } from './tracking-producto/tracking-producto.component';
 import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.component'
 import { TimelineComponent } from './timeline/timeline.component';
+<<<<<<< HEAD
+=======
 
+>>>>>>> c1cb59773de176a518b0158439f3c78500f09a42
 const routes: Routes = [
   {
     path: '',
@@ -39,7 +42,7 @@ const routes: Routes = [
         component : IngresoProductoComponent,
         data : {
           title: "Ingreso Producto"
-        }
+        },
       },
       {
         path : 'timeline',

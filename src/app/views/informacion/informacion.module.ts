@@ -28,6 +28,10 @@ import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { TrackingProductoComponent } from './tracking-producto/tracking-producto.component';
 import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.component';
 import { TimelineComponent } from './timeline/timeline.component';
+<<<<<<< HEAD
+
+=======
+>>>>>>> c1cb59773de176a518b0158439f3c78500f09a42
 
 @NgModule({
   declarations: [
@@ -36,6 +40,10 @@ import { TimelineComponent } from './timeline/timeline.component';
     TrackingProductoComponent,
     IngresoProductoComponent,
     TimelineComponent,
+<<<<<<< HEAD
+    
+=======
+>>>>>>> c1cb59773de176a518b0158439f3c78500f09a42
   ],
   imports: [
     CommonModule,

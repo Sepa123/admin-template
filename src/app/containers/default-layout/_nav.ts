@@ -332,10 +332,13 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Reporte entregas Diarias',
         url: '/toc/reporte-entrega.diaria'
+<<<<<<< HEAD
+=======
       },
       {
         name: 'Reporte Telefonos',
         url: '/toc/reporte-telefono'
+>>>>>>> c1cb59773de176a518b0158439f3c78500f09a42
       }
     ]
   },
@@ -466,6 +469,8 @@ export const navItems: INavDataBar[] = [
       {
         name: "Historial Producto",
         url: '/informacion/timeline',
+<<<<<<< HEAD
+=======
       }
     ]
   },
@@ -482,6 +487,7 @@ export const navItems: INavDataBar[] = [
       {
         name: "Historial Producto",
         url: '/informacion/timeline',
+>>>>>>> c1cb59773de176a518b0158439f3c78500f09a42
       }
     ]
   },
@@ -851,7 +857,8 @@ export const navItems: INavDataBar[] = [
         url: '/inventario-ti/asignacion'
       }
     ]
-  }
+  },
+
   // {
   //   name: 'Carga Excel',
   //   url : '/carga',

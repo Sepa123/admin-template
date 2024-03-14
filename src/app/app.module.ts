@@ -23,6 +23,9 @@ import { AppRoutingModule } from './app-routing.module';
 // Import app component
 import { AppComponent } from './app.component';
 
+
+
+
 // Import containers
 import {
   DefaultFooterComponent,
@@ -55,7 +58,10 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgChartsModule } from 'ng2-charts';
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> c1cb59773de176a518b0158439f3c78500f09a42
 // import { RutaManulaComponent } from './views/ruta-manula/ruta-manula.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -69,7 +75,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS],
+  declarations: [AppComponent, ...APP_CONTAINERS, ],
   imports: [
     FullCalendarModule,
     DragDropModule,
@@ -105,7 +111,8 @@ const APP_CONTAINERS = [
     NgbModule,
     NgbPaginationModule, NgbAlertModule,
     NgbDatepickerModule,
-    NgChartsModule
+    NgChartsModule,
+    
   ],
   providers: [
     {

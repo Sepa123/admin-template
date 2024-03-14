@@ -37,6 +37,11 @@ export class VidaProductoService {
     return this.http.get<BuscarCabeceraProducto []>(this.apiurl3 + `/${cod_producto}`)
   }
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> c1cb59773de176a518b0158439f3c78500f09a42
 //   get_lista_tipo_funciones() {
 //     return this.http.get<  []>(this.apiurl + "/tipo/funciones")
 //   }
