@@ -18,7 +18,7 @@ export interface AsignadosById{
     estado: boolean | null,
     modelo: string |null
     pdf_entrega: string |null
-    folio_devolucion: string,
+    folio_devolucion: number,
     pdf_devolucion: string |null
     firma_entrega: boolean | null
 

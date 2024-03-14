@@ -14,6 +14,8 @@ import { SubEstado } from '../models/mantenedores/subEstado.interface';
 import{Estado} from 'src/app/models/mantenedores/estados.interface'
 import{LicenciaYEquipo} from 'src/app/models/mantenedores/licenciaYEquipo.interface'
 import { Observable } from 'rxjs';
+import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
+import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona.interface'
 
 @Injectable({
     providedIn: 'root'
@@ -40,25 +42,25 @@ import { Observable } from 'rxjs';
     
   }
 
-  downloadPDF_entrega(id:number) {
+  downloadPDF_entrega(id:number, nombre: string) {
     this.http.get(`${this.apiurl}/descargar/entrega?id=${id}`, {responseType:"blob"})
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url
-      a.download =`hola.pdf`; 
+      a.download =`${nombre}`;
         a.click();
         window.URL.revokeObjectURL(url);
     })
   }
 
-  downloadPDF_devolucion(id:number) {
+  downloadPDF_devolucion(id:number, nombre: string) {
   this.http.get(`${this.apiurl}/descargar/devolucion?id=${id}`, {responseType:"blob"})
   .subscribe((blob:Blob) => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url
-    a.download =`hola.pdf`; 
+    a.download =`${nombre}`; 
       a.click();
       window.URL.revokeObjectURL(url);
   })
@@ -213,6 +215,19 @@ import { Observable } from 'rxjs';
 
     //OBTENCIA DE LA LISTA DE LOS DATOS 
 
+    get_chip_asignados_a_equipos(){
+      return this.http.get<ChipYEquipo[]>(this.apiurl+"/chip-asignados-a-equipos")
+    }
+
+    get_chip_no_asignados(){
+      return this.http.get<Equipo[]>(this.apiurl+"/chip-no-asignado")
+    }
+
+
+    get_chip_by_estado(){
+      return this.http.get<Equipo[]>(this.apiurl+"/chip-by-estado")
+    }
+
     busquedaPorFolio(id: string){
       return this.http.get<Asignacion>(this.apiurl+`/folio/${id}`)
     }
@@ -229,6 +244,7 @@ import { Observable } from 'rxjs';
     get_licencias_asignadas_a_equipos(){
       return this.http.get<LicenciaYEquipo[]>(this.apiurl+"/licencias-asignadas-a-equipos")
     }
+    
     get_lista_datos_personales() {
         return this.http.get<Personal[]>(this.apiurl+"/lista-personas")
       }
@@ -280,6 +296,11 @@ import { Observable } from 'rxjs';
     get_lista_accesorios_asignados(){
       return this.http.get<Asignacion[]>(this.apiurl+"/lista-accesorios-asignados")
     }
+
+    get_lista_insumos_asignados(){
+      return this.http.get<Asignacion[]>(this.apiurl+"/lista-insumos-asignados")
+    }
+
     get_lista_de_asignados_sin_join(){
       return this.http.get<Asignacion[]>(this.apiurl+"/tabla-asignados")
     }
@@ -291,6 +312,11 @@ import { Observable } from 'rxjs';
     get_lista_de_departamentos(){
       return this.http.get<Departamentos[]>(this.apiurl+"/lista-departamentos")
     }
+
+    get_subestado_chip(){
+      return this.http.get<SubEstado[]>(this.apiurl+"/lista-subestado-chip")
+    }
+
     get_lista_de_subestados(){
       return this.http.get<SubEstado[]>(this.apiurl+"/lista-subestado")
     }
@@ -320,6 +346,15 @@ import { Observable } from 'rxjs';
 
     get_lista_asignados_by_id(id:number){
       return this.http.get<AsignadosById[]>(this.apiurl+`/asignados/${id}`)
+    }
+
+    get_all_equipos_asignados_por_persona(rut: string){
+      return this.http.get<AsignadosPorPersona[]>(this.apiurl+`/all-equipos-por-persona/${rut}`)
+    }
+
+
+    get_equipo_asignado_por_serial(serial: string){
+      return this.http.get<AsignadosPorPersona[]>(this.apiurl+`/equipos-asignado-por-serial/${serial}`)
     }
 
     get_lista_devolucion_by_id(id:number){

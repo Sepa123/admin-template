@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { ProductoToc } from '../models/productosToc.interface'
 import { Subestados } from 'src/app/models/subestados.interface';
 import { Codigo1 } from 'src/app/models/Codigos1.interface';
@@ -11,7 +11,9 @@ import { ActividadDiariaTOC } from 'src/app/models/actividadesDiariasTOC.interfa
 import { BackofficeUsuarioTOC } from 'src/app/models/backofficeUsuarioTOC.interface'
 import { TocTracking } from 'src/app/models/tocTracking.interface'
 import { EditarTOC, AlertaExistenteTOC } from 'src/app/models/editarTOC.interface'
-
+import { MainDifFechasEasy,Dato } from 'src/app/models/TOC/difFechasEasy.interface'
+import { MainProductoIngresado, DatoPI } from 'src/app/models/TOC/productosIngresadosEasy.interface'
+import {MainTelefonosTruncados, DatoTelefonos} from 'src/app/models/TOC/telefonosTruncados.interface'
 @Injectable({
   providedIn: 'root'
 })
@@ -19,8 +21,19 @@ export class TocService {
 
   constructor(private http: HttpClient) { }
 
+
+  httpOptions = {
+  "headers": {
+    "Content-Encoding": "gzip",
+    "Content-Type": "application/json"
+  },
+  "responseType": "blob"
+}
+
+  
   apiurl = "https://hela.transyanez.cl/api/toc"
   // apiurl = "http://127.0.0.1:8000/api/toc"
+
 
   buscar_producto_toc(cod_producto : string){
     return this.http.get<ProductoToc>(this.apiurl + `/buscar_producto/${cod_producto}`)
@@ -85,5 +98,60 @@ export class TocService {
 
   buscar_guia_by_codigo(codigo : string){
     return this.http.get(this.apiurl + `/guia/${codigo}`)
+  }
+
+  get_diferencia_fechas_easy(fecha_inicio : string,fecha_fin : string,offset : number){
+    return this.http.get<MainDifFechasEasy>(this.apiurl + `/diferencia/fechas/easy?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
+  }
+
+  get_productos_ingresados_easy(fecha_inicio : string,fecha_fin : string,offset : number){
+    return this.http.get<MainProductoIngresado>(this.apiurl + `/productos_ingresados/fechas/easy?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
+  }
+
+  get_telefonos_truncados(fecha_inicio : string,fecha_fin : string,offset : number){
+    return this.http.get<MainTelefonosTruncados>(this.apiurl + `/telefonos/truncados?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
+  }
+
+
+  download_reporte_easy_diferencia(body : Dato [], var_random : string, fusion_fecha : string){
+    this.http.post(this.apiurl + `/diferencia/fechas/easy/descargar`, body,{responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `Diferencia_Easy_${fusion_fecha}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+  download_reporte_telefonos_truncados(rango : string [] [], fusion_fecha : string, fecha_inicio : string, fecha_fin : string){
+    this.http.post(this.apiurl + `/telefonos/truncados/descargar`,  {'Rango_fecha' :rango , 'Fecha_inicio_f' : fecha_inicio, 'Fecha_final_f' : fecha_fin },{responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `Telefonos_truncados_${fusion_fecha}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+  download_productos_ingresados_easy(body : DatoPI [], rango : string [] [], fusion_fecha : string, fecha_inicio : string, fecha_fin : string){
+    this.http.post(this.apiurl + `/productos_ingresados/fechas/easy/descargar`, {'Rango_fecha' :rango, 'Fecha_inicio_f' : fecha_inicio, 'Fecha_final_f' : fecha_fin },{
+      headers: {
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json"
+      },
+      responseType:"blob"
+    })
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `Productos_${fusion_fecha}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
   }
 }

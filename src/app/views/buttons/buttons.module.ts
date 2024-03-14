@@ -27,6 +27,8 @@ import { PendientesComponent } from './pendientes/pendientes.component';
 import { EstadosComponent } from './estados/estados.component';
 import { ProductosSinClasificacionComponent } from './productos-sin-clasificacion/productos-sin-clasificacion.component';
 import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendientes.component';
+import { DifFechasEasyComponent } from './dif-fechas-easy/dif-fechas-easy.component';
+import { ProductosIngresadosEasyComponent } from './productos-ingresados-easy/productos-ingresados-easy.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendien
     EstadosComponent,
     ProductosSinClasificacionComponent,
     EdicionPendientesComponent,
+    DifFechasEasyComponent,
+    ProductosIngresadosEasyComponent,
   ],
   imports: [
     FormsModule,

@@ -16,9 +16,14 @@ import { SubEstado } from 'src/app/models/mantenedores/subEstado.interface';
 import {LicenciaWindows} from 'src/app/models/mantenedores/licencia.interface'
 import{FirmaEntrega} from 'src/app/models/mantenedores/firma_entrega.interface'
 import{LicenciaYEquipo} from 'src/app/models/mantenedores/licenciaYEquipo.interface'
-// import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import Swal from 'sweetalert2';
+import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
+import{AsignadosPorPersona}  from 'src/app/models/mantenedores/asignadoPorPersona.interface'
 
+
+// import bootstrap from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
+// import {MatTooltipModule} from '@angular/material/tooltip';
+// import {MatButtonModule} from '@angular/material/button';
 @Component({
   selector: 'app-asignacion',
   templateUrl: './asignacion.component.html',
@@ -26,6 +31,8 @@ import Swal from 'sweetalert2';
 })
 export class AsignacionComponent {
 
+  showLicencia : boolean = false
+  showChip : boolean = false
   public visible = false;
   public visible1 = false;
   public visible2 = false;
@@ -36,14 +43,22 @@ export class AsignacionComponent {
   public visible7= false;
   public visible8= false;
   public visible9= false;
+  public visible10= false;
 
 
  objeto  : Asignacion [] = []
   isModalOpen: boolean = false
   mostrarAsignacion: boolean = false;
   mostrarAccesorio: boolean = false
+  mostrarInsumo: boolean = false
+  mostrarHojaDeVida: boolean = false
+  botoneraAccesorio: boolean = false
   asignaciones : Asignacion [] = []
   accesoriosAsignados:Asignacion [] = []
+  todasLasAsignacionesPorPersona:AsignadosPorPersona [] = []
+  asignadosPorSerial :AsignadosPorPersona [] = []
+  // hojaDeVidaSerial
+  insumosAsignados:Asignacion [] = []
   asignadosSinSjoin: Asignacion [] = []
   equipos : Equipo [] = []
   personas : Personal [] = []
@@ -81,11 +96,17 @@ export class AsignacionComponent {
 
   encargado: string |null = sessionStorage.getItem('usuario')
   nameParts: string[] = [];
+  //mostrar los campos para asignar chip disponibles
+  datosChip: boolean = false
+  ChipSeleccionada!: number
+  ChipCapturada: boolean =false
+  chipYEquipo: ChipYEquipo [] = []
 
   //mostrar los campos para asignar licencia
   datosLicencia: boolean = false
   licenciaSeleccionada!: number
   licenciaCapturada: boolean =false
+  mostrarChipYEquipo:  boolean = false
 
   //datos para asignar accesorios y repuestos que no son asignados a una persona si no departament
   //estos no requieren acta de entrega
@@ -95,7 +116,7 @@ export class AsignacionComponent {
 
   //aplicar filtros de busqueda
   TodosDeptos : string = "Todas"
-
+  equipoChip : Equipo []= []
   fechaHoy = this.obtenerFechaActual()
   conjuntoLeyenda: any[] = [];
   parLeyenda = {}
@@ -126,6 +147,9 @@ export class AsignacionComponent {
 
   //ubicamos el tipo por el id para asi desplegar solo los equipos correspondientes por tipo elegido
   tipoAsignado! : number
+  personaSeleccionada!: number
+
+  serial ! : string
 
 
     //variables para el numero de equipo
@@ -165,6 +189,11 @@ fotoDevolucion!: string
 rutaEntrega : AsignadosById[] =[]
 rutaDevolucion: AsignadosById[] =[]
 
+//esconder campos que no seran utilizados en caso de accesorios como impresora o tonner que se asigna a un departamento
+//y no se le asigna a una persona
+hideCampos : boolean = true
+
+
 
 
 
@@ -175,6 +204,8 @@ rutaDevolucion: AsignadosById[] =[]
        }
 
        ngOnInit(){
+        // const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        // const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
         //trae los equipos que se pueden asignar, aquellos con estado devuelto o chip
         this.service.get_lista_equipos_disponibles().subscribe((data)=>{
@@ -213,11 +244,13 @@ rutaDevolucion: AsignadosById[] =[]
         this.service.get_folio_entrega().subscribe((data=>{
           this.folioEntrega = data
           this.folioE = this.folioEntrega
+          console.log(this.folioE)
         }))
       
         this.service.get_folio_devolucion().subscribe((data)=>{
           this.folioDevolucion = data
           this.folioD = this.folioDevolucion
+          console.log(this.folioD)
         })
 
         this.service.get_lista_de_equipos_generales().subscribe((data)=>{
@@ -307,6 +340,14 @@ rutaDevolucion: AsignadosById[] =[]
   handleLiveInfoLicenciaAsignada(event: any) {
     this.visible9= event;
   }
+
+  toggleLiveInfoChipAsignado() {
+    this.visible10= !this.visible10;
+  }
+  handleLiveInfoChipAsignado(event: any) {
+    this.visible10= event;
+  }
+    
     
 
 
@@ -347,6 +388,10 @@ infoLicenciaAsignada(){
   this.toggleLiveInfoLicenciaAsignada()
 }
 
+infoChipAsignado(){
+  this.toggleLiveInfoChipAsignado()
+}
+
 
 //ubicar los equipos asignados por departamento
 filterByDepartamento(nombre : string){
@@ -374,6 +419,15 @@ filterByEquipo(nombre : string){
 encontrarTipo(event:any){
   this.tipoAsignado = event.target.value
   console.log(this.tipoAsignado)
+  // if(this.tipoAsignado == 1){
+  //   this.showLicencia = true
+  // }
+  // else if(this.tipoAsignado == 2){
+  //   this.showChip = true
+  // }
+  if(this.tipoAsignado ==7 || this.tipoAsignado == 15){
+    this.hideCampos = false
+  }
   this.encontrarEquipo(this.tipoAsignado)
 }
 
@@ -482,7 +536,11 @@ asignacionForm = this.fb.group({
   tipo: this.fb.control(0),
   ubicacion: this.fb.control(""),
   ubicacionarchivo: this.fb.control(""),
-  asignado: this.fb.control(false)
+  asignado: this.fb.control(false),
+  firma_devolucion: this.fb.control(false),
+  id_chip: this.fb.control(0), 
+  estadoChip: this.fb.control(0),
+  subestadoChip: this.fb.control(0),
   // ubicacionarchivo: this.fb.control("")   
 })
 
@@ -502,25 +560,40 @@ registrarAsignacion(){
         status: 1,
         folio_entrega : this.folioE,
         asignado: true,
-
         })
         this.service.crearAsignacion(this.asignacionForm.value).subscribe((respuesta)=>{
           console.log('Persona registrada:', respuesta);
           this.asignacionForm.reset()
-          this.asignacionForm.patchValue({
-
-            equipo: 0,
-            persona: 0,
-            departamento :0,
-            tipo: 0
-    
-          })
           this.toggleLiveDemoAsignar()
           this.listaDeAsignaciones()
         }, (error) => {
         console.error('Error al registrar la persona:', error);
         })
-      }else{
+      }else if(this.ChipCapturada){
+        this.getLocation()
+        this.asignacionForm.patchValue({
+        id_user: parseInt(sessionStorage['id']),
+        ids_user: sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+        lat : this.latStr,
+        long: this.longStr,
+        id_chip: this.ChipSeleccionada,
+        observacion: "Se asigna chip a celular",
+        status: 1,
+        estadoChip:4,
+        subestadoChip: 4, 
+        folio_entrega : this.folioE,
+        asignado: true,
+        })
+        this.service.crearAsignacion(this.asignacionForm.value).subscribe((respuesta)=>{
+          console.log('Persona registrada:', respuesta);
+          this.asignacionForm.reset()
+          this.toggleLiveDemoAsignar()
+          this.listaDeAsignaciones()
+        }, (error) => {
+        console.error('Error al registrar la persona:', error);
+        })
+      }
+      else{
         //si no se selecciona licencia windows
         this.getLocation()
         this.asignacionForm.patchValue({
@@ -528,7 +601,8 @@ registrarAsignacion(){
         ids_user: sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
         lat : this.latStr,
         long: this.longStr,
-        id_licencia: null, //no se asigna licencia por lo cual campo es nulo
+        id_licencia: null, 
+        id_chip:null,//no se asigna licencia por lo cual campo es nulo
         status: 1, // de entregado
         observacion: "Se asigna Equipo",
         
@@ -543,7 +617,6 @@ registrarAsignacion(){
         console.error('Error al registrar la persona:', error);
         })
       }
-     
     }else {
     this.service.actualizar_asignacion(this.asignacionForm.value).subscribe((respuesta)=>{
       console.log('Persona registrada:', respuesta);
@@ -562,6 +635,7 @@ listaDeAsignaciones(){
     this.mostrarAsignacion = true
     this.mostrarAccesorio = false
     this.mostrarLicenciaYEquipo = false
+    this.mostrarChipYEquipo
     this.service.get_lista_de_asignaciones().subscribe((data)=>{
       this.asignaciones = data
     })
@@ -571,9 +645,11 @@ listaDeAsignaciones(){
   }
 
   listaDeAccesorios(){
-    this.mostrarAccesorio = true
+    this.mostrarAccesorio = false
+    this.botoneraAccesorio = true
     this.mostrarAsignacion = false
     this.mostrarLicenciaYEquipo = false
+    this.mostrarChipYEquipo = false
     this.mostrarLicencia = true
     this.service.get_lista_accesorios_asignados().subscribe((data)=>{
       this.accesoriosAsignados = data
@@ -600,21 +676,30 @@ listaDeAsignaciones(){
   }
 
 
+  asignarChip(){
+    if(!this.datosChip){
+      this.datosChip =true
+      this.service.get_chip_no_asignados().subscribe((data)=>{
+        this.equipoChip = data
+      })
+    }else{
+      this.datosChip=false
+    }
+  }
+
+  chipElegido(event:any){
+    this.ChipSeleccionada = event.target.value
+    this.ChipCapturada = true
+  }
+
+
 listado(event: any, id: number){
-  console.log("id",id)
   this.idAsignado =id
   //id del equipo
   const result = event.target.value
-  console.log(result, "result")
   //si existe un id de equipo igual a los asignados a la persona
   const buscarEquipo = this.equiposPorPersona.find(e=> e.equipo_id == result)
     if(buscarEquipo){
-      console.log(buscarEquipo.equipo_id)
-      console.log(buscarEquipo.marca)
-      console.log(buscarEquipo.serial)
-      console.log(buscarEquipo.descripcion)
-      console.log(buscarEquipo.almacenamiento)
-      console.log(buscarEquipo.ram)
       //se ingresaran los datos solo cuando el input se encuentre checked
       if(event.target.checked == true){
         this.listaDeEquipos.push(
@@ -645,9 +730,7 @@ generarActaEntrega(id: number){
         this.personaAsignada = data
         console.log(this.personaAsignada[0].folio_entrega)
         if(this.personaAsignada[0].folio_entrega == null|| this.personaAsignada[0].folio_entrega == 0 ){
-          console.log("asignado", this.personaAsignada)
           this.generarFolio(this.folioE)
-          console.log(this.personaAsignada[0].rut)
           this.service.get_lista_equipos_asignados_por_persona(this.personaAsignada[0].rut).subscribe((data)=>{
              //modelo de datos para actualizar el estado del equipo en la tabla de asignacion y equipo
              this.personaAsignada
@@ -667,9 +750,7 @@ generarActaEntrega(id: number){
             "observacion": "Se ha generado acta de entrega",
             "lat":this.latStr,
             "long":this.longStr,
-
             }
-            console.log(datos)
             //se obtiene datos personales como nombre y apellido
             const nombres =  this.equiposPorPersona[0].nombres
             const nombre = nombres.split(' ')
@@ -681,7 +762,6 @@ generarActaEntrega(id: number){
             this.personaConVariosEquipos= this.primerNombre+ " " +this.primerApellido
             //en caso de qe solo exista un equipo asignado este se envia directamente
             if(this.equiposPorPersona.length < 2){
-              console.log(this.equiposPorPersona.length)
               const nombres = this.personaAsignada[0].nombres
               const nombre = nombres.split(' ')
               const primerNombre = nombre[0]
@@ -711,9 +791,7 @@ generarActaEntrega(id: number){
               "folio_entrega" : this.folioEString,
               "encargado_entrega" : this.persona_encargada,
               "equipo_id": this.equiposPorPersona[0].equipo_id
-
             }
-
             //servicio para crear el PDF del acta de entrega
             this.service.datosPDF(body).subscribe((data)=>{
             console.log(data)
@@ -722,7 +800,9 @@ generarActaEntrega(id: number){
               title: 'Acta Generada',
               text: 'Se ha generado el acta con éxito',
               })
-            }) 
+              this.listaDeAsignaciones()
+            })
+            
             //se actualiza el estado del equipo en la tabla asignacion y equipo al realizar la entrega
             this.service.actualizar_crear_acta_entrega(datos).subscribe((data)=>{
               console.log("datos enviados act",datos)
@@ -730,14 +810,13 @@ generarActaEntrega(id: number){
             })
           }     
         })   
-      
         }else{
           Swal.fire({
           icon: 'error',
           title: 'No se generó el Acta',
           text: 'Ya existe un acta creado anteriormente, validar información',
         })
-      }    
+      }      
     })    
   }
 }
@@ -752,7 +831,7 @@ generarActaDevolucion(id: number){
     if(idEncontrado){
       this.service.get_lista_asignados_by_id(id).subscribe((data)=>{
         this.personaAsignada = data
-        if(this.personaAsignada[0].folio_devolucion == null){
+        if(this.personaAsignada[0].folio_devolucion == null || this.personaAsignada[0].folio_devolucion == 0 ){
           this.generarFolioDevolucion(this.folioD)
           // console.log("generado folio", this.folioD)
           this.service.get_lista_equipos_asignados_para_Devolver(this.personaAsignada[0].rut).subscribe((data)=>{
@@ -795,8 +874,7 @@ generarActaDevolucion(id: number){
               // "marca": this.listaDeEquipos, 
               "fecha_devolucion": fecha,
               "folio_devolucion" : this.folioDString,
-              "encargado_entrega" : this.persona_encargada
-              
+              "encargado_entrega" : this.persona_encargada 
               }
             this.service.datosPDFDevolucion(body).subscribe((data)=>{
               console.log(data)
@@ -806,6 +884,7 @@ generarActaDevolucion(id: number){
               title: 'Acta Generada',
               text: 'Se ha generado el acta con éxito',
               })
+              this.listaDeAsignaciones()
             }) 
 
             //modelo de datos que permite actualizar el estado del equipo y la asignacion
@@ -876,8 +955,6 @@ enviarDatosActa(){
     "folio_entrega" : this.folioEString,
     "encargado_entrega" : this.persona_encargada
   }
-  console.log("cuerpo",this.cuerpoActa)
-  console.log("lista",this.listaDeEquipos)
   //datos para generar el acta de devolucion
   const cuerpoActaDevolucion= {
     "id": this.equiposPorPersona[0].id,
@@ -957,14 +1034,11 @@ enviarDatosActa(){
         title: 'Acta No Generada',
         text: 'Por favor, validar información',
       })
-    }
-    
+    }     
   }
 }
 capturaFotoEquipoDevuelto(event: any){
-  this.fotoDevolucion = event.target.value
-  console.log(this.fotoDevolucion)
-  
+  this.fotoDevolucion = event.target.value 
 }
 
     asignarFirmaEntrega( id: number){
@@ -983,13 +1057,18 @@ capturaFotoEquipoDevuelto(event: any){
           "observacion": "Se ha generado acta de entrega",
           "lat":this.latStr,
           "long":this.longStr,
-     
         }
         if(this.estadoActa[0].estado == false){
           Swal.fire({
             icon: 'error',
             title: 'No se pudo generar la Firma',
             text: 'Validar que exista un acta de entrega antes de generar la firma',
+          })
+        }
+        else if(this.pdfScaneado.size < 0){
+          Swal.fire({
+            icon: 'error',
+            title: 'Adjunte el PDF Escaneado',
           })
         }else{
           this.subirArchivos(this.idAsignado)
@@ -1131,21 +1210,37 @@ capturaFotoEquipoDevuelto(event: any){
                 this.asignaciones = data})
             })
           }
-        })
+        })  
     }
 
   
     asignarEstadoDevolucion( id: number){
-      this.toggleLiveDevolucionEstado()
       this.service.get_lista_asignados_by_id(id).subscribe((data)=>{
         this.personaAsignada = data
+        if(this.personaAsignada[0].firma_entrega == true && this.personaAsignada[0].pdf_devolucion){
+          this.toggleLiveDevolucionEstado()
+        }else{
+          Swal.fire({
+            icon: 'error',
+            title: 'No se ha generado Firma',
+            text: 'Verifique que existe una acta de devolución previamente firmada',
+          })
+        }
       })
    }
 
    asignarEstadoEntrega( id: number){
-    this.toggleLiveEntregaEstado()
     this.service.get_lista_asignados_by_id(id).subscribe((data)=>{
       this.personaAsignada = data
+      if(this.personaAsignada[0].pdf_entrega){
+        this.toggleLiveEntregaEstado()
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'No se ha generado Firma',
+          text: 'Verifique que existe una acta de entrega',
+        })
+      }
     })
  }
 
@@ -1165,18 +1260,23 @@ capturaFotoEquipoDevuelto(event: any){
     //por tal motivo el tratamiento de datos para el archivo escaneado es distinto
     this.service.get_firma_devolucion(id).subscribe((data)=>{
       this.firma = data
-      if(this.firma[0].firma_entrega == true){
-        //obtenemos la ruta del pdf para extraer el nombre del archivo el cual se enviara al servicio
-        const rutaPDF = this.firma[0].pdf_entrega
-        const partePDF = rutaPDF?.split("/")
-        if(partePDF){
-          const nombre = partePDF[partePDF?.length-1]
-          if(nombre){
+      console.log(this.firma)
+       //obtenemos la ruta del pdf para extraer el nombre del archivo el cual se enviara al servicio
+       const rutaPDF = this.firma[0].pdf_devolucion
+       const partePDF = rutaPDF?.split("/")
+       if(partePDF){
+        const nombre = partePDF[partePDF?.length-1]
+        console.log(nombre)
+        if(nombre){
+          if(this.firma[0].firma_devolucion == true){
             //se generara la descarga con el nombre del pdf extraido desde la base de datos
             this.service.downloadEscaneado_devolucion(id,nombre)
+          }else{
+            this.service.downloadPDF_devolucion(id, nombre)
           }
         }
-      }this.service.downloadPDF_devolucion(id)
+       }
+  
     })
       
    }
@@ -1184,38 +1284,45 @@ capturaFotoEquipoDevuelto(event: any){
    descargarPDFEntrega(id:number){
     this.service.get_firma_entrega(id).subscribe((data)=>{
       this.firma = data
-      if(this.firma[0].firma_entrega == true){
-        const rutaPDF = this.firma[0].pdf_entrega
-        const partePDF = rutaPDF?.split("/")
-        if(partePDF){
-          const nombre = partePDF[partePDF?.length-1]
-          if(nombre){
+      const rutaPDF = this.firma[0].pdf_entrega
+      const partePDF = rutaPDF?.split("/")
+      if(partePDF){
+        const nombre = partePDF[partePDF?.length-1]
+        if(nombre){
+          if(this.firma[0].firma_entrega == true){
             this.service.downloadEscaneado_entrega(id, nombre)
+          }else{
+            this.service.downloadPDF_entrega(id,nombre)
           }
-        }
-      }else{
-        this.service.downloadPDF_entrega(id)
+        } 
       }
+      // if(this.firma[0].firma_entrega == true){
+      //   const rutaPDF = this.firma[0].pdf_entrega
+      //   const partePDF = rutaPDF?.split("/")
+      //   if(partePDF){
+      //     const nombre = partePDF[partePDF?.length-1]
+      //     if(nombre){
+      //       this.service.downloadEscaneado_entrega(id, nombre)
+      //     }
+      //   }
+      // }else{
+      //   this.service.downloadPDF_entrega(id,nombre)
+      // }
     })
     
   }
 
    //permite ver mayores caracteristicas del equipo y persona asignada
      verMas(id:number){
-      console.log("ver mas",id)
       this.busquedaCodigo(this.asignadosSinSjoin[0].equipo)
-      console.log("1",this.asignadosSinSjoin[0])
-      console.log("2", this.asignadosSinSjoin[0].equipo)
       this.service.get_lista_de_asignados_sin_join_por_id(id).subscribe((data)=>{
         this.asignadosSinSjoin = data
       })
 
       this.service.get_lista_asignados_by_id(id).subscribe((data)=>{
         this.personaAsignada = data
-        console.log("persona asig", this.personaAsignada)
         this.empleado = this.personaAsignada[0].nombres + "  " + this.personaAsignada[0].apellidos
         this.equipoDescripcion = this.personaAsignada[0].marca + " " + this.personaAsignada[0].serial
-      
       })
 
       this.toggleLiveDetalle()
@@ -1241,64 +1348,103 @@ capturaFotoEquipoDevuelto(event: any){
      equipoElegido(event:any){
       this.equipoSeleccionado= event.target.value
      }
+     personaElegida(event: any){
+      this.personaSeleccionada = event.target.value
+     }
 
      enviarRepuestoAccesorio(){
-      const body={
-        "departamento": this.departamentoSeleccionado,
-        "tipo": this.tipoAsignado,
-        "equipo": this.equipoSeleccionado,
-        "observacion":this.observacion,
-        "id_user":parseInt(sessionStorage['id']),
-        "ids_user": sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
-        "lat":this.latStr,
-        "long":this.longStr,
-        "fecha_entrega":this.fechaHoy,
-        "estado": true,
-        "status":1,
-        "subestado":1,
-        "sub_estado":1
-      }
-      console.log(body)
-      this.service.asignacionAccesorio(body).subscribe((respuesta)=>{
-        console.log('Persona registrada:', respuesta);
+      if(this.tipoAsignado == 7 || this.tipoAsignado == 15){
+        const body={
+          "departamento": this.departamentoSeleccionado,
+          "tipo": this.tipoAsignado,
+          "equipo": this.equipoSeleccionado,
+          "observacion":this.observacion,
+          "id_user":parseInt(sessionStorage['id']),
+          "ids_user": sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+          "lat":this.latStr,
+          "long":this.longStr,
+          "fecha_entrega":this.fechaHoy,
+          "estado": true,
+          "status":1,
+          "subestado":1,
+          "sub_estado":1
+        }
+        this.service.asignacionAccesorio(body).subscribe((respuesta)=>{
+          console.log('Persona registrada:', respuesta);
+          Swal.fire({
+            icon: 'success',
+            title: 'Accesorio o Repuesto asignado',
+            text: 'Asignación realizada con éxito',
+          })
+          this.asignacionForm.reset()
+          this.listaDeAsignaciones()
+        }, (error) => {
+        console.error('Error al registrar la persona:', error);
         Swal.fire({
-          icon: 'success',
-          title: 'Accesorio o Repuesto asignado',
-          text: 'Asignación realizada con éxito',
+          icon: 'error',
+          title: 'Error al realizar la asignación',
+          text: 'Asignación no realizada, validar información',
         })
-        this.asignacionForm.reset()
-        this.listaDeAsignaciones()
-      }, (error) => {
-      console.error('Error al registrar la persona:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error al realizar la asignación',
-        text: 'Asignación no realizada, validar información',
-      })
-      })
+        })
+      }else{
+        const body={
+          "persona": this.personaSeleccionada,
+          "departamento": this.departamentoSeleccionado,
+          "tipo": this.tipoAsignado,
+          "equipo": this.equipoSeleccionado,
+          "observacion":this.observacion,
+          "id_user":parseInt(sessionStorage['id']),
+          "ids_user": sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+          "lat":this.latStr,
+          "long":this.longStr,
+          "fecha_entrega":this.fechaHoy,
+          "estado": true,
+          "status":1,
+          "subestado":1,
+          "sub_estado":1
+        }
+        this.service.asignacionAccesorio(body).subscribe((respuesta)=>{
+          console.log('Persona registrada:', respuesta);
+          Swal.fire({
+            icon: 'success',
+            title: 'Accesorio o Repuesto asignado',
+            text: 'Asignación realizada con éxito',
+          })
+          this.asignacionForm.reset()
+          this.listaDeAsignaciones()
+        }, (error) => {
+        console.error('Error al registrar la persona:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al realizar la asignación',
+          text: 'Asignación no realizada, validar información',
+        })
+        })
+      }
+     
+     
      }
 
      //servicio para obtener los datos de a que equipo se asigno la licencia
   obtenerLicenciaAsignadaAEquipo(){
+    this.botoneraAccesorio = true
     this.service.get_licencias_asignadas_a_equipos().subscribe((data)=>{
       this.licenciaYEquipo  = data
       if(!this.mostrarLicenciaYEquipo ){
         this.mostrarLicenciaYEquipo = true
         this.mostrarAccesorio = false
-        this.mostrarAsignacion = false
-        
+        this.mostrarAsignacion = false      
+        this.mostrarChipYEquipo= false
       }else{
         this.mostrarLicenciaYEquipo = false
       }
-      
-      console.log(this.licenciaYEquipo)
     })
   }
+
      async liberarLicencia(id:number){
       console.log(id)
       await this.getLocation()
       const buscarAsignado = this.licenciaYEquipo.find( licencia =>licencia.id == id)
-      console.log(buscarAsignado)
       if(buscarAsignado){
         const body = {
           "id_licencia": buscarAsignado.id,
@@ -1313,7 +1459,6 @@ capturaFotoEquipoDevuelto(event: any){
         }
         console.log(body)
         this.service.liberarLicencia(body).subscribe((data)=>{
-          console.log("licencia liberada")
           Swal.fire({
             icon: 'success',
             title: 'Licencia liberada',
@@ -1321,6 +1466,48 @@ capturaFotoEquipoDevuelto(event: any){
         })
       }
      
+    }
+
+    obtenerChipAsignadoAEquipo(){
+      this.botoneraAccesorio = true
+      this.service.get_chip_asignados_a_equipos().subscribe((data)=>{
+        this.chipYEquipo  = data
+        if(!this.mostrarChipYEquipo ){
+          this.mostrarChipYEquipo= true
+          this.mostrarLicenciaYEquipo = false
+          this.mostrarAccesorio = false
+          this.mostrarAsignacion = false
+          this.mostrarInsumo = false
+          this.mostrarHojaDeVida = false
+
+        }else{
+          this.mostrarChipYEquipo = false
+        }
+      })
+    }
+
+    obtenerAccesoriosAsignados(){
+      this.mostrarAccesorio = true
+      this.mostrarChipYEquipo= false
+      this.mostrarLicenciaYEquipo = false
+      this.mostrarAsignacion = false
+      this.mostrarInsumo = false
+      this.mostrarHojaDeVida = false
+      this.service.get_lista_accesorios_asignados().subscribe((data)=>{
+        this.accesoriosAsignados = data
+      })
+    }
+
+    obtenerInsumosAsignados(){
+      this.mostrarAccesorio = false
+      this.mostrarChipYEquipo= false
+      this.mostrarLicenciaYEquipo = false
+      this.mostrarAsignacion = false
+      this.mostrarInsumo = true
+      this.mostrarHojaDeVida = false
+      this.service.get_lista_insumos_asignados().subscribe((data)=>{
+        this.insumosAsignados = data
+      })
     }
 
     devolverAccesorio(id:number){
@@ -1347,7 +1534,6 @@ capturaFotoEquipoDevuelto(event: any){
         }
         console.log(body)
         this.service.devolucionAccesorio(body).subscribe((respuesta :any)=>{
-          console.log('Devolucion realizada:', respuesta);
           Swal.fire({
             icon: 'success',
             title: 'Devolución de accesorio',
@@ -1360,4 +1546,42 @@ capturaFotoEquipoDevuelto(event: any){
         }
       }
 
+      hojaDeVida(){
+        this.mostrarHojaDeVida = true
+        this.botoneraAccesorio = false
+       
+        
+      }
+
+      filterByPersona(event: any){
+        this.rut = event.target.value
+        const rutCorregido = this.rut.toUpperCase().replace(/\./g, '') 
+          this.service.get_all_equipos_asignados_por_persona(rutCorregido).subscribe((data)=>{
+            this.todasLasAsignacionesPorPersona = data
+            if(this.personas.length == 0){
+              Swal.fire({ 
+                icon: 'error',
+                title: 'RUT no encontrado',
+                text: 'Por favor, validar que el RUT ingresado sea válido',
+                })
+            }
+          }) 
+        this.rut = ""
+      }
+
+
+      filterBySerial(event: any){
+        this.serial = event.target.value
+        this.service.get_equipo_asignado_por_serial(this.serial).subscribe((data)=>{
+          this.asignadosPorSerial = data
+        })
+        this.serial = ""
+      }
+
+      listaDeTodosLosEquiposPorPersona(rut: string){
+        this.service.get_all_equipos_asignados_por_persona(rut).subscribe((data)=>{
+          this.asignadosPorSerial = data
+          console.log(this.asignadosPorSerial)
+        })
+      }
 }

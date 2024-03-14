@@ -15,6 +15,7 @@ import { RutaBeetrackHoy } from 'src/app/models/rutaBeetrackHoy.interface'
 import { Subscription } from 'rxjs';
 import { PedidosPendientes } from 'src/app/models/pedidoPendiente.interface';
 import { PendienteBodega } from 'src/app/models/pendienteBodega.interface';
+import { MainNs,Dato } from 'src/app/models/nivel_servicio/nsFechaCompromisoReal.interface';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   subPedidosPendientesEntregados!: Subscription
   subPedidosPendientesNoEntregados!: Subscription
   subPedidosPendientesEnRuta!: Subscription
+  subNsFechaCompromisoReal! : Subscription
 
   pedidos!:Pedidos[]
 
@@ -149,8 +151,22 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     }
   };
 
+  datosNs : Dato[] = []
+  promedio : number = 0
+
+  isLoadingTableNS : boolean = true
+
+  fecha : string = ""
+
 
   ngOnInit(): void {
+
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const formattedDate = `${year}${month}${day}`;
+    this.fecha = formattedDate
     // this.setData();
     setTimeout( () => {
       this.service.get_ruta_beetrack_hoy().subscribe((data) => {
@@ -167,6 +183,16 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
         }
       })
     },600)
+
+    setTimeout( () => {
+      this.service.get_ns_fecha_compromiso_real(formattedDate).subscribe((data) => {
+        this.promedio = data.promedio
+        this.datosNs = data.datos
+
+        this.isLoadingTableNS = false 
+      })
+    },5000)
+
 
     this.service.get_pedidos().subscribe((data) => {
       this.pedidos = data
@@ -244,6 +270,15 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     this.subPedidosPendientesEnRuta = this.service.get_pedidos_pendientes_en_ruta_update().subscribe((update_data => {
       this.pedidosPendientesEnRuta = update_data
     }))
+
+
+    this.subNsFechaCompromisoReal = this.service.ns_fecha_compromiso_real_update(this.fecha).subscribe((data) => {
+      this.promedio = data.promedio
+      this.datosNs = data.datos
+
+      // this.isLoadingTableNS = false 
+    })
+    
   }
 
 
@@ -267,6 +302,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     this.subPedidosPendientesEntregados.unsubscribe()
     this.subPedidosPendientesNoEntregados.unsubscribe()
     this.subPedidosPendientesEnRuta.unsubscribe()
+    this.subNsFechaCompromisoReal.unsubscribe()
   }
  
   setData() {

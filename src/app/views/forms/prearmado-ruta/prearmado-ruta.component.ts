@@ -146,6 +146,16 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
   //     }
   // }
 
+  seleccionarTodo(){
+    this.pedidos.map(pedido => {
+      pedido.Seleccionado = true
+    })
+
+    const codigos = [...new Set(this.pedidos.filter(pedido => pedido.Seleccionado == true).map(seleccion => seleccion.Cod_entrega))]
+      this.bultoSeleccionados = this.pedidos.filter(pedido => pedido.Seleccionado == true).map(seleccion => seleccion.Cod_entrega).length
+      this.pedidosSeleccionados =  codigos.length 
+  }
+
   getPedidos() {
 
     // Crear un arreglo para almacenar las referencias a los setTimeout
@@ -282,7 +292,14 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
     console.log(this.body)
 
     this.rutaService.armar_ruta_bloque(this.body).subscribe((data : any) => {
-      alert(data)
+      const separador = data.split(" ")
+
+      console.log(separador[1])
+
+      this.rutaService.recalcular_posicion_rutas(separador[1]).subscribe((sos)=> {
+        alert(data)
+      })
+      
       this.toggleLiveDemo()
     }, error => {
       alert("Error al cargar los datos")
@@ -360,7 +377,8 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
 
  filtrarPorRegion (region : string){
   this.pedidos = this.pedidosFull.filter(pedido => pedido.Region == region)
-  this.cantidad = this.pedidos.length
+  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+  this.cantidadBultos = this.pedidos.length
  }
 
  filtrarPorRangoFechaCompromiso(fecha_min : string,fecha_max: string){

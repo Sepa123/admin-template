@@ -36,7 +36,7 @@ export class RegistrarUsuariosComponent {
 
       if (text) {
         const hash = CryptoJS.MD5(text).toString();
-        this.registerForm.patchValue({Password : hash.toUpperCase(), Rol : "18", Activate: true})
+        this.registerForm.patchValue({Password : hash.toUpperCase(), Rol : "21", Activate: true})
       }
 
       this.service.registrarNuevoUsuario(this.registerForm.value).subscribe((res : any) => {

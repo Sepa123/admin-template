@@ -6,7 +6,7 @@ import { NsVerificado } from 'src/app/models/nsVerificado.interface'
 import { CalendarOptions ,DateSelectArg} from '@fullcalendar/core'; // useful for typechecking
 import interactionPlugin  from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
-
+import { DefontanaApiService } from 'src/app/service/defontana-api.service'
 
 @Component({
   selector: 'app-test',
@@ -94,23 +94,26 @@ export class TestComponent {
 
   ngOnInit(){
 
-    const fechaActual = new Date();
-
-    // Obtener los componentes de la fecha
-    const año = fechaActual.getFullYear();
-    const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0'); // Meses van de 0 a 11
-    // Nota: `padStart` se utiliza para asegurarse de que el mes siempre tenga dos dígitos
-
-    // Formatear la fecha como 'yyyymm'
-
-    const fechaFormateada = `${año}${mes}`;
-    this.fechasEntregadas.push(fechaFormateada)
-    this.rutaService.get_reporte_rutas_mensuales(fechaFormateada).subscribe((data : any) => {
-      this.eventos = data
-      this.datosMes[fechaFormateada] = data
-      this.calendarOptions.events = this.eventos
-      console.log(this.eventos)
+    this.service.get_ventas().subscribe(data => {
+      console.log(data.saleList)
     })
+    // const fechaActual = new Date();
+
+    // // Obtener los componentes de la fecha
+    // const año = fechaActual.getFullYear();
+    // const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0'); // Meses van de 0 a 11
+    // // Nota: `padStart` se utiliza para asegurarse de que el mes siempre tenga dos dígitos
+
+    // // Formatear la fecha como 'yyyymm'
+
+    // const fechaFormateada = `${año}${mes}`;
+    // this.fechasEntregadas.push(fechaFormateada)
+    // this.rutaService.get_reporte_rutas_mensuales(fechaFormateada).subscribe((data : any) => {
+    //   this.eventos = data
+    //   this.datosMes[fechaFormateada] = data
+    //   this.calendarOptions.events = this.eventos
+    //   console.log(this.eventos)
+    // })
   }
 
   handleDateSelect(info: any) {
@@ -128,7 +131,7 @@ export class TestComponent {
 
   isLoadingTable: boolean = true;
 
-  constructor(private service:TIService, private rutaService : RutasService) { }
+  constructor(private service:DefontanaApiService, private rutaService : RutasService) { }
 
   subPedido! :Subscription
 

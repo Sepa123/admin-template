@@ -79,7 +79,7 @@ export const navItems: INavDataBar[] = [
         roles : ['5','13','14']
       },
       {
-        name: 'NS Verificados',
+        name: 'Nivel Servicio',
         url: '/dashboard/ns-verificados'
        },
       {
@@ -137,6 +137,14 @@ export const navItems: INavDataBar[] = [
         name: 'Edicion Pendientes',
         url: '/operaciones/edicion-pendientes'
       },
+      {
+        name: 'Diferencia Fechas Easy',
+        url: '/operaciones/dif-fechas-easy'
+      },
+      {
+        name: 'Productos Ingresados',
+        url: '/operaciones/productos-ingresados-easy'
+      },
     ]
   },
   {
@@ -157,6 +165,35 @@ export const navItems: INavDataBar[] = [
         name: 'Productos sin clasificación',
         url: '/operaciones/productos-sin-clasificacion'
       }
+    ]
+  },
+  //// operaciones COORDINADORES
+  {
+    name: 'Operaciones',
+    url: '/operaciones',
+    iconComponent: { name: 'cil-clipboard' },
+    roles : [ROLES_ENUM.COORDINADOR],
+    children: [
+      {
+        name: 'Pendientes',
+        url: '/operaciones/pendientes'
+      },
+      {
+        name: 'Estados',
+        url: '/operaciones/estados'
+      },
+      {
+        name: 'Productos sin clasificación',
+        url: '/operaciones/productos-sin-clasificacion'
+      },
+      {
+        name: 'Diferencia Fechas Easy',
+        url: '/operaciones/dif-fechas-easy'
+      },
+      {
+        name: 'Productos Ingresados',
+        url: '/operaciones/productos-ingresados-easy'
+      },
     ]
   },
   {
@@ -180,7 +217,15 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Pendientes',
         url: '/operaciones/pendientes'
-      }
+      },
+      {
+        name: 'Diferencia Fechas Easy',
+        url: '/operaciones/dif-fechas-easy'
+      },
+      {
+        name: 'Productos Ingresados',
+        url: '/operaciones/productos-ingresados-easy'
+      },
     ]
   }
   ,
@@ -225,7 +270,7 @@ export const navItems: INavDataBar[] = [
         url : '/picking/prearmado-ruta'
       },
       {
-        name : 'Buscar Ruta',
+        name : 'Despacho Ruta',
         url : '/picking/buscar-ruta'
       },
       {
@@ -258,7 +303,7 @@ export const navItems: INavDataBar[] = [
         url : '/picking/prearmado-ruta'
       },
       {
-        name : 'Buscar Ruta',
+        name : 'Despacho Ruta',
         url : '/picking/buscar-ruta'
       }
     ]
@@ -287,6 +332,13 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Reporte entregas Diarias',
         url: '/toc/reporte-entrega.diaria'
+<<<<<<< HEAD
+=======
+      },
+      {
+        name: 'Reporte Telefonos',
+        url: '/toc/reporte-telefono'
+>>>>>>> c1cb59773de176a518b0158439f3c78500f09a42
       }
     ]
   },
@@ -304,7 +356,12 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Alertas Vigentes',
         url: '/toc/alertas-vigentes'
+      },
+      {
+        name: 'Reporte entregas Diarias',
+        url: '/toc/reporte-entrega.diaria'
       }
+      
     ]
   },
   {
@@ -321,7 +378,7 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
-    // Pantalla muestra para ruteador_pickeador Y JEFE TOC
+    // Pantalla muestra para ruteador_pickeador
     name: 'Rutas',
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
@@ -334,6 +391,31 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Rutas Activas',
         url: '/picking/rutas-activas'
+      },
+      {
+        name : 'Despacho Ruta',
+        url : '/picking/buscar-ruta'
+      }
+    ]
+  },
+  {
+    // Pantalla muestra para JEFE TOC
+    name: 'Rutas',
+    url: '/picking',
+    iconComponent: { name: 'cil-truck' },
+    roles : [ROLES_ENUM.JEFE_TOC],
+    children: [
+      {
+        name: 'Crear Ruta',
+        url: '/picking/ruta-manual'
+      },
+      {
+        name: 'Rutas Activas',
+        url: '/picking/rutas-activas'
+      },
+      {
+        name : 'Despacho Ruta',
+        url : '/picking/buscar-ruta'
       }
     ]
   },
@@ -342,7 +424,7 @@ export const navItems: INavDataBar[] = [
     name: 'Rutas',
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
-    roles : [ROLES_ENUM.JEFE_TRANSPORTE],
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE,ROLES_ENUM.JEFE_SEGURIDAD],
     children: [
       {
         name: 'Rutas Activas',
@@ -387,6 +469,25 @@ export const navItems: INavDataBar[] = [
       {
         name: "Historial Producto",
         url: '/informacion/timeline',
+<<<<<<< HEAD
+=======
+      }
+    ]
+  },
+  { /// Pantalla Informacion Para SEGURIDAD
+    name: 'Información',
+    url: '/informacion',
+    iconComponent : {name : 'cil-magnifying-glass'},
+    roles : ROLES_PERMITIDOS.INFORMACION_SEGURIDAD,
+    children: [
+      {
+        name: "Tracking Producto",
+        url : '/informacion/tracking-producto'
+      },
+      {
+        name: "Historial Producto",
+        url: '/informacion/timeline',
+>>>>>>> c1cb59773de176a518b0158439f3c78500f09a42
       }
     ]
   },
@@ -466,7 +567,7 @@ export const navItems: INavDataBar[] = [
     name: 'Ingreso cliente',
     url: '/ingreso-cliente',
     iconComponent : {name : 'cil-building'},
-    roles : [ROLES_ENUM.PICKEADOR_TIENDA],
+    roles : [ROLES_ENUM.PICKEADOR_TIENDA, ROLES_ENUM.RAUDDY],
     children: [
       {
         name: "Easy Tienda",
@@ -492,10 +593,10 @@ export const navItems: INavDataBar[] = [
         name: 'Electrolux',
         url: '/recepcion/electrolux'
       },
-      {
-        name: 'Sportex',
-        url: '/recepcion/sportex'
-      },
+      // {
+      //   name: 'Sportex',
+      //   url: '/recepcion/sportex'
+      // },
       {
         name: 'Producto Sin Recepcionar',
         url: '/recepcion/productoSinRecepcion'

@@ -245,3 +245,39 @@
   color:#ffffff;
   border:none
 }
+
+.btn-licencia-chip{
+  border: none;
+  width: 60px;
+  margin-left: 30px;
+}
+
+.btn-repuesto{
+  margin-left: 30px;
+  width: 10vw;
+}
+
+.chip-licencia{
+  min-width: 15vw;
+  // margin-right: 2PX;
+}
+ul li .circle{
+  position: absolute;
+  // left: 50%;
+  // top: 0%;
+  width: 50px;
+  color: #fff;
+  height: 50px;
+  background: #0080ff;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  font-size: 0.9rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+}
+
+ul{
+  text-decoration: none;
+}

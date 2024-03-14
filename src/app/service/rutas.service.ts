@@ -34,6 +34,11 @@ export class RutasService {
 
   }
 
+  registrar_producto_en_despacho_ruta(body : any) {
+    return this.http.post(this.apiurl + `/agregar/porDespachoRuta`, body)
+
+  }
+
   get_reporte_rutas_diaria(dia : string) {
     return this.http.get(this.apiurl + `/reporte/diario?dia=${dia}`)
 
@@ -73,6 +78,10 @@ export class RutasService {
 
   get_datos_producto_en_ruta(body: any) {
     return this.http.post<ProductoPicking[]>(this.apiurl + `/buscar/producto/ruta`, body)
+  }
+
+  get_datos_producto_en_ruta_por_4_digitos(codigo_pedido: any) {
+    return this.http.get<ProductoPicking[]>(this.apiurl + `/buscar/4_digitos/${codigo_pedido}`)
   }
 
   get_rutas_manual_sin_filtro(pedido: string) {
@@ -192,6 +201,10 @@ export class RutasService {
     return this.http.post(this.apiurl + "/armar/bloque", body)
   }
 
+  recalcular_posicion_rutas(nombre_ruta : number){
+    return this.http.get(this.apiurl + `/recalcular/ruta/${nombre_ruta}`)
+  }
+
   verificar_pedido_en_ruta(pedido_id : number){
     return this.http.get(this.apiurl + `/pedido/en_ruta/${pedido_id}`)
   }
@@ -220,6 +233,10 @@ export class RutasService {
 
   get_bitacora_li_tracking(cod_pedido : string){
     return this.http.get<BitacoraLITracking[]>(this.apiurl + `/bitacora/log_inversa?cod_pedido=${cod_pedido}` )  
+  }
+
+  registar_producto_ticket(body: any) {
+    return this.http.post(this.apiurl + `/encontrar/producto/ruta`, body)
   }
   
 }

@@ -23,7 +23,7 @@ import Swal from 'sweetalert2';
 })
 export class MantenedoresComponent implements OnInit {
 
-    
+  show: boolean = false
   isModalOpen: boolean = false
   mostrarTipo: boolean = false;
   mostrarEquipo: boolean = false;
@@ -95,7 +95,7 @@ export class MantenedoresComponent implements OnInit {
 
   licenciaYEquipo: LicenciaYEquipo [] = []
 
-
+  camposChip : boolean = false
   id!: number
   leyendaEquipo!: string
   nEquipo!: number
@@ -364,13 +364,40 @@ export class MantenedoresComponent implements OnInit {
     }else{
       this.service.get_lista_descripcion_por_equipo().subscribe((data)=>{
         this.equipos =data.filter(equipo => equipo.tipo?.toString() == nombreEquipo)
+      
 
       })
     }
   }
+  estadoChip(){
+    this.service.get_subestado_chip().subscribe((data)=> {
+      this.subestados = data
+      this.show = true
+    })
+  }
+  filterByChip(nombreEquipo : string){
+    this.TodosEquipos = nombreEquipo
+    if(nombreEquipo === "Todos"){
+      this.camposChip = true
+      this.service.get_lista_descripcion_por_equipo().subscribe((data)=>{
+        this.equipos =data.filter(equipo => equipo.tipo?.toString() == "Chip")
+      })
+    }else{
+      this.camposChip = true
+      this.service.get_chip_by_estado().subscribe((data)=>{
+        this.equipos =data.filter(equipo => equipo.subestado?.toString() == nombreEquipo)
+      })
+    }  
+  }
+
 
   filterBySerial(event: any){
     this.serial = event.target.value
+    if(this.serial.trim()===''){
+      this.service.get_lista_descripcion_por_equipo().subscribe((data)=>{
+        this.equipos = data
+      })
+    }
     this.service.get_equipo_por_serial(this.serial).subscribe((data)=>{
       this.equipos = data
     })
@@ -379,10 +406,26 @@ export class MantenedoresComponent implements OnInit {
   }
   filterByPersona(event: any){
     this.rut = event.target.value
-    this.service.get_persona_por_rut(this.rut).subscribe((data)=>{
-      this.personas = data
-    })
-
+    const rutCorregido = this.rut.toUpperCase().replace(/\./g, '')
+    if(this.rut.trim()=== ''){
+      this.service.get_lista_datos_personales().subscribe((data)=>{
+        this.personas = data
+      })
+    }else{
+      this.service.get_persona_por_rut(rutCorregido).subscribe((data)=>{
+        this.personas = data
+        if(this.personas.length == 0){
+          Swal.fire({ 
+            icon: 'error',
+            title: 'RUT no encontrado',
+            text: 'Por favor, validar que el RUT ingresado sea válido',
+            })
+        }
+      })
+    }
+    
+   
+    this.rut = ""
   }
 
 
@@ -516,7 +559,8 @@ cambioHabilitarPersona(id: number){
     poleron: this.fb.control(""),
     req_comp: this.fb.control(false),
     req_cel: this.fb.control(false),
-    observacion: this.fb.control("Nueva Persona creada")
+    observacion: this.fb.control("Nueva Persona creada"),
+    habilitado: true
   
     })
     //validacion, si el rut del usuario ya existe no se deberia poder crear otra persona con el mismo
@@ -1160,15 +1204,12 @@ cambioHabilitarPersona(id: number){
             subestado : this.subestadoSeleccionado,
             estado: this.estadoAsignado,
             status:  this.estadoAsignado
-   
-            
           })
           this.service.crear_descripcion_equipo(this.equipoDescripcionForm.value).subscribe(
             (respuesta) => {
               console.log(this.equipoDescripcionForm.value)
               this.service.get_ultimo_equipo_creado().subscribe((data)=>{
                 const body={
-                 
                   "id": data[0],
                   "id_user": parseInt(sessionStorage['id']),
                   "ids_user": sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
@@ -1190,7 +1231,6 @@ cambioHabilitarPersona(id: number){
                 this.listarEquiposyDescripcion()
                 })
                 })
-              
               },
               (error) => {
                 Swal.fire({
@@ -1371,7 +1411,22 @@ cambioHabilitarPersona(id: number){
       }
     }
 
+    cambiarEstadoChip(id:number){
+      const busqueda = this.equipoSinJoin.find(equipo => equipo.id === id)
+      if (busqueda){
+        this.equipoDescripcionForm.patchValue({
+          id : busqueda.id,
+          subestado: busqueda.subestado,
+        })
+        this.toggleLiveDemoEquipo()
+      }
+    }
+
   
+
+
+    
+     
     // GET DATOS PERSONALES
     listarPersona(){
       this.mostrarPersona = true
