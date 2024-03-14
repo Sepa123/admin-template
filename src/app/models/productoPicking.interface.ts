@@ -53,6 +53,7 @@ export interface ProductoPicking {
     Carga_v?:             boolean | null;
     Alerta_conductor?:     boolean | null;  
     Encontrado?:          boolean;
+    EncontradoFull : boolean;
 }
 
 

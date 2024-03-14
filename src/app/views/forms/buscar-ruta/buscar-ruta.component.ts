@@ -192,7 +192,7 @@ export class BuscarRutaComponent {
           let res = ruta.filter((prod) =>  prod.Codigo_pedido == resultado || prod.Codigo_producto == resultado)
           console.log(res)
           if(res.length !== 0){
-            ruta[0].Encontrado = true
+            ruta[0].EncontradoFull = true
           } 
           
        })
@@ -268,12 +268,22 @@ export class BuscarRutaComponent {
     this.arrayRutasIngresados.map(ruta => {
       let res = ruta.filter((prod) =>  prod.Codigo_pedido == this.productoRutas4Digitos[index].Codigo_pedido || prod.Codigo_producto == this.productoRutas4Digitos[index].Codigo_producto)
 
-      if(res.length !== 0){
+
+      const todosTienenTrue = ruta.every(objeto => objeto.Encontrado == true);
+
+      if(todosTienenTrue){
         ruta.map((prod) => {
-          prod.Encontrado = true
+
+          prod.EncontradoFull = true
 
         })
         this.arrProductosRuta.push(ruta[0])
+      }else {
+        ruta.map((prod) => {
+
+          prod.EncontradoFull = false
+
+        })
       }
   
     })
@@ -308,7 +318,7 @@ export class BuscarRutaComponent {
   }
 
   cambiarEncontrado(index : number){
-    this.arrayRutasIngresados[index][0].Encontrado = !this.arrayRutasIngresados[index][0].Encontrado
+    this.arrayRutasIngresados[index][0].EncontradoFull = !this.arrayRutasIngresados[index][0].EncontradoFull
 
     this.arrayRutasIngresados[index][0].Notas
     
@@ -360,7 +370,8 @@ export class BuscarRutaComponent {
         const posicion = elemento["Posicion"];
         elemento["Estado"] = elemento["Estado"] === "Entregado" ? true : false
         elemento["Provincia"] =  elemento["Provincia"] === null  ? 'Otro' : elemento["Provincia"]
-        elemento["Encontrado"] = false
+        elemento["Encontrado"] = false 
+        elemento["EncontradoFull"] = false
 
         
         // elemento["DP"] = false
