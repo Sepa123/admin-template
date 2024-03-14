@@ -265,17 +265,20 @@ export class BuscarRutaComponent {
 
     this.productoRutas4Digitos[index].Encontrado = !this.productoRutas4Digitos[index].Encontrado 
 
-    console.log(this.productoRutas4Digitos[index])
-
     this.arrayRutasIngresados.map(ruta => {
       let res = ruta.filter((prod) =>  prod.Codigo_pedido == this.productoRutas4Digitos[index].Codigo_pedido || prod.Codigo_producto == this.productoRutas4Digitos[index].Codigo_producto)
-          console.log(res)
-          if(res.length !== 0){
-            ruta[0].Encontrado = true
-          }
-      
+
+      if(res.length !== 0){
+        ruta.map((prod) => {
+          prod.Encontrado = true
+
+        })
+        this.arrProductosRuta.push(ruta[0])
+      }
+  
     })
 
+    
     // this.arrayRutasIngresados[index][0].Encontrado = !this.arrayRutasIngresados[index][0].Encontrado
 
     // this.arrayRutasIngresados[index][0].Notas
@@ -296,13 +299,6 @@ export class BuscarRutaComponent {
       "longitud" : this.longStr,
       "observacion" : "Pickeo producto en Despacho Ruta por click ticket"
     }
-
-          
-
-    this.arrProductosRuta.push(this.arrayRutasIngresados[index][0])
-
-
-
 
     this.service.registar_producto_ticket(body).subscribe((data : any) => {
       console.log(data.message)
@@ -427,7 +423,9 @@ export class BuscarRutaComponent {
     
 
     this.arrayRutasIngresados.map(objeto => {
-      this.productoRutas4Digitos.push(objeto[0])
+      objeto.map(prducto => {
+        this.productoRutas4Digitos.push(prducto)
+      })
     })
 
     this.productoRutas4Digitos =  this.productoRutas4Digitos.filter(producto => producto.Codigo_pedido.endsWith(resultado))

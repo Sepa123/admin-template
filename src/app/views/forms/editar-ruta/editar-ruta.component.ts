@@ -523,6 +523,7 @@ export class EditarRutaComponent {
 
   }
 
+
   agregarRutaExistente() {
     // console.log(this.arrayRutasIngresados)
     // this.arrayRutasIngresados.pop()
@@ -553,8 +554,22 @@ export class EditarRutaComponent {
         this.router.navigate(['/picking/rutas-activas']);
       },
       (error) => {
-        alert(error.error.detail)
-        // console.log(error)
+        if (error.error.detail == undefined){
+          if (error.status === 0 && error.statusText === 'Unknown Error') {
+            // Manejar el error específico de desconexión a Internet
+            console.error('Error de conexión a Internet. Por favor, verifica tu conexión.');
+            alert('Se ha producido un error desconocido al comunicarse con el servidor. Por favor, inténtalo de nuevo más tarde o verifica tu conexión a Internet.');
+          }  else {
+            console.error('Error:', error.message);
+            alert('Error al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.');
+     
+          }
+        } else {
+          alert(error.error.detail)
+          // console.log(error)
+        }
+        
+        
         // Maneja el error de manera adecuada
       }
       )

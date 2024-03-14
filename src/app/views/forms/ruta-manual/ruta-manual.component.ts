@@ -357,12 +357,26 @@ export class RutaManualComponent {
       return alert("No se han ingresado rutas")
     }
 
+    let isSeguro = confirm("¿Seguro que desea crear esta ruta?");
+    if (!isSeguro) return console.log("no esta seguro")
+
     // this.arrayRutasIngresados.map(array => {
     //   console.log(array)
     // })
 
+    const arrayUnicos = new Set()
+
+    this.arrayRutasIngresados.forEach(objJson => {
+      const jsonStr = JSON.stringify(objJson);
+      arrayUnicos.add(jsonStr);
+  });
+
+  const objetosUnicos  = Array.from(arrayUnicos).map((jsonStr : any) => JSON.parse(jsonStr));
+
+  console.log('array unico',objetosUnicos)
+
     // this.guardarClicked = true
-      this.service.insert_rutas_manual(this.arrayRutasIngresados, this.fechaPedido).subscribe((response : any) => {
+      this.service.insert_rutas_manual(objetosUnicos, this.fechaPedido).subscribe((response : any) => {
         // console.log(response)
         alert(response.message)
         this.guardarClicked = true
