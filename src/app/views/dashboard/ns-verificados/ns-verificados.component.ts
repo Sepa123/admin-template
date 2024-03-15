@@ -143,12 +143,20 @@ export class NsVerificadosComponent {
     this.service.get_ns_fecha_compromiso_real_tienda(fecharFormateadaInicio,'easy').subscribe(data => {
 
       data.datos.map((informe) => {
+
+        const ns = (informe.Entregados * 100) / (informe.Compromiso_real - informe.Anulados)
+
+        informe.Nivel_servicio = parseFloat(ns.toFixed(2))
         this.datosNs.push(informe)
       })
 
       this.service.get_ns_fecha_compromiso_real_tienda(fecharFormateadaInicio,'opl').subscribe(dataOpl => {
 
         dataOpl.datos.map((informe) => {
+
+          const ns = (informe.Entregados * 100) / (informe.Compromiso_real - informe.Anulados)
+
+          informe.Nivel_servicio = parseFloat(ns.toFixed(2))
           this.datosNs.push(informe)
         })
 
@@ -157,11 +165,15 @@ export class NsVerificadosComponent {
 
 
           dataElux.datos.map((informe) => {
+
+            const ns = (informe.Entregados * 100) / (informe.Compromiso_real - informe.Anulados)
+
+            informe.Nivel_servicio = parseFloat(ns.toFixed(2))
             this.datosNs.push(informe)
           })
 
           this.isLoadingTableNS = false 
-          const tota_compromiso = this.datosNs.reduce((accumulator, currentValue) => accumulator + currentValue.Compromiso_real,0,);
+          const tota_compromiso = this.datosNs.reduce((accumulator, currentValue) => accumulator + currentValue.Compromiso_real,0,) - this.datosNs.reduce((accumulator, currentValue) => accumulator + currentValue.Anulados,0,) ;
           const tota_entregados = this.datosNs.reduce((accumulator, currentValue) => accumulator + currentValue.Entregados,0,);
           this.promedio = (tota_entregados * 100) /tota_compromiso
 
@@ -247,7 +259,18 @@ export class NsVerificadosComponent {
 
     this.service.get_ns_fecha_compromiso_real(fechaFormateada).subscribe((data) => {
       this.promedio = data.promedio
-      this.datosNs = data.datos
+
+      data.datos.map((informe) => {
+
+        const ns = (informe.Entregados * 100) / (informe.Compromiso_real - informe.Anulados)
+
+        informe.Nivel_servicio = parseFloat(ns.toFixed(2))
+        this.datosNs.push(informe)
+      })
+
+
+
+      // this.datosNs = data.datos
 
       this.isLoadingTableNS = false 
     })

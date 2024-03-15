@@ -25,9 +25,13 @@ export class BuscarRutaComponent {
   productoRutaModal : ProductoPicking [] = []
   arrProductosRuta: ProductoPicking[] = []
 
+  arrProductosEncontrados: ProductoPicking[] [] = []
+
   productoRutas4Digitos : ProductoPicking [] = []
 
   arrayRutasIngresados : ProductoPicking[] [] = []
+
+  
 
   arrNombreRutas : NombresRutasActivas [] = []
   rutaSeleccionada : string = 'Seleccione una ruta'
@@ -188,11 +192,18 @@ export class BuscarRutaComponent {
       if(this.arrayRutasIngresados.length == 0){
 
       } else {
-        this.arrayRutasIngresados.map((ruta) => {
+        this.arrayRutasIngresados.map((ruta, i) => {
           let res = ruta.filter((prod) =>  prod.Codigo_pedido == resultado || prod.Codigo_producto == resultado)
           console.log(res)
           if(res.length !== 0){
             ruta[0].EncontradoFull = true
+            this.arrayRutasIngresados.splice(i,1)
+            this.arrProductosEncontrados.push(ruta)
+
+            this.arrProductosEncontrados = this.arrProductosEncontrados.sort((a,b) => {
+              return a[0].Posicion - b[0].Posicion ;
+            })
+    
           } 
           
        })
@@ -265,26 +276,45 @@ export class BuscarRutaComponent {
 
     this.productoRutas4Digitos[index].Encontrado = !this.productoRutas4Digitos[index].Encontrado 
 
-    this.arrayRutasIngresados.map(ruta => {
+    this.arrayRutasIngresados.map((ruta, i) => {
       let res = ruta.filter((prod) =>  prod.Codigo_pedido == this.productoRutas4Digitos[index].Codigo_pedido || prod.Codigo_producto == this.productoRutas4Digitos[index].Codigo_producto)
 
+      console.log(res)
 
-      const todosTienenTrue = ruta.every(objeto => objeto.Encontrado == true);
+      if(res.length !== 0){
+
+        const todosTienenTrue = res.every(objeto => objeto.Encontrado == true);
 
       if(todosTienenTrue){
-        ruta.map((prod) => {
+        res.map((prod) => {
 
           prod.EncontradoFull = true
 
         })
-        this.arrProductosRuta.push(ruta[0])
+        const encontrado = this.arrayRutasIngresados.splice(i,1)[0]
+
+
+        console.log(index)
+        console.log('me voy alv',encontrado)
+        
+
+        this.arrProductosEncontrados.push(encontrado)
+
+        this.arrProductosEncontrados = this.arrProductosEncontrados.sort((a,b) => {
+          return a[0].Posicion - b[0].Posicion ;
+        })
+
+        this.arrProductosRuta.push(res[0])
       }else {
-        ruta.map((prod) => {
+        res.map((prod) => {
 
           prod.EncontradoFull = false
 
         })
       }
+        
+      }
+      
   
     })
 
@@ -321,7 +351,16 @@ export class BuscarRutaComponent {
     this.arrayRutasIngresados[index][0].EncontradoFull = !this.arrayRutasIngresados[index][0].EncontradoFull
 
     this.arrayRutasIngresados[index][0].Notas
-    
+
+    const encontrado = this.arrayRutasIngresados.splice(index,1)[0]
+    console.log(encontrado)  
+
+    this.arrProductosEncontrados.push(encontrado)
+
+    this.arrProductosEncontrados = this.arrProductosEncontrados.sort((a,b) => {
+      return a[0].Posicion - b[0].Posicion ;
+    })
+
 
     
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
@@ -351,6 +390,7 @@ export class BuscarRutaComponent {
 
     if(this.rutaSeleccionada == 'Seleccione una ruta') return console.log("selecciona una ruta zoquete")
     this.arrayRutasIngresados = []
+    this.arrProductosEncontrados = []
     this.isLoadingTable =true
     this.service.get_ruta_by_nombre_ruta(this.rutaSeleccionada).subscribe((data) => {
 
@@ -417,6 +457,9 @@ export class BuscarRutaComponent {
 
 
   getRutapor4Digitos(pedido: string) {
+
+    
+
     var resultado = pedido.replace(/'/g, "-").trim().toUpperCase()
     resultado = resultado.replace(/-(\d+)/, "");
 

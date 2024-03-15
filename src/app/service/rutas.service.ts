@@ -11,6 +11,7 @@ import { AlertaConductor } from 'src/app/models/alertaConductor.interface'
 import { interval,Observable, switchMap  } from 'rxjs';
 import { CantidadUnidadesRutaActiva } from 'src/app/models/cantidadUnidadesRutaActiva.interface'
 import { ComunaRutas } from 'src/app/models/comunaRutas.interface'
+import { seguimientoRuta } from 'src/app/models/TOC/seguimientoRuta.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -237,6 +238,10 @@ export class RutasService {
 
   registar_producto_ticket(body: any) {
     return this.http.post(this.apiurl + `/encontrar/producto/ruta`, body)
+  }
+
+  get_seguimiento_ruta(){
+    return this.http.get<seguimientoRuta[]>(this.apiurl + `/seguimento` )  
   }
   
 }

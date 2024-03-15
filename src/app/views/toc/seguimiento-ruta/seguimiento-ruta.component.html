@@ -1,0 +1,35 @@
+<div class="greenTable" >
+    <table id="tablaProductosPicking" >
+     <thead>
+       <tr>
+           <th>Ruta beetrack</th>
+           <th>PPU</th>
+           <th>Región</th>
+           <th>Cliente</th>
+           <th>Carga total</th>
+           <th>Fecha de Compromiso</th>
+           <th>Entregados </th>
+           <th>Entregados f. comp.</th>
+           <th>Pendientes</th>
+           <th>No Entregados</th>
+           <th>Observación</th>
+       </tr>
+     </thead>
+     <tbody>
+       <!-- <tr *ngFor="let quadmind of tablaQuadmind ;let i = index "> -->
+        <tr *ngFor="let ruta of segRuta ;let i = index ">
+            <td>{{ruta.Ruta_beetrack}}</td>
+            <td>{{ruta.Ppu}}</td>
+            <td>{{ruta.Region}}</td>
+            <td>{{ruta.Cliente}}</td>
+            <td>{{ruta.Carga_total}}</td>
+            <td>{{ruta.Fecha_compromiso}}</td>
+            <td>{{ruta.Entregados}}</td>
+            <td>{{ruta.Entregado_fec_comp}}</td>
+            <td>{{ruta.Pendientes}}</td>
+            <td>{{ruta.No_entregados}}</td>
+            <td>{{ruta.Obs_total_pedidos}}</td>
+         </tr>
+     </tbody>
+     </table>
+   </div>

@@ -31,6 +31,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { EditarTocComponent } from './editar-toc/editar-toc.component';
 import { ReporteEntregaDiariaComponent } from './reporte-entrega.diaria/reporte-entrega.diaria.component';
 import { ReporteTelefonoComponent } from './reporte-telefono/reporte-telefono.component';
+import { SeguimientoRutaComponent } from './seguimiento-ruta/seguimiento-ruta.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ReporteTelefonoComponent } from './reporte-telefono/reporte-telefono.co
     JefaturaComponent,
     EditarTocComponent,
     ReporteEntregaDiariaComponent,
-    ReporteTelefonoComponent
+    ReporteTelefonoComponent,
+    SeguimientoRutaComponent
   ],
   imports: [
     CommonModule,

@@ -202,7 +202,7 @@
         <tbody cdkDropList (cdkDropListDropped)="drop($event)">
         <ng-container >
           <tr *ngFor="let objeto of arrayRutasIngresados ;let i = index">
-            <td cdkDrag cdkDragLockAxis="y" [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{i + 1}}</td>
+            <td cdkDrag cdkDragLockAxis="y" [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Posicion}}</td>
   
             <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Nombre}}</td>
   
@@ -310,6 +310,101 @@
         </tr>
       </tfoot>
     </table>
+  </c-col>
+</c-row>
+
+
+<p></p>
+<p>Encontrado</p>
+
+<c-row>
+  <c-col>
+    <table class="greenTable" id="tablaProductosPicking" >
+      <thead>
+        <tr>
+            <th>Posición</th>
+            <th>Nombre</th>
+            <th>Ciudad</th>
+            <!-- <th>Provincia/Estado</th>  -->
+            <th>Código Pedido</th>
+            <th>Fecha Pedido</th>
+            <th>Fecha Pedido Original</th>
+            <!-- <th>Código Producto</th> -->
+            <th>Descripción Producto</th>
+            <th>SKU</th>
+            <th>Cantidad</th>
+            <th>Notas</th>
+            <th>Verificado</th>
+            <th>Encontrado</th>
+        </tr>
+      </thead>
+      <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+      <ng-container >
+        <tr *ngFor="let objeto of arrProductosEncontrados ;let i = index">
+          <td cdkDrag cdkDragLockAxis="y" [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Posicion}}</td>
+
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Nombre}}</td>
+
+          <!-- <th class="comuna">{{objeto[0].Ciudad}}</th>
+
+          <td>{{objeto[0].Provincia}}</td> -->
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Ciudad}}</td>
+
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Codigo_pedido}}</td>
+
+          <th [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Fecha_pedido}}</th>
+          <td style="white-space: nowrap;  border: 1px solid #000; padding: 8px">{{objeto[0].Fecha_original_pedido}}</td>
+
+          <!-- <td><table><tr *ngFor="let producto of objeto; let j = index"><td style="white-space: nowrap;">{{producto.Codigo_producto}}</td></tr>
+          </table></td>
+ -->
+         <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table><tr *ngFor="let producto of objeto; let j = index" >
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+          {{producto.Descripcion_producto}}</td></tr>
+         </table></td>
+
+         <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table><tr *ngFor="let producto of objeto; let j = index">
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+          {{producto.SKU}}</td></tr>
+        </table></td>
+
+
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table><tr *ngFor="let producto of objeto; let j = index">
+            <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+            {{producto.Cantidad_producto}}</td></tr>
+          </table></td>
+
+          
+          <th [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Notas}}</th>
+
+          <!-- verificados -->
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table ><tr *ngFor="let producto of objeto; let j = index">
+            <td *ngIf="producto.Pistoleado" [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+              <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+            </td>
+            <td *ngIf="!producto.Pistoleado" [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+              <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+            </td>
+          </tr>
+          </table></td>
+          <td *ngIf="objeto[0].EncontradoFull">
+            <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado(i)" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+          </td>
+          <td *ngIf="!objeto[0].EncontradoFull">
+              <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado(i)"  height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+          </td>
+          <div *cdkDragPreview matchSize="true" class="container dragdrop-placeholder">
+            {{objeto[0].Nombre}}
+          </div>
+        </tr>
+      </ng-container>
+      </tbody>
+      <tfoot>
+        <tr *ngIf="!isLoadingTable && arrProductosEncontrados.length == 0">
+          <td colspan="10">Sin registro</td>
+        </tr>
+      </tfoot>
+      </table>
   </c-col>
 </c-row>
 </div>

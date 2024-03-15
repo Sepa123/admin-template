@@ -6,6 +6,8 @@ import { JefaturaComponent } from './jefatura/jefatura.component';
 import { EditarTocComponent } from './editar-toc/editar-toc.component';
 import { ReporteEntregaDiariaComponent } from './reporte-entrega.diaria/reporte-entrega.diaria.component';
 import { ReporteTelefonoComponent } from './reporte-telefono/reporte-telefono.component';
+import { SeguimientoRutaComponent } from './seguimiento-ruta/seguimiento-ruta.component';
+
 const routes: Routes = [
   {
     path:'',
@@ -51,6 +53,13 @@ const routes: Routes = [
       {
         path: 'reporte-telefono',
         component : ReporteTelefonoComponent,
+        data : {
+          title: "Reporte Entregas"
+        }
+      },
+      {
+        path: 'seguimiento-ruta',
+        component : SeguimientoRutaComponent,
         data : {
           title: "Reporte Entregas"
         }

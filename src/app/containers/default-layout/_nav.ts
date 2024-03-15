@@ -336,7 +336,11 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Reporte Telefonos',
         url: '/toc/reporte-telefono'
-      }
+      },
+      // {
+      //   name: 'Seguimiento Ruta',
+      //   url: '/toc/seguimiento-ruta'
+      // }
     ]
   },
   {
