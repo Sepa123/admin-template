@@ -51,22 +51,26 @@
     <table class="greenTable">
       <thead>
           <tr>
+              <th>Posición</th>
               <th>Código pedido</th>
               <th>Ciente</th>
               <th>Comuna</th>
               <th>Descripción</th>
-              <th>SKU</th>
+              <th>Cantidad<th>
+              <th>sku</th>
               <th>Encontrado</th>
           </tr>
         </thead>
         <tbody>
             <tr *ngFor="let producto of productoRutas4Digitos; let j = index">
+              <td >{{producto.Posicion}}</td>
               <td >{{producto.Codigo_pedido}}</td>
               <td >{{producto.Notas}}</td>
               <td>{{producto.Ciudad}}</td>     
               <td>{{producto.Descripcion_producto}}</td> 
+              <td >{{producto.Cantidad_producto}}</td>
+              <td ></td>
               <td>{{producto.SKU}}</td>
-              <!-- <td>{{producto.Encontrado}}</td> -->
               <td *ngIf="producto.Encontrado">
                 <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado4Digitos(j)" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
               </td>
@@ -77,7 +81,7 @@
         </tbody>
         <tfoot>
           <tr *ngIf="productoRutas4Digitos.length == 0">
-            <td colspan="6">Sin registro</td>
+            <td colspan="8">Sin registro</td>
           </tr>
         </tfoot>
     </table>

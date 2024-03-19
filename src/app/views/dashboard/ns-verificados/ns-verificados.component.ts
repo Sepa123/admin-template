@@ -144,7 +144,13 @@ export class NsVerificadosComponent {
 
       data.datos.map((informe) => {
 
-        const ns = (informe.Entregados * 100) / (informe.Compromiso_real - informe.Anulados)
+        let ns = 0
+
+        if( (informe.Compromiso_real - informe.Anulados) == 0){
+          ns = 0
+        } else {
+          ns = (informe.Entregados * 100) / (informe.Compromiso_real - informe.Anulados)
+        }
 
         informe.Nivel_servicio = parseFloat(ns.toFixed(2))
         this.datosNs.push(informe)
@@ -154,8 +160,13 @@ export class NsVerificadosComponent {
 
         dataOpl.datos.map((informe) => {
 
-          const ns = (informe.Entregados * 100) / (informe.Compromiso_real - informe.Anulados)
+          let ns = 0
 
+          if( (informe.Compromiso_real - informe.Anulados) == 0){
+            ns = 0
+          } else {
+            ns = (informe.Entregados * 100) / (informe.Compromiso_real - informe.Anulados)
+          }
           informe.Nivel_servicio = parseFloat(ns.toFixed(2))
           this.datosNs.push(informe)
         })
@@ -165,8 +176,14 @@ export class NsVerificadosComponent {
 
 
           dataElux.datos.map((informe) => {
+            let ns = 0
 
-            const ns = (informe.Entregados * 100) / (informe.Compromiso_real - informe.Anulados)
+            if( (informe.Compromiso_real - informe.Anulados) == 0){
+              ns = 0
+            } else {
+              ns = (informe.Entregados * 100) / (informe.Compromiso_real - informe.Anulados)
+            }
+
 
             informe.Nivel_servicio = parseFloat(ns.toFixed(2))
             this.datosNs.push(informe)

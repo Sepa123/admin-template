@@ -1,3 +1,46 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="lg">
+    <c-modal-header>
+      <h5 cModalTitle>Pedidos {{clienteSeleccionado}} </h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <div class="greenTable" >
+            <table id="tablaProductosPicking" >
+             <thead>
+               <tr>
+                   <th>Pedidos</th>
+               </tr>
+             </thead>
+             <tbody>
+                <tr *ngFor="let pedido of obsPedidos ;let i = index " class="derecha">
+                    <td>{{pedido}}</td>
+                 </tr>
+             </tbody>
+             </table>
+           </div>
+        
+        
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+
+  <h2>Seguimiento Ruta</h2>
+
+  <p></p>
+
+  <select id="Ruta" cSelect  size="1" (change)="filtrarPantente()" [(ngModel)]="patenteSeleccionada"  style="width:auto;  display: inline-block;">
+    <option>Seleccione una Patente</option>
+    <option>Todas</option>
+    <option *ngFor="let ruta of listaPatentes">{{ruta}}</option>
+</select>
+
+<p></p>
+
+
 <div class="greenTable" >
     <table id="tablaProductosPicking" >
      <thead>
@@ -17,7 +60,7 @@
      </thead>
      <tbody>
        <!-- <tr *ngFor="let quadmind of tablaQuadmind ;let i = index "> -->
-        <tr *ngFor="let ruta of segRuta ;let i = index ">
+        <tr *ngFor="let ruta of segRuta ;let i = index " >
             <td>{{ruta.Ruta_beetrack}}</td>
             <td>{{ruta.Ppu}}</td>
             <td>{{ruta.Region}}</td>
@@ -28,8 +71,17 @@
             <td>{{ruta.Entregado_fec_comp}}</td>
             <td>{{ruta.Pendientes}}</td>
             <td>{{ruta.No_entregados}}</td>
-            <td>{{ruta.Obs_total_pedidos}}</td>
+            <!-- <td>{{ruta.Obs_total_pedidos}}</td> -->
+            <td>
+                <svg  xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verObservacion(ruta.obs,ruta.Cliente)" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+ 
+            </td>
          </tr>
      </tbody>
+     <tfoot>
+      <tr *ngIf="segRuta.length == 0">
+        <td colspan="11">Sin registro</td>
+      </tr>
+    </tfoot>
      </table>
    </div>

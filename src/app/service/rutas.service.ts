@@ -243,5 +243,11 @@ export class RutasService {
   get_seguimiento_ruta(){
     return this.http.get<seguimientoRuta[]>(this.apiurl + `/seguimento` )  
   }
+
+
+  update_seguimiento_ruta() {
+    return interval(420000).pipe(switchMap(() => this.http.get<seguimientoRuta []>(this.apiurl + `/seguimento`)))
+    // return interval(15000).pipe(switchMap(() => this.http.get<seguimientoRuta []>(this.apiurl + `/seguimento`)))
+  }
   
 }

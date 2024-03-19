@@ -337,10 +337,10 @@ export const navItems: INavDataBar[] = [
         name: 'Reporte Telefonos',
         url: '/toc/reporte-telefono'
       },
-      // {
-      //   name: 'Seguimiento Ruta',
-      //   url: '/toc/seguimiento-ruta'
-      // }
+      {
+        name: 'Seguimiento Ruta',
+        url: '/toc/seguimiento-ruta'
+      }
     ]
   },
   {
@@ -361,6 +361,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Reporte entregas Diarias',
         url: '/toc/reporte-entrega.diaria'
+      },
+      {
+        name: 'Seguimiento Ruta',
+        url: '/toc/seguimiento-ruta'
       }
       
     ]

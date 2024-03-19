@@ -10,4 +10,5 @@ export interface seguimientoRuta {
     Pendientes:         number;
     No_entregados:      number;
     Obs_total_pedidos:  null | string;
+    obs : string [];
 }
