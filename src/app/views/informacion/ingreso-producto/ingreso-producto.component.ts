@@ -96,6 +96,9 @@ export class IngresoProductoComponent {
     const selectedRegionId = event.target.value;
     console.log('Región seleccionada:', selectedRegionId);
     this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
+    this.form.patchValue({
+      Comuna : this.listaComunas[0].Nombre_comuna
+    })
   }
 
   regex = /\(\s*(EASY|Electrolux|Sportex|Easy OPL)\s*\)\s*/g;
@@ -163,7 +166,7 @@ export class IngresoProductoComponent {
   }
 
   registrar(){
-    // console.log(this.form.value)
+    console.log(this.form.value)
     this.isErrorView = false
 
     this.form.patchValue({
