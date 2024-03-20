@@ -47,7 +47,7 @@ export class IngresoProductoComponent {
     Telefono : this.builder.control("", [Validators.required]),
     Email : this.builder.control("", [Validators.email]),
     Region : this.builder.control("1", [Validators.required]),
-    Id_usuario : this.builder.control("1", [Validators.required])
+    Id_usuario : this.builder.control("1")
   })
 
   isSubmitDisabled : boolean = false
