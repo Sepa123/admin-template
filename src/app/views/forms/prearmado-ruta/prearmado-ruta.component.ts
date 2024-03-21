@@ -312,8 +312,8 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
       this.pedidos = data
       this.pedidosFull = data
       this.isLoadingTable = false
-      this.origen = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Origen)
-          ).map(str => (JSON.parse(str))))]
+      // this.origen = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Origen)
+      //     ).map(str => (JSON.parse(str))))]
 
       this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
         ).map(str => (JSON.parse(str))))]
