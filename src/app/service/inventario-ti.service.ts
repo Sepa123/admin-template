@@ -16,6 +16,7 @@ import{LicenciaYEquipo} from 'src/app/models/mantenedores/licenciaYEquipo.interf
 import { Observable } from 'rxjs';
 import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
 import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona.interface'
+import { ChipDevolucion } from '../models/mantenedores/chipDevolucion.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -138,6 +139,10 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
       return this.http.post(this.apiurl+"/asignacion", body)
     }
 
+    asignacion_chip(body:any){
+      return this.http.post(this.apiurl+"/asignacion-chip", body)
+    }
+
     asignacionAccesorio(body:any){
       return this.http.post(this.apiurl+"/asignacion-accesorio",body)
     }
@@ -158,6 +163,12 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
     }
     liberarLicencia(body:any){
       return this.http.post(this.apiurl+"/liberar-licencia",body)
+    }
+    liberarChip(body:any){
+      return this.http.post(this.apiurl+"/liberar-chip",body)
+    }
+    liberarInsumo(body:any){
+      return this.http.post(this.apiurl+"/liberar-insumo",body)
     }
     //EDITAR
 
@@ -218,6 +229,9 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
     get_chip_asignados_a_equipos(){
       return this.http.get<ChipYEquipo[]>(this.apiurl+"/chip-asignados-a-equipos")
     }
+    get_lista_chip_asignados_para_devolucion(){
+      return this.http.get<ChipDevolucion[]>(this.apiurl+"/lista-chip-devolucion")
+    }
 
     get_chip_no_asignados(){
       return this.http.get<Equipo[]>(this.apiurl+"/chip-no-asignado")
@@ -258,6 +272,10 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
 
     get_lista_estado_devolucion(){
       return this.http.get<Estado[]>(this.apiurl+"/lista-estados-devolucion")
+    }
+
+    get_lista_estado_chip(){
+      return this.http.get<Estado[]>(this.apiurl+"/lista-estado-chip")
     }
 
     get_lista_estado(){
@@ -355,6 +373,10 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
 
     get_equipo_asignado_por_serial(serial: string){
       return this.http.get<AsignadosPorPersona[]>(this.apiurl+`/equipos-asignado-por-serial/${serial}`)
+    }
+
+    get_insumo_asignado_por_serial(serial: string){
+      return this.http.get<AsignadosPorPersona[]>(this.apiurl+`/insumo-asignado-por-serial/${serial}`)
     }
 
     get_lista_devolucion_by_id(id:number){

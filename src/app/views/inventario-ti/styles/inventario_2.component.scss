@@ -249,7 +249,7 @@
 .btn-licencia-chip{
   border: none;
   width: 60px;
-  margin-left: 30px;
+  // margin-left: 30px;
 }
 
 .btn-repuesto{
@@ -258,7 +258,7 @@
 }
 
 .chip-licencia{
-  min-width: 15vw;
+  min-width: 8vw;
   // margin-right: 2PX;
 }
 ul li .circle{
@@ -268,7 +268,7 @@ ul li .circle{
   width: 50px;
   color: #fff;
   height: 50px;
-  background: #0080ff;
+  background: #353535;
   transform: translateX(-50%);
   border-radius: 50%;
   font-size: 0.9rem;
@@ -279,5 +279,15 @@ ul li .circle{
 }
 
 ul{
-  text-decoration: none;
+  list-style: none;
+}
+
+.encabezado-hoja-vida{
+  background-color: #ffff;
+  padding: 0.1rem;
+  border-radius: 12px;
+}
+
+.espacio-iconos{
+  margin-left: 1.8rem;
 }

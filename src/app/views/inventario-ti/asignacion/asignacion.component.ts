@@ -18,6 +18,7 @@ import{FirmaEntrega} from 'src/app/models/mantenedores/firma_entrega.interface'
 import{LicenciaYEquipo} from 'src/app/models/mantenedores/licenciaYEquipo.interface'
 import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
 import{AsignadosPorPersona}  from 'src/app/models/mantenedores/asignadoPorPersona.interface'
+import {ChipDevolucion} from 'src/app/models/mantenedores/chipDevolucion.interface'
 
 
 // import bootstrap from '@ng-bootstrap/ng-bootstrap';
@@ -44,6 +45,8 @@ export class AsignacionComponent {
   public visible8= false;
   public visible9= false;
   public visible10= false;
+  public visible11= false;
+  public visible12= false;
 
 
  objeto  : Asignacion [] = []
@@ -53,6 +56,8 @@ export class AsignacionComponent {
   mostrarInsumo: boolean = false
   mostrarHojaDeVida: boolean = false
   botoneraAccesorio: boolean = false
+  mostrarHojaDeVidaPorPersona: boolean = false
+  mostrarHojaDeVidaPorSerial: boolean = false
   asignaciones : Asignacion [] = []
   accesoriosAsignados:Asignacion [] = []
   todasLasAsignacionesPorPersona:AsignadosPorPersona [] = []
@@ -61,6 +66,7 @@ export class AsignacionComponent {
   insumosAsignados:Asignacion [] = []
   asignadosSinSjoin: Asignacion [] = []
   equipos : Equipo [] = []
+  equipoByChip : Equipo [] = []
   personas : Personal [] = []
   departamentos : Departamentos [] = []
   estados : EstadoInventario [] = [] 
@@ -80,6 +86,10 @@ export class AsignacionComponent {
   primerNombre!: string
   primerApellido!: string
   personaConVariosEquipos!:string
+
+  estado_Chip  : Estado[] = []
+  subestadoChip: SubEstado [] = []
+  chipDevolucion : ChipDevolucion [] = []
 
   //variables para licencias asignadas a personas
   mostrarLicenciaYEquipo: boolean = false
@@ -192,6 +202,14 @@ rutaDevolucion: AsignadosById[] =[]
 //esconder campos que no seran utilizados en caso de accesorios como impresora o tonner que se asigna a un departamento
 //y no se le asigna a una persona
 hideCampos : boolean = true
+//datos hoja de vida, se captura nombre y serial para que campos no se repitan
+
+modeloEquipo!: String
+serialEquipo!: String
+tipoEquipo!: String
+
+
+result !: number 
 
 
 
@@ -227,6 +245,10 @@ hideCampos : boolean = true
           this.estado = data
         })
 
+        this.service.get_lista_estado_chip().subscribe((data)=>{
+          this.estado_Chip = data
+        })  
+
       
         this.service.get_lista_de_departamentos().subscribe((data)=> {
           this.departamentos = data
@@ -260,6 +282,8 @@ hideCampos : boolean = true
             this.asignadosSinSjoin = data
           })
       })
+
+      
 
       // this.service.get_lista_de_asignaciones().subscribe((data)=>{
       //   this.asignaciones = data
@@ -347,6 +371,23 @@ hideCampos : boolean = true
   handleLiveInfoChipAsignado(event: any) {
     this.visible10= event;
   }
+
+  toggleLiveDevolverChip() {
+    this.visible11= !this.visible11;
+  }
+  handleLiveDevolverChip(event: any) {
+    this.visible11= event;
+  }
+
+  toggleLiveDevolverInsumo() {
+    this.visible12= !this.visible12;
+  }
+  handleLiveDevolverInsumo(event: any) {
+    this.visible12= event;
+  }
+  
+    
+    
     
     
 
@@ -419,12 +460,12 @@ filterByEquipo(nombre : string){
 encontrarTipo(event:any){
   this.tipoAsignado = event.target.value
   console.log(this.tipoAsignado)
-  // if(this.tipoAsignado == 1){
-  //   this.showLicencia = true
-  // }
-  // else if(this.tipoAsignado == 2){
-  //   this.showChip = true
-  // }
+  if(this.tipoAsignado == 1){
+    this.showLicencia = true
+  }
+  else if(this.tipoAsignado == 2){
+    this.showChip = true
+  }
   if(this.tipoAsignado ==7 || this.tipoAsignado == 15){
     this.hideCampos = false
   }
@@ -539,8 +580,8 @@ asignacionForm = this.fb.group({
   asignado: this.fb.control(false),
   firma_devolucion: this.fb.control(false),
   id_chip: this.fb.control(0), 
-  estadoChip: this.fb.control(0),
-  subestadoChip: this.fb.control(0),
+  // estadoChip: this.fb.control(0),
+  // subestadoChip: this.fb.control(0),
   // ubicacionarchivo: this.fb.control("")   
 })
 
@@ -576,19 +617,47 @@ registrarAsignacion(){
         ids_user: sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
         lat : this.latStr,
         long: this.longStr,
-        id_chip: this.ChipSeleccionada,
+        // id_chip: this.ChipSeleccionada,
         observacion: "Se asigna chip a celular",
         status: 1,
-        estadoChip:4,
-        subestadoChip: 4, 
+        // estadoChip:4,
+        // subestadoChip: 4, 
         folio_entrega : this.folioE,
         asignado: true,
         })
+        const body= {
+          "ids_user":sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"" ,
+          "id_user": parseInt(sessionStorage['id']),
+          "lat": this.latStr,
+          "long": this.longStr,
+          "equipo": this.equipoSeleccionado,
+          "persona": this.personaSeleccionada,
+          "fecha_entrega": this.fechaHoy,
+          "observacion": "chip asignado",
+          "departamento": this.departamentoSeleccionado,
+          "estadoChip":4,
+          "subestadoChip": 4,
+          "id_chip": this.ChipSeleccionada,
+          "folio_entrega": 0,
+          "folio_devolucion":0,
+          "estado": true
+          
+        }
+        this.service.asignacion_chip(body).subscribe((data)=>{
+          console.log("chip registrado")
+        })
         this.service.crearAsignacion(this.asignacionForm.value).subscribe((respuesta)=>{
           console.log('Persona registrada:', respuesta);
+          
+          Swal.fire({
+          icon: 'success',
+          title: 'Equipo asignado',
+          text: 'Se ha generado registrado con exito',
+          })
           this.asignacionForm.reset()
           this.toggleLiveDemoAsignar()
           this.listaDeAsignaciones()
+
         }, (error) => {
         console.error('Error al registrar la persona:', error);
         })
@@ -636,6 +705,11 @@ listaDeAsignaciones(){
     this.mostrarAccesorio = false
     this.mostrarLicenciaYEquipo = false
     this.mostrarChipYEquipo
+    this.mostrarHojaDeVida = false
+    this.mostrarLicencia = false
+    this.botoneraAccesorio =false
+    this.mostrarHojaDeVidaPorPersona = false
+    this.mostrarHojaDeVidaPorSerial = false
     this.service.get_lista_de_asignaciones().subscribe((data)=>{
       this.asignaciones = data
     })
@@ -645,12 +719,15 @@ listaDeAsignaciones(){
   }
 
   listaDeAccesorios(){
+    this.mostrarHojaDeVida = false
     this.mostrarAccesorio = false
     this.botoneraAccesorio = true
     this.mostrarAsignacion = false
     this.mostrarLicenciaYEquipo = false
     this.mostrarChipYEquipo = false
     this.mostrarLicencia = true
+    this.mostrarHojaDeVidaPorPersona = false
+    this.mostrarHojaDeVidaPorSerial= false
     this.service.get_lista_accesorios_asignados().subscribe((data)=>{
       this.accesoriosAsignados = data
     })
@@ -690,15 +767,26 @@ listaDeAsignaciones(){
   chipElegido(event:any){
     this.ChipSeleccionada = event.target.value
     this.ChipCapturada = true
+    const busqueda =  this.equipoChip.find(chip => chip.id == this.ChipSeleccionada)
+    if(busqueda){
+      console.log(busqueda)
+    
+    }
+    console.log(this.ChipSeleccionada)
+    // this.service.get_equipo_by_Idchip(this.ChipSeleccionada).subscribe((data)=>{
+    //   this.equipoByChip  = data 
+    // })
   }
 
 
 listado(event: any, id: number){
   this.idAsignado =id
+  console.log(this.idAsignado)
   //id del equipo
-  const result = event.target.value
+  this.result = event.target.value
+  console.log("result", this.result)
   //si existe un id de equipo igual a los asignados a la persona
-  const buscarEquipo = this.equiposPorPersona.find(e=> e.equipo_id == result)
+  const buscarEquipo = this.equiposPorPersona.find(e=> e.equipo_id == this.result)
     if(buscarEquipo){
       //se ingresaran los datos solo cuando el input se encuentre checked
       if(event.target.checked == true){
@@ -713,10 +801,11 @@ listado(event: any, id: number){
      //al desmarcar el input se encuentra el id del equipo deseleccionado y el index
      //para eliminarlo del array
       }else if(this.listaDeEquipos[0].id){
-        const borrar= this.listaDeEquipos.findIndex(e=> e.equipo_id == result)
+        const borrar= this.listaDeEquipos.findIndex(e=> e.equipo_id == this.result)
         //se borra el objeto del equipo desmaarcado
         this.listaDeEquipos.splice(borrar-1,1)
       }
+      console.log("buscar equipo",buscarEquipo)
       // this.listaDeEquipos.push(buscarEquipo.marca + " " +buscarEquipo.serial)
     }
 }
@@ -878,6 +967,7 @@ generarActaDevolucion(id: number){
               }
             this.service.datosPDFDevolucion(body).subscribe((data)=>{
               console.log(data)
+              console.log("se actualiza uno solo")
               
               Swal.fire({
               icon: 'success',
@@ -909,6 +999,7 @@ generarActaDevolucion(id: number){
             console.log(datos)
             this.service.actualizar_acta_devolucion(datos).subscribe((data)=>{
             console.log("actualizado")
+            console.log("se actualiza uno solo")
             })
           }     
         }) 
@@ -943,9 +1034,13 @@ enviarDatosActa(){
   //si existe mas de un equipo asignado a la persona y no se ha firmado el acta se muestra el pop up y por medio de este
   //mediante un evento click se recolecta la informacion y se envia
 
-  //datos para generar el acta de entrega
-  this.cuerpoActa= {
-    "id": this.equiposPorPersona[0].id,
+  //ubicamos por el id obtenido en el modal el objeto del equipo
+  const equipoEncontrado = this.equiposPorPersona.find(equipo =>equipo.equipo_id ==this.result)
+  console.log(equipoEncontrado)
+  if(equipoEncontrado){
+    //datos para generar el acta de entrega
+    this.cuerpoActa= {
+    "id": equipoEncontrado.id,
     "nombres": primerNombre,
     "apellidos": primerApellido,
     "rut": this.equiposPorPersona[0].rut,
@@ -954,10 +1049,10 @@ enviarDatosActa(){
     "fecha_entrega": fecha,
     "folio_entrega" : this.folioEString,
     "encargado_entrega" : this.persona_encargada
-  }
-  //datos para generar el acta de devolucion
-  const cuerpoActaDevolucion= {
-    "id": this.equiposPorPersona[0].id,
+    }
+    //datos para generar el acta de devolucion
+    const cuerpoActaDevolucion= {
+    "id":equipoEncontrado.id,
     "nombres": primerNombre,
     "apellidos": primerApellido,
     "rut": this.equiposPorPersona[0].rut,
@@ -966,76 +1061,84 @@ enviarDatosActa(){
     "fecha_devolucion": fecha,
     "folio_devolucion" : this.folioDString,
     "encargado_entrega" : this.persona_encargada
-  }
-  //cambiar el estado del equipo para la acta de entrega
-  const datos = {
-    "id": this.equiposPorPersona[0].id,
+    }
+
+    //cambiar el estado del equipo para la acta de entrega
+    const datos = {
+    "id": equipoEncontrado.id,
     "fecha_entrega": this.fechaHoy,
     "folio_entrega" : this.folioE,
     "estado": true, //el estado true significa entregado
     "status":1,
     "sub_estado": 1, //subestado 1 indica recepcionado, del estado 1 de entregado
-    "equipo_id":this.equiposPorPersona[0].equipo_id,
+    "equipo_id":equipoEncontrado.equipo_id,
     "ids_usuario":sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"" ,
     "id_usuario": parseInt(sessionStorage['id']),
     "observacion": "Se ha generado acta de entrega",
     "lat":this.latStr,
     "long":this.longStr,
-  }
+    }
 
- //cambiar el estado del equipo para la acta de devolucion
-  const datosDevolver = {
-    "id": this.equiposPorPersona[0].id,
+    //cambiar el estado del equipo para la acta de devolucion
+    const datosDevolver = {
+    "id": equipoEncontrado.id,
     "fecha_devolucion": this.fechaHoy,
     "folio_devolucion" : this.folioD,
     "estado": false, //el estado false significa devuelto (disponible para entregar)
     // "sub_estado": 1, //se selecciona la ubicacion del equipo devuelto en providencia o en bodega 
     "status":2,
-    "equipo_id":this.equiposPorPersona[0].equipo_id,
+    "equipo_id":equipoEncontrado.equipo_id,
     "ids_usuario":sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"" ,
     "id_usuario": parseInt(sessionStorage['id']),
     "observacion": "Se ha generado acta de devolución",
     "lat":this.latStr,
     "long":this.longStr,
     // "ubicacionarchivo": this.fotoDevolucion
-
-  }
-  if(!this.botonDevolver){
-    this.service.actualizar_crear_acta_entrega(datos).subscribe((data)=>{
+    }
+    if(!this.botonDevolver){
+      this.service.actualizar_crear_acta_entrega(datos).subscribe((data)=>{
       console.log("actualizado")
       })
-    this.service.datosPDF(this.cuerpoActa).subscribe((data)=>{
+      this.service.datosPDF(this.cuerpoActa).subscribe((data)=>{
       console.log(data)
       Swal.fire({
         icon: 'success',
         title: 'Acta Generada',
         text: 'Se ha generado el acta con éxito',
+        })
       })
-    })
 
-  }else{
-    //validamos que el array enviado con la informacion de los equipos no se encuentre vacia
-    if(this.listaDeEquipos.length !==0){
-      this.service.actualizar_acta_devolucion(datosDevolver).subscribe((data)=>{
-      console.log("actualizado")
-      })
-      this.service.datosPDFDevolucion(cuerpoActaDevolucion).subscribe((data)=>{
-        console.log(data)
-        this.toggleLiveListaAsignados()
-        Swal.fire({
+    }else{
+      //validamos que el array enviado con la informacion de los equipos no se encuentre vacia
+      if(this.listaDeEquipos.length !==0){
+        this.service.actualizar_acta_devolucion(datosDevolver).subscribe((data)=>{
+        console.log("actualizado")
+       })
+        this.service.datosPDFDevolucion(cuerpoActaDevolucion).subscribe((data)=>{
+          console.log(data)
+          this.toggleLiveListaAsignados()
+          Swal.fire({
           icon: 'success',
           title: 'Acta Generada',
           text: 'Se ha generado el acta con éxito',
+          })
+          this.toggleLiveDemoDevolucion()
+          this.listaDeAsignaciones()
         })
-      })
-    }else{
-      Swal.fire({
+      }else{
+       Swal.fire({
         icon: 'error',
         title: 'Acta No Generada',
         text: 'Por favor, validar información',
-      })
+        })
+      }     
     }     
   }
+  
+  
+
+  
+ 
 }
 capturaFotoEquipoDevuelto(event: any){
   this.fotoDevolucion = event.target.value 
@@ -1364,6 +1467,8 @@ capturaFotoEquipoDevuelto(event: any){
           "lat":this.latStr,
           "long":this.longStr,
           "fecha_entrega":this.fechaHoy,
+          "folio_entrega": 0,
+          "folio_devolucion":0,
           "estado": true,
           "status":1,
           "subestado":1,
@@ -1377,7 +1482,8 @@ capturaFotoEquipoDevuelto(event: any){
             text: 'Asignación realizada con éxito',
           })
           this.asignacionForm.reset()
-          this.listaDeAsignaciones()
+          this.listaDeAccesorios()
+          this.toggleLiveRepuesto()
         }, (error) => {
         console.error('Error al registrar la persona:', error);
         Swal.fire({
@@ -1398,6 +1504,8 @@ capturaFotoEquipoDevuelto(event: any){
           "lat":this.latStr,
           "long":this.longStr,
           "fecha_entrega":this.fechaHoy,
+          "folio_entrega": 0,
+          "folio_devolucion": 0,
           "estado": true,
           "status":1,
           "subestado":1,
@@ -1412,6 +1520,7 @@ capturaFotoEquipoDevuelto(event: any){
           })
           this.asignacionForm.reset()
           this.listaDeAsignaciones()
+          this.toggleLiveRepuesto()
         }, (error) => {
         console.error('Error al registrar la persona:', error);
         Swal.fire({
@@ -1419,6 +1528,7 @@ capturaFotoEquipoDevuelto(event: any){
           title: 'Error al realizar la asignación',
           text: 'Asignación no realizada, validar información',
         })
+        this.toggleLiveRepuesto()
         })
       }
      
@@ -1435,6 +1545,10 @@ capturaFotoEquipoDevuelto(event: any){
         this.mostrarAccesorio = false
         this.mostrarAsignacion = false      
         this.mostrarChipYEquipo= false
+        this.mostrarHojaDeVida = false
+        this.mostrarInsumo = false
+        this.mostrarHojaDeVidaPorPersona = false
+        this.mostrarHojaDeVidaPorSerial= false
       }else{
         this.mostrarLicenciaYEquipo = false
       }
@@ -1470,8 +1584,13 @@ capturaFotoEquipoDevuelto(event: any){
 
     obtenerChipAsignadoAEquipo(){
       this.botoneraAccesorio = true
+      this.service.get_lista_chip_asignados_para_devolucion().subscribe((data)=>{
+        this.chipDevolucion = data
+        console.log(this.chipDevolucion)
+      })
       this.service.get_chip_asignados_a_equipos().subscribe((data)=>{
         this.chipYEquipo  = data
+        console.log(this.chipYEquipo)
         if(!this.mostrarChipYEquipo ){
           this.mostrarChipYEquipo= true
           this.mostrarLicenciaYEquipo = false
@@ -1479,11 +1598,49 @@ capturaFotoEquipoDevuelto(event: any){
           this.mostrarAsignacion = false
           this.mostrarInsumo = false
           this.mostrarHojaDeVida = false
+          this.mostrarHojaDeVidaPorPersona = false
+          this.mostrarHojaDeVidaPorSerial= false
 
         }else{
           this.mostrarChipYEquipo = false
         }
       })
+    }
+
+    devolverChip(id:number){
+      this.toggleLiveDevolverChip()
+      this.idAsignacion = id
+      }
+      
+
+    async liberarChip(id:number){
+      console.log(this.idAsignacion)
+      await this.getLocation()
+      const buscarAsignado = this.chipDevolucion.find( chip =>chip.id_chip == this.idAsignacion)
+      if(buscarAsignado){
+        const body = {
+          "id_chip": buscarAsignado.id_chip,
+          "persona":buscarAsignado.persona,
+          "equipo": buscarAsignado.id_equipo,
+          "observacion": this.observacion,
+          "id_user":parseInt(sessionStorage['id']),
+          "ids_user": sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+          "lat":this.latStr,
+          "long":this.longStr,
+          "estadoChip": this.estadoElegido,
+          "subestadoChip": this.subestadoElegido,
+          "estado": false,
+          "fecha_devolucion": this.fechaHoy
+        }
+        console.log(body)
+        this.service.liberarChip(body).subscribe((data)=>{
+          Swal.fire({
+            icon: 'success',
+            title: 'Chip liberado',
+          })
+          this.toggleLiveDevolverChip()
+        })
+      }
     }
 
     obtenerAccesoriosAsignados(){
@@ -1493,6 +1650,8 @@ capturaFotoEquipoDevuelto(event: any){
       this.mostrarAsignacion = false
       this.mostrarInsumo = false
       this.mostrarHojaDeVida = false
+      this.mostrarHojaDeVidaPorPersona = false
+      this.mostrarHojaDeVidaPorSerial= false
       this.service.get_lista_accesorios_asignados().subscribe((data)=>{
         this.accesoriosAsignados = data
       })
@@ -1505,6 +1664,8 @@ capturaFotoEquipoDevuelto(event: any){
       this.mostrarAsignacion = false
       this.mostrarInsumo = true
       this.mostrarHojaDeVida = false
+      this.mostrarHojaDeVidaPorPersona = false
+      this.mostrarHojaDeVidaPorSerial= false
       this.service.get_lista_insumos_asignados().subscribe((data)=>{
         this.insumosAsignados = data
       })
@@ -1514,6 +1675,7 @@ capturaFotoEquipoDevuelto(event: any){
       this.toggleLiveDevolverAccesorio()
       this.idAsignacion = id
       }
+
 
     enviarDevolucionAccesorio(id:number){
       const encontrarAcc = this.accesoriosAsignados.find(acc => acc.id == this.idAsignacion)
@@ -1528,6 +1690,7 @@ capturaFotoEquipoDevuelto(event: any){
           "subestado": this.subestadoElegido,
           "observacion": this.observacion,
           "fecha_devolucion":this.fechaHoy,
+          "folio_devolucion": 0,
           "estado": true,
           "sub_estado":this.subestadoElegido,
           "id_asignacion": encontrarAcc.id_asignacion
@@ -1546,9 +1709,56 @@ capturaFotoEquipoDevuelto(event: any){
         }
       }
 
+      devolverInsumo(id: number | null){
+        this.toggleLiveDevolverInsumo()
+        if(id){
+          this.idAsignacion = id
+        }
+
+
+      }
+
+      async liberarInsumo(id:number){
+        console.log(this.idAsignacion)
+        await this.getLocation()
+        const buscarAsignado = this.insumosAsignados.find( insumo=> insumo.id_asignacion == this.idAsignacion)
+        if(buscarAsignado){
+          const body = {
+            "id": buscarAsignado.id_asignacion,
+            "equipo": buscarAsignado.id,
+            "observacion": this.observacion,
+            "id_user":parseInt(sessionStorage['id']),
+            "ids_user": sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+            "lat":this.latStr,
+            "long":this.longStr,
+            "estadoInsumo": this.estadoElegido,
+            "subestadoInsumo": this.subestadoElegido,
+            "fecha_devolucion": this.fechaHoy,
+            "folio_devolucion": 0,
+            "status": false
+            
+          }
+          console.log(body)
+          this.service.liberarInsumo(body).subscribe((data)=>{
+            Swal.fire({
+              icon: 'success',
+              title: 'Insumo liberado',
+            })
+            this.toggleLiveDevolverInsumo()
+          })
+        }
+      }
+
       hojaDeVida(){
+        this.mostrarAsignacion = false
+        this.mostrarAccesorio = false
+        this.mostrarLicenciaYEquipo = false
+        this.mostrarChipYEquipo = false
         this.mostrarHojaDeVida = true
         this.botoneraAccesorio = false
+        this.mostrarInsumo = false
+        this.mostrarHojaDeVidaPorPersona = false
+        this.mostrarHojaDeVidaPorSerial= false
        
         
       }
@@ -1567,14 +1777,42 @@ capturaFotoEquipoDevuelto(event: any){
             }
           }) 
         this.rut = ""
+        this.mostrarHojaDeVidaPorPersona = true
+        this.mostrarHojaDeVidaPorSerial = false
       }
 
 
       filterBySerial(event: any){
         this.serial = event.target.value
-        this.service.get_equipo_asignado_por_serial(this.serial).subscribe((data)=>{
-          this.asignadosPorSerial = data
-        })
+        const busqueda = this.equiposGenerales.find(h =>h.serial == this.serial )
+        if(busqueda){
+          if(busqueda.tipo== 7 ||busqueda.tipo== 15  ){
+            console.log("hola")
+            this.service.get_insumo_asignado_por_serial(this.serial).subscribe((data)=>{
+            this.asignadosPorSerial = data
+            if (this.asignadosPorSerial[0].tipo !== null) {
+              this.tipoEquipo = this.asignadosPorSerial[0].tipo;
+            } if(this.asignadosPorSerial[0].modelo !== null){
+              this.modeloEquipo = this.asignadosPorSerial[0].modelo
+            }if(this.asignadosPorSerial[0].serial!== null ){
+              this.serialEquipo = this.asignadosPorSerial[0].serial
+            }
+            })
+          }else{
+            this.service.get_equipo_asignado_por_serial(this.serial).subscribe((data)=>{
+              this.asignadosPorSerial = data
+              if (this.asignadosPorSerial[0].tipo !== null) {
+                this.tipoEquipo = this.asignadosPorSerial[0].tipo;
+              } if(this.asignadosPorSerial[0].modelo !== null){
+                this.modeloEquipo = this.asignadosPorSerial[0].modelo
+              }if(this.asignadosPorSerial[0].serial!== null ){
+                this.serialEquipo = this.asignadosPorSerial[0].serial
+              }
+            })
+          }
+        }
+        this.mostrarHojaDeVidaPorPersona =false
+        this.mostrarHojaDeVidaPorSerial = true
         this.serial = ""
       }
 

@@ -561,7 +561,7 @@
             <div>Estado
               <select cSelect    formControlName="estado" (change)="asignarEstado($event)">
                 <option  value=0 selected>Selecciona un estado</option>
-                <option *ngFor="let estado of estado " value={{estado.id}}>
+                <option *ngFor="let estado of estado " value={{estado.id}} required>
                   {{ estado.descripcion }}</option>
                 </select>
             </div>
@@ -570,7 +570,7 @@
           <div>Subestado
             <select cSelect    formControlName="subestado" (change)="subestadoElegido($event)" >
               <option  value=0 selected>Selecciona un subestado</option>
-              <option *ngFor="let estado of subestados " value={{estado.code}}>
+              <option *ngFor="let estado of subestados " value={{estado.code}} required>
                 {{ estado.descripcion }}</option>
               </select>
           </div>
@@ -713,7 +713,7 @@
           <c-col [xs]>
               <div class="">
                 Estado del equipo
-                  <input type="text" placeholder="Estado del equipo" class="form-control" formControlName="descripcion" >
+                  <input required type="text" placeholder="Estado del equipo" class="form-control" formControlName="descripcion" >
                   
                   <!-- <span class="error" *ngIf="form.get('Codigo')?.errors?.['required'] && isErrorView">
                     Falta agregar el codigo del producto
@@ -749,7 +749,7 @@
           <label for ="parent_code" >Estado </label>
               <select   cSelect    formControlName="parent_code" name="parent_code" (change)="generarCodeSubEstado($event)">
                 <option value=0 selected>Selecciona un estado</option>
-                <option *ngFor="let equipo of estado" value={{equipo.id}}>
+                <option *ngFor="let equipo of estado" value={{equipo.id}} required>
                   {{ equipo.estado}}   {{ equipo.descripcion}} 
                 </option>
               </select> 
@@ -757,7 +757,7 @@
           <c-col [xs]>
               <div class="">
                 Descripción
-                  <input type="text" placeholder="SubEstado" class="form-control" formControlName="descripcion" >
+                  <input required type="text" placeholder="SubEstado" class="form-control" formControlName="descripcion" >
               </div>
           </c-col>
       </c-row>
