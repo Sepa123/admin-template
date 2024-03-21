@@ -85,10 +85,10 @@ export interface Equipo {
     almacenamiento:  Almacenamiento | null,
     ram: Ram| null,
     estado: number | null,
+    subestado: number | null
     tipo: number
     cantidad: number | null
     nr_equipo: number |null
-    subestado: number | null
     ubicacionarchivo: string |null,
     observacion: string |null
     subestados: string

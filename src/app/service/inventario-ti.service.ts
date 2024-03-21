@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
 import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona.interface'
+import { ChipDevolucion } from '../models/mantenedores/chipDevolucion.interface';
 @Injectable({
     providedIn: 'root'
   })
@@ -24,8 +25,8 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
 
     constructor( private http : HttpClient) { }
   
-    apiurl = "https://hela.transyanez.cl/api/inventario-ti"
-    // apiurl = "http://127.0.0.1:8000/api/inventario-ti"
+    // apiurl = "https://hela.transyanez.cl/api/inventario-ti"
+    apiurl = "http://127.0.0.1:8000/api/inventario-ti"
 
     //descarga de excel de la planilla completa de datos de personas RRHH
 
@@ -137,6 +138,9 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
     crearAsignacion(body:any){
       return this.http.post(this.apiurl+"/asignacion", body)
     }
+    asignacion_chip(body:any){
+      return this.http.post(this.apiurl+"/asignacion-chip", body)
+    }
 
     asignacionAccesorio(body:any){
       return this.http.post(this.apiurl+"/asignacion-accesorio",body)
@@ -158,6 +162,12 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
     }
     liberarLicencia(body:any){
       return this.http.post(this.apiurl+"/liberar-licencia",body)
+    }
+    liberarChip(body:any){
+      return this.http.post(this.apiurl+"/liberar-chip",body)
+    }
+    liberarInsumo(body:any){
+      return this.http.post(this.apiurl+"/liberar-insumo",body)
     }
     //EDITAR
 
@@ -237,6 +247,9 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
     get_chip_asignados_a_equipos(){
       return this.http.get<ChipYEquipo[]>(this.apiurl+"/chip-asignados-a-equipos")
     }
+    get_lista_chip_asignados_para_devolucion(){
+      return this.http.get<ChipDevolucion[]>(this.apiurl+"/lista-chip-devolucion")
+    }
     get_lista_datos_personales() {
         return this.http.get<Personal[]>(this.apiurl+"/lista-personas")
       }
@@ -251,6 +264,11 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
     get_lista_estado_devolucion(){
       return this.http.get<Estado[]>(this.apiurl+"/lista-estados-devolucion")
     }
+
+    get_lista_estado_chip(){
+      return this.http.get<Estado[]>(this.apiurl+"/lista-estado-chip")
+    }
+
 
     get_lista_estado(){
       return this.http.get<Estado[]>(this.apiurl+"/lista-estado")
@@ -270,6 +288,10 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
     get_lista_descripcion_por_equipo(){
       return this.http.get<Equipo[]>(this.apiurl+"/lista-descripcion-equipos")
     }
+
+    // get_equipo_by_Idchip(id:number){
+    //   return this.http.get<Equipo[]>(this.apiurl+`/lista-equipo-by-chip/${id}`)
+    // }
 
     get_lista_descripcion_por_id(id:number){
       return this.http.get<Equipo[]>(this.apiurl+`/lista-descripcion-por-id/${id}`)
@@ -355,6 +377,9 @@ import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona
 
     get_equipo_asignado_por_serial(serial: string){
       return this.http.get<AsignadosPorPersona[]>(this.apiurl+`/equipos-asignado-por-serial/${serial}`)
+    }
+    get_insumo_asignado_por_serial(serial: string){
+      return this.http.get<AsignadosPorPersona[]>(this.apiurl+`/insumo-asignado-por-serial/${serial}`)
     }
 
     get_lista_equipos_asignados_para_Devolver(id: string){
