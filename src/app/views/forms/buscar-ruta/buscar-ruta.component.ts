@@ -27,7 +27,7 @@ export class BuscarRutaComponent {
 
   arrProductosEncontrados: ProductoPicking[] [] = []
 
-  productoRutas4Digitos : ProductoPicking [] = []
+  productoRutas4Digitos : ProductoPicking [] []= []
 
   arrayRutasIngresados : ProductoPicking[] [] = []
 
@@ -259,7 +259,11 @@ export class BuscarRutaComponent {
     this.service.registrar_producto_en_despacho_ruta(body).subscribe((data) => { 
       alert('Producto agregado exitosamente')
 
+      this.idPedidoRuta = ""
+
       this.seleccionarRuta()
+
+      
 
     },
     ((error) => {
@@ -272,12 +276,12 @@ export class BuscarRutaComponent {
     // this.todosEnRuta()
   }
 
-  cambiarEncontrado4Digitos(index: number){
+  cambiarEncontrado4Digitos(index: number, index2 : number){
 
-    this.productoRutas4Digitos[index].Encontrado = !this.productoRutas4Digitos[index].Encontrado 
+    this.productoRutas4Digitos[index][index2].Encontrado = !this.productoRutas4Digitos[index][index2].Encontrado 
 
     this.arrayRutasIngresados.map((ruta, i) => {
-      let res = ruta.filter((prod) =>  prod.Codigo_pedido == this.productoRutas4Digitos[index].Codigo_pedido || prod.Codigo_producto == this.productoRutas4Digitos[index].Codigo_producto)
+      let res = ruta.filter((prod) =>  prod.Codigo_pedido == this.productoRutas4Digitos[index][index2].Codigo_pedido || prod.Codigo_producto == this.productoRutas4Digitos[index][index2].Codigo_producto)
 
       console.log(res)
 
@@ -476,13 +480,13 @@ export class BuscarRutaComponent {
     // this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     
 
-    this.arrayRutasIngresados.map(objeto => {
-      objeto.map(prducto => {
-        this.productoRutas4Digitos.push(prducto)
-      })
-    })
+    // this.arrayRutasIngresados.map(objeto => {
+    //   objeto.map(prducto => {
+    //     this.productoRutas4Digitos.push(prducto)
+    //   })
+    // })
 
-    this.productoRutas4Digitos =  this.productoRutas4Digitos.filter(producto => producto.Codigo_pedido.endsWith(resultado))
+    this.productoRutas4Digitos =  this.arrayRutasIngresados.filter(producto => producto[0].Codigo_pedido.endsWith(resultado))
 
     if(this.productoRutas4Digitos.length == 0){
       this.idPedidoRuta4Digitos = ""

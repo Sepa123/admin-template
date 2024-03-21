@@ -383,6 +383,23 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
+    // Pantalla TOC Operaciones jefe
+    name: 'TOC',
+    url: '/toc',
+    iconComponent: { name: 'cil-chat-bubble' },
+    roles : ROLES_PERMITIDOS.OPE_TOC,
+    children: [
+      {
+        name: 'Alertas Vigentes',
+        url: '/toc/alertas-vigentes'
+      },
+      {
+        name: 'Seguimiento Ruta',
+        url: '/toc/seguimiento-ruta'
+      }
+    ]
+  },
+  {
     // Pantalla muestra para ruteador_pickeador
     name: 'Rutas',
     url: '/picking',

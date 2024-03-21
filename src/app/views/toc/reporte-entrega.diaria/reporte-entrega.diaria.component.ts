@@ -279,10 +279,10 @@ export class ReporteEntregaDiariaComponent {
           this.Descripcion.push(En.Descripcion);
           this.Total.push(En.Total);
           this.agregar(this.Descripcion, this.Total);
-        });
-        this.chartVisible = true;
-        this.graficoVisible = true;
-        this.isLoadingChart = false;
+          this.chartVisible = true;
+          this.graficoVisible = true;
+          this.isLoadingChart = false;
+          });
       });
   }
 
