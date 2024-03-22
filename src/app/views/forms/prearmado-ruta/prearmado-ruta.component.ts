@@ -22,8 +22,11 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
   fechaIngresoList!: string[]
   fechaCompromisoList!: any[]
 
-  comunas : string[] = []
-  comunasSeleccionadas: string[] = [];
+  listaComunas : any[] =[]
+
+  comunas : any[] = []
+  comunasSeleccionadas: any[] = [];
+  listaComunaFull: any[] = [];
 
   regiones : string[] = []
   offset : number [] = [0,100,200,300,400,500,600,700,800,900,1000,1100,1200]
@@ -58,6 +61,8 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
 
   isModalOpen: boolean = false
   public visible = false;
+
+  regionSeleccionada : string = ""
 
   tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","sportex-electrolux","fin"]
 
@@ -181,12 +186,24 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
                   ).map(str => (JSON.parse(str))))]
                 this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
                   ).map(str => (JSON.parse(str))))]
+
+                this.listaComunas = this.pedidos.filter((item, index, self) =>
+                index === self.findIndex((t) => (
+                  t.Region === item.Region && t.Comuna === item.Comuna
+                ))
+              ).map(item => ({
+                "Region": item.Region,
+                "Comuna": item.Comuna
+              }));
       
-                this.regiones = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Region)
+                this.regiones = [...new Set(this.listaComunas.map((pedido) => JSON.stringify(pedido.Region)
                   ).map(str => (JSON.parse(str))))]
                 this.loadPedidos = false
                 this.cantidad = this.pedidos.length
               }
+
+              this.listaComunaFull = this.listaComunas
+
               this.loadPedidos = false;
               // this.cantidad = this.pedidos.length;
               // this.cantidadBultos = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length
@@ -228,13 +245,26 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
   }
 
    filtrarsByComuna () {
-    if(this.comunasSeleccionadas.length !== 0) this.pedidos = this.pedidosFull.filter(pedido => this.comunasSeleccionadas.includes(pedido.Comuna))
+
+    console.log(this.comunasSeleccionadas)
+
+
+    
+
+    let selectCom  = this.comunasSeleccionadas.map(comuna => comuna.Comuna)
+
+    if(this.comunasSeleccionadas[0] == undefined) selectCom = []
+
+
+    if(selectCom.length !== 0) this.pedidos = this.pedidosFull.filter(pedido => selectCom.includes(pedido.Comuna))
     if(this.fecha_min !== "" || this.fecha_max !== "") this.filtrarPorRangoFechaCompromiso(this.fecha_min,this.fecha_max)
 
-    if(this.comunasSeleccionadas.length !== 0 && this.fecha_min !== "" && this.fecha_max !== ""){
-      this.pedidos = this.pedidosFull.filter(pedido => this.comunasSeleccionadas.includes(pedido.Comuna) && new Date(pedido.Fecha_compromiso) >= new Date(this.fecha_min)
+    if(selectCom.length !== 0 && this.fecha_min !== "" && this.fecha_max !== ""){
+      this.pedidos = this.pedidosFull.filter(pedido => selectCom.includes(pedido.Comuna) && new Date(pedido.Fecha_compromiso) >= new Date(this.fecha_min)
       && new Date(pedido.Fecha_compromiso) <= new Date(this.fecha_max))
     }
+
+    // this.comunasSeleccionadas = []
     
     this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
     this.cantidadBultos = this.pedidos.length
@@ -376,9 +406,15 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
  }
 
  filtrarPorRegion (region : string){
-  this.pedidos = this.pedidosFull.filter(pedido => pedido.Region == region)
-  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
-  this.cantidadBultos = this.pedidos.length
+
+  this.regionSeleccionada = region
+
+  this.listaComunas = this.listaComunaFull.filter((comuna) => comuna.Region == region)
+  this.comunasSeleccionadas = []
+
+  // this.pedidos = this.pedidosFull.filter(pedido => pedido.Region == region)
+  // this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+  // this.cantidadBultos = this.pedidos.length
  }
 
  filtrarPorRangoFechaCompromiso(fecha_min : string,fecha_max: string){

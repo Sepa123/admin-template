@@ -47,14 +47,30 @@
         </div>
         <div class="">
             Región
-            <c-dropdown >
-                <button cButton cDropdownToggle color="secondary" size="sm">
-                  Región
-                </button>
-                <ul cDropdownMenu class="scrollable-list">
-                  <li *ngFor="let region of regiones"><a [routerLink]="[]" (click)="filtrarPorRegion(region)" cDropdownItem>{{region}}</a></li>
-                </ul>
-              </c-dropdown>
+            <table>
+              <tr>
+                <td>
+                  <c-dropdown >
+                    <button cButton cDropdownToggle color="secondary" size="sm">
+                      Región
+                    </button>
+                    <ul cDropdownMenu class="scrollable-list">
+                      <li *ngFor="let region of regiones"><a [routerLink]="[]" (click)="filtrarPorRegion(region)" cDropdownItem>{{region}}</a></li>
+                    </ul>
+                  </c-dropdown>
+                </td>
+                <td>
+                  &nbsp;&nbsp;
+                </td>
+                <td>
+                 <label for="" style="font-weight: bold;"> {{regionSeleccionada}}</label>
+                </td>
+              </tr>
+            </table>
+            
+
+
+              
             <!-- <input type="text" class="form-control"  placeholder="Region" formControlName="Region" readonly> -->
             <!-- <select id="Region" cSelect formControlName="Region" readonly>
                 <option *ngFor="let region of regiones" >{{region}}</option>
@@ -74,7 +90,7 @@
         <div class="">
             Filtrar por comunas
             <ng-select class="custom" [multiple]="true" [(ngModel)]="comunasSeleccionadas" >
-                <ng-option *ngFor="let comuna of comunas" [value]="comuna" >{{ comuna }}</ng-option>
+                <ng-option *ngFor="let comuna of listaComunas" [value]="comuna" >{{ comuna.Comuna }}</ng-option>
             </ng-select>      
         </div>
         <p></p>
