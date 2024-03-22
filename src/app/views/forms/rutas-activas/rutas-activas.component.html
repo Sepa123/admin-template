@@ -59,6 +59,45 @@
   </c-modal-footer>
 </c-modal>
 
+<c-modal id="ModalListaComunas" [visible]="visibleDescarga" (visibleChange)="handleDescarga($event)" size="xl">
+  <c-modal-header>
+    <h5 cModalTitle>Comunas Por Ruta</h5>
+    <button (click)="toggleDescarga()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+
+    <table class="greenTable">
+      <thead>
+        <th>Nombre Ruta</th>
+        <th>Comuna</th>
+        <th>Total Puntos</th>
+      </thead>
+      <tr *ngFor="let comuna of comunasPorRuta" >
+        <td class="ajustarLeft">{{comuna.Nombre_ruta}}</td>
+        <td class="ajustarLeftComuna">{{comuna.Comunas}}</td>
+        <td>{{comuna.Total_puntos}}</td>
+      </tr>
+      <tr  *ngIf="comunasPorRuta.length == 0">
+        <td colspan="3">
+          No hay registros
+        </td>
+      </tr>
+    </table>
+<p></p>
+    <button cButton size="sm" color="success" (click)="downloadExcelListaComuna()" >Descargar   
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+        <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+      </svg>
+    </button>
+
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleDescarga()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
 <table> 
   <tr>
     <td>
@@ -86,10 +125,14 @@
       <button cButton  color="secondary" size="sm" (click)="getNombreByFecha(fechaActual)" [disabled]="loadingRuta == true"> buscar</button>
     </td>
     <td>
+      <button cButton  color="secondary" size="sm" (click)="toggleDescarga()" >Comunas Por Ruta</button>
+    </td>
+    <td>
       <!-- <button > -->
         <svg (click)="toggleLiveDemo()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg>
       <!-- </button> -->
     </td>
+    
   </tr>
 </table>
 

@@ -249,5 +249,22 @@ export class RutasService {
     return interval(420000).pipe(switchMap(() => this.http.get<seguimientoRuta []>(this.apiurl + `/seguimento`)))
     // return interval(15000).pipe(switchMap(() => this.http.get<seguimientoRuta []>(this.apiurl + `/seguimento`)))
   }
+
+  get_comuna_por_ruta(fecha:string){
+    return this.http.get(this.apiurl + `/comuna_por_ruta?fecha=${fecha}` )  
+  }
+
+  download_lista_comunas_rutas( fecha : string) {
+    this.http.get(`${this.apiurl}/comuna_por_ruta/descargar?fecha=${fecha}`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`Lista_comunas_rutas.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
   
 }

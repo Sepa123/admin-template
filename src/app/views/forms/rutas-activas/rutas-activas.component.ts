@@ -55,7 +55,22 @@ export class RutasActivasComponent {
   isModalOpen: boolean = false
   public visible = false;
 
+  public visibleDescarga = false;
+
+  comunasPorRuta : any [] =[]
+
   regionSeleccionada : string = "Regiones"
+  loadingComunaRuta : boolean = true
+
+  toggleDescarga() {
+    this.visibleDescarga = !this.visibleDescarga;
+    this.verListaComunasRutas()
+    this.loadingComunaRuta = true
+  }
+
+  handleDescarga(event: any) {
+    this.visibleDescarga = event;
+  }
 
   toggleLiveDemo() {
     this.visible = !this.visible;
@@ -66,19 +81,26 @@ export class RutasActivasComponent {
   }
   
   openModal(){
-    
     this.isModalOpen = true
-
-    console.log(this.isModalOpen)
   }
 
   closeModal(){
     this.isModalOpen = false
   }
 
+  
+
   constructor(private service: RutasService, private nombreRutaService : NombreRutaService,
               private router: Router, private http : HttpClient) { 
 
+  }
+
+  verListaComunasRutas(){
+
+    this.service.get_comuna_por_ruta(this.fechaActual).subscribe((data : any)=> {
+      this.comunasPorRuta = data
+      this.loadingComunaRuta = false
+    })
   }
 
 
@@ -247,6 +269,7 @@ export class RutasActivasComponent {
     this.fechaActual = fechaFormateada
     // this.getNombreByFecha(ObjcurrentDate)
     this.getNombreByFecha(this.fechaActual)
+    this.comunasPorRuta = []
   }
 
 
@@ -379,6 +402,12 @@ export class RutasActivasComponent {
       resultado += caracteres.charAt(indice);
     }
     return resultado;
+  }
+
+
+  downloadExcelListaComuna(){
+    this.service.download_lista_comunas_rutas(this.fechaActual)
+
   }
 
 
