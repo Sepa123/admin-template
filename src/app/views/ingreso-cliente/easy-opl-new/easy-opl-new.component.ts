@@ -22,12 +22,16 @@ export class EasyOplNewComponent {
 
   ListaProductos : ProductoOPL [] = []
 
+  ListaProductos4Digitos : ProductoOPL [] = []
+
   productosVerificados : ProductoOPL [] =[]
   productosPorVerificar : ProductoOPL [] = []
 
   productosPorVerificarByCP : ProductoOPL [] = []
   codigoProducto!: string
   codProductoModal! : string
+
+  codigo4digitos : string = ""
 
   ArrCodScanner : string [] = []
 
@@ -46,6 +50,17 @@ export class EasyOplNewComponent {
     latStr!: string
     longStr!: string
    public visibleCantidad = false;
+
+   visible4digitos : boolean = false
+
+
+   toggle4Digitos() {
+    this.visible4digitos = !this.visible4digitos;
+  }
+
+   handle4Digito(event: any) {
+    this.visible4digitos = event;
+  }
 
     toggleLiveCantidad() {
       this.visibleCantidad = !this.visibleCantidad;
@@ -156,6 +171,32 @@ export class EasyOplNewComponent {
   }
 
 
+  geProductospor4Digitos(pedido: string) {
+
+    var resultado = pedido.replace(/'/g, "-").trim().toUpperCase()
+    resultado = resultado.replace(/-(\d+)/, "");
+
+    // if(this.rutaSeleccionada == 'Seleccione una ruta'){
+    //   return alert('Por favor, seleccione una ruta')
+    // }
+    
+    console.log(this.ListaProductos)
+
+    // this.productoRutas4Digitos = []
+
+    this.ListaProductos4Digitos =  this.ListaProductos.filter(producto => producto.Codigo_producto.endsWith(resultado))
+
+
+    console.log(this.ListaProductos4Digitos)
+
+    this.toggle4Digitos()
+
+    // this.idPedidoRuta4Digitos = ""
+
+ 
+  }
+
+
   pickearQR(cod_producto : string){
     this.ArrCodScanner.push(cod_producto)
     if (this.ArrCodScanner.length === 9 ){
@@ -209,6 +250,8 @@ export class EasyOplNewComponent {
         alert(error.error.detail)
       })
     }
+
+    this.visible4digitos = false
     this.codigoProducto = ""
   }
 

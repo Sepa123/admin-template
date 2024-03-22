@@ -462,8 +462,6 @@ export class BuscarRutaComponent {
 
   getRutapor4Digitos(pedido: string) {
 
-    
-
     var resultado = pedido.replace(/'/g, "-").trim().toUpperCase()
     resultado = resultado.replace(/-(\d+)/, "");
 
@@ -472,19 +470,6 @@ export class BuscarRutaComponent {
     }
     
     this.productoRutas4Digitos = []
-
-    // let isSeguro = confirm("¿Seguro que desea agregar este producto a la ruta?");
-    // if (!isSeguro) return console.log("no esta seguro")
-
-
-    // this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
-    
-
-    // this.arrayRutasIngresados.map(objeto => {
-    //   objeto.map(prducto => {
-    //     this.productoRutas4Digitos.push(prducto)
-    //   })
-    // })
 
     this.productoRutas4Digitos =  this.arrayRutasIngresados.filter(producto => producto[0].Codigo_pedido.endsWith(resultado))
 
