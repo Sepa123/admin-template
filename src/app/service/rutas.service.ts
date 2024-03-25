@@ -113,7 +113,7 @@ export class RutasService {
     return this.http.get<NombresRutasActivas[]>(this.apiurl + `/activo/nombre_ruta?fecha=${fecha}`)
   }
 
-  update_estado_ruta(nombre_ruta: string,data = { }) {
+  update_estado_ruta(nombre_ruta: string,data :any) {
     return this.http.put(this.apiurl + `/actualizar/estado/activo/${nombre_ruta}`,data)
   }
 
@@ -223,7 +223,7 @@ export class RutasService {
     return this.http.get<CantidadUnidadesRutaActiva[]>(this.apiurl + `/listar/activo/cantidad/productos?nombre_ruta=${nombre_ruta}` )  
   }
 
-  actualizar_estado_ruta_a_true(nombre_ruta: string,data = { }) {
+  actualizar_estado_ruta_a_true(nombre_ruta: string,data : any) {
     return this.http.put(this.apiurl + `/actualizar/estado/activo/${nombre_ruta}/abrir`,data)
   }
 

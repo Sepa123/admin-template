@@ -18,8 +18,7 @@ import { ComunaRutas } from 'src/app/models/comunaRutas.interface';
 })
 export class RutasActivasComponent {
 
-  verBotonesCorreo : string [] = ['priscilla.gre@transyanez.cl','francisco.benavides@transyanez.cl'
-                                  ,'jp@gmail.com','gojiris216@fitwl.com']
+  verBotonesCorreo : string [] = ['jp@gmail.com','gojiris216@fitwl.com','hugo.lara.ext@transyanez.cl','fabian.lara@transyanez.cl']
 
   listaUnidades : CantidadUnidadesRutaActiva [] =[]
   // model! : NgbDateStruct
@@ -87,8 +86,6 @@ export class RutasActivasComponent {
   closeModal(){
     this.isModalOpen = false
   }
-
-  
 
   constructor(private service: RutasService, private nombreRutaService : NombreRutaService,
               private router: Router, private http : HttpClient) { 
@@ -171,11 +168,25 @@ export class RutasActivasComponent {
   }
 
   updateEstadoRuta (nombre_ruta : string) {
+
+    const body = {
+      "id_usuario": parseInt(sessionStorage.getItem("id")+""),
+      "cliente": 'Modificación Ruta',
+      "n_guia": nombre_ruta,
+      "sku": '',
+      "cod_pedido": '',
+      "cod_producto" : '',
+      "ids_usuario" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+      "latitud" : null,
+      "longitud" : null,
+      "observacion" : "Se Cerro la ruta " + nombre_ruta
+    }
+
     let isSeguro = confirm("¿Seguro que desea cerrar esta ruta?");
     if (!isSeguro) {
       return console.log("no esta seguro")
     } else {
-    this.service.update_estado_ruta(nombre_ruta).subscribe( (data: any) => {
+    this.service.update_estado_ruta(nombre_ruta,body).subscribe( (data: any) => {
       alert(data.message)
     },
     ((error) => {
@@ -189,11 +200,24 @@ export class RutasActivasComponent {
   }
 
   updateEstadoRutaAtrue(nombre_ruta : string) {
+
+    const body = {
+      "id_usuario": parseInt(sessionStorage.getItem("id")+""),
+      "cliente": 'Modificación Ruta',
+      "n_guia": nombre_ruta,
+      "sku": '',
+      "cod_pedido": '',
+      "cod_producto" : '',
+      "ids_usuario" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+      "latitud" : null,
+      "longitud" : null,
+      "observacion" : "Se Reabrio la ruta " + nombre_ruta
+    }
     let isSeguro = confirm("¿Seguro que desea reabrir esta ruta?");
     if (!isSeguro) {
       return console.log("no esta seguro")
     } else {
-    this.service.actualizar_estado_ruta_a_true(nombre_ruta).subscribe( (data: any) => {
+    this.service.actualizar_estado_ruta_a_true(nombre_ruta, body).subscribe( (data: any) => {
       alert(data.message)
     },
     ((error) => {
