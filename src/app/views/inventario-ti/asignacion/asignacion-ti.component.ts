@@ -36,6 +36,7 @@ export class AsignacionTiComponent {
 
     showLicencia : boolean = false
     showChip : boolean = false
+    datosAsignarLicencia: boolean = false 
     public visible = false;
     public visible1 = false;
     public visible2 = false;
@@ -49,6 +50,8 @@ export class AsignacionTiComponent {
     public visible10= false;
     public visible11= false;
     public visible12= false;
+    public visible13= false;
+    public visible14= false;
 
 
    objeto  : Asignacion [] = []
@@ -209,6 +212,7 @@ export class AsignacionTiComponent {
   modeloEquipo!: String
   serialEquipo!: String
   tipoEquipo!: String
+  marcaEquipo! : string
 
   
   result !: number 
@@ -387,6 +391,21 @@ export class AsignacionTiComponent {
     handleLiveDevolverInsumo(event: any) {
       this.visible12= event;
     }
+
+    toggleLiveInfoAccesorioAsignado() {
+      this.visible13= !this.visible13;
+    }
+    handleLiveInfoAccesorioAsignado(event: any) {
+      this.visible13= event;
+    }
+    toggleLiveInfoInsumoAsignada() {
+      this.visible14= !this.visible14;
+    }
+    handleLiveInfoInsumoAsignada(event: any) {
+      this.visible14= event;
+    }
+
+
     
       
       
@@ -434,6 +453,12 @@ export class AsignacionTiComponent {
   infoChipAsignado(){
     this.toggleLiveInfoChipAsignado()
   }
+  infoAccesorioAsignado(){
+    this.toggleLiveInfoAccesorioAsignado()
+  }
+  infoInsumoAsignado(){
+    this.toggleLiveInfoInsumoAsignada()
+  }
 
 
   //ubicar los equipos asignados por departamento
@@ -462,14 +487,22 @@ export class AsignacionTiComponent {
   encontrarTipo(event:any){
     this.tipoAsignado = event.target.value
     console.log(this.tipoAsignado)
-    if(this.tipoAsignado == 1){
+    if(this.tipoAsignado == 1 || this.tipoAsignado == 24){
       this.showLicencia = true
+      this.showChip = false
     }
-    else if(this.tipoAsignado == 2){
+    else if(this.tipoAsignado == 2 || this.tipoAsignado == 3){
       this.showChip = true
+      this.showLicencia = false
     }
+    
     if(this.tipoAsignado ==7 || this.tipoAsignado == 15){
       this.hideCampos = false
+    }else if(this.tipoAsignado== 24){
+      this.service.get_lista_licencias_no_asignadas().subscribe((data)=>{
+        this.licencias = data
+        this.datosAsignarLicencia = true
+      })
     }
     this.encontrarEquipo(this.tipoAsignado)
   }
@@ -1351,16 +1384,7 @@ export class AsignacionTiComponent {
 
      //descarga de los archivos PDFS
      descargarPDFDevolucion(id:number){
-      // this.service.get_firma_devolucion(id).subscribe((data : boolean [])=>{
-      
-      //   this.firma = data[0]
-      //   console.log(this.firma)
-      //   if(this.firma == true){
-      //     this.service.downloadEscaneado_devolucion(id)
-      //   }else{
-      //     this.service.downloadPDF_devolucion(id)
-      //   }
-      // })
+  
       //verficiamos el estado de la firma, si ya se encuentra firmado es porque existe un archivo escaneadao
       //por tal motivo el tratamiento de datos para el archivo escaneado es distinto
       this.service.get_firma_devolucion(id).subscribe((data)=>{
@@ -1448,13 +1472,38 @@ export class AsignacionTiComponent {
        //se toma por el evento los id a enviar para los respuestos y/o accesorios asignados por departamento
        departamentoElegido(event:any){
         this.departamentoSeleccionado = event.target.value
+        // this.encontrarPersona(this.departamentoSeleccionado)
+       }
+
+       encontrarPersona(id:number){
+        this.service.get_persona_by_departamento(id).subscribe((data)=>{
+          this.personas = data
+          console.log( this.personas)
+        })
        }
 
        equipoElegido(event:any){
         this.equipoSeleccionado= event.target.value
        }
        personaElegida(event: any){
-        this.personaSeleccionada = event.target.value
+        this.personaSeleccionada = parseInt(event.target.value)
+        console.log(this.personaSeleccionada)
+        
+        if(this.tipoAsignado == 24){
+          console.log("hola")
+          this.service.get_equipo_por_persona_notebook(this.personaSeleccionada).subscribe((data)=>{
+          console.log(data)
+          this.equipoChip = data
+          console.log(this.equipoChip)
+          })
+        }else if (this.tipoAsignado == 3){
+          this.service.get_equipo_por_persona_chip(this.personaSeleccionada).subscribe((data)=>{
+            this.equipoChip = data
+          })
+        }
+        
+        
+
        }
 
        enviarRepuestoAccesorio(){
@@ -1494,7 +1543,85 @@ export class AsignacionTiComponent {
             text: 'Asignación no realizada, validar información',
           })
           })
-        }else{
+        }else if(this.tipoAsignado == 24){
+          const body={
+            "departamento": this.departamentoSeleccionado,
+            "tipo": this.tipoAsignado,
+            "equipo": this.equipoSeleccionado,
+            "id_licencia": this.licenciaSeleccionada,
+            "persona": this.personaSeleccionada,
+            "observacion":this.observacion,
+            "id_user":parseInt(sessionStorage['id']),
+            "ids_user": sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+            "lat":this.latStr,
+            "long":this.longStr,
+            // "folio_entrega": 0,
+            // "folio_devolucion":0,
+            "status":1,
+            "subestado":1,
+            "asignado": true
+          }
+          this.service.asignacionLicencia(body).subscribe((respuesta)=>{
+            console.log('Persona registrada:', respuesta);
+            Swal.fire({
+              icon: 'success',
+              title: 'Licencia Asignada',
+              text: 'Asignación realizada con éxito',
+            })
+            this.asignacionForm.reset()
+            this.toggleLiveRepuesto()
+          }, (error) => {
+          console.error('Error al registrar la persona:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al realizar la asignación',
+            text: 'Asignación no realizada, validar información',
+          })
+          this.toggleLiveRepuesto()
+          })
+        }else if(this.tipoAsignado == 3){
+          const body={
+            "departamento": this.departamentoSeleccionado,
+            "tipo": this.tipoAsignado,
+            "equipo": this.equipoSeleccionado,
+            "id_chip": this.ChipSeleccionada,
+            "persona": this.personaSeleccionada,
+            "observacion":this.observacion,
+            "id_user":parseInt(sessionStorage['id']),
+            "ids_user": sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+            "lat":this.latStr,
+            "long":this.longStr,
+            "fecha_entrega":this.fechaHoy,
+            "folio_entrega": 0,
+            "folio_devolucion":0,
+            "estado": true,
+            // "status":1,
+            // "subestado":1,
+            "estadoChip": 4,
+            "subestadoChip": 4
+          
+          }
+          console.log(body)
+          this.service.asignacion_chip(body).subscribe((respuesta)=>{
+            console.log('Persona registrada:', respuesta);
+            Swal.fire({
+              icon: 'success',
+              title: 'Chip Asignado',
+              text: 'Asignación realizada con éxito',
+            })
+            this.asignacionForm.reset()
+            this.toggleLiveRepuesto()
+          }, (error) => {
+          console.error('Error al registrar la persona:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al realizar la asignación',
+            text: 'Asignación no realizada, validar información',
+          })
+          this.toggleLiveRepuesto()
+          })
+        } 
+        else{
           const body={
             "persona": this.personaSeleccionada,
             "departamento": this.departamentoSeleccionado,
@@ -1571,8 +1698,11 @@ export class AsignacionTiComponent {
             "ids_user": sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
             "lat":this.latStr,
             "long":this.longStr,
-            "asignado": false
+            "asignado": false,
+            "status":2,
           }
+
+          
           console.log(body)
           this.service.liberarLicencia(body).subscribe((data)=>{
             Swal.fire({
@@ -1619,6 +1749,7 @@ export class AsignacionTiComponent {
         console.log(this.idAsignacion)
         await this.getLocation()
         const buscarAsignado = this.chipDevolucion.find( chip =>chip.id_chip == this.idAsignacion)
+        console.log(buscarAsignado)
         if(buscarAsignado){
           const body = {
             "id_chip": buscarAsignado.id_chip,
@@ -1789,15 +1920,16 @@ export class AsignacionTiComponent {
           const busqueda = this.equiposGenerales.find(h =>h.serial == this.serial )
           if(busqueda){
             if(busqueda.tipo== 7 ||busqueda.tipo== 15  ){
-              console.log("hola")
               this.service.get_insumo_asignado_por_serial(this.serial).subscribe((data)=>{
               this.asignadosPorSerial = data
               if (this.asignadosPorSerial[0].tipo !== null) {
                 this.tipoEquipo = this.asignadosPorSerial[0].tipo;
-              } if(this.asignadosPorSerial[0].modelo !== null){
+              } if(this.asignadosPorSerial[0].modelo !== null  ){
                 this.modeloEquipo = this.asignadosPorSerial[0].modelo
               }if(this.asignadosPorSerial[0].serial!== null ){
                 this.serialEquipo = this.asignadosPorSerial[0].serial
+              }if(this.asignadosPorSerial[0].marca!== null ){
+                this.marcaEquipo = this.asignadosPorSerial[0].marca
               }
               })
             }else{

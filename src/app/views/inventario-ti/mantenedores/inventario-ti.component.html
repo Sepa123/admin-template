@@ -200,6 +200,10 @@
               <input type="text" placeholder="Nombre" class="form-control"  id="nombre" name="nombre" formControlName="nombre" required >
             </div>
           </c-col>
+          <c-col [xs]  style="margin-top: 25px;">
+            <label for="documentacion" style="margin-right: 5px;">Requiere documentación: </label> 
+            <input id="documentacion" formControlName="documentacion" type="checkbox" required>
+          </c-col>
         </c-row> 
       </div>    
       <button  class="btn btn-success" type="submit" >Enviar</button>
