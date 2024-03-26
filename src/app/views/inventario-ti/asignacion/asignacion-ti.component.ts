@@ -1922,6 +1922,7 @@ export class AsignacionTiComponent {
             if(busqueda.tipo== 7 ||busqueda.tipo== 15  ){
               this.service.get_insumo_asignado_por_serial(this.serial).subscribe((data)=>{
               this.asignadosPorSerial = data
+              console.log(this.asignadosPorSerial)
               if (this.asignadosPorSerial[0].tipo !== null) {
                 this.tipoEquipo = this.asignadosPorSerial[0].tipo;
               } if(this.asignadosPorSerial[0].modelo !== null  ){
@@ -1941,6 +1942,8 @@ export class AsignacionTiComponent {
                   this.modeloEquipo = this.asignadosPorSerial[0].modelo
                 }if(this.asignadosPorSerial[0].serial!== null ){
                   this.serialEquipo = this.asignadosPorSerial[0].serial
+                }if(this.asignadosPorSerial[0].marca!== null ){
+                  this.marcaEquipo = this.asignadosPorSerial[0].marca
                 }
               })
             }

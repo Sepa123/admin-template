@@ -1153,10 +1153,16 @@ cambioHabilitarPersona(id: number){
 
   ramElegida(event:any){
     this.seleccionRam = event.target.value
+    if(this.seleccionRam == "Seleccione una opcion"){
+      this.seleccionRam = ""
+    }
   }
 
   almacenamientoElegido(event:any){
     this.seleccionAlm  = event.target.value
+    if(this.seleccionAlm == "Seleccione una opcion"){
+      this.seleccionAlm = ""
+    }
     console.log(this.seleccionAlm )
   }
 
@@ -1268,7 +1274,7 @@ cambioHabilitarPersona(id: number){
               text: 'Validar información',
             })
           })
-        }
+         }
         }
     }
 
