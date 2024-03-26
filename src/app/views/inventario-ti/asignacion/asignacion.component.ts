@@ -1939,6 +1939,8 @@ capturaFotoEquipoDevuelto(event: any){
                 this.modeloEquipo = this.asignadosPorSerial[0].modelo
               }if(this.asignadosPorSerial[0].serial!== null ){
                 this.serialEquipo = this.asignadosPorSerial[0].serial
+              }if(this.asignadosPorSerial[0].marca!== null ){
+                this.marcaEquipo = this.asignadosPorSerial[0].marca
               }
             })
           }

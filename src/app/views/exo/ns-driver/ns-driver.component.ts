@@ -19,31 +19,27 @@ export class NsDriverComponent {
     responsive: true,
     scales: {
       y: {
-        stacked: true // Apilar barras verticalmente
+        stacked: true, // Apilar barras verticalmente
       }
     },
     plugins: {
       legend: {
         display: true,
         position: 'right'
-      // },
-      // datalabels: {
-      //   formatter: (value: any, ctx: any) => {
-      //     if (ctx.chart.data.labels) {
-      //       return ctx.chart.data.labels[ctx.dataIndex];
-      //     }
-      //   },
       }
-      
+
     },
     
 
   };
 
-  public pieChartData: ChartData<'pie', number[], string | string[]> = {
+  
+
+  public pieChartData: ChartData<'bar', number[], string | string[]> = {
     labels: ["nada"],
     datasets: [
       {
+        
         label:"Total Pedidos",
         data: [1],
       },
@@ -67,9 +63,12 @@ export class NsDriverComponent {
   bloqBotonNext : boolean = false
   bloqBotonPrev : boolean = false
 
+  fecha_inicio : string = ''
+  fecha_fin : string = ''
 
-  ngOnInit(){
-    this.service.get_ns_drivers('20240301','20240321').subscribe((data) => {
+  buscarNsDrivers(){
+
+    this.service.get_ns_drivers(this.fecha_inicio,this.fecha_fin).subscribe((data) => {
 
       this.datosDrivers = data
       
@@ -79,6 +78,13 @@ export class NsDriverComponent {
 
       this.chartVisible = true
     })
+
+  }
+
+
+  ngOnInit(){
+    // Chart.register(ChartDataLabels);
+    
   }
 
   updateChart(){
