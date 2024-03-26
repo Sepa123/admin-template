@@ -109,9 +109,13 @@ export const navItems: INavDataBar[] = [
     roles : ROLES_PERMITIDOS.EXO,
     children: [
       {
-        name: 'Nivel Servicio',
+        name: 'NS Beetrack',
         url : '/exo/nivel-servicio'
-      }
+      },
+      // {
+      //   name: 'NS Driver',
+      //   url : '/exo/ns-driver'
+      // }
     ]
   },
   // FULL PANTALLA

@@ -19,6 +19,7 @@ import { NSBeetrackRango } from '../models/nsBeetrackRango.interface'
 import { PendienteBodega } from '../models/pendienteBodega.interface'
 import { NsVerificado } from '../models/nsVerificado.interface'
 import { MainNs } from '../models/nivel_servicio/nsFechaCompromisoReal.interface'
+import { MainNsDriver } from '../models/nivel_servicio/nsDrivers.interface'
 
 import { interval,Observable, switchMap  } from 'rxjs';
 @Injectable({
@@ -299,6 +300,11 @@ export class TIService {
 
   get_ns_fecha_compromiso_real_tienda(fecha: string, tienda : string){
     return this.http.get<MainNs>(this.apiurl + `/ns/fecha_c_real/easy?fecha=${fecha}&tienda=${tienda}`)
+
+  }
+
+  get_ns_drivers(fecha_inicio: string, fecha_fin : string){
+    return this.http.get<MainNsDriver>(this.apiurl + `/ns/drivers?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`)
 
   }
 

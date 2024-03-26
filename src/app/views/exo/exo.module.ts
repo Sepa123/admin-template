@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 import { ExoRoutingModule } from './exo-routing.module';
 import { NivelServicioComponent } from './nivel-servicio/nivel-servicio.component';
-
+import { ChartjsModule } from '@coreui/angular-chartjs';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-
+import { NgChartsModule } from 'ng2-charts';
+import { ModalModule } from '@coreui/angular';
 
 // CoreUI Modules
 import {
@@ -19,12 +20,14 @@ import {
   TableModule,
   UtilitiesModule
 } from '@coreui/angular';
+import { NsDriverComponent } from './ns-driver/ns-driver.component';
 
 
 
 @NgModule({
   declarations: [
-    NivelServicioComponent
+    NivelServicioComponent,
+    NsDriverComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +41,11 @@ import {
     ListGroupModule,
     TableModule,
     UtilitiesModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, ReactiveFormsModule,
+    NgSelectModule,
+    ChartjsModule,
+    ModalModule,
+    NgChartsModule
   ]
 })
 export class ExoModule { }

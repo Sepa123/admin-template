@@ -189,7 +189,15 @@ export class EasyOplNewComponent {
 
     console.log(this.ListaProductos4Digitos)
 
-    this.toggle4Digitos()
+    if(this.ListaProductos4Digitos.length == 0 ) {
+      alert('No hay registros')
+    } else {
+      this.toggle4Digitos()
+    }
+
+    this.codigo4digitos = ""
+
+   
 
     // this.idPedidoRuta4Digitos = ""
 

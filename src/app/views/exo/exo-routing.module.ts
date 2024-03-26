@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NivelServicioComponent } from './nivel-servicio/nivel-servicio.component';
-
+import { NsDriverComponent } from './ns-driver/ns-driver.component';
 const routes: Routes = [
   {
     path: '',
@@ -19,6 +19,13 @@ const routes: Routes = [
         component: NivelServicioComponent,
         data: {
           title: 'NIvel Servicio',
+        },
+      },
+      {
+        path: 'ns-driver',
+        component: NsDriverComponent,
+        data: {
+          title: 'NIvel Servicio Driver',
         },
       },
     
