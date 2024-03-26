@@ -710,7 +710,8 @@ cambioHabilitarPersona(id: number){
     tipoEquipoForm = this.fb.group({
       id: this.fb.control(0),
       nombre: this.fb.control("", [Validators.required] ),
-  
+      documentacion: this.fb.control(false)
+
     })
 
     registrarTipoEquipo(){
@@ -914,7 +915,8 @@ cambioHabilitarPersona(id: number){
       ids_user : this.fb.control(""),
       codigo: this.fb.control(""),
       lat: this.fb.control(""),
-      long: this.fb.control("")
+      long: this.fb.control(""),
+      asignada:this.fb.control(false)
     })
 
 //REGISTRO DE LICENCIA

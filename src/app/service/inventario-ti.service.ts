@@ -147,6 +147,10 @@ import { ChipDevolucion } from '../models/mantenedores/chipDevolucion.interface'
       return this.http.post(this.apiurl+"/asignacion-accesorio",body)
     }
 
+    asignacionLicencia(body:any){
+      return this.http.post(this.apiurl+"/asignacion-licencia",body)
+    }
+
     crearLicencia(body:any){
       return this.http.post(this.apiurl+"/licencia",body)
     }
@@ -430,6 +434,16 @@ import { ChipDevolucion } from '../models/mantenedores/chipDevolucion.interface'
 
     get_equipo_by_tipo(tipo:number){
       return this.http.get<Equipo[]>(this.apiurl+`/equipos-by-tipo/${tipo}`)
+    }
+
+    get_equipo_por_persona_chip(id:number){
+      return this.http.get<Equipo[]>(this.apiurl+`/equipos-by-persona-chip/${id}`)
+    }
+    get_equipo_por_persona_notebook(id:number){
+      return this.http.get<Equipo[]>(this.apiurl+`/equipos-by-persona-notebook/${id}`)
+    }
+    get_persona_by_departamento(departamento:number){
+      return this.http.get<Personal[]>(this.apiurl+`/persona-by-departamento/${departamento}`)
     }
 
     get_firma_entrega(id: number){
