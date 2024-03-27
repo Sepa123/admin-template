@@ -44,6 +44,10 @@ export class MantenedoresComponent implements OnInit {
 
   botonEditar : boolean = false
 
+  public mail = sessionStorage.getItem("mail")
+  public rol = sessionStorage.getItem("rol_id")
+
+  verBotonesCrear : string [] = ['5','60']
 
   isErrorView : boolean = false
 

@@ -308,4 +308,16 @@ export class TIService {
 
   }
 
+  downloadNSDriver(fecha_inicio : string, fecha_fin : string ){
+    this.http.get(this.apiurl+`/ns/drivers/descargar?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `NS_Drivers.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
 }

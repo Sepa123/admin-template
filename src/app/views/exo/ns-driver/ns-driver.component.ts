@@ -68,16 +68,29 @@ export class NsDriverComponent {
 
   buscarNsDrivers(){
 
-    this.service.get_ns_drivers(this.fecha_inicio,this.fecha_fin).subscribe((data) => {
+    
 
-      this.datosDrivers = data
+    this.chartVisible = false
+
+    setTimeout(() => {
+      this.service.get_ns_drivers(this.fecha_inicio,this.fecha_fin).subscribe((data) => {
+
+        this.datosDrivers = data
+        
+        this.pieChartData.labels = data.Patentes.slice(0,10)
+        this.pieChartData.datasets[0].data = data.Pedidos.slice(0,10)
+        this.pieChartData.datasets[1].data = data.Entregados.slice(0,10)
+  
+        this.chartVisible = true
+        this.currentPage = 0
+        this.bloqBotonNext = false
+
+      })
       
-      this.pieChartData.labels = data.Patentes.slice(0,10)
-      this.pieChartData.datasets[0].data = data.Pedidos.slice(0,10)
-      this.pieChartData.datasets[1].data = data.Entregados.slice(0,10)
+    }, 500);
+    
 
-      this.chartVisible = true
-    })
+    
 
   }
 
@@ -123,7 +136,9 @@ export class NsDriverComponent {
       if ((this.currentPage + 1) * itemsPerPage < this.datosDrivers.Datos.length) {
         this.currentPage++;
         this.updateChart();
-        if (((this.currentPage + 1) * itemsPerPage) + itemsPerPage > this.datosDrivers.Datos.length) {
+        if (((((this.currentPage + 1) * itemsPerPage) + itemsPerPage) - this.datosDrivers.Datos.length) >= 10) {
+
+        
           this.bloqBotonNext = true
         }else{
           this.bloqBotonNext = false
@@ -131,6 +146,11 @@ export class NsDriverComponent {
       } 
     }, 400);
     
+  }
+
+
+  DescargarNS(){
+      this.service.downloadNSDriver(this.fecha_inicio,this.fecha_fin)
   }
 
  

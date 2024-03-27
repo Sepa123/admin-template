@@ -112,10 +112,10 @@ export const navItems: INavDataBar[] = [
         name: 'NS Beetrack',
         url : '/exo/nivel-servicio'
       },
-      // {
-      //   name: 'NS Driver',
-      //   url : '/exo/ns-driver'
-      // }
+      {
+        name: 'NS Driver',
+        url : '/exo/ns-driver'
+      }
     ]
   },
   // FULL PANTALLA
