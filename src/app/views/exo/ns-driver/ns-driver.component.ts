@@ -14,20 +14,47 @@ import { MainNsDriver } from 'src/app/models/nivel_servicio/nsDrivers.interface'
 })
 export class NsDriverComponent {
 
+  chartVisible : boolean = false
+  currentPage : number = 0;
+  bloqBotonNext : boolean = false
+  bloqBotonPrev : boolean = false
+
+  fecha_inicio : string = ''
+  fecha_fin : string = ''
+
+
   public pieChartOptions: ChartConfiguration['options'] = {
     indexAxis: 'y',
     responsive: true,
     scales: {
       y: {
+        // max : 10,
+        // min: 4, 
+        beginAtZero: true,
         stacked: true, // Apilar barras verticalmente
-      }
+      },
     },
     plugins: {
+      datalabels : {
+        anchor: 'end',
+        align: 'start', 
+        offset : -48,
+        clamp : false,
+        formatter: function(context,chartObj : any) {
+          // console.log(chartObj.chart['$datalabels']['_datasets'][0]['dataset']['data'][chartObj.dataIndex])
+          // console.log(chartObj.chart['$datalabels']['_datasets'])
+
+          const dataset1 = chartObj.chart.data.datasets[0].data[chartObj.dataIndex ];
+          const dataset2 = chartObj.chart.data.datasets[1].data[chartObj.dataIndex ];
+          const porcentaje = (dataset2 * 100) / dataset1
+          
+          return porcentaje.toFixed(2) + '%'
+        },
+      },
       legend: {
         display: true,
-        position: 'right'
-      }
-
+        position: 'top'
+      },
     },
     
 
@@ -39,14 +66,19 @@ export class NsDriverComponent {
     labels: ["nada"],
     datasets: [
       {
-        
         label:"Total Pedidos",
         data: [1],
+        datalabels: {
+          display: true,
+        },
       },
       {
         label:"Entregados",
         data: [1],
-      },
+        datalabels: {
+          display: false,
+        },
+      }
     ],
   };
 
@@ -58,13 +90,7 @@ export class NsDriverComponent {
 
   }
 
-  chartVisible : boolean = false
-  currentPage : number = 0;
-  bloqBotonNext : boolean = false
-  bloqBotonPrev : boolean = false
-
-  fecha_inicio : string = ''
-  fecha_fin : string = ''
+  
 
   buscarNsDrivers(){
 
@@ -96,7 +122,21 @@ export class NsDriverComponent {
 
 
   ngOnInit(){
-    // Chart.register(ChartDataLabels);
+    Chart.register(ChartDataLabels);
+
+    // this.service.get_ns_drivers('02-03-2024','12-03-2024').subscribe((data) => {
+
+    //   this.datosDrivers = data
+      
+    //   this.pieChartData.labels = data.Patentes.slice(0,10)
+    //   this.pieChartData.datasets[0].data = data.Pedidos.slice(0,10)
+    //   this.pieChartData.datasets[1].data = data.Entregados.slice(0,10)
+
+    //   this.chartVisible = true
+    //   this.currentPage = 0
+    //   this.bloqBotonNext = false
+
+    // })
     
   }
 
