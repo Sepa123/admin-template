@@ -150,6 +150,24 @@
 
     </c-col>
 </c-row> 
+<p></p>
+
+<p *ngIf="mostrarDetalle">Reemplazar Producto</p>
+
+<c-row *ngIf="mostrarDetalle" >
+    <c-col [xs]>
+        <input type="text" placeholder="Código antiguo" [(ngModel)]="codProductoOriginal"  class="form-control"  >
+    </c-col>
+    <c-col [xs]>
+        <input type="text" placeholder="Código nuevo" [(ngModel)]="codProductoReemplazo"  class="form-control"  >
+    </c-col>
+    <c-col [xs]>
+        <button (click)="reemplazarCodigos()">Reemplazar</button>
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+</c-row> 
 
 
 <!-- <button (click)="pruebaSuma()">prueba</button> -->

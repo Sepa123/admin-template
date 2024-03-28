@@ -74,6 +74,7 @@ export class NsDriverComponent {
       },
       {
         label:"Entregados",
+        // backgroundColor : 'red',
         data: [1],
         datalabels: {
           display: false,

@@ -62,6 +62,13 @@ export class ArmarVentaComponent {
 
   etiqueta : string = ""
 
+  codProductoOriginal : string = ""
+
+  codProductoReemplazo : string = ""
+
+
+
+
   toggleLiveDemo() {
     this.visible = !this.visible;
     
@@ -117,6 +124,13 @@ export class ArmarVentaComponent {
     for (let año = añoInicial; año <= parseInt(añoActual); año++) {
         años.push(año.toString());
     }
+
+
+    this.filtrarListaVentaPorMes(años[años.length - 1]+mesActual, '1')
+
+    this.AnoSeleccionado = años[años.length - 1]
+    this.MesSeleccionado = mesActual
+    this.sucursalSeleccionada = '1'
 
     this.listaAnos = años
   }
@@ -365,6 +379,40 @@ export class ArmarVentaComponent {
     console.log(body)
 
   })
+
+  }
+
+  reemplazarCodigos() {
+
+
+    const codigo_o = this.codProductoOriginal.replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
+    let cod_producto_o = codigo_o.split('@')[0].split('-')[0]
+    let tipo_o = codigo_o.split('@')[1].split('-')[1]
+
+    const codigo_r = this.codProductoReemplazo.replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
+    let cod_producto_r = codigo_r.split('@')[0].split('-')[0]
+    let tipo_r = codigo_r.split('@')[1].split('-')[1]
+
+
+    
+    if(this.detalleVentaGenerada.find(detalle => detalle.Codigo == cod_producto_o)){
+
+      alert ('ok')
+    
+
+    if ((cod_producto_o == cod_producto_r) && (tipo_o[0] ==  tipo_r[0]) ){
+      return alert('bien')
+    }else{
+      return alert('no son el mismo producto')
+    }
+
+  }else{
+    alert('hay error')
+  }
+
+
+    
+
 
   }
 
