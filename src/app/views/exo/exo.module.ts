@@ -7,7 +7,7 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
 import { ModalModule } from '@coreui/angular';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 // CoreUI Modules
 import {
   AccordionModule,
@@ -18,7 +18,8 @@ import {
   GridModule,
   ListGroupModule,
   TableModule,
-  UtilitiesModule
+  UtilitiesModule,
+  PaginationModule
 } from '@coreui/angular';
 import { NsDriverComponent } from './ns-driver/ns-driver.component';
 
@@ -30,6 +31,8 @@ import { NsDriverComponent } from './ns-driver/ns-driver.component';
     NsDriverComponent
   ],
   imports: [
+    PaginationModule,
+    NgxPaginationModule,
     CommonModule,
     ExoRoutingModule,
     AccordionModule,

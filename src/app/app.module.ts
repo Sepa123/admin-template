@@ -12,6 +12,8 @@ import {
   PerfectScrollbarModule,
 } from 'ngx-perfect-scrollbar';
 
+import {NgxPaginationModule} from 'ngx-pagination'
+
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
@@ -49,6 +51,7 @@ import {
   SidebarModule,
   TabsModule,
   UtilitiesModule,
+  PaginationModule
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
@@ -105,7 +108,9 @@ const APP_CONTAINERS = [
     NgbModule,
     NgbPaginationModule, NgbAlertModule,
     NgbDatepickerModule,
-    NgChartsModule
+    NgChartsModule,
+    NgxPaginationModule,
+    PaginationModule
   ],
   providers: [
     {

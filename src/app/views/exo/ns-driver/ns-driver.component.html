@@ -39,21 +39,92 @@
 
   <p></p>
 
-  <table style="width: 100%;" *ngIf="chartVisible == true">
+
+  <!-- <ul>
+    <li *ngFor="let _ of cantidadPag | paginate: { itemsPerPage: 10, currentPage: currentPage }"> ... </li>
+  </ul> -->
+             
+  <!-- <pagination-controls (pageChange)="currentPage = $event"></pagination-controls> -->
+
+  <!-- <table *ngIf="chartVisible == true">
     <tr>
-      <td>
+      <td style="width: 20%;">
         <button cButton  color="info" size="sm" (click)=" prevPage()" [disabled]="currentPage == 0">
           Anterior 
         </button>
       
       </td>
       <td>
+        <table>
+          <tr>
+            <td *ngFor="let _ of cantidadPag; let i = index">
+             <a (click)="seleccionarPagina(i)"> {{i + 1}} </a>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td style="width: 20%;">
         <button cButton  color="info" size="sm" (click)=" nextPag()" [disabled]="bloqBotonNext == true">
           Siguente 
         </button>
       </td>
     </tr>
-  </table>
+  </table> -->
+
+
+  <c-pagination aria-label="Page navigation example" *ngIf="chartVisible == true">
+    <li cPageItem  [disabled]="currentPage == 0">
+      <a cPageLink (click)=" prevPage()" >Anterior</a>
+    </li>
+    <li cPageItem *ngFor="let _ of cantidadPag; let i = index" [active]="i == currentPage">
+      <a cPageLink (click)="seleccionarPagina(i)" > {{i + 1}} </a>
+    </li>
+    <li cPageItem [disabled]="bloqBotonNext == true">
+      <a cPageLink (click)=" nextPag()">Siguiente</a>
+    </li>
+  </c-pagination>
+
+
+  <p></p>
+
+
+  <div class="greenTable" *ngIf="chartVisible">
+    <p></p>
+    <table id="tablaProductosPicking" >
+    <thead>
+      <tr>
+        <th>Patente</th>
+        <th>Total Rutas</th>
+        <th>Total KM</th>
+        <th>Total Pedidos</th>
+        <th>Total Entregados</th>
+        <th>Total no Entregados</th>
+        <th>P ee</th>
+        <th>Codigo1</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let driver of this.datosDrivers.Datos;let i = index ">
+        <td>{{driver.Patente}}</td>
+        <td>{{driver.Total_rutas}}</td>
+        <td>{{driver.Total_km}}</td>
+        <td>{{driver.Total_pedidos}}</td>
+        <td>{{driver.Total_entregados}}</td>
+        <td>{{driver.Total_no_entregados}}</td>
+        <td>{{driver.P_ee}} %</td>
+        <td>{{driver.Codigo1}}</td> 
+    </tr>
+    <!-- <tr *ngIf="contadorNS === 0">
+     <td colspan="11">
+      no hay registros
+     </td> 
+    </tr> -->
+    
+    </tbody>
+    </table>
+  </div>
+
+
 
 
   

@@ -90,6 +90,8 @@ export class NsDriverComponent {
 
   }
 
+  cantidadPag : number [] = []
+
   
 
   buscarNsDrivers(){
@@ -102,6 +104,10 @@ export class NsDriverComponent {
       this.service.get_ns_drivers(this.fecha_inicio,this.fecha_fin).subscribe((data) => {
 
         this.datosDrivers = data
+
+        const largo = this.datosDrivers.Datos.length
+
+        this.cantidadPag =  Array(Math.ceil(largo / 10))
         
         this.pieChartData.labels = data.Patentes.slice(0,10)
         this.pieChartData.datasets[0].data = data.Pedidos.slice(0,10)
@@ -184,9 +190,28 @@ export class NsDriverComponent {
           this.bloqBotonNext = false
         }
       } 
+      
     }, 400);
     
   }
+
+ seleccionarPagina ( pag:number){
+  this.chartVisible = false
+  this.currentPage = pag
+  setTimeout(() => {
+    console.log(this.currentPage)
+    this.updateChart()
+
+    if (((((this.currentPage + 1) * 10) + 10) - this.datosDrivers.Datos.length) >= 10) {
+
+        
+      this.bloqBotonNext = true
+    }else{
+      this.bloqBotonNext = false
+    }
+  }, 400);
+  
+ }
 
 
   DescargarNS(){

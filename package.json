@@ -49,6 +49,7 @@
     "fastest-levenshtein": "^1.0.16",
     "jquery": "^3.7.0",
     "ng2-charts": "^4.1.1",
+    "ngx-pagination": "^6.0.3",
     "ngx-perfect-scrollbar": "^10.1.1",
     "popper.js": "^1.16.1",
     "rxjs": "~7.8.1",
