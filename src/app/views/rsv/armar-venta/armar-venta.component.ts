@@ -262,6 +262,11 @@ export class ArmarVentaComponent {
             })
 
             this.mostrarDetalle = true
+
+            this.service.get_detalle_venta_barcode_por_id_venta(cod_ty).subscribe(data => {
+              this.listaBarcodeDetalle = []
+              this.listaBarcodeDetalle = data
+            })
           })
         })
         
@@ -326,7 +331,7 @@ export class ArmarVentaComponent {
       }
       
       const body = {
-        "Bar_code" : resultado,
+        "Bar_code" : resultado.trim(),
         "Codigo_producto": cod_producto,
         "Unidades" : uni,
         "Id_user" : sessionStorage.getItem("id")?.toString()+"",
@@ -385,34 +390,47 @@ export class ArmarVentaComponent {
   reemplazarCodigos() {
 
 
-    const codigo_o = this.codProductoOriginal.replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
+    const codigo_o = this.codProductoOriginal.trim().replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
     let cod_producto_o = codigo_o.split('@')[0].split('-')[0]
     let tipo_o = codigo_o.split('@')[1].split('-')[1]
 
-    const codigo_r = this.codProductoReemplazo.replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
+    const codigo_r = this.codProductoReemplazo.trim().replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
     let cod_producto_r = codigo_r.split('@')[0].split('-')[0]
     let tipo_r = codigo_r.split('@')[1].split('-')[1]
 
 
-    
-    if(this.detalleVentaGenerada.find(detalle => detalle.Codigo == cod_producto_o)){
-
-      alert ('ok')
-    
-
-    if ((cod_producto_o == cod_producto_r) && (tipo_o[0] ==  tipo_r[0]) ){
-      return alert('bien')
-    }else{
-      return alert('no son el mismo producto')
+    const body = {
+      "Id_user" : sessionStorage.getItem("id")?.toString()+"",
+      "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", 
+      "Id_nota_venta": this.detalleVentaGenerada[0].Id_venta,
+      "Id_etiqueta": codigo_r.split('@')[1].split('-')[0],
+      "Bar_code_antiguo": codigo_o,
+      "Bar_code_nuevo": codigo_r,
     }
 
-  }else{
-    alert('hay error')
-  }
+    console.log(body)
+    if(this.listaBarcodeDetalle.find(lista => lista.Bar_code == codigo_r)){
+      return alert('la etiqueta que quiere reemplazar ya se encuentra en esta venta')
+    }
+    if(this.listaBarcodeDetalle.find(lista => lista.Bar_code == codigo_o)){
+      if(this.detalleVentaGenerada.find(detalle => detalle.Codigo == cod_producto_o)){
+        if ((cod_producto_o == cod_producto_r) && (tipo_o[0] ==  tipo_r[0]) ){
 
 
-    
+          // return alert('bien')
+          this.service.reemplazar_bar_code_venta(body).subscribe((data : any) => {
+            alert(data.message)
+          })
+        }else{
+          return alert('no son el mismo tipo producto')
+        }
 
+      }else{
+        alert('Este producto no se encuentra en esta venta')
+      }
+    } else {
+      alert('Esta etiqueta no pertenece a esta venta')
+    }
 
   }
 

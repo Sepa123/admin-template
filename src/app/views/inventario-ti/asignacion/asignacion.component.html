@@ -639,7 +639,7 @@
           <div>
             <label for ="tipo" >Tipo</label>
             <select   cSelect    formControlName="tipo" name="tipo" (change)="encontrarTipo($event)">
-              <option value=0 selected>Selecciona el Tipo de Equipo</option>
+              <option selected  value=0 selected>Selecciona el Tipo de Equipo</option>
               <option *ngFor="let equipo of tipo" value={{equipo.id}}>
                 {{ equipo.nombre}} 
               </option>
@@ -656,18 +656,19 @@
           </select>
         </c-col> 
       </c-row>
-      <c-row style="width: 40vw;" >
+      <c-row style="width: 40vw;" *ngIf="camposAccesorios" >
         <c-col [xs] >
           <label>Equipo vinculado</label>
           <select cSelect formControlName="chip" name="chip" (change)="equipoElegido($event)">
+            <option selected value=0>Seleccione el Equipo al que se vinculará el accesorio</option>
             <option *ngFor="let opciones of equipoChip" value={{opciones.id}}>
               {{ opciones.marca ?opciones.marca : opciones.descripcion}} - {{opciones.modelo ? opciones.modelo: opciones.descripcion}} -  {{opciones.serial}}></option>
           </select>
         </c-col>
      </c-row>
       <c-row style="width: 40vw;" >
-        <c-col [xs] *ngIf="botonDevolver == false" >
-          <div *ngIf="!datosAsignarLicencia">
+        <c-col [xs] >
+          <div *ngIf="showChip">
             <label *ngIf="showChip" for ="equipo" >Número de Chip</label>
             <select   cSelect    formControlName="equipo" name="equipo" (change)="chipElegido($event)">
               <option value=0 selected>Selecciona un equipo</option>

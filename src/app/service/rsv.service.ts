@@ -420,5 +420,10 @@ export class RsvService {
     revisar_notificaciones_defontana(body : any){
       return this.http.post(this.apiurl + `/notificiones/revisar`, body)
     }
+
+
+    reemplazar_bar_code_venta(body : any){
+      return this.http.post(this.apiurl + `/reemplazar/etiquetas`, body)
+    }
   
 }

@@ -65,6 +65,8 @@ export class AsignacionComponent {
   accesoriosAsignados:Asignacion [] = []
   todasLasAsignacionesPorPersona:AsignadosPorPersona [] = []
   asignadosPorSerial :AsignadosPorPersona [] = []
+
+  camposAccesorios: boolean = false
   // hojaDeVidaSerial
   insumosAsignados:Asignacion [] = []
   asignadosSinSjoin: Asignacion [] = []
@@ -496,12 +498,16 @@ encontrarTipo(event:any){
   
   if(this.tipoAsignado ==7 || this.tipoAsignado == 15){
     this.hideCampos = false
+    this.camposAccesorios = false
   }else if(this.tipoAsignado== 24){
     this.service.get_lista_licencias_no_asignadas().subscribe((data)=>{
       this.licencias = data
       this.datosAsignarLicencia = true
     })
   }
+  if(this.tipoAsignado == 3 || this.tipoAsignado == 24){
+    this.camposAccesorios = true
+    }
   this.encontrarEquipo(this.tipoAsignado)
 }
 
