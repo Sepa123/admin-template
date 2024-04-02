@@ -54,6 +54,17 @@
                 <td><h5>Fecha Entrega :</h5></td>
                 <td><h5>{{fechaEntrega}}</h5></td>
             </tr>
+            <tr *ngIf="!fechaEntrega">
+                <td>
+                    <input type="text" placeholder="Código antiguo" [(ngModel)]="codProductoOriginal"  class="form-control"  >
+                </td>
+                <td>
+                    <input type="text" placeholder="Código nuevo" [(ngModel)]="codProductoReemplazo"  class="form-control"  >
+                </td>
+                <td>
+                    <button cButton  color="secondary" size= "sm"(click)="reemplazarCodigos()">Reemplazar</button>
+                </td>
+            </tr>
             <tr *ngIf="isEntregado !== true && (rol == '5' || rol == '43' || rol == '44' || rol == '45') == true">                
                 <td colspan="2"><button cButton color="secondary" (click)="actualizarEstadoEntrega()" >Cerrar venta</button></td>
             </tr>

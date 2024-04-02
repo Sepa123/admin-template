@@ -207,7 +207,7 @@ const routes: Routes = [
       {
         path: 'inventario-ti',
         data:{
-          roles : ROLES_PERMITIDOS.PANEL
+          roles : ROLES_PERMITIDOS.INVENTARIO_TI
         },
         canActivate:[PermissionGuard],
         loadChildren:()=>

@@ -58,5 +58,7 @@ export const ACCESO_ROL : any = {
     [ROLES_ENUM.PICKEADOR_TIENDA] : '/ingreso-cliente/easy-opl',
     [ROLES_ENUM.NROL_RSV] : '/rsv/listar-carga',
     [ROLES_ENUM.SEGURIDAD] : 'informacion/timeline',
-    [ROLES_ENUM.JEFE_SEGURIDAD] : 'informacion/timeline'
+    [ROLES_ENUM.JEFE_SEGURIDAD] : 'informacion/timeline',
+    [ROLES_ENUM.VIS_RRHH] : '/inventario-ti/mantenedores',
+    [ROLES_ENUM.JEFE_RRHH] : '/inventario-ti/mantenedores',
 }

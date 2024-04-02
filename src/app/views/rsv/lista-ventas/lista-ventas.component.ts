@@ -37,6 +37,10 @@ export class ListaVentasComponent {
 
   sucursales : SucursalRSV [] = []
 
+  codProductoOriginal : string = ""
+
+  codProductoReemplazo : string = ""
+
   public rol = sessionStorage.getItem("rol_id") 
 
   
@@ -99,6 +103,12 @@ export class ListaVentasComponent {
         años.push(año.toString());
     }
 
+    this.filtrarListaVentaPorMes(años[años.length - 1]+mesActual, '1')
+
+    this.AnoSeleccionado = años[años.length - 1]
+    this.MesSeleccionado = mesActual
+    this.sucursalSeleccionada = '1'
+
     this.listaAnos = años
   }
 
@@ -128,12 +138,16 @@ export class ListaVentasComponent {
     this.service.get_detalle_venta_por_id_venta(id_venta).subscribe(data => {
       this.listaVentaDetalle = data
     })
+
+    
     this.toggleLiveDemo()
   }
 
   verBarCode(id_venta : number, fecha_preparado : string, fecha_despacho : string ){
     this.fechaPreparacion = fecha_preparado
     this.fechaEntrega = fecha_despacho
+
+    console.log('fecha entrega', this.fechaEntrega)
 
     this.isEntregado = true
     this.isNotaProducto = false
@@ -142,6 +156,9 @@ export class ListaVentasComponent {
     // listaVentaDetalle
     this.service.get_detalle_venta_barcode_por_id_venta(id_venta).subscribe(data => {
       this.listaBarcodeDetalle = data
+      this.service.get_detalle_venta_por_id_venta(id_venta).subscribe(data => {
+        this.listaVentaDetalle = data
+      })
     })
     this.toggleLiveDemo()
   }
@@ -172,6 +189,53 @@ export class ListaVentasComponent {
     })  
     
     // alert("OK, ACTUALIZANDO ESTADO")
+  }
+
+  reemplazarCodigos() {
+
+
+    const codigo_o = this.codProductoOriginal.trim().replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
+    let cod_producto_o = codigo_o.split('@')[0].split('-')[0]
+    let tipo_o = codigo_o.split('@')[1].split('-')[1]
+
+    const codigo_r = this.codProductoReemplazo.trim().replace(/"/g, '@').replace(/'/g, '-').toUpperCase()
+    let cod_producto_r = codigo_r.split('@')[0].split('-')[0]
+    let tipo_r = codigo_r.split('@')[1].split('-')[1]
+
+
+    const body = {
+      "Id_user" : sessionStorage.getItem("id")?.toString()+"",
+      "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", 
+      "Id_nota_venta": this.listaVentaDetalle[0].Id_venta,
+      "Id_etiqueta": codigo_r.split('@')[1].split('-')[0],
+      "Bar_code_antiguo": codigo_o,
+      "Bar_code_nuevo": codigo_r,
+    }
+
+    console.log(body)
+    if(this.listaBarcodeDetalle.find(lista => lista.Bar_code == codigo_r)){
+      return alert('la etiqueta que quiere reemplazar ya se encuentra en esta venta')
+    }
+    if(this.listaBarcodeDetalle.find(lista => lista.Bar_code == codigo_o)){
+      if(this.listaVentaDetalle.find(detalle => detalle.Codigo == cod_producto_o)){
+        if ((cod_producto_o == cod_producto_r) && (tipo_o[0] ==  tipo_r[0]) ){
+
+
+          // return alert('bien')
+          this.service.reemplazar_bar_code_venta(body).subscribe((data : any) => {
+            alert(data.message)
+          })
+        }else{
+          return alert('no son el mismo tipo producto')
+        }
+
+      }else{
+        alert('Este producto no se encuentra en esta venta')
+      }
+    } else {
+      alert('Esta etiqueta no pertenece a esta venta')
+    }
+
   }
 
 }
