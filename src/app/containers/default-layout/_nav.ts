@@ -419,6 +419,10 @@ export const navItems: INavDataBar[] = [
         url: '/picking/rutas-activas'
       },
       {
+        name : 'Rutas Predictivas',
+        url : '/picking/prearmado-ruta'
+      },
+      {
         name : 'Despacho Ruta',
         url : '/picking/buscar-ruta'
       }
@@ -554,11 +558,33 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
+  
   { /// Pantalla Informacion Para PISTOLEADORES
     name: 'Información',
     url: '/info',
     iconComponent : {name : 'cil-magnifying-glass'},
-    roles : ROLES_PERMITIDOS.INFORMACION_PICKING,
+    roles : [ROLES_ENUM.RUT_PICKEADOR,],
+    children: [
+      {
+        name: "Estado",
+        url : '/info/estado'
+      },
+      {
+        name: "Buscar SKU",
+        url : '/info/buscar-sku'
+      },
+      {
+        name: "Tracking Producto",
+        url : '/informacion/tracking-producto'
+      }
+    ]
+  },
+  { /// Pantalla Informacion Para PISTOLEADORES
+    name: 'Información',
+    url: '/info',
+    iconComponent : {name : 'cil-magnifying-glass'},
+    // roles : ROLES_PERMITIDOS.INFORMACION_PICKING,
+    roles : [ROLES_ENUM.PICKING],
     children: [
       {
         name: "Estado",

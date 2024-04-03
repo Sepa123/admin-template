@@ -90,8 +90,11 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   ngOnDestroy(): void {
     // Cancelar la suscripción al destruir el componente
-    this.subNotificaciones.unsubscribe()
-    console.log('destrui la notificacion alv')
+    if (this.subNotificaciones){
+      this.subNotificaciones.unsubscribe()
+      console.log('destrui la notificacion alv')
+    }
+    
   }
 
   Logout(){
