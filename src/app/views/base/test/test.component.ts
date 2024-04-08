@@ -30,6 +30,8 @@ export class TestComponent {
 
   cargaMasiva : string = ""
 
+  pv : boolean = true
+
 
   subRecepcion! : Subscription
 
@@ -51,6 +53,18 @@ export class TestComponent {
 
   copyToClipboard(text: string) {
     this.clipboard.copy(text);
+  }
+
+  pegar(){
+    navigator.clipboard.readText().then(
+      text => {
+        this.cargaMasiva = text;
+      }
+     )
+      .catch(error => {
+        console.error('Cannot read clipboard text: ', error);
+      }
+    );
   }
 
   obtenerFechaActual(): string {
@@ -93,9 +107,9 @@ export class TestComponent {
       // "cod_sku" : sku
     }
 
-    this.service.updateVerifiedMasivoEasy(body).subscribe((data) => {
+    // this.service.updateVerifiedMasivoEasy(body).subscribe((data) => {
       
-    })
+    // })
 
   }
 
@@ -116,6 +130,10 @@ export class TestComponent {
 
       // console.log(this.cargas)
     })
+  }
+
+  activate( activo : boolean){
+    this.pv = activo
   }
 
 
@@ -157,6 +175,7 @@ export class TestComponent {
     
     // const n = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga).length
     this.cargaActual = nro_carga
+    console.log(this.cargaActual)
     this.subRecepcion.unsubscribe();
     if(nro_carga === "Todas"){
       this.initRecepionEasyCD()
@@ -165,7 +184,6 @@ export class TestComponent {
     } else {
     this.subRecepcion.unsubscribe();
     this.service.getRecepcionEasyCD().subscribe((data) => {
-      console.log("Este esd del filterByCarga init ")
       
       this.productosPorVerificar = data.filter(producto => producto.Carga === nro_carga)
       this.productosVerificados = data.filter(producto => producto.Carga === nro_carga)
@@ -178,7 +196,6 @@ export class TestComponent {
       console.log(this.cantNoVerificados)
       if(data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
       && data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
-        console.log("esta data se repite")
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga)
         this.productosVerificados = data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga)
@@ -186,7 +203,6 @@ export class TestComponent {
     })
 
     this.subRecepcion =  this.service.updateRecepcionEasyCD().subscribe((data) => {
-      console.log("Este esd del filterByCarga update")
       this.productosPorVerificar = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga)
       this.productosVerificados = this.productosVerificados.filter(producto => producto.Carga === nro_carga)
 
@@ -195,7 +211,6 @@ export class TestComponent {
       
       if(data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
       && data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
-        console.log("esta data se repite")
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga)
         this.productosVerificados = data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga)

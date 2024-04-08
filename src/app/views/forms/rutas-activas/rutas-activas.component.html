@@ -71,11 +71,13 @@
         <th>Nombre Ruta</th>
         <th>Comuna</th>
         <th>Total Puntos</th>
+        <th>Compromisos</th>
       </thead>
       <tr *ngFor="let comuna of comunasPorRuta" >
         <td class="ajustarLeft">{{comuna.Nombre_ruta}}</td>
         <td class="ajustarLeftComuna">{{comuna.Comunas}}</td>
         <td>{{comuna.Total_puntos}}</td>
+        <td>{{comuna.Compromisos}}</td>
       </tr>
       <tr  *ngIf="comunasPorRuta.length == 0">
         <td colspan="3">
