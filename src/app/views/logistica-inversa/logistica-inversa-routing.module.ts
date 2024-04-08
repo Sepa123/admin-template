@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendientes.component';
 import { RecepcionOcComponent } from './recepcion-oc/recepcion-oc.component';
+import { BodegaVirtualComponent } from './bodega-virtual/bodega-virtual.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,13 @@ const routes: Routes = [
       {
         path : 'recepcion',
         component : RecepcionOcComponent,
+        data : {
+          title : "Recepción Log Inversa"
+        }
+      },
+      {
+        path : 'bodega-virtual',
+        component : BodegaVirtualComponent,
         data : {
           title : "Recepción Log Inversa"
         }

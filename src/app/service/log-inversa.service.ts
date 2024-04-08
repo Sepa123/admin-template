@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 import { RutaProducto } from 'src/app/models/log_inversa/rutaProducto.interface'
 import { PendienteDia } from 'src/app/models/log_inversa/pendientesDia.interface'
+import { BodegaVirtual } from 'src/app/models/log_inversa/bodegaVirtual.interface'
 import { ProductoPicking } from '../models/productoPicking.interface';
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,16 @@ export class LogInversaService {
   get_pendientes_dia(fecha : string){
     return this.http.get<PendienteDia []>(this.apiurl + `/pendientes?fecha=${fecha}`)
   }
+
+  get_bodega_virtual(){
+    return this.http.get<BodegaVirtual []>(this.apiurl + `/bodega-virtual`)
+  }
+
+  reingresar_a_operacion(body : any){
+    return this.http.post(this.apiurl + "/reingresar/operacion",body)
+  }
+
+  
 
 
 

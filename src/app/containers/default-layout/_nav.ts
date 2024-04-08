@@ -57,13 +57,14 @@ export const navItems: INavDataBar[] = [
     iconComponent: { name: 'cil-swap-horizontal' },
     roles : ROLES_PERMITIDOS.PANEL,
     children : [
-      // {
-      //   name: 'Edicion Pendientes',
-      //   url: '/log-inversa/edicion-pendiente'
-      // },
       {
         name: 'Recepción',
         url: '/log-inversa/recepcion'
+      },
+      
+      {
+        name: 'Bodega Virtual',
+        url: '/log-inversa/bodega-virtual'
       },
     ]
   },
@@ -539,6 +540,10 @@ export const navItems: INavDataBar[] = [
       {
         name: "Ingreso Producto",
         url : '/informacion/ingreso-producto'
+      },
+      {
+        name: "Historial Producto",
+        url: '/informacion/timeline',
       }
     ]
   },
@@ -892,14 +897,14 @@ export const navItems: INavDataBar[] = [
   },
   
   {
-    name: 'Inventario TI',
-    url : '/inventario-ti',
-    iconComponent: { name: 'cilDevices' },
-    roles : ROLES_PERMITIDOS.INVENTARIO_TI,
-    children : [
+    name: 'Inventario TI',   // Nombre que sale en el navBar
+    url : '/inventario-ti', // URL de la ruta que apunta
+    iconComponent: { name: 'cilDevices' }, // el icono que muestra
+    roles : ROLES_PERMITIDOS.INVENTARIO_TI, // los perfiles o roles que pueden ver esto
+    children : [ // las pestañas que va a mostrar 
       {
-        name: 'Mantenedores',
-        url: '/inventario-ti/mantenedores'
+        name: 'Mantenedores',  // Nombre
+        url: '/inventario-ti/mantenedores' // La ruta especifica
       },
       {
         name: 'Asignación de Equipos',

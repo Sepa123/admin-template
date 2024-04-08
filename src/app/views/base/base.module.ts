@@ -18,6 +18,8 @@ import {
   UtilitiesModule,
   CardModule,
   DropdownModule,
+  TabsModule,
+  NavModule
 } from '@coreui/angular';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -50,7 +52,9 @@ import { TestComponent } from './test/test.component';
     DocsComponentsModule,
     DropdownModule,
     NgSelectModule,
-    FullCalendarModule
+    FullCalendarModule,
+    TabsModule,
+    NavModule
   ],
   declarations: [
     ReportesComponent,

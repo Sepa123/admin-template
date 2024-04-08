@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { RutasService } from 'src/app/service/rutas.service';
-import { TIService } from 'src/app/service/ti.service';
-import { NsVerificado } from 'src/app/models/nsVerificado.interface'
-import { CalendarOptions ,DateSelectArg} from '@fullcalendar/core'; // useful for typechecking
-import interactionPlugin  from '@fullcalendar/daygrid';
-import esLocale from '@fullcalendar/core/locales/es';
-import { DefontanaApiService } from 'src/app/service/defontana-api.service'
+import { RecepcionService } from 'src/app/service/recepcion.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
+import { ProductoOPL } from "src/app/models/productoOPL.interface"
+import { TIService } from "src/app/service/ti.service";
+import { CargasComparacion } from 'src/app/models/cargasComparacion.interface';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-test',
@@ -15,136 +15,123 @@ import { DefontanaApiService } from 'src/app/service/defontana-api.service'
 })
 export class TestComponent {
 
-   mesesNumeros: any = {
-    enero: '01',
-    febrero: '02',
-    marzo: '03',
-    abril: '04',
-    mayo: '05',
-    junio: '06',
-    julio: '07',
-    agosto: '08',
-    septiembre: '09',
-    octubre: '10',
-    noviembre: '11',
-    diciembre: '12'
-  };
-  fechasEntregadas : string [] = []
-
-  datosMes : any = {}
-  ArrDatosMes : any []= []
   
-  eventos : any [] = []
-  calendarOptions: CalendarOptions = {
-    initialView: 'dayGridMonth',
-    headerToolbar : {
-      // left: 'prev,next today',
-      left : '',
-      center: 'title',
-      // right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-    },
-    eventClick: (info) => {
-      const fechaSeleccionada = info.event.start;
+
+  // para cambiar los styles de nav
+  // public vars = {
+  //   '--cui-nav-link-padding-x' : '4rem'
+  // }
+
+  public svgContent!: SafeHtml;
+
+  cantVerificados : number = 0
+  cantNoVerificados : number = 0
+  cargaActual : string = "Todas"
+
+  cargaMasiva : string = ""
+
+
+  subRecepcion! : Subscription
+
+  
+  productosVerificados : ProductoOPL [] = []
+  productosPorVerificar : ProductoOPL [] = []
+  productosUltimo : ProductoOPL [] = []
+  codigoProducto!: string
+
+  // cargas! : CargasComparacion []
+   cargas : string [] = []
+
+  idPortal!: string 
+
+
+
+  constructor(private service: RecepcionService, private http: HttpClient, private sanitizer: DomSanitizer,
+              private tiService : TIService, private clipboard: Clipboard) { }
+
+  copyToClipboard(text: string) {
+    this.clipboard.copy(text);
+  }
+
+  obtenerFechaActual(): string {
+    const fecha = new Date();
+    const year = fecha.getFullYear().toString();
+    const month = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const day = fecha.getDate().toString().padStart(2, '0');
+  
+    return year + month + day;
+  }
+
+  subRecepcionEasyCd(){
+    this.subRecepcion = this.service.updateRecepcionEasyCD().subscribe((data) => {
+      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
+
+      if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
+        // console.log("esta data se repite")
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
+      }      
+    })
+  }
+
+  subirCargaMasiva(){
+    const listaCarga = this.cargaMasiva.split('\n').map(numero => numero.trim());
+    console.log(listaCarga);
+
+    const body = {
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "cliente" : "Easy CD",
+      "n_guia" : 'codigo_producto',
+      "cod_pedido" : 'codigo_producto',
+      "cod_producto" : 'codigo_producto',
+      "ids_usuario" : this.idPortal,
+      "observacion" : "Actualización estado masiva en Anden Easy",
+      'lista_codigos': listaCarga
+      // "cod_sku" : sku
+    }
+
+    this.service.updateVerifiedMasivoEasy(body).subscribe((data) => {
       
-    // Formatea la fecha en "yyyymmdd"
-      if (fechaSeleccionada !== null){
-        const fechaFormateada = fechaSeleccionada.getFullYear() +
-        ('0' + (fechaSeleccionada.getMonth() + 1)).slice(-2) +
-        ('0' + fechaSeleccionada.getDate()).slice(-2);
+    })
 
-        const fechaMuestra = fechaSeleccionada.getFullYear() + "-"+
-        ('0' + (fechaSeleccionada.getMonth() + 1)).slice(-2) + "-"+
-        ('0' + fechaSeleccionada.getDate()).slice(-2);
+  }
 
-        if(info.event.title === "0") return alert(`En el dia ${fechaMuestra} no se encuentran rutas`)
-        this.rutaService.download_reporte_rutas_diario_excel(fechaFormateada)
+  initRecepionEasyCD(){
+    this.service.getRecepcionEasyCD().subscribe((data) => {
+      this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = data.filter(producto => producto.Pistoleado == false).length
 
-      }
-    },
-    events: this.eventos,
-    locale: esLocale,
-    datesSet:  (dateInfo) => {
-
-      const fechaSeleccionada = dateInfo.view.title;
-
-      const fecha = fechaSeleccionada.split(' de ')
-      const mes = fecha[0]
-      const año = fecha[1]
-      const fechaFormateada = año+this.mesesNumeros[mes]
+      if(data.filter(producto => producto.Pistoleado == false).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true).length === this.productosVerificados.length){
+        // console.log("esta data se repite")
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true)
+      }  
       
-      
-      if (this.fechasEntregadas.includes(fechaFormateada) == false){
-        this.rutaService.get_reporte_rutas_mensuales(fechaFormateada).subscribe((data : any) => {
-          // 
-          this.fechasEntregadas.push(fechaFormateada)
-          this.datosMes[fechaFormateada] = data
-          this.eventos = data
-          this.calendarOptions.events = this.eventos
-        })
+      this.cargas = [...new Set(data.map(prod => prod.Carga+"" ))]
 
-      } else {
-        this.calendarOptions.events = this.datosMes[fechaFormateada]
-      }
-        
-      // this.calendarOptions.events = this.eventos
-    },
-    plugins: [interactionPlugin ]
-    
-  };
+      // console.log(this.cargas)
+    })
+  }
+
+
 
   ngOnInit(){
 
-    this.service.get_ventas().subscribe(data => {
-      console.log(data.saleList)
-    })
-    // const fechaActual = new Date();
-
-    // // Obtener los componentes de la fecha
-    // const año = fechaActual.getFullYear();
-    // const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0'); // Meses van de 0 a 11
-    // // Nota: `padStart` se utiliza para asegurarse de que el mes siempre tenga dos dígitos
-
-    // // Formatear la fecha como 'yyyymm'
-
-    // const fechaFormateada = `${año}${mes}`;
-    // this.fechasEntregadas.push(fechaFormateada)
-    // this.rutaService.get_reporte_rutas_mensuales(fechaFormateada).subscribe((data : any) => {
-    //   this.eventos = data
-    //   this.datosMes[fechaFormateada] = data
-    //   this.calendarOptions.events = this.eventos
-    //   console.log(this.eventos)
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+    console.log(this.idPortal)
+    this.subRecepcionEasyCd()
+    
+    // this.tiService.get_cargas_easy_api().subscribe((data) => {
+    //     this.cargas = data
     // })
-  }
-
-  handleDateSelect(info: any) {
-    alert('Event: ' + info.event.title);
-    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-    alert('View: ' + info.view.type);
-  }
-
-
-  clickFecha(){
-    alert('date click! ' )
-  }
-
-  public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger'];
-
-  isLoadingTable: boolean = true;
-
-  constructor(private service:DefontanaApiService, private rutaService : RutasService) { }
-
-  subPedido! :Subscription
-
-  body : any = {
+    this.initRecepionEasyCD()
 
   }
-
-  nsVerificados : NsVerificado [] = []
-
-  fechaNs : string = ""
-
-
-  loadPedidos : boolean = true
 
 
   isModalOpen: boolean = false
@@ -164,6 +151,117 @@ export class TestComponent {
 
   closeModal(){
     this.isModalOpen = false
+  }
+
+  filterByCarga(nro_carga : string){
+    
+    // const n = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga).length
+    this.cargaActual = nro_carga
+    this.subRecepcion.unsubscribe();
+    if(nro_carga === "Todas"){
+      this.initRecepionEasyCD()
+      this.subRecepcionEasyCd()
+
+    } else {
+    this.subRecepcion.unsubscribe();
+    this.service.getRecepcionEasyCD().subscribe((data) => {
+      console.log("Este esd del filterByCarga init ")
+      
+      this.productosPorVerificar = data.filter(producto => producto.Carga === nro_carga)
+      this.productosVerificados = data.filter(producto => producto.Carga === nro_carga)
+      
+      this.cantVerificados = this.productosVerificados.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = this.productosPorVerificar.filter(producto => producto.Pistoleado == false).length
+      
+
+      console.log(this.cantVerificados)
+      console.log(this.cantNoVerificados)
+      if(data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
+        console.log("esta data se repite")
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga)
+      }      
+    })
+
+    this.subRecepcion =  this.service.updateRecepcionEasyCD().subscribe((data) => {
+      console.log("Este esd del filterByCarga update")
+      this.productosPorVerificar = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga)
+      this.productosVerificados = this.productosVerificados.filter(producto => producto.Carga === nro_carga)
+
+      this.cantVerificados = this.productosVerificados.filter(producto => producto.Pistoleado == true).length
+      this.cantNoVerificados = this.productosPorVerificar.filter(producto => producto.Pistoleado == false).length
+      
+      if(data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
+      && data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
+        console.log("esta data se repite")
+      }else{
+        this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga)
+        this.productosVerificados = data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga)
+      }      
+    })
+   }
+    // alert("cantidad cargas : "+ n)}
+  }
+  cambiarTicketByInput(cod_producto: string){
+
+    var codigo_producto = cod_producto.replace(/'/g, "-").trim().toUpperCase()
+  
+    // codigo_producto = codigo_producto.replace(/-(\d+)/, "");
+    // this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+    
+    const body = {
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "cliente" : "Easy CD",
+      "n_guia" : codigo_producto,
+      "cod_pedido" : codigo_producto,
+      "cod_producto" : codigo_producto,
+      "ids_usuario" : this.idPortal,
+      "observacion" : "Actualización estado por pickeo en Anden Easy"
+      // "cod_sku" : sku
+    }
+
+    const url = `/easy_cd`
+
+    this.service.updateVerifiedByInput(url,body).subscribe((data : any) => {
+      // alert(data.message)
+      
+      this.codigoProducto = ""
+      // this.initRecepionEasyCD()
+      this.filterByCarga(this.cargaActual)
+    },(error) => {
+      alert(error.error.detail)
+    }
+    )
+  }
+
+
+  cambiarTicket(arrayIndex : number, cod_pedido: string, cod_producto :string) {
+    this.productosUltimo.pop()
+    this.productosPorVerificar[arrayIndex].Pistoleado = true
+
+    this.productosUltimo.push(this.productosPorVerificar[arrayIndex])
+
+    this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+    
+    const body = {
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "cliente" : "Easy CD",
+      "n_guia" : cod_pedido,
+      "cod_pedido" : cod_pedido,
+      "cod_producto" : cod_producto,
+      "ids_usuario" : this.idPortal,
+      "observacion" : "Actualización estado por click en Anden Easy"
+      // "cod_sku" : sku
+    }
+
+    this.service.updateVerified(body).subscribe((data : any) => {
+      // alert(data.message)
+      this.codigoProducto = ""
+      // this.initRecepionEasyCD()
+      this.filterByCarga(this.cargaActual)
+    })
   }
 
 

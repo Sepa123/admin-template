@@ -23,12 +23,14 @@ import {
 import { LogisticaInversaRoutingModule } from './logistica-inversa-routing.module';
 import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendientes.component';
 import { RecepcionOcComponent } from './recepcion-oc/recepcion-oc.component';
+import { BodegaVirtualComponent } from './bodega-virtual/bodega-virtual.component';
 
 
 @NgModule({
   declarations: [
     EdicionPendientesComponent,
-    RecepcionOcComponent
+    RecepcionOcComponent,
+    BodegaVirtualComponent
   ],
   imports: [
     CommonModule,

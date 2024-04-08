@@ -86,6 +86,11 @@ export class RecepcionService {
     return this.http.put(this.apiurl + url, body)
   }
 
+
+  updateVerifiedMasivoEasy( body: any) {
+    return this.http.put(this.apiurl +  '/easy_cd/masivo', body)
+  }
+
   checkElectroluxByPedido(cod_pedido : string) {
     return this.http.get<ProductoOPL[]>(this.apiurl + `/electrolux/${cod_pedido}`)
   }
