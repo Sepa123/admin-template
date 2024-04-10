@@ -1,0 +1,164 @@
+<c-row>
+
+    <h2>Pendientes en Ruta</h2>
+
+    <!-- <div class="col-md-6 mx-auto" *ngIf="!loadPedidos">
+    <table table [striped]="true" cTable>
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row"><h5>Resumen de Pedidos Con Fecha de Compromiso sin Despacho</h5></td>
+          <td><button  (click)="downloadExcel()">
+            <img src="assets\images\icons8-export-excel-48.png" alt="">
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+
+  <table class="loadPendientes" > 
+    <tr>
+       <div *ngIf="loadPedidos">
+         <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+         Cargando Datos 
+     </div>
+    </tr> 
+   </table>
+  
+  <div class="fade-in" *ngIf="!loadPedidos">
+    <c-row ngPreserveWhitespaces>
+      <div>
+        <div class="col-md-12 mx-auto">
+          <!-- <table>
+            <tr>
+              <td>
+                <c-dropdown >
+                  <button cButton cDropdownToggle color="secondary" size="sm">
+                    Origen
+                  </button>
+                  <ul cDropdownMenu>
+                    <li *ngFor="let tienda of origen"><a [routerLink]="[]" (click)="sortByName(tienda)" cDropdownItem>{{tienda}}</a></li>
+                  </ul>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="filterByFecha()">
+                    Ingreso dias anteriores
+                  </button>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="getFullData()">
+                    Ingreso hasta hoy
+                  </button>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="OrdenFechaIngreso()">
+                    Ordenar por fecha ingreso
+                  </button>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="OrdenFechaCompromiso()">
+                    Ordenar por fecha compromiso
+                  </button>
+                </c-dropdown>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+              <c-dropdown >
+                <button cButton cDropdownToggle color="secondary" size="sm">
+                  Región
+                </button>
+                <ul cDropdownMenu class="scrollable-list">
+                  <li *ngFor="let region of regiones"><a [routerLink]="[]" (click)="filtrarPorRegion(region)" cDropdownItem>{{region}}</a></li>
+                </ul>
+              </c-dropdown>
+            </td>
+            </tr>
+          </table>
+           <p></p> -->
+          <p></p>
+          Cantidad : <label style="font-weight: bold;">{{cantidad}}</label> <img width="40" *ngIf="isLoadingTable" height="50" src="../../../assets/images/loading-gif.gif" />
+          <p></p>
+          <div class="greenTable">
+            <table >
+              <thead>
+                <tr>
+                  <th>Origen</th>
+                  <th >Código Entrega</th>
+                  <th>Fecha Ingreso</th>
+                  <th >Fecha Compromiso</th>
+                  <th >Región</th>
+                  <th >Comuna</th>
+                  <th >Descripción</th>
+                  <th >Bultos</th>
+                  <th >Estado</th>
+                  <!-- <th >Subestado</th> -->
+                  <th >Verificado</th>
+                  <th >Recibido</th>
+                  <th >Nombre ruta</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pedido of pedidos">
+                  <td scope="row">{{ pedido.Origen}}</td>
+                  <th>{{ pedido.Cod_entrega }}</th>
+                  <td>{{ pedido.Fecha_ingreso }}</td>
+                  <td>{{ pedido.Fecha_compromiso }}</td>
+                  <td>{{ pedido.Region }}</td>
+                  <td>{{ pedido.Comuna }}</td>
+                  <td>{{ pedido.Descripcion }}</td>
+                  <td>{{ pedido.Bultos }}</td>
+                  <td>{{ pedido.Estado }}</td>
+                  <!-- <td>{{ pedido.Subestado }}</td> -->
+                  <!-- <td>{{ pedido.Verificado }}</td> -->
+                  <td *ngIf="pedido.Verificado" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                  </td>
+                  <td *ngIf="!pedido.Verificado" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                  </td>
+                  <!-- <td>{{ pedido.Recibido }}</td> -->
+                  <td *ngIf="pedido.Recibido" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                  </td>
+                  <td *ngIf="!pedido.Recibido" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                  </td>
+                  <td>{{ pedido.Nombre_ruta }}</td>
+                </tr>
+                <tr>
+                  <td colspan="8" *ngIf="isLoadingTable"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+    </c-row>
+    <p></p>
+  
+    <button cButton color="success" (click)="downloadExcel()">
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg"  height="1.5em" viewBox="0 0 384 512">
+          <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+      </svg> descargar
+   </button>
+  </div>
+
+ 
+  </c-row>
+  
+

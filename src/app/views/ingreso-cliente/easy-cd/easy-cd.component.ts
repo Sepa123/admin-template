@@ -4,8 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { ProductoOPL } from "src/app/models/productoOPL.interface"
 import { TIService } from "src/app/service/ti.service";
-import { CargasComparacion } from 'src/app/models/cargasComparacion.interface';
-
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -14,11 +13,23 @@ import { Subscription } from 'rxjs';
   styleUrls: ['../styles/ingreso-cliente.component.scss']
 })
 export class EasyCdComponent {
+
+  
+
+  // para cambiar los styles de nav
+  // public vars = {
+  //   '--cui-nav-link-padding-x' : '4rem'
+  // }
+
   public svgContent!: SafeHtml;
 
   cantVerificados : number = 0
   cantNoVerificados : number = 0
   cargaActual : string = "Todas"
+
+  cargaMasiva : string = ""
+
+  pv : boolean = true
 
 
   subRecepcion! : Subscription
@@ -37,9 +48,24 @@ export class EasyCdComponent {
 
 
   constructor(private service: RecepcionService, private http: HttpClient, private sanitizer: DomSanitizer,
-              private tiService : TIService) { }
+              private tiService : TIService, private clipboard: Clipboard) { }
 
-  
+  copyToClipboard(text: string) {
+    this.clipboard.copy(text);
+  }
+
+  pegar(){
+    navigator.clipboard.readText().then(
+      text => {
+        this.cargaMasiva = text;
+      }
+     )
+      .catch(error => {
+        console.error('Cannot read clipboard text: ', error);
+      }
+    );
+  }
+
   obtenerFechaActual(): string {
     const fecha = new Date();
     const year = fecha.getFullYear().toString();
@@ -64,6 +90,28 @@ export class EasyCdComponent {
     })
   }
 
+  subirCargaMasiva(){
+    const listaCarga = this.cargaMasiva.split('\n').map(numero => numero.trim());
+    console.log(listaCarga);
+
+    const body = {
+      "id_usuario" : sessionStorage.getItem('id')+"",
+      "cliente" : "Easy CD",
+      "n_guia" : 'codigo_producto',
+      "cod_pedido" : 'codigo_producto',
+      "cod_producto" : 'codigo_producto',
+      "ids_usuario" : this.idPortal,
+      "observacion" : "Actualización estado masiva en Anden Easy",
+      'lista_codigos': listaCarga
+      // "cod_sku" : sku
+    }
+
+    // this.service.updateVerifiedMasivoEasy(body).subscribe((data) => {
+      
+    // })
+
+  }
+
   initRecepionEasyCD(){
     this.service.getRecepcionEasyCD().subscribe((data) => {
       this.cantVerificados = data.filter(producto => producto.Pistoleado == true).length
@@ -83,9 +131,14 @@ export class EasyCdComponent {
     })
   }
 
+  activate( activo : boolean){
+    this.pv = activo
+  }
 
-  ngOnInit() {
-    
+
+
+  ngOnInit(){
+
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     console.log(this.idPortal)
     this.subRecepcionEasyCd()
@@ -94,13 +147,34 @@ export class EasyCdComponent {
     //     this.cargas = data
     // })
     this.initRecepionEasyCD()
+
   }
 
+
+  isModalOpen: boolean = false
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    this.isModalOpen = true
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
 
   filterByCarga(nro_carga : string){
     
     // const n = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga).length
     this.cargaActual = nro_carga
+    console.log(this.cargaActual)
     this.subRecepcion.unsubscribe();
     if(nro_carga === "Todas"){
       this.initRecepionEasyCD()
@@ -109,7 +183,6 @@ export class EasyCdComponent {
     } else {
     this.subRecepcion.unsubscribe();
     this.service.getRecepcionEasyCD().subscribe((data) => {
-      console.log("Este esd del filterByCarga init ")
       
       this.productosPorVerificar = data.filter(producto => producto.Carga === nro_carga)
       this.productosVerificados = data.filter(producto => producto.Carga === nro_carga)
@@ -122,7 +195,6 @@ export class EasyCdComponent {
       console.log(this.cantNoVerificados)
       if(data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
       && data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
-        console.log("esta data se repite")
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga)
         this.productosVerificados = data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga)
@@ -130,7 +202,6 @@ export class EasyCdComponent {
     })
 
     this.subRecepcion =  this.service.updateRecepcionEasyCD().subscribe((data) => {
-      console.log("Este esd del filterByCarga update")
       this.productosPorVerificar = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga)
       this.productosVerificados = this.productosVerificados.filter(producto => producto.Carga === nro_carga)
 
@@ -139,7 +210,6 @@ export class EasyCdComponent {
       
       if(data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
       && data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
-        console.log("esta data se repite")
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Pistoleado == false && producto.Carga === nro_carga)
         this.productosVerificados = data.filter(producto => producto.Pistoleado == true && producto.Carga === nro_carga)
@@ -210,8 +280,7 @@ export class EasyCdComponent {
 
 
  ngOnDestroy(): void {
-  // Cancelar la suscripción al destruir el componente
-  this.subRecepcion.unsubscribe();
-}
-}
 
+  }
+
+}

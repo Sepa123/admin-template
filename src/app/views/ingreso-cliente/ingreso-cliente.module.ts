@@ -9,7 +9,9 @@ import {
   FormModule,
   GridModule,
   ListGroupModule,
-  SharedModule
+  SharedModule,
+  TabsModule,
+  NavModule
 } from '@coreui/angular';
 
 import { IngresoClienteRoutingModule } from './ingreso-cliente-routing.module';
@@ -36,7 +38,9 @@ import { EasyOplNewComponent } from './easy-opl-new/easy-opl-new.component';
     ListGroupModule,
     SharedModule,
     FormsModule, ReactiveFormsModule,
-    ModalModule
+    ModalModule,
+    TabsModule,
+    NavModule
   ]
 })
 export class IngresoClienteModule { }

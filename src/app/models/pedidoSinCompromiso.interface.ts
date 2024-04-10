@@ -12,4 +12,5 @@ export interface PedidoSinCompromiso {
     Verificado:       number;
     Recibido:         number;
     Seleccionado:     boolean;
+    Nombre_ruta:      string;
 }

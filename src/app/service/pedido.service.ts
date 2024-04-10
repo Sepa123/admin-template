@@ -62,9 +62,20 @@ export class PedidoService {
     return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/pendientes/${choice}?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
   }
 
+
+  pendientes_en_ruta_choice(fecha_inicio : string, fecha_fin : string, offset : string, choice : string) {
+    return this.http.get<PedidoSinCompromiso[]>(this.apiurl + `/pendientes/en-ruta/${choice}?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}&offset=${offset}`)
+  }
   
 
-  // buscar_rutas_pendientes(body : any) {
-  //   return this.http.post<PedidoSinCompromiso[]>(this.apiurl + "/pendientes", body)
-  // }
+  descargar_pendientes_en_ruta(body : any,fecha_inicio: string) {
+    this.http.post(this.apiurl + "/pendientes/en-ruta/descargar", body, {responseType:"blob"}).subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`Resumen_pendientes_en_ruta.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
 }

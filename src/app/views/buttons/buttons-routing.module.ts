@@ -8,6 +8,7 @@ import { ProductosSinClasificacionComponent } from './productos-sin-clasificacio
 import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendientes.component';
 import { DifFechasEasyComponent } from './dif-fechas-easy/dif-fechas-easy.component';
 import { ProductosIngresadosEasyComponent } from './productos-ingresados-easy/productos-ingresados-easy.component';
+import { PendientesEnRutaComponent } from './pendientes-en-ruta/pendientes-en-ruta.component';
 
 const routes: Routes = [
   {
@@ -69,7 +70,14 @@ const routes: Routes = [
         data: {
           title: 'Productoss Ingresados Easy'
         }
-      }
+      },
+      {
+        path: 'pendientes-en-ruta',
+        component: PendientesEnRutaComponent,
+        data: {
+          title: 'Productoss Ingresados Easy'
+        }
+      },
     ]
   }
 ];

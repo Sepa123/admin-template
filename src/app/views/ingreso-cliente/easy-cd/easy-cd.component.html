@@ -1,32 +1,45 @@
-<c-container>
-    <h2>Easy CD</h2>
-      <c-row [xs]="1"> 
-        <c-col>
-          <div class="inline-container">
-            <input type="text" name="" [(ngModel)]="codigoProducto" id="codigoProducto" (change)="cambiarTicketByInput(codigoProducto)" >
-            <c-dropdown >
-              <button cButton cDropdownToggle color="secondary" size="sm">
-                Cargas
-              </button>
-              <ul cDropdownMenu>
-                <li><a [routerLink]="[]" (click)="filterByCarga('Todas')" cDropdownItem>Todos</a></li>
-                <li *ngFor="let carga of cargas"><a [routerLink]="[]" (click)="filterByCarga(carga)" cDropdownItem>{{carga}}</a></li>
-              </ul>
-            </c-dropdown>
-          <span>{{cargaActual}}</span> 
-         </div>
-    
+
+<h2>Easy CD</h2>
+
+<c-nav variant="tabs">
+    <a [cTabContent]="tabContent" [active]="pv" [routerLink] [tabPaneIdx]="0" cNavLink (click)="activate(true)">Por Verificar</a>
+    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink (click)="activate(false)">Verificados</a>
+    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="2" cNavLink (click)="activate(false)">Carga Masiva</a>
+  </c-nav>
+  <c-tab-content #tabContent="cTabContent">
+    <c-tab-pane class="p-3">
+        <c-row [xs]="1"> 
+          <c-col>
+            <div class="inline-container">
+              <input type="text" name="" [(ngModel)]="codigoProducto" id="codigoProducto" (change)="cambiarTicketByInput(codigoProducto)" >
+              <c-dropdown >
+                <button cButton cDropdownToggle color="secondary" size="sm">
+                  Cargas
+                </button>
+                <ul cDropdownMenu>
+                  <li><a [routerLink]="[]" (click)="filterByCarga('Todas')" cDropdownItem>Todos</a></li>
+                  <li *ngFor="let carga of cargas"><a [routerLink]="[]" (click)="filterByCarga(carga)" cDropdownItem>{{carga}}</a></li>
+                </ul>
+              </c-dropdown>
+            <span>{{cargaActual}}</span> 
+           </div>
+      
+          </c-col>
+          
+          <c-col>
+            <p></p>
         </c-col>
-        
-        <c-col>
-          <p></p>
-      </c-col>
-        <!-- <c-col>
-          <div class="greenTable">
+          <c-col>
+            <p></p>
+        </c-col>
+          <c-col>
+            Por Verificar {{cantNoVerificados}} <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+            <div class="greenTable">
             <table id="tablaProductosPicking" >
             <thead>
               <tr>
                   <th>N° Carga</th>
+                  <!-- <th>Código de Cliente</th> -->
                   <th>Nombre</th>
                   <th>Calle y Número</th>
                   <th>Ciudad</th>
@@ -37,11 +50,10 @@
                   <th>Cantidad de Producto</th>
                   <th>SKU</th>
                   <th>Verificado</th>
-                  <th>Recepción </th>
               </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let producto of productosUltimo ;let i = index ">
+            <tr *ngFor="let producto of productosPorVerificar ;let i = index ">
               <td>{{producto.Carga}}</td>
               <td>{{producto.Nombre}}</td>
               <td>{{producto.Calle}}</td>
@@ -52,126 +64,92 @@
               <td>{{producto.Descripcion_producto}}</td>
               <td>{{producto.Cantidad_producto}}</td>
               <td>{{producto.SKU}}</td>
+             <!-- <td>{{producto.Pistoleado}}</td>  -->
               <td *ngIf="producto.Pistoleado === true" >
                 <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
               </td>
               <td *ngIf="producto.Pistoleado === false " >
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
-              </td>
-              <td *ngIf="producto.Recepcion === true" >
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-              </td>
-              <td *ngIf="producto.Recepcion === false " >
                 <svg (click)="cambiarTicket(i,producto.Codigo_pedido,producto.Codigo_producto)" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
               </td>
             </tr>
             </tbody>
             </table>
           </div>
-        </c-col> -->
-        <c-col>
-          <p></p>
-      </c-col>
-        <c-col>
-          Por Verificar {{cantNoVerificados}} <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
-          <div class="greenTable">
-          <table id="tablaProductosPicking" >
-          <thead>
-            <tr>
-                <th>N° Carga</th>
-                <!-- <th>Código de Cliente</th> -->
-                <th>Nombre</th>
-                <th>Calle y Número</th>
-                <th>Ciudad</th>
-                <th>Código de Pedido</th>
-                <th>Fecha de Pedido</th>
-                <th>Código de Producto</th>
-                <th>Descripción del Producto</th>
-                <th>Cantidad de Producto</th>
-                <th>SKU</th>
-                <th>Verificado</th>
-            </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let producto of productosPorVerificar ;let i = index ">
-            <td>{{producto.Carga}}</td>
-            <td>{{producto.Nombre}}</td>
-            <td>{{producto.Calle}}</td>
-            <td>{{producto.Provincia}}</td>
-            <td>{{producto.Codigo_pedido}}</td>
-            <td>{{producto.Fecha_pedido}}</td>
-            <td>{{producto.Codigo_producto}}</td>
-            <td>{{producto.Descripcion_producto}}</td>
-            <td>{{producto.Cantidad_producto}}</td>
-            <td>{{producto.SKU}}</td>
-           <!-- <td>{{producto.Pistoleado}}</td>  -->
-            <td *ngIf="producto.Pistoleado === true" >
-              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-            </td>
-            <td *ngIf="producto.Pistoleado === false " >
-              <svg (click)="cambiarTicket(i,producto.Codigo_pedido,producto.Codigo_producto)" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
-            </td>
-          </tr>
-          </tbody>
-          </table>
-        </div>
-        </c-col>
-        <c-col>
-          <p></p>
-      </c-col>
-    
-      <c-col>
-  
+          </c-col>
           <c-col>
-              Verificados {{cantVerificados}} <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-              <div class="greenTable">
-              <table id="tablaProductosPicking" >
-              <thead>
-                <tr>
-                   <th>N° Carga</th>
-                    <!-- <th>Código de Cliente</th> -->
-                    <th>Nombre</th>
-                    <th>Calle y Número</th>
-                    <th>Ciudad</th>
-                    
-                    <th>Código de Pedido</th>
-                    <th>Fecha de Pedido</th>
-                    <th>Código de Producto</th>
-                    <th>Descripción del Producto</th>
-                    <th>Cantidad de Producto</th>
-                    <th>SKU</th>
-                    <th>Verificado</th>
+            <p></p>
+        </c-col>
+    </c-row>
+
+    </c-tab-pane>
+    <c-tab-pane class="p-3">
+        <c-row [xs]="1"><c-col>
+            <c-col>
+                Verificados {{cantVerificados}} <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                <div class="greenTable">
+                <table id="tablaProductosPicking" >
+                <thead>
+                  <tr>
+                     <th>N° Carga</th>
+                      <!-- <th>Código de Cliente</th> -->
+                      <th>Nombre</th>
+                      <th>Calle y Número</th>
+                      <th>Ciudad</th>
+                      <th>Código de Pedido</th>
+                      <th>Fecha de Pedido</th>
+                      <th>Código de Producto</th>
+                      <th>Descripción del Producto</th>
+                      <th>Cantidad de Producto</th>
+                      <th>SKU</th>
+                      <th>Verificado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let producto of productosVerificados;let i = index ">
+                  <td>{{producto.Carga}}</td>
+                  <td>{{producto.Nombre}}</td>
+                  <td>{{producto.Calle}}</td>
+                  <td>{{producto.Provincia}}</td>
+                  <td>{{producto.Codigo_pedido}}</td>
+                  <td>{{producto.Fecha_pedido}}</td>
+                  <td>{{producto.Codigo_producto}}</td>
+                  <td>{{producto.Descripcion_producto}}</td>
+                  <td>{{producto.Cantidad_producto}}</td>
+                  <td>{{producto.SKU}}</td>
+                  <td *ngIf="producto.Pistoleado === true" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                  </td>
+                  <td *ngIf="producto.Pistoleado === false " >
+                    <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let producto of productosVerificados;let i = index ">
-                <td>{{producto.Carga}}</td>
-                <td>{{producto.Nombre}}</td>
-                <td>{{producto.Calle}}</td>
-                <td>{{producto.Provincia}}</td>
-                <td>{{producto.Codigo_pedido}}</td>
-                <td>{{producto.Fecha_pedido}}</td>
-                <td>{{producto.Codigo_producto}}</td>
-                <td>{{producto.Descripcion_producto}}</td>
-                <td>{{producto.Cantidad_producto}}</td>
-                <td>{{producto.SKU}}</td>
-                <td *ngIf="producto.Pistoleado === true" >
-                  <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                </tbody>
+                </table>
+              </div>
+              </c-col>
+        </c-col>
+        </c-row>
+    </c-tab-pane>
+    <c-tab-pane class="p-3">
+
+        <table>
+            <tr>
+                <td colspan="2">
+                    <textarea [(ngModel)]="cargaMasiva" rows="7"  cols="40"></textarea>
                 </td>
-                <td *ngIf="producto.Pistoleado === false " >
-                  <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+            </tr>
+            <tr>
+                <td>
+                    <button cButton color="secondary" size="sm" (click)="subirCargaMasiva()">Enviar</button>
                 </td>
-              </tr>
-              </tbody>
-              </table>
-            </div>
-            </c-col>
-    
-      </c-col>
-    
-      </c-row>
-      <c-row>
-      </c-row>
-    </c-container>
-    
+                <td>
+                    <button cButton color="secondary" size="sm" (click)="copyToClipboard(cargaMasiva)">Copiar</button>
+                </td>
+                <td>
+                    <button cButton color="secondary" size="sm" (click)="pegar()">Pegar</button>
+                </td>
+            </tr>
+        </table>
+    </c-tab-pane>
+  </c-tab-content>
     
