@@ -371,18 +371,18 @@ export class BuscarRutaComponent {
     this.idUsuario = sessionStorage.getItem("id")+""
     const body = {
       "id_usuario": parseInt(sessionStorage.getItem("id")+""),
-      "cliente": this.arrayRutasIngresados[index][0].Notas,
-      "n_guia": this.arrayRutasIngresados[index][0].Codigo_pedido,
-      "sku": this.arrayRutasIngresados[index][0].SKU,
-      "cod_pedido": this.arrayRutasIngresados[index][0].Codigo_pedido,
-      "cod_producto" : this.arrayRutasIngresados[index][0].Codigo_producto,
+      "cliente": encontrado[0].Notas,
+      "n_guia": encontrado[0].Codigo_pedido,
+      "sku": encontrado[0].SKU,
+      "cod_pedido":encontrado[0].Codigo_pedido,
+      "cod_producto" :encontrado[0].Codigo_producto,
       "ids_usuario" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
       "latitud" : this.latStr,
       "longitud" : this.longStr,
       "observacion" : "Pickeo producto en Despacho Ruta por click ticket"
     }
 
-    this.arrProductosRuta.push(this.arrayRutasIngresados[index][0])
+    this.arrProductosRuta.push(encontrado[0])
 
     this.service.registar_producto_ticket(body).subscribe((data : any) => {
       console.log(data.message)

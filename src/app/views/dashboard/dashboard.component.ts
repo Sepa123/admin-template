@@ -69,8 +69,8 @@ export class DashboardComponent implements OnInit {
     // const datosSessionStorage = sessionStorage.getItem('reportesHistoricos');
     this.initCharts();
     setTimeout(() => {
-      this.getDataHistorico();
-      this.getDataHistoricoHoy();
+      // this.getDataHistorico();
+      // this.getDataHistoricoHoy();
     },1000)
     
 
@@ -189,6 +189,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnDestroy(): void {
     // Cancelar la suscripción al destruir el componente
-    this.suscriptionReportes.unsubscribe();
+    if(this.suscriptionReportes){
+      this.suscriptionReportes.unsubscribe();
+    }
+    
   }
 }

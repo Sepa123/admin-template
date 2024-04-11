@@ -140,10 +140,20 @@
             </tr>
             <tr>
                 <td>
-                    <button cButton color="secondary" size="sm" (click)="subirCargaMasiva()">Enviar</button>
+                    <button cButton color="secondary" size="sm" (click)="subirCargaMasiva()">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24">
+                        <path fill="black" d="M4 18.5v-5.154L9.846 12L4 10.654V5.5L19.423 12z" />
+                      </svg>
+                      Enviar
+                    </button>
                 </td>
                 <td>
-                    <button cButton color="secondary" size="sm" (click)="copyToClipboard(cargaMasiva)">Copiar</button>
+                    <button cButton color="secondary" size="sm" (click)="copyToClipboard(cargaMasiva)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 512 512">
+                        <path fill="black" d="M408 432h-32v32H112V136h32v-32H80v392h328z" />
+                        <path fill="black" d="M176 16v384h320V153.373L358.627 16Zm288 352H208V48h104v152h152Zm0-200H344V48h1.372L464 166.627Z" />
+                      </svg>
+                      Copiar</button>
                 </td>
                 <td>
                     <button cButton color="secondary" size="sm" (click)="pegar()">Pegar</button>

@@ -31,9 +31,9 @@ export interface IChartPropsProductos {
 export class DashboardChartsData {
   constructor(private service: TIService) {
     
-    this.getData();
-    this.initMainChart();
-    this.initChartProducto("Enero",1,[]);
+    // this.getData();
+    // this.initMainChart();
+    // this.initChartProducto("Enero",1,[]);
 
   }
   //Suscripciones
@@ -419,8 +419,10 @@ export class DashboardChartsData {
 
   ngOnDestroy(): void {
     // Cancelar la suscripción al destruir el componente
-    this.subHistorico.unsubscribe();
-    this.subProducto.unsubscribe();
+    if(this.subHistorico) this.subHistorico.unsubscribe();
+    if(this.subProducto) this.subProducto.unsubscribe();
+    
+    
   }
 
 }

@@ -83,11 +83,11 @@ export const navItems: INavDataBar[] = [
         name: 'Nivel Servicio',
         url: '/dashboard/ns-verificados'
        },
-      {
-        name: 'Hoy',
-        url: '/dashboard/hoy',
-        roles : ['5','13','14']
-      },
+      // {
+      //   name: 'Hoy',
+      //   url: '/dashboard/hoy',
+      //   roles : ['5','13','14']
+      // },
       
     ]
   },
@@ -130,10 +130,10 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       },
-      // {
-      //   name: 'Pendientes en ruta',
-      //   url: '/operaciones/pendientes-en-ruta'
-      // },
+      {
+        name: 'Pendientes en ruta',
+        url: '/operaciones/pendientes-en-ruta'
+      },
       {
         name: 'Estados',
         url: '/operaciones/estados'

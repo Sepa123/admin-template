@@ -182,7 +182,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
           this.noData = true
         }
       })
-    },600)
+    },2300)
 
     setTimeout( () => {
       this.service.get_ns_fecha_compromiso_real(formattedDate).subscribe((data) => {
@@ -191,7 +191,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
         this.isLoadingTableNS = false 
       })
-    },5000)
+    },6000)
 
 
     this.service.get_pedidos().subscribe((data) => {
@@ -203,9 +203,12 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
     setTimeout( () => {
       this.getPendientesBodegas();
-    },100)
+    },1500)
 
-    this.getPedidosPendientes();
+    setTimeout( () => {
+      this.getPedidosPendientes();
+    },2000)
+    
 
     // Subcripciones 
     this.subPedidos = this.service.get_pedidos_update().subscribe((update_data) => {
