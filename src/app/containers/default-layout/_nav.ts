@@ -130,6 +130,43 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       },
+      // {
+      //   name: 'Pendientes en ruta',
+      //   url: '/operaciones/pendientes-en-ruta'
+      // },
+      {
+        name: 'Estados',
+        url: '/operaciones/estados'
+      },
+      {
+        name: 'Productos sin clasificación',
+        url: '/operaciones/productos-sin-clasificacion'
+      },
+      {
+        name: 'Edicion Pendientes',
+        url: '/operaciones/edicion-pendientes'
+      },
+      {
+        name: 'Diferencia Fechas Easy',
+        url: '/operaciones/dif-fechas-easy'
+      },
+      {
+        name: 'Productos Ingresados',
+        url: '/operaciones/productos-ingresados-easy'
+      },
+    ]
+  },
+  // fulll para admin
+  {
+    name: 'Operaciones',
+    url: '/operaciones',
+    iconComponent: { name: 'cil-clipboard' },
+    roles : [ROLES_ENUM.ADMIN],
+    children: [
+      {
+        name: 'Pendientes',
+        url: '/operaciones/pendientes'
+      },
       {
         name: 'Pendientes en ruta',
         url: '/operaciones/pendientes-en-ruta'

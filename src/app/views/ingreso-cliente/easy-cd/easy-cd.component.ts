@@ -106,9 +106,9 @@ export class EasyCdComponent {
       // "cod_sku" : sku
     }
 
-    // this.service.updateVerifiedMasivoEasy(body).subscribe((data) => {
-      
-    // })
+    this.service.updateVerifiedMasivoEasy(body).subscribe((data : any) => {
+        alert(data.message)
+    })  
 
   }
 
