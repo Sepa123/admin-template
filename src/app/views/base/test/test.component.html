@@ -1,155 +1,134 @@
 
-<h2>Easy CD</h2>
-
-<c-nav variant="tabs">
-    <a [cTabContent]="tabContent" [active]="pv" [routerLink] [tabPaneIdx]="0" cNavLink (click)="activate(true)">Por Verificar</a>
-    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink (click)="activate(false)">Verificados</a>
-    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="2" cNavLink (click)="activate(false)">Carga Masiva</a>
-  </c-nav>
-  <c-tab-content #tabContent="cTabContent">
-    <c-tab-pane class="p-3">
-        <c-row [xs]="1"> 
-          <c-col>
-            <div class="inline-container">
-              <input type="text" name="" [(ngModel)]="codigoProducto" id="codigoProducto" (change)="cambiarTicketByInput(codigoProducto)" >
-              <c-dropdown >
-                <button cButton cDropdownToggle color="secondary" size="sm">
-                  Cargas
-                </button>
-                <ul cDropdownMenu>
-                  <li><a [routerLink]="[]" (click)="filterByCarga('Todas')" cDropdownItem>Todos</a></li>
-                  <li *ngFor="let carga of cargas"><a [routerLink]="[]" (click)="filterByCarga(carga)" cDropdownItem>{{carga}}</a></li>
-                </ul>
-              </c-dropdown>
-            <span>{{cargaActual}}</span> 
-           </div>
-      
-          </c-col>
-          
-          <c-col>
-            <p></p>
-        </c-col>
-          <c-col>
-            <p></p>
-        </c-col>
-          <c-col>
-            Por Verificar {{cantNoVerificados}} <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
-            <div class="greenTable">
-            <table id="tablaProductosPicking" >
-            <thead>
-              <tr>
-                  <th>N° Carga</th>
-                  <!-- <th>Código de Cliente</th> -->
-                  <th>Nombre</th>
-                  <th>Calle y Número</th>
-                  <th>Ciudad</th>
-                  <th>Código de Pedido</th>
-                  <th>Fecha de Pedido</th>
-                  <th>Código de Producto</th>
-                  <th>Descripción del Producto</th>
-                  <th>Cantidad de Producto</th>
-                  <th>SKU</th>
-                  <th>Verificado</th>
-              </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let producto of productosPorVerificar ;let i = index ">
-              <td>{{producto.Carga}}</td>
-              <td>{{producto.Nombre}}</td>
-              <td>{{producto.Calle}}</td>
-              <td>{{producto.Provincia}}</td>
-              <td>{{producto.Codigo_pedido}}</td>
-              <td>{{producto.Fecha_pedido}}</td>
-              <td>{{producto.Codigo_producto}}</td>
-              <td>{{producto.Descripcion_producto}}</td>
-              <td>{{producto.Cantidad_producto}}</td>
-              <td>{{producto.SKU}}</td>
-             <!-- <td>{{producto.Pistoleado}}</td>  -->
-              <td *ngIf="producto.Pistoleado === true" >
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-              </td>
-              <td *ngIf="producto.Pistoleado === false " >
-                <svg (click)="cambiarTicket(i,producto.Codigo_pedido,producto.Codigo_producto)" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
-              </td>
-            </tr>
-            </tbody>
-            </table>
-          </div>
-          </c-col>
-          <c-col>
-            <p></p>
-        </c-col>
-    </c-row>
-
-    </c-tab-pane>
-    <c-tab-pane class="p-3">
-        <c-row [xs]="1"><c-col>
-            <c-col>
-                Verificados {{cantVerificados}} <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-                <div class="greenTable">
-                <table id="tablaProductosPicking" >
-                <thead>
-                  <tr>
-                     <th>N° Carga</th>
-                      <!-- <th>Código de Cliente</th> -->
-                      <th>Nombre</th>
-                      <th>Calle y Número</th>
-                      <th>Ciudad</th>
-                      <th>Código de Pedido</th>
-                      <th>Fecha de Pedido</th>
-                      <th>Código de Producto</th>
-                      <th>Descripción del Producto</th>
-                      <th>Cantidad de Producto</th>
-                      <th>SKU</th>
-                      <th>Verificado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let producto of productosVerificados;let i = index ">
-                  <td>{{producto.Carga}}</td>
-                  <td>{{producto.Nombre}}</td>
-                  <td>{{producto.Calle}}</td>
-                  <td>{{producto.Provincia}}</td>
-                  <td>{{producto.Codigo_pedido}}</td>
-                  <td>{{producto.Fecha_pedido}}</td>
-                  <td>{{producto.Codigo_producto}}</td>
-                  <td>{{producto.Descripcion_producto}}</td>
-                  <td>{{producto.Cantidad_producto}}</td>
-                  <td>{{producto.SKU}}</td>
-                  <td *ngIf="producto.Pistoleado === true" >
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-                  </td>
-                  <td *ngIf="producto.Pistoleado === false " >
-                    <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
-                  </td>
-                </tr>
-                </tbody>
-                </table>
-              </div>
-              </c-col>
-        </c-col>
-        </c-row>
-    </c-tab-pane>
-    <c-tab-pane class="p-3">
-
-        <table>
-            <tr>
-                <td colspan="2">
-                    <textarea [(ngModel)]="cargaMasiva" rows="7"  cols="40"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button cButton color="secondary" size="sm" (click)="subirCargaMasiva()">Enviar</button>
-                </td>
-                <td>
-                    <button cButton color="secondary" size="sm" (click)="copyToClipboard(cargaMasiva)">Copiar</button>
-                </td>
-                <td>
-                    <button cButton color="secondary" size="sm" (click)="pegar()">Pegar</button>
-                </td>
-            </tr>
+<h2>NS Compromiso Easy</h2>
+<p></p>
+<c-row *ngIf="revela">
+  <c-col>
+    <div class="greenTable">
+      <table id="tablaProductosPicking" >
+      <thead>
+        <tr>
+            <th>Entregas</th>
+            <th>Total Entregados</th>
+            <th>Entregados Hoy</th>
+            <th>En Ruta</th>
+            <th>Sin Ruta Beetrack</th>
+            <th>Anulados</th>
+            <!-- <th>% Entrega</th>
+            <th>% No Entregados</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of nsPanelPrincipal; let i = index">
+          <td>{{producto.Total_entregas}}</td>
+          <td>{{producto.Total_entregados}}</td>
+          <td>{{producto.Entregados_hoy}}</td>
+          <td>{{producto.En_ruta}}</td>
+          <td>{{producto.Sin_ruta_beetrack}}</td>
+          <td>{{producto.Anulados}}</td>
+          <!-- <td>{{producto.Porcentaje_entrega}}</td>
+          <td>{{producto.Porcentaje_no_entrega}}</td> -->
+        </tr>
+      </tbody>
+      </table>
+      <p></p>
+      <table id="tablaProductosPicking" >
+        <thead>
+          <tr>
+              <th>Región</th>
+              <th>Total Región</th>
+              <th>Entregados</th>
+              <th>NS Región</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of nsPanelRegion; let i = index">
+            <td>{{producto.Region}}</td>
+            <td>{{producto.Total_region}}</td>
+            <td>{{producto.Entregados}}</td>
+            <td>{{producto.Ns_region}}</td>
+          </tr>
+       
+        </tbody>
         </table>
-    </c-tab-pane>
-  </c-tab-content>
+    </div>
+  </c-col>
+  <c-col>
+    <div style="width: 350px; height: 300px;" *ngIf="revela">
+      <canvas 
+        baseChart
+        class="chart"
+        [data]="pieChartData"
+        [type]="pieChartType"
+        [options]="pieChartOptions"
+      >
+      </canvas>
+    </div>  
+    <p></p>
+  </c-col>
+  <c-col>
     
+  </c-col>
+</c-row>
+
+
+<c-row *ngIf="revela">
+  <c-col [md]="8" >
+    <div class="greenTable">
+      <p></p>
+      <table id="tablaProductosPicking" >
+      <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Guia</th>
+            <th>Ruta hela</th>
+            <th>Direccion</th>
+            <th>Ciudad</th>
+            <th>Region</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of nsEasy; let i = index">
+          <td>{{producto.Cliente}}</td>
+          <td>{{producto.Guia}}</td>
+          <td>{{producto.Ruta_hela}}</td>
+          <td>{{producto.Direccion}}</td>
+          <td>{{producto.Ciudad}}</td>
+          <td>{{producto.Region}}</td>
+        </tr>
+     
+      </tbody>
+      </table>
+      
+    </div>
+    <p></p>
+    <button cButton  color="success" size="sm" (click)="descargar_ns_easy()" >descargar</button>
+
+  </c-col>
+  <c-col  [md]="4">
+    
+    <div class="greenTable" *ngFor="let easy of nsEasyRegion; let i = index">
+      <p></p>
+      <table id="tablaProductosPicking" >
+        <thead>
+          <tr>
+            <th colspan="2">{{easy[0].Region}}</th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th>Region</th>
+            <th>Comunas</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of easy; let i = index">
+            <td>{{producto.Comuna}}</td>
+            <td>{{producto.Pendiente}}</td>
+          </tr>
+       
+        </tbody>
+        </table>
+        <p></p>
+    </div>
+  </c-col>
+</c-row>

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ModalModule } from '@coreui/angular';
-
+import { NgChartsModule } from 'ng2-charts';
 
 
 // CoreUI Modules
@@ -54,7 +54,8 @@ import { TestComponent } from './test/test.component';
     NgSelectModule,
     FullCalendarModule,
     TabsModule,
-    NavModule
+    NavModule,
+    NgChartsModule
   ],
   declarations: [
     ReportesComponent,

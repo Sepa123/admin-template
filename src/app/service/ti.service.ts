@@ -20,8 +20,11 @@ import { PendienteBodega } from '../models/pendienteBodega.interface'
 import { NsVerificado } from '../models/nsVerificado.interface'
 import { MainNs } from '../models/nivel_servicio/nsFechaCompromisoReal.interface'
 import { MainNsDriver } from '../models/nivel_servicio/nsDrivers.interface'
-
+import { NSEasy , NSPendientesEasyPorRegion} from '../models/nivel_servicio/nsEasy.interface'
 import { interval,Observable, switchMap  } from 'rxjs';
+import {NsPanelPrincipalEasy , NsPanelRegionEasy} from '../models/nivel_servicio/nsPanel.interface'
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -319,5 +322,38 @@ export class TIService {
         window.URL.revokeObjectURL(url);
     })
   }
+
+  get_ns_easy(){
+    return this.http.get<NSEasy []>(this.apiurl + `/ns/easy`)
+
+  }
+
+  get_ns_pendiente_easy_por_region(){
+    return this.http.get<NSPendientesEasyPorRegion[]>(this.apiurl + `/ns/pendiente/easy/por-region`)
+
+  }
+
+  get_ns_pendiente_easy_panel(){
+    return this.http.get<NsPanelPrincipalEasy>(this.apiurl + `/ns/easy/panel`)
+
+  }
+
+  get_ns_pendiente_easy_panel_region(){
+    return this.http.get<NsPanelRegionEasy []>(this.apiurl + `/ns/easy/panel/regiones`)
+
+  }
+
+  descargar_ns_drivers_easy(body : any){
+    this.http.post(this.apiurl + `/ns/easy/descargar`,body, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download = `NS_easy.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
 
 }

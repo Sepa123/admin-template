@@ -204,6 +204,10 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/pendientes'
       },
       {
+        name: 'Pendientes en ruta',
+        url: '/operaciones/pendientes-en-ruta'
+      },
+      {
         name: 'Estados',
         url: '/operaciones/estados'
       },
