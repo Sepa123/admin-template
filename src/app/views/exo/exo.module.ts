@@ -19,16 +19,19 @@ import {
   ListGroupModule,
   TableModule,
   UtilitiesModule,
-  PaginationModule
+  PaginationModule,
+  ProgressModule
 } from '@coreui/angular';
 import { NsDriverComponent } from './ns-driver/ns-driver.component';
+import { NsEasyComponent } from './ns-easy/ns-easy.component';
 
 
 
 @NgModule({
   declarations: [
     NivelServicioComponent,
-    NsDriverComponent
+    NsDriverComponent,
+    NsEasyComponent
   ],
   imports: [
     PaginationModule,
@@ -48,7 +51,8 @@ import { NsDriverComponent } from './ns-driver/ns-driver.component';
     NgSelectModule,
     ChartjsModule,
     ModalModule,
-    NgChartsModule
+    NgChartsModule,
+    ProgressModule
   ]
 })
 export class ExoModule { }

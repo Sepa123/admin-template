@@ -107,7 +107,7 @@ export const navItems: INavDataBar[] = [
     name: 'EXO',
     url: '/exo',
     iconComponent: { name: 'cil-bar-chart' },
-    roles : ROLES_PERMITIDOS.EXO,
+    roles : ROLES_PERMITIDOS.EXO_VIEW,
     children: [
       {
         name: 'NS Beetrack',
@@ -116,9 +116,33 @@ export const navItems: INavDataBar[] = [
       {
         name: 'NS Driver',
         url : '/exo/ns-driver'
+      },
+      {
+        name: 'NS Easy',
+        url : '/exo/ns-easy'
       }
     ]
   },
+  // {
+  //   name: 'EXO',
+  //   url: '/exo',
+  //   iconComponent: { name: 'cil-bar-chart' },
+  //   roles : [ROLES_ENUM.ADMIN],
+  //   children: [
+  //     {
+  //       name: 'NS Beetrack',
+  //       url : '/exo/nivel-servicio'
+  //     },
+  //     {
+  //       name: 'NS Driver',
+  //       url : '/exo/ns-driver'
+  //     },
+  //     {
+  //       name: 'NS Easy',
+  //       url : '/exo/ns-easy'
+  //     }
+  //   ]
+  // },
   // FULL PANTALLA
   {
     name: 'Operaciones',
@@ -203,10 +227,7 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       },
-      {
-        name: 'Pendientes en ruta',
-        url: '/operaciones/pendientes-en-ruta'
-      },
+      
       {
         name: 'Estados',
         url: '/operaciones/estados'
@@ -227,6 +248,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Pendientes',
         url: '/operaciones/pendientes'
+      },
+      {
+        name: 'Pendientes en ruta',
+        url: '/operaciones/pendientes-en-ruta'
       },
       {
         name: 'Estados',

@@ -41,6 +41,10 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   subPedidosPendientesEnRuta!: Subscription
   subNsFechaCompromisoReal! : Subscription
 
+  subRutaBeetrackHoy! : Subscription
+  subNsFC! : Subscription
+  sub! : Subscription
+
   pedidos!:Pedidos[]
 
   ocultarTabla: boolean = true
@@ -169,7 +173,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     this.fecha = formattedDate
     // this.setData();
     setTimeout( () => {
-      this.service.get_ruta_beetrack_hoy().subscribe((data) => {
+      this.subRutaBeetrackHoy =this.service.get_ruta_beetrack_hoy().subscribe((data) => {
         this.rutasBeetrackHoy  = data
         this.rutasBeetrackHoyFullData = this.rutasBeetrackHoy
         this.isLoadingBeetrack = false
@@ -185,7 +189,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     },2300)
 
     setTimeout( () => {
-      this.service.get_ns_fecha_compromiso_real(formattedDate).subscribe((data) => {
+      this.subNsFC =  this.service.get_ns_fecha_compromiso_real(formattedDate).subscribe((data) => {
         this.promedio = data.promedio
         this.datosNs = data.datos
 
@@ -224,7 +228,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   }
 
   getPendientesBodegas(){
-    this.service.get_pendientes_bodega().subscribe((data) => {
+      this.service.get_pendientes_bodega().subscribe((data) => {
       this.pendientesBodega = data
     })
   }
@@ -306,6 +310,9 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     this.subPedidosPendientesNoEntregados.unsubscribe()
     this.subPedidosPendientesEnRuta.unsubscribe()
     this.subNsFechaCompromisoReal.unsubscribe()
+
+    if(this.subNsFC) this.subNsFC.unsubscribe()
+    if(this.subRutaBeetrackHoy) this.subRutaBeetrackHoy.unsubscribe()
   }
  
   setData() {

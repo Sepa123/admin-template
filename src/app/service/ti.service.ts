@@ -338,6 +338,8 @@ export class TIService {
 
   }
 
+  
+
   get_ns_pendiente_easy_panel_region(){
     return this.http.get<NsPanelRegionEasy []>(this.apiurl + `/ns/easy/panel/regiones`)
 
@@ -353,6 +355,24 @@ export class TIService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
+
+
+  /// unpdate ns Easy
+  get_ns_easy_update() : Observable<any> {
+    return interval(120000).pipe(switchMap(() => this.http.get<NSEasy []>(this.apiurl + `/ns/easy`)))
+  }
+
+
+  get_ns_pendiente_easy_panel_update(){
+    return interval(120000).pipe(switchMap(() => this.http.get<NsPanelPrincipalEasy>(this.apiurl + `/ns/easy/panel`)))
+
+  }
+
+  
+
+  get_ns_pendiente_easy_panel_region_update(){
+    return interval(120000).pipe(switchMap(() => this.http.get<NsPanelRegionEasy []>(this.apiurl + `/ns/easy/panel/regiones`)))
   }
 
 

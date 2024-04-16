@@ -1,0 +1,223 @@
+<h2>NS Compromiso Easy</h2>
+
+<table style="text-align: center; width: 100%;" *ngIf="!revela"> 
+    <tr>
+        <div>
+            <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+            Cargando Datos de Easy
+        </div>
+    </tr> 
+</table>
+
+<p></p>
+<c-row *ngIf="revela"> 
+  <c-col>
+    <div class="greenTable" style="width: 100%;">
+      <table id="tablaProductosPicking" style="width: 100%;" >
+      <thead>
+        <tr>
+            <th>Entregas</th>
+            <th>Total Entregados</th>
+            <th>Entregados Hoy</th>
+            <th>En Ruta</th>
+            <th>Sin Ruta Beetrack</th>
+            <th>Anulados</th>
+            <!-- <th>% Entrega</th>
+            <th>% No Entregados</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of nsPanelPrincipal; let i = index">
+          <td>{{producto.Total_entregas}}</td>
+          <td>{{producto.Total_entregados}}</td>
+          <td>{{producto.Entregados_hoy}}</td>
+          <td>{{producto.En_ruta}}</td>
+          <td>{{producto.Sin_ruta_beetrack}}</td>
+          <td>{{producto.Anulados}}</td>
+          <!-- <td>{{producto.Porcentaje_entrega}}</td>
+          <td>{{producto.Porcentaje_no_entrega}}</td> -->
+        </tr>
+      </tbody>
+      </table>
+    </div>
+  </c-col>
+</c-row>
+
+<p></p>
+<c-row *ngIf="revela">
+  <c-col>
+    <div class="card" >
+      <p></p>
+    <div class="greenTable">
+      <table id="tablaProductosPicking" >
+        <thead>
+          <tr>
+              <th>Región</th>
+              <th>Total Región</th>
+              <th>Entregados</th>
+              <th>NS Región</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of nsPanelRegion; let i = index">
+            <td>{{producto.Region}}</td>
+            <td>{{producto.Total_region}}</td>
+            <td>{{producto.Entregados}}</td>
+            <td>{{producto.Ns_region}} %</td>
+          </tr>
+       
+        </tbody>
+        </table>
+        <p></p>
+        <!-- <c-progress class="mb-3" style="width: 60%">
+          <p></p>
+          <c-progress-bar color="success" [value]="25" >25%</c-progress-bar>
+        </c-progress> -->
+    </div>
+    <p></p>
+  </div>
+  </c-col>
+  <c-col>
+    <div class="card" >
+
+    <div style="width: 350px; height: 300px;" *ngIf="revela && cambio"   >
+      <canvas 
+        baseChart
+        class="chart"
+        [data]="pieChartData"
+        [type]="pieChartType"
+        [options]="pieChartOptions"
+      >
+      </canvas>
+    </div>  
+    </div>
+    <p></p>
+  </c-col>
+  <c-col>
+    
+  </c-col>
+</c-row>
+
+
+
+<c-row *ngIf="revela">
+  <c-col [md]="8" >
+    <p></p>
+    <table>
+      <tr>
+        <td><h5>Detalle Productos Pendientes</h5></td>
+      </tr>
+      <tr>
+        <td> <h5>Total: {{totalProductos}}</h5></td>
+      </tr>
+    </table>
+      
+      
+      <p></p>
+    <div class="greenTable">
+      
+      <table id="tablaProductosPicking" >
+      <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Guia</th>
+            <th>Ruta hela</th>
+            <th>Direccion</th>
+            <th>Ciudad</th>
+            <th>Region</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of nsEasy; let i = index">
+          <td>{{producto.Cliente}}</td>
+          <td>{{producto.Guia}}</td>
+          <td>{{producto.Ruta_hela}}</td>
+          <td>{{producto.Direccion}}</td>
+          <td>{{producto.Ciudad}}</td>
+          <td>{{producto.Region}}</td>
+        </tr>
+     
+      </tbody>
+      </table>
+      
+    </div>
+    <p></p>
+    <button cButton  color="success" size="sm" (click)="descargar_ns_easy()" >
+        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg"  height="1.5em" viewBox="0 0 384 512">
+            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+        </svg>
+        Descargar
+    </button>
+
+    <p></p>
+
+    <h5>Productos Pendientes por Comuna</h5>
+
+    <c-row *ngIf="revela">
+        <c-col [md]="4" *ngFor="let easy of nsEasyRegion; let i = index">
+
+          <div class="greenTable" style="width: auto;">
+            <p></p>
+            <table id="tablaProductosPicking" >
+              <thead>
+                <tr>
+                  <th colspan="2">{{easy[0].Region}}</th>
+                </tr>
+              </thead>
+              <thead>
+                <tr>
+                  <th>Region</th>
+                  <th>Comunas</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let producto of easy; let i = index">
+                  <td>{{producto.Comuna}}</td>
+                  <td>{{producto.Pendiente}}</td>
+                </tr>
+             
+              </tbody>
+            </table>
+              <p></p>
+          </div>
+        
+        </c-col>
+        
+    </c-row>
+
+    
+
+   
+
+  </c-col>
+  <!-- <c-col  [md]="4">
+    
+    <div class="greenTable" *ngFor="let easy of nsEasyRegion; let i = index">
+      <p></p>
+      <table id="tablaProductosPicking" >
+        <thead>
+          <tr>
+            <th colspan="2">{{easy[0].Region}}</th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th>Region</th>
+            <th>Comunas</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of easy; let i = index">
+            <td>{{producto.Comuna}}</td>
+            <td>{{producto.Pendiente}}</td>
+          </tr>
+       
+        </tbody>
+        </table>
+        <p></p>
+    </div>
+  </c-col> -->
+
+
+</c-row>
+
