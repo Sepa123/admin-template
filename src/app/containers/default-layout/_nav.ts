@@ -630,7 +630,12 @@ export const navItems: INavDataBar[] = [
       {
         name: "Tracking Producto",
         url : '/informacion/tracking-producto'
+      },
+      {
+        name: "Historial Producto",
+        url: '/informacion/timeline',
       }
+
     ]
   },
   

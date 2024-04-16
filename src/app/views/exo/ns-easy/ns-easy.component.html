@@ -47,7 +47,7 @@
 <c-row *ngIf="revela">
   <c-col>
     <div class="card" >
-      <p></p>
+      
     <div class="greenTable">
       <table id="tablaProductosPicking" >
         <thead>
@@ -69,9 +69,46 @@
         </tbody>
         </table>
         <p></p>
-        <!-- <c-progress class="mb-3" style="width: 60%">
+        <div *ngFor="let producto of nsPanelRegion; let i = index">
+
+          {{producto.Region}}
+          <c-progress class="mb-3" style="width: 60%" >
+            <p></p>
+            <c-progress-bar color="success" [value]="producto.Ns_region" >{{producto.Ns_region}} %</c-progress-bar>
+          </c-progress>
+        </div>
+        
+        <p></p>
+
+        <h4>Proyección</h4>
+
+        <div *ngFor="let producto of nsPanelPrincipal; let i = index">
+          <c-widget-stat-e
+              class="mb-4 text-white fs-1"
+              color="success"
+              *ngIf="producto.Proyeccion >= 90"
+            >
+            {{producto.Proyeccion}} %
+            <br />
+
+          </c-widget-stat-e>
+    
+            <c-widget-stat-e
+              class="mb-1 text-white fs-1"
+              color="danger"
+              *ngIf="producto.Proyeccion < 90"
+            >
+            {{producto.Proyeccion}} %
+            <br />
+
+          </c-widget-stat-e>
+
+
+        </div>
+
+        <!-- <c-progress class="mb-3" style="width: 60%" *ngFor="let producto of nsPanelPrincipal; let i = index">
           <p></p>
-          <c-progress-bar color="success" [value]="25" >25%</c-progress-bar>
+          <c-progress-bar color="success" [value]="producto.Proyeccion" >{{producto.Proyeccion}} %</c-progress-bar>
         </c-progress> -->
     </div>
     <p></p>
@@ -80,7 +117,7 @@
   <c-col>
     <div class="card" >
 
-    <div style="width: 350px; height: 300px;" *ngIf="revela && cambio"   >
+    <div style="width: 350px; height: 350px;" *ngIf="revela && cambio"   >
       <canvas 
         baseChart
         class="chart"
@@ -103,6 +140,7 @@
 <c-row *ngIf="revela">
   <c-col [md]="8" >
     <p></p>
+    <div class="card" >
     <table>
       <tr>
         <td><h5>Detalle Productos Pendientes</h5></td>
@@ -185,10 +223,7 @@
         
     </c-row>
 
-    
-
-   
-
+  </div>
   </c-col>
   <!-- <c-col  [md]="4">
     

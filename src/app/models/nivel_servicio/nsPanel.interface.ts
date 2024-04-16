@@ -7,6 +7,7 @@ export interface NsPanelPrincipalEasy {
     Anulados:              number;
     Porcentaje_entrega:    number;
     Porcentaje_no_entrega: number;
+    Proyeccion:            number;
 }
 
 

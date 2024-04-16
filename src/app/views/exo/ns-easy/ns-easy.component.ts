@@ -23,7 +23,7 @@ export class NsEasyComponent {
     plugins: {
       legend: {
         display: true,
-        position: 'right',
+        position: 'bottom',
       },
       datalabels: {
         formatter: (value: any, ctx: any) => {

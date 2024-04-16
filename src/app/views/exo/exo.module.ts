@@ -20,7 +20,8 @@ import {
   TableModule,
   UtilitiesModule,
   PaginationModule,
-  ProgressModule
+  ProgressModule,
+  WidgetModule
 } from '@coreui/angular';
 import { NsDriverComponent } from './ns-driver/ns-driver.component';
 import { NsEasyComponent } from './ns-easy/ns-easy.component';
@@ -52,7 +53,8 @@ import { NsEasyComponent } from './ns-easy/ns-easy.component';
     ChartjsModule,
     ModalModule,
     NgChartsModule,
-    ProgressModule
+    ProgressModule,
+    WidgetModule
   ]
 })
 export class ExoModule { }
