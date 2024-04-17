@@ -46,7 +46,7 @@
 <p></p>
 <c-row *ngIf="revela">
   <c-col>
-    <div class="card" >
+    <div class="card"  >
       
     <div class="greenTable">
       <table id="tablaProductosPicking" >
@@ -80,26 +80,28 @@
         
         <p></p>
 
-        <h4>Proyección</h4>
+        <h5>Proyección</h5>
 
         <div *ngFor="let producto of nsPanelPrincipal; let i = index">
           <c-widget-stat-e
-              class="mb-4 text-white fs-1"
+              class="mb-4 text-white fs-3"
               color="success"
-              *ngIf="producto.Proyeccion >= 90"
+              *ngIf="producto.Proyeccion >= 97"
+              
             >
             {{producto.Proyeccion}} %
-            <br />
+        
 
           </c-widget-stat-e>
     
             <c-widget-stat-e
-              class="mb-1 text-white fs-1"
+              class="mb-1 text-white fs-3"
               color="danger"
-              *ngIf="producto.Proyeccion < 90"
+              *ngIf="producto.Proyeccion < 97"
+              
             >
             {{producto.Proyeccion}} %
-            <br />
+            
 
           </c-widget-stat-e>
 
@@ -138,7 +140,7 @@
 
 
 <c-row *ngIf="revela">
-  <c-col [md]="8" >
+  <c-col [md]="12" >
     <p></p>
     <div class="card" >
     <table>
@@ -152,7 +154,7 @@
       
       
       <p></p>
-    <div class="greenTable">
+    <div class="greenTable" >
       
       <table id="tablaProductosPicking" >
       <thead>
@@ -180,19 +182,22 @@
       
     </div>
     <p></p>
-    <button cButton  color="success" size="sm" (click)="descargar_ns_easy()" >
+    <div>
+      <button cButton  color="success" size="sm" (click)="descargar_ns_easy()" >
         <svg class="dExcel" xmlns="http://www.w3.org/2000/svg"  height="1.5em" viewBox="0 0 384 512">
             <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
         </svg>
         Descargar
     </button>
+    </div>
+    
 
     <p></p>
 
-    <h5>Productos Pendientes por Comuna</h5>
+    <h5>Productos Pendientes por Comunas</h5>
 
     <c-row *ngIf="revela">
-        <c-col [md]="4" *ngFor="let easy of nsEasyRegion; let i = index">
+        <c-col [md]="3" *ngFor="let easy of nsEasyRegion; let i = index">
 
           <div class="greenTable" style="width: auto;">
             <p></p>

@@ -123,26 +123,32 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
-  // {
-  //   name: 'EXO',
-  //   url: '/exo',
-  //   iconComponent: { name: 'cil-bar-chart' },
-  //   roles : [ROLES_ENUM.ADMIN],
-  //   children: [
-  //     {
-  //       name: 'NS Beetrack',
-  //       url : '/exo/nivel-servicio'
-  //     },
-  //     {
-  //       name: 'NS Driver',
-  //       url : '/exo/ns-driver'
-  //     },
-  //     {
-  //       name: 'NS Easy',
-  //       url : '/exo/ns-easy'
-  //     }
-  //   ]
-  // },
+  //EXO PARA DAROLY
+  {
+    name: 'EXO',
+    url: '/exo',
+    iconComponent: { name: 'cil-bar-chart' },
+    roles : ['daroly.vargas@transyanez.cl','jp@gmail.com'],
+    children: [
+      {
+        name: 'NS Beetrack',
+        url : '/exo/nivel-servicio'
+      },
+    ]
+  },
+  //EXO PARA seguridad
+  {
+    name: 'EXO',
+    url: '/exo',
+    iconComponent: { name: 'cil-bar-chart' },
+    roles : [ROLES_ENUM.JEFE_SEGURIDAD],
+    children: [
+      {
+        name: 'NS Easy',
+        url : '/exo/ns-easy'
+      }
+    ]
+  },
   // FULL PANTALLA
   {
     name: 'Operaciones',
@@ -243,7 +249,7 @@ export const navItems: INavDataBar[] = [
     name: 'Operaciones',
     url: '/operaciones',
     iconComponent: { name: 'cil-clipboard' },
-    roles : [ROLES_ENUM.COORDINADOR],
+    roles : [ROLES_ENUM.COORDINADOR, ROLES_ENUM.JEFE_SEGURIDAD],
     children: [
       {
         name: 'Pendientes',
@@ -336,10 +342,10 @@ export const navItems: INavDataBar[] = [
         name: 'Rutas Activas',
         url: '/picking/rutas-activas'
       },
-      {
-        name : 'Quadminds',
-        url: '/picking/quadminds'
-      },
+      // {
+      //   name : 'Quadminds',
+      //   url: '/picking/quadminds'
+      // },
       {
         name : 'Rutas Predictivas',
         url : '/picking/prearmado-ruta'
@@ -369,10 +375,10 @@ export const navItems: INavDataBar[] = [
         name: 'Rutas Activas',
         url: '/picking/rutas-activas'
       },
-      {
-        name : 'Quadminds',
-        url: '/picking/quadminds'
-      },
+      // {
+      //   name : 'Quadminds',
+      //   url: '/picking/quadminds'
+      // },
       {
         name : 'Rutas Predictivas',
         url : '/picking/prearmado-ruta'
@@ -525,7 +531,7 @@ export const navItems: INavDataBar[] = [
     name: 'Rutas',
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
-    roles : [ROLES_ENUM.JEFE_TRANSPORTE,ROLES_ENUM.JEFE_SEGURIDAD],
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE],
     children: [
       {
         name: 'Rutas Activas',
@@ -566,22 +572,6 @@ export const navItems: INavDataBar[] = [
       {
         name: "Ingreso Producto",
         url : '/informacion/ingreso-producto'
-      },
-      {
-        name: "Historial Producto",
-        url: '/informacion/timeline',
-      }
-    ]
-  },
-  { /// Pantalla Informacion Para SEGURIDAD
-    name: 'Información',
-    url: '/informacion',
-    iconComponent : {name : 'cil-magnifying-glass'},
-    roles : ROLES_PERMITIDOS.INFORMACION_SEGURIDAD,
-    children: [
-      {
-        name: "Tracking Producto",
-        url : '/informacion/tracking-producto'
       },
       {
         name: "Historial Producto",
