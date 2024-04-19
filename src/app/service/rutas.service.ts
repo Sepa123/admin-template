@@ -265,7 +265,7 @@ export class RutasService {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url
-      a.download =`Pedido_compromisos_obligatorio.xlsx`; 
+      a.download =`Pedido_compromisos_obligatorio_${fecha}.xlsx`; 
         a.click();
         window.URL.revokeObjectURL(url);
     })

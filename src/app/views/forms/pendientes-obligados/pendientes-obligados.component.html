@@ -9,6 +9,32 @@
         </div>
     </tr> 
 </table>
+
+<div *ngIf="pedidosObligatorios.length != 0">
+  <table>
+    <tr>
+      <td>
+      </td>
+      <td>
+        <input type="date" class="form-control" id="fecha" name="fecha"  [min]="fecha_min" [max]="fecha_max" [value]="fecha_max"
+        [(ngModel)]="fecha_seleccionada" >
+      </td>
+      <td>
+        <button cButton color="secondary" (click)="buscarInformacion()">
+          Buscar
+        </button>
+      </td>
+    </tr>
+  </table>
+  <p></p>
+  
+
+ 
+  
+</div>
+
+
+
 <div class="greenTable" *ngIf="pedidosObligatorios.length != 0">
   <p></p>
   <table >
