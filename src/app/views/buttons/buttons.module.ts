@@ -40,7 +40,7 @@ import { PendientesEnRutaComponent } from './pendientes-en-ruta/pendientes-en-ru
     EdicionPendientesComponent,
     DifFechasEasyComponent,
     ProductosIngresadosEasyComponent,
-    PendientesEnRutaComponent,
+    PendientesEnRutaComponent
   ],
   imports: [
     FormsModule,

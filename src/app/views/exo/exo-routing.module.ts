@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NivelServicioComponent } from './nivel-servicio/nivel-servicio.component';
 import { NsDriverComponent } from './ns-driver/ns-driver.component';
 import { NsEasyComponent } from './ns-easy/ns-easy.component';
+import { NsElectroluxComponent } from './ns-electrolux/ns-electrolux.component';
 const routes: Routes = [
   {
     path: '',
@@ -34,6 +35,13 @@ const routes: Routes = [
         component: NsEasyComponent,
         data: {
           title: 'NIvel Servicio Easy',
+        },
+      },
+      {
+        path: 'ns-electrolux',
+        component: NsElectroluxComponent,
+        data: {
+          title: 'NIvel Servicio Electrolux',
         },
       },
     ],

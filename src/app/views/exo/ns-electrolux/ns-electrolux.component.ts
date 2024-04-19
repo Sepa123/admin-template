@@ -8,12 +8,13 @@ import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'cha
 import { BaseChartDirective } from 'ng2-charts';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
+
 @Component({
-  selector: 'app-ns-easy',
-  templateUrl: './ns-easy.component.html',
-  styleUrls: ['./ns-easy.component.scss']
+  selector: 'app-ns-electrolux',
+  templateUrl: './ns-electrolux.component.html',
+  styleUrls: ['./ns-electrolux.component.scss']
 })
-export class NsEasyComponent {
+export class NsElectroluxComponent {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
@@ -57,11 +58,11 @@ export class NsEasyComponent {
   panelNoEntregados : NSPanelNoEntregasEasy [] = []
   subNSPanel! : Subscription
   subNSPanelRegion! : Subscription
-  subNsEasy! : Subscription
-  subNsEasyRegion! : Subscription
+  subNsElectrolux! : Subscription
+  subNsElectroluxRegion! : Subscription
 
   subNSPanelR! : Subscription
-  subNsEasyR! : Subscription
+  subNsElectroluxR! : Subscription
   subNSPanelRegionR! : Subscription
 
   totalProductos : number = 0
@@ -87,7 +88,7 @@ export class NsEasyComponent {
 
     Chart.register(ChartDataLabels);
     
-    this.subNsEasy = this.service.get_ns_easy().subscribe((data) => {
+    this.subNsElectrolux = this.service.get_ns_electrolux().subscribe((data) => {
       this.nsEasy = data
 
       this.totalProductos = this.nsEasy.length
@@ -114,7 +115,7 @@ export class NsEasyComponent {
 
 
     setTimeout(() => {
-      this.subNSPanel = this.service.get_ns_pendiente_easy_panel().subscribe((data) => {
+      this.subNSPanel = this.service.get_ns_pendiente_electrolux_panel().subscribe((data) => {
         this.nsPanelPrincipal = [data]
   
         const label = ['No Entregados','Entregados']
@@ -124,11 +125,11 @@ export class NsEasyComponent {
         this.pieChartData.datasets[0].data = dataset
         
   
-        this.subNSPanelRegion = this.service.get_ns_pendiente_easy_panel_region().subscribe((data) => {
+        this.subNSPanelRegion = this.service.get_ns_pendiente_electrolux_panel_region().subscribe((data) => {
           this.nsPanelRegion = data
           this.revela = true
 
-          this.service.get_ns_easy_panel_no_entregados().subscribe((data) => {
+          this.service.get_ns_electrolux_panel_no_entregados().subscribe((data) => {
             this.panelNoEntregados = data
           })
       })
@@ -150,7 +151,7 @@ export class NsEasyComponent {
 ejecutarSubsRefresco(){
   console.log(' cosa se ejecuto')
 
-  this.subNsEasyR = this.service.get_ns_easy_update().subscribe((data) => {
+  this.subNsElectroluxR = this.service.get_ns_electrolux_update().subscribe((data) => {
     this.nsEasy = data
     this.nsEasyRegion = []
 
@@ -177,7 +178,7 @@ ejecutarSubsRefresco(){
   })
 
   setTimeout(() => {
-  this.subNSPanelR = this.service.get_ns_pendiente_easy_panel_update().subscribe((data) => {
+  this.subNSPanelR = this.service.get_ns_pendiente_electrolux_panel_update().subscribe((data) => {
 
     this.cambio = false
     this.nsPanelPrincipal = [data]
@@ -190,11 +191,11 @@ ejecutarSubsRefresco(){
     
 
     this.cambio = true
-    this.subNSPanelRegion = this.service.get_ns_pendiente_easy_panel_region().subscribe((data) => {
+    this.subNSPanelRegion = this.service.get_ns_pendiente_electrolux_panel_region().subscribe((data) => {
       this.nsPanelRegion = data
       this.revela = true
 
-      this.service.get_ns_easy_panel_no_entregados().subscribe((data) => {
+      this.service.get_ns_electrolux_panel_no_entregados().subscribe((data) => {
         this.panelNoEntregados = data
       })
   })
@@ -208,11 +209,11 @@ ngOnDestroy(): void {
 
   if(this.subNSPanel) this.subNSPanel.unsubscribe()
   if(this.subNSPanelRegion) this.subNSPanelRegion.unsubscribe()
-  if(this.subNsEasy) this.subNsEasy.unsubscribe()
+  if(this.subNsElectrolux) this.subNsElectrolux.unsubscribe()
 
   if(this.subNSPanelR) this.subNSPanel.unsubscribe()
   if(this.subNSPanelRegionR) this.subNSPanelRegion.unsubscribe()
-  if(this.subNsEasyR) this.subNsEasy.unsubscribe()
+  if(this.subNsElectroluxR) this.subNsElectrolux.unsubscribe()
 
   }
 

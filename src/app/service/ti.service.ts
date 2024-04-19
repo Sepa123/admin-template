@@ -22,7 +22,7 @@ import { MainNs } from '../models/nivel_servicio/nsFechaCompromisoReal.interface
 import { MainNsDriver } from '../models/nivel_servicio/nsDrivers.interface'
 import { NSEasy , NSPendientesEasyPorRegion} from '../models/nivel_servicio/nsEasy.interface'
 import { interval,Observable, switchMap  } from 'rxjs';
-import {NsPanelPrincipalEasy , NsPanelRegionEasy} from '../models/nivel_servicio/nsPanel.interface'
+import {NsPanelPrincipalEasy , NsPanelRegionEasy ,NSPanelNoEntregasEasy} from '../models/nivel_servicio/nsPanel.interface'
 
 
 @Injectable({
@@ -323,6 +323,7 @@ export class TIService {
     })
   }
 
+  /// NS easy
   get_ns_easy(){
     return this.http.get<NSEasy []>(this.apiurl + `/ns/easy`)
 
@@ -343,6 +344,34 @@ export class TIService {
   get_ns_pendiente_easy_panel_region(){
     return this.http.get<NsPanelRegionEasy []>(this.apiurl + `/ns/easy/panel/regiones`)
 
+  }
+
+
+  get_ns_easy_panel_no_entregados(){
+    return this.http.get<NSPanelNoEntregasEasy []>(this.apiurl + `/ns/easy/panel/no_entregados`)
+  }
+
+  /// NS electrolux
+  get_ns_electrolux(){
+    return this.http.get<NSEasy []>(this.apiurl + `/ns/electrolux`)
+
+  }
+
+
+  get_ns_pendiente_electrolux_panel(){
+    return this.http.get<NsPanelPrincipalEasy>(this.apiurl + `/ns/electrolux/panel`)
+
+  }
+
+
+  get_ns_pendiente_electrolux_panel_region(){
+    return this.http.get<NsPanelRegionEasy []>(this.apiurl + `/ns/electrolux/panel/regiones`)
+
+  }
+
+
+  get_ns_electrolux_panel_no_entregados(){
+    return this.http.get<NSPanelNoEntregasEasy []>(this.apiurl + `/ns/electrolux/panel/no_entregados`)
   }
 
   descargar_ns_drivers_easy(body : any){
@@ -369,11 +398,22 @@ export class TIService {
 
   }
 
-  
-
   get_ns_pendiente_easy_panel_region_update(){
     return interval(120000).pipe(switchMap(() => this.http.get<NsPanelRegionEasy []>(this.apiurl + `/ns/easy/panel/regiones`)))
   }
+
+  /// unpdate ns Electrolux
+  get_ns_electrolux_update() : Observable<any> {
+    return interval(120000).pipe(switchMap(() => this.http.get<NSEasy []>(this.apiurl + `/ns/electrolux`)))
+  }
+
+
+  get_ns_pendiente_electrolux_panel_update(){
+    return interval(120000).pipe(switchMap(() => this.http.get<NsPanelPrincipalEasy>(this.apiurl + `/ns/electrolux/panel`)))
+
+  }
+
+
 
 
 }

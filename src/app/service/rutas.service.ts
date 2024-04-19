@@ -12,6 +12,7 @@ import { interval,Observable, switchMap  } from 'rxjs';
 import { CantidadUnidadesRutaActiva } from 'src/app/models/cantidadUnidadesRutaActiva.interface'
 import { ComunaRutas } from 'src/app/models/comunaRutas.interface'
 import { seguimientoRuta } from 'src/app/models/TOC/seguimientoRuta.interface'
+import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromisoObligatorios.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -252,6 +253,22 @@ export class RutasService {
 
   get_comuna_por_ruta(fecha:string){
     return this.http.get(this.apiurl + `/comuna_por_ruta?fecha=${fecha}` )  
+  }
+
+  get_codigo_obligatorio_por_dia(fecha:string){
+    return this.http.get<PedidoCompromisoObligatorio []>(this.apiurl + `/codigos/obligatorios/dia?fecha=${fecha}` )  
+  }
+
+  download_codigo_obligatorio_por_dia( fecha : string) {
+    this.http.get(`${this.apiurl}/codigos/obligatorios/dia/descargar?fecha=${fecha}`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`Pedido_compromisos_obligatorio.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
   }
 
   download_lista_comunas_rutas( fecha : string) {

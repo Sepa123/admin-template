@@ -17,3 +17,9 @@ export interface NsPanelRegionEasy {
     Entregados:   number;
     Ns_region:    number;
 }
+
+export interface NSPanelNoEntregasEasy {
+    Estado:     string;
+    Total:      string;
+    Porcentaje: number;
+}

@@ -3,12 +3,14 @@ import { Subscription } from 'rxjs';
 import { RutasService } from 'src/app/service/rutas.service';
 import { TIService } from "src/app/service/ti.service";
 import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromisoObligatorios.interface'
+
+
 @Component({
-  selector: 'app-test',
-  templateUrl: './test.component.html',
-  styleUrls: ['./test.component.scss']
+  selector: 'app-pendientes-obligados',
+  templateUrl: './pendientes-obligados.component.html',
+  styleUrls: ['./pendientes-obligados.component.scss']
 })
-export class TestComponent {
+export class PendientesObligadosComponent {
 
 
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []

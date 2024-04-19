@@ -17,6 +17,8 @@ import { CargaQuadmindComponent } from './carga-quadmind/carga-quadmind.componen
 import { PrearmadoRutaComponent } from './prearmado-ruta/prearmado-ruta.component';
 import { BuscarRutaComponent } from './buscar-ruta/buscar-ruta.component';
 import { ResumenRutasComponent } from './resumen-rutas/resumen-rutas.component';
+import { PendientesObligadosComponent } from './pendientes-obligados/pendientes-obligados.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -119,7 +121,13 @@ const routes: Routes = [
           title : 'resumen-rutas'
         }
       },
-      
+      {
+        path : 'pendientes-obligados',
+        component : PendientesObligadosComponent,
+        data : {
+          title : 'pendientes-obligados'
+        }
+      },
     ]
   }
 ];

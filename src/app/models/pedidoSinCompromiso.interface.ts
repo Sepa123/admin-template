@@ -13,4 +13,6 @@ export interface PedidoSinCompromiso {
     Recibido:         number;
     Seleccionado:     boolean;
     Nombre_ruta:      string;
+    Direccion:           string;
+    Talla:            string;
 }

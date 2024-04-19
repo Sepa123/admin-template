@@ -25,6 +25,7 @@ import {
 } from '@coreui/angular';
 import { NsDriverComponent } from './ns-driver/ns-driver.component';
 import { NsEasyComponent } from './ns-easy/ns-easy.component';
+import { NsElectroluxComponent } from './ns-electrolux/ns-electrolux.component';
 
 
 
@@ -32,7 +33,8 @@ import { NsEasyComponent } from './ns-easy/ns-easy.component';
   declarations: [
     NivelServicioComponent,
     NsDriverComponent,
-    NsEasyComponent
+    NsEasyComponent,
+    NsElectroluxComponent
   ],
   imports: [
     PaginationModule,

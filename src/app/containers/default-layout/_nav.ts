@@ -120,6 +120,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'NS Easy',
         url : '/exo/ns-easy'
+      },
+      {
+        name: 'NS Electrolux',
+        url : '/exo/ns-electrolux'
       }
     ]
   },
@@ -136,16 +140,24 @@ export const navItems: INavDataBar[] = [
       },
     ]
   },
-  //EXO PARA seguridad
+  //EXO PARA solo ns tiendas
   {
     name: 'EXO',
     url: '/exo',
     iconComponent: { name: 'cil-bar-chart' },
-    roles : [ROLES_ENUM.JEFE_SEGURIDAD],
+    roles : ROLES_PERMITIDOS.EXO_TIENDAS,
     children: [
+      {
+        name: 'NS Driver',
+        url : '/exo/ns-driver'
+      },
       {
         name: 'NS Easy',
         url : '/exo/ns-easy'
+      },
+      {
+        name: 'NS Electrolux',
+        url : '/exo/ns-electrolux'
       }
     ]
   },
@@ -342,6 +354,11 @@ export const navItems: INavDataBar[] = [
         name: 'Rutas Activas',
         url: '/picking/rutas-activas'
       },
+      {
+        name: 'Pedidos Compromiso Obligatorio',
+        url: '/picking/pendientes-obligados'
+      },
+      
       // {
       //   name : 'Quadminds',
       //   url: '/picking/quadminds'

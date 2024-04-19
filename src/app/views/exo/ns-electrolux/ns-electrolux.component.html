@@ -1,10 +1,10 @@
-<h2>NS Compromiso Easy</h2>
+<h2>NS Compromiso Electrolux</h2>
 
 <table style="text-align: center; width: 100%;" *ngIf="!revela"> 
     <tr>
         <div>
             <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
-            Cargando Datos de Easy
+            Cargando Datos de Electrolux
         </div>
     </tr> 
 </table>
@@ -225,35 +225,35 @@
           </div>
           <p></p>
 
+          
 
 
         
         </c-col>
 
-        
         <h5>Productos No Entregas</h5>
 
-        <div class="greenTable" style="width: auto;">
-          <p></p>
-          <table id="tablaProductosPicking" >
-            <thead>
-              <tr>
-                <th>Estado</th>
-                <th>Total</th>
-                <th>Porcentaje</th>
-            </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let producto of panelNoEntregados; let i = index">
-                <td>{{producto.Estado}}</td>
-                <td>{{producto.Total}}</td>
-                <td>{{producto.Porcentaje}} %</td>
-              </tr>
-           
-            </tbody>
-          </table>
+          <div class="greenTable" style="width: auto;">
             <p></p>
-        </div>
+            <table id="tablaProductosPicking" >
+              <thead>
+                <tr>
+                  <th>Estado</th>
+                  <th>Total</th>
+                  <th>Porcentaje</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let producto of panelNoEntregados; let i = index">
+                  <td>{{producto.Estado}}</td>
+                  <td>{{producto.Total}}</td>
+                  <td>{{producto.Porcentaje}} %</td>
+                </tr>
+             
+              </tbody>
+            </table>
+              <p></p>
+          </div>
         
     </c-row>
 
@@ -289,4 +289,3 @@
 
 
 </c-row>
-

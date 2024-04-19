@@ -40,6 +40,7 @@ import { PrearmadoRutaComponent } from './prearmado-ruta/prearmado-ruta.componen
 import { BuscarRutaComponent } from './buscar-ruta/buscar-ruta.component';
 import { ResumenRutasComponent } from './resumen-rutas/resumen-rutas.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { PendientesObligadosComponent } from './pendientes-obligados/pendientes-obligados.component';
 @NgModule({
   declarations: [
     RangesComponent,
@@ -59,7 +60,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     CargaQuadmindComponent,
     PrearmadoRutaComponent,
     BuscarRutaComponent,
-    ResumenRutasComponent
+    ResumenRutasComponent,
+    PendientesObligadosComponent
   ],
   imports: [
     CommonModule,
