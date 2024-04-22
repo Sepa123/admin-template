@@ -55,7 +55,7 @@ export const navItems: INavDataBar[] = [
     name: 'Logistica Inversa',
     url : '/log-inversa',
     iconComponent: { name: 'cil-swap-horizontal' },
-    roles : ROLES_PERMITIDOS.PANEL,
+    roles : ROLES_PERMITIDOS.LI_VIEW_FULL,
     children : [
       {
         name: 'Recepción',

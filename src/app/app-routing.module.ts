@@ -198,7 +198,7 @@ const routes: Routes = [
       {
         path: 'log-inversa',
         data : {
-          roles : ROLES_PERMITIDOS.PANEL
+          roles : ROLES_PERMITIDOS.LOGISTICA_INVERSA
         },
         canActivate :[PermissionGuard],
         loadChildren: () =>
