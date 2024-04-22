@@ -132,12 +132,21 @@ export const navItems: INavDataBar[] = [
     name: 'EXO',
     url: '/exo',
     iconComponent: { name: 'cil-bar-chart' },
-    roles : ['daroly.vargas@transyanez.cl','jp@gmail.com'],
+    roles : ['daroly.vargas@transyanez.cl'],
     children: [
       {
         name: 'NS Beetrack',
         url : '/exo/nivel-servicio'
       },
+      {
+        name: 'NS Easy',
+        url : '/exo/ns-easy'
+      },
+      {
+        name: 'NS Electrolux',
+        url : '/exo/ns-electrolux'
+      }
+      
     ]
   },
   //EXO PARA solo ns tiendas
@@ -354,10 +363,7 @@ export const navItems: INavDataBar[] = [
         name: 'Rutas Activas',
         url: '/picking/rutas-activas'
       },
-      {
-        name: 'Pedidos Compromiso Obligatorio',
-        url: '/picking/pendientes-obligados'
-      },
+      
       
       // {
       //   name : 'Quadminds',
@@ -374,7 +380,11 @@ export const navItems: INavDataBar[] = [
       {
         name : 'Resumen Rutas',
         url : '/picking/resumen-rutas'
-      }
+      },
+      {
+        name: 'Pedidos Comp. Obligatorio',
+        url: '/picking/pendientes-obligados'
+      },
     ]
   },
 // Pantalla casi todas
@@ -540,7 +550,11 @@ export const navItems: INavDataBar[] = [
       {
         name : 'Despacho Ruta',
         url : '/picking/buscar-ruta'
-      }
+      },
+      {
+        name: 'Pedidos Comp. Obligatorio',
+        url: '/picking/pendientes-obligados'
+      },
     ]
   },
   {

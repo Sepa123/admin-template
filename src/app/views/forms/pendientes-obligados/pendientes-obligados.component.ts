@@ -53,7 +53,7 @@ export class PendientesObligadosComponent {
   }
 
   descargarExcel(){
-    this.service.download_codigo_obligatorio_por_dia('20240420')
+    this.service.download_codigo_obligatorio_por_dia(this.fecha_seleccionada)
   }
 
   buscarInformacion(){
