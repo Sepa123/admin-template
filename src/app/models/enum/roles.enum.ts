@@ -28,6 +28,7 @@ export enum ROLES_ENUM {
     NROL_RSV = '45',
     JEFE_SEGURIDAD = '50',
     JEFE_RRHH = '60',
-    VIS_RRHH = '61'
+    VIS_RRHH = '61',
+    LI = '62'
 
 }

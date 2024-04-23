@@ -72,7 +72,7 @@ export const navItems: INavDataBar[] = [
     name: 'Dashboard',
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },
-    roles : ROLES_PERMITIDOS.DASHBOARD,
+    roles : ROLES_PERMITIDOS.DASHBOARD_FULL,
     children: [
       {
         name: 'Reportes',
@@ -83,12 +83,29 @@ export const navItems: INavDataBar[] = [
         name: 'Nivel Servicio',
         url: '/dashboard/ns-verificados'
        },
-      // {
-      //   name: 'Hoy',
-      //   url: '/dashboard/hoy',
-      //   roles : ['5','13','14']
-      // },
+      {
+        name: 'Hoy',
+        url: '/dashboard/hoy',
+        roles : ['5','13','14']
+      },
       
+    ]
+  },
+  {
+    name: 'Dashboard',
+    url: '/dashboard',
+    iconComponent: { name: 'cil-speedometer' },
+    roles : ROLES_PERMITIDOS.DASHBOARD_VIEW,
+    children: [
+      {
+        name: 'Reportes',
+        url: '/dashboard',
+        roles : ['5','13','14']
+      },
+      {
+        name: 'Nivel Servicio',
+        url: '/dashboard/ns-verificados'
+       }
     ]
   },
   {

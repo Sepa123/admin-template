@@ -192,7 +192,6 @@
         <th>Día</th>
         <th>Fecha</th>
         <th>Electrolux</th>
-        <th>Sportex</th>
         <th>Easy</th>
         <th>Easy OPL</th>
     </tr>
@@ -203,7 +202,6 @@
       <td>{{reporte.Dia}}</td>
       <td>{{reporte.Fecha}}</td>
       <td [ngClass]="{'success': reporte.Electrolux > 0, 'warning' : reporte.Electrolux > ordenCompraHoy[i] * 0.7 , 'danger': reporte.Electrolux > ordenCompraHoy[i]* 0.85 }">{{reporte.Electrolux}}</td>
-      <td [ngClass]="{'success': reporte.Sportex > 0,'warning': reporte.Sportex > ordenCompraHoy[i] * 0.7,'danger': reporte.Sportex > ordenCompraHoy[i] * 0.85 }">{{reporte.Sportex}}</td>
       <td [ngClass]="{'success': reporte.Easy > 0, 'warning': reporte.Easy > ordenCompraHoy[i] * 0.7, 'danger': reporte.Easy > ordenCompraHoy[i] * 0.85 }">{{reporte.Easy}}</td>
       <td [ngClass]="{'success': reporte.Easy_OPL > 0, 'warning': reporte.Easy_OPL > ordenCompraHoy[i] * 0.7, 'danger': reporte.Easy_OPL > ordenCompraHoy[i] * 0.85}">{{reporte.Easy_OPL}}</td>
     </tr>
@@ -211,7 +209,6 @@
       <td>{{reportes.Dia}}</td>
       <td>{{reportes.Fecha}}</td>
       <td [ngClass]="{'success': reportes.Electrolux > 0, 'warning' : reportes.Electrolux > ordenCompra[i+1] * 0.7 , 'danger': reportes.Electrolux > ordenCompra[i+1]* 0.85 }">{{reportes.Electrolux}}</td>
-      <td [ngClass]="{'success': reportes.Sportex > 0,'warning': reportes.Sportex > ordenCompra[i+1] * 0.7,'danger': reportes.Sportex > ordenCompra[i+1] * 0.85 }">{{reportes.Sportex}}</td>
       <td [ngClass]="{'success': reportes.Easy > 0, 'warning': reportes.Easy > ordenCompra[i+1] * 0.7, 'danger': reportes.Easy > ordenCompra[i+1] * 0.85}">{{reportes.Easy}}</td>
       <td [ngClass]="{'success': reportes.Easy_OPL > 0, 'warning': reportes.Easy_OPL > ordenCompra[i+1] * 0.7, 'danger': reportes.Easy_OPL > ordenCompra[i+1] * 0.85}">{{reportes.Easy_OPL}}</td>
     </tr>
@@ -219,5 +216,5 @@
       <td  *ngIf="isLoadingTable " colspan="6"><img src="../../../assets/images/loading-gif.gif" /></td>
     </tr>
   </tbody>
-  </table> -->
-  </div>
+  </table>
+  </div> -->

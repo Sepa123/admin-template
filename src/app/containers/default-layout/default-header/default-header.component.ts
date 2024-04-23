@@ -25,6 +25,9 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   roles_notificaciones =['5','40','41','42','43','44','45']
 
+  roles_dashboard = ['5', '17','14', '13','15','20', '22','21','8']
+
+
   perfil =   sessionStorage.getItem('rol_id')+''
 
   subNotificaciones!: Subscription
