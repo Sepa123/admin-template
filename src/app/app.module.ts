@@ -105,7 +105,8 @@ const APP_CONTAINERS = [
     NgbModule,
     NgbPaginationModule, NgbAlertModule,
     NgbDatepickerModule,
-    NgChartsModule
+    NgChartsModule,
+    
   ],
   providers: [
     {

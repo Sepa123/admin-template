@@ -65,6 +65,10 @@ export const navItems: INavDataBar[] = [
         name: 'Recepción',
         url: '/log-inversa/recepcion'
       },
+      {
+        name:'Bodega Virtual',
+        url:'/log-inversa/bodega-virtual'
+      },
     ]
   },
   {
@@ -466,7 +470,7 @@ export const navItems: INavDataBar[] = [
       {
         name: "Historial Producto",
         url: '/informacion/timeline',
-      }
+      },
     ]
   },
   { /// Pantalla Informacion Para SEGURIDAD
@@ -506,6 +510,18 @@ export const navItems: INavDataBar[] = [
       {
         name: "Ingreso Producto",
         url : '/informacion/ingreso-producto'
+      }
+    ]
+  },
+  { /// Pantalla de info para Mercadolibre
+    name: 'MercadoLibre',
+    url: '/mercadolibre',
+    iconComponent : {name : 'cil-handshake'},
+    roles :  ROLES_PERMITIDOS.PANEL,
+    children: [
+      {
+        name: "Informacion",
+        url : '/mercadolibre/info-mercado-libre'
       }
     ]
   },

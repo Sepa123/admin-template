@@ -1,0 +1,146 @@
+.UploadImage{
+  padding-left: 50px;
+  color: #171576;
+}
+.ParrafoCantidadDatos{
+  padding-left: 15px;
+  width: auto;
+  border-collapse: separate;
+}
+.DownloadButton{
+  padding-left: 15px;
+}
+.greenTable{
+    width: auto;
+    max-height: auto; /* Altura de ejemplo */
+    overflow: auto;
+    border-radius: 10px;
+    padding: 15px;
+  }
+  
+  .greenTable  table {
+    // border: 1px solid #28A745;
+    background-color: #FFFEF3;
+    width: auto;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .greenTable  table td, table th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  .greenTable  table tbody td {
+    white-space: nowrap;
+    font-size: 10px;
+  }
+  
+  .greenTable  table tbody th {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .greenTable  table tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  .greenTable table thead {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: #28A745;
+  }
+  .greenTable  table thead th {
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+  .greenTable  table thead th:first-child {
+    border-left: none;
+  }
+    
+    h2 {
+        text-align: center;
+      }
+      
+    .svgT{
+      fill:#12de20
+    }
+  
+    .svgF{
+      fill:#d60a0a
+    }
+  
+    table.loadQuadmind {
+      width: 100%;
+      text-align: center;
+    }
+  
+    body {
+      margin: 20px 60px;
+    }
+    
+    .drop-container {
+      position: relative;
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px dashed #555;
+      color: #444;
+      cursor: pointer;
+      transition: background .2s ease-in-out, border .2s ease-in-out;
+    }
+    
+    .drop-container:hover,
+    .drop-container.drag-active {
+      background: #eee;
+      border-color: #111;
+    }
+    
+    .drop-container:hover .drop-title,
+    .drop-container.drag-active .drop-title {
+      color: #222;
+    }
+    
+    .drop-title {
+      color: #444;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      transition: color .2s ease-in-out;
+    }
+    
+    input[type=file] {
+      width: auto;
+      max-width: 100%;
+      color: #444;
+      padding: 5px;
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid #555;
+    }
+    
+    input[type=file]::file-selector-button {
+      margin-right: 20px;
+      border: none;
+      background: #28A745;
+      padding: 4px 20px;
+      border-radius: 10px;
+      color: black;
+      cursor: pointer;
+      transition: background .2s ease-in-out;
+    }
+    
+    input[type=file]::file-selector-button:hover {
+      background: rgb(238, 238, 11);
+    }
+  
+    .tamano {
+      font-size: 12px;
+    }
+    
