@@ -8,6 +8,11 @@ export interface NsPanelPrincipalEasy {
     Porcentaje_entrega:    number;
     Porcentaje_no_entrega: number;
     Proyeccion:            number;
+    Pendientes:            number;
+    Porcentaje_pend_en_ruta: number;
+    No_entregado:          number;
+    Porcentaje_no_entregado: number;
+    Porcentaje_sin_ruta_beetrack: number;
 }
 
 

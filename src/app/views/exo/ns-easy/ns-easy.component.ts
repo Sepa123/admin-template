@@ -66,6 +66,26 @@ export class NsEasyComponent {
 
   totalProductos : number = 0
 
+
+  isModalOpen: boolean = false
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+  
+  openModal(){
+    this.isModalOpen = true
+  }
+
+  closeModal(){
+    this.isModalOpen = false
+  }
+
   eliminarDuplicados(registros: NSPendientesEasyPorRegion[]): NSPendientesEasyPorRegion[] {
     const claveUnica = new Set<string>();
     const registrosUnicos: NSPendientesEasyPorRegion[] = [];

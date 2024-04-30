@@ -27,13 +27,15 @@ import {
   cilAccountLogout,
   cilPlus,
   cilMinus,
-  cilChatBubble
+  cilChatBubble,
+  cilHandshake
 } from '@coreui/icons';
 
 
 
 // const iViking = 
 export const iconSubset = {
+  cilHandshake,
   cilDevices,
   cilSwapHorizontal,
   cilWindow,

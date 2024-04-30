@@ -432,7 +432,10 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
     clearTimeout(timeout);
   });
   // Cancelar la suscripción al destruir el componente
-  this.subPedido.unsubscribe()
+  if(this.subPedido){
+    this.subPedido.unsubscribe()
+  }
+  
 }
 
 

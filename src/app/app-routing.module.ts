@@ -196,6 +196,15 @@ const routes: Routes = [
           import('./views/area-ti/area-ti.module').then((m) => m.AreaTiModule)
       },
       {
+        path: 'mercadolibre',
+        data : {
+          roles : ROLES_PERMITIDOS.PANEL
+        },
+        canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/mercadolibre/mercadolibre.module').then((m) => m.MercadolibreModule)
+      },
+      {
         path: 'log-inversa',
         data : {
           roles : ROLES_PERMITIDOS.LOGISTICA_INVERSA

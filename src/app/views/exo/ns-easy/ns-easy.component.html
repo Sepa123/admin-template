@@ -1,5 +1,42 @@
 <h2>NS Compromiso Easy</h2>
 
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Productos No Entregados </h5>
+    <button (click)="toggleLiveDemo()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+
+        <div class="greenTable" style="width: auto;">
+          <p></p>
+          <table id="tablaProductosPicking" >
+            <thead>
+              <tr>
+                <th>Estado</th>
+                <th>Total</th>
+                <th>Porcentaje</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let producto of panelNoEntregados; let i = index">
+                <td>{{producto.Estado}}</td>
+                <td>{{producto.Total}}</td>
+                <td>{{producto.Porcentaje}} %</td>
+              </tr>
+           
+            </tbody>
+          </table>
+            <p></p>
+        </div>
+      
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveDemo()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
 <table style="text-align: center; width: 100%;" *ngIf="!revela"> 
     <tr>
         <div>
@@ -9,43 +46,100 @@
     </tr> 
 </table>
 
-<p></p>
-<c-row *ngIf="revela"> 
-  <c-col>
-    <div class="greenTable" style="width: 100%;">
-      <table id="tablaProductosPicking" style="width: 100%;" >
-      <thead>
-        <tr>
-            <th>Entregas</th>
-            <th>Total Entregados</th>
-            <th>Entregados Hoy</th>
-            <th>En Ruta</th>
-            <th>Sin Ruta Beetrack</th>
-            <th>Anulados</th>
-            <!-- <th>% Entrega</th>
-            <th>% No Entregados</th> -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let producto of nsPanelPrincipal; let i = index">
-          <td>{{producto.Total_entregas}}</td>
-          <td>{{producto.Total_entregados}}</td>
-          <td>{{producto.Entregados_hoy}}</td>
-          <td>{{producto.En_ruta}}</td>
-          <td>{{producto.Sin_ruta_beetrack}}</td>
-          <td>{{producto.Anulados}}</td>
-          <!-- <td>{{producto.Porcentaje_entrega}}</td>
-          <td>{{producto.Porcentaje_no_entrega}}</td> -->
-        </tr>
-      </tbody>
-      </table>
-    </div>
-  </c-col>
-</c-row>
 
 <p></p>
 <c-row *ngIf="revela">
-  <c-col>
+  <c-col [md]="4">
+    <p></p>
+    <div class="card"  >
+      <div class="greenTable">
+        <!-- <table id="tablaProductosPicking" style="width: 100%;" >
+        <thead>
+          <tr>
+              <th>Entregas</th>
+              <th>Total Entregados</th>
+              <th>Entregados Hoy</th>
+              <th>En Ruta</th>
+              <th>Sin Ruta Beetrack</th>
+              <th>Anulados</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of nsPanelPrincipal; let i = index">
+            <td>{{producto.Total_entregas}}</td>
+            <td>{{producto.Total_entregados}}</td>
+            <td>{{producto.Entregados_hoy}}</td>
+            <td>{{producto.En_ruta}}</td>
+            <td>{{producto.Sin_ruta_beetrack}}</td>
+            <td>{{producto.Anulados}}</td>
+          </tr>
+        </tbody>
+        </table> -->
+        <p></p>
+        <h5 *ngFor="let producto of nsPanelPrincipal; let i = index">Total entregas : {{producto.Total_entregas}}</h5>
+
+        <table style="width: 100%;" *ngFor="let producto of nsPanelPrincipal; let i = index">
+          <!-- <thead>
+            <tr>
+                <th>Total</th>
+                <th>{{producto.Total_entregas}}</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <tr >
+              <th>Entregados</th>
+              <td></td>
+              <td>{{producto.Total_entregados}}</td>
+              <td>{{producto.Porcentaje_entrega}} %</td>
+              <!-- <td>{{producto.Entregados_hoy}}</td> -->
+              <!-- <td>{{producto.Porcentaje_entrega}}</td>
+              <td>{{producto.Porcentaje_no_entrega}}</td> -->
+            </tr>
+            <tr >
+              <th>Pendientes en ruta</th>
+              <td></td>
+              <td>{{producto.Pendientes}}</td>
+              <td>{{producto.Porcentaje_pend_en_ruta}} %</td>
+              <!-- <td>{{producto.Porcentaje_entrega}}</td>
+              <td>{{producto.Porcentaje_no_entrega}}</td> -->
+            </tr>
+            <tr >
+              <th>Sin Ruta Beetrack</th>
+              <td></td>
+              <td>{{producto.Sin_ruta_beetrack}}</td>
+              <td>{{producto.Porcentaje_sin_ruta_beetrack}} %</td>
+              <!-- <td>{{producto.Porcentaje_entrega}}</td>
+              <td>{{producto.Porcentaje_no_entrega}}</td> -->
+            </tr>
+            <tr >
+              <th>No Entregados</th>
+              <td>
+                <svg xmlns="http://www.w3.org/2000/svg" *ngIf="panelNoEntregados.length !== 0" width="24" height="24" viewBox="0 0 32 32" (click)="toggleLiveDemo()" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+              </td>
+              <td>
+                {{producto.No_entregado}}
+              </td>
+              <td>{{producto.Porcentaje_no_entregado}} %</td>
+              <!-- <td>{{producto.Porcentaje_entrega}}</td>
+              <td>{{producto.Porcentaje_no_entrega}}</td> -->
+            </tr>
+            <tr >
+              <th>Anulados</th>
+              <td></td>
+              <td>{{producto.Anulados}}</td>
+              <!-- <td>{{producto.Porcentaje_pend_en_ruta}}</td> -->
+              <!-- <td>{{producto.Porcentaje_entrega}}</td>
+              <td>{{producto.Porcentaje_no_entrega}}</td> -->
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+  </c-col>
+  <c-col [md]="4">
+    <p></p>
     <div class="card"  >
       
     <div class="greenTable">
@@ -68,6 +162,7 @@
        
         </tbody>
         </table>
+      </div>
         <p></p>
         <div *ngFor="let producto of nsPanelRegion; let i = index">
 
@@ -112,14 +207,15 @@
           <p></p>
           <c-progress-bar color="success" [value]="producto.Proyeccion" >{{producto.Proyeccion}} %</c-progress-bar>
         </c-progress> -->
-    </div>
+    
     <p></p>
   </div>
   </c-col>
-  <c-col>
+  <c-col md="4">
+    <p></p>
     <div class="card" >
 
-    <div style="width: 350px; height: 350px;" *ngIf="revela && cambio"   >
+    <div style="width: 300px; height: 300px;" *ngIf="revela && cambio"   >
       <canvas 
         baseChart
         class="chart"
@@ -231,9 +327,9 @@
         </c-col>
 
         
-        <h5>Productos No Entregas</h5>
+        <!-- <h5>Productos No Entregas</h5> -->
 
-        <div class="greenTable" style="width: auto;">
+        <!-- <div class="greenTable" style="width: auto;">
           <p></p>
           <table id="tablaProductosPicking" >
             <thead>
@@ -253,7 +349,7 @@
             </tbody>
           </table>
             <p></p>
-        </div>
+        </div> -->
         
     </c-row>
 

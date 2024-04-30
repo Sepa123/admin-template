@@ -57,6 +57,7 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgChartsModule } from 'ng2-charts';
+import { InfoMercadoLibreComponent } from './views/mercadolibre/info-mercado-libre/info-mercado-libre.component';
 
 
 // import { RutaManulaComponent } from './views/ruta-manula/ruta-manula.component';
