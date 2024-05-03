@@ -8,13 +8,14 @@ export class PortalTransyanezService {
 
   constructor(private http: HttpClient) { }
 
-  apiurl = "https://hela.transyanez.cl/api/transyanez/resumen_vehiculos_portal"
-  // apiurl = "http://127.0.0.1:8000/api/transyanez/resumen_vehiculos_portal"
+  // apiurl="https://hela.transyanez.cl/api/transporte"
+  apiurl = "http://127.0.0.1:8000/api/transporte" 
+
   downloadResumenVehiculos() {
     let date = new Date();
     const fechaActual = date.toISOString().split('T')[0];
 
-    this.http.get(this.apiurl, {responseType:"blob"})
+    this.http.get(this.apiurl + '/resumen_vehiculos_portal', {responseType:"blob"})
     .subscribe((blob:Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -23,5 +24,15 @@ export class PortalTransyanezService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
+
+
+ registrarColaborador(data : any){
+    return this.http.post(this.apiurl+"/agregar/colaborador",data)
+  }
+
+
+ subirDocumentos(formData : any, tipo_archivo : string){
+    return this.http.post(this.apiurl+`/colaboradores/subir-archivo?tipo_archivo=${tipo_archivo}`, formData)
   }
 }
