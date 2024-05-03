@@ -31,6 +31,7 @@ export class TestComponent {
   listaRegiones : any [] = []
   listaComunas : any [] = []
   listaComunasFull : any [] = []
+  tipoUsuario : string = "7"
 
    
   tipoCuentas : any [] = tipoCuenta
@@ -40,7 +41,7 @@ export class TestComponent {
 
   form = this.builder.group({
     Razon_social : this.builder.control("" , [Validators.required]),
-    Tipo_razon : this.builder.control("1" ),
+    Tipo_razon : this.builder.control("7" ),
     Rut : this.builder.control("" , [Validators.required]),
     Email : this.builder.control("" , [Validators.required, Validators.email]),
     Celular : this.builder.control("" , [Validators.required]),
@@ -61,6 +62,21 @@ export class TestComponent {
     // Documentacion_comercial_banco : this.builder.control("" , [Validators.required]),
     Comuna: this.builder.control("" , [Validators.required]),
     Region: this.builder.control("" , [Validators.required]),
+  })
+
+
+
+  formBancario = this.builder.group({
+    Id_razon_social : this.builder.control("" , [Validators.required]),
+    Rut_titular_cta_bancaria : this.builder.control("" ),
+    Titular_cta : this.builder.control("" ),
+    Numero_cta : this.builder.control("" ),
+    Banco : this.builder.control("" ),
+    Email : this.builder.control("" , [Validators.required, Validators.email]),
+    Tipo_cta : this.builder.control("" ),
+    Forma_pago : this.builder.control("" ),
+    Id_user : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
+    Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
   })
 
   ngOnInit() : void {
@@ -85,8 +101,9 @@ export class TestComponent {
 
   pv : boolean = true
 
-  activate( activo : boolean){
+  activate( activo : boolean,tipo_usuario : string){
     this.pv = activo
+    this.tipoUsuario = tipo_usuario
   }
 
   onFileSelected(event: any, tipo_doc : string) {
@@ -168,11 +185,26 @@ export class TestComponent {
     console.log(this.form)
 
     if(this.form.valid){
-      
+
+      this.formBancario.patchValue({
+        Id_user : this.form.value.Id_user,
+        Ids_user : this.form.value.Ids_user,
+        Id_razon_social : "0",
+        Rut_titular_cta_bancaria : this.form.value.Rut_titular_cta_bancaria,
+        Titular_cta : this.form.value.Titular_cta,
+        Numero_cta : this.form.value.Numero_cta,
+        Banco : this.form.value.Banco,
+        Email : this.form.value.Email,
+        Tipo_cta : this.form.value.Tipo_cta,
+        Forma_pago: this.form.value.Forma_pago
+      })
+
       const nom_region = this.listaRegiones.filter(lista => lista.Id_region == this.form.value.Region)[0].Nombre_region
       this.form.patchValue({
-        Region : nom_region
+        Region : nom_region,
+        Tipo_razon : this.tipoUsuario
       })
+
       this.service.registrarColaborador(this.form.value).subscribe((data : any) => {
         console.log("El registro si llego", data)
         alert(data.message)
