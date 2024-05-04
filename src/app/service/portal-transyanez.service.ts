@@ -8,8 +8,8 @@ export class PortalTransyanezService {
 
   constructor(private http: HttpClient) { }
 
-  // apiurl="https://hela.transyanez.cl/api/transporte"
-  apiurl = "http://127.0.0.1:8000/api/transporte" 
+  apiurl="https://hela.transyanez.cl/api/transporte"
+  // apiurl = "http://127.0.0.1:8000/api/transporte" 
 
   downloadResumenVehiculos() {
     let date = new Date();
