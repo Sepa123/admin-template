@@ -6,6 +6,8 @@ import { RutaProducto } from 'src/app/models/log_inversa/rutaProducto.interface'
 import { ProductoPicking } from 'src/app/models/productoPicking.interface';
 import { Estado,Subestado } from 'src/app/models/estados.interface'
 import { PendienteDia } from 'src/app/models/log_inversa/pendientesDia.interface'
+import * as XLSX from 'xlsx';
+import { bootstrapApplication } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-recepcion-oc',
@@ -109,8 +111,7 @@ export class RecepcionOcComponent {
       this.subestados = this.subestadosFull.filter((sub) => sub.Parent_code == parseInt(estado))
       console.log(this.subestados)
       this.formEdicion.patchValue({
-        Subestado_final : this.subestados[0].Code.toString()
-      })
+        Subestado_final : this.subestados[0].Code.toString()      })
     }
     
   }
@@ -330,7 +331,52 @@ export class RecepcionOcComponent {
     } else {
       this.isErrorView = true
     }
-    
-   }
+   
+  }
 
+   
+  //comienzo Descarga Excel
+  fileName = 'NoentregadosRuta.xlsx';
+  
+
+  exportexcel() {
+    /**passing table id**/
+    
+    let data = document.getElementById('table-data');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
+
+    /**Generate workbook and add the worksheet**/
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    ws['!cols'] = [
+      {wch: 15}, // Ajustar el ancho de la primera columna
+      {wch: 20},
+      {wch: 15},
+      {wch: 16},
+      {wch: 16},
+      {wch: 10},
+      {wch: 15},
+      {wch: 60},
+      {wch: 15},
+      {wch: 15}, // Ajustar el ancho de la segunda columna
+      
+      // Puedes ajustar más columnas añadiendo más objetos a este array
+  ];
+
+     // Add signature section
+     const signatureData = [
+      ['Firma:', '', '', '', 'Fecha:', '']
+      // Puedes personalizar la disposición de las celdas según tus necesidades
+      // Puedes agregar más filas según sea necesario para más detalles de firma
+  ];
+  
+
+  const lastRowIndex = XLSX.utils.sheet_add_json(ws, signatureData, {origin: -1 || 'A', skipHeader:true});
+
+    /*save to file*/
+    XLSX.writeFile(wb, this.fileName);
+  }
+  
 }
+

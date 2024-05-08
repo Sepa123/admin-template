@@ -102,7 +102,7 @@
                 <g transform="translate(24 0) scale(-1 1)"><path fill="currentColor" d="M6 19.462q-1 0-1.59-.778q-.589-.778-.348-1.722l1.896-7.127q-.806-.275-1.382-1.05Q4 8.01 4 7q0-1.246.877-2.123Q5.754 4 7 4h9.61l-3 6h-3.558l-.371 1.404h.857v3H8.881l-.943 3.608q-.178.648-.719 1.049q-.54.4-1.219.4M17.98 4.655l-.393-.87l3.125-1.419l.388.875zm2.732 6.98l-3.125-1.394l.394-.875l3.119 1.42zm-2.597-4.153V6.52h3.462v.962z"/></g>
             </svg>          
         </c-col>
-          <c-col [xs]>
+        <c-col [xs]>
             <div class="">
               <input type="text"  class="form-control"  [(ngModel)]="nombreRuta" (change)="obtenerRutaProductoPorRuta('')" >
           </div>
@@ -112,7 +112,14 @@
             <path d="M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
           </svg>       
       </c-col>
-        
+      <c-col [xs]>
+        <div >
+           <button (click)="exportexcel()" class="Excel">
+            <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 384 512">
+              <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+          </svg></button>
+        </div>
+    </c-col>
      </c-row>
      <p></p>
      <c-row >
@@ -159,7 +166,7 @@
 
            <span>Productos de rutas no entregados</span>
            <div class="greenTable">
-            <table >
+            <table>
               <thead>
                 <tr>
                   <th>Código Cliente</th>
@@ -279,7 +286,7 @@
          </c-row>
          <p></p>
          <div class="greenTable">
-          <table >
+          <table  >
             <thead>
               <tr>
                 <th>Ruta</th>
@@ -306,7 +313,54 @@
             </tbody>
           </table>
         </div>
- 
+        <span>Productos de rutas no entregados pickeados</span>
+           <div class="greenTable">
+            <table id="table-data">
+              <thead>
+                <tr>
+                  <th>Código Cliente</th>
+                  <th>Nombre</th>
+                  <th>Comuna</th>
+                  <th>Código Pedido</th>
+                  <th>Código Producto</th>
+                  <th>SKU</th>
+                  <th>Fecha Pedido</th>
+                  <th>Descripción</th>
+                  <th>Cantidad</th>
+                  <th>Notas</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let producto  of productosNoEntregados">
+                   <td>{{producto.Codigo_cliente}}</td>
+                   <td>{{producto.Nombre}}</td>
+                   <td>{{producto.Ciudad}}</td>
+                   <td>{{producto.Codigo_pedido}}</td>
+                   <td>{{producto.Codigo_producto}}</td>
+                   <td>{{producto.SKU}}</td>
+                   <td class="fechas">{{producto.Fecha_pedido}}</td>
+                   <td>{{producto.Descripcion_producto}}</td>
+                   <td>{{producto.Cantidad_producto}}</td>
+                   <td>{{producto.Notas}}</td>
+                   <td>{{producto.Estado}}</td>
+                   
+                </tr>
+                <tr>
+                  <td colspan="12" *ngIf="productosNoEntregados.length == 0 && !isLoading">No hay registros</td>
+                </tr>
+                <tr>
+                  <td colspan="12" *ngIf="isLoading == true">
+                    <div>
+                      <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+                      Cargando Datos
+                    </div>
+                  </td>
+                </tr>
+               
+              </tbody>
+            </table>
+          </div>
        </div>
      </div>
      </c-row>

@@ -4,12 +4,13 @@
     max-height: 200px;
     overflow: auto;
   }
-  
   table.loadPendientes {
     width: 100%;
     text-align: center;
   }
-  
+button.Excel{
+  background-color: #29A63C;
+}
   .scrollable-list {
     max-height: 300px; /* Establece la altura máxima para la lista */
     overflow-y: auto; /* Agrega una barra de desplazamiento vertical cuando sea necesario */
