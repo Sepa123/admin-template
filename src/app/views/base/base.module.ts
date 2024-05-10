@@ -5,6 +5,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { ModalModule } from '@coreui/angular';
 import { NgChartsModule } from 'ng2-charts';
 
+// import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 // CoreUI Modules
 import {
@@ -32,6 +33,7 @@ import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { BaseRoutingModule } from './base-routing.module';
 import { ReportesComponent } from './reportes/reportes.component';
 import { TestComponent } from './test/test.component';
+import { ColaboradoresComponent } from './colaboradores/colaboradores.component';
 
 @NgModule({
   imports: [
@@ -59,7 +61,8 @@ import { TestComponent } from './test/test.component';
   ],
   declarations: [
     ReportesComponent,
-    TestComponent
+    TestComponent,
+    ColaboradoresComponent
   ],
 })
 export class BaseModule {}

@@ -118,6 +118,10 @@ export const navItems: INavDataBar[] = [
         name: 'Reportes',
         url : '/transporte/reportes'
       },
+      // {
+      //   name: 'Colaboradores',
+      //   url : '/transporte/colaboradores'
+      // },
     ]
   },
   {

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ReportesComponent } from './reportes/reportes.component';
-
+import { ColaboradoresComponent } from './colaboradores/colaboradores.component';
 import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
@@ -31,6 +31,13 @@ const routes: Routes = [
           title: 'rest',
         },
       }, 
+      {
+        path: 'colaboradores',
+        component: ColaboradoresComponent,
+        data: {
+          title: 'rest',
+        },
+      },
     ],
   },
 ];
