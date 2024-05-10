@@ -22,7 +22,7 @@ export class BodegaVirtualComponent {
   cantNoVerificados : number = 0
   cargaActual : string = "Todas"
 
-
+  public rol = sessionStorage.getItem("rol_id") 
   subRecepcion! : Subscription
 
   
