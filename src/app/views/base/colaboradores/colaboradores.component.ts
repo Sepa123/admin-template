@@ -55,6 +55,20 @@ export class ColaboradoresComponent {
     this.isModalOpen = false
   }
 
+
+  formatearRUT(rut: string): string {
+    // Separar el número del dígito verificador
+    const partes = rut.split("-");
+    let numero = partes[0];
+    const digitoVerificador = partes[1];
+
+    // Aplicar separador de miles al número
+    numero = numero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    // Unir número y dígito verificador con guión
+    return numero + "-" + digitoVerificador;
+}
+
   isModalOpenAgregar: boolean = false
   public visibleAgregar = false;
 
@@ -124,6 +138,7 @@ export class ColaboradoresComponent {
     // Documentacion_comercial_banco : this.builder.control("" , [Validators.required]),
     Comuna: this.builder.control("" , [Validators.required]),
     Region: this.builder.control("" , [Validators.required]),
+    Giro: this.builder.control("" )
   })
 
   formBancario = this.builder.group({
@@ -315,7 +330,8 @@ export class ColaboradoresComponent {
           Comuna : colaborador.Comuna,
           Direccion: colaborador.Direccion,
           Representante_legal : colaborador.Representante_legal,
-          Rut_representante_legal : colaborador.Rut_representante_legal
+          Rut_representante_legal : colaborador.Rut_representante_legal,
+          Giro: colaborador.Giro
         })
         this.descargarDocBancario = null
         this.descargarConstitucionLegal = colaborador.Pdf_legal_contitution
@@ -344,7 +360,8 @@ export class ColaboradoresComponent {
           Numero_cta : detallePago.Numero_cuenta,
           Banco : detallePago.Banco+'',
           Tipo_cta : detallePago.Tipo_cuenta+'',
-          Forma_pago: detallePago.Forma_pago+''
+          Forma_pago: detallePago.Forma_pago+'',
+          Giro: colaborador.Giro
         })
       this.descargarDocBancario = detallePago.Pdf_documento
       this.descargarConstitucionLegal = colaborador.Pdf_legal_contitution
@@ -421,6 +438,8 @@ export class ColaboradoresComponent {
             this.toggleLiveAgregar()
           })
         }
+      }, (error) => {
+        alert(error.error.detail)
       })
     }else{
       this.isErrorView = true

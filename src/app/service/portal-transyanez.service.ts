@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
+import { Vehiculo } from 'src/app/models/transporte/vehiculo.interface' 
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,12 @@ export class PortalTransyanezService {
     return this.http.get<Colaborador []>(this.apiurl+"/ver/colaboradores")
   }
 
+  buscarVehiculos(){
+    return this.http.get<Vehiculo []>(this.apiurl+"/buscar/vehiculos")
+  }
+
+
+
   buscarColaboradores(nombre : string){
     return this.http.get<Colaborador []>(this.apiurl+`/buscar/colaboradores?nombre=${nombre}`)
   }
@@ -87,6 +94,18 @@ export class PortalTransyanezService {
 
   actualizarDetallePago(data : any){
     return this.http.put(this.apiurl+"/actualizar/colaborador/datos/banco",data)
+  }
+
+  actualizarVehiculo(data : any){
+    return this.http.put(this.apiurl+"/actualizar/datos/vehiculo",data)
+  }
+
+  verificarColaborador(rut:string){
+    return this.http.get(this.apiurl+`/verificar/razon_social?rut=${rut}`)
+  }
+
+  buscarVehiculo(filtro:string){
+    return this.http.get<Vehiculo []>(this.apiurl+`/buscar/vehiculo/${filtro}`)
   }
 
 

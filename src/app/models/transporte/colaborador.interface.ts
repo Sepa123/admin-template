@@ -25,6 +25,7 @@ export interface Colaborador {
     Abogado:                  number;
     Seguridad:                number;
     Activo:                   boolean;
+    Giro:                     string;
 }
 
 

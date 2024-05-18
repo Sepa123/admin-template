@@ -34,7 +34,8 @@ import { BaseRoutingModule } from './base-routing.module';
 import { ReportesComponent } from './reportes/reportes.component';
 import { TestComponent } from './test/test.component';
 import { ColaboradoresComponent } from './colaboradores/colaboradores.component';
-
+import { VehiculosComponent } from './vehiculos/vehiculos.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 @NgModule({
   imports: [
     FormsModule, ReactiveFormsModule,
@@ -57,12 +58,14 @@ import { ColaboradoresComponent } from './colaboradores/colaboradores.component'
     FullCalendarModule,
     TabsModule,
     NavModule,
-    NgChartsModule
+    NgChartsModule,
+    MatSlideToggleModule
   ],
   declarations: [
     ReportesComponent,
     TestComponent,
-    ColaboradoresComponent
+    ColaboradoresComponent,
+    VehiculosComponent
   ],
 })
 export class BaseModule {}

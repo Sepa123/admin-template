@@ -112,7 +112,27 @@ export const navItems: INavDataBar[] = [
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
-    roles : ROLES_PERMITIDOS.TRANSPORTE,
+    roles : [ROLES_ENUM.ADMIN],
+    children: [
+      {
+        name: 'Reportes',
+        url : '/transporte/reportes'
+      },
+      {
+        name: 'Colaboradores',
+        url : '/transporte/colaboradores'
+      },
+      {
+        name: 'Vehiculos',
+        url : '/transporte/vehiculos'
+      },
+    ]
+  },
+  {
+    name: 'Transporte',
+    url: '/transporte',
+    iconComponent: { name: 'cil-car-alt' },
+    roles : ROLES_PERMITIDOS.TRANSPORTE_ACCESO,
     children: [
       {
         name: 'Reportes',

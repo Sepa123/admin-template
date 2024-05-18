@@ -53,7 +53,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
       this.service.obtener_notificaciones_api_defontana(body).subscribe((data : any) => {
         this.contadorDefontana = data.Cantidad
-        this.numeroFolios = data.Folios
+        this.numeroFolios = data.Folios.sort((a : any, b : any) => b.Numero_Factura - a.Numero_Factura)
 
         this.subNotificacionesDefontana(body)
       })
@@ -79,7 +79,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
     }
     this.service.revisar_notificaciones_defontana(body).subscribe((data : any) => {
         this.contadorDefontana = data.Cantidad
-        this.numeroFolios = data.Folios
+        this.numeroFolios = data.Folios.sort((a : any, b : any) => b.Numero_Factura - a.Numero_Factura)
     })
   }
 

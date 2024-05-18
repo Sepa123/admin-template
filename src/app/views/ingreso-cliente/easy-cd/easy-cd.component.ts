@@ -91,8 +91,10 @@ export class EasyCdComponent {
   }
 
   subirCargaMasiva(){
-    const listaCarga = this.cargaMasiva.split('\n').map(numero => numero.trim());
+    let listaCarga = this.cargaMasiva.split('\n').map(numero => numero.trim());
     console.log(listaCarga);
+
+    listaCarga = listaCarga.map(codigo => codigo.replace("'", '-'))
 
     const body = {
       "id_usuario" : sessionStorage.getItem('id')+"",
