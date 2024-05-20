@@ -1,0 +1,120 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #f4f4f4;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+header button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+header input[type="search"] {
+    padding: 5px;
+}
+
+form.input{    
+        display: inline-block;
+        margin-right: 300px; /* Ajusta el espaciado entre los elementos */   
+}
+
+main {
+    padding: 20px;
+}
+
+form {
+    padding: 20px;
+    margin-bottom: 20px;
+    display: auto;
+}
+
+form label,
+form input[type="text"],
+form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+form input[type="text"] {
+    border: 1px solid #ddd;
+    padding: 4px;
+    inline-size: auto;
+}
+
+form button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #28A745;
+    color: white;
+    padding: 5px;
+}
+
+td {
+    padding: 5px;
+    text-align: center;
+}
+button.Agregar{
+    background-color: #28A745;
+    color: #fff; // Color del texto del botón de cerrar
+    border: none; // Quita el borde del botón
+    border-radius: 5px; // Borde redondeado del botón
+    padding: 10px 20px; // Espaciado interno del botón
+    cursor: pointer; // 
+}
+button.Agregar:hover{
+    background-color: #999;
+}
+/* Estilo personalizado para ocultar el marcador de verificación */
+.mat-slide-toggle-thumb {
+    display: none; /* Oculta el marcador de verificación */
+}
+  
+  /* Estilo para ajustar el tamaño del control deslizante */
+.mat-slide-toggle-bar {
+    height: 16px; /* Ajusta la altura del control deslizante según tus preferencias */
+    position: absolute;
+}
+
+/* estilos.css o estilos.scss */
+::ng-deep .mat-mdc-slide-toggle.mat-mdc-slide-toggle-checked:not(.mat-disabled) .mdc-switch__shadow {
+    background-color: rgb(50, 170, 118);
+    /*replace with your color*/
+  }
+  
+  ::ng-deep .mat-mdc-slide-toggle.mat-mdc-slide-toggle-checked:not(.mat-disabled) .mdc-switch__track::after {
+    background-color: rgb(113, 226, 147) !important;
+    /*replace with your color*/
+  }
+  
+/* Agrega más estilos según sea necesario */

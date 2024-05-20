@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
@@ -28,7 +27,10 @@ import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { TrackingProductoComponent } from './tracking-producto/tracking-producto.component';
 import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.component';
 import { TimelineComponent } from './timeline/timeline.component';
-
+import { DetallePorPatenteComponent } from './detalle-por-patente/detalle-por-patente.component';
+import { ModalidadesDeOperacionesComponent } from './modalidades-de-operaciones/modalidades-de-operaciones.component';
+import { UsuariosTransporteComponent } from './usuarios-transporte/usuarios-transporte.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [
     EstadoComponent,
@@ -36,6 +38,9 @@ import { TimelineComponent } from './timeline/timeline.component';
     TrackingProductoComponent,
     IngresoProductoComponent,
     TimelineComponent,
+    DetallePorPatenteComponent,
+    ModalidadesDeOperacionesComponent,
+    UsuariosTransporteComponent,
   ],
   imports: [
     CommonModule,
@@ -54,7 +59,9 @@ import { TimelineComponent } from './timeline/timeline.component';
     NavModule,
     SharedModule,
     UtilitiesModule,
-    ModalModule
+    ModalModule,
+    MatSlideToggleModule,
+    ReactiveFormsModule
   ]
 })
 export class InformacionModule { }
