@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
 import { Vehiculo } from 'src/app/models/transporte/vehiculo.interface' 
-
+import { Usuario } from 'src/app/models/transporte/tripulacion.interface' 
 @Injectable({
   providedIn: 'root'
 })
@@ -113,6 +113,11 @@ export class PortalTransyanezService {
     return this.http.post(this.apiurl+"/agregar/colaborador",data)
   }
 
+
+  registrarUsuario(data : any){
+    return this.http.post(this.apiurl+"/agregar/usuario",data)
+  }
+
   registrarDetallePago(data : any){
     return this.http.post(this.apiurl+"/agregar/colaborador/datos/banco",data)
   }
@@ -121,14 +126,28 @@ export class PortalTransyanezService {
     return this.http.post(this.apiurl+"/agregar/vehiculos",data)
   }
 
-  
-
-
  subirDocumentos(formData : any, tipo_archivo : string, nombre : string){
     return this.http.post(this.apiurl+`/colaboradores/subir-archivo?tipo_archivo=${tipo_archivo}&nombre=${nombre}`, formData)
   }
 
  subirDocumentosVehiculos(formData : any, tipo_archivo : string, nombre : string){
     return this.http.post(this.apiurl+`/vehiculos/subir-archivo?tipo_archivo=${tipo_archivo}&nombre=${nombre}`, formData)
+  }
+
+
+ registrarBitacora(data : any){
+    return this.http.post(this.apiurl+"/registrar/bitacora",data)
+  }
+
+  getEstadoTransporte(){
+    return this.http.get(this.apiurl+"/estados")
+  }
+
+  getTiposTripulacion(){
+    return this.http.get(this.apiurl+"/tripulacion/tipo")
+  }
+
+  getUsuariosTransporte(){
+    return this.http.get<Usuario []>(this.apiurl+"/usuarios")
   }
 }

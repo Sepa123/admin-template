@@ -4,6 +4,8 @@ import { VehiculosComponent } from './vehiculos/vehiculos.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { ColaboradoresComponent } from './colaboradores/colaboradores.component';
 import { TestComponent } from './test/test.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
+import { TripulacionComponent } from './tripulacion/tripulacion.component';
 
 const routes: Routes = [
   {
@@ -34,6 +36,20 @@ const routes: Routes = [
       {
         path: 'colaboradores',
         component: ColaboradoresComponent,
+        data: {
+          title: 'rest',
+        },
+      },
+      {
+        path: 'usuarios',
+        component: UsuariosComponent,
+        data: {
+          title: 'rest',
+        },
+      },
+      {
+        path: 'tripulacion',
+        component: TripulacionComponent,
         data: {
           title: 'rest',
         },

@@ -5,7 +5,7 @@ import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { TrackingProductoComponent } from './tracking-producto/tracking-producto.component';
 import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.component'
 import { TimelineComponent } from './timeline/timeline.component';
-
+import { ModalidadesDeOperacionesComponent } from './modalidades-de-operaciones/modalidades-de-operaciones.component';
 const routes: Routes = [
   {
     path: '',
@@ -46,7 +46,14 @@ const routes: Routes = [
         component: TimelineComponent,
         data:{
         title : ""}
-      }
+      },
+      {
+        path : 'modalidades-de-operaciones',
+        component : ModalidadesDeOperacionesComponent,
+        data : {
+          title: "Modalidades de Operaciones"
+        }
+      },
     ]
   }
 ];

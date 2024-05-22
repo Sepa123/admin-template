@@ -77,3 +77,17 @@
   .svgF{
     fill:#d60a0a
   }
+
+  ::ng-deep .mat-mdc-slide-toggle.mat-accent {
+    --mdc-switch-selected-focus-state-layer-color: #2eb85c;
+    --mdc-switch-selected-handle-color: #2eb85c;
+    --mdc-switch-selected-hover-state-layer-color: #2eb85c;
+    --mdc-switch-selected-pressed-state-layer-color: #2eb85c;
+    --mdc-switch-selected-focus-handle-color: #2eb85c;
+    --mdc-switch-selected-hover-handle-color: #2eb85c;
+    --mdc-switch-selected-pressed-handle-color: #2eb85c;
+    --mdc-switch-selected-focus-track-color: #2eb85c;
+    --mdc-switch-selected-hover-track-color: #2eb85c;
+    --mdc-switch-selected-pressed-track-color: #2eb85c;
+    --mdc-switch-selected-track-color: #2eb85c;
+}

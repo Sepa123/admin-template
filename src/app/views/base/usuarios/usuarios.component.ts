@@ -8,11 +8,11 @@ import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteris
 import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
 
 @Component({
-  selector: 'app-colaboradores',
-  templateUrl: './colaboradores.component.html',
-  styleUrls: ['./colaboradores.component.scss']
+  selector: 'app-usuarios',
+  templateUrl: './usuarios.component.html',
+  styleUrls: ['./usuarios.component.scss']
 })
-export class ColaboradoresComponent {
+export class UsuariosComponent {
 
   private selectedConstitucion: File | null = null;
   private selectedCertRRPP: File | null = null;

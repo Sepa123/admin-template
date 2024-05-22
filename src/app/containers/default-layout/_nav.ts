@@ -126,6 +126,10 @@ export const navItems: INavDataBar[] = [
         name: 'Vehiculos',
         url : '/transporte/vehiculos'
       },
+      {
+        name: 'Tripulacion',
+        url : '/transporte/tripulacion'
+      },
     ]
   },
   {
@@ -661,6 +665,10 @@ export const navItems: INavDataBar[] = [
       {
         name: "Historial Producto",
         url: '/informacion/timeline',
+      },
+      {
+        name: "Modalidad operacion",
+        url: '/informacion/modalidades-de-operaciones',
       }
     ]
   },

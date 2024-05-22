@@ -146,6 +146,8 @@ export class AlertasVigentesComponent {
 
   buscarAlerta(codigo : string){
 
+    console.log('codigo',codigo)
+
     this.service.toc_tracking(codigo).subscribe(data => {
       this.arrayTOCTracking = data
       // this.guiaActual = codigo

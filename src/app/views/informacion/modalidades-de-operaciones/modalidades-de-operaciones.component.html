@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modalidades de Operaciones</title>
+    <!-- Aquí puedes agregar tus estilos CSS -->
+</head>
+<body>
+
+<header>
+    <h1>Modalidades de Operaciones</h1>
+    <button ><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 20 20">
+        <path fill="currentColor" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37" />
+    </svg></button>
+    <input type="search" placeholder="Buscar" (click)="buscarDatos()" [(ngModel)]="searchTerm">
+</header>
+
+
+
+<main>
+      <br>
+      <div>
+        <button mat-button class="Agregar" color="primary" (click)="toggleLiveDemo()">+ Agregar</button>
+     </div> 
+      <br>
+        
+        <!-- Aquí puedes agregar un botón para eliminar -->
+    <!-- Tabla para mostrar datos -->
+    <table border="1">
+        <!-- Encabezados de la tabla -->
+        <tr>
+            <th>id</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Detalles</th>
+        </tr>
+
+        <!-- Filas de la tabla con datos -->
+        <tr *ngFor="let RazonSocial of tableData; let i = index">
+            <td class="id">{{RazonSocial.id}}</td>
+            <td>{{RazonSocial.nombre}}</td>
+            <td>{{RazonSocial.description}}</td>
+            <td class="estado">
+                <mat-slide-toggle [(ngModel)]="RazonSocial.estado" (change)="toggleEstado(RazonSocial.id)" class="green-slide-toggle" >
+                    {{ RazonSocial.estado ? 'Activado' : 'Desactivado' }} 
+                </mat-slide-toggle>                  
+            </td>
+
+            <!-- <mat-slide-toggle role="switch" onclick="actualizarEstado()"></mat-slide-toggle> -->
+        </tr>
+        <!-- Agrega más filas según sea necesario -->
+    </table>
+
+</main>
+
+
+
+  <c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header class="modal-header-custom">
+      <h5 cModalTitle class="modal-title">Registro</h5>
+      <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+    </c-modal-header>
+    <c-modal-body>
+        <form action="">
+            <label for="nombre">Nombre *</label>
+            <input type="text" id="nombre" name="nombre" required>
+        
+            <label for="description">Descripción *</label>
+            <textarea class="materialize-textarea" rows="10" type="text" id="description" name="description" required></textarea>
+            </form>
+    </c-modal-body>
+    <c-modal-footer class="modal-footer-custom" >
+        <button class="cButtonSave" cButton color="secondary" (click)="submitForm()">
+            Guardar
+        </button>   
+        <button class="cButtonClose" (click)="toggleLiveDemo()" cButton color="secondary">
+            Cerrar
+        </button>
+    </c-modal-footer>
+  </c-modal>
+
+
+</body>
+</html>
