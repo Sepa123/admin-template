@@ -9,16 +9,16 @@
         <p></p>
         <h5>Vehiculos</h5>
         <p></p>
-      <c-row>
+        <c-row>
           <c-col [xs]>
               <div class="noEditar">
                   Rut Colaborador *
 
-                  <select id="Region" cSelect formControlName="Rut"  class="form-control">
+                  <select id="Region" cSelect formControlName="Rut_colaborador"  class="form-control" (change)="seleccionarRut()">
                     <option [value]="'Seleccione un colaborador'" selected>Seleccione un colaborador</option>
                     <option *ngFor="let colab of colaboradores"  [value]="colab.Rut"  >{{colab.Rut}}</option>
                   </select>
-                  <span class="error" *ngIf="(form.get('Rut')?.errors?.['required'] ||form.value.Rut == 'Seleccione un colaborador')&& isErrorView">
+                  <span class="error" *ngIf="(formVehiculo.get('Rut_colaborador')?.errors?.['required'] ||formVehiculo.value.Rut_colaborador == 'Seleccione un colaborador') && isErrorView">
                     Falta ingresar el rut
                 </span>
                   <!-- <input type="text" placeholder="Rut" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_colaborador" (change)="verificaRut('colab_vehiculo'); veficarColabExiste(formVehiculo.value.Rut_colaborador)"   maxlength="10"> 
@@ -42,6 +42,16 @@
         </c-col>
         <c-col [xs]>
           <div class="">
+
+        </div>
+      </c-col>
+          <c-col [xs]>
+
+          </c-col>
+      </c-row>
+      <c-row>
+        <c-col [xs]>
+          <div class="">
             Patente * 
             <input type="text" placeholder="Patente " class="form-control" formControlName="Ppu" >
                 <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
@@ -58,34 +68,26 @@
                   </select>
                   </div>
           </c-col>
+          <c-col [xs]>
+            <div class="noEditar">
+                Marca *
+                <select id="Marca"   cSelect formControlName="Marca"  class="form-control">
+                  <option *ngFor="let marca of marcaVehiculo" [value]="marca.id"  >{{marca.name}}</option>
+                </select>
+            </div>
+        </c-col>
+            <c-col [xs]>
+                <div class="">
+                  Modelo *
+                  <input type="text" placeholder="Modelo" class="form-control" formControlName="Modelo" >
+                  <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                  <span class="error" *ngIf="form.get('Modelo')?.errors?.['required'] && isErrorView">
+                      Falta agregar el modelo
+                  </span>
+                </div>
+            </c-col>
       </c-row>
       <c-row>
-        <!-- <c-col [xs]>
-          <div class="noEditar"> 
-              Características *
-              <select id="Caracteristicas"  cSelect formControlName="Caracteristicas"  class="form-control">
-                <option *ngFor="let caract of caracteristicasVehiculo"   [value]="caract.id"  >{{caract.name}}</option>
-              </select>
-          </div>
-      </c-col> -->
-        <c-col [xs]>
-          <div class="noEditar">
-              Marca *
-              <select id="Marca"   cSelect formControlName="Marca"  class="form-control">
-                <option *ngFor="let marca of marcaVehiculo" [value]="marca.id"  >{{marca.name}}</option>
-              </select>
-          </div>
-      </c-col>
-          <c-col [xs]>
-              <div class="">
-                Modelo *
-                <input type="text" placeholder="Modelo" class="form-control" formControlName="Modelo" >
-                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                <span class="error" *ngIf="form.get('Modelo')?.errors?.['required'] && isErrorView">
-                    Falta agregar el modelo
-                </span>
-              </div>
-          </c-col>
           <c-col [xs]>
             <div class="">
               Año *
@@ -96,32 +98,29 @@
               </span>
           </div>
         </c-col>
-        </c-row>
-        <c-row>
-          <c-col [xs]>
-            <div class="">
-              Región para disponibilizar vehículo
-              <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region"  class="form-control">
-                  <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
-              </select>
-          </div>
-        </c-col>
-          <c-col [xs]>
-            <div class="">
-              Comuna *
-              <select id="Comuna" cSelect formControlName="Comuna" class="form-control">
-                  <option  *ngFor="let comuna of listaComunas" value={{comuna.Id_comuna}} >{{comuna.Nombre_comuna}}</option>
-              </select>            
-            </div>
-        </c-col>
         <c-col [xs]>
           <div class="">
-            Permiso de circulación
-          <input type="file" name="" id="" (change)="onFileSelected($event,'permiso_circulacion')" class="form-control" accept=".pdf"> 
-          </div>
-      </c-col>
+            Región para disponibilizar vehículo
+            <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region"  class="form-control">
+                <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+            </select>
+        </div>
+            </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Comuna *
+                  <select id="Comuna" cSelect formControlName="Comuna" class="form-control">
+                      <option  *ngFor="let comuna of listaComunas" value={{comuna.Id_comuna}} >{{comuna.Nombre_comuna}}</option>
+                  </select>            
+                </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                Permiso de circulación
+              <input type="file" name="" id="" (change)="onFileSelected($event,'permiso_circulacion')" class="form-control" accept=".pdf"> 
+              </div>
+          </c-col>
         </c-row>
-
         <c-row>
           <c-col [xs]>
             <div class="">
@@ -156,7 +155,7 @@
           <c-col [xs]>
               <div class="">
                 Capacidad de carga Kg *
-                  <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_kg" >
+                  <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_kg" min="0" >
                   <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                   <span class="error" *ngIf="form.get('Capacidad_carga_kg')?.errors?.['required'] && isErrorView">
                       Falta agregar la capacidad de carga Kg
@@ -167,7 +166,7 @@
           <c-col [xs]>
               <div class="noEditar">
                 Capacidad de carga M3 *
-                  <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_m3" >
+                  <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_m3" min="0">
                   <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                   <span class="error" *ngIf="form.get('Capacidad_carga_m3')?.errors?.['required'] && isErrorView">
                       Falta agregar la capacidad de carga M3
@@ -177,7 +176,7 @@
           <c-col [xs]>
               <div class="">
                 Capacidad carga plataforma Kg *
-                   <input type="number" placeholder="" class="form-control"  formControlName="Platform_load_capacity_kg" >
+                   <input type="number" placeholder="" class="form-control"  formControlName="Platform_load_capacity_kg" min="0">
                    <span class="error" *ngIf="form.get('Platform_load_capacity_kg')?.errors?.['required'] && isErrorView">
                       Falta agregar la carga plataforma Kg
                   </span>
@@ -186,7 +185,7 @@
           <c-col [xs]>
             <div class="noEditar">
               Capacidad de carga grúa Kg *
-                  <input type="number" placeholder="" class="form-control"  formControlName="Crane_load_capacity_kg" >
+                  <input type="number" placeholder="" class="form-control"  formControlName="Crane_load_capacity_kg"  min="0">
                   <span class="error" *ngIf="form.get('Crane_load_capacity_kg')?.errors?.['required'] && isErrorView">
                     Falta agregar la carga grúa Kg
                 </span>
@@ -356,7 +355,12 @@
         <c-col [xs]>
           <div class="">
             Permiso de circulación
-          <input type="file" name="" id="" (change)="onFileSelected($event,'permiso_circulacion')" class="form-control" accept=".pdf"> 
+          <input type="file" name="" id="" *ngIf="descargarPermisoCirculacion == null || descargarPermisoCirculacion == ''" (change)="onFileSelected($event,'permiso_circulacion')" class="form-control" accept=".pdf"> 
+
+          <p></p>
+            <button class="btn btn-success" type="button" *ngIf="descargarPermisoCirculacion" (click)="descargarArchivo(descargarPermisoCirculacion)" >descargar 
+              <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+          </button>
           </div>
       </c-col>
         </c-row>
@@ -365,25 +369,41 @@
           <c-col [xs]>
             <div class="">
               Revisión técnica
-            <input type="file" name="" id="" (change)="onFileSelected($event,'revision_tecnica')" class="form-control" accept=".pdf"> 
+            <input type="file" name="" id="" (change)="onFileSelected($event,'revision_tecnica')" class="form-control" accept=".pdf" *ngIf="descargarRevisionTecnica == null || descargarRevisionTecnica == ''"> 
+            <p></p>
+            <button class="btn btn-success" type="button" *ngIf="descargarRevisionTecnica" (click)="descargarArchivo(descargarRevisionTecnica)" >descargar 
+              <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+          </button>
           </div>
         </c-col>
           <c-col [xs]>
             <div class="">
               SOAP
-            <input type="file" name="" id="" (change)="onFileSelected($event,'soap')" class="form-control" accept=".pdf">          
+            <input type="file" name="" id="" *ngIf="descargarSOAP == null || descargarSOAP == ''" (change)="onFileSelected($event,'soap')" class="form-control" accept=".pdf">   
+            <p></p>
+            <button class="btn btn-success" type="button" *ngIf="descargarSOAP" (click)="descargarArchivo(descargarSOAP)" >descargar 
+              <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+          </button>
             </div>
         </c-col>
         <c-col [xs]>
           <div class="">
             Padrón
-            <input type="file" name="" id="" (change)="onFileSelected($event,'padron')" class="form-control" accept=".pdf"> 
+            <input type="file" name="" id="" *ngIf="descargarPadron == null || descargarPadron == ''" (change)="onFileSelected($event,'padron')" class="form-control" accept=".pdf"> 
+            <p></p>
+            <button class="btn btn-success" type="button" *ngIf="descargarPadron" (click)="descargarArchivo(descargarPadron)" >descargar 
+              <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+          </button>
           </div>
       </c-col>
       <c-col [xs]>
         <div class="">
           Certificado de gases
-          <input type="file" name="" id="" (change)="onFileSelected($event,'cert_gases')" class="form-control" accept=".pdf"> 
+          <input type="file" name="" id="" *ngIf="descargarCertGases == null || descargarCertGases == ''" (change)="onFileSelected($event,'cert_gases')" class="form-control" accept=".pdf"> 
+          <p></p>
+          <button class="btn btn-success" type="button" *ngIf="descargarCertGases" (click)="descargarArchivo(descargarCertGases)" >descargar 
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+        </button>
           </div>
       </c-col>
         </c-row>
@@ -395,7 +415,7 @@
           <c-col [xs]>
               <div class="">
                 Capacidad de carga Kg *
-                  <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_kg" >
+                  <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_kg" min="0">
                   <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                   <span class="error" *ngIf="form.get('Capacidad_carga_kg')?.errors?.['required'] && isErrorView">
                       Falta agregar la capacidad de carga Kg
@@ -406,7 +426,7 @@
           <c-col [xs]>
               <div class="noEditar">
                 Capacidad de carga M3 *
-                  <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_m3" >
+                  <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_m3" min="0">
                   <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                   <span class="error" *ngIf="form.get('Capacidad_carga_m3')?.errors?.['required'] && isErrorView">
                       Falta agregar la capacidad de carga M3
@@ -416,7 +436,7 @@
           <c-col [xs]>
               <div class="">
                 Capacidad carga plataforma Kg *
-                   <input type="number" placeholder="" class="form-control"  formControlName="Platform_load_capacity_kg" >
+                   <input type="number" placeholder="" class="form-control"  formControlName="Platform_load_capacity_kg" min="0" >
                    <span class="error" *ngIf="form.get('Platform_load_capacity_kg')?.errors?.['required'] && isErrorView">
                       Falta agregar la carga plataforma Kg
                   </span>
@@ -425,7 +445,7 @@
           <c-col [xs]>
             <div class="noEditar">
               Capacidad de carga grúa Kg *
-                  <input type="number" placeholder="" class="form-control"  formControlName="Crane_load_capacity_kg" >
+                  <input type="number" placeholder="" class="form-control"  formControlName="Crane_load_capacity_kg" min="0">
                   <span class="error" *ngIf="form.get('Crane_load_capacity_kg')?.errors?.['required'] && isErrorView">
                     Falta agregar la carga grúa Kg
                 </span>

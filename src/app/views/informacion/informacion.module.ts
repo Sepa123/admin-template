@@ -40,6 +40,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   ],
   imports: [
     CommonModule,
+    MatSlideToggleModule,
     NgSelectModule,FormsModule,
     ReactiveFormsModule,ListGroupModule,
     InformacionRoutingModule,

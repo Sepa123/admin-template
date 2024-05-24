@@ -9,14 +9,125 @@
 <body>
 
 <header>
-    <h1>Modalidades de Operaciones</h1>
-    <button ><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 20 20">
+    <h2>Modalidades de Operaciones</h2>
+    <button (click)="buscarDatos()" ><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 20 20">
         <path fill="currentColor" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37" />
     </svg></button>
-    <input type="search" placeholder="Buscar" (click)="buscarDatos()" [(ngModel)]="searchTerm">
+    <input type="search" placeholder="Buscar" [(ngModel)]="searchTerm" >
 </header>
 
+<c-modal id="liveCOModal" [visible]="visibleCO" (visibleChange)="handleLiveCOChange($event)" size="lg">
+    <c-modal-header>
+      <h5 cModalTitle>Observación </h5>
+      <button (click)="toggleLiveCO()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm [formGroup]="formCO" *ngIf="listaComunasFull.length !== 0" (ngSubmit)="registrarCO()"> 
+            <div class="card">
+              <p></p>
+              <h5>Centro Operación</h5>
+              <p></p>
+            <c-row>
+                <c-col [xs]>
+                    <div class="">
+                        Nombre
+                        <input type="text" placeholder="Nombre" class="form-control" formControlName="Centro" >
+                        <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                        <span class="error" *ngIf="formCO.get('Centro')?.errors?.['required'] && isErrorView">
+                            Falta agregar la razón social
+                        </span>
+                    </div>
+                </c-col>
+          
+                <c-col [xs]>
+                    <div class="noEditar">
+                      Descripción
+                      <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                      <input type="textarea" placeholder="Descripción" class="form-control"  formControlName="Descripcion" >
+                      <span class="error" *ngIf="formCO.get('Descripcion')?.errors?.['required'] && isErrorView">
+                          Falta agregar la Descripción
+                      </span>
+                  </div>
+                </c-col>
+            </c-row>
+            <c-row>
+              <c-col [xs]>
+                <div class="">
+                  Región 
+                  <select id="Region"  cSelect class="form-control" formControlName="Region">
+                      <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                  </select>
+              </div>
+            </c-col>
+                <c-col [xs]>
+                    <div class="">
+                      Operación
+                      <select id="Region"  cSelect class="form-control" formControlName="Id_op" readonly>
+                        <option  [value]="'Seleccione una operación'"  >Seleccione una operación</option>
+                        <option *ngFor="let op of modalidadOperacion"  [value]="op.id"  >{{op.nombre}}</option>
+                      </select>
+                    </div>
+                </c-col>
+               
+              </c-row>
+              <p></p>
+          </div>
+            <p></p>
+            <c-row>
+                <c-col [xs]>
+                    <button class="btn btn-success " type="submit"  >Guardar 
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                    </button>
+                </c-col>
+                <c-col [xs]>
 
+                </c-col>
+                <c-col [xs]>
+
+                </c-col>
+                <c-col [xs]>
+
+                </c-col>
+            </c-row>
+          </form>
+
+          <p></p>
+
+          <div class="greenTable" style="width: 100%;">
+        
+            <table id="tablaProductosPicking" style="width: 100%;"  >
+            <thead>
+                <th>id</th>
+                <th>Centro</th>
+                <th>Descripción</th>
+                <th>Region</th>
+            </thead>
+            <tbody>
+    
+            <!-- Filas de la tabla con datos -->
+            <tr *ngFor="let co of centroOperacion; let i = index">
+                <td class="id">{{co.Id}}</td>
+                <td>{{co.Centro}}</td>
+                <td>{{co.Descripcion}}</td>
+                <td>{{co.Region}}</td>
+    
+                <!-- <mat-slide-toggle role="switch" onclick="actualizarEstado()"></mat-slide-toggle> -->
+            </tr>
+            <!-- Agrega más filas según sea necesario -->
+        </tbody>
+        </table>
+        </div>
+    
+
+          
+        
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveCO()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
 
 <main>
       <br>
@@ -27,14 +138,17 @@
         
         <!-- Aquí puedes agregar un botón para eliminar -->
     <!-- Tabla para mostrar datos -->
-    <table border="1">
-        <!-- Encabezados de la tabla -->
-        <tr>
+    <div class="greenTable" style="width: 100%;">
+        
+        <table id="tablaProductosPicking" style="width: 100%;"  >
+        <thead>
             <th>id</th>
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Detalles</th>
-        </tr>
+            <th>Centro Operación</th>
+        </thead>
+        <tbody>
 
         <!-- Filas de la tabla con datos -->
         <tr *ngFor="let RazonSocial of tableData; let i = index">
@@ -46,11 +160,17 @@
                     {{ RazonSocial.estado ? 'Activado' : 'Desactivado' }} 
                 </mat-slide-toggle>                  
             </td>
+            <td>
+                <button cButton color="secondary" (click)="seleccionarOperacion(RazonSocial.id)">Agregar</button>
+            </td>
 
             <!-- <mat-slide-toggle role="switch" onclick="actualizarEstado()"></mat-slide-toggle> -->
         </tr>
         <!-- Agrega más filas según sea necesario -->
+    </tbody>
     </table>
+    </div>
+
 
 </main>
 

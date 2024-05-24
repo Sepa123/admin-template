@@ -7,6 +7,9 @@ import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Estado } from '../../../models/estados.interface';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ComunasService } from 'src/app/service/comunas/comunas.service';
+import { CentroOperacion } from '../../../models/operacion/centroOperacion.interface';
+
 // import { format } from 'date-fns';
 // import { Console, error } from 'console';
 // import { id } from 'date-fns/locale';
@@ -21,12 +24,13 @@ interface EstadoUpdate {
   templateUrl: './modalidades-de-operaciones.component.html',
   styleUrls: ['./modalidades-de-operaciones.component.scss'],
 })
-export class ModalidadesDeOperacionesComponent implements OnInit, OnDestroy {
+export class ModalidadesDeOperacionesComponent implements OnInit {
   constructor(
 
     private http: HttpClient,
     private RS: ModalidadDeOperacionesService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private service: ModalidadDeOperacionesService,public builder: FormBuilder,private comunaService : ComunasService
   ) {
     this.getCurrentDateTime();
   }
@@ -44,23 +48,62 @@ export class ModalidadesDeOperacionesComponent implements OnInit, OnDestroy {
 
   public visible = false;
   public visible2 = false;
+  public visibleCO = false
   // Creamos una función para mostrar/ocultar el detalle
   ngOnInit(): void {
     this.cargarDatos();
+
+    this.cargarDatosCO();
 
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       description: ['', Validators.required],
     });
-  }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+
+
+
+
   }
 
+  
+
+
   getCurrentDateTime() {
-    // this.currentDateTime = format(new Date(), 'yyyy-MM-dd hh:mm:ss');
-    this.currentDateTime = ''
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Meses van de 0 a 11
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    this.currentDateTime = formattedDate
   }
+
+
+/////
+
+  toggleLiveCO() {
+    
+    this.visibleCO = !this.visibleCO;
+    
+  }
+
+  handleLiveCOChange(event: any) {
+    this.visibleCO = event;
+  }
+  
+  openModalCO(){
+    this.isModalOpen = true
+  }
+
+  closeModalCO(){
+    this.isModalOpen = false
+  }
+
+////
   toggleLiveDemo() {
     this.visible = !this.visible;
   }
@@ -171,11 +214,12 @@ export class ModalidadesDeOperacionesComponent implements OnInit, OnDestroy {
   }
 
   buscarDatos() {
-    const url = `https://hela.transyanez.cl/api/operacion/modalidad/buscar?nombre=${this.searchTerm}`;
-    this.subReporte = this.http.get<any[]>(url)
+    
+      this.RS.buscarModalidadOperacion(this.searchTerm)
       .subscribe((data) => {
         this.tableData = data;
-      });
+      }, error => alert('No se encontraron datos'));
+
   }
 
   eliminarRazonSocial(id: number) {
@@ -242,9 +286,67 @@ export class ModalidadesDeOperacionesComponent implements OnInit, OnDestroy {
       console.log(item);
     }
   }
-  // console.log(formdata)
 
-  // Alternar el estado actual entre true y false
+///// AGREGAR EL Centro de operacion
 
-  // Realizar la solicitud HTTP para actualizar el estado del elemento
+  isErrorView : boolean = false
+  listaRegiones : any [] = []
+  listaComunas : any [] = []
+  listaComunasFull : any [] = []
+
+  modalidadOperacion : RazonSocial []= []
+
+
+  formCO = this.builder.group({
+    Id_user : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
+    Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
+    // Documentacion_comercial_banco : this.builder.control("" , [Validators.required]),
+    Centro : this.builder.control("" ,[Validators.required] ),
+    Region: this.builder.control("" ,[Validators.required] ),
+    Descripcion : this.builder.control("", [Validators.required]),
+    Id_op :this.builder.control("", )
+  })
+
+  centroOperacion : CentroOperacion [] =[]
+
+  seleccionarOperacion(id : number){
+    this.formCO.patchValue({
+      Id_op : id+''
+    })
+
+    this.service.getCentroOperacion().subscribe((data) => {
+      this.centroOperacion = data
+    })
+    this.toggleLiveCO()
+  }
+
+cargarDatosCO(){
+  this.comunaService.getListaRegiones().subscribe((data : any) => {
+    this.listaRegiones = data
+  })
+
+  this.comunaService.getListaComunas().subscribe((data : any) => {
+    this.listaComunas = data
+    this.listaComunasFull = this.listaComunas
+    this.formCO.patchValue({
+      Region : '1'
+    })
+  })
+
+  this.service.getRazonesSocial().subscribe((data) => {
+    this.modalidadOperacion = data
+    this.formCO.patchValue({
+      Id_op : 'Seleccione una operación'
+    })
+  })
+}
+
+registrarCO(){
+  console.log(this.formCO.value)
+  if(this.formCO.valid){
+    this.service.agregarCentroOperacion(this.formCO.value).subscribe((data : any) => {
+      alert(data.message)
+    }, error => alert(error.error.detail))
+  }
+}
 }

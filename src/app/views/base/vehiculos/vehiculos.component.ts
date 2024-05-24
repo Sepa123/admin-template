@@ -24,6 +24,13 @@ export class VehiculosComponent {
   private selectedPadron: File | null = null;
   private selectedCertGases: File | null = null;
 
+
+  descargarPermisoCirculacion : string | null = null
+  descargarRevisionTecnica : string | null = null
+  descargarSOAP : string | null = null
+  descargarPadron : string | null = null
+  descargarCertGases: string | null = null
+
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []
 
   constructor(private service: PortalTransyanezService,public builder: FormBuilder,private comunaService : ComunasService) { }
@@ -58,10 +65,9 @@ export class VehiculosComponent {
   public visible = false;
 
   toggleLiveDemo() {
+    
     this.visible = !this.visible;
-    this.formVehiculo.patchValue({
-      Rut_colaborador :'Seleccione un colaborador'
-    })
+    
   }
 
   handleLiveDemoChange(event: any) {
@@ -97,12 +103,13 @@ export class VehiculosComponent {
 }
 
 seleccionarRut(){
-  const colaborador = this.colaboradores.filter( colab => colab.Rut == this.form.value.Rut )[0]
-  this.form.patchValue({
+  const colaborador = this.colaboradores.filter( colab => colab.Rut == this.formVehiculo.value.Rut_colaborador )[0]
+  console.log(colaborador.Razon_social)
+  this.formVehiculo.patchValue({
     Razon_social : colaborador.Razon_social,
-    Telefono : colaborador.Telefono,
-    Region : colaborador.Region+'',
-    Comuna: colaborador.Comuna+'',
+  //   Telefono : colaborador.Telefono,
+    // Region : colaborador.Region+'',
+    // Comuna: colaborador.Comuna+'',
   })
 }
   isModalOpenAgregar: boolean = false
@@ -110,6 +117,19 @@ seleccionarRut(){
 
   toggleLiveAgregar() {
     this.formVehiculo.reset()
+    this.formVehiculo.patchValue({
+      Id_user  : sessionStorage.getItem("id")?.toString()+"",
+      Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+      Rut_colaborador :'Seleccione un colaborador',
+      Region : '1',
+      Comuna : '1',
+      Tipo : '1',
+      Marca : '1',
+      Capacidad_carga_m3 : '0',
+      Platform_load_capacity_kg : '0',
+      Capacidad_carga_kg : '0',
+      Crane_load_capacity_kg : '0'
+    })
     this.visibleAgregar = !this.visibleAgregar;
   }
 
@@ -212,6 +232,9 @@ seleccionarRut(){
 
     this.service.buscarVehiculos().subscribe((data) => {
       this.vehiculos = data
+      this.service.obtenerColaboradores().subscribe((data) => {
+        this.colaboradores = data
+      })
     })
 
     
@@ -233,7 +256,7 @@ seleccionarRut(){
     if(tipo_doc == 'revision_tecnica' ) this.selectedRevisionTecnica = event.target.files[0];
     if(tipo_doc == 'soap' ) this.selectedSOAP = event.target.files[0];
     if(tipo_doc == 'padron' ) this.selectedPadron = event.target.files[0];
-    if(tipo_doc == 'cert_gases' ) this.selectedPadron = event.target.files[0];
+    if(tipo_doc == 'cert_gases' ) this.selectedCertGases = event.target.files[0];
   }
   
   uploadFile(selectedFile: File | null ,tipo_archivo : string, nombre : string){
@@ -385,6 +408,8 @@ seleccionarRut(){
   registrarVehiculo(){
     this.isErrorView = false
 
+    console.log(this.formVehiculo.value)
+
     if(this.formVehiculo.valid && this.form.value.Rut != 'Seleccione un colaborador'){
       this.service.registrarVehiculos(this.formVehiculo.value).subscribe((data :any) => {
 
@@ -401,6 +426,9 @@ seleccionarRut(){
 
       })
 
+    }else {
+      alert('error al ingresar los datos')
+      console.log(this.formVehiculo.value)
     }
 
   }
@@ -431,8 +459,23 @@ seleccionarRut(){
       Soap_fec_venc : datosVehiculo.Soap_fec_venc,
       Revision_tecnica_fec_venc : datosVehiculo.Revision_tecnica_fec_venc,
     })
+
+    this.descargarPermisoCirculacion  = datosVehiculo.Registration_certificate
+    this.descargarRevisionTecnica = datosVehiculo.Pdf_revision_tecnica
+    this.descargarSOAP  = datosVehiculo.Pdf_soap
+    this.descargarPadron = datosVehiculo.Pdf_padron
+    this.descargarCertGases  = datosVehiculo.Pdf_gases_certification
+
+
     console.log(datosVehiculo)
     this.toggleLiveDemo()
+  }
+
+  descargarArchivo(archivo : string | null){
+    if(archivo){
+      this.service.downloadArchivos(archivo)
+    }
+    
   }
 
 
