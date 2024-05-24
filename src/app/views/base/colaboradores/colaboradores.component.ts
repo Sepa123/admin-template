@@ -345,6 +345,9 @@ export class ColaboradoresComponent {
     const selectedRegionId = event.target.value;
     console.log('Región seleccionada:', selectedRegionId);
     this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
+    this.form.patchValue({
+      Comuna : this.listaComunas[0].Id_comuna
+    })
   }
 
   revisarDatos(rut : string, tipo_razon : string){
@@ -427,6 +430,8 @@ export class ColaboradoresComponent {
     })
 
     this.isErrorView = false
+
+    console.log(this.form.value)
 
     if(this.form.valid){
 

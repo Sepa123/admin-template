@@ -13,14 +13,21 @@
           <c-col [xs]>
               <div class="noEditar">
                   Rut Colaborador *
-                  <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
-                  <input type="text" placeholder="Rut" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_colaborador" (change)="verificaRut('colab_vehiculo'); veficarColabExiste(formVehiculo.value.Rut_colaborador)"   maxlength="10"> 
+
+                  <select id="Region" cSelect formControlName="Rut"  class="form-control">
+                    <option [value]="'Seleccione un colaborador'" selected>Seleccione un colaborador</option>
+                    <option *ngFor="let colab of colaboradores"  [value]="colab.Rut"  >{{colab.Rut}}</option>
+                  </select>
+                  <span class="error" *ngIf="(form.get('Rut')?.errors?.['required'] ||form.value.Rut == 'Seleccione un colaborador')&& isErrorView">
+                    Falta ingresar el rut
+                </span>
+                  <!-- <input type="text" placeholder="Rut" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_colaborador" (change)="verificaRut('colab_vehiculo'); veficarColabExiste(formVehiculo.value.Rut_colaborador)"   maxlength="10"> 
                   <span class="error" *ngIf="form.get('Rut_colaborador')?.errors?.['required'] && isErrorView">
                       Falta ingresar el rut
                   </span>
                   <span class="error" *ngIf="!rutColaborador ">
                     Error al ingresar rut
-                </span>
+                </span> -->
               </div>
           </c-col>
           <c-col [xs]>

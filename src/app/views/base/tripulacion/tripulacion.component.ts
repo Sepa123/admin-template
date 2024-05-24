@@ -41,7 +41,7 @@ export class TripulacionComponent {
   listaComunasFull : any [] = []
   tipoUsuario : string = "7"
   usuarioActivado : boolean | null = false
-
+colaboradores : Colaborador [] = []
   tripulacion : Usuario [] = []
   detallePago : DetallePago [] = []
 
@@ -107,6 +107,7 @@ export class TripulacionComponent {
     this.form.reset()
 
     this.form.patchValue({
+      Rut: 'Seleccione un colaborador',
       Region : '1',
       Comuna : '1',
       Tipo_usuario : '1'
@@ -220,6 +221,10 @@ export class TripulacionComponent {
         this.form.patchValue({
           Tipo_usuario : '1',
         })
+
+        this.service.obtenerColaboradores().subscribe((data) => {
+          this.colaboradores = data
+        })
       })
     })
 
@@ -243,6 +248,16 @@ export class TripulacionComponent {
   }
   
 
+  seleccionarRut(){
+    const colaborador = this.colaboradores.filter( colab => colab.Rut == this.form.value.Rut )[0]
+    this.form.patchValue({
+      Nombre_completo : colaborador.Razon_social,
+      Telefono : colaborador.Telefono,
+      Region : colaborador.Region+'',
+      Comuna: colaborador.Comuna+'',
+    })
+  }
+
   descargarArchivo(archivo : string | null){
     if(archivo){
       this.service.downloadArchivos(archivo)
@@ -256,7 +271,7 @@ export class TripulacionComponent {
     const formData = new FormData();
     formData.append('file', selectedFile, selectedFile.name);
 
-    this.service.subirDocumentos(formData, tipo_archivo,nombre).subscribe(
+    this.service.subirDocumentosTripulacion(formData, tipo_archivo,nombre).subscribe(
       (data : any) => {
         console.log('Archivo subido exitosamente');
         // Lógica adicional en caso de éxito.
@@ -267,9 +282,27 @@ export class TripulacionComponent {
       }
     );
 
-    }
+    }   
+  }
 
-    
+
+  uploadFotoPerfil(selectedFile: File | null , nombre : string){
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append('file', selectedFile, selectedFile.name);
+  
+      this.service.subirFotoPerfilUsuario(formData,nombre).subscribe(
+        (data : any) => {
+          console.log('Archivo subido exitosamente');
+          // Lógica adicional en caso de éxito.
+        },
+        (error) => {
+  
+          alert('Error al subir el archivo')
+        }
+      );
+  
+      }   
   }
 
   verificaRut(rut : string){
@@ -317,6 +350,9 @@ export class TripulacionComponent {
     const selectedRegionId = event.target.value;
     console.log('Región seleccionada:', selectedRegionId);
     this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
+    this.form.patchValue({
+      Comuna : this.listaComunas[0].Id_comuna
+    })
   }
 
   revisarDatos(rut : string){
@@ -336,6 +372,16 @@ export class TripulacionComponent {
       Fec_venc_lic_conducir : colaborador.Fec_venc_lic_conducir+''
       // Birthday :colaborador.Birthday+'',
     })
+
+    this.descargarFotoPerfil = colaborador.Jpg_foto_perfil
+    this.descargarDocAntecedentes = colaborador.Pdf_antecedentes
+    this.descargarLicenciaConducir = colaborador.Pdf_licencia_conducir
+    this.descargarCedulaIdentidad = colaborador.Pdf_cedula_identidad
+    this.descargarContrato = colaborador.Pdf_contrato
+  // this.descargarCertPoderes = colaborador.Pdf_validity_of_powers
+  // this.descargarCertRRPP =colaborador.Pdf_certificate_rrpp
+
+  // this.descargarRegistroComercio = colaborador.Pdf_registration_comerce
     this.toggleLiveDemo()
   }
 
@@ -348,7 +394,7 @@ export class TripulacionComponent {
 
     this.isErrorView = false
 
-    if(this.form.valid){
+    if(this.form.valid && this.form.value.Rut != 'Seleccione un colaborador'){
 
       this.service.registrarUsuario(this.form.value).subscribe((data : any) => {
         console.log("El registro si llego", data)
@@ -361,8 +407,15 @@ export class TripulacionComponent {
         this.uploadFile(this.selectedCedulaIdentidad,'cedula_identidad',nombre)
         this.uploadFile(this.selectedDocAntecedentes,'cert_antecedentes',nombre)
         this.uploadFile(this.selectedContrato,'contrato',nombre)
-        this.uploadFile(this.selectedFotoPerfil,'foto_perfil',nombre)
-        this.form.reset();
+        // this.uploadFile(this.selectedFotoPerfil,'foto_perfil',nombre)
+        this.uploadFotoPerfil(this.selectedFotoPerfil,nombre)
+        
+
+        this.service.getUsuariosTransporte().subscribe((data) => {
+          this.tripulacion = data
+          this.toggleLiveAgregar()
+          this.form.reset();
+        })
 
         
       }, (error) => {
@@ -382,11 +435,35 @@ export class TripulacionComponent {
       Latitud : this.latStr,
       Longitud : this.longStr,
       Modificacion : `Datos de ${this.form.value.Rut} actualizados por ${sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""}`,
-      Origen : '/transporte/colaboradores'
+      Origen : '/transporte/tripulacion'
     })
     this.isErrorView = false
 
     if(this.form.valid){
+
+      this.service.actualizarTripulacion(this.form.value).subscribe((data : any) => {
+        console.log("El registro si llego", data)
+        alert(data.message)
+
+        const nombre = this.form.value.Rut + ""
+        // this.form.reset();
+      
+        this.uploadFile(this.selectedLicenciaConducir,'licencia_conducir',nombre)
+        this.uploadFile(this.selectedCedulaIdentidad,'cedula_identidad',nombre)
+        this.uploadFile(this.selectedDocAntecedentes,'cert_antecedentes',nombre)
+        this.uploadFile(this.selectedContrato,'contrato',nombre)
+        // this.uploadFile(this.selectedFotoPerfil,'foto_perfil',nombre)
+        this.uploadFotoPerfil(this.selectedFotoPerfil,nombre)
+        
+
+        this.service.getUsuariosTransporte().subscribe((data) => {
+          this.tripulacion = data
+          this.toggleLiveDemo()
+          this.form.reset();
+        })
+
+
+      })
 
       
     }else{

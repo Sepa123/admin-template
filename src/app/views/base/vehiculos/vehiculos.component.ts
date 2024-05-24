@@ -59,6 +59,9 @@ export class VehiculosComponent {
 
   toggleLiveDemo() {
     this.visible = !this.visible;
+    this.formVehiculo.patchValue({
+      Rut_colaborador :'Seleccione un colaborador'
+    })
   }
 
   handleLiveDemoChange(event: any) {
@@ -93,6 +96,15 @@ export class VehiculosComponent {
     
 }
 
+seleccionarRut(){
+  const colaborador = this.colaboradores.filter( colab => colab.Rut == this.form.value.Rut )[0]
+  this.form.patchValue({
+    Razon_social : colaborador.Razon_social,
+    Telefono : colaborador.Telefono,
+    Region : colaborador.Region+'',
+    Comuna: colaborador.Comuna+'',
+  })
+}
   isModalOpenAgregar: boolean = false
   public visibleAgregar = false;
 
@@ -373,7 +385,7 @@ export class VehiculosComponent {
   registrarVehiculo(){
     this.isErrorView = false
 
-    if(this.formVehiculo.valid){
+    if(this.formVehiculo.valid && this.form.value.Rut != 'Seleccione un colaborador'){
       this.service.registrarVehiculos(this.formVehiculo.value).subscribe((data :any) => {
 
         const nombre = this.formVehiculo.value.Ppu + ""
