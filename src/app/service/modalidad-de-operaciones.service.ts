@@ -22,8 +22,8 @@ export class ModalidadDeOperacionesService {
     return this.http.post(`${this.apiurl}/actualizar_estado`, { id, estado });
   }
 
-  getCentroOperacion(){
-    return this.http.get<CentroOperacion []>(this.apiurl + '/ver/centro_operacion')
+  getCentroOperacion(id_op : number){
+    return this.http.get<CentroOperacion []>(this.apiurl + `/ver/centro_operacion?id_op=${id_op}`)
   }
 
 

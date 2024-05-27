@@ -172,7 +172,7 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
     const formData = {
       id_user: id_user,
       ids_user: ids_user,
-      nombre: nombre,
+      nombre: nombre.trim(),
       description: description,
       creation_date: creation_date,
       estado: estado,
@@ -188,15 +188,22 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
       body: JSON.stringify(formData), // Convertimos el objeto a una cadena JSON
     };
     this.http
-      .post('https://hela.transyanez.cl/api/operacion/agregar/RazonSocial', formData)
+      .post('https://hela.transyanez.cl/api/operacion/agregar/razonSocial', formData)
       .subscribe((data) => {
         //mostrar aletar exito
         alert('El ingreso se ha realizado Correctamente');
+        this.cargarDatos();
+        this.toggleLiveDemo()
       },
       (error) =>{
         //MAnejar errores
-        console.error('Error al enviar la solicitud', error);
-        alert('Hubo un error al ingresar el dato');
+        console.error('Error al enviar la solicitud', error.error.detail);
+        if ( error.error.detail.includes("duplicate key")) {
+          alert("El nombre de la operación ya existe");
+        } else {
+          alert('Hubo un error al ingresar el dato');
+        }
+        
       }
     );
   }
@@ -310,11 +317,12 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
   centroOperacion : CentroOperacion [] =[]
 
   seleccionarOperacion(id : number){
+    this.centroOperacion = []
     this.formCO.patchValue({
       Id_op : id+''
     })
 
-    this.service.getCentroOperacion().subscribe((data) => {
+    this.service.getCentroOperacion(id).subscribe((data) => {
       this.centroOperacion = data
     })
     this.toggleLiveCO()
@@ -346,6 +354,10 @@ registrarCO(){
   if(this.formCO.valid){
     this.service.agregarCentroOperacion(this.formCO.value).subscribe((data : any) => {
       alert(data.message)
+
+      this.service.getCentroOperacion(parseInt(this.formCO.value.Id_op+'')).subscribe((data) => {
+        this.centroOperacion = data
+      })
     }, error => alert(error.error.detail))
   }
 }

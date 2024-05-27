@@ -113,6 +113,11 @@
     
                 <!-- <mat-slide-toggle role="switch" onclick="actualizarEstado()"></mat-slide-toggle> -->
             </tr>
+            <tr *ngIf="centroOperacion.length == 0">
+              <td colspan="4">
+                No hay registros
+              </td>
+            </tr>
             <!-- Agrega más filas según sea necesario -->
         </tbody>
         </table>
@@ -166,6 +171,7 @@
 
             <!-- <mat-slide-toggle role="switch" onclick="actualizarEstado()"></mat-slide-toggle> -->
         </tr>
+        
         <!-- Agrega más filas según sea necesario -->
     </tbody>
     </table>
