@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
-import { Vehiculo } from 'src/app/models/transporte/vehiculo.interface' 
+import { Vehiculo,AsignarOperacion } from 'src/app/models/transporte/vehiculo.interface' 
 import { Usuario } from 'src/app/models/transporte/tripulacion.interface' 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +10,8 @@ export class PortalTransyanezService {
 
   constructor(private http: HttpClient) { }
 
-  apiurl="https://hela.transyanez.cl/api/transporte"
-  // apiurl = "http://127.0.0.1:8000/api/transporte" 
+  // apiurl="https://hela.transyanez.cl/api/transporte"
+  apiurl = "http://127.0.0.1:8000/api/transporte" 
 
   downloadResumenVehiculos() {
     let date = new Date();
@@ -131,6 +131,15 @@ export class PortalTransyanezService {
 
   actualizarTripulacion(data : any){
     return this.http.put(this.apiurl+"/actualizar/datos/usuario",data)
+  }
+
+
+  asignarOperacionVehiculo(data : any){
+    return this.http.put(this.apiurl+"/asignar/operacion/vehiculo",data)
+  }
+
+  revisarOperacionVehiculo(vehiculo:number){
+    return this.http.get<AsignarOperacion []>(this.apiurl+`/revisar/operacion/vehiculo?vehiculo=${vehiculo}`)
   }
 
 

@@ -7,4 +7,5 @@ export interface CentroOperacion {
     Centro:      string;
     Descripcion: string;
     Region:      number;
+    Estado:      boolean;
 }

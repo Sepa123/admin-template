@@ -244,36 +244,7 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
       );
   }
 
-  // Función para actualizar el estado del elemento en la base de dato
 
-  // alternarEstado(index: number) {
-  //   // const id_update= document.getElementById("id").innerText;
-  //   const id_update: HTMLTableDataCellElement | null =
-  //     document.querySelector('td.id');
-  //   if (id_update) {
-  //     const contenidoNumerico: number = Number(id_update.innerText);
-  //     console.log(contenidoNumerico);
-  //     this.estadoActual = !this.estadoActual;
-  //     const estado_update = this.estadoActual;
-
-  //     const dataUpdate = {
-  //       id: contenidoNumerico,
-  //       estado: estado_update,
-  //     };
-  //     console.log(dataUpdate);
-  //     const requestOptions = {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(dataUpdate),
-  //     };
-  //     this.http
-  //       .post(`http://localhost:8000/actualizar_estado`, dataUpdate)
-  //       .subscribe((data) => {});
-  //     console.log(dataUpdate);
-  //   } else {
-  //     console.log('No se encontró ninguna celda TD en el DOM');  }
   toggleEstado(id: number): void {
     const item = this.tableData.find((x) => x.id === id);
     if (item) {
@@ -318,9 +289,12 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
 
   seleccionarOperacion(id : number){
     this.centroOperacion = []
+    
     this.formCO.patchValue({
       Id_op : id+''
     })
+
+    this.formCO.get('Id_op')?.disable();
 
     this.service.getCentroOperacion(id).subscribe((data) => {
       this.centroOperacion = data

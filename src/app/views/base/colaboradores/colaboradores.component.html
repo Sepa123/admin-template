@@ -8,7 +8,7 @@
         <form cForm [formGroup]="form" (ngSubmit)="actualizarDatos()" *ngIf="tipoRazon == 'Usuario Natural'" > 
             <div class="card">
               <p></p>
-              <h5>Colaborador</h5>
+              <h5>Razón social</h5>
               <p></p>
             <c-row>
                 <c-col [xs]>
@@ -246,8 +246,8 @@
                     </button>
                 </c-col>
                 <c-col [xs]>
-                  <button class="btn btn-success" type="button" (click)="activarUsuario(true)" *ngIf="usuarioActivado !== true">Activar colaborador  </button>
-                  <button class="btn btn-danger" type="button" (click)="activarUsuario(false)" *ngIf="usuarioActivado == true" >Desactivar colaborador</button>
+                  <button class="btn btn-success" type="button" (click)="activarUsuario(true)" *ngIf="usuarioActivado !== true">Activar Razón social  </button>
+                  <button class="btn btn-danger" type="button" (click)="activarUsuario(false)" *ngIf="usuarioActivado == true" >Desactivar Razón social</button>
 
               </c-col>
             </c-row>
@@ -256,7 +256,7 @@
         <form cForm [formGroup]="form" (ngSubmit)="actualizarDatos()" *ngIf="tipoRazon == 'Usuario Juridico'" > 
             <div class="card">
               <p></p>
-              <h5>Colaborador</h5>
+              <h5>Razón social</h5>
               <p></p>
             <c-row>
                 <c-col [xs]>
@@ -522,8 +522,8 @@
                     </button>
                 </c-col>
                 <c-col [xs]>
-                  <button class="btn btn-success" type="button" (click)="activarUsuario(true)" *ngIf="usuarioActivado !== true" >Activar colaborador</button>
-                  <button class="btn btn-danger" type="button" (click)="activarUsuario(false)" *ngIf="usuarioActivado == true" >Desactivar colaborador</button>
+                  <button class="btn btn-success" type="button" (click)="activarUsuario(true)" *ngIf="usuarioActivado !== true" >Activar Razón social</button>
+                  <button class="btn btn-danger" type="button" (click)="activarUsuario(false)" *ngIf="usuarioActivado == true" >Desactivar Razón social</button>
               </c-col>
             </c-row>
           </form>
@@ -538,7 +538,7 @@
 
 <c-modal id="liveAgregaModal" [visible]="visibleAgregar" (visibleChange)="handleLiveAgregaChange($event)" size="xl">
   <c-modal-header>
-    <h5 cModalTitle>Agregar Colaborador </h5>
+    <h5 cModalTitle>Agregar Razón Social </h5>
     <button (click)="toggleLiveAgregar()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
@@ -551,7 +551,7 @@
         <form cForm [formGroup]="form" (ngSubmit)="registrar()" *ngIf="listaComunasFull.length !== 0" > 
           <div class="card">
             <p></p>
-            <h5>Colaborador</h5>
+            <h5>Razón social</h5>
             <p></p>
           <c-row>
               <c-col [xs]>
@@ -755,7 +755,7 @@
         <form cForm [formGroup]="form" (ngSubmit)="registrar()" *ngIf="listaComunasFull.length !== 0" > 
           <div class="card">
             <p></p>
-            <h5>Colaborador</h5>
+            <h5>Razón Social</h5>
             <p></p>
           <c-row>
               <c-col [xs]>
@@ -1010,12 +1010,40 @@
 
 </c-modal>
 
-<h2>Colaboradores</h2>
+<c-modal [visible]="visibleEstado" (visibleChange)="handleLiveEstadoChange($event)">
+  <c-modal-header class="modal-header-custom">
+    <h5 cModalTitle class="modal-title">¿Por que se va a desactivar al colaborador?</h5>
+    <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+  </c-modal-header>
+  <c-modal-body>
+    <c-row>
+      <c-col [xs]>
+        <textarea class="form-control" rows="5" cols="38" type="text" id="description" name="description" [(ngModel)]="motivoDesactiva"></textarea>
+
+      </c-col>
+    </c-row>
+      <!-- <form action="">
+          <label for="description">Descripción *</label>
+          <textarea class="materialize-textarea" rows="10" type="text" id="description" name="description" required></textarea>
+          </form> -->
+  </c-modal-body>
+  <c-modal-footer class="modal-footer-custom" >
+      <button class="cButtonSave" cButton color="secondary" (click)="desactivarUsuario()" >
+          Enviar
+      </button>   
+      <button class="cButtonClose" (click)="toggleLiveEstado()" cButton color="secondary">
+          Cerrar
+      </button>
+  </c-modal-footer>
+</c-modal>
+
+
+<h2>Razón social</h2>
 <p></p>
 
 <c-row>
     <c-col [xs] >
-        <button  class="btn btn-success" (click)="toggleLiveAgregar()">Agregar colaborador
+        <button  class="btn btn-success" (click)="toggleLiveAgregar()">Agregar Razón social
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512">
             <path fill="black" d="M208 16A112.127 112.127 0 0 0 96 128v79.681a80.236 80.236 0 0 0 9.768 38.308l27.455 50.333L60.4 343.656A79.725 79.725 0 0 0 24 410.732V496h288v-32H56v-53.268a47.836 47.836 0 0 1 21.841-40.246l97.66-63.479l-41.64-76.341A48.146 48.146 0 0 1 128 207.681V128a80 80 0 0 1 160 0v79.681a48.146 48.146 0 0 1-5.861 22.985L240.5 307.007l71.5 46.476v-38.166l-29.223-19l27.455-50.334A80.23 80.23 0 0 0 320 207.681V128A112.127 112.127 0 0 0 208 16m216 384v-64h-32v64h-64v32h64v64h32v-64h64v-32z" />
           </svg>      

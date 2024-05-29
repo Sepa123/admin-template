@@ -176,6 +176,7 @@ colaboradores : Colaborador [] = []
     Peoneta :  this.builder.control(false ),
     Abogado : this.builder.control(0 ),
     Seguridad :this.builder.control(0 ),
+    Rut_seleccionado: this.builder.control("" ),
   })
 
   mostrarTipoTripulacion(tipoS : number){   
@@ -247,6 +248,9 @@ colaboradores : Colaborador [] = []
 
   }
   
+  rutSeleccionado : string = ""
+
+  
 
   seleccionarRut(){
     const colaborador = this.colaboradores.filter( colab => colab.Rut == this.form.value.Rut )[0]
@@ -255,7 +259,10 @@ colaboradores : Colaborador [] = []
       Telefono : colaborador.Telefono,
       Region : colaborador.Region+'',
       Comuna: colaborador.Comuna+'',
+      Rut_seleccionado : colaborador.Rut+''
     })
+
+    this.rutSeleccionado = this.form.value.Rut+''
   }
 
   descargarArchivo(archivo : string | null){

@@ -7,7 +7,10 @@ import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angu
 import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
 import { Colaborador } from 'src/app/models/transporte/colaborador.interface' 
-import { Vehiculo } from 'src/app/models/transporte/vehiculo.interface' 
+import { Vehiculo, AsignarOperacion } from 'src/app/models/transporte/vehiculo.interface' 
+import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
+import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
+import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
 
 
 @Component({
@@ -33,7 +36,9 @@ export class VehiculosComponent {
 
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []
 
-  constructor(private service: PortalTransyanezService,public builder: FormBuilder,private comunaService : ComunasService) { }
+  constructor(private service: PortalTransyanezService,public builder: FormBuilder,private comunaService : ComunasService,
+    private MoService: ModalidadDeOperacionesService
+  ) { }
 
   buscadorVehiculo : string = ''
 
@@ -55,7 +60,6 @@ export class VehiculosComponent {
   tipoCuentas : any [] = tipoCuenta
   banco : any [] = bancos
   formaPago : any [] = formasPago
-
 
 
   /// Modales
@@ -177,21 +181,6 @@ seleccionarRut(){
     Region: this.builder.control("" , [Validators.required]),
   })
 
-
-
-  formBancario = this.builder.group({
-    Id_razon_social : this.builder.control("" , [Validators.required]),
-    Rut_titular_cta_bancaria : this.builder.control("" ),
-    Titular_cta : this.builder.control("" ),
-    Numero_cta : this.builder.control("" ),
-    Banco : this.builder.control("" ),
-    Email : this.builder.control("" , [Validators.email]),
-    Tipo_cta : this.builder.control("" ),
-    Forma_pago : this.builder.control("" ),
-    Id_user : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
-    Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-  })
-
   formVehiculo = this.builder.group({
     Id_user  : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
     Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
@@ -214,6 +203,14 @@ seleccionarRut(){
     Permiso_circulacion_fec_venc : this.builder.control("" ),
     Soap_fec_venc : this.builder.control("" ),
     Revision_tecnica_fec_venc : this.builder.control("" ),
+    Hab_vehiculo : this.builder.control(false),
+    Hab_seguridad : this.builder.control(false ),
+    Gps : this.builder.control(false),
+    Imei :this.builder.control(""),
+    Oc_instalacion : this.builder.control(""),
+    Fecha_instalacion : this.builder.control(""),
+    Id_gps : this.builder.control("")
+    // Hab_seguridad : this.builder.control(false ),
   })
 
   ngOnInit() : void {
@@ -236,6 +233,8 @@ seleccionarRut(){
         this.colaboradores = data
       })
     })
+
+
 
     
     // Uso de la función
@@ -320,67 +319,6 @@ seleccionarRut(){
     })
   }
 
-  // registrar(){
-  //   console.log(this.form.value)
-  //   this.isErrorView = false
-
-  //   if(this.form.valid){
-
-  //     this.formBancario.patchValue({
-  //       Id_user : this.form.value.Id_user,
-  //       Ids_user : this.form.value.Ids_user,
-  //       Id_razon_social : "0",
-  //       Rut_titular_cta_bancaria : this.form.value.Rut_titular_cta_bancaria,
-  //       Titular_cta : this.form.value.Titular_cta,
-  //       Numero_cta : this.form.value.Numero_cta,
-  //       Banco : this.form.value.Banco,
-  //       Email : this.form.value.Email,
-  //       Tipo_cta : this.form.value.Tipo_cta,
-  //       Forma_pago: this.form.value.Forma_pago
-  //     })
-
-  //     this.form.patchValue({
-  //       Tipo_razon : this.tipoUsuario
-  //     })
-
-  //     console.log(this.form.value)
-
-  //     this.service.registrarColaborador(this.form.value).subscribe((data : any) => {
-  //       console.log("El registro si llego", data)
-  //       alert(data.message)
-
-  //       const nombre = this.form.value.Rut + ""
-  //       // this.form.reset();
-      
-  //       this.uploadFile(this.selectedCertRRPP,'cert_rrpp',nombre)
-  //       this.uploadFile(this.selectedCertViPoderes,'cert_vig_poderes',nombre)
-  //       this.uploadFile(this.selectedConstitucion,'constitucion_legal',nombre)
-  //       this.uploadFile(this.selectedRegistroComercio,'registro_comercio',nombre)
-
-
-  //       this.formBancario.patchValue({
-  //         Id_razon_social : data.razon
-  //       })
-
-  //       this.form.reset();
-        
-  //       this.service.registrarDetallePago(this.formBancario.value).subscribe((data : any) => {
-  //         this.formBancario.reset()
-  //         this.uploadFile(this.selectedDocBancario,'documento_bancario',nombre)
-
-          
-  //       })
-
-        
-  //     })
-  //   }else{
-  //     this.isErrorView = true
-  //     alert("Hay datos incorrectos")
-  //   }
-
-  // }
-
-
   /// Modulo Vehiculo
 
   uploadFileVehiculos(selectedFile: File | null ,tipo_archivo : string, nombre : string){
@@ -408,7 +346,9 @@ seleccionarRut(){
   registrarVehiculo(){
     this.isErrorView = false
 
-    console.log(this.formVehiculo.value)
+    this.formVehiculo.patchValue({
+      Estado : this.formVehiculo.value.Hab_vehiculo
+    })
 
     if(this.formVehiculo.valid && this.form.value.Rut != 'Seleccione un colaborador'){
       this.service.registrarVehiculos(this.formVehiculo.value).subscribe((data :any) => {
@@ -450,7 +390,7 @@ seleccionarRut(){
       Ano  : datosVehiculo.Ano+'',
       Region : datosVehiculo.Region+'',
       Comuna : datosVehiculo.Comuna+'',
-      Estado : datosVehiculo.Estado,
+      Estado : datosVehiculo.Hab_vehiculo,
       Capacidad_carga_kg : datosVehiculo.Capacidad_carga_kg+'',
       Capacidad_carga_m3 : datosVehiculo.Capacidad_carga_m3+'',
       Platform_load_capacity_kg : datosVehiculo.Platform_load_capacity_kg+'',
@@ -458,6 +398,13 @@ seleccionarRut(){
       Permiso_circulacion_fec_venc : datosVehiculo.Permiso_circulacion_fec_venc,
       Soap_fec_venc : datosVehiculo.Soap_fec_venc,
       Revision_tecnica_fec_venc : datosVehiculo.Revision_tecnica_fec_venc,
+      Hab_vehiculo : datosVehiculo.Hab_vehiculo,
+      Hab_seguridad : datosVehiculo.Hab_seguridad,
+      Id_gps : datosVehiculo.Id_gps+'',
+      Gps : datosVehiculo.Gps,
+      Imei :datosVehiculo.Imei,
+      Oc_instalacion : datosVehiculo.Oc_instalacion,
+      Fecha_instalacion : datosVehiculo.Fecha_instalacion,
     })
 
     this.descargarPermisoCirculacion  = datosVehiculo.Registration_certificate
@@ -540,6 +487,112 @@ seleccionarRut(){
     })
   }
  }
+
+
+ /////// tickets 
+
+ ticketGPS : boolean = false
+
+ checkGPS(){
+   
+   this.ticketGPS = !this.ticketGPS
+   console.log(this.formVehiculo.value)
+ }
+
+/////
+
+modalidadOperacion : RazonSocial []= []
+
+visibleCO : boolean = false
+IdVehiculo : number = 0
+
+toggleLiveCO(id_vehiculo : number) {
+
+  const vehiculo = this.vehiculos.filter(vehiculo => vehiculo.Id == id_vehiculo)[0]
+
+  this.IdVehiculo = id_vehiculo
+
+  console.log(this.IdVehiculo)
+
+  if(this.IdVehiculo == 0){
+    this.visibleCO = !this.visibleCO;
+  }else{
+    this.MoService.getRazonesSocial().subscribe((data) => {
+      this.modalidadOperacion = data
+      this.buscarCentroOperacion()
+      this.verificarOperacionVehiculo()
+  
+      // const operacion = this.modalidadOperacion.filter( op => op.id == vehiculo.Agency_id)
+  
+    })
+    this.visibleCO = !this.visibleCO;
+  }
+
+  
+
+  
+  
+}
+   checkOperacion : AsignarOperacion [] = []
+verificarOperacionVehiculo(){
+  this.service.revisarOperacionVehiculo(this.IdVehiculo).subscribe((data) => {
+    this.checkOperacion = data
+
+    this.checkOperacion.filter(c => c.Id_centro_op == 1)
+  })
+}
+
+handleLiveCOChange(event: any) {
+  this.visibleCO = event;
+}
+
+openModalCO(){
+  this.isModalOpen = true
+}
+
+closeModalCO(){
+  this.isModalOpen = false
+}
+
+
+idOperacion : number = 0
+centroOperacion : CentroOperacion [] =[]
+
+
+buscarCentroOperacion(){
+  
+  this.MoService.centroOperacionAsigandoAVehiculo(this.idOperacion,this.IdVehiculo).subscribe((data) => {
+    this.centroOperacion = data
+  })
+}
+
+convertirVehiculo(id : number){
+  return this.tipoVehiculos.filter(v => v.id == id)[0].name
+}
+
+convertirRegion(id: number){
+  return this.listaRegiones.filter(r => r.Id_region == id )[0].Nombre_region
+}
+
+asignarOpVehiculo(id_centro_operacion : number){
+
+  const body = {
+    "Id_user"  : sessionStorage.getItem("id")?.toString()+"",
+    "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+    "Id_ppu" : this.IdVehiculo,
+    "Id_operacion" : this.idOperacion,
+    "Id_centro": id_centro_operacion,
+    "Estado" : true
+  }
+  
+  this.service.asignarOperacionVehiculo(body).subscribe((data : any) => {
+    
+    alert(data.message)
+    this.toggleLiveCO(0)
+  })
+}
+
+
 
  ngOnDestroy(): void {
 

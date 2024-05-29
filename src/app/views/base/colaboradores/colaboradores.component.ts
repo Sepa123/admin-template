@@ -85,6 +85,27 @@ export class ColaboradoresComponent {
   });
   }
 
+  /// Modal observación
+
+  // isModalOpen: boolean = false
+  public visibleEstado = false;
+
+  toggleLiveEstado() {
+    this.visibleEstado = !this.visibleEstado;
+  }
+
+  handleLiveEstadoChange(event: any) {
+    this.visibleEstado = event;
+  }
+  
+  // openModal(){
+  //   this.isModalOpen = true
+  // }
+
+  // closeModal(){
+  //   this.isModalOpen = false
+  // }
+
 
   formatearRUT(rut: string): string {
     // Separar el número del dígito verificador
@@ -331,14 +352,39 @@ export class ColaboradoresComponent {
 
   activarUsuario(activar : boolean){
     const rut = this.form.value.Rut
-    
-    this.service.activarColaborador(rut+'',activar).subscribe((mes : any) => {
-      this.service.obtenerColaboradores().subscribe((data) => {
-        this.colaboradores = data
-        alert(mes.message)
-        this.toggleLiveDemo()
+    if(activar == true){
+      this.service.activarColaborador(rut+'',activar).subscribe((mes : any) => {
+        this.service.obtenerColaboradores().subscribe((data) => {
+          this.colaboradores = data
+          alert(mes.message)
+          this.toggleLiveDemo()
+        })
       })
-    })
+    }else{
+      this.toggleLiveEstado()
+    }
+  }
+
+  motivoDesactiva : string = ''
+
+  desactivarUsuario(){
+    if(this.motivoDesactiva.trim().length == 0){
+      alert('Falta ingresar el motivo de la desactivación')
+    }else{
+      const body = {
+        "Id_user" : sessionStorage.getItem("id")?.toString()+"",
+        "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+        "Latitud" : this.latStr,
+        "Longitud" : this.longStr,
+        "Modificacion" : `Se desactiva el usuario. Motivo : ${this.motivoDesactiva}`,
+        "Origen" : '/transporte/colaboradores'
+      
+      }
+  
+      this.toggleLiveEstado()
+      this.toggleLiveDemo()
+    }
+    
   }
 
   buscarComunas(event: any){

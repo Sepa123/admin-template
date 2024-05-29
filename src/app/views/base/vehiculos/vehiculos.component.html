@@ -1,13 +1,13 @@
 <c-modal id="liveAgregaModal" [visible]="visibleAgregar" (visibleChange)="handleLiveAgregaChange($event)" size="xl">
   <c-modal-header>
-    <h5 cModalTitle>Agregar Colaborador </h5>
+    <h5 cModalTitle>Agregar Vehiculo </h5>
     <button (click)="toggleLiveAgregar()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
     <form cForm [formGroup]="formVehiculo" (ngSubmit)="registrarVehiculo()" *ngIf="listaComunasFull.length !== 0" > 
       <div class="card">
         <p></p>
-        <h5>Vehiculos</h5>
+        <h5>Vehiculo</h5>
         <p></p>
         <c-row>
           <c-col [xs]>
@@ -229,7 +229,95 @@
       </c-col>
         
     </c-row>
+    <p></p>
+     <!-- Tickets de Habilitado Transporte -->
+    <c-row>
+          <c-col [xs]>
+            
+            <div [ngClass]="formVehiculo.get('Hab_vehiculo')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
+              <input type="checkbox" formControlName="Hab_vehiculo" >
+                  <label for="" *ngIf="formVehiculo.get('Hab_vehiculo')?.value">Habilitado por Transporte</label> 
+                  <label for="" *ngIf="!formVehiculo.get('Hab_vehiculo')?.value">Deshabilitado</label> 
+
+            </div>
+        </c-col>
+        <c-col [xs]>
+          
+      </c-col>
+      <c-col [xs]>
+        
+    </c-col>
+    </c-row>
+    <p></p>
+    <!-- Tickets de GPS -->
+    <c-row>
+      <c-col [xs]>
+        
+        <div [ngClass]="formVehiculo.get('Gps')?.value ? 'rectangulo-seguridad' : 'rectangulo-gps'">
+          <input type="checkbox" (click)="checkGPS()" formControlName="Gps" >
+          GPS 
+
+        </div>
+    </c-col>
+    <c-col [xs]>
       
+  </c-col>
+<c-col [xs]>
+  <!-- Agregando GPS -->
+</c-col>
+    </c-row>
+    <c-row *ngIf="formVehiculo.get('Gps')?.value">
+      <c-col [xs]>
+        <div class="">
+            IMEI GPS
+            <input type="text" placeholder="IMEI" class="form-control" formControlName="Imei" >
+
+        </div>
+    </c-col>
+    <c-col [xs]>
+      <div class="">
+          OC Instalación
+          <input type="text" placeholder="OC" class="form-control" formControlName="Oc_instalacion" >
+
+      </div>
+  </c-col>
+    <c-col [xs]>
+      <div class="">
+          Fecha Instalación
+          <input type="date" class="form-control" formControlName="Fecha_instalacion" >
+          
+      </div>
+  </c-col>
+  <c-col [xs]>
+    <div class="">
+
+    </div>
+</c-col>
+    
+
+    </c-row>
+    <p></p>
+    <!-- Tickets de estado -->
+    <c-row>
+      <c-col [xs]>
+        <div [ngClass]="formVehiculo.get('Hab_seguridad')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
+          <input type="checkbox" formControlName="Hab_seguridad"  >
+        
+                  <label for="" *ngIf="formVehiculo.get('Hab_seguridad')?.value"> Habilitado por seguridad</label> 
+                  <label for="" *ngIf="!formVehiculo.get('Hab_seguridad')?.value">Deshabilitado</label> 
+
+
+        </div>
+    </c-col>
+    <c-col [xs]>
+    
+  </c-col>
+  <c-col [xs]>
+   
+</c-col>
+    <p></p>
+    </c-row>
+    
     </div>
       <p></p>
       <c-row>
@@ -259,7 +347,7 @@
               <div class="noEditar">
                   Rut Colaborador *
                   <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
-                  <input type="text" placeholder="Rut" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_colaborador" (change)="verificaRut('colab_vehiculo'); veficarColabExiste(formVehiculo.value.Rut_colaborador)"   maxlength="10"> 
+                  <input type="text" placeholder="Rut" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_colaborador" (change)="verificaRut('colab_vehiculo'); veficarColabExiste(formVehiculo.value.Rut_colaborador)"   maxlength="10" readonly> 
                   <span class="error" *ngIf="form.get('Rut_colaborador')?.errors?.['required'] && isErrorView">
                       Falta ingresar el rut
                   </span>
@@ -271,7 +359,7 @@
           <c-col [xs]>
             <div class="">
                 Razón Social
-                <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" >
+                <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" readonly>
                 <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                 <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
                     Falta agregar la razón social
@@ -484,16 +572,93 @@
         </c-col>
         <c-col [xs]>
             <div class="noEditar">
-              Estado
-              <p></p>
-              <mat-slide-toggle formControlName="Estado" > 
-               <span *ngIf="formVehiculo.value.Estado">Activado</span>
-               <span *ngIf="!formVehiculo.value.Estado">Desactivado</span>
-              </mat-slide-toggle>
             </div>
       </c-col>
         
     </c-row>
+    <p></p>
+      <!-- Tickets de Habilitado Transporte -->
+    <c-row>
+      <c-col [xs]>
+        <div [ngClass]="formVehiculo.get('Hab_vehiculo')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
+          <input type="checkbox" formControlName="Hab_vehiculo" >
+                  <label for="" *ngIf="formVehiculo.get('Hab_vehiculo')?.value">Habilitado por Transporte</label> 
+                  <label for="" *ngIf="!formVehiculo.get('Hab_vehiculo')?.value">Deshabilitado</label> 
+
+                </div>
+          </c-col>
+          <c-col [xs]>
+            
+        </c-col>
+        <c-col [xs]>
+            
+        </c-col>
+        </c-row>
+        <p></p>
+        <!-- Tickets de GPS -->
+        <c-row>
+          <c-col [xs]>
+            <div [ngClass]="formVehiculo.get('Gps')?.value ? 'rectangulo-seguridad' : 'rectangulo-gps'">
+              <input type="checkbox" (click)="checkGPS()" formControlName="Gps" >
+              GPS 
+
+            </div>
+        </c-col>
+        <c-col [xs]>
+          
+        </c-col>
+        <c-col [xs]>
+        <!-- Agregando GPS -->
+        </c-col>
+        </c-row>
+        <c-row *ngIf="formVehiculo.get('Gps')?.value">
+          <c-col [xs]>
+            <div class="">
+                IMEI GPS
+                <input type="text" placeholder="IMEI" class="form-control" formControlName="Imei" >
+
+            </div>
+        </c-col>
+        <c-col [xs]>
+          <div class="">
+              OC Instalación
+              <input type="text" placeholder="OC" class="form-control" formControlName="Oc_instalacion" >
+
+          </div>
+      </c-col>
+        <c-col [xs]>
+          <div class="">
+              Fecha Instalación
+              <input type="date" class="form-control" formControlName="Fecha_instalacion" >
+          </div>
+        </c-col>
+        <c-col [xs]>
+        <div class="">
+
+        </div>
+        </c-col>
+
+
+</c-row>
+<p></p>
+<!-- Tickets de estado -->
+<c-row>
+  <c-col [xs]>
+    <div [ngClass]="formVehiculo.get('Hab_seguridad')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
+      <input type="checkbox" formControlName="Hab_seguridad"  >
+          <label for="" *ngIf="formVehiculo.get('Hab_seguridad')?.value"> Habilitado por seguridad</label> 
+          <label for="" *ngIf="!formVehiculo.get('Hab_seguridad')?.value">Deshabilitado</label> 
+
+    </div>
+</c-col>
+<c-col [xs]>
+
+</c-col>
+<c-col [xs]>
+
+</c-col>
+<p></p>
+</c-row>
       
     </div>
       <p></p>
@@ -540,25 +705,37 @@
           <tr>
               <th>Patente</th>
               <th>Razón social</th>
-              <th>Rut</th>
+              <th>Tipo Vehiculo</th>
+              <th>Región Disponible</th>
+              <!-- <th>Rut</th> -->
               <th>Estado</th>
               <th>Fecha de registro</th>
               <th>Detalle</th>
+              <th>Operación</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let vehiculo of vehiculos; let i = index">
             <td>{{vehiculo.Ppu}}</td>
             <td>{{vehiculo.Razon_social}}</td>
-            <td>{{formatearRUT(vehiculo.Rut)}}</td>
+            <td>{{ convertirVehiculo(vehiculo.Tipo) }}</td>
+            <td>{{ convertirRegion(vehiculo.Region) }}</td>
+            <!-- <td>{{formatearRUT(vehiculo.Rut)}}</td> -->
             <td>
-              <span *ngIf="vehiculo.Estado">Activado</span>
-              <span *ngIf="!vehiculo.Estado">Desactivado</span>
+              <mat-slide-toggle formControlName="Estado" > 
+                <!-- <span *ngIf="formVehiculo.value.Estado">Activado</span>
+                <span *ngIf="!formVehiculo.value.Estado">Desactivado</span> -->
+               </mat-slide-toggle>
             </td>
             <td>{{vehiculo.Created_at}}</td>
             <td>
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="revisarDatosVehiculo(vehiculo.Ppu)" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
 
+            </td>
+            <td>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512" (click)="toggleLiveCO(vehiculo.Id)">
+                <path fill="black" d="M124 166.291v179.418a76 76 0 1 0 32 0V282h152a80.091 80.091 0 0 0 80-80v-36.689a75.983 75.983 0 1 0-32 1.733V202a48.055 48.055 0 0 1-48 48H156v-83.709a76 76 0 1 0-32 0M324 92a44 44 0 1 1 44 44a44.049 44.049 0 0 1-44-44M184 420a44 44 0 1 1-44-44a44.049 44.049 0 0 1 44 44M140 48a44 44 0 1 1-44 44a44.049 44.049 0 0 1 44-44" />
+              </svg>
             </td>
             <!-- <td>{{colab.Created_at}}</td> -->
           </tr>
@@ -569,3 +746,60 @@
         </tbody>
         </table>
       </div>
+
+
+      <c-modal id="liveCOModal" [visible]="visibleCO" (visibleChange)="handleLiveCOChange($event)" size="lg">
+        <c-modal-header>
+          <h5 cModalTitle>Asignar Centro Operación </h5>
+          <button (click)="toggleLiveCO(0)" cButtonClose></button>
+        </c-modal-header>
+        <c-modal-body>
+              <p></p>
+
+              <select id="Region" cSelect  class="form-control" [(ngModel)]="idOperacion" (change)="buscarCentroOperacion()">
+                <option [value]="0" selected>Seleccione una operación</option>
+                <option *ngFor="let op of modalidadOperacion"  [value]="op.id"  >{{op.nombre}}</option>
+              </select>
+              <p></p>
+              <div class="greenTable" style="width: 100%;">
+            
+                <table id="tablaProductosPicking" style="width: 100%;"  >
+                <thead>
+                    <th>Centro</th>
+                    <th>Región</th>
+                    <th>Seleccionar</th>
+                </thead>
+                <tbody>
+
+                <tr *ngFor="let co of centroOperacion; let i = index">
+
+                    <td>{{co.Centro}}</td>
+                    <td>{{co.Region}}</td>
+                    <td *ngIf="co.Estado">
+                      Asignado
+                      
+                    </td>
+                    <td *ngIf="!co.Estado">
+                      <button cButton color="secondary" (click)="asignarOpVehiculo(co.Id)">
+                        seleccionar
+                      </button>  
+                    </td>
+                </tr>
+                <tr *ngIf="centroOperacion.length == 0">
+                  <td colspan="4">
+                    No hay registros
+                  </td>
+                </tr>
+            </tbody>
+            </table>
+            </div>
+            <p></p>
+            
+            
+        </c-modal-body>
+        <c-modal-footer>
+          <button (click)="toggleLiveCO(0)" cButton color="secondary">
+            Cerrar
+          </button>
+        </c-modal-footer>
+      </c-modal>

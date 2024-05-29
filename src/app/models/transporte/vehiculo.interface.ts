@@ -29,4 +29,24 @@ export interface Vehiculo {
     Validado_por_ids:             string;
     Rut:                          string;
     Razon_social:                 string;
+    Hab_vehiculo :                boolean;
+    Hab_seguridad :               boolean;
+    Gps :                         boolean;
+    Id_gps :                      number
+    Imei :                        string
+    Oc_instalacion :              string
+    Fecha_instalacion :           string
+    
+}
+
+
+export interface AsignarOperacion {
+    Id:           number;
+    Created_at:   Date;
+    Id_user:      number;
+    Ids_user:     string;
+    Id_ppu:       number;
+    Id_operacion: number;
+    Id_centro_op: number;
+    Estado:       boolean;
 }

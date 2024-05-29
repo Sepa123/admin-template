@@ -1,6 +1,33 @@
 .error {
     color: #E71B24;
   }
+
+.rectangulo,
+.rectangulo-gps,
+.rectangulo-seguridad {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.rectangulo {
+  background-color: #ffcccc; /* Rojo claro */
+  border: 2px solid #cc0000; /* Borde rojo oscuro */
+}
+
+.rectangulo-gps {
+  background-color: #ffffcc; /* Amarillo claro */
+  border: 2px solid #cccc00; /* Borde amarillo oscuro */
+}
+
+.rectangulo-seguridad {
+  background-color: #ccffcc; /* Verde clarito */
+  border: 2px solid #006600; /* Borde verde oscuro */
+}
   
   .greenTable{
       

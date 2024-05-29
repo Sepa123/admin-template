@@ -62,7 +62,7 @@
                 <c-col [xs]>
                     <div class="">
                       Operación
-                      <select id="Region"  cSelect class="form-control" formControlName="Id_op" readonly>
+                      <select id="Region"  cSelect class="form-control" formControlName="Id_op"  >
                         <option  [value]="'Seleccione una operación'"  >Seleccione una operación</option>
                         <option *ngFor="let op of modalidadOperacion"  [value]="op.id"  >{{op.nombre}}</option>
                       </select>
@@ -97,7 +97,7 @@
         
             <table id="tablaProductosPicking" style="width: 100%;"  >
             <thead>
-                <th>id</th>
+                <!-- <th>id</th> -->
                 <th>Centro</th>
                 <th>Descripción</th>
                 <th>Region</th>
@@ -106,7 +106,7 @@
     
             <!-- Filas de la tabla con datos -->
             <tr *ngFor="let co of centroOperacion; let i = index">
-                <td class="id">{{co.Id}}</td>
+                <!-- <td class="id">{{co.Id}}</td> -->
                 <td>{{co.Centro}}</td>
                 <td>{{co.Descripcion}}</td>
                 <td>{{co.Region}}</td>
@@ -147,7 +147,7 @@
         
         <table id="tablaProductosPicking" style="width: 100%;"  >
         <thead>
-            <th>id</th>
+            <!-- <th>id</th> -->
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Detalles</th>
@@ -157,7 +157,7 @@
 
         <!-- Filas de la tabla con datos -->
         <tr *ngFor="let RazonSocial of tableData; let i = index">
-            <td class="id">{{RazonSocial.id}}</td>
+            <!-- <td class="id">{{RazonSocial.id}}</td> -->
             <td>{{RazonSocial.nombre}}</td>
             <td>{{RazonSocial.description}}</td>
             <td class="estado">
@@ -182,7 +182,7 @@
 
 
 
-  <c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+<c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
     <c-modal-header class="modal-header-custom">
       <h5 cModalTitle class="modal-title">Registro</h5>
       <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->

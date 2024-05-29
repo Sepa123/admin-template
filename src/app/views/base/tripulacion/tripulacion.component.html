@@ -235,9 +235,9 @@
         <form cForm [formGroup]="form" (ngSubmit)="registrar()" > 
           <div class="card">
             <p></p>
-            <h5>Tripulacion</h5>
+            <h5>Datos Razón Social</h5>
             <p></p>
-          <c-row>
+            <c-row>
               <c-col [xs]>
                   <div class="">
                       Nombre Completo
@@ -257,6 +257,47 @@
                         <option [value]="'Seleccione un colaborador'" selected>Seleccione un colaborador</option>
                         <option *ngFor="let colab of colaboradores"   [value]="colab.Rut"  >{{colab.Rut}}</option>
                     </select>
+                    <span class="error" *ngIf="(form.get('Rut')?.errors?.['required'] ||form.value.Rut == 'Seleccione un colaborador')&& isErrorView">
+                      Falta ingresar el rut
+                  </span>
+
+                      <!-- <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10" > 
+                      
+                      <span class="error" *ngIf="!rutValido ">
+                        Error al ingresar rut
+                    </span> -->
+                  </div>
+              </c-col>
+              <c-col [xs]>
+              </c-col>
+        
+            <c-col [xs]>
+            </c-col>
+          </c-row>
+          <p></p>
+          <h5>Datos Tripulación</h5>
+          <c-row>
+              <c-col [xs]>
+                  <div class="">
+                      Nombre Completo
+                      <input type="text" placeholder="Nombre Completo" class="form-control" formControlName="Nombre_completo" >
+                      <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                      <span class="error" *ngIf="form.get('Nombre_completo')?.errors?.['required'] && isErrorView">
+                          Falta agregar el nombre
+                      </span>
+                  </div>
+              </c-col>
+        
+              <c-col [xs]>
+                  <div class="noEditar">
+                      Rut
+
+                      <!-- <select id="Region" cSelect formControlName="Rut" (change)="seleccionarRut()" class="form-control">
+                        <option [value]="'Seleccione un colaborador'" selected>Seleccione un colaborador</option>
+                        <option *ngFor="let colab of colaboradores"   [value]="colab.Rut"  >{{colab.Rut}}</option>
+                    </select> -->
+                    <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_seleccionado" maxlength="10" > 
+
                     <span class="error" *ngIf="(form.get('Rut')?.errors?.['required'] ||form.value.Rut == 'Seleccione un colaborador')&& isErrorView">
                       Falta ingresar el rut
                   </span>
