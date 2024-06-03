@@ -9,7 +9,8 @@ import { Title } from '@angular/platform-browser';
 import { DetallePorPatenteComponent } from './detalle-por-patente/detalle-por-patente.component';
 import { ModalidadesDeOperacionesComponent } from './modalidades-de-operaciones/modalidades-de-operaciones.component';
 import { title } from 'process';
-import { UsuariosTransporteComponent } from './usuarios-transporte/usuarios-transporte.component';
+import { SeguimientoRutaComponent } from './seguimiento-ruta/seguimiento-ruta.component';
+import { PesoVolumetricoComponent } from './peso-volumetrico/peso-volumetrico.component';
 
 const routes: Routes = [
   {
@@ -67,10 +68,17 @@ const routes: Routes = [
         }
       },
       {
-        path : 'usuario-transporte',
-        component : UsuariosTransporteComponent,
+        path : 'seguimiento-ruta',
+        component : SeguimientoRutaComponent,
         data : {
-          title: "Usuario Transporte"
+          title: "Seguimiento Ruta"
+        }
+      },
+      {
+        path : 'peso-volumetrico',
+        component : PesoVolumetricoComponent,
+        data : {
+          title: "Seguimiento Ruta"
         }
       }
 

@@ -471,6 +471,26 @@ export const navItems: INavDataBar[] = [
         name: "Historial Producto",
         url: '/informacion/timeline',
       },
+      {
+        name: "Detalle Por Patente/Driver",
+        url:  '/informacion/detalle-por-patente'
+      },
+      {
+        name: "Modalidades de Operaciones",
+        url:  '/informacion/modalidades-de-operaciones'
+      },
+      {
+        name: "Usuario Transporte",
+        url:  '/informacion/usuario-transporte'
+      },
+      {
+        name: "Seguimiento Ruta",
+        url:  '/informacion/seguimiento-ruta'
+      },
+      {
+        name: "Peso Volumetrico",
+        url:  '/informacion/peso-volumetrico'
+      }
     ]
   },
   { /// Pantalla Informacion Para SEGURIDAD

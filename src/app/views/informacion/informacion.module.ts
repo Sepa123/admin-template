@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { ChartjsModule } from '@coreui/angular-chartjs';
 import {
   ButtonGroupModule,
   TableModule,
@@ -18,7 +18,8 @@ import {
   NavModule,
   SharedModule,
   UtilitiesModule,
-  ModalModule
+  ModalModule,
+  
 } from '@coreui/angular';
 
 import { InformacionRoutingModule } from './informacion-routing.module';
@@ -29,8 +30,12 @@ import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.co
 import { TimelineComponent } from './timeline/timeline.component';
 import { DetallePorPatenteComponent } from './detalle-por-patente/detalle-por-patente.component';
 import { ModalidadesDeOperacionesComponent } from './modalidades-de-operaciones/modalidades-de-operaciones.component';
-import { UsuariosTransporteComponent } from './usuarios-transporte/usuarios-transporte.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { SeguimientoRutaComponent } from './seguimiento-ruta/seguimiento-ruta.component';
+import { NgChartsModule } from 'ng2-charts';
+import { PesoVolumetricoComponent } from './peso-volumetrico/peso-volumetrico.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 @NgModule({
   declarations: [
     EstadoComponent,
@@ -40,7 +45,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     TimelineComponent,
     DetallePorPatenteComponent,
     ModalidadesDeOperacionesComponent,
-    UsuariosTransporteComponent,
+    SeguimientoRutaComponent,
+    PesoVolumetricoComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +67,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     UtilitiesModule,
     ModalModule,
     MatSlideToggleModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ChartjsModule,
+    NgChartsModule,
+    MatAutocompleteModule
   ]
 })
 export class InformacionModule { }
