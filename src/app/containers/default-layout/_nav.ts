@@ -114,12 +114,12 @@ export const navItems: INavDataBar[] = [
     iconComponent: { name: 'cil-car-alt' },
     roles : [ROLES_ENUM.ADMIN],
     children: [
+      // {
+      //   name: 'Reportes',
+      //   url : '/transporte/reportes'
+      // },
       {
-        name: 'Reportes',
-        url : '/transporte/reportes'
-      },
-      {
-        name: 'Colaboradores',
+        name: 'Razón Social',
         url : '/transporte/colaboradores'
       },
       {
@@ -127,27 +127,27 @@ export const navItems: INavDataBar[] = [
         url : '/transporte/vehiculos'
       },
       {
-        name: 'Tripulacion',
+        name: 'Tripulación',
         url : '/transporte/tripulacion'
       },
     ]
   },
-  {
-    name: 'Transporte',
-    url: '/transporte',
-    iconComponent: { name: 'cil-car-alt' },
-    roles : ROLES_PERMITIDOS.TRANSPORTE_ACCESO,
-    children: [
-      {
-        name: 'Reportes',
-        url : '/transporte/reportes'
-      },
-      // {
-      //   name: 'Colaboradores',
-      //   url : '/transporte/colaboradores'
-      // },
-    ]
-  },
+  // {
+  //   name: 'Transporte',
+  //   url: '/transporte',
+  //   iconComponent: { name: 'cil-car-alt' },
+  //   roles : ROLES_PERMITIDOS.TRANSPORTE_ACCESO,
+  //   children: [
+  //     {
+  //       name: 'Reportes',
+  //       url : '/transporte/reportes'
+  //     },
+  //     // {
+  //     //   name: 'Colaboradores',
+  //     //   url : '/transporte/colaboradores'
+  //     // },
+  //   ]
+  // },
   {
     name: 'EXO',
     url: '/exo',
@@ -390,6 +390,19 @@ export const navItems: INavDataBar[] = [
         name: 'Estados',
         url: '/operaciones/estados'
       },
+    ]
+  }
+  ,
+  { // Operaciones Log Inversa
+    name: 'Operaciones',
+    url: '/operaciones',
+    iconComponent: { name: 'cil-clipboard' },
+    roles : [ROLES_ENUM.LI],
+    children: [
+      {
+        name: 'Pendientes',
+        url: '/operaciones/pendientes'
+      }
     ]
   },
   ///Pantalla Full

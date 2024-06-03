@@ -236,7 +236,7 @@
             
             <div [ngClass]="formVehiculo.get('Hab_vehiculo')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
               <input type="checkbox" formControlName="Hab_vehiculo" >
-                  <label for="" *ngIf="formVehiculo.get('Hab_vehiculo')?.value">Habilitado por Transporte</label> 
+                  <label for="" *ngIf="formVehiculo.get('Hab_vehiculo')?.value">Activo</label> 
                   <label for="" *ngIf="!formVehiculo.get('Hab_vehiculo')?.value">Deshabilitado</label> 
 
             </div>
@@ -298,7 +298,7 @@
     </c-row>
     <p></p>
     <!-- Tickets de estado -->
-    <c-row>
+    <!-- <c-row>
       <c-col [xs]>
         <div [ngClass]="formVehiculo.get('Hab_seguridad')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
           <input type="checkbox" formControlName="Hab_seguridad"  >
@@ -316,7 +316,7 @@
    
 </c-col>
     <p></p>
-    </c-row>
+    </c-row> -->
     
     </div>
       <p></p>
@@ -340,7 +340,7 @@
     <form cForm [formGroup]="formVehiculo" (ngSubmit)="actualizarDatosVehiculo()" *ngIf="listaComunasFull.length !== 0" > 
       <div class="card">
         <p></p>
-        <h5>Vehiculos</h5>
+        <h5>Vehículos</h5>
         <p></p>
       <c-row>
           <c-col [xs]>
@@ -582,7 +582,7 @@
       <c-col [xs]>
         <div [ngClass]="formVehiculo.get('Hab_vehiculo')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
           <input type="checkbox" formControlName="Hab_vehiculo" >
-                  <label for="" *ngIf="formVehiculo.get('Hab_vehiculo')?.value">Habilitado por Transporte</label> 
+                  <label for="" *ngIf="formVehiculo.get('Hab_vehiculo')?.value">Activo</label> 
                   <label for="" *ngIf="!formVehiculo.get('Hab_vehiculo')?.value">Deshabilitado</label> 
 
                 </div>
@@ -642,7 +642,7 @@
 </c-row>
 <p></p>
 <!-- Tickets de estado -->
-<c-row>
+<!-- <c-row>
   <c-col [xs]>
     <div [ngClass]="formVehiculo.get('Hab_seguridad')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
       <input type="checkbox" formControlName="Hab_seguridad"  >
@@ -658,7 +658,7 @@
 
 </c-col>
 <p></p>
-</c-row>
+</c-row> -->
       
     </div>
       <p></p>
@@ -679,22 +679,30 @@
   </c-modal-footer>
 </c-modal>
 
+<h2>Vehículos Inscritos</h2>
+<p></p>
+
       <c-row>
         <c-col [xs] >
-            <button  class="btn btn-success" (click)="toggleLiveAgregar()">Agregar Vehiculo
+            <button  class="btn btn-success" (click)="toggleLiveAgregar()">Agregar Vehículo
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
                 <path fill="black" d="M441.885 141.649A32.028 32.028 0 0 0 415.669 128H336V80a32.036 32.036 0 0 0-32-32H48a32.036 32.036 0 0 0-32 32v328h53.082a67.982 67.982 0 0 0 133.836 0h106.164a67.982 67.982 0 0 0 133.836 0H496V226.522a23.882 23.882 0 0 0-4.338-13.763ZM47.98 80H304v176H48ZM136 432a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m240 0a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m88-56h-23.006a68 68 0 0 0-129.988 0H200.994a68 68 0 0 0-129.988 0H48v-88h416Zm0-120H336v-96h79.669L464 229.044Z" />
               </svg>   
             </button>
         </c-col>
         <c-col [xs]>
-    
+          <select id="Region"  cSelect  class="form-control" (change)="filtrarVehiculoRegion()" [(ngModel)]="regionSeleccionada">
+            <option  [value]="0" >Todas las regiones</option>
+            <option *ngFor="let region of listaRegionesFiltro"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+        </select>
         </c-col>
         <c-col [xs]>
-            <input type="text" placeholder="Buscar Vehiculo" class="form-control" [(ngModel)]="buscadorVehiculo"  >
+            <input type="text" placeholder="Buscar Vehiculo" class="form-control" [(ngModel)]="buscadorVehiculo">
+
         </c-col>
         <c-col [xs]>
-            <button class="btn btn-success" (click)="buscarVehiculoFiltro()">Buscar</button>
+            
+          <button class="btn btn-success" (click)="buscarVehiculoFiltro()">Buscar</button>
         </c-col>
     </c-row>
       <p></p>
@@ -703,12 +711,13 @@
         <table id="tablaProductosPicking" style="width: 100%;"  >
         <thead>
           <tr>
-              <th>Patente</th>
+              <th class="sortable" (click)="sortTable(sortOrder)">Patente</th>
               <th>Razón social</th>
               <th>Tipo Vehiculo</th>
               <th>Región Disponible</th>
               <!-- <th>Rut</th> -->
-              <th>Estado</th>
+              <th>GPS</th>
+              <th (click)="sortTableEstado(sortOrderEstado)">Disponible </th>
               <th>Fecha de registro</th>
               <th>Detalle</th>
               <th>Operación</th>
@@ -720,9 +729,17 @@
             <td>{{vehiculo.Razon_social}}</td>
             <td>{{ convertirVehiculo(vehiculo.Tipo) }}</td>
             <td>{{ convertirRegion(vehiculo.Region) }}</td>
+            <td>
+              <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 384 512" *ngIf="vehiculo.Gps">
+                <path fill="#2eb85c" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 384 512" *ngIf="!vehiculo.Gps">
+                <path fill="#ff0000" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
+              </svg>
+            </td>
             <!-- <td>{{formatearRUT(vehiculo.Rut)}}</td> -->
             <td>
-              <mat-slide-toggle formControlName="Estado" > 
+              <mat-slide-toggle [(ngModel)]="vehiculo.Estado" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
                 <!-- <span *ngIf="formVehiculo.value.Estado">Activado</span>
                 <span *ngIf="!formVehiculo.value.Estado">Desactivado</span> -->
                </mat-slide-toggle>
@@ -750,49 +767,115 @@
 
       <c-modal id="liveCOModal" [visible]="visibleCO" (visibleChange)="handleLiveCOChange($event)" size="lg">
         <c-modal-header>
-          <h5 cModalTitle>Asignar Centro Operación </h5>
+          <h5 cModalTitle>Asignar Centro Operación {{Patente}} </h5>
           <button (click)="toggleLiveCO(0)" cButtonClose></button>
         </c-modal-header>
         <c-modal-body>
               <p></p>
+              <c-row>
+                <c-col >
+                  <select id="Region" cSelect  class="form-control" [(ngModel)]="idOperacion" (change)="buscarPorModalidadOperacion()">
+                    <option [value]="0" selected>Seleccione una operación</option>
+                    <option *ngFor="let op of modalidadOperacion"  [value]="op.id"  >{{op.nombre}}</option>
+                  </select>
+                </c-col>
+                <c-col >
+                  <select id="Region" cSelect  class="form-control" [(ngModel)]="IdCentroOperacion" (click)="seleccionarCentroOperacion()">
+                    <option [value]="0" selected>Seleccione centro operación</option>
+                    <option *ngFor="let op of centroOperacionLista"  [value]="op.Id"  >{{op.Centro}}</option>
+                  </select>
+                </c-col>
+              </c-row>
+                <p></p>
+              <c-row>
+                <c-col >
 
-              <select id="Region" cSelect  class="form-control" [(ngModel)]="idOperacion" (change)="buscarCentroOperacion()">
-                <option [value]="0" selected>Seleccione una operación</option>
-                <option *ngFor="let op of modalidadOperacion"  [value]="op.id"  >{{op.nombre}}</option>
-              </select>
-              <p></p>
-              <div class="greenTable" style="width: 100%;">
-            
-                <table id="tablaProductosPicking" style="width: 100%;"  >
-                <thead>
-                    <th>Centro</th>
-                    <th>Región</th>
-                    <th>Seleccionar</th>
-                </thead>
-                <tbody>
+                </c-col>
+                <c-col >
+                  <!--  -->
+                  <button *ngIf="IdCentroOperacion != 0 && isAsignado" cButton color="secondary" (click)="asignarOpVehiculo(idOperacion, IdCentroOperacion)" >
+                    Asignar
+                  </button>  
+                </c-col>
+              </c-row>
+              <c-row>
+                <c-col >
+                  <p></p>
+                  <div class="greenTable" style="width: 100%;">
+                
+                    <table id="tablaProductosPicking" style="width: 100%;"  >
+                    <thead>
+                        <th>Operación</th>
+                        <th>Centro</th>
+                        <th>Región</th>
+                        <!-- <th>Seleccionar</th> -->
+                    </thead>
+                    <tbody>
+    
+                    <tr *ngFor="let co of centroOperacion; let i = index">
+                        <td >{{ convertirOperacion(co.Id_op) }}</td>
+                        <td >{{co.Centro}}</td>
+                        <td >{{co.Region}}</td>
+                        <!-- <td *ngIf="co.Estado">
+                          Asignado
+                          
+                        </td> -->
+                        <!-- <td *ngIf="!co.Estado">
+                          <button cButton color="secondary" (click)="asignarOpVehiculo(co.Id, co.Id_op)">
+                            seleccionar
+                          </button>  
+                        </td> -->
+                    </tr>
+                    <tr *ngIf="centroOperacion.length == 0">
+                      <td colspan="4">
+                        No hay registros
+                      </td>
+                    </tr>
+                </tbody>
+                </table>
+                </div>
 
-                <tr *ngFor="let co of centroOperacion; let i = index">
+                <p></p>
+                <h3>Centros Asignados</h3>
 
-                    <td>{{co.Centro}}</td>
-                    <td>{{co.Region}}</td>
-                    <td *ngIf="co.Estado">
-                      Asignado
-                      
+                <div class="greenTable" style="width: 100%;">
+                
+                  <table id="tablaProductosPicking" style="width: 100%;"  >
+                  <thead>
+                      <th>Operación</th>
+                      <th>Centro</th>
+                      <th>Región</th>
+                      <th>Seleccionar</th>
+                  </thead>
+                  <tbody>
+  
+                  <tr *ngFor="let co of centroOperacionAsignado; let i = index">
+                      <td *ngIf="co.Estado">{{ convertirOperacion(co.Id_op) }}</td>
+                      <td *ngIf="co.Estado">{{co.Centro}}</td>
+                      <td *ngIf="co.Estado">{{co.Region}}</td>
+                      <td *ngIf="co.Estado">
+                        Asignado
+                        
+                      </td>
+                      <!-- <td *ngIf="!co.Estado">
+                        <button cButton color="secondary" (click)="asignarOpVehiculo(co.Id, co.Id_op)">
+                          seleccionar
+                        </button>  
+                      </td> -->
+                  </tr>
+                  <tr *ngIf="centroOperacionAsignado.length == 0">
+                    <td colspan="4">
+                      No hay registros
                     </td>
-                    <td *ngIf="!co.Estado">
-                      <button cButton color="secondary" (click)="asignarOpVehiculo(co.Id)">
-                        seleccionar
-                      </button>  
-                    </td>
-                </tr>
-                <tr *ngIf="centroOperacion.length == 0">
-                  <td colspan="4">
-                    No hay registros
-                  </td>
-                </tr>
-            </tbody>
-            </table>
-            </div>
+                  </tr>
+              </tbody>
+              </table>
+              </div>
+                </c-col>
+              </c-row>
+
+              
+              
             <p></p>
             
             

@@ -26,6 +26,7 @@ export interface Colaborador {
     Seguridad:                number;
     Activo:                   boolean;
     Giro:                     string;
+    Pdf_contrato:             string;
 }
 
 

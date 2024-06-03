@@ -48,6 +48,7 @@ export class VehiculosComponent {
   rutRepresentanteValido : boolean = true
   rutTitularBanco : boolean = true
   listaRegiones : any [] = []
+  listaRegionesFiltro : any [] = []
   listaComunas : any [] = []
   listaComunasFull : any [] = []
   tipoUsuario : string = "7"
@@ -55,6 +56,7 @@ export class VehiculosComponent {
   colaboradores : Colaborador [] = []
 
   vehiculos : Vehiculo [] = []
+  vehiculosFull : Vehiculo [] = []
 
    
   tipoCuentas : any [] = tipoCuenta
@@ -216,7 +218,23 @@ seleccionarRut(){
   ngOnInit() : void {
     this.comunaService.getListaRegiones().subscribe((data : any) => {
       this.listaRegiones = data
+
+      this.service.buscarVehiculos().subscribe((data) => {
+        this.vehiculos = data
+        this.vehiculosFull = this.vehiculos
+        this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
+        this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
+        this.service.obtenerColaboradores().subscribe((data) => {
+          this.colaboradores = data
+        })
+      })
     })
+
+    // this.MoService.getCentroOperaciones().subscribe(data => {
+    //     this.centroOperacionFull = data
+    //     this.centroOperacionLista = data
+    //     this.centroOperacion = data
+    // })
 
     this.comunaService.getListaComunas().subscribe((data : any) => {
       this.listaComunas = data
@@ -227,19 +245,7 @@ seleccionarRut(){
       })
     })
 
-    this.service.buscarVehiculos().subscribe((data) => {
-      this.vehiculos = data
-      this.service.obtenerColaboradores().subscribe((data) => {
-        this.colaboradores = data
-      })
-    })
-
-
-
-    
-    // Uso de la función
-    // console.log(Fn.validaRut('27962409-2') ? 'Valido' : 'inválido');
-
+   
   }
 
   pv : boolean = true
@@ -425,6 +431,43 @@ seleccionarRut(){
     
   }
 
+  sortOrder : boolean = true
+
+  sortTable(orden : boolean){
+    if(orden){
+      this.vehiculos.sort((a,b) => a.Ppu.localeCompare(b.Ppu))
+    }else{
+      this.vehiculos.sort((a,b) => b.Ppu.localeCompare(a.Ppu))
+    }
+    this.sortOrder = !this.sortOrder
+    
+  }
+
+  sortOrderEstado : boolean = true
+
+  sortTableEstado(orden : boolean){
+    if(orden){
+      this.vehiculos.sort((a,b) => Number(a.Estado) - Number(b.Estado))
+    }else{
+      this.vehiculos.sort((a,b) => Number(b.Estado) - Number(a.Estado))
+    }
+    this.sortOrderEstado = !this.sortOrderEstado
+    
+  }
+
+  regionSeleccionada : number = 0
+
+  filtrarVehiculoRegion(){
+
+    console.log(this.regionSeleccionada)
+    if(this.regionSeleccionada == 0){
+      this.vehiculos = this.vehiculosFull
+    }else{
+      this.vehiculos = this.vehiculosFull.filter( v => v.Region == this.regionSeleccionada)
+    }
+    console.log(this.vehiculos)
+    
+  }
 
   actualizarDatosVehiculo(){
 
@@ -449,6 +492,9 @@ seleccionarRut(){
 
         this.service.buscarVehiculos().subscribe((data) => {
           this.vehiculos = data
+          this.vehiculosFull = this.vehiculos
+          this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
+          this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
           this.toggleLiveDemo()
         })
       }, error => {
@@ -480,7 +526,7 @@ seleccionarRut(){
 
  buscarVehiculoFiltro(){
   if(this.buscadorVehiculo == '') {
-    this.vehiculos = []
+    this.vehiculos = this.vehiculosFull
   } else {
     this.service.buscarVehiculo(this.buscadorVehiculo).subscribe((data) => {
       this.vehiculos = data
@@ -502,23 +548,28 @@ seleccionarRut(){
 /////
 
 modalidadOperacion : RazonSocial []= []
+modalidadOperacionFull : RazonSocial []= []
 
 visibleCO : boolean = false
 IdVehiculo : number = 0
+Patente : string = ''
 
 toggleLiveCO(id_vehiculo : number) {
 
   const vehiculo = this.vehiculos.filter(vehiculo => vehiculo.Id == id_vehiculo)[0]
 
   this.IdVehiculo = id_vehiculo
+  
 
   console.log(this.IdVehiculo)
 
   if(this.IdVehiculo == 0){
     this.visibleCO = !this.visibleCO;
   }else{
+    this.Patente = vehiculo.Ppu
     this.MoService.getRazonesSocial().subscribe((data) => {
       this.modalidadOperacion = data
+      this.modalidadOperacionFull = data
       this.buscarCentroOperacion()
       this.verificarOperacionVehiculo()
   
@@ -557,13 +608,46 @@ closeModalCO(){
 
 idOperacion : number = 0
 centroOperacion : CentroOperacion [] =[]
+centroOperacionLista : CentroOperacion [] =[]
+centroOperacionAsignado : CentroOperacion [] =[]
+centroOperacionFull : CentroOperacion [] =[]
 
 
 buscarCentroOperacion(){
-  
   this.MoService.centroOperacionAsigandoAVehiculo(this.idOperacion,this.IdVehiculo).subscribe((data) => {
+    this.centroOperacionFull = data
+    this.centroOperacionAsignado = data
+    this.centroOperacionLista = data
     this.centroOperacion = data
   })
+}
+
+
+buscarPorModalidadOperacion(){
+  if(this.idOperacion == 0){
+    this.centroOperacion = this.centroOperacionFull
+    this.centroOperacionLista = this.centroOperacionFull
+    
+  }else{
+    this.centroOperacion = this.centroOperacionFull.filter(co => co.Id_op == this.idOperacion)
+    this.centroOperacionLista = this.centroOperacionFull.filter(co => co.Id_op == this.idOperacion)
+  }
+
+  this.estaAsignadoCO()
+  this.IdCentroOperacion = 0
+}
+
+
+IdCentroOperacion : number = 0
+seleccionarCentroOperacion(){
+  if(this.IdCentroOperacion == 0){
+
+  }else{
+    this.centroOperacion = this.centroOperacionFull.filter(co => co.Id == this.IdCentroOperacion)
+    this.centroOperacionLista = this.centroOperacionFull.filter(co => co.Id_op == this.idOperacion)
+  }
+
+  this.estaAsignadoCO()
 }
 
 convertirVehiculo(id : number){
@@ -571,28 +655,85 @@ convertirVehiculo(id : number){
 }
 
 convertirRegion(id: number){
-  return this.listaRegiones.filter(r => r.Id_region == id )[0].Nombre_region
+  if(this.listaRegiones.length !=0){
+    return this.listaRegiones.filter(r => r.Id_region == id )[0].Nombre_region
+  }else{
+    return ""
+  }
 }
 
-asignarOpVehiculo(id_centro_operacion : number){
 
-  const body = {
-    "Id_user"  : sessionStorage.getItem("id")?.toString()+"",
-    "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
-    "Id_ppu" : this.IdVehiculo,
-    "Id_operacion" : this.idOperacion,
-    "Id_centro": id_centro_operacion,
-    "Estado" : true
+convertirOperacion(id : number){
+  if(this.modalidadOperacion.length != 0){
+    return this.modalidadOperacion.filter(v => v.id == id)[0].nombre
   }
+  return ""
   
-  this.service.asignarOperacionVehiculo(body).subscribe((data : any) => {
-    
-    alert(data.message)
-    this.toggleLiveCO(0)
+}
+
+
+cambiarEstadoVehiculo(id: number, ppu : string){
+  const body ={
+    "id" : id,
+    "ppu" : ppu
+  }
+  this.service.actualizarEstadoVehiculo(body).subscribe((data) => {
+    console.log("actualizado")
   })
 }
 
 
+
+
+asignarOpVehiculo(id_centro_operacion : number, id_op : number){
+
+  console.log('Sos')
+  if(id_centro_operacion == 0 || id_op == 0){
+    alert('Seleccione un centro de operacion')
+  }else {
+    const body = {
+      "Id_user"  : sessionStorage.getItem("id")?.toString()+"",
+      "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+      "Id_ppu" : this.IdVehiculo,
+      "Id_operacion" : id_op,
+      "Id_centro": id_centro_operacion,
+      "Estado" : true
+    }
+
+
+    
+    this.service.asignarOperacionVehiculo(body).subscribe((data : any) => {
+      
+      alert(data.message)
+      this.toggleLiveCO(0)
+    })
+  }
+
+  
+}
+
+isAsignado : boolean = false
+
+estaAsignadoCO(){
+
+  if(this.IdCentroOperacion == 0 ){
+    this.isAsignado = false
+    return false
+  }else{
+    const filtro = this.centroOperacion.filter( co => co.Id == this.IdCentroOperacion)[0]
+    console.log(filtro)
+    if(filtro.Estado == true){
+      this.isAsignado = false
+      return false
+    }else{
+      this.isAsignado = true
+      return true
+    }
+  }
+  
+  
+  
+}
 
  ngOnDestroy(): void {
 

@@ -19,6 +19,7 @@ export class ColaboradoresComponent {
   private selectedCertViPoderes: File | null = null;
   private selectedRegistroComercio: File | null = null;
   private selectedDocBancario: File | null = null;
+  private selectedPdfContrato : File | null = null
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []
   estadoTransporte : any [] =[]
 
@@ -159,6 +160,7 @@ export class ColaboradoresComponent {
   descargarCertRRPP : string | null = null
   descargarCertPoderes : string | null = null
   descargarRegistroComercio: string | null = null
+  descargarPdfContrato: string | null = null
 
 
   /// vehiculos 
@@ -287,7 +289,7 @@ export class ColaboradoresComponent {
     if(tipo_doc == 'doc_RRPP') this.selectedCertRRPP = event.target.files[0];
     if(tipo_doc == 'doc_vigencia') this.selectedCertViPoderes = event.target.files[0];
     if(tipo_doc == 'registro_comercio') this.selectedRegistroComercio = event.target.files[0];
-
+    if(tipo_doc == 'pdf_contrato') this.selectedPdfContrato = event.target.files[0];
   }
   
 
@@ -429,6 +431,7 @@ export class ColaboradoresComponent {
         this.descargarConstitucionLegal = colaborador.Pdf_legal_contitution
         this.descargarCertPoderes = colaborador.Pdf_validity_of_powers
         this.descargarCertRRPP =colaborador.Pdf_certificate_rrpp
+        this.descargarPdfContrato = colaborador.Pdf_contrato
   
         this.descargarRegistroComercio = colaborador.Pdf_registration_comerce
         this.toggleLiveDemo()
@@ -460,7 +463,7 @@ export class ColaboradoresComponent {
       this.descargarConstitucionLegal = colaborador.Pdf_legal_contitution
       this.descargarCertPoderes = colaborador.Pdf_validity_of_powers
       this.descargarCertRRPP =colaborador.Pdf_certificate_rrpp
- 
+      this.descargarPdfContrato = colaborador.Pdf_contrato
       this.descargarRegistroComercio = colaborador.Pdf_registration_comerce
       this.toggleLiveDemo()
     }
@@ -509,7 +512,7 @@ export class ColaboradoresComponent {
         this.uploadFile(this.selectedCertViPoderes,'cert_vig_poderes',nombre)
         this.uploadFile(this.selectedConstitucion,'constitucion_legal',nombre)
         this.uploadFile(this.selectedRegistroComercio,'registro_comercio',nombre)
-
+        this.uploadFile(this.selectedPdfContrato,'pdf_contrato', nombre)
 
         this.formBancario.patchValue({
           Id_razon_social : data.razon
@@ -586,7 +589,7 @@ export class ColaboradoresComponent {
         this.uploadFile(this.selectedCertViPoderes,'cert_vig_poderes',nombre)
         this.uploadFile(this.selectedConstitucion,'constitucion_legal',nombre)
         this.uploadFile(this.selectedRegistroComercio,'registro_comercio',nombre)
-
+        this.uploadFile(this.selectedPdfContrato,'pdf_contrato', nombre)
 
         this.formBancario.patchValue({
           Id_razon_social : data.razon

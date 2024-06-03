@@ -256,9 +256,9 @@ colaboradores : Colaborador [] = []
     const colaborador = this.colaboradores.filter( colab => colab.Rut == this.form.value.Rut )[0]
     this.form.patchValue({
       Nombre_completo : colaborador.Razon_social,
-      Telefono : colaborador.Telefono,
-      Region : colaborador.Region+'',
-      Comuna: colaborador.Comuna+'',
+      // Telefono : colaborador.Telefono,
+      // Region : colaborador.Region+'',
+      // Comuna: colaborador.Comuna+'',
       Rut_seleccionado : colaborador.Rut+''
     })
 

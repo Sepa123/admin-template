@@ -192,6 +192,12 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
       .subscribe((data) => {
         //mostrar aletar exito
         alert('El ingreso se ha realizado Correctamente');
+        this.service.getRazonesSocial().subscribe((data) => {
+          this.modalidadOperacion = data
+          this.formCO.patchValue({
+            Id_op : 'Seleccione una operación'
+          })
+        })
         this.cargarDatos();
         this.toggleLiveDemo()
       },

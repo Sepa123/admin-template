@@ -39,5 +39,10 @@ export class ModalidadDeOperacionesService {
     return this.http.get<CentroOperacion []>(this.apiurl + `/ver/centro_operacion/asignado?id_op=${id_op}&id_ppu=${id_ppu}`)
   }
 
+  getCentroOperaciones(){
+    return this.http.get<CentroOperacion []>(this.apiurl + `/ver/centros_operaciones`)
+  }
+
+
 
 }

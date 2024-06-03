@@ -184,7 +184,7 @@
                     Documento Comercial Bancario
                     
                   <input type="file" name="" id="doc_bancario" *ngIf="descargarDocBancario == null || descargarDocBancario == ''" (change)="onFileSelected($event,'doc_bancario')" class="form-control" accept=".pdf"> 
-                  
+                  <p></p>
                   <button class="btn btn-success" type="button" *ngIf="descargarDocBancario" (click)="descargarArchivo(descargarDocBancario)" >descargar 
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
                 </button>
@@ -198,7 +198,36 @@
           <p></p>
               
           </c-row>
-          
+              <p></p>
+              <h5>Contrato</h5>
+              <p></p>
+
+              <c-row>
+                <c-col [xs]>
+                  <div class="">
+                    PDF Contrato
+                    
+                     <input type="file" name="" id="pdf_contrato" *ngIf="descargarPdfContrato == null || descargarPdfContrato == ''" (change)="onFileSelected($event,'pdf_contrato')" class="form-control" accept=".pdf"> 
+                  <p></p>
+                    <button class="btn btn-success" type="button" *ngIf="descargarPdfContrato" (click)="descargarArchivo(descargarPdfContrato)" >descargar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button>
+                  
+                  </div>
+                </c-col>
+                <c-col [xs]>
+
+                </c-col>
+                <c-col [xs]>       
+                    
+              </c-col>
+              <c-col [xs]>
+                
+              </c-col>
+            
+            <p></p>
+                
+            </c-row>
           
           </div>
             <p></p>
@@ -382,6 +411,7 @@
                 <div class="">
                   Constitución legal
                 <input type="file" name="" id="doc_constitucion" *ngIf="descargarConstitucionLegal == null" (change)="onFileSelected($event,'doc_constitucion')" class="form-control" accept=".pdf"> 
+                <p></p>
                 <button class="btn btn-success" type="button" *ngIf="descargarConstitucionLegal" (click)="descargarArchivo(descargarConstitucionLegal)" >descargar 
                   <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
                 </button>
@@ -393,7 +423,7 @@
                   Certificado RRPP ante el SII
           
                 <input type="file" name="" id="" *ngIf="descargarCertRRPP == null" (change)="onFileSelected($event,'doc_RRPP')" class="form-control" accept=".pdf"> 
-
+                <p></p>
                 <button class="btn btn-success" type="button" *ngIf="descargarCertRRPP" (click)="descargarArchivo(descargarCertRRPP)" >descargar 
                   <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
                 </button>
@@ -405,7 +435,7 @@
                 Certificado vigencia de poderes
         
               <input type="file" name="" id="" *ngIf="descargarCertPoderes == null" (change)="onFileSelected($event,'doc_vigencia')" class="form-control" accept=".pdf"> 
-
+              <p></p>
               <button class="btn btn-success" type="button" *ngIf="descargarCertPoderes" (click)="descargarArchivo(descargarCertPoderes)" >descargar 
                 <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
               </button>
@@ -418,7 +448,7 @@
               Inscripción registro de comercio
       
             <input type="file" name="" id="" *ngIf="descargarRegistroComercio == null"  (change)="onFileSelected($event,'registro_comercio')" class="form-control" accept=".pdf"> 
-        
+            <p></p>
             <button class="btn btn-success" type="button" *ngIf="descargarRegistroComercio" (click)="descargarArchivo(descargarRegistroComercio)" >descargar 
               <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
             </button>
@@ -498,7 +528,7 @@
                     Documento Comercial Bancario
             
                   <input type="file" name="" id="" *ngIf="descargarDocBancario == null || descargarDocBancario == '' " (change)="onFileSelected($event,'doc_bancario')" class="form-control" accept=".pdf"> 
-                  
+                  <p></p>
                   <button class="btn btn-success" type="button" *ngIf="descargarDocBancario" (click)="descargarArchivo(descargarDocBancario)" >descargar 
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
                 </button>
@@ -511,6 +541,37 @@
           <p></p>
               
           </c-row>
+
+          <p></p>
+              <h5>Contrato</h5>
+              <p></p>
+
+              <c-row>
+                <c-col [xs]>
+                  <div class="">
+                    PDF Contrato
+                    
+                     <input type="file" name="" id="pdf_contrato" *ngIf="descargarPdfContrato == null || descargarPdfContrato == ''" (change)="onFileSelected($event,'pdf_contrato')" class="form-control" accept=".pdf"> 
+                    <p></p>
+                    <button class="btn btn-success" type="button" *ngIf="descargarPdfContrato" (click)="descargarArchivo(descargarPdfContrato)" >descargar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button>
+                  
+                  </div>
+                </c-col>
+                <c-col [xs]>
+
+                </c-col>
+                <c-col [xs]>       
+                    
+              </c-col>
+              <c-col [xs]>
+                
+              </c-col>
+            
+            <p></p>
+                
+            </c-row>
           
           
           </div>
@@ -736,6 +797,37 @@
         <p></p>
             
         </c-row>
+
+        <p></p>
+              <h5>Contrato</h5>
+              <p></p>
+
+              <c-row>
+                <c-col [xs]>
+                  <div class="">
+                    PDF Contrato
+                    
+                     <input type="file" name="" id="pdf_contrato" *ngIf="descargarPdfContrato == null || descargarPdfContrato == ''" (change)="onFileSelected($event,'pdf_contrato')" class="form-control" accept=".pdf"> 
+                  
+                    <button class="btn btn-success" type="button" *ngIf="descargarPdfContrato" (click)="descargarArchivo(descargarPdfContrato)" >descargar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button>
+                  
+                  </div>
+                </c-col>
+                <c-col [xs]>
+
+                </c-col>
+                <c-col [xs]>       
+                    
+              </c-col>
+              <c-col [xs]>
+                
+              </c-col>
+            
+            <p></p>
+                
+            </c-row>
         
         
         </div>
@@ -991,6 +1083,39 @@
         <p></p>
             
         </c-row>
+
+        <p></p>
+              <h5>Contrato</h5>
+              <p></p>
+
+              <c-row>
+                <c-col [xs]>
+                  <div class="">
+                    PDF Contrato
+                    
+                     <input type="file" name="" id="pdf_contrato" *ngIf="descargarPdfContrato == null || descargarPdfContrato == ''" (change)="onFileSelected($event,'pdf_contrato')" class="form-control" accept=".pdf"> 
+                  
+                    <button class="btn btn-success" type="button" *ngIf="descargarPdfContrato" (click)="descargarArchivo(descargarPdfContrato)" >descargar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button>
+                  
+                  </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="">
+
+                    </div>
+                </c-col>
+                <c-col [xs]>       
+                    
+              </c-col>
+              <c-col [xs]>
+                
+              </c-col>
+            
+            <p></p>
+                
+            </c-row>
         
         
         </div>
