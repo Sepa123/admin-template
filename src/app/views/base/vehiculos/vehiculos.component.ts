@@ -685,7 +685,10 @@ cambiarEstadoVehiculo(id: number, ppu : string){
 
 
 
-asignarOpVehiculo(id_centro_operacion : number, id_op : number){
+asignarOpVehiculo(id_op : number, id_centro_operacion : number){
+
+  console.log('id Centro',id_centro_operacion)
+  console.log('id opera', id_op)
 
   console.log('Sos')
   if(id_centro_operacion == 0 || id_op == 0){

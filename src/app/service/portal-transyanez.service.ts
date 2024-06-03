@@ -138,6 +138,10 @@ export class PortalTransyanezService {
     return this.http.put(this.apiurl+"/actualizar/estado/vehiculo",data)
   }
 
+  actualizarEstadoTripulacion(data : any){
+    return this.http.put(this.apiurl+"/actualizar/estado/tripulacion",data)
+  }
+
   asignarOperacionVehiculo(data : any){
     return this.http.put(this.apiurl+"/asignar/operacion/vehiculo",data)
   }
@@ -206,6 +210,10 @@ export class PortalTransyanezService {
   }
 
   getUsuariosTransporte(){
+    return this.http.get<Usuario []>(this.apiurl+"/usuarios")
+  }
+
+  buscarUsuariosTransporte(){
     return this.http.get<Usuario []>(this.apiurl+"/usuarios")
   }
 

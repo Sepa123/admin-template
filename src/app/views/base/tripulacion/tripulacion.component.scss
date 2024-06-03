@@ -27,6 +27,11 @@
   .greenTable  table td {
     font-size: 12px;
   }
+
+  .greenTable th.sortable:hover {
+    background-color: #1ece27;
+    cursor: pointer;
+  }
   
   
   .greenTable  table tbody th {

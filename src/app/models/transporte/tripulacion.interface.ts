@@ -24,4 +24,6 @@ export interface Usuario {
     Activo:                boolean;
     Validacion_seguridad:  number;
     Validacion_transporte: number;
+    Razon_social:          string;
+    Rut_razon_social :     string;
 }

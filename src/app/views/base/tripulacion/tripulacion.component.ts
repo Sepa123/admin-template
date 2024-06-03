@@ -43,6 +43,7 @@ export class TripulacionComponent {
   usuarioActivado : boolean | null = false
 colaboradores : Colaborador [] = []
   tripulacion : Usuario [] = []
+  tripulacionFull : Usuario [] = []
   detallePago : DetallePago [] = []
 
   isModalOpen: boolean = false
@@ -128,7 +129,14 @@ colaboradores : Colaborador [] = []
   }
 
 
-
+  cambiarEstadoTripulacion(id: number,){
+    const body ={
+      "id" : id,
+    }
+    this.service.actualizarEstadoTripulacion(body).subscribe((data) => {
+      console.log("actualizado")
+    })
+  }
 
   tipoRazon : string = ""
    
@@ -190,13 +198,15 @@ colaboradores : Colaborador [] = []
 
   buscarColaboradoresPorNombre(){
     if(this.nombreColaborador == ""){
-      this.service.getUsuariosTransporte().subscribe((data) => {
-        this.tripulacion = data
-      })
-    }else{
-      // this.service.buscarColaboradores(this.nombreColaborador).subscribe((data) => {
+      // this.service.getUsuariosTransporte().subscribe((data) => {
+      //   this.tripulacionFull = data
       //   this.tripulacion = data
       // })
+      this.tripulacion = this.tripulacionFull
+    }else{
+      this.tripulacion = this.tripulacionFull.filter(t => t.Nombre_completo.toLowerCase().includes(this.nombreColaborador.toLowerCase())
+                                                    || t.Razon_social.toLowerCase().includes(this.nombreColaborador.toLowerCase()))
+
     }
     
   }
@@ -217,6 +227,7 @@ colaboradores : Colaborador [] = []
 
     this.service.getUsuariosTransporte().subscribe((data) => {
       this.tripulacion = data
+      this.tripulacionFull = data
       this.service.getTiposTripulacion().subscribe((data : any) => {
         this.tipoTripulacion = data
         this.form.patchValue({
@@ -347,6 +358,7 @@ colaboradores : Colaborador [] = []
     this.service.activarColaborador(rut+'',activar).subscribe((mes : any) => {
       this.service.getUsuariosTransporte().subscribe((data) => {
         this.tripulacion = data
+        this.tripulacionFull = data
         alert(mes.message)
         this.toggleLiveDemo()
       })
@@ -362,8 +374,13 @@ colaboradores : Colaborador [] = []
     })
   }
 
+  Rut_razon_social : string = ''
+  Nombre_razon_social : string = ''
   revisarDatos(rut : string){
     const colaborador =this.tripulacion.filter(colab => colab.Rut == rut)[0]
+    this.Rut_razon_social = colaborador.Rut_razon_social
+    this.Nombre_razon_social = colaborador.Razon_social
+
     this.form.reset()
     this.form.patchValue({
       Rut : colaborador.Rut,
@@ -390,6 +407,31 @@ colaboradores : Colaborador [] = []
 
   // this.descargarRegistroComercio = colaborador.Pdf_registration_comerce
     this.toggleLiveDemo()
+  }
+
+
+  sortOrder : boolean = true
+
+  sortTable(orden : boolean){
+    if(orden){
+      this.tripulacion.sort((a,b) => a.Nombre_completo.localeCompare(b.Nombre_completo))
+    }else{
+      this.tripulacion.sort((a,b) => b.Nombre_completo.localeCompare(a.Nombre_completo))
+    }
+    this.sortOrder = !this.sortOrder
+    
+  }
+
+  sortOrderEstado : boolean = true
+
+  sortTableEstado(orden : boolean){
+    if(orden){
+      this.tripulacion.sort((a,b) => Number(a.Activo) - Number(b.Activo))
+    }else{
+      this.tripulacion.sort((a,b) => Number(b.Activo) - Number(a.Activo))
+    }
+    this.sortOrderEstado = !this.sortOrderEstado
+    
   }
 
   registrar(){
@@ -420,6 +462,7 @@ colaboradores : Colaborador [] = []
 
         this.service.getUsuariosTransporte().subscribe((data) => {
           this.tripulacion = data
+          this.tripulacionFull = data
           this.toggleLiveAgregar()
           this.form.reset();
         })
@@ -465,6 +508,7 @@ colaboradores : Colaborador [] = []
 
         this.service.getUsuariosTransporte().subscribe((data) => {
           this.tripulacion = data
+          this.tripulacionFull = data
           this.toggleLiveDemo()
           this.form.reset();
         })

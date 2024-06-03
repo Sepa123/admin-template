@@ -277,6 +277,7 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
   listaRegiones : any [] = []
   listaComunas : any [] = []
   listaComunasFull : any [] = []
+  idOpSave : any = 0
 
   modalidadOperacion : RazonSocial []= []
 
@@ -295,7 +296,7 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
 
   seleccionarOperacion(id : number){
     this.centroOperacion = []
-    
+    this.idOpSave = id
     this.formCO.patchValue({
       Id_op : id+''
     })
@@ -332,10 +333,18 @@ cargarDatosCO(){
 registrarCO(){
   console.log(this.formCO.value)
   if(this.formCO.valid){
-    this.service.agregarCentroOperacion(this.formCO.value).subscribe((data : any) => {
+    const body = {
+      "Id_user" : this.formCO.value.Id_user,
+      "Ids_user" : this.formCO.value.Ids_user,
+      "Centro" : this.formCO.value.Centro,
+      "Region": this.formCO.value.Region,
+      "Descripcion" :this.formCO.value.Descripcion,
+      "Id_op" : this.idOpSave
+    }
+    this.service.agregarCentroOperacion(body).subscribe((data : any) => {
       alert(data.message)
 
-      this.service.getCentroOperacion(parseInt(this.formCO.value.Id_op+'')).subscribe((data) => {
+      this.service.getCentroOperacion(parseInt(this.idOpSave+'')).subscribe((data) => {
         this.centroOperacion = data
       })
     }, error => alert(error.error.detail))
