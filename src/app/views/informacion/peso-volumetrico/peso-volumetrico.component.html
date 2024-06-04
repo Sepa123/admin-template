@@ -83,11 +83,11 @@
     
     <div class="search-container">
         <div class="left">
-          <input type="text" placeholder="Buscar en tabla" id="searchOI" [formControl]="myControl" (change)="searchOI()" (input)="checkAndResetTable()">
+          <input type="text" placeholder="Buscar en tabla" id="searchOI" [formControl]="myControl" (change)="searchOI()" (input)="checkAndResetTable()" (keyup)="onKeyUp($event)">
         </div>
         <div class="right">
             <button mat-button class="Agregar" color="primary" (click)="toggleLiveDemo()">+ Agregar</button>
-            <input id="tableSearch" type="search" placeholder="Buscar para Agregar" [formControl]="myControl" (change)="searchToTable()" (input)="checkAndResetTable()">
+            <input id="tableSearch" type="search" placeholder="Buscar para Agregar" [formControl]="myControl" (change)="searchOI()" (input)="checkAndResetTable()" (keyup)="onKeyUp($event)">
           
         </div>
       </div>

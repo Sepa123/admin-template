@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription, skipUntil, startWith, switchMap } from 'rxjs';
+import { Observable, Subject, Subscription, skipUntil, startWith, switchMap } from 'rxjs';
 import { PesoVolumetricoService } from '../../../service/peso-volumetrico.service';
 import { PesoVolumetrico } from '../../../models/peso-volumetrico.interface';
-import { map } from 'rxjs/operators';
+import { debounceTime, filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-peso-volumetrico',
@@ -22,6 +22,9 @@ export class PesoVolumetricoComponent implements OnInit {
   filteredOptionsData: any[] = [];
 
   descripcionSeleccionada: string = '';
+
+  private searchSubject = new Subject<string>();
+  
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -85,6 +88,16 @@ export class PesoVolumetricoComponent implements OnInit {
        switchMap((value) => this.pv.getSuggestions(value))
      );
 
+     this.searchSubject.pipe(
+      debounceTime(500), // Espera 500 milisegundos después de la última emisión
+      filter(term => term.length > 0) // Filtra términos vacíos
+    ).subscribe(sku => {
+      this.searchOI(sku);
+    });
+  }
+  onKeyUp(event: KeyboardEvent) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.searchSubject.next(inputValue);
   }
 
 
@@ -386,7 +399,7 @@ export class PesoVolumetricoComponent implements OnInit {
 
   }
 
-  searchOI() {
+  searchOI(codigo? : string) {
     this.isloading = false
     const sku = (<HTMLInputElement>document.getElementById('searchOI'))
       .value;
@@ -469,3 +482,5 @@ export class PesoVolumetricoComponent implements OnInit {
     });
   }
 }
+
+
