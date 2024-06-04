@@ -343,6 +343,11 @@ registrarCO(){
     }
     this.service.agregarCentroOperacion(body).subscribe((data : any) => {
       alert(data.message)
+      this.formCO.patchValue({
+          Centro : '',
+          Region : '1',
+          Descripcion : ''
+      })
 
       this.service.getCentroOperacion(parseInt(this.idOpSave+'')).subscribe((data) => {
         this.centroOperacion = data
