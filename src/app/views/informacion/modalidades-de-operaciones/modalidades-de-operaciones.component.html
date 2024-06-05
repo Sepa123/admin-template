@@ -101,6 +101,7 @@
                 <th>Centro</th>
                 <th>Descripción</th>
                 <th>Region</th>
+                <th></th>
             </thead>
             <tbody>
     
@@ -110,6 +111,8 @@
                 <td>{{co.Centro}}</td>
                 <td>{{co.Descripcion}}</td>
                 <td>{{co.Region}}</td>
+                <td><svg xmlns="http://www.w3.org/2000/svg" (click)="eliminarCO(co.Id)" width="24" height="24" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
+                </td>
     
                 <!-- <mat-slide-toggle role="switch" onclick="actualizarEstado()"></mat-slide-toggle> -->
             </tr>
@@ -184,16 +187,16 @@
 
 <c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
     <c-modal-header class="modal-header-custom">
-      <h5 cModalTitle class="modal-title">Registro</h5>
+      <h4 cModalTitle class="modal-title">Registro</h4>
       <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
     </c-modal-header>
     <c-modal-body>
         <form action="">
             <label for="nombre">Nombre *</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
         
             <label for="description">Descripción *</label>
-            <textarea class="materialize-textarea" rows="10" type="text" id="description" name="description" required></textarea>
+            <textarea class="materialize-textarea form-control" rows="10" type="text" id="description" name="description" required></textarea>
             </form>
     </c-modal-body>
     <c-modal-footer class="modal-footer-custom" >

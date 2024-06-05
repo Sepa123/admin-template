@@ -8,4 +8,5 @@ export interface CentroOperacion {
     Descripcion: string;
     Region:      number;
     Estado:      boolean;
+    Id_ppu_op:    number;
 }

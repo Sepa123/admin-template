@@ -524,6 +524,19 @@ seleccionarRut(){
   
  }
 
+ eliminarOpAsignadaVehiculo(id : number){
+    this.service.EliminarOpVehiculo(id).subscribe((data) =>
+    {
+      this.MoService.centroOperacionAsigandoAVehiculo(this.idOperacion,this.IdVehiculo).subscribe((data) => {
+        this.centroOperacionFull = data
+        this.centroOperacionAsignado = data
+        this.centroOperacionLista = data
+        this.centroOperacion = data
+      })
+    })
+ }
+
+
  buscarVehiculoFiltro(){
   if(this.buscadorVehiculo == '') {
     this.vehiculos = this.vehiculosFull
@@ -708,7 +721,10 @@ asignarOpVehiculo(id_op : number, id_centro_operacion : number){
     this.service.asignarOperacionVehiculo(body).subscribe((data : any) => {
       
       alert(data.message)
-      this.toggleLiveCO(0)
+      this.buscarCentroOperacion()
+      // this.idOperacion = 0
+      // this.IdCentroOperacion = 0
+      // this.toggleLiveCO(0)
     })
   }
 

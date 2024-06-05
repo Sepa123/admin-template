@@ -217,5 +217,10 @@ export class PortalTransyanezService {
     return this.http.get<Usuario []>(this.apiurl+"/usuarios")
   }
 
+
+  EliminarOpVehiculo(id : number){
+    return this.http.delete(this.apiurl+`/eliminar/operacion/vehiculo?id=${id}`)
+  }
+
   
 }

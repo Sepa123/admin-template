@@ -330,6 +330,16 @@ cargarDatosCO(){
   })
 }
 
+
+eliminarCO(id : number){
+  this.service.EliminarCentroOperacion(id).subscribe((data) =>
+  {
+    this.service.getCentroOperacion(parseInt(this.idOpSave+'')).subscribe((data) => {
+      this.centroOperacion = data
+    })
+  })
+}
+
 registrarCO(){
   console.log(this.formCO.value)
   if(this.formCO.valid){

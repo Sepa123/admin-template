@@ -803,7 +803,7 @@
                   <p></p>
                   <div class="greenTable" style="width: 100%;">
                 
-                    <table id="tablaProductosPicking" style="width: 100%;"  >
+                    <table id="tablaProductosPicking" style="width: 100%;" *ngIf="idOperacion != 0" >
                     <thead>
                         <th>Operación</th>
                         <th>Centro</th>
@@ -845,7 +845,7 @@
                       <th>Operación</th>
                       <th>Centro</th>
                       <th>Región</th>
-                      <th>Seleccionar</th>
+                      <th></th>
                   </thead>
                   <tbody>
   
@@ -854,7 +854,9 @@
                       <td *ngIf="co.Estado">{{co.Centro}}</td>
                       <td *ngIf="co.Estado">{{co.Region}}</td>
                       <td *ngIf="co.Estado">
-                        Asignado
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" (click)="eliminarOpAsignadaVehiculo(co.Id_ppu_op)"  width="24" height="24" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
+ 
                         
                       </td>
                       <!-- <td *ngIf="!co.Estado">

@@ -43,6 +43,10 @@ export class ModalidadDeOperacionesService {
     return this.http.get<CentroOperacion []>(this.apiurl + `/ver/centros_operaciones`)
   }
 
+  EliminarCentroOperacion(id : number){
+    return this.http.delete(this.apiurl+`/eliminar/centro_operacion?id=${id}`)
+  }
+
 
 
 }
