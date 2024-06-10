@@ -6,7 +6,7 @@ import { ColaboradoresComponent } from './colaboradores/colaboradores.component'
 import { TestComponent } from './test/test.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { TripulacionComponent } from './tripulacion/tripulacion.component';
-
+import { BuscadorComponent } from './buscador/buscador.component';
 const routes: Routes = [
   {
     path: '',
@@ -61,6 +61,13 @@ const routes: Routes = [
           title: 'rest',
         },
       },
+      {
+        path: 'buscador',
+        component: BuscadorComponent,
+        data: {
+          title: 'rest',
+        },
+      },      
     ],
   },
 ];

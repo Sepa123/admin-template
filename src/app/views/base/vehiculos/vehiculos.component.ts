@@ -26,7 +26,7 @@ export class VehiculosComponent {
   private selectedSOAP: File | null = null;
   private selectedPadron: File | null = null;
   private selectedCertGases: File | null = null;
-
+  public rol = sessionStorage.getItem("rol_id") 
 
   descargarPermisoCirculacion : string | null = null
   descargarRevisionTecnica : string | null = null
@@ -370,6 +370,18 @@ seleccionarRut(){
 
         alert(data.message)
 
+        this.service.buscarVehiculos().subscribe((data) => {
+          this.vehiculos = data
+          this.vehiculosFull = this.vehiculos
+          this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
+          this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
+          this.toggleLiveAgregar()
+
+        })
+
+        
+
+        
       })
 
     }else {
@@ -452,6 +464,18 @@ seleccionarRut(){
       this.vehiculos.sort((a,b) => Number(b.Estado) - Number(a.Estado))
     }
     this.sortOrderEstado = !this.sortOrderEstado
+    
+  }
+
+  sortOrderHabilitado : boolean = true
+
+  sortTableHabilitado(orden : boolean){
+    if(orden){
+      this.vehiculos.sort((a,b) => Number(a.Hab_seguridad) - Number(b.Hab_seguridad))
+    }else{
+      this.vehiculos.sort((a,b) => Number(b.Hab_seguridad) - Number(a.Hab_seguridad))
+    }
+    this.sortOrderHabilitado = !this.sortOrderHabilitado
     
   }
 

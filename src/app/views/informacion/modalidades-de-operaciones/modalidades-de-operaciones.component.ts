@@ -332,6 +332,13 @@ cargarDatosCO(){
 
 
 eliminarCO(id : number){
+  const centroSeleccionado = this.centroOperacion.filter((co => co.Id == id))[0]
+  console.log(centroSeleccionado.Id)
+  console.log(centroSeleccionado.Id_op)
+  let isSeguro = confirm(`¿Seguro que desea eliminar el centro ${centroSeleccionado.Centro} ?`);
+
+  if (!isSeguro) return console.log("no esta seguro")
+
   this.service.EliminarCentroOperacion(id).subscribe((data) =>
   {
     this.service.getCentroOperacion(parseInt(this.idOpSave+'')).subscribe((data) => {

@@ -22,8 +22,8 @@ export class ColaboradoresComponent {
   private selectedPdfContrato : File | null = null
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []
   estadoTransporte : any [] =[]
-
-
+  estadoActivoMat : boolean = false
+  public rol = sessionStorage.getItem("rol_id") 
   //datos geo
   latitude!: number
   longitud! :number
@@ -44,6 +44,7 @@ export class ColaboradoresComponent {
 
   colaboradores : Colaborador [] = []
   detallePago : DetallePago [] = []
+  
 
   isModalOpen: boolean = false
   public visible = false;
@@ -92,7 +93,11 @@ export class ColaboradoresComponent {
   public visibleEstado = false;
 
   toggleLiveEstado() {
+    if(this.visibleEstado == true){
+      // this.usuarioActivado = true
+    }
     this.visibleEstado = !this.visibleEstado;
+    
   }
 
   handleLiveEstadoChange(event: any) {
@@ -200,6 +205,7 @@ export class ColaboradoresComponent {
     Peoneta :  this.builder.control(false ),
     Abogado : this.builder.control(0 ),
     Seguridad :this.builder.control(0 ),
+    Activo :  this.builder.control(false ),
   })
 
   formBancario = this.builder.group({
@@ -251,8 +257,20 @@ export class ColaboradoresComponent {
     }
     
   }
-
+  currentDate : string = ''
+  
   ngOnInit() : void {
+
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Meses van de 0 a 11
+    const day = String(now.getDate()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day}`;
+    this.currentDate = formattedDate
+    this.fechaDesvinculacion = formattedDate
+    
     this.comunaService.getListaRegiones().subscribe((data : any) => {
       this.listaRegiones = data
     })
@@ -352,10 +370,12 @@ export class ColaboradoresComponent {
   }
 
 
-  activarUsuario(activar : boolean){
+  activarUsuario(){
+    
     const rut = this.form.value.Rut
-    if(activar == true){
-      this.service.activarColaborador(rut+'',activar).subscribe((mes : any) => {
+    const isActivo = this.form.value.Activo
+    if(isActivo == true){
+      this.service.activarColaborador(rut+'',true).subscribe((mes : any) => {
         this.service.obtenerColaboradores().subscribe((data) => {
           this.colaboradores = data
           alert(mes.message)
@@ -367,10 +387,19 @@ export class ColaboradoresComponent {
     }
   }
 
-  motivoDesactiva : string = ''
+  motivoDesactiva : number = 1
+  fechaDesvinculacion : string = ''
+  descDesviculacion : string = ''
+
+  listaMotivosD : any [] = [{
+    "id": 1,
+    "motivo" : 'Desvinculado'
+  }]
 
   desactivarUsuario(){
-    if(this.motivoDesactiva.trim().length == 0){
+
+    const rut = this.form.value.Rut
+    if(this.descDesviculacion.trim().length == 0){
       alert('Falta ingresar el motivo de la desactivación')
     }else{
       const body = {
@@ -378,13 +407,27 @@ export class ColaboradoresComponent {
         "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
         "Latitud" : this.latStr,
         "Longitud" : this.longStr,
-        "Modificacion" : `Se desactiva el usuario. Motivo : ${this.motivoDesactiva}`,
-        "Origen" : '/transporte/colaboradores'
-      
+        "Descripcion_desvinculacion" : `${this.descDesviculacion}`,
+        "Origen" : '/transporte/colaboradores',
+        "Rut" : rut,
+        "Fecha_desactivacion": this.fechaDesvinculacion,
+        "Motivo_desactivacion" : this.motivoDesactiva
+
       }
-  
-      this.toggleLiveEstado()
-      this.toggleLiveDemo()
+
+      this.service.desvincularColaborador(body).subscribe((data : any) => {
+        // alert(data.message)
+        this.fechaDesvinculacion = this.currentDate
+        this.motivoDesactiva = 1
+
+        this.service.obtenerColaboradores().subscribe((data) => {
+          this.colaboradores = data
+          this.toggleLiveEstado()
+          this.toggleLiveDemo()
+        })
+      })
+      
+      
     }
     
   }
@@ -401,12 +444,16 @@ export class ColaboradoresComponent {
   revisarDatos(rut : string, tipo_razon : string){
     this.tipoRazon = tipo_razon
     const colaborador =this.colaboradores.filter(colab => colab.Rut == rut)[0]
-
+    this.usuarioActivado = colaborador.Activo
     this.service.obtenerDetallePago(colaborador.Id+'').subscribe(data => {
       const detallePago = data[0] 
-      this.usuarioActivado = colaborador.Activo
+      
 
-      console.log(detallePago)
+      this.estadoActivoMat = !this.usuarioActivado
+
+
+      console.log('Este es el')
+      console.log(this.usuarioActivado)
       this.form.reset()
 
       if(detallePago == undefined){
@@ -424,7 +471,8 @@ export class ColaboradoresComponent {
           Representante_legal : colaborador.Representante_legal,
           Rut_representante_legal : colaborador.Rut_representante_legal,
           Giro: colaborador.Giro,
-          Abogado : colaborador.Abogado
+          Abogado : colaborador.Abogado,
+          Activo: colaborador.Activo
 
         })
         this.descargarDocBancario = null
@@ -457,7 +505,8 @@ export class ColaboradoresComponent {
           Tipo_cta : detallePago.Tipo_cuenta+'',
           Forma_pago: detallePago.Forma_pago+'',
           Giro: colaborador.Giro,
-          Abogado : colaborador.Abogado
+          Abogado : colaborador.Abogado,
+          Activo: colaborador.Activo
         })
       this.descargarDocBancario = detallePago.Pdf_documento
       this.descargarConstitucionLegal = colaborador.Pdf_legal_contitution

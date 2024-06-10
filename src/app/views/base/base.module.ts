@@ -38,6 +38,7 @@ import { VehiculosComponent } from './vehiculos/vehiculos.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { TripulacionComponent } from './tripulacion/tripulacion.component';
+import { BuscadorComponent } from './buscador/buscador.component';
 @NgModule({
   imports: [
     FormsModule, ReactiveFormsModule,
@@ -69,7 +70,8 @@ import { TripulacionComponent } from './tripulacion/tripulacion.component';
     ColaboradoresComponent,
     VehiculosComponent,
     UsuariosComponent,
-    TripulacionComponent
+    TripulacionComponent,
+    BuscadorComponent
   ],
 })
 export class BaseModule {}

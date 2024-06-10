@@ -22,7 +22,7 @@ export class TripulacionComponent {
   private selectedFotoPerfil: File | null = null;
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []
   tipoTripulacion : any [] =[]
-
+  public rol = sessionStorage.getItem("rol_id") 
 
   //datos geo
   latitude!: number

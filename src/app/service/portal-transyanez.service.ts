@@ -222,5 +222,26 @@ export class PortalTransyanezService {
     return this.http.delete(this.apiurl+`/eliminar/operacion/vehiculo?id=${id}`)
   }
 
+
+  desvincularColaborador(data : any){
+    return this.http.post(this.apiurl+"/desvincular/colaborador",data)
+  }
   
+  buscarIdVehiculo(id_op : number, id_co : number){
+    return this.http.get(this.apiurl+`/buscar/vehiculos/filtro?id_op=${id_op}&id_co=${id_co}`)
+  }
+
+
+  descargar_vehiculos_buscados(body : any) {
+    this.http.post(this.apiurl + "/vehiculos/descargar", body, {responseType:"blob"}).subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`vehiculos.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+ 
+
 }
