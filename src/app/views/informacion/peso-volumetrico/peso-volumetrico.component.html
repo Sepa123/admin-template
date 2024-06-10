@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header class="modal-header-custom">
+      <h5 cModalTitle class="modal-title">Descripcion Producto </h5>
+      <span class="close" (click)="toggleLiveDemo()">&times;</span>
+      <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+    </c-modal-header>
+    <c-modal-body>
+        <form [formGroup]="form">
+                <h2>Formulario de Producto</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cantidad">SKU</label>
+                            <input 
+                            type="text" 
+                            id="inputSearch"
+                            (change)="searchBySku()"
+                            [formControl]="myControl"
+                            [spellcheck]="false">
+                    </div>
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad de Bultos:</label>
+                        <div class="input-icon">
+                            <i class="fas fa-box"></i>
+                            <input type="number" id="bultos" name="bultos" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label>Descripción del producto:</label>
+                    <div>
+                        <select name="" id="descripcion" class="form-control" (change)="selectBySelect()" >
+                            <option *ngFor="let option of tableData" [value]="option.sku">{{option.descripcion}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="alto">Alto (cm):</label>
+                        <div class="input-icon">
+                            <i class="fas fa-arrows-alt-v"></i>
+                            <input type="number" id="alto" name="alto" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ancho">Ancho (cm):</label>
+                        <div class="input-icon">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            <input type="number" id="ancho" name="ancho" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="profundidad">Profundidad (cm):</label>
+                        <div class="input-icon">
+                            <i class="fas fa-ruler-vertical"></i>
+                            <input type="number" id="profundidad" name="profundidad" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="peso">Peso (kg):</label>
+                        <div class="input-icon">
+                            <i class="fas fa-weight"></i>
+                            <input type="number" id="peso_kg" name="peso_kg" required>
+                        </div>
+                    </div>
+                </div>
+    </form>
+    </c-modal-body>
+    <c-modal-footer class="modal-footer-custom" >
+        <button class="cButtonSave" cButton color="secondary" (click)="submitForm()" >
+            Guardar
+        </button>
+      
+    </c-modal-footer>
+  </c-modal>
+<header>
+    <div class="title">
+        <h1>Descripción Volumetrica del Producto</h1>
+    </div>
+    
+    <div class="search-container">
+        <div class="left">
+          <input type="text" placeholder="Buscar en tabla" id="searchOI" [formControl]="myControl" (change)="searchOI()" (input)="checkAndResetTable()" (keyup)="onKeyUp($event)">
+        </div>
+        <div class="right">
+            <button mat-button class="Agregar" color="primary" (click)="toggleLiveDemo()">+ Agregar</button>
+            <input id="tableSearch" type="search" placeholder="Buscar para Agregar" [formControl]="myControl" (change)="searchOI()" (input)="checkAndResetTable()" (keyup)="onKeyUp($event)">
+          
+        </div>
+      </div>
+    
+    <br>
+</header>
+<body>
+    <section *ngIf="isloading">
+        <table>
+            <tr>
+                <th>sku</th>
+                <th>Descripción</th>
+                <th>Alto</th>
+                <th>Ancho</th>
+                <th>Profundidad</th>
+                <th>Peso</th>
+                <th>Bultos</th>
+                <th>PV</th>
+
+            </tr>
+            <!-- Filas de la tabla con datos -->
+        <tr *ngFor="let option of tableData">
+            <td>{{option.sku}}</td>
+            <td>{{option.descripcion}}</td>
+            <td>{{option.alto}}</td>
+            <td>{{option.ancho}}</td>
+            <td>{{option.profundidad}}</td>
+            <td>{{option.peso_kg}}</td>
+            <td>{{option.bultos}}</td>
+            <td> {{option.pv}} </td>
+           
+            <!-- <mat-slide-toggle role="switch" onclick="actualizarEstado()"></mat-slide-toggle> -->
+        </tr>
+        </table>
+    </section>
+</body>

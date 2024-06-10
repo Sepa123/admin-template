@@ -6,6 +6,8 @@ import { TrackingProductoComponent } from './tracking-producto/tracking-producto
 import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.component'
 import { TimelineComponent } from './timeline/timeline.component';
 import { ModalidadesDeOperacionesComponent } from './modalidades-de-operaciones/modalidades-de-operaciones.component';
+import { PesoVolumetricoComponent } from './peso-volumetrico/peso-volumetrico.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -54,6 +56,13 @@ const routes: Routes = [
           title: "Modalidades de Operaciones"
         }
       },
+      {
+        path : 'peso-volumetrico',
+        component : PesoVolumetricoComponent,
+        data : {
+          title: "Seguimiento Ruta"
+        }
+      }
     ]
   }
 ];

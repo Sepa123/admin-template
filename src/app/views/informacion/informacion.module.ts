@@ -29,6 +29,9 @@ import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.co
 import { TimelineComponent } from './timeline/timeline.component';
 import { ModalidadesDeOperacionesComponent } from './modalidades-de-operaciones/modalidades-de-operaciones.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { NgChartsModule } from 'ng2-charts';
+import { PesoVolumetricoComponent } from './peso-volumetrico/peso-volumetrico.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     EstadoComponent,
@@ -37,6 +40,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     IngresoProductoComponent,
     TimelineComponent,
     ModalidadesDeOperacionesComponent,
+    PesoVolumetricoComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +60,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     NavModule,
     SharedModule,
     UtilitiesModule,
-    ModalModule
+    ModalModule,
+    NgChartsModule,
+    MatAutocompleteModule
   ]
 })
 export class InformacionModule { }

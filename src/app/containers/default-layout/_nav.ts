@@ -687,6 +687,11 @@ export const navItems: INavDataBar[] = [
         name: "Modalidad operacion",
         url: '/informacion/modalidades-de-operaciones',
       }
+      ,
+      {
+        name: "Peso Volumetrico",
+        url:  '/informacion/peso-volumetrico'
+      }
     ]
   },
   { /// Pantalla Informacion Para OPERACIONES
