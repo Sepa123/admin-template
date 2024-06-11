@@ -332,6 +332,8 @@ export class RutasActivasComponent {
         this.rutaEnActivo = data
         // this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  sum + bulto.Bultos, 0)
 
+        //aca debe ir el gimmigk
+
         this.cantBultos = this.rutaEnActivo.reduce((sum,bulto) =>  {
           bulto.arrayBultos = bulto.Bultos.split('@')
 

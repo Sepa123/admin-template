@@ -110,6 +110,10 @@ export class RutasService {
     return this.http.get<RutaEnActivo[]>(this.apiurl + `/listar/activo?nombre_ruta=${nombre_ruta}`)
   }
 
+  recuperar_bultos_sku( body : any){
+    return this.http.post(this.apiurl + `/recuperar/bultos/sku`,body)
+  }
+
   get_nombres_ruta(fecha : string) {
     return this.http.get<NombresRutasActivas[]>(this.apiurl + `/activo/nombre_ruta?fecha=${fecha}`)
   }

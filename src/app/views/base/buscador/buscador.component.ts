@@ -709,9 +709,10 @@ buscarPorModalidadOperacion(){
     this.centroOperacion = this.centroOperacionFull.filter(co => co.Id_op == this.idOperacion)
     this.centroOperacionLista = this.centroOperacionFull.filter(co => co.Id_op == this.idOperacion)
   }
+  this.IdCentroOperacion = 0
 
   this.estaAsignadoCO()
-  this.IdCentroOperacion = 0
+  
 }
 
 
@@ -803,7 +804,7 @@ estaAsignadoCO(){
     this.isAsignado = false
     return false
   }else{
-    const filtro = this.centroOperacion.filter( co => co.Id == this.IdCentroOperacion)[0]
+    const filtro = this.centroOperacionFull.filter( co => co.Id == this.IdCentroOperacion)[0]
     console.log(filtro)
     if(filtro.Estado == true){
       this.isAsignado = false

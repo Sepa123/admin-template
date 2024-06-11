@@ -112,7 +112,7 @@ export const navItems: INavDataBar[] = [
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
-    roles : [ROLES_ENUM.ADMIN,ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.TRANSPORTE_OPERARIO],
+    roles : [ROLES_ENUM.ADMIN,ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.TRANSPORTE_OPERARIO, ROLES_ENUM.JEFE_TRANSPORTE_BENA],
     children: [
       // {
       //   name: 'Reportes',
@@ -575,6 +575,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Alertas Vigentes',
         url: '/toc/alertas-vigentes'
+      },
+      {
+        name: 'NS TOC',
+        url: '/toc/jefatura'
       },
       {
         name: 'Seguimiento Ruta',
