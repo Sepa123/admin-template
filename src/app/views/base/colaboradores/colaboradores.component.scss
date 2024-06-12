@@ -91,3 +91,11 @@
     --mdc-switch-selected-pressed-track-color: #2eb85c;
     --mdc-switch-selected-track-color: #2eb85c;
 }
+
+input[type="text"].disabled-like {
+  background-color: #f0f0f0; /* Color de fondo gris claro */
+  color: #a0a0a0; /* Color de texto gris */
+  border: 1px solid #d0d0d0; /* Borde gris */
+  cursor: not-allowed; /* Cursor de no permitido */
+  pointer-events: none; /* Deshabilita eventos */
+}

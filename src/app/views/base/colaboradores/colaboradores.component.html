@@ -14,7 +14,7 @@
                 <c-col [xs]>
                     <div class="">
                         Razón Social
-                        <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" [disabled]="true" readonly>
+                        <input type="text" placeholder="Razón Social" class="form-control disabled-like" formControlName="Razon_social" [disabled]="true" readonly>
                         <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                         <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
                             Falta agregar la razón social
@@ -26,7 +26,7 @@
                     <div class="noEditar">
                         Rut
                         <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
-                        <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10" [disabled]="true" readonly> 
+                        <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control disabled-like" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10" [disabled]="true" readonly> 
                         <span class="error" *ngIf="form.get('Rut')?.errors?.['required'] && isErrorView">
                             Falta ingresar el rut
                         </span>
@@ -294,8 +294,9 @@
             <c-row>
                 <c-col [xs]>
                     <div class="">
+                      
                         Razón Social
-                        <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" [disabled]="true" readonly >
+                        <input type="text" placeholder="Razón Social" class="form-control disabled-like" formControlName="Razon_social" [disabled]="true" readonly>
                         <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                         <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
                             Falta agregar la razón social
@@ -307,7 +308,7 @@
                     <div class="noEditar">
                         Rut
                         <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
-                        <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10" [disabled]="true" readonly> 
+                        <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control disabled-like" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10" [disabled]="true" readonly> 
                         <span class="error" *ngIf="form.get('Rut')?.errors?.['required'] && isErrorView">
                             Falta ingresar el rut
                         </span>
