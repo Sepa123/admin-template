@@ -218,32 +218,48 @@ seleccionarRut(){
     this.comunaService.getListaRegiones().subscribe((data : any) => {
       this.listaRegiones = data
 
-      this.service.buscarVehiculos().subscribe((data) => {
-        this.vehiculos = data
-        this.vehiculosFull = this.vehiculos
-        this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
-        this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
-        this.service.obtenerColaboradores().subscribe((data) => {
-          this.colaboradores = data
-        })
-      })
+      
     })
 
     this.MoService.getRazonesSocial().subscribe((data) => {
       this.modalidadOperacion = data
       this.modalidadOperacionFull = data
-      this.buscarCentroOperacion()
+      this.MoService.getCentroOperaciones().subscribe(data => {
+        this.centroOperacionFull = data
+        this.centroOperacionLista = data
+        this.centroOperacion = data
+
+        this.service.buscarVehiculosMasOperaciones().subscribe((data) => {
+          data.map(v => {
+            if(v.Operaciones[0] == null){
+              v.Operaciones = []
+            }else{
+              // v.Operaciones =  v.Operaciones.map((op : any) => this.convertirOperaciones(op))
+              v.Operaciones = [...new Set(v.Operaciones.map((op : any) => this.convertirOperaciones(op)))];
+            }
+            if(v.Centro_operaciones[0] == null){
+              v.Centro_operaciones = []
+            }else{
+              v.Centro_operaciones =  v.Centro_operaciones.map((co : any) => this.convertirCentroOperaciones(co))
+            }
+          })
+          this.vehiculos = data
+          this.vehiculosFull = this.vehiculos
+          this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
+          this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
+          this.service.obtenerColaboradores().subscribe((data) => {
+            this.colaboradores = data
+          })
+        })
+    })
+      // this.buscarCentroOperacion()
       // this.verificarOperacionVehiculo()
   
       // const operacion = this.modalidadOperacion.filter( op => op.id == vehiculo.Agency_id)
   
     })
 
-    // this.MoService.getCentroOperaciones().subscribe(data => {
-    //     this.centroOperacionFull = data
-    //     this.centroOperacionLista = data
-    //     this.centroOperacion = data
-    // })
+    
 
     this.comunaService.getListaComunas().subscribe((data : any) => {
       this.listaComunas = data
@@ -379,7 +395,7 @@ seleccionarRut(){
 
         alert(data.message)
 
-        this.service.buscarVehiculos().subscribe((data) => {
+        this.service.buscarVehiculosMasOperaciones().subscribe((data) => {
           this.vehiculos = data
           this.vehiculosFull = this.vehiculos
           this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
@@ -523,7 +539,7 @@ seleccionarRut(){
         this.uploadFileVehiculos(this.selectedPadron,'padron',nombre)
         this.uploadFileVehiculos(this.selectedCertGases,'cert_gases',nombre)
 
-        this.service.buscarVehiculos().subscribe((data) => {
+        this.service.buscarVehiculosMasOperaciones().subscribe((data) => {
           this.vehiculos = data
           this.vehiculosFull = this.vehiculos
           this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
@@ -604,6 +620,8 @@ seleccionarRut(){
       Tipo : this.tipoVehiculos.filter(f => f.id == v.Tipo)[0].name,
       Region : this.listaRegiones.filter(f => f.Id_region == v.Region)[0].Nombre_region,
       Comuna : this.listaComunasFull.filter(f => f.Id_comuna == v.Comuna)[0].Nombre_comuna,
+      Operaciones : v.Operaciones.join(', '),
+      Centro_operaciones : v.Centro_operaciones.join(', ')
     }
   })
 
@@ -730,6 +748,19 @@ seleccionarCentroOperacion(){
 
 convertirVehiculo(id : number){
   return this.tipoVehiculos.filter(v => v.id == id)[0].name
+}
+
+
+convertirOperaciones(id : number){
+  if(id == null) return 'nada'
+
+
+  return this.modalidadOperacion.filter(v => v.id == id)[0].nombre
+}
+
+convertirCentroOperaciones(id : number){
+  if(id == null) return 'nada'
+  return this.centroOperacionFull.filter(v => v.Id == id)[0].Centro
 }
 
 convertirRegion(id: number){

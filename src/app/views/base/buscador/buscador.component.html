@@ -10,7 +10,7 @@
           </c-col>
           
           <c-col [xs]>
-            <select id="Region"  cSelect  class="form-control" [(ngModel)]="IdCentroOperacion" (click)="seleccionarCentroOperacion()">
+            <select id="Region"  cSelect  class="form-control" [(ngModel)]="IdCentroOperacion" >
               <option  [value]="0" >Seleccione Centro Operación</option>
               <option *ngFor="let co of centroOperacion"  [value]="co.Id"  >{{co.Centro}}</option>
           </select>
@@ -50,6 +50,8 @@
                 <th class="sortable" (click)="sortTable(sortOrder)">Patente</th>
                 <th>Razón social</th>
                 <th>Tipo Vehiculo</th>
+                <th>Operación</th>
+                <th>Centro Operacion</th>
                 <th>Región Disponible</th>
                 <!-- <th>Rut</th> -->
                 <th>GPS</th>
@@ -65,6 +67,25 @@
               <td>{{vehiculo.Ppu}}</td>
               <td>{{vehiculo.Razon_social}}</td>
               <td>{{ convertirVehiculo(vehiculo.Tipo) }}</td>
+              <!-- <td>
+                <table class="nada">
+                  <tr *ngFor="let op of vehiculo.Operaciones">
+                    <td>{{ convertirOperacion(op)}}</td>
+                  </tr>
+                </table>
+              </td>
+              <td>
+                <table class="nada">
+                  <tr *ngFor="let co of vehiculo.Centro_operaciones">
+                    <td>{{ convertirCentroOperaciones(co)}}</td>
+                  </tr>
+                </table>
+              </td> -->
+              <!-- <td>{{ vehiculo.Operaciones }}</td> -->
+              <td ><div  class="borderDemo" *ngFor="let op of vehiculo.Operaciones" >{{op}}</div></td>
+              <td ><div  class="borderDemo" *ngFor="let co of vehiculo.Centro_operaciones" >{{co}}</div></td>
+
+              <!-- <td>{{ vehiculo.Centro_operaciones }}</td> -->
               <td>{{ convertirRegion(vehiculo.Region) }}</td>
               <td>
                 <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 384 512" *ngIf="vehiculo.Gps">

@@ -103,6 +103,11 @@ export class PortalTransyanezService {
   }
 
 
+  buscarVehiculosMasOperaciones(){
+    return this.http.get<Vehiculo []>(this.apiurl+"/buscar/vehiculos/operacion")
+  }
+
+
 
   buscarColaboradores(nombre : string){
     return this.http.get<Colaborador []>(this.apiurl+`/buscar/colaboradores?nombre=${nombre}`)

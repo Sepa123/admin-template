@@ -131,7 +131,7 @@ export const navItems: INavDataBar[] = [
         url : '/transporte/tripulacion'
       },
       {
-        name: 'Buscador',
+        name: 'Reporte',
         url : '/transporte/buscador'
       },
     ]

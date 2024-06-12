@@ -36,6 +36,8 @@ export interface Vehiculo {
     Imei :                        string
     Oc_instalacion :              string
     Fecha_instalacion :           string
+    Operaciones:                  any [] 
+    Centro_operaciones:           any [] 
     
 }
 

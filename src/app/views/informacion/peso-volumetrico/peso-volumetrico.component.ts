@@ -92,7 +92,7 @@ export class PesoVolumetricoComponent implements OnInit {
       debounceTime(500), // Espera 500 milisegundos después de la última emisión
       filter(term => term.length > 0) // Filtra términos vacíos
     ).subscribe(sku => {
-      this.searchOI(sku);
+      this.searchOI();
     });
   }
   onKeyUp(event: KeyboardEvent) {
@@ -363,6 +363,45 @@ export class PesoVolumetricoComponent implements OnInit {
 
   }
 
+  searchBySku1stMenu() {
+    const sku = (<HTMLInputElement>document.getElementById('inputS'))
+      .value;
+    console.log(sku)
+    this.subReporte = this.pv.getSuggestions(sku).subscribe((data) => {
+      console.log(this.subReporte);
+      this.tableData = data;
+      console.log(this.tableData);
+      this.isloading = false
+
+      
+      if (this.tableData.length > 0) {
+        const selectedData = this.tableData[0];
+        const inputElements = {
+          sku: <HTMLInputElement>document.getElementById('inputSearch'),
+          bultos: <HTMLInputElement>document.getElementById('bultos'),
+          alto: <HTMLInputElement>document.getElementById('alto'),
+          ancho: <HTMLInputElement>document.getElementById('ancho'),
+          profundidad: <HTMLInputElement>document.getElementById('profundidad'),
+          peso_kg: <HTMLInputElement>document.getElementById('peso_kg'),
+        };
+
+        inputElements.sku.value = selectedData.sku.toString();
+        inputElements.bultos.value = selectedData.bultos.toString();
+        inputElements.alto.value = selectedData.alto.toString();
+        inputElements.ancho.value = selectedData.ancho.toString();
+        inputElements.profundidad.value = selectedData.profundidad.toString();
+        inputElements.peso_kg.value = selectedData.peso_kg.toString();
+        this.isloading = true
+      }else{
+        this.isloading = false
+        
+      }
+    });
+
+    
+
+  }
+
   searchToTable() {
     const sku = (<HTMLInputElement>document.getElementById('tableSearch'))
       .value;
@@ -399,11 +438,11 @@ export class PesoVolumetricoComponent implements OnInit {
 
   }
 
-  searchOI(codigo? : string) {
-    this.isloading = false
-    const sku = (<HTMLInputElement>document.getElementById('searchOI'))
-      .value;
+  searchOI(codigo? : any) {
+    
+    const sku = (<HTMLInputElement>document.getElementById('searchOI')).value;
     console.log(sku)
+    this.isloading = false
     this.subReporte = this.pv.getArrayTable(sku).subscribe((data) => {
       console.log(this.subReporte);
       this.tableData = data;
@@ -482,5 +521,3 @@ export class PesoVolumetricoComponent implements OnInit {
     });
   }
 }
-
-

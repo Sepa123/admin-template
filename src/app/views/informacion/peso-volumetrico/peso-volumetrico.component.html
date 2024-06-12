@@ -15,7 +15,7 @@
                             <input 
                             type="text" 
                             id="inputSearch"
-                            (change)="searchBySku()"
+                            (change)="searchBySku1stMenu()"
                             [formControl]="myControl"
                             [spellcheck]="false">
                     </div>
@@ -30,7 +30,7 @@
                 <div class="form-group" >
                     <label>Descripción del producto:</label>
                     <div>
-                        <select name="" id="descripcion" class="form-control" (change)="selectBySelect()" >
+                        <select name="" id="descripcion" (change)="selectBySelect()" >
                             <option *ngFor="let option of tableData" [value]="option.sku">{{option.descripcion}}</option>
                         </select>
                     </div>
@@ -81,17 +81,15 @@
         <h1>Descripción Volumetrica del Producto</h1>
     </div>
     
-    <div class="search-container">
+    <div class="search-container" [formGroup]="form">
         <div class="left">
           <input type="text" placeholder="Buscar en tabla" id="searchOI" [formControl]="myControl" (change)="searchOI()" (input)="checkAndResetTable()" (keyup)="onKeyUp($event)">
         </div>
         <div class="right">
             <button mat-button class="Agregar" color="primary" (click)="toggleLiveDemo()">+ Agregar</button>
-            <input id="tableSearch" type="search" placeholder="Buscar para Agregar" [formControl]="myControl" (change)="searchOI()" (input)="checkAndResetTable()" (keyup)="onKeyUp($event)">
-          
+            <input id="inputS" type="text" placeholder="Buscar para Agregar" [formControl]="myControl" (change)="searchBySku1stMenu()">
         </div>
-      </div>
-    
+    </div>
     <br>
 </header>
 <body>
