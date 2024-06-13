@@ -24,6 +24,8 @@ export class ColaboradoresComponent {
   estadoTransporte : any [] =[]
   estadoActivoMat : boolean = false
   public rol = sessionStorage.getItem("rol_id") 
+
+  public rol_no_permitido = ['71','72']
   //datos geo
   latitude!: number
   longitud! :number
