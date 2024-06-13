@@ -1,0 +1,184 @@
+/* styles.css */
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .user-container {
+    display: flex;
+    align-items: flex-start; /* Alinea los elementos al principio */
+    margin-top: 50px;
+    margin-left: 80px;
+    width:80%;
+  }
+  
+  .profile-picture-container {
+    position: relative;
+    margin-right: 20px; /* Espacio entre el avatar y el formulario */
+    z-index: 1; /* Asegura que el avatar esté sobre el formulario */
+  }
+  
+  .profile-picture {
+      width: 150px; /* Ajuste el tamaño del avatar */
+      height: 150px; /* Ajuste el tamaño del avatar */
+      border-radius: 50%; /* Hace el avatar redondo */
+      border: 2px solid #ddd;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden; /* Se asegura de que la imagen no se salga del círculo */
+      position: absolute;
+      top: -30px;
+      left: -70px;
+  }
+  
+  .profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen dentro del círculo */
+  }
+  
+  .change-picture-btn {
+    position: absolute;
+    bottom:-120px; /* Posición en el centro inferior */
+    left: 10px; /* Posición en el centro horizontal */
+    transform: translateX(-50%); /* Centra horizontalmente */
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 5px;
+    border-radius: 50%;
+  }
+  
+  .change-picture-btn i {
+    color: #333;
+  }
+  
+  .user-details-container {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    flex: 1;
+  }
+  
+  .name-container {
+    position: relative;
+    z-index: 2; /* Asegura que el nombre esté sobre el formulario */
+    margin-bottom: -20px; /* Espacio entre el nombre y el formulario */
+    
+  }
+  
+  .name-container h2 {
+    margin: 0;
+    padding: 10px; /* Agrega un espacio alrededor del nombre */
+    background-color: #f9f9f9; /* Color de fondo para el cuadro del nombre */
+    border: 1px solid #ddd;
+    color: #000000;
+    border-radius: 5px;
+    top: -50px;
+    margin-left: 50px;
+    position: absolute;
+  }
+  
+  .email-container {
+    margin-top: 10px;
+    margin-left: 60px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .email-container i {
+    margin-right: 5px;
+    color: #999;
+  }
+  
+  .copy-email-btn {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+  }
+  
+  .copy-email-btn:hover {
+    color: #000;
+  }
+  
+  form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* Cambia la dirección del flex a columna */
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: flex;
+    align-items: center; /* Alinea los íconos y el texto verticalmente */
+    margin-bottom: 5px;
+    text-align: right; /* Alinea los textos de las etiquetas a la derecha */
+  }
+  
+  label i {
+    margin-right: 5px;
+  }
+  
+  input[type="text"],
+  input[type="date"] {
+    width: calc(100% - 10px);
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 5px;
+    max-width: 400px;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
