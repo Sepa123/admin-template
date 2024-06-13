@@ -142,21 +142,45 @@ export const tipoCuenta = [
 
 export const tipoVehiculo = [
     {
-        "id": 1,
-        "name": "Camión"
-    },
-    {
-        "id": 2,
-        "name": "Camioneta"
-    },
-    {
-        "id": 3,
-        "name": "Furgón"
-    },
-    {
-        "id": 4,
-        "name": "Sedan"
-    }
+		"id" : 1,
+		"name" : "Camión"
+	},
+	{
+		"id" : 2,
+		"name" : "Camioneta"
+	},
+	{
+		"id" : 3,
+		"name" : "Furgón"
+	},
+	{
+		"id" : 4,
+		"name" : "Sedan"
+	},
+	{
+		"id" : 5,
+		"name" : "Cargo Box"
+	},
+	{
+		"id" : 6,
+		"name" : "Rampla"
+	},
+	{
+		"id" : 7,
+		"name" : "Tracto"
+	},
+	{
+		"id" : 8,
+		"name" : "Camioneta Eléctrica"
+	},
+	{
+		"id" : 9,
+		"name" : "Station Wagon"
+	},
+	{
+		"id" : 10,
+		"name" : "Furgoneta"
+	}
 ]
 
 export const marcaVehiculo =  [
