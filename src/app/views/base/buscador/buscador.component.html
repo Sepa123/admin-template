@@ -82,8 +82,8 @@
                 </table>
               </td> -->
               <!-- <td>{{ vehiculo.Operaciones }}</td> -->
-              <td ><div  class="borderDemo" *ngFor="let op of vehiculo.Operaciones" >{{op}}</div></td>
-              <td ><div  class="borderDemo" *ngFor="let co of vehiculo.Centro_operaciones" >{{co}}</div></td>
+              <td ><div  class="borderDemo" [ngStyle]="{'background-color': geBgColorOp(op)}" *ngFor="let op of vehiculo.Operaciones" >{{op}}</div></td>
+              <td ><div  class="borderDemo" [ngStyle]="{'background-color': geBgColorCo(co)}"*ngFor="let co of vehiculo.Centro_operaciones" >{{co}}</div></td>
 
               <!-- <td>{{ vehiculo.Centro_operaciones }}</td> -->
               <td>{{ convertirRegion(vehiculo.Region) }}</td>

@@ -8,5 +8,6 @@ export interface RazonSocial {
     description : string,
     Creation_date : string,
     update_date: string,
-    estado : boolean
+    estado : boolean,
+    color : string
 }

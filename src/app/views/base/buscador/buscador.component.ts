@@ -214,6 +214,18 @@ seleccionarRut(){
     // Hab_seguridad : this.builder.control(false ),
   })
 
+
+  geBgColorOp(contenido : string){
+    if (contenido == null) return ''
+    return this.modalidadOperacionFull.filter(op => op.nombre == contenido)[0].color
+  }
+
+  geBgColorCo(contenido : string){
+    if (contenido == null) return ''
+    const id_op = this.centroOperacionFull.filter(op => op.Centro == contenido)[0].Id_op
+    return this.modalidadOperacionFull.filter(op => op.id == id_op)[0].color
+  }
+
   ngOnInit() : void {
     this.comunaService.getListaRegiones().subscribe((data : any) => {
       this.listaRegiones = data
@@ -222,8 +234,13 @@ seleccionarRut(){
     })
 
     this.MoService.getRazonesSocial().subscribe((data) => {
+      data.map( op => {
+        op.color = this.getColor(op.id)
+      })
+
       this.modalidadOperacion = data
       this.modalidadOperacionFull = data
+      console.log(this.modalidadOperacionFull)
       this.MoService.getCentroOperaciones().subscribe(data => {
         this.centroOperacionFull = data
         this.centroOperacionLista = data
@@ -236,6 +253,7 @@ seleccionarRut(){
             }else{
               // v.Operaciones =  v.Operaciones.map((op : any) => this.convertirOperaciones(op))
               v.Operaciones = [...new Set(v.Operaciones.map((op : any) => this.convertirOperaciones(op)))];
+           
             }
             if(v.Centro_operaciones[0] == null){
               v.Centro_operaciones = []
@@ -271,6 +289,51 @@ seleccionarRut(){
     })
 
    
+  }
+
+  colorMap : any [] = []
+
+  generateRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+isLightColor(color : string) {
+  // Convert hex color to RGB
+  const r = parseInt(color.slice(1, 3), 16);
+  const g = parseInt(color.slice(3, 5), 16);
+  const b = parseInt(color.slice(5, 7), 16);
+
+  // Calculate luminosity
+  const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+  // A value above 128 is considered light
+  return luminosity > 128;
+}
+
+generateLightRandomColor() {
+  let color;
+  do {
+      color = this.generateRandomColor();
+  } while (!this.isLightColor(color));
+  return color;
+}
+
+  getColor(number : number) {
+    // Verificar si el número ya tiene un color asignado
+    if (this.colorMap[number]) {
+        // Si ya tiene un color, devolverlo
+        return this.colorMap[number];
+    } else {
+        // Si no tiene un color asignado, asignar uno nuevo
+        const newColor = this.generateLightRandomColor();
+        this.colorMap[number] = newColor;
+        return newColor;
+    }
   }
 
   pv : boolean = true
@@ -619,7 +682,7 @@ seleccionarRut(){
     return { ...v,
       Tipo : this.tipoVehiculos.filter(f => f.id == v.Tipo)[0].name,
       Region : this.listaRegiones.filter(f => f.Id_region == v.Region)[0].Nombre_region,
-      Comuna : this.listaComunasFull.filter(f => f.Id_comuna == v.Comuna)[0].Nombre_comuna,
+      // Comuna : this.listaComunasFull.filter(f => f.Id_comuna == v.Comuna)[0].Nombre_comuna,
       Operaciones : v.Operaciones.join(', '),
       Centro_operaciones : v.Centro_operaciones.join(', ')
     }
@@ -769,6 +832,15 @@ convertirRegion(id: number){
   }else{
     return ""
   }
+}
+
+ngAfterViewInit() {
+  document.querySelectorAll('.borderDemo').forEach((element : any) => {
+    const text = element.getAttribute('data-text');
+    console.log(text)
+    const color = this.getColor(text);
+    element.style.backgroundColor = color;
+  });
 }
 
 

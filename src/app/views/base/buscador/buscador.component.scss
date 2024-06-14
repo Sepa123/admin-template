@@ -34,6 +34,9 @@
   padding: 3px;
   margin: 3px;
   border-radius: 5px;
+  font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* Opcional: Agrega "..." al final si el texto es demasiado largo */
   background-color: #C6C6C6;
   }
 
