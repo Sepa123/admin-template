@@ -351,7 +351,7 @@ export const navItems: INavDataBar[] = [
     name: 'Operaciones',
     url: '/operaciones',
     iconComponent: { name: 'cil-clipboard' },
-    roles : [ROLES_ENUM.PICKEADOR_TIENDA],
+    roles : [ROLES_ENUM.PICKEADOR_TIENDA,ROLES_ENUM.TRANSPORTE_OPERARIO],
     children: [
       {
         name: 'Estados',
@@ -641,7 +641,7 @@ export const navItems: INavDataBar[] = [
     name: 'Rutas',
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
-    roles : [ROLES_ENUM.JEFE_TRANSPORTE],
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE, ROLES_ENUM.TRANSPORTE_OPERARIO],
     children: [
       {
         name: 'Rutas Activas',
@@ -653,7 +653,7 @@ export const navItems: INavDataBar[] = [
     name: 'Información',
     url: '/informacion',
     iconComponent : {name : 'cil-magnifying-glass'},
-    roles : [ROLES_ENUM.JEFE_TRANSPORTE],
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE,ROLES_ENUM.TRANSPORTE_OPERARIO],
     children: [
       {
         name: "Tracking Producto",

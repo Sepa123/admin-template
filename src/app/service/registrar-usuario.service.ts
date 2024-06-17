@@ -15,4 +15,8 @@ export class RegistrarUsuarioService {
   registrarNuevoUsuario(data : any) {
     return this.http.post(this.apiurl + "/registrar", data)
   }
+
+  getDatosUsuario(id: string, server : string){
+    return this.http.get(this.apiurl + `/ver/datos?id=${id}&server=${server}`)
+  }
 }

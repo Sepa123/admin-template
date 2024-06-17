@@ -7,6 +7,7 @@ import { MiCuentaRoutingModule } from './mi-cuenta-routing.module';
 import { SeguridadComponent } from './seguridad/seguridad.component';
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
 
+import { ModalModule } from '@coreui/angular';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ConfiguracionComponent } from './configuracion/configuracion.component'
     CommonModule,
     FormsModule, ReactiveFormsModule,
     MiCuentaRoutingModule,
-    ButtonModule, CardModule, FormModule, GridModule
+    ButtonModule, CardModule, FormModule, GridModule,
+    ModalModule
   ]
 })
 export class MiCuentaModule { }
