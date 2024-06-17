@@ -1,0 +1,192 @@
+<div class="container mt-5">
+    <h1 class="mb-4">Gestión de Citaciones de Vehículos</h1>
+
+    <!-- Selector de Fecha y Botón Nueva Citación -->
+    <div class="inline-form mb-3">
+        <div class="form-group">
+            <label for="fechaCitaciones">Seleccionar Fecha:</label>
+            <input type="date" class="form-control" id="fechaCitaciones">
+        </div>
+        <button class="nueva_citacion" (click)="toggleLiveDemo()">
+            <i class="fas fa-plus"></i> Nueva Citación
+        </button>
+    </div>
+
+    <!-- Tabla de Citaciones -->
+    <h2>Citaciones para el día seleccionado:</h2>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Operación</th>
+                <th scope="col">Región</th>
+                <th scope="col">Citados</th>
+                <th scope="col">Confirmados</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+
+    </table>
+</div>
+
+<mat-expansion-panel hideToggle *ngFor="let Ct of modalidades">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{Ct.operacion}}
+        </mat-panel-title>
+        <mat-panel-description>
+            <span>{{Ct.region_name}}</span>
+        </mat-panel-description>
+        <br>
+        <mat-panel-description>
+            <span>{{Ct.citacion}}</span>
+        </mat-panel-description>
+        <mat-panel-description>
+            <span>{{Ct.confirmados}}</span>
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div *ngFor="let Ct2 of modalidades">
+        <button (click)="toggleLive3()">
+            {{Ct2.nombre_cop}}
+        </button>
+    </div>
+
+</mat-expansion-panel>
+<c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+        <h5 class="modal-title" id="modalNuevaCitacionLabel">Agregar Transportista</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="toggleLiveDemo()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+    </c-modal-header>
+
+    <c-modal-body>
+        <form id="formNuevaCitacion">
+            <div class="form-row" *ngFor="let Ct of modalidades">
+                <div class="form-group col-md-6">
+                    <label for="operacion">Operación</label>
+                    <select class="form-control" id="operacion" >
+                        <option value="Ct.operacion">{{Ct.operacion}}</option>
+                        <!-- Agregar más opciones según sea necesario -->
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="centroOperacion">Centro de Operación</label>
+                    <select class="form-control" id="centroOperacion">
+                        <option value="Ct.nombre_cop">{{Ct.nombre_cop}}</option>
+                        <!-- Agregar más opciones según sea necesario -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-group icon-input">
+                <label for="patente">Patente</label>
+                <i class="fas fa-truck"></i>
+                <input type="text" class="form-control" id="patente" placeholder="Ingrese patente">
+                <small id="razonSocial" class="form-text text-muted">Razón Social: -</small>
+            </div>
+            
+            <ul id="listaPatentes" class="list-group">
+                <!-- Las patentes se agregarán aquí dinámicamente -->
+            </ul>
+        </form>
+    </c-modal-body>
+
+    <c-modal-footer>
+        <button type="button" class="btn btn-secondary mb-2" id="agregarPatente">
+            <i class="fas fa-plus"></i> Agregar Patente
+        </button>
+        <ul id="listaPatentes" class="list-group">
+            <!-- Las patentes se agregarán aquí dinámicamente -->
+        </ul>
+        <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+
+    </c-modal-footer>
+</c-modal>
+-------------------------------------------------------------------
+<c-modal [visible]="visible2" (visibleChange)="handleLiveDemoChange2($event)">
+    <c-modal-header>
+        <h5 class="modal-title" id="modalNuevaCitacionLabel">Agregar Transportista</h5>
+        <button (click)="toggleLiveTP()" cButtonClose type="button" class="close" data-dismiss="modal"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+    </c-modal-header>
+
+    <c-modal-body>
+        <div class="select-conductor-container">
+            <label for="conductores"> Choferes</label>
+            <select class="form-control" id="operacion">
+                <option *ngFor="let con of conductores" [value]="con.nombre_completo">{{con.nombre_completo}}</option>
+            </select>
+        </div>
+        <div class="select-peoneta-container">
+            <Label>Peonetas</Label>
+            <select class="form-control" id="centroOperacion">
+                <option *ngFor="let peo of peonetas" [value]="peo.nombre_completo">{{peo.nombre_completo}}</option>
+            </select>
+        </div>
+    </c-modal-body>
+
+    <c-modal-footer>
+        <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+
+    </c-modal-footer>
+</c-modal>
+
+<c-modal [visible]="visible3" (visibleChange)="handleLiveDemoChange3($event)">
+    <c-modal-header>
+        <h5 class="modal-title" id="modalNuevaCitacionLabel">Patentes</h5>
+        <button (click)="toggleLive3()" cButtonClose type="button" class="close" data-dismiss="modal"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+    </c-modal-header>
+
+    <c-modal-body>
+
+        <div>
+            <div>
+
+            </div>
+        </div>
+        <div class="modalidades-div" *ngFor="let Ct2 of modalidades">
+            <div class="select-conductor-container">
+                <label for="test1">asistencia</label>
+                <select name="test1" id="test1">
+                    <option *ngFor="let es of estados" value="es.estado">{{es.estado}}</option>
+                </select>
+    
+    
+            </div>
+            <div class="select-peoneta-container">
+                <label for="test2"> id Meli</label>
+                <input type="text">
+            </div>
+    
+            <button class="agregar-transportistas" (click)="toggleLiveTP()" (click)="toggleLive3()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M15 14c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4m-9-4V7H4v3H1v2h3v3h2v-3h3v-2m6 2a4 4 0 0 0 4-4a4 4 0 0 0-4-4a4 4 0 0 0-4 4a4 4 0 0 0 4 4" />
+                </svg>
+            </button>
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 512 512">
+                    <rect width="448" height="80" x="32" y="48" fill="currentColor" rx="32" ry="32" />
+                    <path fill="currentColor"
+                        d="M74.45 160a8 8 0 0 0-8 8.83l26.31 252.56a1.5 1.5 0 0 0 0 .22A48 48 0 0 0 140.45 464h231.09a48 48 0 0 0 47.67-42.39v-.21l26.27-252.57a8 8 0 0 0-8-8.83Zm248.86 180.69a16 16 0 1 1-22.63 22.62L256 318.63l-44.69 44.68a16 16 0 0 1-22.63-22.62L233.37 296l-44.69-44.69a16 16 0 0 1 22.63-22.62L256 273.37l44.68-44.68a16 16 0 0 1 22.63 22.62L278.62 296Z" />
+                </svg>
+            </button>
+        </div>
+
+    </c-modal-body>
+
+    <c-modal-footer>
+        <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+
+    </c-modal-footer>
+</c-modal>
