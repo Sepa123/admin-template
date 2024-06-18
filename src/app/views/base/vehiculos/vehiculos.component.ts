@@ -127,7 +127,7 @@ seleccionarRut(){
     this.formVehiculo.patchValue({
       Id_user  : sessionStorage.getItem("id")?.toString()+"",
       Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
-      Rut_colaborador :'Seleccione un colaborador',
+      Rut_colaborador :'',
       Region : '1',
       Comuna : '1',
       Tipo : '1',
@@ -190,22 +190,22 @@ seleccionarRut(){
     razon_id : this.builder.control(null ),
     Rut_colaborador : this.builder.control("" ),
     Razon_social : this.builder.control("" ),
-    Ppu : this.builder.control("" ),
+    Ppu : this.builder.control("",[Validators.required] ),
     Tipo : this.builder.control("" ),
     // Caracteristicas  : this.builder.control(""),
     Marca  : this.builder.control("" ),
-    Modelo  : this.builder.control("" ),
-    Ano  : this.builder.control("" ),
+    Modelo  : this.builder.control("",[Validators.required] ),
+    Ano  : this.builder.control("",[Validators.required] ),
     Region : this.builder.control("" ),
     Comuna : this.builder.control("" ),
     Estado : this.builder.control(false),
-    Capacidad_carga_kg : this.builder.control("" ),
-    Capacidad_carga_m3 : this.builder.control("" ),
-    Platform_load_capacity_kg : this.builder.control("" ),
-    Crane_load_capacity_kg : this.builder.control("" ),
-    Permiso_circulacion_fec_venc : this.builder.control("" ),
-    Soap_fec_venc : this.builder.control("" ),
-    Revision_tecnica_fec_venc : this.builder.control("" ),
+    Capacidad_carga_kg : this.builder.control("",[Validators.required]),
+    Capacidad_carga_m3 : this.builder.control("",[Validators.required] ),
+    Platform_load_capacity_kg : this.builder.control("" ,[Validators.required]),
+    Crane_load_capacity_kg : this.builder.control("" ,[Validators.required]),
+    Permiso_circulacion_fec_venc : this.builder.control("",[Validators.required] ),
+    Soap_fec_venc : this.builder.control("",[Validators.required] ),
+    Revision_tecnica_fec_venc : this.builder.control("",[Validators.required] ),
     Hab_vehiculo : this.builder.control(false),
     Hab_seguridad : this.builder.control(false ),
     Gps : this.builder.control(false),
@@ -380,16 +380,14 @@ seleccionarRut(){
           this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
           this.toggleLiveAgregar()
 
-        })
-
-        
-
-        
+        })   
       })
 
     }else {
+      
       alert('error al ingresar los datos')
       console.log(this.formVehiculo.value)
+      this.isErrorView = true
     }
 
   }

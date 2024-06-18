@@ -108,7 +108,7 @@ colaboradores : Colaborador [] = []
     this.form.reset()
 
     this.form.patchValue({
-      Rut_razon_social: 'Seleccione un colaborador',
+      Rut_razon_social: '',
       Region : '1',
       Comuna : '1',
       Tipo_usuario : '1'
@@ -162,8 +162,8 @@ colaboradores : Colaborador [] = []
   caracteristicasVehiculo : any [] = caracteristicasVehiculo
 
   form = this.builder.group({
-    Nombre_razon_social : this.builder.control("" ),
-    Rut_razon_social : this.builder.control("" ),
+    Nombre_razon_social : this.builder.control("",[Validators.required] ),
+    Rut_razon_social : this.builder.control("" ,[Validators.required] ),
     Nombre_completo : this.builder.control("" , [Validators.required]),
     Nro_serie_cedula : this.builder.control("" ),
     Rut : this.builder.control("" , [Validators.required]),

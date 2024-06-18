@@ -241,7 +241,7 @@
               <c-col [xs]>
                   <div class="">
                       Nombre Completo
-                      <input type="text" placeholder="Nombre Completo" class="form-control" formControlName="Nombre_razon_social" >
+                      <input type="text" placeholder="Nombre Completo" class="form-control" formControlName="Nombre_razon_social" readonly>
                       <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                       <span class="error" *ngIf="form.get('Nombre_razon_social')?.errors?.['required'] && isErrorView">
                           Falta agregar el nombre
@@ -253,13 +253,15 @@
                   <div class="noEditar">
                       Rut
 
-                      <select id="Region" cSelect formControlName="Rut_razon_social" (change)="seleccionarRut()" class="form-control">
-                        <option [value]="'Seleccione un colaborador'" selected>Seleccione un colaborador</option>
-                        <option *ngFor="let colab of colaboradores"   [value]="colab.Rut"  >{{colab.Rut}}</option>
-                    </select>
-                    <span class="error" *ngIf="(form.get('Rut_razon_social')?.errors?.['required'] ||form.value.Rut_razon_social == 'Seleccione un colaborador')&& isErrorView">
-                      Falta ingresar el rut
-                  </span>
+                      <input list="RutColaboradores" name="RutColaboradores" formControlName="Rut_razon_social"  class="form-control" placeholder="Seleccione un colaborador" (change)="seleccionarRut()" />
+                        <datalist id="RutColaboradores" >
+                          <!-- <option [value]="'Seleccione un colaborador'" selected>Seleccione un colaborador</option> -->
+                          <option *ngFor="let colab of colaboradores"  [value]="colab.Rut"  >{{colab.Rut}}</option>
+                        </datalist>
+
+                      <span class="error" *ngIf="(form.get('Rut_razon_social')?.errors?.['required'] ||form.value.Rut_razon_social == 'Seleccione un colaborador')&& isErrorView">
+                        Falta ingresar el rut
+                    </span>
 
                       <!-- <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10" > 
                       
