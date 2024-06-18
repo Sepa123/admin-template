@@ -58,6 +58,14 @@
   .greenTable  table td {
     font-size: 12px;
   }
+
+  input[type="text"].disabled-like {
+    background-color: #f0f0f0; /* Color de fondo gris claro */
+    color: #a0a0a0; /* Color de texto gris */
+    border: 1px solid #d0d0d0; /* Borde gris */
+    cursor: not-allowed; /* Cursor de no permitido */
+    pointer-events: none; /* Deshabilita eventos */
+  }
   
 
   .greenTable th.sortable:hover {

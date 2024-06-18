@@ -25,6 +25,7 @@ export class ConfiguracionComponent {
     Password_antigua : this.builder.control("", [Validators.required ,Validators.minLength(6)]),
     Password_nueva : this.builder.control("",  [Validators.required,Validators.minLength(6)]),
     Password_repetida: this.builder.control("",  [Validators.required,Validators.minLength(6)]),
+    Mail: this.builder.control(""),
   })
 
   isErrorView : boolean = false
@@ -104,12 +105,16 @@ export class ConfiguracionComponent {
 
   actualizarPassword(){
     this.isErrorView = false
+    this.passForm.patchValue({Mail : this.mail})
     if(this.passForm.valid){
       console.log(this.passForm.value)
       if(this.passForm.value.Password_nueva !== this.passForm.value.Password_repetida){
         this.isErrorView = true
       } else{
-        alert('contraseña aCTUALIZADA CORRECTAMENTE')
+        // alert('contraseña aCTUALIZADA CORRECTAMENTE')
+        this.service.cambiarPassword(this.passForm.value).subscribe((data:any) => {
+          alert(data.message)
+        })
         this.isErrorView = false
       }  
     }else {

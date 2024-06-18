@@ -216,6 +216,7 @@ seleccionarRut(){
     // Hab_seguridad : this.builder.control(false ),
   })
 
+  cantVehiculo : number = 0
   ngOnInit() : void {
     this.comunaService.getListaRegiones().subscribe((data : any) => {
       this.listaRegiones = data
@@ -223,6 +224,7 @@ seleccionarRut(){
       this.service.buscarVehiculos().subscribe((data) => {
         this.vehiculos = data
         this.vehiculosFull = this.vehiculos
+        this.cantVehiculo = this.vehiculosFull.length
         this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
         this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
         this.service.obtenerColaboradores().subscribe((data) => {

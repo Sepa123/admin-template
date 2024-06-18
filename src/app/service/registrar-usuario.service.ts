@@ -19,4 +19,9 @@ export class RegistrarUsuarioService {
   getDatosUsuario(id: string, server : string){
     return this.http.get(this.apiurl + `/ver/datos?id=${id}&server=${server}`)
   }
+
+
+  cambiarPassword(data : any) {
+    return this.http.post(this.apiurl + "/nueva/password", data)
+  }
 }

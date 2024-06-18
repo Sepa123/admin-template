@@ -58,6 +58,7 @@
                 <span class="error" *ngIf="form.get('Ppu')?.errors?.['required'] && isErrorView">
                     Falta agregar la patente
                 </span>
+                sdad
         </div>
       </c-col>
           <c-col [xs]>
@@ -347,7 +348,7 @@
               <div class="noEditar">
                   Rut Colaborador *
                   <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
-                  <input type="text" placeholder="Rut" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_colaborador" (change)="verificaRut('colab_vehiculo'); veficarColabExiste(formVehiculo.value.Rut_colaborador)"   maxlength="10" readonly> 
+                  <input type="text" placeholder="Rut" placeholder="Ejemplo : 11111111-1" class="form-control disabled-like"  formControlName="Rut_colaborador" (change)="verificaRut('colab_vehiculo'); veficarColabExiste(formVehiculo.value.Rut_colaborador)"   maxlength="10" readonly> 
                   <span class="error" *ngIf="form.get('Rut_colaborador')?.errors?.['required'] && isErrorView">
                       Falta ingresar el rut
                   </span>
@@ -359,7 +360,7 @@
           <c-col [xs]>
             <div class="">
                 Razón Social
-                <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" readonly>
+                <input type="text" placeholder="Razón Social" class="form-control disabled-like"  formControlName="Razon_social" readonly>
                 <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                 <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
                     Falta agregar la razón social
@@ -705,6 +706,23 @@
           <button class="btn btn-success" (click)="buscarVehiculoFiltro()">Buscar</button>
         </c-col>
     </c-row>
+    <p></p>
+    <c-row>
+      <c-col [xs] >
+       <h5>Cantidad : {{cantVehiculo}} </h5>
+      </c-col>
+      <c-col [xs]>
+
+      </c-col>
+      <c-col [xs]>
+          
+
+      </c-col>
+      <c-col [xs]>
+          
+        
+      </c-col>
+  </c-row>
       <p></p>
       <div class="greenTable" style="width: 100%;">
         
