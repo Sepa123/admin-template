@@ -740,10 +740,12 @@
             </td>
             <!-- <td>{{formatearRUT(vehiculo.Rut)}}</td> -->
             <td>
-              <mat-slide-toggle  [(ngModel)]="vehiculo.Estado" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
-                <!-- <span *ngIf="formVehiculo.value.Estado">Activado</span>
-                <span *ngIf="!formVehiculo.value.Estado">Desactivado</span> -->
-               </mat-slide-toggle>
+              <div class="slide-toggle-container">
+                <mat-slide-toggle  [(ngModel)]="vehiculo.Estado" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
+                  <!-- <span *ngIf="formVehiculo.value.Estado">Activado</span>
+                  <span *ngIf="!formVehiculo.value.Estado">Desactivado</span> -->
+                </mat-slide-toggle>
+                </div> 
             </td>
             <td *ngIf="vehiculo.Hab_seguridad">
               <svg  xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
@@ -753,6 +755,7 @@
             </td>
             <td>{{vehiculo.Created_at}}</td>
             <td>
+              
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="revisarDatosVehiculo(vehiculo.Ppu)" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
 
             </td>

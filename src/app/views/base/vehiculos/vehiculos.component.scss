@@ -13,6 +13,10 @@
     margin-bottom: 10px;
     width: 100%;
 }
+.slide-toggle-container {
+  position: relative; /* o absolute, fixed, dependiendo de tus necesidades */
+  z-index: 1; /* o cualquier valor más bajo que el thead */
+}
 
 .rectangulo {
   background-color: #ffcccc; /* Rojo claro */
@@ -73,6 +77,7 @@
   .greenTable table thead {
     position: sticky;
     top: 0;
+    z-index: 10;
     left: 0;
     background: #28A745;
   }

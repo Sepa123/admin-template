@@ -181,7 +181,7 @@ export const navItems: INavDataBar[] = [
     name: 'EXO',
     url: '/exo',
     iconComponent: { name: 'cil-bar-chart' },
-    roles : ['daroly.vargas@transyanez.cl'],
+    roles : [ROLES_ENUM.TRANSPORTE_OPERARIO],
     children: [
       {
         name: 'NS Beetrack',
