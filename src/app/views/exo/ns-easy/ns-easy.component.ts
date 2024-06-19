@@ -230,9 +230,9 @@ ngOnDestroy(): void {
   if(this.subNSPanelRegion) this.subNSPanelRegion.unsubscribe()
   if(this.subNsEasy) this.subNsEasy.unsubscribe()
 
-  if(this.subNSPanelR) this.subNSPanel.unsubscribe()
-  if(this.subNSPanelRegionR) this.subNSPanelRegion.unsubscribe()
-  if(this.subNsEasyR) this.subNsEasy.unsubscribe()
+  if(this.subNSPanelR) this.subNSPanelR.unsubscribe()
+  if(this.subNSPanelRegionR) this.subNSPanelRegionR.unsubscribe()
+  if(this.subNsEasyR) this.subNsEasyR.unsubscribe()
 
   }
 

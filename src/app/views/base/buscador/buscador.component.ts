@@ -156,6 +156,7 @@ seleccionarRut(){
   tipoVehiculos : any [] = tipoVehiculo
   marcaVehiculo : any [] = marcaVehiculo
   caracteristicasVehiculo : any [] = caracteristicasVehiculo
+  listaPatentes : any [] = []
 
   form = this.builder.group({
     Razon_social : this.builder.control("" , [Validators.required]),
@@ -263,6 +264,8 @@ seleccionarRut(){
           })
           this.vehiculos = data
           this.vehiculosFull = this.vehiculos
+
+          this.listaPatentes = this.vehiculosFull.map(v => v.Ppu)
           this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
           this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
           this.service.obtenerColaboradores().subscribe((data) => {
@@ -672,6 +675,14 @@ generateLightRandomColor() {
       }
     })
   }
+ }
+
+ //buscarVehiculoPorPatente
+
+ patenteSeleccionada : string = ''
+
+ buscarVehiculoPorPatente(){
+  this.vehiculos = this.vehiculosFull.filter(v => v.Ppu == this.patenteSeleccionada)
  }
 
 //  listaComunasFull

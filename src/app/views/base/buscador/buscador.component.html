@@ -41,6 +41,35 @@
             
           </c-col>
       </c-row>
+      <p></p>
+      <c-row>
+        <c-col [xs] >
+          <input list="Patentes" name="RutColaboradores" class="form-control" placeholder="Buscar por patente" [(ngModel)]="patenteSeleccionada" />
+                  <datalist id="Patentes" >
+                    <!-- <option [value]="'Seleccione un colaborador'" selected>Seleccione un colaborador</option> -->
+                    <option *ngFor="let colab of listaPatentes"  [value]="colab"  >{{colab}}</option>
+                  </datalist>
+        </c-col>
+        
+        <c-col [xs]>
+          <table>
+            <tr>
+              <td>
+                <button class="btn btn-success" (click)="buscarVehiculoPorPatente()">Buscar por patente</button>
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </c-col>
+        <c-col [xs]>
+
+        </c-col>
+        <c-col [xs]>
+          
+          
+        </c-col>
+    </c-row>
         <p></p>
         <div class="greenTable" style="width: 100%;">
           
