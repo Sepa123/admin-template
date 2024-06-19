@@ -63,7 +63,7 @@
                 <span class="error" *ngIf="formVehiculo.get('Ppu')?.errors?.['required']  && isErrorView">
                     Falta agregar la patente
                 </span>
-                sdad
+                
         </div>
       </c-col>
           <c-col [xs]>
@@ -254,6 +254,7 @@
         
     </c-col>
     </c-row>
+    
     <p></p>
     <!-- Tickets de GPS -->
     <c-row>
@@ -600,6 +601,37 @@
             
         </c-col>
         </c-row>
+
+    <c-row *ngIf="formVehiculo.get('Hab_vehiculo')?.value == false">
+      <c-col [xs]>
+        <div class="">
+          Motivo Desactivación
+            <!-- <input type="text" placeholder="IMEI" class="form-control" formControlName="Imei" > -->
+            <textarea class="form-control" rows="2" cols="38" type="text" id="description" name="description" formControlName="Desc_desabilitado"></textarea>
+        </div>
+    </c-col>
+    <!-- <c-col [xs]>
+      <div class="">
+          OC Instalación
+          <input type="text" placeholder="OC" class="form-control" formControlName="Oc_instalacion" >
+
+      </div>
+  </c-col> -->
+    <c-col [xs]>
+      <!-- <div class="">
+        Fecha Desvinculación
+          <input type="date" class="form-control" formControlName="Fecha_instalacion" >
+          
+      </div> -->
+  </c-col>
+  <c-col [xs]>
+    <div class="">
+
+    </div>
+</c-col>
+    
+
+    </c-row>
         <p></p>
         <!-- Tickets de GPS -->
         <c-row>

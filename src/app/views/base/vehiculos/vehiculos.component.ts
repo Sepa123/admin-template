@@ -203,16 +203,17 @@ seleccionarRut(){
     Capacidad_carga_m3 : this.builder.control("",[Validators.required] ),
     Platform_load_capacity_kg : this.builder.control("" ,[Validators.required]),
     Crane_load_capacity_kg : this.builder.control("" ,[Validators.required]),
-    Permiso_circulacion_fec_venc : this.builder.control("",[Validators.required] ),
-    Soap_fec_venc : this.builder.control("",[Validators.required] ),
-    Revision_tecnica_fec_venc : this.builder.control("",[Validators.required] ),
+    Permiso_circulacion_fec_venc : this.builder.control("" ),
+    Soap_fec_venc : this.builder.control("" ),
+    Revision_tecnica_fec_venc : this.builder.control("" ),
     Hab_vehiculo : this.builder.control(false),
     Hab_seguridad : this.builder.control(false ),
     Gps : this.builder.control(false),
     Imei :this.builder.control(""),
     Oc_instalacion : this.builder.control(""),
     Fecha_instalacion : this.builder.control(""),
-    Id_gps : this.builder.control("")
+    Id_gps : this.builder.control(""),
+    Desc_desabilitado :this.builder.control("")
     // Hab_seguridad : this.builder.control(false ),
   })
 
@@ -501,7 +502,7 @@ seleccionarRut(){
 
     this.isErrorView = false
 
-    console.log(this.formVehiculo.value.Estado)
+    console.log(this.formVehiculo.value)
 
     if(this.formVehiculo.valid){
 
@@ -525,6 +526,7 @@ seleccionarRut(){
           this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
           this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
           this.toggleLiveDemo()
+          this.formVehiculo.patchValue({Desc_desabilitado : ''})
         })
       }, error => {
         alert(error.error.detail)
