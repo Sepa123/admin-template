@@ -282,7 +282,8 @@ export class EasyCdComponent {
 
 
  ngOnDestroy(): void {
-
+  // Cancelar la suscripción al destruir el componente
+  this.subRecepcion.unsubscribe();
   }
 
 }

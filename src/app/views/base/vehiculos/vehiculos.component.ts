@@ -376,6 +376,7 @@ seleccionarRut(){
         this.service.buscarVehiculos().subscribe((data) => {
           this.vehiculos = data
           this.vehiculosFull = this.vehiculos
+          this.cantVehiculo = this.vehiculosFull.length
           this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
           this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
           this.toggleLiveAgregar()
@@ -487,8 +488,10 @@ seleccionarRut(){
     console.log(this.regionSeleccionada)
     if(this.regionSeleccionada == 0){
       this.vehiculos = this.vehiculosFull
+      this.cantVehiculo = this.vehiculosFull.length
     }else{
       this.vehiculos = this.vehiculosFull.filter( v => v.Region == this.regionSeleccionada)
+      this.cantVehiculo = this.vehiculos.length
     }
     console.log(this.vehiculos)
     
@@ -518,6 +521,7 @@ seleccionarRut(){
         this.service.buscarVehiculos().subscribe((data) => {
           this.vehiculos = data
           this.vehiculosFull = this.vehiculos
+          this.cantVehiculo = this.vehiculosFull.length
           this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
           this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
           this.toggleLiveDemo()
@@ -565,9 +569,11 @@ seleccionarRut(){
  buscarVehiculoFiltro(){
   if(this.buscadorVehiculo == '') {
     this.vehiculos = this.vehiculosFull
+    this.cantVehiculo = this.vehiculos.length
   } else {
     this.service.buscarVehiculo(this.buscadorVehiculo).subscribe((data) => {
       this.vehiculos = data
+      this.cantVehiculo = this.vehiculos.length
     })
   }
  }
