@@ -290,6 +290,10 @@ export class ColaboradoresComponent {
       this.colaboradores = data
       this.service.getEstadoTransporte().subscribe((data : any) => {
         this.estadoTransporte = data
+
+        this.service.getMotivosDesvinculacion().subscribe((data : any) => {
+          this.listaMotivosD = data
+        })
       })
     })
 
@@ -386,6 +390,7 @@ export class ColaboradoresComponent {
       })
     }else{
       this.toggleLiveEstado()
+      
     }
   }
 
@@ -393,10 +398,13 @@ export class ColaboradoresComponent {
   fechaDesvinculacion : string = ''
   descDesviculacion : string = ''
 
-  listaMotivosD : any [] = [{
-    "id": 1,
-    "motivo" : 'Desvinculado'
-  }]
+  listaMotivosD : any [] = []
+
+  darFalse(){
+    this.form.patchValue({
+      Activo : true
+    })
+  }
 
   desactivarUsuario(){
 

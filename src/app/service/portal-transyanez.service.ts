@@ -249,4 +249,8 @@ export class PortalTransyanezService {
   }
  
 
+  getMotivosDesvinculacion(){
+    return this.http.get(this.apiurl+"/colaborador/desvinculacion")
+  }
+
 }
