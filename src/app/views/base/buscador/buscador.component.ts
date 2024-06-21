@@ -205,14 +205,14 @@ seleccionarRut(){
     Permiso_circulacion_fec_venc : this.builder.control("" ),
     Soap_fec_venc : this.builder.control("" ),
     Revision_tecnica_fec_venc : this.builder.control("" ),
-    Hab_vehiculo : this.builder.control(false),
-    Hab_seguridad : this.builder.control(false ),
+    Disponible : this.builder.control(false),
+    Habilitado : this.builder.control(false ),
     Gps : this.builder.control(false),
     Imei :this.builder.control(""),
     Oc_instalacion : this.builder.control(""),
     Fecha_instalacion : this.builder.control(""),
     Id_gps : this.builder.control("")
-    // Hab_seguridad : this.builder.control(false ),
+    // Habilitado : this.builder.control(false ),
   })
 
 
@@ -444,7 +444,7 @@ generateLightRandomColor() {
     this.isErrorView = false
 
     this.formVehiculo.patchValue({
-      Estado : this.formVehiculo.value.Hab_vehiculo
+      Estado : this.formVehiculo.value.Disponible
     })
 
     if(this.formVehiculo.valid && this.form.value.Rut != 'Seleccione un colaborador'){
@@ -499,7 +499,7 @@ generateLightRandomColor() {
       Ano  : datosVehiculo.Ano+'',
       Region : datosVehiculo.Region+'',
       Comuna : datosVehiculo.Comuna+'',
-      Estado : datosVehiculo.Hab_vehiculo,
+      Estado : datosVehiculo.Disponible,
       Capacidad_carga_kg : datosVehiculo.Capacidad_carga_kg+'',
       Capacidad_carga_m3 : datosVehiculo.Capacidad_carga_m3+'',
       Platform_load_capacity_kg : datosVehiculo.Platform_load_capacity_kg+'',
@@ -507,8 +507,8 @@ generateLightRandomColor() {
       Permiso_circulacion_fec_venc : datosVehiculo.Permiso_circulacion_fec_venc,
       Soap_fec_venc : datosVehiculo.Soap_fec_venc,
       Revision_tecnica_fec_venc : datosVehiculo.Revision_tecnica_fec_venc,
-      Hab_vehiculo : datosVehiculo.Hab_vehiculo,
-      Hab_seguridad : datosVehiculo.Hab_seguridad,
+      Disponible : datosVehiculo.Disponible,
+      Habilitado : datosVehiculo.Habilitado,
       Id_gps : datosVehiculo.Id_gps+'',
       Gps : datosVehiculo.Gps,
       Imei :datosVehiculo.Imei,
@@ -562,9 +562,9 @@ generateLightRandomColor() {
 
   sortTableHabilitado(orden : boolean){
     if(orden){
-      this.vehiculos.sort((a,b) => Number(a.Hab_seguridad) - Number(b.Hab_seguridad))
+      this.vehiculos.sort((a,b) => Number(a.Habilitado) - Number(b.Habilitado))
     }else{
-      this.vehiculos.sort((a,b) => Number(b.Hab_seguridad) - Number(a.Hab_seguridad))
+      this.vehiculos.sort((a,b) => Number(b.Habilitado) - Number(a.Habilitado))
     }
     this.sortOrderHabilitado = !this.sortOrderHabilitado
     

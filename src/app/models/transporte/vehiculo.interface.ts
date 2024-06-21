@@ -39,7 +39,11 @@ export interface Vehiculo {
     Operaciones:                  any [] 
     Centro_operaciones:           any [] 
     Desc_desabilitado:            string;
-}
+    Fecha_desinstalacion :        string
+    Oc_desinstalacion:            string
+    Disponible :                boolean;
+    Habilitado :               boolean;
+}   
 
 
 export interface AsignarOperacion {

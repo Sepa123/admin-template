@@ -240,10 +240,10 @@
     <c-row>
           <c-col [xs]>
             
-            <div [ngClass]="formVehiculo.get('Hab_vehiculo')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
-              <input type="checkbox" formControlName="Hab_vehiculo" >
-                  <label for="" *ngIf="formVehiculo.get('Hab_vehiculo')?.value">Activo</label> 
-                  <label for="" *ngIf="!formVehiculo.get('Hab_vehiculo')?.value">Deshabilitado</label> 
+            <div [ngClass]="formVehiculo.get('Habilitado')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
+              <input type="checkbox" formControlName="Habilitado" >
+                  <label for="" *ngIf="formVehiculo.get('Habilitado')?.value">Activo</label> 
+                  <label for="" *ngIf="!formVehiculo.get('Habilitado')?.value">Deshabilitado</label> 
 
             </div>
         </c-col>
@@ -307,11 +307,11 @@
     <!-- Tickets de estado -->
     <!-- <c-row>
       <c-col [xs]>
-        <div [ngClass]="formVehiculo.get('Hab_seguridad')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
-          <input type="checkbox" formControlName="Hab_seguridad"  >
+        <div [ngClass]="formVehiculo.get('Habilitado')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
+          <input type="checkbox" formControlName="Habilitado"  >
         
-                  <label for="" *ngIf="formVehiculo.get('Hab_seguridad')?.value"> Habilitado por seguridad</label> 
-                  <label for="" *ngIf="!formVehiculo.get('Hab_seguridad')?.value">Deshabilitado</label> 
+                  <label for="" *ngIf="formVehiculo.get('Habilitado')?.value"> Habilitado por seguridad</label> 
+                  <label for="" *ngIf="!formVehiculo.get('Habilitado')?.value">Deshabilitado</label> 
 
 
         </div>
@@ -587,10 +587,10 @@
       <!-- Tickets de Habilitado Transporte -->
     <c-row>
       <c-col [xs]>
-        <div [ngClass]="formVehiculo.get('Hab_vehiculo')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
-          <input type="checkbox" formControlName="Hab_vehiculo" >
-                  <label for="" *ngIf="formVehiculo.get('Hab_vehiculo')?.value">Activo</label> 
-                  <label for="" *ngIf="!formVehiculo.get('Hab_vehiculo')?.value">Deshabilitado</label> 
+        <div [ngClass]="formVehiculo.get('Habilitado')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
+          <input type="checkbox" formControlName="Habilitado" >
+                  <label for="" *ngIf="formVehiculo.get('Habilitado')?.value">Activo</label> 
+                  <label for="" *ngIf="!formVehiculo.get('Habilitado')?.value">Deshabilitado</label> 
 
                 </div>
           </c-col>
@@ -602,7 +602,7 @@
         </c-col>
         </c-row>
 
-    <c-row *ngIf="formVehiculo.get('Hab_vehiculo')?.value == false">
+    <c-row *ngIf="formVehiculo.get('Habilitado')?.value == false">
       <c-col [xs]>
         <div class="">
           Motivo Desactivación
@@ -618,17 +618,18 @@
       </div>
   </c-col> -->
     <c-col [xs]>
-      <!-- <div class="">
-        Fecha Desvinculación
-          <input type="date" class="form-control" formControlName="Fecha_instalacion" >
-          
-      </div> -->
-  </c-col>
-  <c-col [xs]>
-    <div class="">
+      <div class="">
+          OC Desinstalación
+          <input type="text" placeholder="OC" class="form-control" formControlName="Oc_desinstalacion" >
 
-    </div>
-</c-col>
+      </div>
+  </c-col>
+    <c-col [xs]>
+      <div class="">
+          Fecha Desinstalación
+          <input type="date" class="form-control" formControlName="Fecha_desinstalacion" >
+      </div>
+    </c-col>
     
 
     </c-row>
@@ -682,10 +683,10 @@
 <!-- Tickets de estado -->
 <!-- <c-row>
   <c-col [xs]>
-    <div [ngClass]="formVehiculo.get('Hab_seguridad')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
-      <input type="checkbox" formControlName="Hab_seguridad"  >
-          <label for="" *ngIf="formVehiculo.get('Hab_seguridad')?.value"> Habilitado por seguridad</label> 
-          <label for="" *ngIf="!formVehiculo.get('Hab_seguridad')?.value">Deshabilitado</label> 
+    <div [ngClass]="formVehiculo.get('Habilitado')?.value ? 'rectangulo-seguridad' : 'rectangulo'">
+      <input type="checkbox" formControlName="Habilitado"  >
+          <label for="" *ngIf="formVehiculo.get('Habilitado')?.value"> Habilitado por seguridad</label> 
+          <label for="" *ngIf="!formVehiculo.get('Habilitado')?.value">Deshabilitado</label> 
 
     </div>
 </c-col>
@@ -772,7 +773,7 @@
               <th>Región Disponible</th>
               <!-- <th>Rut</th> -->
               <th>GPS</th>
-              <th (click)="sortTableEstado(sortOrderEstado)" class="sortable">Disponible </th>
+              <th (click)="sortTableDisponible(sortOrderEstado)" class="sortable">Disponible </th>
               <th (click)="sortTableHabilitado(sortOrderHabilitado)" class="sortable">Habilitado</th>
               <th>Fecha de registro</th>
               <th>Detalle</th>
@@ -796,16 +797,16 @@
             <!-- <td>{{formatearRUT(vehiculo.Rut)}}</td> -->
             <td>
               <div class="slide-toggle-container">
-                <mat-slide-toggle  [(ngModel)]="vehiculo.Estado" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
+                <mat-slide-toggle  [(ngModel)]="vehiculo.Disponible" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
                   <!-- <span *ngIf="formVehiculo.value.Estado">Activado</span>
                   <span *ngIf="!formVehiculo.value.Estado">Desactivado</span> -->
                 </mat-slide-toggle>
                 </div> 
             </td>
-            <td *ngIf="vehiculo.Hab_seguridad">
+            <td *ngIf="vehiculo.Habilitado">
               <svg  xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
             </td>
-            <td *ngIf="!vehiculo.Hab_seguridad">
+            <td *ngIf="!vehiculo.Habilitado">
                 <svg  xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
             </td>
             <td>{{vehiculo.Created_at}}</td>
