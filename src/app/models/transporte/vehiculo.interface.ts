@@ -38,7 +38,7 @@ export interface Vehiculo {
     Fecha_instalacion :           string
     Operaciones:                  any [] 
     Centro_operaciones:           any [] 
-    
+    Desc_desabilitado:            string;
 }
 
 

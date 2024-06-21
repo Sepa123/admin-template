@@ -426,6 +426,7 @@ seleccionarRut(){
       Imei :datosVehiculo.Imei,
       Oc_instalacion : datosVehiculo.Oc_instalacion,
       Fecha_instalacion : datosVehiculo.Fecha_instalacion,
+      Desc_desabilitado : datosVehiculo.Desc_desabilitado
     })
 
     this.descargarPermisoCirculacion  = datosVehiculo.Registration_certificate

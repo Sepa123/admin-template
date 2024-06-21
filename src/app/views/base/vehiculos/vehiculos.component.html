@@ -355,7 +355,7 @@
                   Rut Colaborador *
                   <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
                   <input type="text" placeholder="Rut" placeholder="Ejemplo : 11111111-1" class="form-control disabled-like"  formControlName="Rut_colaborador" (change)="verificaRut('colab_vehiculo'); veficarColabExiste(formVehiculo.value.Rut_colaborador)"   maxlength="10" readonly> 
-                  <span class="error" *ngIf="form.get('Rut_colaborador')?.errors?.['required'] && isErrorView">
+                  <span class="error" *ngIf="formVehiculo.get('Rut_colaborador')?.errors?.['required'] && isErrorView">
                       Falta ingresar el rut
                   </span>
                   <span class="error" *ngIf="!rutColaborador ">
@@ -368,7 +368,7 @@
                 Razón Social
                 <input type="text" placeholder="Razón Social" class="form-control disabled-like"  formControlName="Razon_social" readonly>
                 <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                <span class="error" *ngIf="formVehiculo.get('Razon_social')?.errors?.['required'] && isErrorView">
                     Falta agregar la razón social
                 </span>
             </div>
@@ -378,7 +378,7 @@
             Patente * 
             <input type="text" placeholder="Patente " class="form-control" formControlName="Ppu" >
                 <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                <span class="error" *ngIf="form.get('Ppu')?.errors?.['required'] && isErrorView">
+                <span class="error" *ngIf="formVehiculo.get('Ppu')?.errors?.['required'] && isErrorView">
                     Falta agregar la patente
                 </span>
         </div>
@@ -414,7 +414,7 @@
                 Modelo *
                 <input type="text" placeholder="Modelo" class="form-control" formControlName="Modelo" >
                 <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                <span class="error" *ngIf="form.get('Modelo')?.errors?.['required'] && isErrorView">
+                <span class="error" *ngIf="formVehiculo.get('Modelo')?.errors?.['required'] && isErrorView">
                     Falta agregar el modelo
                 </span>
               </div>
@@ -424,7 +424,7 @@
               Año *
               <input type="text" placeholder="Año" class="form-control" formControlName="Ano" >
               <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-              <span class="error" *ngIf="form.get('Ano')?.errors?.['required'] && isErrorView">
+              <span class="error" *ngIf="formVehiculo.get('Ano')?.errors?.['required'] && isErrorView">
                   Falta agregar el año
               </span>
           </div>
@@ -512,7 +512,7 @@
                 Capacidad de carga Kg *
                   <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_kg" min="0">
                   <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                  <span class="error" *ngIf="form.get('Capacidad_carga_kg')?.errors?.['required'] && isErrorView">
+                  <span class="error" *ngIf="formVehiculo.get('Capacidad_carga_kg')?.errors?.['required'] && isErrorView">
                       Falta agregar la capacidad de carga Kg
                   </span>
               </div>
@@ -523,7 +523,7 @@
                 Capacidad de carga M3 *
                   <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_m3" min="0">
                   <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                  <span class="error" *ngIf="form.get('Capacidad_carga_m3')?.errors?.['required'] && isErrorView">
+                  <span class="error" *ngIf="formVehiculo.get('Capacidad_carga_m3')?.errors?.['required'] && isErrorView">
                       Falta agregar la capacidad de carga M3
                   </span>
               </div>
@@ -532,7 +532,7 @@
               <div class="">
                 Capacidad carga plataforma Kg *
                    <input type="number" placeholder="" class="form-control"  formControlName="Platform_load_capacity_kg" min="0" >
-                   <span class="error" *ngIf="form.get('Platform_load_capacity_kg')?.errors?.['required'] && isErrorView">
+                   <span class="error" *ngIf="formVehiculo.get('Platform_load_capacity_kg')?.errors?.['required'] && isErrorView">
                       Falta agregar la carga plataforma Kg
                   </span>
                   </div>
@@ -541,7 +541,7 @@
             <div class="noEditar">
               Capacidad de carga grúa Kg *
                   <input type="number" placeholder="" class="form-control"  formControlName="Crane_load_capacity_kg" min="0">
-                  <span class="error" *ngIf="form.get('Crane_load_capacity_kg')?.errors?.['required'] && isErrorView">
+                  <span class="error" *ngIf="formVehiculo.get('Crane_load_capacity_kg')?.errors?.['required'] && isErrorView">
                     Falta agregar la carga grúa Kg
                 </span>
             </div>
@@ -553,7 +553,7 @@
             <div class="">
               Fecha vencimiento permiso *
               <input type="date" placeholder="" class="form-control" formControlName="Permiso_circulacion_fec_venc" >
-                <span class="error" *ngIf="form.get('Permiso_circulacion_fec_venc')?.errors?.['required'] && isErrorView">
+                <span class="error" *ngIf="formVehiculo.get('Permiso_circulacion_fec_venc')?.errors?.['required'] && isErrorView">
                   Falta agregar la fecha
               </span>
             </div>
@@ -563,7 +563,7 @@
             <div class="noEditar">
               Fecha vencimiento SOAP *
               <input type="date" placeholder="" class="form-control" formControlName="Soap_fec_venc" >
-                <span class="error" *ngIf="form.get('Soap_fec_venc')?.errors?.['required'] && isErrorView">
+                <span class="error" *ngIf="formVehiculo.get('Soap_fec_venc')?.errors?.['required'] && isErrorView">
                   Falta agregar la fecha
               </span>
             </div>
@@ -572,7 +572,7 @@
             <div class="">
               Fecha vencimiento revision *
               <input type="date" placeholder="" class="form-control" formControlName="Revision_tecnica_fec_venc" >
-                <span class="error" *ngIf="form.get('Revision_tecnica_fec_venc')?.errors?.['required'] && isErrorView">
+                <span class="error" *ngIf="formVehiculo.get('Revision_tecnica_fec_venc')?.errors?.['required'] && isErrorView">
                   Falta agregar la fecha
                </span>
                 </div>
