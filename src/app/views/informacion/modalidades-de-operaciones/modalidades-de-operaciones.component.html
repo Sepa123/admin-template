@@ -151,17 +151,17 @@
         <table id="tablaProductosPicking" style="width: 100%;"  >
         <thead>
             <th>N°</th>
-            <th>Nombre</th>
+            <th (click)="sortTableNombre(sortOrder)" class="sortable">Nombre</th>
             <th>Descripción</th>
-            <th>Detalles</th>
-            <th>Centro Operación</th>
+            <th (click)="sortTableDetalle(sortOrder)" class="sortable">Detalles</th>
+            <th (click)="sortTableCO(sortOrder)" class="sortable">Centro Operación</th>
         </thead>
         <tbody>
  
         <!-- Filas de la tabla con datos -->
         <tr *ngFor="let RazonSocial of tableData; let i = index">
             <td class="id">{{i+1}}</td>
-            <td>{{RazonSocial.nombre}}</td>
+            <td class="sortable" (click)="sortTable(sortOrder)">{{RazonSocial.nombre}}</td>
             <td>{{RazonSocial.description}}</td>
             <td class="estado">
                 <mat-slide-toggle [(ngModel)]="RazonSocial.estado" (change)="toggleEstado(RazonSocial.id)" class="green-slide-toggle" >

@@ -65,6 +65,18 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
 
   }
 
+
+  sortOrder : boolean = true
+
+  sortTableNombre(orden : boolean){
+    if(orden){
+      this.tableData.sort((a,b) => a.nombre.localeCompare(b.nombre))
+    }else{
+      this.tableData.sort((a,b) => b.nombre.localeCompare(a.nombre))
+    }
+    this.sortOrder = !this.sortOrder
+    
+  }
   
 
 
@@ -346,6 +358,39 @@ eliminarCO(id : number){
     })
   })
 }
+
+
+
+  sortTable(orden : boolean){
+    if(orden){
+      this.tableData.sort((a,b) => a.nombre.localeCompare(b.nombre))
+    }else{
+      this.tableData.sort((a,b) => b.nombre.localeCompare(a.nombre))
+    }
+    this.sortOrder = !this.sortOrder
+    
+  }
+
+
+  sortTableDetalle(orden : boolean){
+    if(orden){
+      this.tableData.sort((a,b) => Number(a.estado) - Number(b.estado))
+    }else{
+      this.tableData.sort((a,b) => Number(b.estado) - Number(a.estado))
+    }
+    this.sortOrder = !this.sortOrder
+    
+  }
+
+  sortTableCO(orden : boolean){
+    if(orden){
+      this.tableData.sort((a,b) => a.cant_co - b.cant_co)
+    }else{
+      this.tableData.sort((a,b) => b.cant_co - a.cant_co)
+    }
+    this.sortOrder = !this.sortOrder
+    
+  }
 
 registrarCO(){
   console.log(this.formCO.value)

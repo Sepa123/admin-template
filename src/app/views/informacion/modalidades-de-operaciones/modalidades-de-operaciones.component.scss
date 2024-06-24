@@ -123,6 +123,10 @@ button.Agregar:hover{
     font-size: 14px;
   }
   
+  .greenTable th.sortable:hover {
+    background-color: #1ece27;
+    cursor: pointer;
+  }
   
   .greenTable  table tbody th {
     font-size: 1px;
