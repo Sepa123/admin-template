@@ -32,6 +32,7 @@ export class UserGuard implements CanActivate {
       sessionStorage.setItem("id", res.uid)
       sessionStorage.setItem("usuario", res.sub)
       sessionStorage.setItem("mail", res.email)
+      sessionStorage.setItem("imagen_perfil", res.imagen_perfil)
     })
 
     if(!token){

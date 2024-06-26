@@ -9,6 +9,8 @@ import { RegistrarUsuarioService } from 'src/app/service/registrar-usuario.servi
 })
 export class ConfiguracionComponent {
   constructor(private service: RegistrarUsuarioService, public builder: FormBuilder) { }
+
+  private selectedImagenPerfil: File | null = null
   rol =   sessionStorage.getItem('rol_id')+''
   id =   sessionStorage.getItem('id')+''
   server = sessionStorage.getItem('server')+''
@@ -16,6 +18,8 @@ export class ConfiguracionComponent {
   mail = sessionStorage.getItem('mail')+''
 
   editarForm = this.builder.group({
+    Id_user: this.builder.control(""),
+    Server: this.builder.control(""),
     Telefono : this.builder.control(""),
     Fecha_nacimiento : this.builder.control(""),
     Direccion: this.builder.control(""),
@@ -48,22 +52,88 @@ export class ConfiguracionComponent {
     this.isModalOpen = false
   }
 
+  profilePicture: string | ArrayBuffer | null = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+
   ngOnInit(){
     
     this.service.getDatosUsuario(this.id,this.server).subscribe((data : any) => {
-      console.log(data)
-
       this.editarForm.patchValue({
         Telefono : data.Telefono,
         Fecha_nacimiento : data.Fecha_nacimiento,
         Direccion : data.Direccion
       })
 
+      this.rol = data.Rol
+
+      console.log(data.Imagen_perfil)
+
+      if( (data.Imagen_perfil || data.Imagen_perfil !== '') && data.Imagen_perfil !== null ){
+
+
+        this.profilePicture = 'https://hela.transyanez.cl/api/panel/image/foto_perfil/'+data.Imagen_perfil
+        // this.service.getFotoPerfil(data.Imagen_perfil).subscribe(blob => {
+        //   const reader = new FileReader();
+        //   reader.readAsDataURL(blob);
+        //   reader.onloadend = () => {
+        //     this.profilePicture = reader.result;
+        //   };
+        // });
+      } else {
+        this.profilePicture = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+      }
+
+      console.log(this.profilePicture)
     })
   }
 
   editarDatos() {
-    alert('esad')
+    this.editarForm.patchValue({
+      Server : this.server,
+      Id_user: this.id
+    })
+
+    this.service.actualizarDatosUsuario(this.editarForm.value).subscribe((data : any) =>{
+      alert(data.message)
+    })
+  }
+
+  subirImagen(){
+    const fileInput = document.getElementById('fileInput');
+
+    if(fileInput) fileInput.click();
+  }
+  
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      // reader.onload = (e: any) => {
+      //   this.profilePicture = e.target.result;
+      // };
+      const formData = new FormData();
+      formData.append('file', file, file.name);
+      // reader.readAsDataURL(file);
+
+      this.service.subirImagenPerfil(formData,this.id,this.server).subscribe((data : any) => {
+
+        this.profilePicture = 'https://hela.transyanez.cl/api/panel/image/foto_perfil/'+data.filename
+        sessionStorage.setItem("imagen_perfil", data.filename)
+
+        window.location.reload();
+        // this.profilePicture = 'https://hela.transyanez.cl/api/panel/image/foto_perfil/'+data.filename
+        // this.service.getFotoPerfil(data.filename).subscribe(blob => {
+        //   const reader = new FileReader();
+        //   reader.readAsDataURL(blob);
+        //   reader.onloadend = () => {
+        //     this.profilePicture = reader.result;
+        //   };
+        // });
+      })
+    } else {
+      alert('Por favor, seleccione un archivo de imagen.');
+    }
   }
 
   isPasswordHidden: boolean = true;
@@ -107,7 +177,7 @@ export class ConfiguracionComponent {
     this.isErrorView = false
     this.passForm.patchValue({Mail : this.mail})
     if(this.passForm.valid){
-      console.log(this.passForm.value)
+
       if(this.passForm.value.Password_nueva !== this.passForm.value.Password_repetida){
         this.isErrorView = true
       } else{

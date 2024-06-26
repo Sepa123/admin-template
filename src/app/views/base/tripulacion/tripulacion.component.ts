@@ -68,11 +68,10 @@ colaboradores : Colaborador [] = []
   showPosition(position: any): any{
     this.latitude = position.coords.latitude
     this.longitud= position.coords.longitude 
-   this.latStr = this.latitude.toString()
+    this.latStr = this.latitude.toString()
     this.longStr = this.longitud.toString()
-
-  console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
   }
+
   getLocationAsync(): Promise<any> {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
@@ -370,7 +369,6 @@ colaboradores : Colaborador [] = []
 
   buscarComunas(event: any){
     const selectedRegionId = event.target.value;
-    console.log('Región seleccionada:', selectedRegionId);
     this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
     this.form.patchValue({
       Comuna : this.listaComunas[0].Id_comuna
@@ -449,7 +447,7 @@ colaboradores : Colaborador [] = []
     if(this.form.valid && this.form.value.Rut != 'Seleccione un colaborador'){
 
       this.service.registrarUsuario(this.form.value).subscribe((data : any) => {
-        console.log("El registro si llego", data)
+
         alert(data.message)
 
         const nombre = this.form.value.Rut + ""
@@ -462,7 +460,6 @@ colaboradores : Colaborador [] = []
         // this.uploadFile(this.selectedFotoPerfil,'foto_perfil',nombre)
         this.uploadFotoPerfil(this.selectedFotoPerfil,nombre)
         
-
         this.service.getUsuariosTransporte().subscribe((data) => {
           this.tripulacion = data
           this.tripulacionFull = data
@@ -495,12 +492,10 @@ colaboradores : Colaborador [] = []
     if(this.form.valid){
 
       this.service.actualizarTripulacion(this.form.value).subscribe((data : any) => {
-        console.log("El registro si llego", data)
         alert(data.message)
 
         const nombre = this.form.value.Rut + ""
         // this.form.reset();
-      
         this.uploadFile(this.selectedLicenciaConducir,'licencia_conducir',nombre)
         this.uploadFile(this.selectedCedulaIdentidad,'cedula_identidad',nombre)
         this.uploadFile(this.selectedDocAntecedentes,'cert_antecedentes',nombre)
@@ -508,7 +503,6 @@ colaboradores : Colaborador [] = []
         // this.uploadFile(this.selectedFotoPerfil,'foto_perfil',nombre)
         this.uploadFotoPerfil(this.selectedFotoPerfil,nombre)
         
-
         this.service.getUsuariosTransporte().subscribe((data) => {
           this.tripulacion = data
           this.tripulacionFull = data

@@ -111,7 +111,6 @@ export class VehiculosComponent {
 
 seleccionarRut(){
   const colaborador = this.colaboradores.filter( colab => colab.Rut == this.formVehiculo.value.Rut_colaborador )[0]
-  console.log(colaborador.Razon_social)
   this.formVehiculo.patchValue({
     Razon_social : colaborador.Razon_social,
   //   Telefono : colaborador.Telefono,
@@ -324,7 +323,6 @@ seleccionarRut(){
 
   buscarComunas(event: any){
     const selectedRegionId = event.target.value;
-    console.log('Región seleccionada:', selectedRegionId);
     this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
     this.formVehiculo.patchValue({
       Comuna : this.listaComunas[0].Id_comuna
@@ -390,7 +388,6 @@ seleccionarRut(){
     }else {
       
       alert('error al ingresar los datos')
-      console.log(this.formVehiculo.value)
       this.isErrorView = true
     }
 
@@ -442,8 +439,6 @@ seleccionarRut(){
     this.descargarPadron = datosVehiculo.Pdf_padron
     this.descargarCertGases  = datosVehiculo.Pdf_gases_certification
 
-
-    console.log(datosVehiculo)
     this.toggleLiveDemo()
   }
 
@@ -493,8 +488,6 @@ seleccionarRut(){
   regionSeleccionada : number = 0
 
   filtrarVehiculoRegion(){
-
-    console.log(this.regionSeleccionada)
     if(this.regionSeleccionada == 0){
       this.vehiculos = this.vehiculosFull
       this.cantVehiculo = this.vehiculosFull.length
@@ -502,20 +495,15 @@ seleccionarRut(){
       this.vehiculos = this.vehiculosFull.filter( v => v.Region == this.regionSeleccionada)
       this.cantVehiculo = this.vehiculos.length
     }
-    console.log(this.vehiculos)
-    
   }
 
   actualizarDatosVehiculo(){
 
     this.isErrorView = false
 
-    console.log(this.formVehiculo.value)
-
     if(this.formVehiculo.valid){
 
       this.service.actualizarVehiculo(this.formVehiculo.value).subscribe((data : any) => {
-        console.log("El registro si llego", data)
         alert(data.message)
 
         const nombre = this.formVehiculo.value.Ppu + ""
@@ -596,7 +584,6 @@ seleccionarRut(){
  checkGPS(){
    
    this.ticketGPS = !this.ticketGPS
-   console.log(this.formVehiculo.value)
  }
 
 /////
@@ -613,9 +600,6 @@ toggleLiveCO(id_vehiculo : number) {
   const vehiculo = this.vehiculos.filter(vehiculo => vehiculo.Id == id_vehiculo)[0]
 
   this.IdVehiculo = id_vehiculo
-  
-
-  console.log(this.IdVehiculo)
 
   if(this.IdVehiculo == 0){
     this.visibleCO = !this.visibleCO;
@@ -740,11 +724,6 @@ cambiarEstadoVehiculo(id: number, ppu : string){
 
 
 asignarOpVehiculo(id_op : number, id_centro_operacion : number){
-
-  console.log('id Centro',id_centro_operacion)
-  console.log('id opera', id_op)
-
-  console.log('Sos')
   if(id_centro_operacion == 0 || id_op == 0){
     alert('Seleccione un centro de operacion')
   }else {
@@ -781,7 +760,6 @@ estaAsignadoCO(){
     return false
   }else{
     const filtro = this.centroOperacion.filter( co => co.Id == this.IdCentroOperacion)[0]
-    console.log(filtro)
     if(filtro.Estado == true){
       this.isAsignado = false
       return false

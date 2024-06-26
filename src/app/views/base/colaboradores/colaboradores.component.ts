@@ -73,7 +73,7 @@ export class ColaboradoresComponent {
    this.latStr = this.latitude.toString()
     this.longStr = this.longitud.toString()
 
-  console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
+
   }
   getLocationAsync(): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -444,7 +444,6 @@ export class ColaboradoresComponent {
 
   buscarComunas(event: any){
     const selectedRegionId = event.target.value;
-    console.log('Región seleccionada:', selectedRegionId);
     this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
     this.form.patchValue({
       Comuna : this.listaComunas[0].Id_comuna
@@ -461,9 +460,6 @@ export class ColaboradoresComponent {
 
       this.estadoActivoMat = !this.usuarioActivado
 
-
-      console.log('Este es el')
-      console.log(this.usuarioActivado)
       this.form.reset()
 
       if(detallePago == undefined){
@@ -539,8 +535,6 @@ export class ColaboradoresComponent {
 
     this.isErrorView = false
 
-    console.log(this.form.value)
-
     if(this.form.valid){
 
       this.formBancario.patchValue({
@@ -561,7 +555,7 @@ export class ColaboradoresComponent {
       })
 
       this.service.registrarColaborador(this.form.value).subscribe((data : any) => {
-        console.log("El registro si llego", data)
+
         alert(data.message)
 
         const nombre = this.form.value.Rut + ""
@@ -635,10 +629,8 @@ export class ColaboradoresComponent {
         Tipo_razon : this.tipoUsuario
       })
 
-      console.log(this.form.value)
-
       this.service.actualizarColaborador(this.form.value).subscribe((data : any) => {
-        console.log("El registro si llego", data)
+
         alert(data.message)
 
         const nombre = this.form.value.Rut + ""

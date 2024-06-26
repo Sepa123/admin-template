@@ -24,4 +24,16 @@ export class RegistrarUsuarioService {
   cambiarPassword(data : any) {
     return this.http.post(this.apiurl + "/nueva/password", data)
   }
+
+  subirImagenPerfil(formData : any, id_user : string, ids_user : string){
+    return this.http.post(this.apiurl+`/subir-imagen?id_user=${id_user}&ids_user=${ids_user}`, formData)
+  }
+
+  getFotoPerfil(filename: string) {
+    return this.http.get(this.apiurl+`/foto-perfil?name_file=${filename}`, { responseType: 'blob' });
+  }
+
+  actualizarDatosUsuario(formData : any){
+    return this.http.put(this.apiurl+`/actualizar/datos/usuario`, formData)
+  }
 }

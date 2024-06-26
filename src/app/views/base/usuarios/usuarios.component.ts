@@ -66,11 +66,10 @@ export class UsuariosComponent {
   showPosition(position: any): any{
     this.latitude = position.coords.latitude
     this.longitud= position.coords.longitude 
-   this.latStr = this.latitude.toString()
+    this.latStr = this.latitude.toString()
     this.longStr = this.longitud.toString()
-
-  console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
   }
+  
   getLocationAsync(): Promise<any> {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
@@ -343,7 +342,6 @@ export class UsuariosComponent {
 
   buscarComunas(event: any){
     const selectedRegionId = event.target.value;
-    console.log('Región seleccionada:', selectedRegionId);
     this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
   }
 
@@ -355,7 +353,6 @@ export class UsuariosComponent {
       const detallePago = data[0] 
       this.usuarioActivado = colaborador.Activo
 
-      console.log(detallePago)
       this.form.reset()
 
       if(detallePago == undefined){
@@ -448,7 +445,6 @@ export class UsuariosComponent {
       })
 
       this.service.registrarColaborador(this.form.value).subscribe((data : any) => {
-        console.log("El registro si llego", data)
         alert(data.message)
 
         const nombre = this.form.value.Rut + ""
@@ -522,10 +518,7 @@ export class UsuariosComponent {
         Tipo_razon : this.tipoUsuario
       })
 
-      console.log(this.form.value)
-
       this.service.actualizarColaborador(this.form.value).subscribe((data : any) => {
-        console.log("El registro si llego", data)
         alert(data.message)
 
         const nombre = this.form.value.Rut + ""

@@ -109,7 +109,6 @@ export class BuscadorComponent  {
 
 seleccionarRut(){
   const colaborador = this.colaboradores.filter( colab => colab.Rut == this.formVehiculo.value.Rut_colaborador )[0]
-  console.log(colaborador.Razon_social)
   this.formVehiculo.patchValue({
     Razon_social : colaborador.Razon_social,
   //   Telefono : colaborador.Telefono,
@@ -241,7 +240,7 @@ seleccionarRut(){
 
       this.modalidadOperacion = data
       this.modalidadOperacionFull = data
-      console.log(this.modalidadOperacionFull)
+
       this.MoService.getCentroOperaciones().subscribe(data => {
         this.centroOperacionFull = data
         this.centroOperacionLista = data
@@ -409,7 +408,7 @@ generateLightRandomColor() {
 
   buscarComunas(event: any){
     const selectedRegionId = event.target.value;
-    console.log('Región seleccionada:', selectedRegionId);
+
     this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
     this.formVehiculo.patchValue({
       Comuna : this.listaComunas[0].Id_comuna
@@ -477,7 +476,7 @@ generateLightRandomColor() {
 
     }else {
       alert('error al ingresar los datos')
-      console.log(this.formVehiculo.value)
+
     }
 
   }
@@ -522,8 +521,6 @@ generateLightRandomColor() {
     this.descargarPadron = datosVehiculo.Pdf_padron
     this.descargarCertGases  = datosVehiculo.Pdf_gases_certification
 
-
-    console.log(datosVehiculo)
     this.toggleLiveDemo()
   }
 
@@ -574,13 +571,13 @@ generateLightRandomColor() {
 
   filtrarVehiculoRegion(){
 
-    console.log(this.regionSeleccionada)
+
     if(this.regionSeleccionada == 0){
       this.vehiculos = this.vehiculosFull
     }else{
       this.vehiculos = this.vehiculosFull.filter( v => v.Region == this.regionSeleccionada)
     }
-    console.log(this.vehiculos)
+
     
   }
 
@@ -588,12 +585,11 @@ generateLightRandomColor() {
 
     this.isErrorView = false
 
-    console.log(this.formVehiculo.value.Estado)
 
     if(this.formVehiculo.valid){
 
       this.service.actualizarVehiculo(this.formVehiculo.value).subscribe((data : any) => {
-        console.log("El registro si llego", data)
+
         alert(data.message)
 
         const nombre = this.formVehiculo.value.Ppu + ""
@@ -711,7 +707,7 @@ generateLightRandomColor() {
  checkGPS(){
    
    this.ticketGPS = !this.ticketGPS
-   console.log(this.formVehiculo.value)
+  
  }
 
 /////
@@ -729,8 +725,6 @@ toggleLiveCO(id_vehiculo : number) {
 
   this.IdVehiculo = id_vehiculo
   
-
-  console.log(this.IdVehiculo)
 
   if(this.IdVehiculo == 0){
     this.visibleCO = !this.visibleCO;
@@ -848,7 +842,7 @@ convertirRegion(id: number){
 ngAfterViewInit() {
   document.querySelectorAll('.borderDemo').forEach((element : any) => {
     const text = element.getAttribute('data-text');
-    console.log(text)
+
     const color = this.getColor(text);
     element.style.backgroundColor = color;
   });
@@ -879,10 +873,7 @@ cambiarEstadoVehiculo(id: number, ppu : string){
 
 asignarOpVehiculo(id_op : number, id_centro_operacion : number){
 
-  console.log('id Centro',id_centro_operacion)
-  console.log('id opera', id_op)
 
-  console.log('Sos')
   if(id_centro_operacion == 0 || id_op == 0){
     alert('Seleccione un centro de operacion')
   }else {
@@ -919,7 +910,7 @@ estaAsignadoCO(){
     return false
   }else{
     const filtro = this.centroOperacionFull.filter( co => co.Id == this.IdCentroOperacion)[0]
-    console.log(filtro)
+
     if(filtro.Estado == true){
       this.isAsignado = false
       return false

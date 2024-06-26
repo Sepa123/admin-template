@@ -176,6 +176,19 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
+  /// exo para coordinador
+  {
+    name: 'EXO',
+    url: '/exo',
+    iconComponent: { name: 'cil-bar-chart' },
+    roles : [ROLES_ENUM.COORDINADOR],
+    children: [
+      {
+        name: 'NS Easy',
+        url : '/exo/ns-easy'
+      },
+    ]
+  },
   //EXO PARA DAROLY
   {
     name: 'EXO',

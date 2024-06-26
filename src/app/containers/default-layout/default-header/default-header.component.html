@@ -25,10 +25,10 @@
       <c-nav-item>
         <!-- cil-account-logout -->
 
-        <a cNavLink routerLink="/login" routerLinkActive="active" (click)="Logout()">
+        <!-- <a cNavLink routerLink="/login" routerLinkActive="active" (click)="Logout()">
           <svg cIcon name="cilAccountLogout" size="lg" title="Logout"></svg>
           Cerrar Sesión
-        </a>
+        </a> -->
       </c-nav-item>
     </c-header-nav>
 
@@ -74,6 +74,15 @@
         </a>
       </c-nav-item> -->
     </c-header-nav>
+    <c-header-nav class="ms-auto ms-md-0">
+      <div class="nav-item py-1">
+        <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+      </div>
+      <ng-container *ngTemplateOutlet="themeDropdown" />
+      <div class="nav-item py-1">
+        <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+      </div>
+    </c-header-nav>
      <c-header-nav class="ms-3">
       <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
     </c-header-nav>
@@ -87,9 +96,82 @@
 
 
 
-  <ng-template #userDropdown>
+  <ng-template #themeDropdown >
     <h5>{{ time | date: 'HH:mm' }}</h5>
   </ng-template>
+
+
+  <ng-template #userDropdown>
+    <c-dropdown [popperOptions]="{ placement: 'bottom-start' }" variant="nav-item">
+      <button [caret]="false" cDropdownToggle class="py-0 pe-0" aria-label="Open user menu">
+        <!-- <c-avatar
+          shape="rounded-2"
+          [size]="'md'"
+          src="http://localhost:8000/api/panel/image/foto_perfil/1020_18844400-842e-41b6-af3c-d441a178f0b8.jpg"
+
+          textColor="primary"
+          alt="User avatar"
+        /> -->
+        <div class="avatar">
+          <img class="avatar"[src]="foto_perfil" >
+        </div>
+      </button>
+      <ul cDropdownMenu class="pt-0 w-auto">
+        <li>
+          <h6 cDropdownHeader class="bg-body-secondary text-body-secondary fw-semibold py-2 rounded-top">
+            Mi Cuenta
+          </h6>
+        </li>
+        <!-- <li>
+          <h6 cDropdownHeader class="bg-body-secondary text-body-secondary fw-semibold py-2">
+            Configuración
+          </h6>
+        </li> -->
+        <li></li>
+        <li>
+          <a cDropdownItem routerLink="/mi-cuenta/settings">
+            <svg cIcon class="me-2" name="cilSettings"></svg>
+            Configuración
+          </a>
+        </li>
+        <!-- <li>
+          <a cDropdownItem routerLink="">
+            <svg cIcon class="me-2" name="cilSettings"></svg>
+            Settings
+          </a>
+        </li>
+        <li>
+          <a cDropdownItem routerLink="">
+            <svg cIcon class="me-2" name="cilCreditCard"></svg>
+            Payments
+            <c-badge class="ms-2 float-end" color="secondary">
+              42
+            </c-badge>
+          </a>
+        </li>
+        <li>
+          <a cDropdownItem routerLink="">
+            <svg cIcon class="me-2" name="cilFile"></svg>
+            Projects
+            <c-badge class="ms-2 float-end" color="primary">
+              42
+            </c-badge>
+          </a>
+        </li> -->
+        <li>
+          <hr cDropdownDivider />
+        </li>
+        <li>
+          <a cNavLink routerLink="/login" routerLinkActive="active" (click)="Logout()">
+            <svg cIcon class="me-2" name="cilAccountLogout"></svg>
+            Cerrar Sesión
+          </a>
+        </li>
+      </ul>
+    </c-dropdown>
+  </ng-template>
+
+
 
  <!-- <ng-template #userDropdown>
   <c-dropdown alignment="end" variant="nav-item">

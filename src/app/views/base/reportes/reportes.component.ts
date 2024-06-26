@@ -35,8 +35,6 @@ export class ReportesComponent {
     const fecha_inicio_f = this.formatearFecha(this.fecha_inicio)
     const fecha_fin_f = this.formatearFecha(this.fecha_fin)
 
-    console.log(fecha_inicio_f,fecha_fin_f)
-
     if (this.validarDiferenciaFechas(this.fecha_inicio,this.fecha_fin) == false) return alert("La diferencia entre las fechas debe ser de un día o más")
 
     this.ns_beetrack_rango_fecha(fecha_inicio_f,fecha_fin_f) 

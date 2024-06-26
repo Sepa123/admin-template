@@ -27,6 +27,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   roles_dashboard = ['5', '17','14', '13','15','20', '22','21','8']
 
+  foto_perfil : string = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+
 
   perfil =   sessionStorage.getItem('rol_id')+''
 
@@ -41,6 +43,12 @@ export class DefaultHeaderComponent extends HeaderComponent {
   ngOnInit(): void {
     this.perfil =   sessionStorage.getItem('rol_id')+''
     this.direccion = ACCESO_ROL[sessionStorage.getItem('rol_id')+'']
+    console.log(sessionStorage.getItem('imagen_perfil'))
+    if(sessionStorage.getItem('imagen_perfil') == 'null' || sessionStorage.getItem('imagen_perfil') == null){
+        this.foto_perfil = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+    }else {
+      this.foto_perfil = 'https://hela.transyanez.cl/api/panel/image/foto_perfil/'+sessionStorage.getItem('imagen_perfil')+''
+    }
 
     if ( this.roles_notificaciones.includes(sessionStorage.getItem('rol_id')+'')){
       // if ( this.roles_notificaciones.includes('sos')){

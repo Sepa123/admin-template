@@ -36,6 +36,7 @@ export class LoginComponent {
         const ruta = ACCESO_ROL[this.userdata.rol_id]
         sessionStorage.setItem('usuario', this.userdata.sub)
         sessionStorage.setItem('mail', this.loginform.value.mail+"")
+        sessionStorage.setItem("imagen_perfil", this.userdata.imagen_perfil)
 
         this.rolService.setUsuario(this.userdata.sub,this.loginform.value.mail+"")
         this.router.navigate([ruta]);
