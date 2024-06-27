@@ -142,6 +142,10 @@ export const tipoCuenta = [
 
 export const tipoVehiculo = [
     {
+        "id": 0,
+        "name": "S/I"
+    },
+    {
 		"id" : 1,
 		"name" : "Camión"
 	},
@@ -184,6 +188,10 @@ export const tipoVehiculo = [
 ]
 
 export const marcaVehiculo =  [
+    {
+        "id": 0,
+        "name": "S/I"
+    },
     {
         "id": 1,
         "name": "Abarth"
