@@ -4,7 +4,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, Subject, Subscription, skipUntil, startWith, switchMap } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CitacionesService} from '../../../service/citaciones.service'
-import { Estado } from '../../../models/mantenedores/estados.interface';
+
+
+
 
 @Component({
   selector: 'app-citaciones',
@@ -28,6 +30,14 @@ export class CitacionesComponent implements OnInit {
   conductores: any[] = [];
   estados : any[] = [];
   peonetas: any[] = [];
+  patentesList : any[] = [];
+  selectedItem: any = null;
+  rutaMeliValues: { [key: number]: string } = {};
+  mensaje: string | null = null;
+  mensajeClass: string | null = null;
+  
+  // Mapea los estados seleccionados para cada patente
+  selectedEstados: { [key: number]: number } = {};
   resetForm() {
     this.form.reset();
   }
@@ -84,6 +94,8 @@ export class CitacionesComponent implements OnInit {
     this.getConductores();
     this.getPeonetas();
     this.getEstados();
+    this.getPpu();
+    
   }
 
   getModalidades() {
@@ -132,10 +144,11 @@ export class CitacionesComponent implements OnInit {
     );
   }
 
-  eliminarPpu(ppu: string) {
+  eliminarPpu(ppu: any) {
+    console.log(ppu)
     // Llamar a la API para eliminar la razón social por su ID
     this.http
-      .delete(`http://localhost:8000/api/borrar?ppu=${ppu}`)
+      .delete(`http://localhost:8000/api/borrar?id_ppu=${ppu}`)
       .subscribe(
         () => {
           // Si la eliminación es exitosa
@@ -145,6 +158,156 @@ export class CitacionesComponent implements OnInit {
           console.error('Error al eliminar la razón social:', error);
         }
       );
+  }
+  valorIdppu(id :number){
+    const valor = id
+    console.log(valor)
+    return valor;
+       
+  }
+
+  updateEstado(id: any){
+
+    const estado = this.selectedEstados[id]
+
+    this.Ct.actualizarEstadoPpu(estado, id).subscribe(
+      response => {
+        console.log('Estado actualizado:', response);
+        alert('Estado actualizado correctamente.');
+      },
+      error => {
+        console.error('Error al actualizar el estado:', error);
+        alert('Error al actualizar el estado.');
+      }
+    );
+  }
+
+  updateRutaMeli(id : any){
+    const rutaMeli =  (<HTMLInputElement>document.getElementById('rutaMeli')).value;
+    const estado = this.selectedEstados[id]
+
+    this.Ct.actualizarRutaMeli(rutaMeli, id).subscribe(
+      Response =>{
+        console.log('estado actualizado', Response);
+      },
+      error =>{
+        console.error('error al actualizar el estado', error)
+      }
+    )
+  }
+
+  getPpu() {
+    this.Ct.getPpu().subscribe(
+      (data) => {
+        this.patentesList = data;
+        this.initializeSelectedEstados();
+        console.log(this.patentesList);
+        this.initializeRutaMeliValues()
+        this.patentesList[data.ruta_meli] 
+      },
+      (error) => {
+        console.error('Error al obtener modalidades de operación', error);
+      }
+    );
+  }
+
+  initializeSelectedEstados() {
+    this.patentesList.forEach(pu => {
+      this.selectedEstados[pu.id_ppu] = pu.estado;
+    });
+  }
+  initializeRutaMeliValues() {
+    this.patentesList.forEach(pu => {
+      this.rutaMeliValues[pu.id_ppu] = pu.ruta_meli;
+      console.log(this.rutaMeliValues)
+    });
+  }
+
+  submitForm() {
+    // Obtener Valores de sessionStorage
+    const id_user = sessionStorage.getItem('id')?.toString() + '';
+    const ids_user =
+      sessionStorage.getItem('server') +
+      '-' +
+      sessionStorage.getItem('id') +
+      '';
+    //Obtener  valores de los campos formularios.
+    const fecha = (<HTMLInputElement>document.getElementById('nombre')).value;
+    const ruta_meli = (<HTMLInputElement>(document.getElementById('description'))).value;
+    const id_ppu = (<HTMLSelectElement>(document.getElementById('id_ppu'))).value
+    const id_operacion = (<HTMLSelectElement>(document.getElementById('id_ppu'))).value
+    const id_centro_op = (<HTMLSelectElement>(document.getElementById('id_ppu'))).value
+    const estado =  (<HTMLSelectElement>(document.getElementById('estado'))).value
+    // Validar campos
+    
+
+    // Crear un objeto FormData y agregar los datos del formulario
+    const formData = {
+      id_user: id_user,
+      ids_user: ids_user,
+      fecha: fecha,
+      ruta_meli: ruta_meli,
+      id_ppu: id_ppu,
+      id_operacion: id_operacion,
+      id_centro_op: id_centro_op,
+      estado: estado
+    };
+
+    // Configuracion para la solicitud
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData), // Convertimos el objeto a una cadena JSON
+    };
+    this.http
+      .post('https://hela.transyanez.cl/api/operacion/agregar/razonSocial', formData)
+      .subscribe((data) => {
+        //mostrar aletar exito
+        alert('El ingreso se ha realizado Correctamente');
+        
+        this.toggleLiveDemo()
+      },
+      (error) =>{
+        //MAnejar errores
+        console.error('Error al enviar la solicitud', error.error.detail);
+        if ( error.error.detail.includes("duplicate key")) {
+          alert("El nombre de la operación ya existe");
+        } else {
+          alert('Hubo un error al ingresar el dato');
+        }
+        
+      }
+    );
+  }
+
+  getColor(Color:Number): any { 
+    if (Color == 1) {
+      return 'green'; // 
+    } else if (Color == 2) {
+      return '#04BD41'; // 
+    } else if (Color == 3) {
+      return '#F52822'; // 
+    } else if(Color == 4){
+      return  '#ecab0f';
+    } else if(Color == 5){
+      return 'gris'
+    }
+  }
+
+  getColorLetra(Color:Number): string { 
+    if (Color == 0) {
+      return 'black'; // 
+    } else if (Color == 1) {
+      return 'white'; // 
+    } else if (Color == 2) {
+      return 'white'; // 
+    } else if(Color == 3){
+      return  'black';
+    } else {
+      return 'No se encuentra el color'
+    }
   }
 
 }

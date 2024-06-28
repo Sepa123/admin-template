@@ -10,9 +10,8 @@ import { RegisterComponent } from './views/pages/register/register.component';
 import { PermisoDenegadoComponent } from './views/pages/permiso-denegado/permiso-denegado.component'
 import { ROLES_PERMITIDOS } from 'src/app/rolesPermitidos.const'
 import { ROLES_ENUM } from 'src/app/models/enum/roles.enum'
-
 import { RecepcionModule } from 'src/app/views/recepcion/recepcion.module'
-
+import  {MercadolibreModule} from 'src/app/views/mercadolibre/mercadolibre.module'
 const routes: Routes = [
   {
     path: '',
@@ -213,6 +212,15 @@ const routes: Routes = [
         loadChildren:()=>
           import('./views/inventario-ti/inventario-ti.module').then((m)=> m.InventarioTiModule)
       },
+      {
+        path: 'mercadolibre',
+        data:{
+          roles : ROLES_PERMITIDOS.PANEL
+        },
+        canActivate:[PermissionGuard],
+        loadChildren:()=>
+          import('./views/mercadolibre/mercadolibre.module').then((m)=> m.MercadolibreModule)
+      }
     ],
     canActivate: [UserGuard]
   },

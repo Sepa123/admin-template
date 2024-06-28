@@ -490,7 +490,8 @@ export const navItems: INavDataBar[] = [
       {
         name: "Peso Volumetrico",
         url:  '/informacion/peso-volumetrico'
-      }
+      },
+      
     ]
   },
   { /// Pantalla Informacion Para SEGURIDAD
@@ -542,6 +543,10 @@ export const navItems: INavDataBar[] = [
       {
         name: "Informacion",
         url : '/mercadolibre/info-mercado-libre'
+      },
+      {
+        name: "Citaciones",
+        url:  '/mercadolibre/citaciones'
       }
     ]
   },

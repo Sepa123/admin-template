@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InfoMercadoLibreComponent } from './info-mercado-libre/info-mercado-libre.component';
+import { CitacionesComponent } from './citaciones/citaciones.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,13 @@ const routes: Routes = [
             component: InfoMercadoLibreComponent,
             data:{
                 title: "Informacion"
+            }
+        },
+        {
+            path:'citaciones',
+            component: CitacionesComponent,
+            data:{
+                title: "Citaciones"
             }
         },
     ]}
