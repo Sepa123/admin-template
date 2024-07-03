@@ -385,6 +385,8 @@ colaboradores : Colaborador [] = []
     this.form.reset()
     this.form.patchValue({
       Rut : colaborador.Rut,
+      Nombre_razon_social : colaborador.Razon_social,
+      Rut_razon_social : colaborador.Rut_razon_social,
       Nombre_completo : colaborador.Nombre_completo,
       Email : colaborador.Email,
       Telefono : colaborador.Telefono,
@@ -488,6 +490,8 @@ colaboradores : Colaborador [] = []
       Origen : '/transporte/tripulacion'
     })
     this.isErrorView = false
+
+    console.log(this.form.value)
 
     if(this.form.valid){
 

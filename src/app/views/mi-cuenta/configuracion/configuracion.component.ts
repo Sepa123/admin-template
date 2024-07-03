@@ -18,75 +18,21 @@ export class ConfiguracionComponent {
   mail = sessionStorage.getItem('mail')+''
 
 
-  public op = [
-    {
-      "Operacion": "MELI FM",
-      "Centro_operaciones": [
-        {
-          "nombre": "SRM1"
-        },
-        {
-          "nombre": "SRM2"
-        },
-        {
-          "nombre": "SRM3"
-        },
-        {
-          "nombre": "SRM4"
-        },
-        {
-          "nombre": "SRM5"
-        },
-        {
-          "nombre": "SRM6"
-        },
-        {
-          "nombre": "SRM7"
-        },
-        {
-          "nombre": "SRM8"
-        },
-        {
-          "nombre": "SRM9"
-        },
-        {
-          "nombre": "SRM10"
-        },
-        {
-          "nombre": "SR11"
-        },
-        {
-          "nombre": "SRM12"
-        },
-        {
-          "nombre": "SRM13"
-        },
-        {
-          "nombre": "SRM14"
-        },
-        {
-          "nombre": "SRM15"
-        },
-        {
-          "nombre": "SRM15"
-        }
-      ]
-    },
-    {
-      "Operacion": "MELI SOS",
-      "Centro_operaciones": [
-        {
-          "nombre": "SSOS1"
-        },
-        {
-          "nombre": "SSOS2"
-        },
-        {
-          "nombre": "SSOS3"
-        }
-      ]
-    }
+  public op: any [] = [
+
   ]
+
+  eliminarUsuarioCO(id_co : number){
+
+  const usuarioEliminado = this.server + '-' + this.id
+
+  const body = {
+    Ids_coordinador : usuarioEliminado,
+    Id_coordinador : this.id,
+    Id_co : id_co
+  }
+    console.log('eliminado ', body)
+  }
 
   editarForm = this.builder.group({
     Id_user: this.builder.control(""),
@@ -155,6 +101,11 @@ export class ConfiguracionComponent {
 
       console.log(this.profilePicture)
     })
+
+    // this.service.verCOusuario(this.id,this.server).subscribe((data : any) =>{
+    // this.service.verCOusuario('1','portal').subscribe((data : any) =>{
+    //   this.op = data
+    // })
   }
 
   editarDatos() {

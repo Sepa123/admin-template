@@ -5,7 +5,7 @@ import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromis
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
 import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
-import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
+import { Colaborador,DetallePago, Patentes } from 'src/app/models/transporte/colaborador.interface' 
 
 @Component({
   selector: 'app-colaboradores',
@@ -687,8 +687,33 @@ export class ColaboradoresComponent {
 
   }
 
- 
+  // isModalOpenAgregar: boolean = false
+  public visiblePatentes = false;
 
+  toggleLivePatentes() {
+    this.form.reset()
+    this.visiblePatentes = !this.visiblePatentes;
+  }
+
+  handleLivePatentesChange(event: any) {
+    this.visiblePatentes = event;
+  }
+  
+
+ patentesVehiculos : Patentes [] = []
+  RevisarVehiculos(vehiculos:Patentes []){
+    this.patentesVehiculos = vehiculos
+    this.toggleLivePatentes()
+  }
+
+
+  formatearVehiculo(tipo: number): string {
+    // Separar el número del dígito verificador
+    if (tipo == null) return 'S/I'
+
+    return tipoVehiculo.filter(v => v.id == tipo)[0].name
+
+}
 
  ngOnDestroy(): void {
 

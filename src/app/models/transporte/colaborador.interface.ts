@@ -1,3 +1,8 @@
+export interface Patentes {
+    patente : string;
+    tipo: number;
+}
+
 export interface Colaborador {
     Id:                       number;
     Created_at:               string;
@@ -27,6 +32,9 @@ export interface Colaborador {
     Activo:                   boolean;
     Giro:                     string;
     Pdf_contrato:             string;
+    Vehiculos:                number;
+    Tripulacion:              number;
+    Patentes:                 Patentes[];        
 }
 
 

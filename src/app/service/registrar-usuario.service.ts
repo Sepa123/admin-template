@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
+import { CentroOperacion } from '../models/operacion/centroOperacion.interface';
 
 
 @Injectable({
@@ -35,5 +36,21 @@ export class RegistrarUsuarioService {
 
   actualizarDatosUsuario(formData : any){
     return this.http.put(this.apiurl+`/actualizar/datos/usuario`, formData)
+   }
+
+   verCOusuario(id: string, server : string){
+    return this.http.get(this.apiurl + `/centro_operacion/usuario?id=${id}&server=${server}`)
+  }
+  
+  get_co_op_lista_coordinadores (id: string){
+    return this.http.get<CentroOperacion []>(this.apiurl + `/centro_operacion/lista?id=${id}`)
+  }
+
+  asignar_usuario_a_co(formData : any){
+    return this.http.post(this.apiurl+`/asignar/coordinador/co`, formData)
+  }
+
+ eliminar_usuario_de_co(formData : any){
+    return this.http.post(this.apiurl+`/eliminar/coordinador/co`, formData)
   }
 }
