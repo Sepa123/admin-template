@@ -1,6 +1,15 @@
 export interface Patentes {
     patente : string;
     tipo: number;
+    gps:  boolean;
+    disponible: boolean;
+    habilitado: boolean;
+}
+
+export interface Usuario {
+    nombre: string;
+    tipo:   number;
+    activo: boolean;
 }
 
 export interface Colaborador {
@@ -34,7 +43,8 @@ export interface Colaborador {
     Pdf_contrato:             string;
     Vehiculos:                number;
     Tripulacion:              number;
-    Patentes:                 Patentes[];        
+    Patentes:                 Patentes[];     
+    Usuarios:                 Usuario[];   
 }
 
 

@@ -492,18 +492,22 @@ export const navItems: INavDataBar[] = [
     ]
   },
 
-  // { /// Pantalla de info para Mercadolibre
-  //   name: 'MercadoLibre',
-  //   url: '/mercadolibre',
-  //   iconComponent : {name : 'cil-handshake'},
-  //   roles :  ROLES_PERMITIDOS.PANEL,
-  //   children: [
-  //     {
-  //       name: "Informacion",
-  //       url : '/mercadolibre/info-mercado-libre'
-  //     }
-  //   ]
-  // },
+  { /// Pantalla de info para Mercadolibre
+    name: 'MercadoLibre',
+    url: '/mercadolibre',
+    iconComponent : {name : 'cil-handshake'},
+    roles :  ROLES_PERMITIDOS.PANEL,
+    children: [
+      // {
+      //   name: "Informacion",
+      //   url : '/mercadolibre/info-mercado-libre'
+      // },
+      {
+        name: "Citaciones",
+        url:  '/mercadolibre/citaciones'
+      }
+    ]
+  },
 
 
   {

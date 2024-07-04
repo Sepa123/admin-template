@@ -235,7 +235,9 @@ seleccionarRut(){
 
     this.MoService.getRazonesSocial().subscribe((data) => {
       data.map( op => {
-        op.color = this.getColor(op.id)
+        if(op.color == null){
+          op.color = this.getColor(op.id)
+        }
       })
 
       this.modalidadOperacion = data

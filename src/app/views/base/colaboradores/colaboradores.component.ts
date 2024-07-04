@@ -5,7 +5,7 @@ import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromis
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
 import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
-import { Colaborador,DetallePago, Patentes } from 'src/app/models/transporte/colaborador.interface' 
+import { Colaborador,DetallePago, Patentes, Usuario } from 'src/app/models/transporte/colaborador.interface' 
 
 @Component({
   selector: 'app-colaboradores',
@@ -710,10 +710,36 @@ export class ColaboradoresComponent {
   formatearVehiculo(tipo: number): string {
     // Separar el número del dígito verificador
     if (tipo == null) return 'S/I'
-
     return tipoVehiculo.filter(v => v.id == tipo)[0].name
-
 }
+
+public visibleUsuarios = false;
+
+  toggleLiveUsuarios() {
+    this.visibleUsuarios = !this.visibleUsuarios;
+  }
+
+  handleLivevisibleUsuariosChange(event: any) {
+    this.visibleUsuarios = event;
+  }
+  
+
+  Usuarios : Usuario [] = []
+
+  RevisarUsuarios(usuarios:Usuario []){
+    this.Usuarios = usuarios
+    this.toggleLiveUsuarios()
+  }
+
+  formatearTipoUsuario(tipo: number): string {
+    // Separar el número del dígito verificador
+    
+    if (tipo == 1) return 'Chofer'
+    if (tipo == 2) return 'Peoneta'
+    return 'S/I'
+}
+
+
 
  ngOnDestroy(): void {
 
