@@ -34,11 +34,11 @@ export class CitacionesService {
   getOperaciones(): Observable<any>{
     return this.http.get<any>(this.apiUrl + `/citacionOperacionFecha?fecha=20240607&id=1`);
   }
-  getPpu(): Observable<any>{
-    return this.http.get<any>(this.apiUrl + '/citacion_cop?fecha=2024-06-07&op=23&cop=222');
+  getPpu(fecha:any,op: number, cop:number): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/citacion_cop?fecha=${fecha}&op=${op}&cop=${cop}`);
   }
-  actualizarEstadoPpu(estado: any, id: any): Observable<any> {
-    const url = `${this.apiUrl}/actualizar_estadoPpu?estado=${estado}&id=${id}`;
+  actualizarEstadoPpu(estado: any, id: any, fecha:string): Observable<any> {
+    const url = `${this.apiUrl}/actualizar_estadoPpu?estado=${estado}&id_ppu=${id}&fecha=${fecha}`;
     return this.http.post<any>(url, {}, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -46,8 +46,16 @@ export class CitacionesService {
     });
   }
   
-  actualizarRutaMeli(ruta_meli: any, id: any): Observable<any> {
-    const url = `${this.apiUrl}/actualizar_rutaMeli?ruta_meli=${ruta_meli}&id=${id}`; 
+  actualizarRutaMeli(ruta_meli: any, id_ppu: any, fecha:string): Observable<any> {
+    const url = `${this.apiUrl}/actualizar_rutaMeli?ruta_meli=${ruta_meli}&id_ppu=${id_ppu}&fecha=${fecha}`; 
+    return this.http.post<any>(url, {}, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
+  actualizarTipoRuta(tipo_ruta: any, id_ppu: any, fecha:string): Observable<any> {
+    const url = `${this.apiUrl}/actualizar_tipoRuta?tipo_ruta=${tipo_ruta}&id_ppu=${id_ppu}&fecha=${fecha}`; 
     return this.http.post<any>(url, {}, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -59,8 +67,20 @@ export class CitacionesService {
     return this.http.get(`${this.apiUrl}/api/nombreCitacion?id_estado=${id_estado}`);
 }
 
-  getPatenteCitacion(op:number, cop:number, fecha:string): Observable<any>{
-    return this.http.get(`${this.apiUrl}/api/patentesPorCitacion?op=${op}&cop=${cop}&fecha=${fecha}`);
+  getPatenteCitacion(operacionValue:number, centroOperacionValue:number, fecha:string): Observable<any>{
+    return this.http.get(`${this.apiUrl}/patentesPorCitacion?op=${operacionValue}&cop=${centroOperacionValue}&fecha=${fecha}`);
   }
 
-}
+  getCopFiltrado(operacion:any): Observable<any>{
+    return this.http.get(`${this.apiUrl}/filtro/Cop?op=${operacion}`);
+  }
+
+  getpatentesFiltradas(id_operacion: number, id_centro_op: number):Observable<any>{
+    return this.http.get(`${this.apiUrl}/filtroPatentesPorIdOp_y_IdCop?id_operacion=${id_operacion}&id_centro_op=${id_centro_op}`)
+  }
+
+  getTipoRuta(): Observable<any>{
+    return this.http.get<any>(this.apiUrl + '/tipoRuta');
+  }
+
+  }

@@ -767,8 +767,8 @@
         <table id="tablaProductosPicking" style="width: 100%;"  >
         <thead>
           <tr>
-              <th class="sortable" (click)="sortTable(sortOrder)">Patente</th>
               <th>Razón social</th>
+              <th class="sortable" (click)="sortTable(sortOrder)">Patente</th>
               <th>Tipo Vehiculo</th>
               <th>Región Disponible</th>
               <!-- <th>Rut</th> -->
@@ -782,8 +782,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let vehiculo of vehiculos; let i = index">
-            <td>{{vehiculo.Ppu}}</td>
             <td>{{vehiculo.Razon_social}}</td>
+            <td>{{vehiculo.Ppu}}</td>
             <td>{{ convertirVehiculo(vehiculo.Tipo) }}</td>
             <td>{{ convertirRegion(vehiculo.Region) }}</td>
             <td>

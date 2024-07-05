@@ -14,12 +14,16 @@ import {CitacionesService} from '../../../service/citaciones.service'
   styleUrls: ['./citaciones.component.scss']
 })
 export class CitacionesComponent implements OnInit {
+  operacionValue: number = 0
+  centroOperacionValue: number = 0
 
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
-    private Ct : CitacionesService
-  ) {}
+    private Ct : CitacionesService,
+    
+  ){}
+  
   public visible = false;
   public visible2 = false;
   public visible3 = false;
@@ -30,14 +34,24 @@ export class CitacionesComponent implements OnInit {
   conductores: any[] = [];
   estados : any[] = [];
   peonetas: any[] = [];
+  dataTipoRuta: any[] = [];
   patentesList : any[] = [];
+  patentesList2 : any[] = [];
+  patentesListFiltrada : any[] = [];
+  CopFiltrado: any []= [];
   selectedItem: any = null;
   rutaMeliValues: { [key: number]: string } = {};
   mensaje: string | null = null;
   mensajeClass: string | null = null;
-  
+
+  operacionSeleccionada: string = '';
+  centroOperacionSeleccionado: string = '';
   // Mapea los estados seleccionados para cada patente
   selectedEstados: { [key: number]: number } = {};
+
+  selectedTipoRuta:{ [key: number]: number } = {};
+
+  
   resetForm() {
     this.form.reset();
   }
@@ -47,6 +61,7 @@ export class CitacionesComponent implements OnInit {
       this.resetForm();
     }
   }
+  
   handleLiveDemoChange(event: any) {
     this.visible = event;
     if (!this.visible) {
@@ -94,7 +109,7 @@ export class CitacionesComponent implements OnInit {
     this.getConductores();
     this.getPeonetas();
     this.getEstados();
-    this.getPpu();
+    this.getTipoRuta();
     
   }
 
@@ -103,12 +118,16 @@ export class CitacionesComponent implements OnInit {
       (data) => {
         this.modalidades = data;
         console.log(this.modalidades);
+        
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
       }
     );
   }
+
+  
+  
   getEstados() {
     this.Ct.getEstadoList().subscribe(
       (data) => {
@@ -169,8 +188,9 @@ export class CitacionesComponent implements OnInit {
   updateEstado(id: any){
 
     const estado = this.selectedEstados[id]
-
-    this.Ct.actualizarEstadoPpu(estado, id).subscribe(
+    const fecha = this.obtenerFechaFormateada()
+    
+    this.Ct.actualizarEstadoPpu(estado, id, fecha).subscribe(
       response => {
         console.log('Estado actualizado:', response);
         alert('Estado actualizado correctamente.');
@@ -179,14 +199,33 @@ export class CitacionesComponent implements OnInit {
         console.error('Error al actualizar el estado:', error);
         alert('Error al actualizar el estado.');
       }
+      
     );
+    
   }
 
   updateRutaMeli(id : any){
     const rutaMeli =  (<HTMLInputElement>document.getElementById('rutaMeli')).value;
     const estado = this.selectedEstados[id]
+    const fecha = this.obtenerFechaFormateada()
 
-    this.Ct.actualizarRutaMeli(rutaMeli, id).subscribe(
+    this.Ct.actualizarRutaMeli(rutaMeli, id, fecha).subscribe(
+      Response =>{
+        console.log('estado actualizado', Response);
+      },
+      error =>{
+        console.error('error al actualizar el estado', error)
+      }
+    )
+  }
+ 
+  //funcion para ingresar un valor y actualizar mediante la solicitud su estado cada vez que sea
+  updateTipoRuta(id : any){
+    const idTipoRuta = this.selectedTipoRuta[id]
+    const tipoRuta =  (<HTMLInputElement>document.getElementById('tipoRuta')).value;
+    const fecha = this.obtenerFechaFormateada()
+
+    this.Ct.actualizarTipoRuta(tipoRuta, id, fecha).subscribe(
       Response =>{
         console.log('estado actualizado', Response);
       },
@@ -196,14 +235,17 @@ export class CitacionesComponent implements OnInit {
     )
   }
 
-  getPpu() {
-    this.Ct.getPpu().subscribe(
+  getPpu(op:any, cop:any) {
+
+    const fecha = this.obtenerFechaFormateada()
+    this.Ct.getPpu(fecha,op,cop).subscribe(
       (data) => {
         this.patentesList = data;
         this.initializeSelectedEstados();
         console.log(this.patentesList);
         this.initializeRutaMeliValues()
         this.patentesList[data.ruta_meli] 
+        this.initializeTipoRutaValues()
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -222,8 +264,14 @@ export class CitacionesComponent implements OnInit {
       console.log(this.rutaMeliValues)
     });
   }
+  initializeTipoRutaValues() {
+    this.patentesListFiltrada.forEach(pu => {
+      this.selectedTipoRuta[pu.id_ppu] = pu.tipo_ruta;
+      console.log(this.selectedTipoRuta)
+    });
+  }
 
-  submitForm() {
+  submitForm(id_ppu: any,  tipo_ruta: any) {
     // Obtener Valores de sessionStorage
     const id_user = sessionStorage.getItem('id')?.toString() + '';
     const ids_user =
@@ -232,12 +280,11 @@ export class CitacionesComponent implements OnInit {
       sessionStorage.getItem('id') +
       '';
     //Obtener  valores de los campos formularios.
-    const fecha = (<HTMLInputElement>document.getElementById('nombre')).value;
-    const ruta_meli = (<HTMLInputElement>(document.getElementById('description'))).value;
-    const id_ppu = (<HTMLSelectElement>(document.getElementById('id_ppu'))).value
-    const id_operacion = (<HTMLSelectElement>(document.getElementById('id_ppu'))).value
-    const id_centro_op = (<HTMLSelectElement>(document.getElementById('id_ppu'))).value
-    const estado =  (<HTMLSelectElement>(document.getElementById('estado'))).value
+
+    const id_operacion = this.operacionValue;
+    const id_centro_op = this.centroOperacionValue;
+    const fecha = this.obtenerFechaFormateada();
+    const estado =  5;
     // Validar campos
     
 
@@ -246,10 +293,10 @@ export class CitacionesComponent implements OnInit {
       id_user: id_user,
       ids_user: ids_user,
       fecha: fecha,
-      ruta_meli: ruta_meli,
       id_ppu: id_ppu,
       id_operacion: id_operacion,
       id_centro_op: id_centro_op,
+      tipo_ruta: tipo_ruta,
       estado: estado
     };
 
@@ -261,19 +308,20 @@ export class CitacionesComponent implements OnInit {
       },
       body: JSON.stringify(formData), // Convertimos el objeto a una cadena JSON
     };
+    // llamado al api para entregar el formulario y poster en base de datos
     this.http
-      .post('https://hela.transyanez.cl/api/operacion/agregar/razonSocial', formData)
+      .post('http://localhost:8000/api/agregarpatente/', formData)
       .subscribe((data) => {
         //mostrar aletar exito
         alert('El ingreso se ha realizado Correctamente');
         
-        this.toggleLiveDemo()
       },
+      
       (error) =>{
         //MAnejar errores
         console.error('Error al enviar la solicitud', error.error.detail);
         if ( error.error.detail.includes("duplicate key")) {
-          alert("El nombre de la operación ya existe");
+          alert("El nombre de la patente ya existe para el dia de hoy");
         } else {
           alert('Hubo un error al ingresar el dato');
         }
@@ -282,6 +330,7 @@ export class CitacionesComponent implements OnInit {
     );
   }
 
+  // para settear el color del fondo del recudro.
   getColor(Color:Number): any { 
     if (Color == 1) {
       return 'green'; // 
@@ -295,7 +344,7 @@ export class CitacionesComponent implements OnInit {
       return 'gris'
     }
   }
-
+//funcion para setear el color de la letra, dependiendo del getColor
   getColorLetra(Color:Number): string { 
     if (Color == 0) {
       return 'black'; // 
@@ -310,4 +359,69 @@ export class CitacionesComponent implements OnInit {
     }
   }
 
+  
+
+  getRecuperarPatentesCitaciones(){
+    
+    const operacionValor = this.operacionValue;
+    const centroOperacionValor = this.centroOperacionValue;
+    const fecha = this.obtenerFechaFormateada();
+    if (operacionValor && centroOperacionValor){
+      console.log(operacionValor);
+      console.log(centroOperacionValor);
+    
+    }else{
+      console.error('no se ha encontrado uno o ambos elementos')
+    }
+    this.Ct.getPatenteCitacion(operacionValor, centroOperacionValor, fecha).subscribe(
+      (data) => {
+        this.patentesList2 = data;
+        console.log(this.patentesList2);
+         
+      },
+      (error) => {
+        console.error('Error al obtener modalidades de operación', error);
+      }
+    );
+  }
+
+  getCOPfiltrado(op:any){
+    this.Ct.getCopFiltrado(op).subscribe((data)=>{
+      this.CopFiltrado = data;
+      console.log(this.CopFiltrado)
+    })
+  }
+  onChangeOperacion(event: any) {
+    this.operacionSeleccionada = event.target.value;
+    this.getRecuperarPatentesCitaciones();
+  }
+  onChangeCentroOperacion(event: any) {
+    this.centroOperacionSeleccionado = event.target.value;
+    this.getRecuperarPatentesCitaciones();
+  }
+  obtenerFechaFormateada(): string {
+    const fechaActual = new Date();
+    const year = fechaActual.getFullYear();
+    const month = ('0' + (fechaActual.getMonth() + 1)).slice(-2);
+    const day = ('0' + fechaActual.getDate()).slice(-2);
+    return `${year}${month}${day}`;
+  }
+
+
+  getPatentesFiltradasPorOpyCop(id_operacion:number, id_centro_op:number){
+    this.Ct.getpatentesFiltradas(id_operacion,id_centro_op).subscribe((data)=>{
+      this.patentesListFiltrada = data
+      console.log(this.patentesListFiltrada)
+    })
+
+    this.getPpu(id_operacion,id_centro_op);
+  }
+
+  getTipoRuta(){
+    this.Ct.getTipoRuta().subscribe((data)=>{
+      this.dataTipoRuta = data
+      console.log(this.dataTipoRuta)
+    })
+  }
+  
 }
