@@ -505,6 +505,10 @@ export const navItems: INavDataBar[] = [
       {
         name: "Citaciones",
         url:  '/mercadolibre/citaciones'
+      },
+      {
+        name: "supervisores",
+        url:  '/mercadolibre/supervisores'
       }
     ]
   },

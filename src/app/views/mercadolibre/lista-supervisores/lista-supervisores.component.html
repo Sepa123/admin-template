@@ -1,0 +1,199 @@
+<!-- <h2>Freyja, diosa de Ragnarok</h2> -->
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Cambiar Contraseña</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <form cForm [formGroup]="passForm" (ngSubmit)="actualizarPassword()" > 
+        <!-- <h2>Cambiar Contraseña</h2> -->
+        <p></p>
+        <c-row>
+          <c-col>
+            <div class="password-container">
+              <input type="password" id="pass_antigua" formControlName="Password_antigua" class="form-control" placeholder="Contraseña Antigua" required>
+              <span id="toggle-password" class="eye-icon" (click)="togglePassword()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="black" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5" />
+                </svg>
+              </span>
+            </div>
+  
+            <span class="error" *ngIf="passForm.get('Password_antigua')?.errors?.['required'] && isErrorView">
+              Falta ingresar la contraseña antigua 
+             </span>
+            <p></p>
+          </c-col>
+        </c-row>
+        <c-row>
+          <c-col>
+            <div class="password-container">
+              <input type="password" id="pass_nueva" formControlName="Password_nueva" class="form-control" placeholder="Contraseña Nueva" required>
+              <span id="toggle-password" class="eye-icon" (click)="togglePass_nueva()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="black" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5" />
+                </svg>
+              </span>
+            </div>
+            <span class="error" *ngIf="passForm.get('Password_nueva')?.errors?.['required'] && isErrorView">
+              Falta ingresar la contraseña nueva 
+          </span>
+            <p></p>
+          </c-col>
+        </c-row>
+        <c-row>
+          <c-col>
+            <div class="password-container">
+              <input type="password" id="pass_repetida" formControlName="Password_repetida" class="form-control" placeholder="Repetir Contraseña Nueva" required>
+              <span id="toggle-password" class="eye-icon" (click)="togglePass_repetida()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="black" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5" />
+                </svg>
+              </span>
+            </div>
+  
+            <span class="error" *ngIf="passForm.get('Password_repetida')?.errors?.['required'] && isErrorView">
+              Falta ingresar la contraseña repetida 
+            </span>
+            <br>
+            <span class="error" *ngIf="passForm.get('Password_repetida')?.value !== passForm.get('Password_nueva')?.value && isErrorView">
+              No coincide con la contraseña nueva
+          </span>
+            <p></p>
+          </c-col>
+        </c-row>
+        <c-row>
+          <c-col>
+            <button cButton color="secondary" type="submit">Guardar Cambios</button>
+            <p></p>
+          </c-col>
+        </c-row>
+        
+      </form>
+  
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+  
+  <!-- modal e agregar  -->
+  
+  <c-modal id="liveCOModal" [visible]="visibleCO" (visibleChange)="handleLiveCOChange($event)" size="lg">
+    <c-modal-header>
+      <h5 cModalTitle>Agregar centro operación</h5>
+      <button (click)="toggleLiveCO()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <c-modal-body>
+        <p></p>
+        <c-row >
+          <c-col >
+            <select id="Region" cSelect  class="form-control" [(ngModel)]="idOperacion" (change)="buscarPorModalidadOperacion()">
+              <option [value]="0" selected>Seleccione una operación</option>
+              <option *ngFor="let op of modalidadOperacion"  [value]="op.id"  >{{op.nombre}}</option>
+            </select>
+          </c-col>
+          <c-col >
+            <select id="Region" cSelect  class="form-control" [(ngModel)]="IdCentroOperacion" (click)="seleccionarCentroOperacion()">
+              <option [value]="0" selected>Seleccione centro operación</option>
+              <option *ngFor="let op of centroOperacionLista"  [value]="op.Id"  >{{op.Centro}}</option>
+            </select>
+          </c-col>
+        </c-row>
+          <p></p>
+          <c-row>
+            <c-col >
+  
+            </c-col>
+            <c-col >
+              <!--  -->
+              <button cButton color="secondary" (click)="asignarCOaUsuario()" *ngIf="IdCentroOperacion != 0 && isAsignado" >
+                Asignar
+              </button>  
+            </c-col>
+          </c-row>
+        <c-row>
+          <c-col >
+  
+          <p></p>
+  
+          </c-col>
+        </c-row>
+        
+        
+        
+      <p></p>
+      
+      
+  </c-modal-body>
+  
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveCO()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+  
+
+  <!-- 81 fulll -->
+  <!-- <c-pagination aria-label="Page navigation example" *ngIf="chartVisible == true">
+    <li cPageItem  [disabled]="currentPage == 0">
+      <a cPageLink (click)=" prevPage()" >Anterior</a>
+    </li>
+    <li cPageItem *ngFor="let _ of cantidadPag; let i = index" [active]="i == currentPage">
+      <a cPageLink (click)="seleccionarPagina(i)" > {{i + 1}} </a>
+    </li>
+    <li cPageItem [disabled]="bloqBotonNext == true">
+      <a cPageLink (click)=" nextPag()">Siguiente</a>
+    </li>
+  </c-pagination> -->
+  
+<!--   
+  <c-row>
+      <c-col>
+  
+      </c-col>
+  </c-row> -->
+
+  <h2>
+    Supervisores
+  </h2>
+  
+  <p></p>
+  
+  
+  
+  <div class="card-container">
+    <!-- Repite las tarjetas según sea necesario -->
+    <div class="card"  *ngFor="let supervisor of listaSupervisor">
+      <div class="avatar">
+        <img [src]="supervisor.Imagen_perfil" alt="Imagen de Perfil" id="profilePicture">
+      </div>
+      <div class="info">
+        <div class="name">{{supervisor.Nombre}}</div>
+        <div class="email">{{supervisor.Mail}}</div>
+        <div class="operations">
+          <div class="operation-box" *ngFor="let operacion of supervisor.Lista_centros; let i = index">
+            <div class="operation-title">{{operacion.Operacion}}</div>
+            <div class="operation">
+              <!-- <div > -->
+              <div class="center-box" *ngFor="let grupo of operacion.Centro_operaciones">{{grupo.nombre}}  
+                <svg xmlns="http://www.w3.org/2000/svg" *ngIf="rol !== '80'"  width="24" height="24" viewBox="0 0 24 24" (click)="eliminarUsuarioCO(grupo.id,supervisor.Id,supervisor.Server)"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
+              </div>
+            <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="add-operation" (click)="agregarCentroOperacion(supervisor.Id,supervisor.Server)" *ngIf="rol !== '80'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+          <path fill="white" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
+        </svg>
+      </button>
+    </div>
+  
+  </div>

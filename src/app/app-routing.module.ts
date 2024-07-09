@@ -198,7 +198,7 @@ const routes: Routes = [
       {
         path: 'mercadolibre',
         data : {
-          roles : ROLES_PERMITIDOS.PANEL
+          roles : ROLES_PERMITIDOS.MELI_VIEW
         },
         canActivate :[PermissionGuard],
         loadChildren: () =>

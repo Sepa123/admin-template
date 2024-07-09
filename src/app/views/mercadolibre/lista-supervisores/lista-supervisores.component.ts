@@ -5,18 +5,19 @@ import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interf
 import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
 import { RegistrarUsuarioService } from 'src/app/service/registrar-usuario.service'
 import { MainSupervisor } from 'src/app/models/operacion/supervisor.interface'
+
 @Component({
-  selector: 'app-test',
-  templateUrl: './test.component.html',
-  styleUrls: ['./test.component.scss']
+  selector: 'app-lista-supervisores',
+  templateUrl: './lista-supervisores.component.html',
+  styleUrls: ['./lista-supervisores.component.scss']
 })
-export class TestComponent {
+export class ListaSupervisoresComponent {
   constructor(private service: RegistrarUsuarioService, public builder: FormBuilder,
               private MoService: ModalidadDeOperacionesService
   ) { }
 
   private selectedImagenPerfil: File | null = null
-  rol =   ''
+  rol =   sessionStorage.getItem("rol_id")+''
   id =   ''
   server = ''
   nombre_usuario = ''

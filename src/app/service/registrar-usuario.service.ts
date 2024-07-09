@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 import { CentroOperacion } from '../models/operacion/centroOperacion.interface';
-
+import { MainSupervisor } from 'src/app/models/operacion/supervisor.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -53,4 +53,9 @@ export class RegistrarUsuarioService {
  eliminar_usuario_de_co(formData : any){
     return this.http.post(this.apiurl+`/eliminar/coordinador/co`, formData)
   }
+
+  get_lista_supervisores (){
+    return this.http.get<MainSupervisor []>(this.apiurl + `/ver/supervisores`)
+  }
+  
 }

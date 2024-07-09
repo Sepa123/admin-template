@@ -9,7 +9,7 @@ import { S } from '@fullcalendar/core/internal-common';
 })
 export class CitacionesService {
 
-  // private apiUrl = 'http://localhost:8000/api';
+  // private apiUrl = 'http://localhost:8000/api/meli';
   apiUrl = "https://hela.transyanez.cl/api/meli"
   constructor(private http: HttpClient) { }
 
