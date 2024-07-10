@@ -13,7 +13,7 @@ import { CantidadUnidadesRutaActiva } from 'src/app/models/cantidadUnidadesRutaA
 import { ComunaRutas } from 'src/app/models/comunaRutas.interface'
 import { seguimientoRuta } from 'src/app/models/TOC/seguimientoRuta.interface'
 import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromisoObligatorios.interface'
-
+import { VehiculoDisponible } from 'src/app/models/rutas/vehiculosDisponibles.interface'
 @Injectable({
   providedIn: 'root'
 })
@@ -285,6 +285,13 @@ export class RutasService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
+
+
+  get_vehiculos_disponibles_op(){
+    const fecha = new Date();
+    let fechaFormateada = fecha.toISOString().split('T')[0];
+    return this.http.get<VehiculoDisponible []>(this.apiurl + `/vehiculos/disponibles/en_ruta?fecha=${fechaFormateada}` )  
   }
 
   

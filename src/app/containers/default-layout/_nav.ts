@@ -493,10 +493,10 @@ export const navItems: INavDataBar[] = [
   },
 
   { /// Pantalla de info para Mercadolibre
-    name: 'MercadoLibre',
+    name: 'Mercado Libre',
     url: '/mercadolibre',
     iconComponent : {name : 'cil-handshake'},
-    roles :  ROLES_PERMITIDOS.PANEL,
+    roles :  ROLES_PERMITIDOS.MELI_VIEW,
     children: [
       // {
       //   name: "Informacion",
@@ -507,7 +507,7 @@ export const navItems: INavDataBar[] = [
         url:  '/mercadolibre/citaciones'
       },
       {
-        name: "supervisores",
+        name: "Supervisores",
         url:  '/mercadolibre/supervisores'
       }
     ]

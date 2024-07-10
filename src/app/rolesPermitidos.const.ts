@@ -73,4 +73,6 @@ export const ACCESO_ROL : any = {
     [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO] : '/transporte/colaboradores',
     [ROLES_ENUM.TRANSPORTE_OPERARIO] : '/transporte/colaboradores',
     [ROLES_ENUM.JEFE_TRANSPORTE_BENA] : 'dashboard',
+    [ROLES_ENUM.SUPERVISOR_MERCADO_LIBRE] : '/mercadolibre/citaciones',
+    [ROLES_ENUM.JEFE_OPERACION_MERCADO_LIBRE] : '/mercadolibre/citaciones'
 }
