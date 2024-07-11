@@ -49,16 +49,34 @@ export class TestComponent {
     this.service.get_vehiculos_disponibles_op().subscribe((data) => {
      this.patentesVehiculos = data
      console.log(this.patentesVehiculos)
-    })
 
+     const patentePasada = this.nombreRutaService.getDataDriver().patente
 
-    this.asignarRutaForm.patchValue({
-      asigned_by:  sessionStorage.getItem("id")?.toString(),
-      patente: this.nombreRutaService.getDataDriver().patente,
-      conductor: this.nombreRutaService.getDataDriver().driver,
-      despachador: this.nombreRutaService.getDataDriver().despachador,
-      cantidad_producto : this.nombreRutaService.getBultos()+'',
-      region : 'XIII - Metropolitana'
+     if(patentePasada){
+      console.log(this.nombreRutaService.getDataDriver().patente)
+      this.asignarRutaForm.patchValue({
+        asigned_by:  sessionStorage.getItem("id")?.toString(),
+        patente: patentePasada,
+        conductor: this.nombreRutaService.getDataDriver().driver,
+        despachador: this.nombreRutaService.getDataDriver().despachador,
+        cantidad_producto : this.nombreRutaService.getBultos()+'',
+        region : 'XIII - Metropolitana'
+      })
+
+      this.seleccionarPatente()
+
+     }else {
+      this.asignarRutaForm.patchValue({
+        asigned_by:  sessionStorage.getItem("id")?.toString(),
+        patente: 'Seleccione una patente',
+        conductor: this.nombreRutaService.getDataDriver().driver,
+        despachador: this.nombreRutaService.getDataDriver().despachador,
+        cantidad_producto : this.nombreRutaService.getBultos()+'',
+        region : 'XIII - Metropolitana'
+      })
+     }
+
+     
     })
 
     this.id_usuario = sessionStorage.getItem("id")?.toString()
@@ -76,10 +94,8 @@ export class TestComponent {
     const patenteSeleccionada = this.patentesVehiculos.filter(patente=> patente.Ppu ==  patenteForm)[0]
     // this.razon_social = patenteSeleccionada.Razon_social
     this.asignarRutaForm.patchValue({
-      conductor: '',
       despachador: this.nombreRutaService.getDataDriver().despachador,
       cantidad_producto : this.nombreRutaService.getBultos()+'',
-      region : 'XIII - Metropolitana',
       razon_social : patenteSeleccionada.Razon_social
     })
   }

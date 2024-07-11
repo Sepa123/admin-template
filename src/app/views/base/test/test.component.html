@@ -1,4 +1,3 @@
-
 <h3 style="text-align: center;">Asignar a Ruta {{nombreRuta}}</h3>
 
 <form cForm [formGroup]="asignarRutaForm" (ngSubmit)="asignarRuta()">
@@ -8,7 +7,8 @@
         <label for="patente">Patente</label>
         <!-- <input type="text" [maxlength]="6" [minlength]="6" pattern='^[a-zA-Z0-9]+$' placeholder="Patente" class="form-control" id="patente" [(ngModel)]="patent" formControlName=patente required> -->
         <select  aria-label="Región" id="Region"formControlName="patente" cSelect class="form-control"  placeholder="Patente" (change)="seleccionarPatente()">
-          <option *ngFor="let patente of patentesVehiculos">{{patente.Ppu}}</option>
+          <option value="Seleccione una patente">Seleccione una patente</option>
+          <option *ngFor="let patente of patentesVehiculos" [value]="patente.Ppu" >{{patente.Ppu}}</option>
         </select>
       </c-col>
     <c-col>
@@ -50,3 +50,9 @@
   </c-row>
 
   </form>
+
+
+
+
+
+
