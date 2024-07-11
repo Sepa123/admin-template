@@ -20,9 +20,9 @@ body {
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     margin: 30px;
-	margin-top:60px;
+	  margin-top:60px;
     padding: 20px;
-    width: 400px;
+    width: 480px;
     display: flex;
     flex-direction: row;
     position: relative;
@@ -72,7 +72,7 @@ body {
     border-radius: 8px;
     padding: 10px;
     margin-bottom: 10px;
-    width: 100%;
+    width: 120%;
     box-sizing: border-box;
   }
    .operation-title {
@@ -113,6 +113,12 @@ body {
    .add-operation:hover {
     background-color: #218838;
   }
+
+  .center-box-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px; /* Ajusta el espacio entre los elementos según tus necesidades */
+  }
    .center-box {
     background-color: #f7d9b0; /* Color naranja claro */
     border: 1px solid #c18642; /* Borde naranja oscuro */
@@ -120,6 +126,7 @@ body {
     padding: 5px 5px;
     margin-bottom: 5px;
     font-size: 0.9rem;
+    ;
     display: flex;
     justify-content: space-between;
     align-items: center;

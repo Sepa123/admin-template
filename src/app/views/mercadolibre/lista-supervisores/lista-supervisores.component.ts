@@ -43,6 +43,8 @@ export class ListaSupervisoresComponent {
     console.log(body)
 
     this.service.eliminar_usuario_de_co(body).subscribe((data : any) => {
+
+      this.actualizarDatosSupervisores()
       alert(data.message)
     })
       // console.log('eliminado ', body)
@@ -159,6 +161,7 @@ export class ListaSupervisoresComponent {
       Ids_usuario : this.server+'-'+this.id
     }
     this.service.asignar_usuario_a_co(body).subscribe((data : any) => {
+      this.actualizarDatosSupervisores()
       alert(data.message)
     })
   }
@@ -226,6 +229,16 @@ export class ListaSupervisoresComponent {
     // this.service.verCOusuario(this.id,this.server).subscribe((data : any) =>{
     //   this.op = data
     // })
+  }
+
+  actualizarDatosSupervisores(){
+    this.service.get_lista_supervisores().subscribe((data) => {
+      this.listaSupervisor.map(lista => {
+        
+          lista.Lista_centros = data.filter(d => d.Mail == lista.Mail)[0].Lista_centros
+        
+      })
+    })
   }
 
   editarDatos() {
