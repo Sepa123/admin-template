@@ -189,6 +189,13 @@
           </div>
         </div>
       </div>
+        <br>
+      <button class="add-operation-no" width="22" height="22" *ngIf="rol == '80'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+
+        </svg>
+      </button>
+
       <button class="add-operation" (click)="agregarCentroOperacion(supervisor.Id,supervisor.Server)" *ngIf="rol !== '80'">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
           <path fill="white" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />

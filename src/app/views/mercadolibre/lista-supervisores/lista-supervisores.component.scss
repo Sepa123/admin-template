@@ -110,6 +110,20 @@ body {
     z-index: 1; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Agregamos sombra */
   }
+
+  .add-operation-no {
+    background-color: rgba(0, 0, 0, 0); /* Negro con 50% de opacidad */
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    margin-top: 20px;
+    padding: 8px;
+    border-radius: 50%;
+    align-self: flex-end;
+    z-index: 1; 
+    pointer-events: none;
+  }
+
    .add-operation:hover {
     background-color: #218838;
   }
