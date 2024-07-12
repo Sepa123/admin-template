@@ -1,33 +1,97 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
 .code-font {
-  font-family: 'Inconsolata', monospace;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  width: 100vh;
+  margin: 0;
 }
 
-.nueva-citacion {
-  background-color: blue;
-  color: white;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
+
+.modal-body {
+  overflow: hidden;
 }
 .icon-input {
     position: relative;
 }
+label {
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+input[type="date"] {
+  padding: 5px;
+  font-size: 1em;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
-table th, table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+thead {
+  background-color: #4CAF50;
+  color: white;
 }
 
-table tr:nth-child(even) {
-  background-color: #f2f2f2;
+th, td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
-table tr:hover {
-  background-color: #ddd;
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+.citaciones {
+  text-align: center;
+}
+
+.citaciones-total {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.citaciones-detalle {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+.cuadro {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  border: 2px solid;
+  font-size: 0.8em;
+}
+.verde {
+  background-color: #4CAF50;
+  border-color: #388E3C;
+}
+
+.amarillo {
+  background-color: #FFEB3B;
+  border-color: #FBC02D;
+  color: black;
+}
+
+.rojo {
+  background-color: #F44336;
+  border-color: #D32F2F;
+}
+
+.celeste {
+  background-color: #00BCD4;
+  border-color: #0288D1;
 }
 
 .confirmar, .eliminar {
@@ -40,12 +104,6 @@ table tr:hover {
 
 .eliminar {
   background-color: red;
-}
-table th {
-  background-color: green;
-  color: white;
-  text-align: left;
-  padding: 8px;
 }
 
 .icon-input i {
@@ -84,86 +142,6 @@ table th {
     width: auto;
     margin-right: 10px;
 }
-
-/* Estilo para el mat-expansion-panel */
-/* Estilo para el mat-expansion-panel */
-mat-expansion-panel {
-  background-color: #f1f1f1; /* Color gris claro */
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-
-  .mat-expansion-panel-header {
-    background-color: #f1f1f1; /* Color gris claro */
-    color: black;
-    transition: background-color 0.3s; /* Añadir una transición suave */
-  }
-
-  &:hover .mat-expansion-panel-header {
-    background-color: #d3d3d3; /* Color gris un poco más oscuro */
-  }
-
-  .mat-expansion-panel-content {
-    padding: 10px;
-    background-color: #fff;
-  }
-
-  .modalidades-div {
-    display: flex;
-    align-items: center;
-    gap: 80px; /* Ajuste del espacio entre los elementos */
-    background-color: #f3f3f3;
-    padding: 5px;
-    border-radius: 4px;
-    margin-bottom: 10px;
-
-    button {
-      background-color: green;
-      color: #fff;
-      border: none;
-      padding: 5px 10px;
-      margin: 5px 0;
-      border-radius: 4px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #1976d2;
-      }
-
-      svg {
-        fill: currentColor;
-      }
-    }
-
-    .select-conductor-container,
-    .select-peoneta-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px; /* Espacio entre los selectores */
-    }
-
-    .select-wrapper {
-      display: flex;
-      flex-direction: column; /* Apila el label encima del select */
-      align-items: flex-start;
-
-      label {
-        margin-bottom: 5px;
-        flex-direction: column;
-        /* Espacio entre el label y el select */
-      }
-
-      select {
-        display: inline-block;
-        width: auto;
-        padding: 5px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-      }
-
-    }
-  }
-}
-
 /* Icon input styles */
 .icon-input {
   position: relative;
@@ -223,17 +201,24 @@ mat-expansion-panel {
   padding: 2px;
   border: 1px solid #ccc;
   border-radius: 3px;
-  width: 20%;
+  width: 18%;
   background-color: #f3f3f3;
 }
 .selectEstado {
   padding: 3px;
   border: 1px solid #ccc;
   border-radius: 3px;
-  width: 30%;
+  width: 25%;
   background-color: #f3f3f3;
 }
 
+.selectTipoRuta {
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 20%;
+  background-color: #f3f3f3;
+}
 .detalle-patente svg {
   cursor: pointer;
   transition: transform 0.2s;
@@ -257,4 +242,88 @@ mat-expansion-panel {
 
 .mensaje-notificacion.error {
   background-color: #f44336; /* Rojo para error */
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px; /* Ajusta el ancho según tus necesidades */
+  margin: 0 auto; /* Centra el formulario horizontalmente */
+  font-family: Arial, sans-serif; /* Fuente para un estilo limpio */
+}
+
+.form-group {
+  margin-bottom: 15px; /* Espacio entre cada grupo de formulario */
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px; /* Tamaño de fuente del label */
+  color: #333; /* Color del texto del label */
+}
+
+.input1[type="text"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 4px; /* Bordes redondeados */
+  box-sizing: border-box;
+}
+
+.input1[type="text"]:focus {
+  border-color: #007BFF; /* Color del borde cuando el input está enfocado */
+  outline: none; /* Elimina el borde azul predeterminado */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Añade una sombra azul */
+}
+
+.selectTipoRuta,
+.selectEstado{
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.inputRutaMeli {
+  width: 90%;
+  padding: 6px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.tableclass {
+  width: 100%;
+  border-collapse: collapse;
+  /*table-layout: fixed;*/
+}
+
+.tdclass, .thclass {
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+  text-align: left;
+  font-size: 12px;
+  width: auto;
+}
+
+.thclass {
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+.icons {
+  /*display: flex;*/
+  gap: 8px;
+  justify-content: center;
+}
+
+.icons i {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.icons i:hover {
+  color: #007BFF;
 }
