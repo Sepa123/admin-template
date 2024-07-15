@@ -89,6 +89,10 @@ export class TestComponent {
     // this.asignarRutaForm.patchValue({region: "ccdddd"})
   }
 
+  volverRutaActiva(){
+    this.router.navigate(['/picking/rutas-activas']);
+  }
+
   seleccionarPatente(){
     const patenteForm = this.asignarRutaForm.value.patente
     const patenteSeleccionada = this.patentesVehiculos.filter(patente=> patente.Ppu ==  patenteForm)[0]

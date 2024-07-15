@@ -719,6 +719,35 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
+  { /// Pantalla Informacion Para NO OPERACIONES
+    name: 'Información',
+    url: '/informacion',
+    iconComponent : {name : 'cil-magnifying-glass'},
+    roles : ROLES_PERMITIDOS.INFORMACION_NO_OPERACIONES,
+    children: [
+      {
+        name: "Estado",
+        url : '/informacion/estado'
+      },
+      {
+        name: "Buscar SKU",
+        url : '/informacion/buscar-sku'
+      },
+      {
+        name: "Tracking Producto",
+        url : '/informacion/tracking-producto'
+      },
+      {
+        name: "Ingreso Producto",
+        url : '/informacion/ingreso-producto'
+      },
+      {
+        name: "Historial Producto",
+        url: '/informacion/timeline',
+      }
+    ]
+  },
+  
   { /// Pantalla Informacion Para OPERACIONES
     name: 'Información',
     url: '/informacion',
@@ -744,6 +773,10 @@ export const navItems: INavDataBar[] = [
       {
         name: "Historial Producto",
         url: '/informacion/timeline',
+      },
+      {
+        name: "Peso Volumetrico",
+        url:  '/informacion/peso-volumetrico'
       }
     ]
   },

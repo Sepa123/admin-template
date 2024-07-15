@@ -26,13 +26,15 @@ import { MercadolibreRoutingModule } from './mercadolibre-routing.module';
 import { CitacionesComponent } from './citaciones/citaciones.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ListaSupervisoresComponent } from './lista-supervisores/lista-supervisores.component';
+import { PrefacturaComponent } from './prefactura/prefactura.component';
 
 
 @NgModule({
   declarations: [
     InfoMercadoLibreComponent,
     CitacionesComponent,
-    ListaSupervisoresComponent
+    ListaSupervisoresComponent,
+    PrefacturaComponent
     
   ],
   imports: [
