@@ -27,6 +27,7 @@ import { CitacionesComponent } from './citaciones/citaciones.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ListaSupervisoresComponent } from './lista-supervisores/lista-supervisores.component';
 import { PrefacturaComponent } from './prefactura/prefactura.component';
+import { PrefacturaMensualComponent } from './prefactura-mensual/prefactura-mensual.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { PrefacturaComponent } from './prefactura/prefactura.component';
     InfoMercadoLibreComponent,
     CitacionesComponent,
     ListaSupervisoresComponent,
-    PrefacturaComponent
+    PrefacturaComponent,
+    PrefacturaMensualComponent
     
   ],
   imports: [

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit,Renderer2 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, Subscription, skipUntil, startWith, switchMap } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,50 +8,71 @@ import {CitacionesService} from '../../../service/citaciones.service'
 
 
 
+
 @Component({
   selector: 'app-citaciones',
   templateUrl: './citaciones.component.html',
-  styleUrls: ['./citaciones.component.scss']
+  styleUrls: ['./citaciones.component.scss'],
 })
 export class CitacionesComponent implements OnInit {
-  operacionValue: number = 0
-  centroOperacionValue: number = 0
-
+  operacionValue: number = 0;
+  centroOperacionValue: number = 0;
+  dateForm: FormGroup;
+  conteoingresados: any;
+  conteoConfirmadas: any;
+  id_count: any;
+  estado_count: any;
+  conductores2: any = '';
+  peonetas2: any = '';
+  patentesEncontradas: any = '';
+  input1: any;
+  input2: any;
+  input3: any;
+  IdPpuRecuperada?: number;
+  conteoIngresadosHtml: any;
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
-    private Ct : CitacionesService,
-    
-  ){}
-  
+    private Ct: CitacionesService,
+    private renderer: Renderer2
+  ) {
+    this.dateForm = this.fb.group({
+      date: [''],
+    });
+  }
+
   public visible = false;
   public visible2 = false;
   public visible3 = false;
+  public visibleAmbulance = false;
+
   isModalOpen: boolean = false;
   form: FormGroup | any;
   myControl = new FormControl();
   modalidades: any[] = [];
   conductores: any[] = [];
-  estados : any[] = [];
+  estados: any[] = [];
   peonetas: any[] = [];
   dataTipoRuta: any[] = [];
-  patentesList : any[] = [];
-  patentesList2 : any[] = [];
-  patentesListFiltrada : any[] = [];
-  CopFiltrado: any []= [];
+  patentesList: any[] = [];
+  patentesList2: any[] = [];
+  patentesListFiltrada: any[] = [];
+  CopFiltrado: any[] = [];
   selectedItem: any = null;
   rutaMeliValues: { [key: number]: string } = {};
   mensaje: string | null = null;
   mensajeClass: string | null = null;
+  formattedDate: string = '';
+  getOperacion: any = '';
+  getCentroOperacion: any = '';
 
   operacionSeleccionada: string = '';
   centroOperacionSeleccionado: string = '';
   // Mapea los estados seleccionados para cada patente
   selectedEstados: { [key: number]: number } = {};
 
-  selectedTipoRuta:{ [key: number]: number } = {};
+  selectedTipoRuta: { [key: number]: number } = {};
 
-  
   resetForm() {
     this.form.reset();
   }
@@ -61,7 +82,13 @@ export class CitacionesComponent implements OnInit {
       this.resetForm();
     }
   }
-  
+
+  toggleAmbulance() {
+    this.visibleAmbulance = !this.visibleAmbulance;
+    if (!this.visibleAmbulance) {
+      this.resetForm();
+    }
+  }
   handleLiveDemoChange(event: any) {
     this.visible = event;
     if (!this.visible) {
@@ -105,20 +132,54 @@ export class CitacionesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.obtenerFechaFormateada();
     this.getModalidades();
     this.getConductores();
     this.getPeonetas();
     this.getEstados();
     this.getTipoRuta();
+    this.conteoIngresados();
+    this.ingresoDriversPeonetas();
+  }
+  obtenerFechaFormateada() {
+    const fechaActual = new Date();
+    const year = fechaActual.getFullYear();
+    const month = ('0' + (fechaActual.getMonth() + 1)).slice(-2);
+    const day = ('0' + fechaActual.getDate()).slice(-2);
+    const formattedToday = `${year}-${month}-${day}`;
+    console.log('Formatted Today:', formattedToday);
+    this.dateForm.get('date')?.setValue(formattedToday);
+    this.formattedDate = `${year}-${month}-${day}`;
+
+    // Set the value of the date input directly using Renderer2
+    const dateInput = document.querySelector('input[type="date"]');
+    if (dateInput) {
+      this.renderer.setProperty(dateInput, 'value', formattedToday);
+    }
+  }
+
+  onDateChange(event: any) {
+    const rawDate = event.target.value;
+    if (rawDate) {
+      const [year, month, day] = rawDate.split('-');
+
+      this.formattedDate = `${year}-${month}-${day}`;
+      console.log(this.formattedDate);
+      this.getModalidades();
+    }
+
     
   }
 
   getModalidades() {
-    this.Ct.getOperaciones().subscribe(
+    
+    const id_user = '130';
+    const fecha = this.formattedDate;
+    // sessionStorage.getItem('id')?.toString() + '';
+    this.Ct.getOperaciones( fecha, id_user).subscribe(
       (data) => {
         this.modalidades = data;
         console.log(this.modalidades);
-        
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -126,8 +187,6 @@ export class CitacionesComponent implements OnInit {
     );
   }
 
-  
-  
   getEstados() {
     this.Ct.getEstadoList().subscribe(
       (data) => {
@@ -140,7 +199,8 @@ export class CitacionesComponent implements OnInit {
     );
   }
   getConductores() {
-    this.Ct.getConductoresList().subscribe(
+    const fecha = this.formattedDate
+    this.Ct.getConductoresList(fecha).subscribe(
       (data) => {
         this.conductores = data;
         console.log(this.conductores);
@@ -152,7 +212,8 @@ export class CitacionesComponent implements OnInit {
   }
 
   getPeonetas() {
-    this.Ct.getPeonetaList().subscribe(
+    const fecha = this.formattedDate
+    this.Ct.getPeonetaList(fecha).subscribe(
       (data) => {
         this.peonetas = data;
         console.log(this.peonetas);
@@ -164,13 +225,14 @@ export class CitacionesComponent implements OnInit {
   }
 
   eliminarPpu(ppu: any) {
-    console.log(ppu)
+    console.log(ppu);
     // Llamar a la API para eliminar la razón social por su ID
     this.http
-      .delete(`http://localhost:8000/api/borrar?id_ppu=${ppu}`)
+      .delete(`https://hela.transyanez.cl/api/meli/borrar?id_ppu=${ppu}`)
       .subscribe(
         () => {
           // Si la eliminación es exitosa
+          this.getModalidades();
           console.log('Se eliminado el ID ${ppu} correctamente');
         },
         (error) => {
@@ -178,74 +240,72 @@ export class CitacionesComponent implements OnInit {
         }
       );
   }
-  valorIdppu(id :number){
-    const valor = id
-    console.log(valor)
+  valorIdppu(id: number) {
+    const valor = id;
+    console.log(valor);
     return valor;
-       
   }
 
-  updateEstado(id: any){
+  updateEstado(id: any) {
+    const estado = this.selectedEstados[id];
+    const fecha = this.formattedDate;
 
-    const estado = this.selectedEstados[id]
-    const fecha = this.obtenerFechaFormateada()
-    
     this.Ct.actualizarEstadoPpu(estado, id, fecha).subscribe(
-      response => {
+      (response) => {
+        this.getModalidades();
         console.log('Estado actualizado:', response);
         alert('Estado actualizado correctamente.');
       },
-      error => {
+      (error) => {
         console.error('Error al actualizar el estado:', error);
         alert('Error al actualizar el estado.');
       }
-      
     );
-    
   }
 
-  updateRutaMeli(id : any){
-    const rutaMeli =  (<HTMLInputElement>document.getElementById('rutaMeli')).value;
-    const estado = this.selectedEstados[id]
-    const fecha = this.obtenerFechaFormateada()
+  updateRutaMeli(id: any) {
+    const rutaMeli = (<HTMLInputElement>document.getElementById('rutaMeli'))
+      .value;
+    const estado = this.selectedEstados[id];
+    const fecha = this.formattedDate;
 
     this.Ct.actualizarRutaMeli(rutaMeli, id, fecha).subscribe(
-      Response =>{
+      (Response) => {
         console.log('estado actualizado', Response);
       },
-      error =>{
-        console.error('error al actualizar el estado', error)
+      (error) => {
+        console.error('error al actualizar el estado', error);
       }
-    )
+    );
   }
- 
+
   //funcion para ingresar un valor y actualizar mediante la solicitud su estado cada vez que sea
-  updateTipoRuta(id : any){
-    const idTipoRuta = this.selectedTipoRuta[id]
-    const tipoRuta =  (<HTMLInputElement>document.getElementById('tipoRuta')).value;
-    const fecha = this.obtenerFechaFormateada()
+  updateTipoRuta(id: any) {
+    const idTipoRuta = this.selectedTipoRuta[id];
+    const tipoRuta = (<HTMLInputElement>document.getElementById('tipoRuta'))
+      .value;
+    const fecha = this.formattedDate;
 
     this.Ct.actualizarTipoRuta(tipoRuta, id, fecha).subscribe(
-      Response =>{
+      (Response) => {
         console.log('estado actualizado', Response);
       },
-      error =>{
-        console.error('error al actualizar el estado', error)
+      (error) => {
+        console.error('error al actualizar el estado', error);
       }
-    )
+    );
   }
 
-  getPpu(op:any, cop:any) {
-
-    const fecha = this.obtenerFechaFormateada()
-    this.Ct.getPpu(fecha,op,cop).subscribe(
+  getPpu(op: any, cop: any) {
+    const fecha = this.formattedDate;
+    this.Ct.getPpu(fecha, op, cop).subscribe(
       (data) => {
         this.patentesList = data;
         this.initializeSelectedEstados();
         console.log(this.patentesList);
-        this.initializeRutaMeliValues()
-        this.patentesList[data.ruta_meli] 
-        this.initializeTipoRutaValues()
+        this.initializeRutaMeliValues();
+        this.patentesList[data.ruta_meli];
+        this.initializeTipoRutaValues();
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -254,24 +314,34 @@ export class CitacionesComponent implements OnInit {
   }
 
   initializeSelectedEstados() {
-    this.patentesList.forEach(pu => {
+    this.patentesList.forEach((pu) => {
       this.selectedEstados[pu.id_ppu] = pu.estado;
     });
   }
   initializeRutaMeliValues() {
-    this.patentesList.forEach(pu => {
+    this.patentesList.forEach((pu) => {
       this.rutaMeliValues[pu.id_ppu] = pu.ruta_meli;
-      console.log(this.rutaMeliValues)
+      console.log(this.rutaMeliValues);
     });
   }
   initializeTipoRutaValues() {
-    this.patentesListFiltrada.forEach(pu => {
+    this.patentesListFiltrada.forEach((pu) => {
       this.selectedTipoRuta[pu.id_ppu] = pu.tipo_ruta;
-      console.log(this.selectedTipoRuta)
+      console.log(this.selectedTipoRuta);
     });
   }
 
-  submitForm(id_ppu: any,  tipo_ruta: any) {
+  //funcion que trae las patentes para recuperar la id para almacenarlas y usarlas.
+  recuperarId(id_op: any, id_cop: any) {
+    const id_operacion = id_op;
+    const id_centro = id_cop;
+
+    this.getOperacion = id_operacion;
+    this.getCentroOperacion = id_centro;
+    console.log(this.getOperacion, this.getCentroOperacion);
+  }
+
+  submitForm(id_ppu: any) {
     // Obtener Valores de sessionStorage
     const id_user = sessionStorage.getItem('id')?.toString() + '';
     const ids_user =
@@ -280,13 +350,12 @@ export class CitacionesComponent implements OnInit {
       sessionStorage.getItem('id') +
       '';
     //Obtener  valores de los campos formularios.
-
-    const id_operacion = this.operacionValue;
-    const id_centro_op = this.centroOperacionValue;
-    const fecha = this.obtenerFechaFormateada();
-    const estado =  5;
+    const id_operacion = this.getOperacion;
+    const id_centro_op = this.getCentroOperacion;
+    const fecha = this.formattedDate;
+    const estado = 0;
+    const tipo_ruta = 1
     // Validar campos
-    
 
     // Crear un objeto FormData y agregar los datos del formulario
     const formData = {
@@ -297,7 +366,7 @@ export class CitacionesComponent implements OnInit {
       id_operacion: id_operacion,
       id_centro_op: id_centro_op,
       tipo_ruta: tipo_ruta,
-      estado: estado
+      estado: estado,
     };
 
     // Configuracion para la solicitud
@@ -310,74 +379,67 @@ export class CitacionesComponent implements OnInit {
     };
     // llamado al api para entregar el formulario y poster en base de datos
     this.http
-      .post('http://localhost:8000/api/agregarpatente/', formData)
-      .subscribe((data) => {
-        //mostrar aletar exito
-        alert('El ingreso se ha realizado Correctamente');
-        
-      },
-      
-      (error) =>{
-        //MAnejar errores
-        console.error('Error al enviar la solicitud', error.error.detail);
-        if ( error.error.detail.includes("duplicate key")) {
-          alert("El nombre de la patente ya existe para el dia de hoy");
-        } else {
-          alert('Hubo un error al ingresar el dato');
+      .post('https://hela.transyanez.cl/api/meli/agregarpatente/', formData)
+      .subscribe(
+        (data) => {
+          //mostrar aletar exito
+          this.getModalidades();
+          alert('El ingreso se ha realizado Correctamente');
+        },
+
+        (error) => {
+          //MAnejar errores
+          console.error('Error al enviar la solicitud', error.error.detail);
+          if (error.error.detail.includes('duplicate key')) {
+            alert('El nombre de la patente ya existe para el dia de hoy');
+          } else {
+            alert('Hubo un error al ingresar el dato');
+          }
         }
-        
-      }
-    );
+      );
   }
 
   // para settear el color del fondo del recudro.
-  getColor(Color:Number): any { 
+  getColor(Color: Number): any {
     if (Color == 1) {
-      return 'green'; // 
+      return 'green'; //
     } else if (Color == 2) {
-      return '#04BD41'; // 
+      return '#04BD41'; //
     } else if (Color == 3) {
-      return '#F52822'; // 
-    } else if(Color == 4){
-      return  '#ecab0f';
-    } else if(Color == 5){
-      return 'gris'
+      return '#F52822'; //
+    } else if (Color == 4) {
+      return '#ecab0f';
+    } else if (Color == 5) {
+      return 'gris';
     }
   }
-//funcion para setear el color de la letra, dependiendo del getColor
-  getColorLetra(Color:Number): string { 
+  //funcion para setear el color de la letra, dependiendo del getColor
+  getColorLetra(Color: Number): string {
     if (Color == 0) {
-      return 'black'; // 
+      return 'black'; //
     } else if (Color == 1) {
-      return 'white'; // 
+      return 'white'; //
     } else if (Color == 2) {
-      return 'white'; // 
-    } else if(Color == 3){
-      return  'black';
+      return 'white'; //
+    } else if (Color == 3) {
+      return 'black';
     } else {
-      return 'No se encuentra el color'
+      return 'No se encuentra el color';
     }
   }
 
-  
-
-  getRecuperarPatentesCitaciones(){
-    
-    const operacionValor = this.operacionValue;
-    const centroOperacionValor = this.centroOperacionValue;
-    const fecha = this.obtenerFechaFormateada();
-    if (operacionValor && centroOperacionValor){
-      console.log(operacionValor);
-      console.log(centroOperacionValor);
-    
-    }else{
-      console.error('no se ha encontrado uno o ambos elementos')
+  getRecuperarPatentesCitaciones(id_operacion: number, id_cop: number) {
+    const fecha = this.formattedDate;
+    if (id_operacion && id_cop) {
+      console.log(id_operacion);
+      console.log(id_cop);
+    } else {
+      console.error('no se ha encontrado uno o ambos elementos');
     }
-    this.Ct.getPatenteCitacion(operacionValor, centroOperacionValor, fecha).subscribe(
+    this.Ct.getPatenteCitacion(id_operacion, id_cop, fecha).subscribe(
       (data) => {
         this.patentesList2 = data;
         console.log(this.patentesList2);
-         
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -385,43 +447,132 @@ export class CitacionesComponent implements OnInit {
     );
   }
 
-  getCOPfiltrado(op:any){
-    this.Ct.getCopFiltrado(op).subscribe((data)=>{
+  getCOPfiltrado(op: any) {
+    this.Ct.getCopFiltrado(op).subscribe((data) => {
       this.CopFiltrado = data;
-      console.log(this.CopFiltrado)
-    })
+      console.log(this.CopFiltrado);
+    });
   }
   onChangeOperacion(event: any) {
     this.operacionSeleccionada = event.target.value;
-    this.getRecuperarPatentesCitaciones();
   }
   onChangeCentroOperacion(event: any) {
     this.centroOperacionSeleccionado = event.target.value;
-    this.getRecuperarPatentesCitaciones();
-  }
-  obtenerFechaFormateada(): string {
-    const fechaActual = new Date();
-    const year = fechaActual.getFullYear();
-    const month = ('0' + (fechaActual.getMonth() + 1)).slice(-2);
-    const day = ('0' + fechaActual.getDate()).slice(-2);
-    return `${year}${month}${day}`;
-  }
-
-
-  getPatentesFiltradasPorOpyCop(id_operacion:number, id_centro_op:number){
-    this.Ct.getpatentesFiltradas(id_operacion,id_centro_op).subscribe((data)=>{
-      this.patentesListFiltrada = data
-      console.log(this.patentesListFiltrada)
-    })
-
-    this.getPpu(id_operacion,id_centro_op);
-  }
-
-  getTipoRuta(){
-    this.Ct.getTipoRuta().subscribe((data)=>{
-      this.dataTipoRuta = data
-      console.log(this.dataTipoRuta)
-    })
   }
   
+
+  
+
+  getPatentesFiltradasPorOpyCop(id_operacion: number, id_centro_op: number) {
+    this.Ct.getpatentesFiltradas(id_operacion, id_centro_op).subscribe(
+      (data) => {
+        this.patentesListFiltrada = data;
+        console.log(this.patentesListFiltrada);
+      }
+    );
+
+    this.getPpu(id_operacion, id_centro_op);
+  }
+
+  getTipoRuta() {
+    this.Ct.getTipoRuta().subscribe((data) => {
+      this.dataTipoRuta = data;
+      console.log(this.dataTipoRuta);
+    });
+  }
+  
+
+  recuperarIdEstado(id_cop: number, estado: number) {
+    const id_centro_op = id_cop;
+    const estado_ = estado;
+
+    this.id_count = id_centro_op;
+    this.estado_count = estado_;
+  }
+
+  getCitacionesDelDia(fecha: string) {
+    const id_cop = this.id_count;
+    this.Ct.getConteoIngresados(fecha, id_cop).subscribe((data) => {
+      this.conteoingresados = data;
+    });
+  }
+  getCitacionesDelDiaConfirmadas(fecha: string) {
+    const id_cop = this.id_count;
+    const estado = this.estado_count;
+    this.Ct.getConteoConfirmados(fecha, id_cop, estado).subscribe((data) => {
+      this.conteoConfirmadas = data;
+    });
+  }
+
+  recuperarIdPpu(id: number) {
+    this.IdPpuRecuperada = id;
+    console.log(this.IdPpuRecuperada)
+  }
+  ambulancia() {
+    const fecha = this.formattedDate;
+    const ppuAmbulance = this.input1;
+    const rutaAmbulance = this.input2;
+    const rutaAmbulanceInterna = this.input3;
+    const id_ppu = this.IdPpuRecuperada;
+
+    console.log(
+      'text',
+      ppuAmbulance,
+      rutaAmbulance,
+      rutaAmbulanceInterna,
+      id_ppu,
+      fecha
+    );
+    this.Ct.ingresarAmbulancia(
+      ppuAmbulance,
+      id_ppu,
+      fecha,
+      rutaAmbulance,
+      rutaAmbulanceInterna
+    ).subscribe(
+      (Response) => {
+        console.log('estado actualizado', Response);
+      },
+      (error) => {
+        console.error('error al actualizar el estado', error);
+      }
+    );
+  }
+
+  conteoIngresados() {
+    const fecha = this.formattedDate;
+    const id_cop = this.id_count;
+
+    
+      this.Ct.getConteoIngresados(fecha, id_cop).subscribe(
+        (response) => {
+          this.conteoIngresadosHtml = response;
+          console.log('fetching data', this.conteoIngresadosHtml, fecha);
+        },
+        (error) => {
+          console.error('error ferching data', error);
+        }
+      );
+  }
+  ingresoDriversPeonetas(){
+    const fecha = this.formattedDate
+    const id_conductor = this.conductores2
+    const id_peoneta = this.peonetas2
+    const id_ppu_ingreso = this.IdPpuRecuperada
+
+    console.log(fecha, id_conductor, id_peoneta, id_ppu_ingreso)
+    this.Ct.ingresarDriversPeoneta(id_conductor,id_peoneta,fecha ,id_ppu_ingreso).subscribe(
+      (response) => {
+        console.log('estado actualizado', response);
+        this.conductores2 = ""
+        this.peonetas2 = ""
+        this.IdPpuRecuperada = 0
+        this.getConductores()
+        this.getPeonetas() 
+      },
+      (error) => {
+        console.error('error al actualizar el estado', error);
+      }
+    );
+  }
 }

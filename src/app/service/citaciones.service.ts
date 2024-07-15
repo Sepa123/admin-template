@@ -18,21 +18,21 @@ export class CitacionesService {
   }
 
 
-  getConductoresList(): Observable<any>{
-    return this.http.get<any>(this.apiUrl + '/conductoresList');
+  getConductoresList(fecha:string): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/conductoresList?fecha=${fecha}`);
   }
 
   
-  getPeonetaList(): Observable<any>{
-    return this.http.get<any>(this.apiUrl + '/peonetaList');
+  getPeonetaList(fecha:string): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/peonetaList?fecha=${fecha}`);
   }
 
   getEstadoList(): Observable<any>{
     return this.http.get<any>(this.apiUrl + '/estadoList');
   }
 
-  getOperaciones(): Observable<any>{
-    return this.http.get<any>(this.apiUrl + `/citacionOperacionFecha?fecha=20240607&id=1`);
+  getOperaciones(fecha:any, id :any): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/citacionOperacionFecha?fecha=${fecha}&id=${id}`);
   }
   getPpu(fecha:any,op: number, cop:number): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/citacion_cop?fecha=${fecha}&op=${op}&cop=${cop}`);
@@ -69,6 +69,31 @@ export class CitacionesService {
 
   getPatenteCitacion(operacionValue:number, centroOperacionValue:number, fecha:string): Observable<any>{
     return this.http.get(`${this.apiUrl}/patentesPorCitacion?op=${operacionValue}&cop=${centroOperacionValue}&fecha=${fecha}`);
+  }
+
+
+  getConteoIngresados(fecha: string, id_cop:number):Observable<any>{
+    return this.http.get(`${this.apiUrl}/countCitaciones?fecha=${fecha}&id_cop=${id_cop}`);
+  }
+  getConteoConfirmados(fecha: string, id_cop:number, estado: number):Observable<any>{
+    return this.http.get(`${this.apiUrl}/countCitacionesConfirmadas?fecha=${fecha}&id_cop=${id_cop}&estado=${estado}`);
+  }
+
+  ingresarAmbulancia(id_ppu_amb: any, id_ppu: any, fecha:string, ruta_meli_amb: number, ruta_amb_interna: number): Observable<any> {
+    const url = `${this.apiUrl}/Ambulancia?id_ppu_amb=${id_ppu_amb}&ruta_meli_amb=${ruta_meli_amb}&ruta_amb_interna=${ruta_amb_interna}&fecha=${fecha}&id_ppu=${id_ppu}`; 
+    return this.http.post<any>(url, {}, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
+  ingresarDriversPeoneta(id_driver: any, id_peoneta: any, fecha:string, id_ppu: any): Observable<any> {
+    const url = `${this.apiUrl}/ingresarDriversPeoneta?id_driver=${id_driver}&id_peoneta=${id_peoneta}&fecha=${fecha}&id_ppu=${id_ppu}`; 
+    return this.http.post<any>(url, {}, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
   }
 
   getCopFiltrado(operacion:any): Observable<any>{
