@@ -4,7 +4,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, Subject, Subscription, skipUntil, startWith, switchMap } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CitacionesService} from '../../../service/citaciones.service'
-import { id } from 'date-fns/locale';
 
 
 
@@ -166,7 +165,10 @@ export class CitacionesComponent implements OnInit {
 
       this.formattedDate = `${year}-${month}-${day}`;
       console.log(this.formattedDate);
+      this.getModalidades();
     }
+
+    
   }
 
   getModalidades() {
@@ -504,6 +506,7 @@ export class CitacionesComponent implements OnInit {
 
   recuperarIdPpu(id: number) {
     this.IdPpuRecuperada = id;
+    console.log(this.IdPpuRecuperada)
   }
   ambulancia() {
     const fecha = this.formattedDate;
@@ -562,7 +565,8 @@ export class CitacionesComponent implements OnInit {
       (response) => {
         console.log('estado actualizado', response);
         this.conductores2 = ""
-        this.peonetas2= ""
+        this.peonetas2 = ""
+        this.IdPpuRecuperada = 0
         this.getConductores()
         this.getPeonetas() 
       },
