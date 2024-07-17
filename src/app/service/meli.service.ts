@@ -8,8 +8,8 @@ import { Prefactura } from "../models/meli/prefactura.interface"
 })
 export class MeliService {
 
-  private apiurl = 'http://localhost:8000/api/meli';
-  // private apiurl = "https://hela.transyanez.cl/api/meli"
+  // private apiurl = 'http://localhost:8000/api/meli';
+  private apiurl = "https://hela.transyanez.cl/api/meli"
 
   constructor(private http: HttpClient) { }
 
