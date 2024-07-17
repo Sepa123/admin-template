@@ -173,7 +173,7 @@ export class CitacionesComponent implements OnInit {
 
   getModalidades() {
     
-    const id_user = '130';
+    const id_user = sessionStorage.getItem('id')?.toString() + ''
     const fecha = this.formattedDate;
     // sessionStorage.getItem('id')?.toString() + '';
     this.Ct.getOperaciones( fecha, id_user).subscribe(
