@@ -112,7 +112,7 @@ export const navItems: INavDataBar[] = [
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
-    roles : [ROLES_ENUM.ADMIN,ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.TRANSPORTE_OPERARIO, ROLES_ENUM.JEFE_TRANSPORTE_BENA],
+    roles : [ROLES_ENUM.ADMIN,ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA],
     children: [
       // {
       //   name: 'Reportes',
@@ -194,7 +194,7 @@ export const navItems: INavDataBar[] = [
     name: 'EXO',
     url: '/exo',
     iconComponent: { name: 'cil-bar-chart' },
-    roles : [ROLES_ENUM.TRANSPORTE_OPERARIO],
+    roles : [ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA],
     children: [
       {
         name: 'NS Beetrack',
@@ -332,7 +332,7 @@ export const navItems: INavDataBar[] = [
     name: 'Operaciones',
     url: '/operaciones',
     iconComponent: { name: 'cil-clipboard' },
-    roles : [ROLES_ENUM.COORDINADOR, ROLES_ENUM.JEFE_SEGURIDAD],
+    roles : [ROLES_ENUM.COORDINADOR, ROLES_ENUM.JEFE_SEGURIDAD,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA],
     children: [
       {
         name: 'Pendientes',
@@ -491,7 +491,6 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
-
   { /// Pantalla de info para Mercadolibre
     name: 'Mercado Libre',
     url: '/mercadolibre',
@@ -499,7 +498,7 @@ export const navItems: INavDataBar[] = [
     roles :  ROLES_PERMITIDOS.MELI_VIEW,
     children: [
       // {
-      //   name: "Informacion",
+      //   name: "Información",
       //   url : '/mercadolibre/info-mercado-libre'
       // },
       {
@@ -512,8 +511,6 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
-
-
   {
     // Pantalla completa TOC
     name: 'TOC',
@@ -674,7 +671,7 @@ export const navItems: INavDataBar[] = [
     name: 'Información',
     url: '/informacion',
     iconComponent : {name : 'cil-magnifying-glass'},
-    roles : [ROLES_ENUM.JEFE_TRANSPORTE,ROLES_ENUM.TRANSPORTE_OPERARIO],
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA],
     children: [
       {
         name: "Tracking Producto",
@@ -709,12 +706,11 @@ export const navItems: INavDataBar[] = [
         url: '/informacion/timeline',
       },
       {
-        name: "Modalidad operacion",
+        name: "Modalidad operación",
         url: '/informacion/modalidades-de-operaciones',
-      }
-      ,
+      },
       {
-        name: "Peso Volumetrico",
+        name: "Peso Volumétrico",
         url:  '/informacion/peso-volumetrico'
       }
     ]
@@ -775,7 +771,7 @@ export const navItems: INavDataBar[] = [
         url: '/informacion/timeline',
       },
       {
-        name: "Peso Volumetrico",
+        name: "Peso Volumétrico",
         url:  '/informacion/peso-volumetrico'
       }
     ]

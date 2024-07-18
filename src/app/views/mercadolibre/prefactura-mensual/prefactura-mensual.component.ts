@@ -42,7 +42,7 @@ export class PrefacturaMensualComponent {
   constructor(private service: MeliService) { }
 
   ngOnInit(){
-    this.service.getDatosPrefactura().subscribe((data) =>{ 
+    this.service.getDatosPrefactura('2024','06').subscribe((data) =>{ 
       this.ListaPrefacturaFull = data
 
       this.ListaPrefactura = data

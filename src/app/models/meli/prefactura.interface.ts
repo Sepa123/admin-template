@@ -1,17 +1,17 @@
 export interface Prefactura {
-    Id:              number;
-    Created_at:      string;
     Id_usuario:      number;
     Ids_usuario:     string;
     Id_prefactura:   number;
     Periodo:         string;
     Descripcion:     string;
-    Id_de_ruta:      string;
-    Fecha_de_inicio: string;
-    Fecha_de_fin:    string;
+    Id_de_ruta:      number;
+    Fecha_inicio:    string;
+    Fecha_fin:       string;
     Patente:         string;
+    Id_patente:      number | null;
     Conductor:       string;
-    Cantidad:        string;
-    Precio_unitario: string;
-    Total:           string;
+    Cantidad:        number;
+    Precio_unitario: number;
+    Descuento:       boolean;
+    Total:           number;
 }

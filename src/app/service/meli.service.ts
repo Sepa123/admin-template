@@ -22,7 +22,19 @@ export class MeliService {
     return this.http.post(this.apiurl+`/subir/billing-meli?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}`, formData)
   }
 
-  getDatosPrefactura(){
-    return this.http.get<Prefactura []>(this.apiurl+`/prefacturas` )
+  getDatosPrefactura(ano : string, mes : string){
+    return this.http.get<Prefactura []>(this.apiurl+`/prefacturas?ano=${ano}&mes=${mes}` )
+  }
+
+  download_prefactura_excel( ano : string, mes : string) {
+    this.http.get(`${this.apiurl}/descargar/prefacturas?ano=${ano}&mes=${mes}`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      // a.download =`inventario-${dia}.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
   }
 }

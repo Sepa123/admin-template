@@ -37,17 +37,36 @@ export class PrefacturaComponent {
 
   loadQuadmindFull: boolean = true 
 
+  mesSeleccionado : string = '2024-06'
+
 
   constructor(private service: MeliService) { }
 
   ngOnInit(){
-    this.service.getDatosPrefactura().subscribe((data) =>{ 
+    this.service.getDatosPrefactura('2024','06').subscribe((data) =>{ 
       this.ListaPrefacturaFull = data
 
       this.ListaPrefactura = data
     })
   }
 
+
+  seleccionarMes(){
+    console.log(this.mesSeleccionado.split('-')[0])
+    this.service.getDatosPrefactura(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1]).subscribe((data) =>{ 
+      this.ListaPrefacturaFull = data
+
+      this.ListaPrefactura = data
+    }, error => {
+      alert(error.error.detail)
+      this.ListaPrefactura = []
+    }
+  )
+  }
+
+  descargarExcel(){
+    this.service.download_prefactura_excel(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1])
+  }
   
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
