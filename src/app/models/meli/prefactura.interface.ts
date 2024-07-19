@@ -15,3 +15,12 @@ export interface Prefactura {
     Descuento:       boolean;
     Total:           number;
 }
+
+
+export interface ResumenPrefactura {
+    Total_registros:        number;
+    Fecha_ultimo_ingreso:   string;
+    Ultimos_ingresados:     number;
+    Nombre_ultima_proforma: number;
+    Ultimo_segmento_fecha:  string;
+}

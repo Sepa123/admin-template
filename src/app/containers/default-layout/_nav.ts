@@ -495,7 +495,7 @@ export const navItems: INavDataBar[] = [
     name: 'Mercado Libre',
     url: '/mercadolibre',
     iconComponent : {name : 'cil-handshake'},
-    roles :  ROLES_PERMITIDOS.MELI_VIEW,
+    roles :  ROLES_PERMITIDOS.MELI_VIEW_NAV,
     children: [
       // {
       //   name: "Información",
@@ -508,6 +508,30 @@ export const navItems: INavDataBar[] = [
       {
         name: "Supervisores",
         url:  '/mercadolibre/supervisores'
+      }
+    ]
+  },
+  { /// Pantalla de info para Mercadolibre
+    name: 'Mercado Libre',
+    url: '/mercadolibre',
+    iconComponent : {name : 'cil-handshake'},
+    roles :  ROLES_PERMITIDOS.MELI_ADMIN,
+    children: [
+      // {
+      //   name: "Información",
+      //   url : '/mercadolibre/info-mercado-libre'
+      // },
+      {
+        name: "Citaciones",
+        url:  '/mercadolibre/citaciones'
+      },
+      {
+        name: "Supervisores",
+        url:  '/mercadolibre/supervisores'
+      },
+      {
+        name: "Prefactura",
+        url:  '/mercadolibre/prefactura'
       }
     ]
   },

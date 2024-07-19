@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Prefactura } from "../models/meli/prefactura.interface"
+import { Prefactura,ResumenPrefactura } from "../models/meli/prefactura.interface"
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +36,9 @@ export class MeliService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
+
+  getResumenDatosPrefactura(){
+    return this.http.get<ResumenPrefactura>(this.apiurl+`/resumen/prefacturas` )
   }
 }

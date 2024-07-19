@@ -5,7 +5,8 @@ import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interf
 import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
 import { RegistrarUsuarioService } from 'src/app/service/registrar-usuario.service'
 import { MeliService } from 'src/app/service/meli.service'
-import { Prefactura } from "src/app/models/meli/prefactura.interface"
+import { Prefactura,ResumenPrefactura } from "src/app/models/meli/prefactura.interface"
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-prefactura',
   templateUrl: './prefactura.component.html',
@@ -20,6 +21,8 @@ export class PrefacturaComponent {
   error! : number  
   codigosErroneos : string [] = []
   message : string = ""
+
+  resumenPrefactura : ResumenPrefactura [] = []
 
   contador : number = 1
   regionSeleccionada: string = 'Todas'
@@ -48,6 +51,10 @@ export class PrefacturaComponent {
 
       this.ListaPrefactura = data
     })
+
+    this.service.getResumenDatosPrefactura().subscribe((data) => {
+      this.resumenPrefactura = [data]
+    })
   }
 
 
@@ -65,7 +72,31 @@ export class PrefacturaComponent {
   }
 
   descargarExcel(){
-    this.service.download_prefactura_excel(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1])
+    // this.service.download_prefactura_excel(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1])
+    const datos: any[][] = [[]];
+
+    datos.push(["Id Prefactura","Periodo","Descripción","Id de Ruta","Fecha Inicio","Fecha Fin","Patente",
+      "Id Patente","Conductor","Cantidad","Precio Unitario","Descuento","Total"])
+
+    this.ListaPrefactura.forEach((pedido) => {
+        const fila: any[] = [];
+        fila.push(pedido.Id_prefactura, pedido.Periodo, pedido.Descripcion, pedido.Id_de_ruta, pedido.Fecha_inicio, pedido.Fecha_fin, pedido.Patente, pedido.Id_patente,
+                  pedido.Conductor,pedido.Cantidad,pedido.Precio_unitario, pedido.Descuento,pedido.Total); 
+        datos.push(fila);
+      });
+
+    let date = new Date();
+    const fechaActual = date.toISOString().split('T')[0];
+    // Crea un libro de Excel a partir de los datos
+    const libroExcel: XLSX.WorkBook = XLSX.utils.book_new();
+    const hoja: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(datos);
+    XLSX.utils.book_append_sheet(libroExcel, hoja, 'Hoja1');
+
+    // Descarga el archivo Excel `Quadminds_Manual_${fechaActual}.xlsx` 
+    
+    const nombreArchivo = `Proforma-mensual-${fechaActual}.xlsx`;
+    // Nombre del archivo Excel a descargar 
+    XLSX.writeFile(libroExcel, nombreArchivo);
   }
   
   onFileSelected(event: any) {
@@ -104,6 +135,30 @@ export class PrefacturaComponent {
       console.warn('Ningún archivo seleccionado');
       // Lógica adicional en caso de que el usuario no seleccione ningún archivo.
     }
+  }
+
+  textoPeriodo : any = ''
+  textoIdRuta : any = ''
+  textoPatente : any = ''
+  textoConductor : any = ''
+  //Filtro sin para todos(tristemente no me sirve)
+  // filtrarTabla(campo : string){
+  //   console.log(campo)
+  //   this.ListaPrefactura = this.ListaPrefacturaFull.filter((lista : any) => lista[campo].toString().toLowerCase().startsWith(this.textoFiltro.toLowerCase())  )
+
+  //   console.log(this.ListaPrefactura[0])
+
+  //   console.log(this.ListaPrefactura )
+
+  // }
+
+  filtrarTabla(campo : string){
+      this.ListaPrefactura = this.ListaPrefacturaFull.filter((lista) => lista.Periodo.toString().toLowerCase().startsWith(this.textoPeriodo.toLowerCase())  )
+      this.ListaPrefactura = this.ListaPrefactura.filter((lista) => lista.Id_de_ruta.toString().toLowerCase().startsWith(this.textoIdRuta.toLowerCase())  )
+      this.ListaPrefactura = this.ListaPrefactura.filter((lista) => lista.Patente.toString().toLowerCase().startsWith(this.textoPatente.toLowerCase())  )
+      this.ListaPrefactura = this.ListaPrefactura.filter((lista) => lista.Conductor.toString().toLowerCase().startsWith(this.textoConductor.toLowerCase())  )
+
+
   }
 
   

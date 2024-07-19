@@ -1,8 +1,67 @@
-<div class="card">
+
+<h2>Prefactura</h2>
+
+
+
+<c-row>
+    <c-col>
+        <div class="card">
+        <c-row > 
+            <c-col>
+                <p></p>
+                Cargar Archivo de prefactura <span style="font-weight: bold;"></span>
+            </c-col>
+        </c-row>
+        <c-row >
+            <c-col>
+                <input  type="file" id="archivo" (change)="onFileSelected($event)">
+                <p></p>
+            </c-col>
+        </c-row>
+        <c-row>
+            <c-col>
+                <button  (click)="uploadFile()">Subir archivo</button>
+                <p></p>
+            </c-col>
+        </c-row>
+    </div>
+    </c-col>
+    <c-col>
+        <!-- <div class="card"> -->
+            <c-row > 
+                <div class="greenTable"  >
+                    <table id="tablaProductosPicking" style="width: 100%;" >
+                    <thead>
+                      <tr>
+                          <th>Registros</th>
+                          <th>Fecha ultimo ingreso</th>
+                          <th>Ultimos ingreso</th>
+                          <th>Ultima proforma</th>
+                          <th>Ultimo segmento fecha</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let prefactua of resumenPrefactura;let i = index">
+                          <td>{{prefactua.Total_registros}}</td>
+                          <td>{{prefactua.Fecha_ultimo_ingreso}}</td>
+                          <td>{{prefactua.Ultimos_ingresados}}</td>
+                          <td>{{prefactua.Nombre_ultima_proforma}}</td>
+                          <td>{{prefactua.Ultimo_segmento_fecha}}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    </div>
+            </c-row>
+        <!-- </div> -->
+
+    </c-col>
+</c-row>
+
+
+
+
+<!-- <div class="card">
     <table >
-        <tr>
-        <!-- <td rowspan="4"></td> -->
-        </tr>
         <tr>
         <td class="tamano">Cargar Archivo de prefactura <span style="font-weight: bold;"></span> </td>
         </tr>
@@ -10,7 +69,7 @@
         <td>
             <input  type="file" id="archivo" (change)="onFileSelected($event)">
         <p></p>
-            <button (click)="uploadFile()">Subir archivo</button>
+            <button  (click)="uploadFile()">Subir archivo</button>
         </td>
         </tr>
         <tr>
@@ -19,7 +78,7 @@
         </td>
         </tr>
     </table>
-    </div>
+    </div> -->
 <p></p>
 
 <c-row>
@@ -46,27 +105,42 @@
 
 <p></p>
 <div class="greenTable">
-    <table id="tablaProductosPicking" >
+    <table id="tablaPrefactura" >
     <thead>
       <tr>
-          <th>Id Prefactura</th>
-          <th>Periodo</th>
-          <th>Descripción</th>
-          <th>Id de Ruta</th>
+          <!-- <th>
+            Id Prefactura
+            
+          </th> -->
+          <th>
+            Periodo
+            <!-- <input type="text" [(ngModel)]="textoPeriodo" (keyup)="filtrarTabla('Periodo')" placeholder="🔍" maxlength="8" size="6"> -->
+          </th>
+          <!-- <th>Descripción</th> -->
+          <th>
+            Id Ruta
+            <input type="text" [(ngModel)]="textoIdRuta" (keyup)="filtrarTabla('Id_de_ruta')" placeholder="🔍" maxlength="9" size="7">
+          </th>
           <th>Fecha Inicio</th>
           <th>Fecha Fin</th>
-          <th>Patente </th>
-          <th>Conductor</th>
+          <th>
+            Patente 
+            <input type="text" [(ngModel)]="textoPatente" (keyup)="filtrarTabla('Patente')" placeholder="🔍" maxlength="6" size="4">
+          </th>
+          <th>
+            Conductor
+            <input type="text" [(ngModel)]="textoConductor" (keyup)="filtrarTabla('Conductor')" placeholder="🔍"  size="8">
+          </th>
           <th>Cantidad</th>
           <th>Precio Unitario</th>
-          <th>Total</th>
+          <!-- <th>Total</th> -->
       </tr>
     </thead>
     <tbody>
         <tr *ngFor="let prefactua of ListaPrefactura;let i = index">
-          <td>{{prefactua.Id_prefactura}}</td>
+          <!-- <td>{{prefactua.Id_prefactura}}</td> -->
           <td>{{prefactua.Periodo}}</td>
-          <td>{{prefactua.Descripcion}}</td>
+          <!-- <td>{{prefactua.Descripcion}}</td> -->
           <td>{{prefactua.Id_de_ruta}}</td>
           <td>{{prefactua.Fecha_inicio}}</td>
           <td>{{prefactua.Fecha_fin}}</td>
@@ -74,7 +148,7 @@
           <td>{{prefactua.Conductor}} </td>
           <td>{{prefactua.Cantidad}}</td>
           <td>{{prefactua.Precio_unitario}}</td>
-          <td>{{prefactua.Total}}</td>
+          <!-- <td>{{prefactua.Total}}</td> -->
         </tr>
         <tr *ngIf="ListaPrefactura.length == 0">
             <td style="text-align: center;" colspan="10">No hay registros</td>

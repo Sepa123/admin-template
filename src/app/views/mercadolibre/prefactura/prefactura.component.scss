@@ -8,7 +8,7 @@
     border: 1px solid #28A745;
     background-color: #FFFEF3;
     width: 100%;
-    text-align: left;
+    text-align: center;
     border-collapse: separate;
     border-spacing: 0;
   }
@@ -21,7 +21,7 @@
   }
   
   .greenTable  table tbody th {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
   }
   .greenTable  table tr:nth-child(even) {
@@ -67,7 +67,7 @@
 
   
   input[type=file] {
-    width: 700px;
+    width: 450px;
     max-width: 100%;
     color: #444;
     padding: 5px;
