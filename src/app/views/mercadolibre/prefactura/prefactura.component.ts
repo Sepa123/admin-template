@@ -120,6 +120,7 @@ export class PrefacturaComponent {
             this.codigosErroneos = data.codigos.split(',')
           }
           this.message = data.message
+          alert(data.message)
           console.log('Archivo subido exitosamente');
           // Lógica adicional en caso de éxito.
         },

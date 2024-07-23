@@ -1,53 +1,54 @@
-<!-- <p>{{nombreRuta}}</p> -->
-
-<h3>Asignar a Ruta {{nombreRuta}}</h3>
+<h3 style="text-align: center;">Asignar a Ruta {{nombreRuta}}</h3>
 
 <form cForm [formGroup]="asignarRutaForm" (ngSubmit)="asignarRuta()">
-    <div class="form-row">
-      <div class="col-md-3 mb-3">
+
+  <c-row>
+    <c-col>
         <label for="patente">Patente</label>
-        <input type="text" [maxlength]="6" [minlength]="6" pattern='^[a-zA-Z0-9]+$' placeholder="Patente" class="form-control" id="patente" [(ngModel)]="patent" formControlName=patente required>
-      </div>
-      <!-- <div *ngIf=" asignarRutaForm.get('patente')?.errors?.['pattern']">
-        Hubo un error al ingresear la patente del vehiculo
-      </div> -->
-      <div class="col-md-4 mb-3">
-        <label for="validationDefault02">Conductor</label>
-        <input type="text" class="form-control" placeholder="Conductor" formControlName="conductor" [(ngModel)]="driver" required>
-      </div>
-
-      <div class="col-md-4 mb-3">
-        <label for="validationDefault02">Despachador</label>
-        <input type="text" class="form-control" placeholder="Despachador" formControlName="despachador" [(ngModel)]="despachado" required>
-      </div>
-
-    </div>
-    <div class="form-row">
-      <div class="col-md-3 mb-3">
-        <label for="cant_producto">Cantidad producto</label>
-        <input type="number" readonly [(ngModel)]="bultos" [value]="bultos" class="form-control" id="cant_producto"  formControlName="cantidad_producto" required>
-      </div>
-      <div *ngIf=" asignarRutaForm.get('cantidad_producto')?.errors?.['min']">
-        la cantidad minima debe ser 1
-      </div>
-      <!-- <div class="col-md-3 mb-3">
-        <label for="">Estado</label>
-        <input type="text" class="form-control" id=""  required>
-      </div> -->
-      <div class="col-md-3 mb-3">
-        <label for="Region">Region</label>
-        <select aria-label="Región" id="Region" [(ngModel)]="regionInicial" formControlName="region" cSelect >
+        <!-- <input type="text" [maxlength]="6" [minlength]="6" pattern='^[a-zA-Z0-9]+$' placeholder="Patente" class="form-control" id="patente" [(ngModel)]="patent" formControlName=patente required> -->
+        <select  aria-label="Región" id="Region"formControlName="patente" cSelect class="form-control"  placeholder="Patente" (change)="seleccionarPatente()">
+          <option value="Seleccione una patente">Seleccione una patente</option>
+          <option *ngFor="let patente of patentesVehiculos" [value]="patente.Ppu" >{{patente.Ppu}}</option>
+        </select>
+      </c-col>
+    <c-col>
+      Razón Social <br>
+      <label for="" style="font-size: 17px;" >{{asignarRutaForm.get('razon_social')?.value}}</label>
+    </c-col>
+  </c-row>
+  <c-row>
+    <c-col>
+      <label for="validationDefault02">Conductor</label>
+      <input type="text" class="form-control" placeholder="Conductor" formControlName="conductor" required>
+    </c-col>
+    <c-col>
+      <label for="validationDefault02">Despachador</label>
+      <input type="text" class="form-control" placeholder="Despachador" formControlName="despachador" required>
+    </c-col>
+  </c-row>
+  <c-row>
+    <c-col>
+      <label for="cant_producto">Cantidad producto</label>
+        <input type="number" readonly class="form-control" id="cant_producto"  formControlName="cantidad_producto" required>
+    </c-col>
+    <c-col>
+      <label for="Region">Region</label>
+        <select  aria-label="Región" id="Region"  formControlName="region" cSelect class="form-control" >
             <option value="XIII - Metropolitana" >XIII - Metropolitana</option>
             <option value="V - Valparaiso">V - Valparaiso</option>
           </select>
-      </div>
+    </c-col>
+  </c-row>
+  <p></p>
+  <c-row>
+    <c-col>
+      <button cButton class="btn btn-success" type="submit">Asignar Ruta</button>
+    </c-col>
+    <c-col>
+      <button cButton class="btn btn-primary" (click)="volverRutaActiva()">Volver</button>
+    </c-col>
+  </c-row>
 
-      
-      <!-- <div *ngIf=" asignarRutaForm.get('region')?.errors?.['required']">
-        la cantidad minima debe ser 1
-      </div> -->
-    </div>
-    <button class="btn btn-success" type="submit">Asignar Ruta</button>
   </form>
 
 

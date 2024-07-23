@@ -58,7 +58,7 @@
         <c-col [xs]>
           <div class="">
             Patente * 
-            <input type="text" placeholder="Patente " class="form-control" formControlName="Ppu" >
+            <input type="text" placeholder="Patente " class="form-control" formControlName="Ppu" maxlength="6" >
                 <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                 <span class="error" *ngIf="formVehiculo.get('Ppu')?.errors?.['required']  && isErrorView">
                     Falta agregar la patente
@@ -376,7 +376,7 @@
         <c-col [xs]>
           <div class="">
             Patente * 
-            <input type="text" placeholder="Patente " class="form-control" formControlName="Ppu" >
+            <input type="text" placeholder="Patente " class="form-control" formControlName="Ppu" maxlength="6">
                 <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                 <span class="error" *ngIf="formVehiculo.get('Ppu')?.errors?.['required'] && isErrorView">
                     Falta agregar la patente

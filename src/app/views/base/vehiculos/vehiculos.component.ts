@@ -383,6 +383,8 @@ seleccionarRut(){
           this.toggleLiveAgregar()
 
         })   
+      }, error => {
+        alert(error.error.detail)
       })
 
     }else {
