@@ -19,7 +19,7 @@ export class MeliService {
 
 
   subirExcelPrefacturaMensual(formData : any, id_usuario : string, ids_usuario : string){
-    return this.http.post(this.apiurl+`/subir/billing-meli?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}`, formData)
+    return this.http.post(this.apiurl+`/subir/prefactura/diario?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}`, formData)
   }
 
   getDatosPrefactura(ano : string, mes : string){

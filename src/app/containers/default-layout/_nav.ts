@@ -136,22 +136,22 @@ export const navItems: INavDataBar[] = [
       },
     ]
   },
-  // {
-  //   name: 'Transporte',
-  //   url: '/transporte',
-  //   iconComponent: { name: 'cil-car-alt' },
-  //   roles : ROLES_PERMITIDOS.TRANSPORTE_ACCESO,
-  //   children: [
-  //     {
-  //       name: 'Reportes',
-  //       url : '/transporte/reportes'
-  //     },
-  //     // {
-  //     //   name: 'Colaboradores',
-  //     //   url : '/transporte/colaboradores'
-  //     // },
-  //   ]
-  // },
+  {
+    name: 'Transporte',
+    url: '/transporte',
+    iconComponent: { name: 'cil-car-alt' },
+    roles : [ROLES_ENUM.SUPERVISOR_MERCADO_LIBRE,ROLES_ENUM.JEFE_OPERACION_MERCADO_LIBRE],
+    children: [
+      {
+        name: 'Reporte',
+        url : '/transporte/buscador'
+      },
+      // {
+      //   name: 'Colaboradores',
+      //   url : '/transporte/colaboradores'
+      // },
+    ]
+  },
   {
     name: 'EXO',
     url: '/exo',
@@ -529,6 +529,18 @@ export const navItems: INavDataBar[] = [
         name: "Supervisores",
         url:  '/mercadolibre/supervisores'
       },
+      {
+        name: "Prefactura",
+        url:  '/mercadolibre/prefactura'
+      }
+    ]
+  },
+  { /// Pantalla de info para Mercadolibre
+    name: 'Mercado Libre',
+    url: '/mercadolibre',
+    iconComponent : {name : 'cil-handshake'},
+    roles :  ROLES_PERMITIDOS.MELI_VIEW_FINANZA,
+    children: [
       {
         name: "Prefactura",
         url:  '/mercadolibre/prefactura'

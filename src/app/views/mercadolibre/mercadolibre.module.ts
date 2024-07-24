@@ -28,6 +28,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ListaSupervisoresComponent } from './lista-supervisores/lista-supervisores.component';
 import { PrefacturaComponent } from './prefactura/prefactura.component';
 import { PrefacturaMensualComponent } from './prefactura-mensual/prefactura-mensual.component';
+import { SeguimientoDiarioComponent } from './seguimiento-diario/seguimiento-diario.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { PrefacturaMensualComponent } from './prefactura-mensual/prefactura-mens
     CitacionesComponent,
     ListaSupervisoresComponent,
     PrefacturaComponent,
-    PrefacturaMensualComponent
+    PrefacturaMensualComponent,
+    SeguimientoDiarioComponent
     
   ],
   imports: [

@@ -11,6 +11,7 @@ import { Vehiculo, AsignarOperacion } from 'src/app/models/transporte/vehiculo.i
 import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
 import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
 import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
+import { ROLES_ENUM } from 'src/app/models/enum/roles.enum';
 
 @Component({
   selector: 'app-buscador',
@@ -27,6 +28,8 @@ export class BuscadorComponent  {
   private selectedCertGases: File | null = null;
   public rol = sessionStorage.getItem("rol_id") 
 
+
+  rolesMeli : string [] = ['80', '81']
   descargarPermisoCirculacion : string | null = null
   descargarRevisionTecnica : string | null = null
   descargarSOAP : string | null = null

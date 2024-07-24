@@ -5,6 +5,7 @@ import { CitacionesComponent } from './citaciones/citaciones.component';
 import { ListaSupervisoresComponent } from './lista-supervisores/lista-supervisores.component';
 import { PrefacturaComponent } from './prefactura/prefactura.component';
 import { PrefacturaMensualComponent } from './prefactura-mensual/prefactura-mensual.component';
+import { SeguimientoDiarioComponent } from './seguimiento-diario/seguimiento-diario.component';
 const routes: Routes = [
   {
     path: '',
@@ -43,6 +44,13 @@ const routes: Routes = [
         {
             path:'prefactura-mensual',
             component: PrefacturaMensualComponent,
+            data:{
+                title: "prefactura"
+            }
+        },
+        {
+            path:'seguimiento-diario',
+            component: SeguimientoDiarioComponent,
             data:{
                 title: "prefactura"
             }
