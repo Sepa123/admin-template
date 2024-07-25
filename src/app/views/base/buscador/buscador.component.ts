@@ -29,7 +29,7 @@ export class BuscadorComponent  {
   public rol = sessionStorage.getItem("rol_id") 
 
 
-  rolesMeli : string [] = ['80', '81']
+  rolesMeli : string [] = ['80', '81','50']
   descargarPermisoCirculacion : string | null = null
   descargarRevisionTecnica : string | null = null
   descargarSOAP : string | null = null

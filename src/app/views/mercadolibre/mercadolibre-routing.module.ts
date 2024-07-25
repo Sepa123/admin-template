@@ -6,6 +6,8 @@ import { ListaSupervisoresComponent } from './lista-supervisores/lista-superviso
 import { PrefacturaComponent } from './prefactura/prefactura.component';
 import { PrefacturaMensualComponent } from './prefactura-mensual/prefactura-mensual.component';
 import { SeguimientoDiarioComponent } from './seguimiento-diario/seguimiento-diario.component';
+import { PrefacturaDiariaComponent } from './prefactura-diaria/prefactura-diaria.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -37,6 +39,13 @@ const routes: Routes = [
         {
             path:'prefactura',
             component: PrefacturaComponent,
+            data:{
+                title: "prefactura"
+            }
+        },
+        {
+            path:'prefactura-diaria',
+            component: PrefacturaDiariaComponent,
             data:{
                 title: "prefactura"
             }

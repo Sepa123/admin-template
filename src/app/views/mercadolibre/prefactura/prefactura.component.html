@@ -108,10 +108,10 @@
     <table id="tablaPrefactura" >
     <thead>
       <tr>
-          <!-- <th>
+          <th>
             Id Prefactura
             
-          </th> -->
+          </th>
           <th>
             Periodo
             <!-- <input type="text" [(ngModel)]="textoPeriodo" (keyup)="filtrarTabla('Periodo')" placeholder="🔍" maxlength="8" size="6"> -->
@@ -138,7 +138,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let prefactua of ListaPrefactura;let i = index">
-          <!-- <td>{{prefactua.Id_prefactura}}</td> -->
+          <td>{{prefactua.Id_prefactura}}</td>
           <td>{{prefactua.Periodo}}</td>
           <!-- <td>{{prefactua.Descripcion}}</td> -->
           <td>{{prefactua.Id_de_ruta}}</td>

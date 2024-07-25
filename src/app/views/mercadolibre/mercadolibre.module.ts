@@ -29,6 +29,7 @@ import { ListaSupervisoresComponent } from './lista-supervisores/lista-superviso
 import { PrefacturaComponent } from './prefactura/prefactura.component';
 import { PrefacturaMensualComponent } from './prefactura-mensual/prefactura-mensual.component';
 import { SeguimientoDiarioComponent } from './seguimiento-diario/seguimiento-diario.component';
+import { PrefacturaDiariaComponent } from './prefactura-diaria/prefactura-diaria.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { SeguimientoDiarioComponent } from './seguimiento-diario/seguimiento-dia
     ListaSupervisoresComponent,
     PrefacturaComponent,
     PrefacturaMensualComponent,
-    SeguimientoDiarioComponent
+    SeguimientoDiarioComponent,
+    PrefacturaDiariaComponent
     
   ],
   imports: [

@@ -797,7 +797,7 @@
             <!-- <td>{{formatearRUT(vehiculo.Rut)}}</td> -->
             <td>
               <div class="slide-toggle-container">
-                <mat-slide-toggle  [(ngModel)]="vehiculo.Disponible" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
+                <mat-slide-toggle  [disabled]=" rol == '50' " [(ngModel)]="vehiculo.Disponible" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
                   <!-- <span *ngIf="formVehiculo.value.Estado">Activado</span>
                   <span *ngIf="!formVehiculo.value.Estado">Desactivado</span> -->
                 </mat-slide-toggle>
