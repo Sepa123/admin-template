@@ -327,7 +327,11 @@ label {
 .icons i:hover {
   color: #007BFF;
 }
-
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 .button-wrapper{
   flex: 1 0 calc(35% - 100px); // Los botones ocuparán el 25% del ancho del contenedor, permitiendo hasta 4 por fila y restando el espacio de 10px
   max-width: calc(35% - 100px); // Asegura que no crezcan más allá del 25% del contenedor restando el espacio de 10px
@@ -339,7 +343,7 @@ label {
   text-align: center; // Centra el texto dentro de los botones
   font-size: 14px; // Ajusta el tamaño de la fuente según sea necesario
 }
-
+@media (max-width: 600px) {
   .button-wrapper {
     flex: 1 0 calc(50% - 100px); // En pantallas más pequeñas, muestra solo 2 botones por fila
     max-width: calc(50% - 100px);
@@ -353,7 +357,7 @@ label {
     max-width: 600px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
+}}
 
 .punto_rojo {
   width: 10px;
@@ -369,7 +373,6 @@ label {
 }
 
 .form-date {
-  display: block;
   margin-bottom: 1rem;
 }
 
@@ -381,10 +384,9 @@ label {
 .form-date input {
   display: block;
   width: 100%;
-  max-width: 125px; /* Esto es opcional, puedes ajustar el ancho del input si es necesario */
+  max-width: 300px; /* Esto es opcional, puedes ajustar el ancho del input si es necesario */
 }
 .container {
-  max-width: auto; /* Ajusta este valor según tus necesidades */
+  max-width: 800px; /* Ajusta este valor según tus necesidades */
   margin: auto;
-  
 }

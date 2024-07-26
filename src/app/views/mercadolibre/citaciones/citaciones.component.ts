@@ -168,7 +168,7 @@ export class CitacionesComponent implements OnInit {
 
   getModalidades() {
     
-    const id_user = sessionStorage.getItem('id')?.toString() + '';;
+    const id_user = '130'
     // sessionStorage.getItem('id')?.toString() + '';;
     const fecha = this.formattedDate;
     
