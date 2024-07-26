@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit,Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit,Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, Subscription, skipUntil, startWith, switchMap } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CitacionesService} from '../../../service/citaciones.service'
+import { NgForm } from '@angular/forms'
 
 
 
@@ -15,6 +16,9 @@ import {CitacionesService} from '../../../service/citaciones.service'
   styleUrls: ['./citaciones.component.scss'],
 })
 export class CitacionesComponent implements OnInit {
+  
+  @ViewChild('ambulanceForm') ambulanceForm: NgForm | undefined;
+
   operacionValue: number = 0;
   centroOperacionValue: number = 0;
   dateForm: FormGroup;
@@ -29,7 +33,10 @@ export class CitacionesComponent implements OnInit {
   input2: any;
   input3: any;
   IdPpuRecuperada?: number;
+  selectedPatente: string;
   conteoIngresadosHtml: any;
+  dataTipoRutaColor: any;
+  TipoRutaImagen: any;
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -39,6 +46,7 @@ export class CitacionesComponent implements OnInit {
     this.dateForm = this.fb.group({
       date: [''],
     });
+    this.selectedPatente = '';
   }
 
   public visible = false;
@@ -65,63 +73,52 @@ export class CitacionesComponent implements OnInit {
   formattedDate: string = '';
   getOperacion: any = '';
   getCentroOperacion: any = '';
-
+  ambulanciaCode: string = '';
   operacionSeleccionada: string = '';
   centroOperacionSeleccionado: string = '';
   // Mapea los estados seleccionados para cada patente
   selectedEstados: { [key: number]: number } = {};
-
-  selectedTipoRuta: { [key: number]: number } = {};
-
+  isLoadingFull: boolean = true;
+  Cargado: boolean = false;
+  selectedTipoRuta: { [key: string]: string } = {};
+  inputRutaAmbulance: { [key: string]: string } = {};
   resetForm() {
-    this.form.reset();
+    if (this.ambulanceForm) {
+      this.ambulanceForm.reset();
+    }
   }
   toggleLiveDemo() {
     this.visible = !this.visible;
-    if (!this.visible) {
-      this.resetForm();
-    }
+      
   }
 
   toggleAmbulance() {
     this.visibleAmbulance = !this.visibleAmbulance;
-    if (!this.visibleAmbulance) {
-      this.resetForm();
-    }
+    
   }
   handleLiveDemoChange(event: any) {
     this.visible = event;
-    if (!this.visible) {
-      this.resetForm();
-    }
+    
   }
   resetForm2() {
     this.form.reset();
   }
   toggleLiveTP() {
     this.visible2 = !this.visible2;
-    if (!this.visible2) {
-      this.resetForm();
-    }
+    
   }
   toggleLive3() {
     this.visible3 = !this.visible3;
-    if (!this.visible3) {
-      this.resetForm();
-    }
+    
   }
   handleLiveDemoChange2(event: any) {
     this.visible2 = event;
-    if (!this.visible2) {
-      this.resetForm();
-    }
+    
   }
 
   handleLiveDemoChange3(event: any) {
     this.visible3 = event;
-    if (!this.visible3) {
-      this.resetForm();
-    }
+    
   }
   openModal() {
     this.isModalOpen = true;
@@ -138,8 +135,8 @@ export class CitacionesComponent implements OnInit {
     this.getPeonetas();
     this.getEstados();
     this.getTipoRuta();
-    this.conteoIngresados();
     this.ingresoDriversPeonetas();
+    this.ambulancia();
   }
   obtenerFechaFormateada() {
     const fechaActual = new Date();
@@ -147,7 +144,7 @@ export class CitacionesComponent implements OnInit {
     const month = ('0' + (fechaActual.getMonth() + 1)).slice(-2);
     const day = ('0' + fechaActual.getDate()).slice(-2);
     const formattedToday = `${year}-${month}-${day}`;
-    console.log('Formatted Today:', formattedToday);
+
     this.dateForm.get('date')?.setValue(formattedToday);
     this.formattedDate = `${year}-${month}-${day}`;
 
@@ -164,7 +161,6 @@ export class CitacionesComponent implements OnInit {
       const [year, month, day] = rawDate.split('-');
 
       this.formattedDate = `${year}-${month}-${day}`;
-      console.log(this.formattedDate);
       this.getModalidades();
     }
 
@@ -173,13 +169,13 @@ export class CitacionesComponent implements OnInit {
 
   getModalidades() {
     
-    const id_user = sessionStorage.getItem('id')?.toString() + ''
+    const id_user = sessionStorage.getItem('id')?.toString() + '';;
+    // sessionStorage.getItem('id')?.toString() + '';;
     const fecha = this.formattedDate;
-    // sessionStorage.getItem('id')?.toString() + '';
+    
     this.Ct.getOperaciones( fecha, id_user).subscribe(
       (data) => {
         this.modalidades = data;
-        console.log(this.modalidades);
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -191,7 +187,6 @@ export class CitacionesComponent implements OnInit {
     this.Ct.getEstadoList().subscribe(
       (data) => {
         this.estados = data;
-        console.log(this.estados);
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -203,7 +198,6 @@ export class CitacionesComponent implements OnInit {
     this.Ct.getConductoresList(fecha).subscribe(
       (data) => {
         this.conductores = data;
-        console.log(this.conductores);
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -216,7 +210,6 @@ export class CitacionesComponent implements OnInit {
     this.Ct.getPeonetaList(fecha).subscribe(
       (data) => {
         this.peonetas = data;
-        console.log(this.peonetas);
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -225,15 +218,14 @@ export class CitacionesComponent implements OnInit {
   }
 
   eliminarPpu(ppu: any) {
-    console.log(ppu);
     // Llamar a la API para eliminar la razón social por su ID
     this.http
-      .delete(`https://hela.transyanez.cl/api/meli/borrar?id_ppu=${ppu}`)
+      .delete(`http://localhost:8000/api/borrar?id_ppu=${ppu}`)
       .subscribe(
         () => {
           // Si la eliminación es exitosa
           this.getModalidades();
-          console.log('Se eliminado el ID ${ppu} correctamente');
+          
         },
         (error) => {
           console.error('Error al eliminar la razón social:', error);
@@ -242,7 +234,6 @@ export class CitacionesComponent implements OnInit {
   }
   valorIdppu(id: number) {
     const valor = id;
-    console.log(valor);
     return valor;
   }
 
@@ -288,7 +279,7 @@ export class CitacionesComponent implements OnInit {
 
     this.Ct.actualizarTipoRuta(tipoRuta, id, fecha).subscribe(
       (Response) => {
-        console.log('estado actualizado', Response);
+        console.log('estado actualizado');
       },
       (error) => {
         console.error('error al actualizar el estado', error);
@@ -297,15 +288,16 @@ export class CitacionesComponent implements OnInit {
   }
 
   getPpu(op: any, cop: any) {
+    
     const fecha = this.formattedDate;
     this.Ct.getPpu(fecha, op, cop).subscribe(
       (data) => {
         this.patentesList = data;
         this.initializeSelectedEstados();
-        console.log(this.patentesList);
         this.initializeRutaMeliValues();
-        this.patentesList[data.ruta_meli];
         this.initializeTipoRutaValues();
+        this.patentesList[data.ruta_meli];
+        
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -321,13 +313,13 @@ export class CitacionesComponent implements OnInit {
   initializeRutaMeliValues() {
     this.patentesList.forEach((pu) => {
       this.rutaMeliValues[pu.id_ppu] = pu.ruta_meli;
-      console.log(this.rutaMeliValues);
     });
   }
   initializeTipoRutaValues() {
-    this.patentesListFiltrada.forEach((pu) => {
+    this.patentesList.forEach((pu) => {
       this.selectedTipoRuta[pu.id_ppu] = pu.tipo_ruta;
-      console.log(this.selectedTipoRuta);
+      console.log(this.patentesListFiltrada)
+      console.log(this.selectedTipoRuta)
     });
   }
 
@@ -338,7 +330,6 @@ export class CitacionesComponent implements OnInit {
 
     this.getOperacion = id_operacion;
     this.getCentroOperacion = id_centro;
-    console.log(this.getOperacion, this.getCentroOperacion);
   }
 
   submitForm(id_ppu: any) {
@@ -379,7 +370,7 @@ export class CitacionesComponent implements OnInit {
     };
     // llamado al api para entregar el formulario y poster en base de datos
     this.http
-      .post('https://hela.transyanez.cl/api/meli/agregarpatente/', formData)
+      .post('http://localhost:8000/api/agregarpatente/', formData)
       .subscribe(
         (data) => {
           //mostrar aletar exito
@@ -400,21 +391,10 @@ export class CitacionesComponent implements OnInit {
   }
 
   // para settear el color del fondo del recudro.
-  getColor(Color: Number): any {
-    if (Color == 1) {
-      return 'green'; //
-    } else if (Color == 2) {
-      return '#04BD41'; //
-    } else if (Color == 3) {
-      return '#F52822'; //
-    } else if (Color == 4) {
-      return '#ecab0f';
-    } else if (Color == 5) {
-      return 'gris';
-    }
-  }
+  
   //funcion para setear el color de la letra, dependiendo del getColor
   getColorLetra(Color: Number): string {
+    
     if (Color == 0) {
       return 'black'; //
     } else if (Color == 1) {
@@ -427,19 +407,35 @@ export class CitacionesComponent implements OnInit {
       return 'No se encuentra el color';
     }
   }
+  getRecargarPatentesCitaciones(){
+    const fecha = this.formattedDate;
+    const id_operacion = this.getOperacion 
+    const id_cop = this.getCentroOperacion
+    this.Ct.getPatenteCitacion(id_operacion, id_cop, fecha).subscribe(
+      (data) => {
+        this.patentesList2 = data;
+      },
+      (error) => {
+        console.error('Error al obtener modalidades de operación', error);
+      }
+    );
+  }
 
   getRecuperarPatentesCitaciones(id_operacion: number, id_cop: number) {
+    this.isLoadingFull = true;
+    this.Cargado = false;
     const fecha = this.formattedDate;
+    
     if (id_operacion && id_cop) {
-      console.log(id_operacion);
-      console.log(id_cop);
     } else {
       console.error('no se ha encontrado uno o ambos elementos');
     }
     this.Ct.getPatenteCitacion(id_operacion, id_cop, fecha).subscribe(
       (data) => {
         this.patentesList2 = data;
-        console.log(this.patentesList2);
+        this.TipoRutaImagen = data[1].tipo_ruta
+        this.isLoadingFull = false;
+        this.Cargado = true;
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -450,7 +446,6 @@ export class CitacionesComponent implements OnInit {
   getCOPfiltrado(op: any) {
     this.Ct.getCopFiltrado(op).subscribe((data) => {
       this.CopFiltrado = data;
-      console.log(this.CopFiltrado);
     });
   }
   onChangeOperacion(event: any) {
@@ -461,13 +456,25 @@ export class CitacionesComponent implements OnInit {
   }
   
 
-  
-
-  getPatentesFiltradasPorOpyCop(id_operacion: number, id_centro_op: number) {
+  getRecargaPatentesFiltradasPorOpyCop(){
+    const fecha = this.formattedDate;
+    const id_operacion = this.getOperacion;
+    const id_centro_op = this.getCentroOperacion
     this.Ct.getpatentesFiltradas(id_operacion, id_centro_op).subscribe(
       (data) => {
         this.patentesListFiltrada = data;
-        console.log(this.patentesListFiltrada);
+      });
+  }
+
+  getPatentesFiltradasPorOpyCop(id_operacion: number, id_centro_op: number) {
+    this.isLoadingFull = true
+    this.Cargado = false
+    this.Ct.getpatentesFiltradas(id_operacion, id_centro_op).subscribe(
+      (data) => {
+        this.patentesListFiltrada = data;
+        this.isLoadingFull = false;
+        this.Cargado = true
+        
       }
     );
 
@@ -477,7 +484,6 @@ export class CitacionesComponent implements OnInit {
   getTipoRuta() {
     this.Ct.getTipoRuta().subscribe((data) => {
       this.dataTipoRuta = data;
-      console.log(this.dataTipoRuta);
     });
   }
   
@@ -490,39 +496,26 @@ export class CitacionesComponent implements OnInit {
     this.estado_count = estado_;
   }
 
-  getCitacionesDelDia(fecha: string) {
-    const id_cop = this.id_count;
-    this.Ct.getConteoIngresados(fecha, id_cop).subscribe((data) => {
-      this.conteoingresados = data;
-    });
-  }
-  getCitacionesDelDiaConfirmadas(fecha: string) {
-    const id_cop = this.id_count;
-    const estado = this.estado_count;
-    this.Ct.getConteoConfirmados(fecha, id_cop, estado).subscribe((data) => {
-      this.conteoConfirmadas = data;
-    });
-  }
 
   recuperarIdPpu(id: number) {
     this.IdPpuRecuperada = id;
-    console.log(this.IdPpuRecuperada)
+  }
+  
+  initializeAmbulanceCode(): void {
+    this.Ct.GetAmbulanciaCode().subscribe((data)=> {
+      this.ambulanciaCode = data[0].genera_codigo_ambulancia
+      console.log(this.ambulanciaCode)
+    })
+    
   }
   ambulancia() {
     const fecha = this.formattedDate;
+    const rutaAmbulanceInterna = this.ambulanciaCode;
     const ppuAmbulance = this.input1;
     const rutaAmbulance = this.input2;
-    const rutaAmbulanceInterna = this.input3;
     const id_ppu = this.IdPpuRecuperada;
 
-    console.log(
-      'text',
-      ppuAmbulance,
-      rutaAmbulance,
-      rutaAmbulanceInterna,
-      id_ppu,
-      fecha
-    );
+    
     this.Ct.ingresarAmbulancia(
       ppuAmbulance,
       id_ppu,
@@ -531,39 +524,22 @@ export class CitacionesComponent implements OnInit {
       rutaAmbulanceInterna
     ).subscribe(
       (Response) => {
-        console.log('estado actualizado', Response);
+        this.resetForm();
       },
       (error) => {
-        console.error('error al actualizar el estado', error);
       }
     );
   }
 
-  conteoIngresados() {
-    const fecha = this.formattedDate;
-    const id_cop = this.id_count;
-
-    
-      this.Ct.getConteoIngresados(fecha, id_cop).subscribe(
-        (response) => {
-          this.conteoIngresadosHtml = response;
-          console.log('fetching data', this.conteoIngresadosHtml, fecha);
-        },
-        (error) => {
-          console.error('error ferching data', error);
-        }
-      );
-  }
+  
   ingresoDriversPeonetas(){
     const fecha = this.formattedDate
     const id_conductor = this.conductores2
     const id_peoneta = this.peonetas2
     const id_ppu_ingreso = this.IdPpuRecuperada
 
-    console.log(fecha, id_conductor, id_peoneta, id_ppu_ingreso)
-    this.Ct.ingresarDriversPeoneta(id_conductor,id_peoneta,fecha ,id_ppu_ingreso).subscribe(
+    this.Ct.ingresarDriversPeoneta(id_conductor,id_peoneta,fecha,id_ppu_ingreso).subscribe(
       (response) => {
-        console.log('estado actualizado', response);
         this.conductores2 = ""
         this.peonetas2 = ""
         this.IdPpuRecuperada = 0
@@ -575,4 +551,22 @@ export class CitacionesComponent implements OnInit {
       }
     );
   }
+  getColor(id_ppu: number): string { 
+    const fecha = this.formattedDate
+    this.Ct.getTipoRutaColor(id_ppu,fecha).subscribe((data) => {
+      this.dataTipoRutaColor = data[0].tipo_ruta;
+    });
+    if (this.dataTipoRutaColor == 0) {
+      return '#B8B8B8'; // 
+    } else if (this.dataTipoRutaColor == 1) {
+      return '#04BD41'; // 
+    } else if (this.dataTipoRutaColor== 2) {
+      return '#F52822'; // 
+    } else if(this.dataTipoRutaColor == 3){
+      return  '#ecab0f';
+    } else {
+      return 'No se encuentra el color'
+    }
+  }
+
 }

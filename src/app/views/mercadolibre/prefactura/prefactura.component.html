@@ -48,6 +48,9 @@
                           <td>{{prefactua.Nombre_ultima_proforma}}</td>
                           <td>{{prefactua.Ultimo_segmento_fecha}}</td>
                         </tr>
+                        <tr>
+                            <td *ngIf="isLoadingTableResumen " colspan="5"><img src="../../../assets/images/loading-gif.gif" width="50" height="50"/></td>
+                          </tr>
                     </tbody>
                     </table>
                     </div>
@@ -150,9 +153,12 @@
           <td>{{prefactua.Precio_unitario}}</td>
           <!-- <td>{{prefactua.Total}}</td> -->
         </tr>
-        <tr *ngIf="ListaPrefactura.length == 0">
+        <tr *ngIf="ListaPrefactura.length == 0 && isLoadingTable == false">
             <td style="text-align: center;" colspan="10">No hay registros</td>
         </tr>
+        <tr>
+            <td *ngIf="isLoadingTable " colspan="15"><img src="../../../assets/images/loading-gif.gif" /></td>
+          </tr>
     </tbody>
     </table>
     </div>

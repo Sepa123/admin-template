@@ -21,7 +21,8 @@ export class PrefacturaComponent {
   error! : number  
   codigosErroneos : string [] = []
   message : string = ""
-
+  isLoadingTable : boolean = true
+  isLoadingTableResumen : boolean = true
   resumenPrefactura : ResumenPrefactura [] = []
 
   contador : number = 1
@@ -50,23 +51,29 @@ export class PrefacturaComponent {
       this.ListaPrefacturaFull = data
 
       this.ListaPrefactura = data
+      this.isLoadingTable = false
     })
 
     this.service.getResumenDatosPrefactura().subscribe((data) => {
       this.resumenPrefactura = [data]
+      this.isLoadingTableResumen = false
     })
   }
 
 
   seleccionarMes(){
     console.log(this.mesSeleccionado.split('-')[0])
+    this.isLoadingTable = true
+    this.ListaPrefactura = []
     this.service.getDatosPrefactura(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1]).subscribe((data) =>{ 
       this.ListaPrefacturaFull = data
 
       this.ListaPrefactura = data
+      this.isLoadingTable = false
     }, error => {
       alert(error.error.detail)
       this.ListaPrefactura = []
+      this.isLoadingTable = false
     }
   )
   }

@@ -532,7 +532,11 @@ export const navItems: INavDataBar[] = [
       {
         name: "Prefactura",
         url:  '/mercadolibre/prefactura'
-      }
+      },
+      // {
+      //   name: "Prefactura Diaria",
+      //   url:  '/mercadolibre/prefactura-diaria'
+      // }
     ]
   },
   { /// Pantalla de info para Mercadolibre

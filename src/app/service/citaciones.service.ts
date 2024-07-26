@@ -72,14 +72,7 @@ export class CitacionesService {
   }
 
 
-  getConteoIngresados(fecha: string, id_cop:number):Observable<any>{
-    return this.http.get(`${this.apiUrl}/countCitaciones?fecha=${fecha}&id_cop=${id_cop}`);
-  }
-  getConteoConfirmados(fecha: string, id_cop:number, estado: number):Observable<any>{
-    return this.http.get(`${this.apiUrl}/countCitacionesConfirmadas?fecha=${fecha}&id_cop=${id_cop}&estado=${estado}`);
-  }
-
-  ingresarAmbulancia(id_ppu_amb: any, id_ppu: any, fecha:string, ruta_meli_amb: number, ruta_amb_interna: number): Observable<any> {
+  ingresarAmbulancia(id_ppu_amb: any, id_ppu: any, fecha:string, ruta_meli_amb: number, ruta_amb_interna: string): Observable<any> {
     const url = `${this.apiUrl}/Ambulancia?id_ppu_amb=${id_ppu_amb}&ruta_meli_amb=${ruta_meli_amb}&ruta_amb_interna=${ruta_amb_interna}&fecha=${fecha}&id_ppu=${id_ppu}`; 
     return this.http.post<any>(url, {}, {
       headers: new HttpHeaders({
@@ -106,6 +99,19 @@ export class CitacionesService {
 
   getTipoRuta(): Observable<any>{
     return this.http.get<any>(this.apiUrl + '/tipoRuta');
+  }
+
+  GetAmbulanciaCode(): Observable<any>{
+    return this.http.get<any>(this.apiUrl + '/AmbulanceCode');
+  }
+
+   postData(ruta_meli_amb: string, id_ppu: number, fecha: string): Observable<any> {
+    const body = { ruta_meli_amb, id_ppu, fecha };
+    return this.http.post<any>(`${this.apiUrl} /SaveData`, body);
+  }
+
+  getTipoRutaColor(id_ppu: number, fecha: string): Observable<any>{
+    return this.http.get(`${this.apiUrl}/getEstados?fecha=${fecha}&id_ppu=${id_ppu}`);
   }
 
   }
