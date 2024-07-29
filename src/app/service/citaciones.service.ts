@@ -64,7 +64,7 @@ export class CitacionesService {
   }
 
   getEstadosSeleccionados(id_estado: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/api/nombreCitacion?id_estado=${id_estado}`);
+    return this.http.get(`${this.apiUrl}/nombreCitacion?id_estado=${id_estado}`);
 }
 
   getPatenteCitacion(operacionValue:number, centroOperacionValue:number, fecha:string): Observable<any>{

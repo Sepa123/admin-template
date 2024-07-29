@@ -13,7 +13,7 @@ import { NgForm } from '@angular/forms'
 @Component({
   selector: 'app-citaciones',
   templateUrl: './citaciones.component.html',
-  styleUrls: ['./citaciones.component.scss'],
+  styleUrls: ['./citaciones.component.scss','./citaciones2.component.scss'],
 })
 export class CitacionesComponent implements OnInit {
   
@@ -169,7 +169,8 @@ export class CitacionesComponent implements OnInit {
 
   getModalidades() {
     
-    const id_user = sessionStorage.getItem('id')?.toString() + '';;
+    const id_user = sessionStorage.getItem('id')?.toString() + '';
+    // const id_user = '130'
     // sessionStorage.getItem('id')?.toString() + '';;
     const fecha = this.formattedDate;
     
@@ -220,7 +221,7 @@ export class CitacionesComponent implements OnInit {
   eliminarPpu(ppu: any) {
     // Llamar a la API para eliminar la razón social por su ID
     this.http
-      .delete(`http://localhost:8000/api/borrar?id_ppu=${ppu}`)
+      .delete(`https://hela.transyanez.cl/api/meli/borrar?id_ppu=${ppu}`)
       .subscribe(
         () => {
           // Si la eliminación es exitosa
@@ -300,6 +301,7 @@ export class CitacionesComponent implements OnInit {
         
       },
       (error) => {
+        this.patentesList = []
         console.error('Error al obtener modalidades de operación', error);
       }
     );
@@ -370,7 +372,7 @@ export class CitacionesComponent implements OnInit {
     };
     // llamado al api para entregar el formulario y poster en base de datos
     this.http
-      .post('http://localhost:8000/api/agregarpatente/', formData)
+      .post('https://hela.transyanez.cl/api/meli/agregarpatente/', formData)
       .subscribe(
         (data) => {
           //mostrar aletar exito
@@ -438,6 +440,8 @@ export class CitacionesComponent implements OnInit {
         this.Cargado = true;
       },
       (error) => {
+        this.isLoadingFull = false;
+        this.Cargado = true;
         console.error('Error al obtener modalidades de operación', error);
       }
     );
@@ -475,6 +479,9 @@ export class CitacionesComponent implements OnInit {
         this.isLoadingFull = false;
         this.Cargado = true
         
+      }, error => {
+        this.isLoadingFull = false;
+        this.Cargado = true;
       }
     );
 

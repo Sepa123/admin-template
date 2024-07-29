@@ -271,6 +271,9 @@
                 
                 </tr>
             </tbody>
+            <tr *ngIf="patentesList.length == 0">
+                <td colspan="5" style="text-align: center;">No hay registros</td>
+            </tr>
         </table>
 
     </c-modal-body>
