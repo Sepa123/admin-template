@@ -39,8 +39,32 @@ export class PrefacturaDiariaComponent {
 
   loadQuadmindFull: boolean = true 
 
+  //datos geo
+  latitude!: number
+  longitud! :number
+  latStr!: string
+  longStr!: string
 
   constructor(private service: MeliService) { }
+
+  getLocation(): any {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.showPosition(position)
+
+      });
+    } else {
+      console.log("Localización no disponible");
+    }
+  }
+  showPosition(position: any): any{
+        this.latitude = position.coords.latitude
+        this.longitud= position.coords.longitude 
+       this.latStr = this.latitude.toString()
+        this.longStr = this.longitud.toString()
+
+    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
+  }
 
   ngOnInit(){
     this.service.getDatosPrefactura('2024','06').subscribe((data) =>{ 
@@ -64,7 +88,7 @@ export class PrefacturaDiariaComponent {
       const formData = new FormData();
       formData.append('file', this.selectedFile, this.selectedFile.name);
 
-      this.service.subirExcelPrefacturaDiaria(formData, id_usuario,ids_usuario).subscribe(
+      this.service.subirExcelPrefacturaDiaria(formData, id_usuario,ids_usuario,this.latStr,this.longStr).subscribe(
         (data : any) => {
           this.termino = data.termino
           this.error = data.error

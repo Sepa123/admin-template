@@ -42,7 +42,7 @@
   <p></p>
   <c-row>
     <c-col>
-      <button cButton class="btn btn-success" type="submit">Asignar Ruta</button>
+      <button cButton class="btn btn-success" type="submit" [disabled]="isClicked">Asignar Ruta</button>
     </c-col>
     <c-col>
       <button cButton class="btn btn-primary" (click)="volverRutaActiva()">Volver</button>

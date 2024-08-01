@@ -22,8 +22,8 @@ export class MeliService {
     return this.http.post(this.apiurl+`/subir/prefactura/billing-meli?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}`, formData)
   }
 
-  subirExcelPrefacturaDiaria(formData : any, id_usuario : string, ids_usuario : string){
-    return this.http.post(this.apiurl+`/subir/prefactura/diario?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}`, formData)
+  subirExcelPrefacturaDiaria(formData : any, id_usuario : string, ids_usuario : string, latitud: string, longitud : string){
+    return this.http.post(this.apiurl+`/subir/prefactura/diario?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}&latitud=${latitud}&longitud=${longitud}`, formData)
   }
 
   getDatosPrefactura(ano : string, mes : string){

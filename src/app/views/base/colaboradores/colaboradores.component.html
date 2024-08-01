@@ -1386,11 +1386,12 @@
       <table id="tablaProductosPicking" style="width: 100%;"  >
       <thead>
         <tr>
-            <th>Razón</th>
+            <th class="sortable" (click)="sortTableRazon(sortOrderRazon)">Razón</th>
+            <th class="sortable" (click)="sortTable(sortOrder)">Habilitado </th>
             <th>Tipo razón</th>
-            <th>Rut</th>
+            <th > Rut </th>
             <th>Fecha registro</th>
-            <th>Estado</th>
+            <!-- <th>Estado</th> -->
             <th>Vehículos</th>
             <th>Colaboradores</th>
             <th>Detalle</th>
@@ -1399,13 +1400,17 @@
       <tbody>
         <tr *ngFor="let colab of colaboradores; let i = index">
           <td>{{colab.Razon_social}}</td>
+          <td >
+            <svg *ngIf="colab.Activo === true" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+            <svg *ngIf="colab.Activo !== true "  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+          </td>
           <td>{{colab.Tipo_razon}}</td>
           <td>{{formatearRUT(colab.Rut)}}</td>
           <td>{{colab.Created_at}}</td>
-          <td>
+          <!-- <td>
             <span *ngIf="colab.Activo">Activado</span>
             <span *ngIf="!colab.Activo">Desactivado</span>
-          </td>
+          </td> -->
           <td>{{colab.Vehiculos}} 
             <svg (click)="RevisarVehiculos(colab.Patentes)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
               <path fill="black" d="m475.656 223.142l-90.272-13.908l-55.013-89.87a32.07 32.07 0 0 0-27.548-15.291L72.265 105.91A32.018 32.018 0 0 0 42.2 127.684L16 205.375V384h55.006a68 68 0 0 0 129.988 0h102.012a68 68 0 0 0 129.988 0H496V246.862a23.873 23.873 0 0 0-20.344-23.72M224 136.7l79.078-.63l44.1 72.047L224 208.074Zm-151.479 1.208L192 136.956v71.107l-143.119-.051ZM136 400a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m232 0a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m96-48h-29.082a67.982 67.982 0 0 0-133.836 0h-98.164a67.982 67.982 0 0 0-133.836 0H48V240.026l330.526.529L464 253.724Z" />

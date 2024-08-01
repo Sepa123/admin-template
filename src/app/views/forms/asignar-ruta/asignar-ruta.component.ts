@@ -16,6 +16,8 @@ export class AsignarRutaComponent {
   nombreRuta! : string 
   id_usuario! : any 
 
+  isClicked : boolean = false
+
   // razon_social : string = ""
 
   // driver! : string
@@ -106,6 +108,7 @@ export class AsignarRutaComponent {
   }
 
   asignarRuta() {
+    this.isClicked = true
     this.asignarRutaForm.patchValue({ asigned_by: this.id_usuario, nombre_ruta : this.nombreRuta });
     const isUpdate = this.nombreRutaService.getDataDriver().isUpdate
     if(this.asignarRutaForm.valid) {

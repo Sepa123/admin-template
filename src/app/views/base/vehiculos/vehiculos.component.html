@@ -1,13 +1,13 @@
 <c-modal id="liveAgregaModal" [visible]="visibleAgregar" (visibleChange)="handleLiveAgregaChange($event)" size="xl">
   <c-modal-header>
-    <h5 cModalTitle>Agregar Vehiculo </h5>
+    <h5 cModalTitle>Agregar Vehículo </h5>
     <button (click)="toggleLiveAgregar()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
     <form cForm [formGroup]="formVehiculo" (ngSubmit)="registrarVehiculo()" *ngIf="listaComunasFull.length !== 0" > 
       <div class="card">
         <p></p>
-        <h5>Vehiculo</h5>
+        <h5>Vehículo</h5>
         <p></p>
         <c-row>
           <c-col [xs]>
@@ -769,7 +769,7 @@
           <tr>
               <th>Razón social</th>
               <th class="sortable" (click)="sortTable(sortOrder)">Patente</th>
-              <th>Tipo Vehiculo</th>
+              <th>Tipo Vehículo</th>
               <th>Región Disponible</th>
               <!-- <th>Rut</th> -->
               <th>GPS</th>

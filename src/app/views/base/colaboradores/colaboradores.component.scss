@@ -92,6 +92,11 @@
     --mdc-switch-selected-track-color: #2eb85c;
 }
 
+.greenTable th.sortable:hover {
+  background-color: #1ece27;
+  cursor: pointer;
+}
+
 input[type="text"].disabled-like {
   background-color: #f0f0f0; /* Color de fondo gris claro */
   color: #a0a0a0; /* Color de texto gris */

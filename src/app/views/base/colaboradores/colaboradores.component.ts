@@ -739,6 +739,30 @@ public visibleUsuarios = false;
     return 'S/I'
 }
 
+sortOrder : boolean = true
+
+sortTable(orden : boolean){
+  if(orden){
+    this.colaboradores.sort((a,b) => Number(a.Activo) - Number(b.Activo))
+  }else{
+    this.colaboradores.sort((a,b) => Number(b.Activo) - Number(a.Activo))
+  }
+  this.sortOrder = !this.sortOrder
+  
+}
+
+sortOrderRazon : boolean = true
+
+sortTableRazon(orden : boolean){
+    if(orden){
+      this.colaboradores.sort((a,b) => a.Razon_social.localeCompare(b.Razon_social))
+    }else{
+      this.colaboradores.sort((a,b) => b.Razon_social.localeCompare(a.Razon_social))
+    }
+    this.sortOrderRazon = !this.sortOrderRazon
+    
+  }
+
 
 
  ngOnDestroy(): void {
