@@ -112,4 +112,6 @@ export class CitacionesService {
   getTipoRutaColor(id_ppu: number, fecha: string): Observable<any>{
     return this.http.get(`${this.apiUrl}/getEstados?fecha=${fecha}&id_ppu=${id_ppu}`);
   }
+  validarData():Observable<any>{
+    return this.http.get(`${this.apiUrl}/validacion`);}
 }

@@ -327,11 +327,7 @@ label {
 .icons i:hover {
   color: #007BFF;
 }
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
+
 .button-wrapper{
   flex: 1 0 calc(35% - 100px); // Los botones ocuparán el 25% del ancho del contenedor, permitiendo hasta 4 por fila y restando el espacio de 10px
   max-width: calc(35% - 100px); // Asegura que no crezcan más allá del 25% del contenedor restando el espacio de 10px
@@ -362,8 +358,17 @@ label {
 .punto_rojo {
   width: 10px;
   height: 10px;
-  background-color: red;
   border-radius: 50%;
+
+  animation-name: parpadeo;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name: parpadeo;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
 }
 .Icons-vehiculo{
   display: flex;
@@ -372,21 +377,36 @@ label {
   height: 100%; /* Ajusta esto según sea necesario */
 }
 
-.form-date {
-  margin-bottom: 1rem;
+.header{
+  background-color: #EBEDEF;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+.input-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+@-moz-keyframes parpadeo{  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
 }
 
-.form-date label {
-  display: block;
-  margin-bottom: 0.5rem;
+@-webkit-keyframes parpadeo {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+   100% { opacity: 1.0; }
 }
 
-.form-date input {
-  display: block;
-  width: 100%;
-  max-width: 300px; /* Esto es opcional, puedes ajustar el ancho del input si es necesario */
+@keyframes parpadeo {  
+  0% { opacity: 1.0; }
+   50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
 }
-.container {
-  max-width: 800px; /* Ajusta este valor según tus necesidades */
-  margin: auto;
-}
+
