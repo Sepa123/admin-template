@@ -19,7 +19,9 @@ import {
   SharedModule,
   UtilitiesModule,
   ModalModule,
-  
+  PaginationModule,
+  ProgressComponent,
+  ProgressBarComponent
 } from '@coreui/angular';
 import { InfoMercadoLibreComponent } from './info-mercado-libre/info-mercado-libre.component';
 import { MercadolibreRoutingModule } from './mercadolibre-routing.module';
@@ -30,20 +32,26 @@ import { PrefacturaComponent } from './prefactura/prefactura.component';
 import { PrefacturaMensualComponent } from './prefactura-mensual/prefactura-mensual.component';
 import { SeguimientoDiarioComponent } from './seguimiento-diario/seguimiento-diario.component';
 import { PrefacturaDiariaComponent } from './prefactura-diaria/prefactura-diaria.component';
+import { CitacionesActivasComponent } from './citaciones-activas/citaciones-activas.component';
 
 
 @NgModule({
   declarations: [
+    
     InfoMercadoLibreComponent,
     CitacionesComponent,
     ListaSupervisoresComponent,
     PrefacturaComponent,
     PrefacturaMensualComponent,
     SeguimientoDiarioComponent,
-    PrefacturaDiariaComponent
+    PrefacturaDiariaComponent,
+    CitacionesActivasComponent
     
   ],
   imports: [
+    ProgressComponent,
+    PaginationModule,
+    ProgressBarComponent,
     CommonModule,
     MercadolibreRoutingModule,
     ButtonGroupModule,

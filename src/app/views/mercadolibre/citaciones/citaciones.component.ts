@@ -5,7 +5,8 @@ import { Observable, Subject, Subscription, skipUntil, startWith, switchMap } fr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CitacionesService} from '../../../service/citaciones.service'
 import { NgForm } from '@angular/forms'
-
+// import { id } from 'date-fns/locale';
+import { getStyle } from '@coreui/utils';
 
 
 
@@ -37,6 +38,7 @@ export class CitacionesComponent implements OnInit {
   conteoIngresadosHtml: any;
   dataTipoRutaColor: any;
   TipoRutaImagen: any;
+  RutaList: any;
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -77,11 +79,18 @@ export class CitacionesComponent implements OnInit {
   operacionSeleccionada: string = '';
   centroOperacionSeleccionado: string = '';
   // Mapea los estados seleccionados para cada patente
-  selectedEstados: { [key: number]: number } = {};
+  selectedEstados: { [key: string]: string } = {};
   isLoadingFull: boolean = true;
   Cargado: boolean = false;
   selectedTipoRuta: { [key: string]: string } = {};
   inputRutaAmbulance: { [key: string]: string } = {};
+
+    //datos geo
+    latitude!: number
+    longitud! :number
+    latStr!: string
+    longStr!: string
+
   resetForm() {
     if (this.ambulanceForm) {
       this.ambulanceForm.reset();
@@ -135,8 +144,7 @@ export class CitacionesComponent implements OnInit {
     this.getPeonetas();
     this.getEstados();
     this.getTipoRuta();
-    this.ingresoDriversPeonetas();
-    this.ambulancia();
+
   }
   obtenerFechaFormateada() {
     const fechaActual = new Date();
@@ -218,15 +226,81 @@ export class CitacionesComponent implements OnInit {
     );
   }
 
+  colorPunto(tipoRuta: any) {
+    // Aquí debes implementar la lógica para determinar el color
+    // Basado en el valor seleccionado y el ID de la base de datos
+    if (tipoRuta == 1 ) {
+      return {
+        'background-color':'#008f39',
+        'animation-duration': '0s',
+
+
+      };
+    } else if (tipoRuta == 2 ) {
+      return {
+        'background-color':'#87CEEB',
+        'animation-duration': '0s'
+      };
+    } else if (tipoRuta == 3 ){
+      return {
+        'background-color':'Black',
+        'animation-duration': '0s'
+
+      };
+    }
+    else if (tipoRuta == 4  ){
+      return {
+        'background-color':'red',
+
+      };
+    }else if (tipoRuta == 5 ){
+      return {
+        'background-color':'Orange',
+      };
+    }else{
+      return {'background-color':'blue'};
+    }
+  }
+  getStyles(value: number): { [key: string]: string } {
+    if (value == 4) {
+      return {
+        'animation-name': 'parpadeo',
+        'animation-duration': '1s',
+        'animation-timing-function': 'linear',
+        'animation-iteration-count': 'infinite',
+
+        '-webkit-animation-name':'parpadeo',
+        '-webkit-animation-duration': '1s',
+        '-webkit-animation-timing-function': 'linear',
+        '-webkit-animation-iteration-count': 'infinite',
+      };
+    } else if (value == 5) {
+      return {
+        'animation-name': 'parpadeo',
+        'animation-duration': '1s',
+        'animation-timing-function': 'linear',
+        'animation-iteration-count': 'infinite',
+
+        '-webkit-animation-name':'parpadeo',
+        '-webkit-animation-duration': '1s',
+        '-webkit-animation-timing-function': 'linear',
+        '-webkit-animation-iteration-count': 'infinite',
+      };
+    } else {
+      return {};
+    }
+  }
+
   eliminarPpu(ppu: any) {
     // Llamar a la API para eliminar la razón social por su ID
     this.http
       .delete(`https://hela.transyanez.cl/api/meli/borrar?id_ppu=${ppu}`)
       .subscribe(
-        () => {
+        (response) => {
           // Si la eliminación es exitosa
           this.getModalidades();
-          
+          console.log('Se ha eliminado correctamente', response);
+          alert('Eliminado correctamente ${ppu}');
         },
         (error) => {
           console.error('Error al eliminar la razón social:', error);
@@ -238,54 +312,59 @@ export class CitacionesComponent implements OnInit {
     return valor;
   }
 
-  updateEstado(id: any) {
-    const estado = this.selectedEstados[id];
-    const fecha = this.formattedDate;
+  updateEstado(id_ppu: string, event: Event) {
+    const fecha = this.formattedDate
+    const target = event.target as HTMLSelectElement;
+    if (target) {
+      const selectedValue = target.value;
 
-    this.Ct.actualizarEstadoPpu(estado, id, fecha).subscribe(
-      (response) => {
-        this.getModalidades();
-        console.log('Estado actualizado:', response);
-        alert('Estado actualizado correctamente.');
-      },
-      (error) => {
-        console.error('Error al actualizar el estado:', error);
-        alert('Error al actualizar el estado.');
-      }
-    );
+      this.selectedEstados[id_ppu] = selectedValue;
+
+      this.Ct.actualizarEstadoPpu(selectedValue, id_ppu, fecha).subscribe(
+        (Response) => {
+          console.log('Estado actualizado', Response);
+          alert('El estado se ha actualizado correctamente.');
+        },
+        (error) => {
+          console.error('Error al actualizar el estado', error);
+          alert('Ha ocurrido un error al actualizar el estado.');
+        }
+      );
+    }
   }
 
-  updateRutaMeli(id: any) {
-    const rutaMeli = (<HTMLInputElement>document.getElementById('rutaMeli'))
-      .value;
-    const estado = this.selectedEstados[id];
+  updateRutaMeli(id: any, inputElement: HTMLInputElement) {
+    const rutaMeli = inputElement.value;
     const fecha = this.formattedDate;
 
+    // Llama a validacionRutaMeli y realiza la validación dentro de su callback
     this.Ct.actualizarRutaMeli(rutaMeli, id, fecha).subscribe(
       (Response) => {
-        console.log('estado actualizado', Response);
+        console.log('Estado actualizado', Response);
       },
       (error) => {
-        console.error('error al actualizar el estado', error);
+        console.error('Error al actualizar el estado', error);
       }
     );
   }
 
   //funcion para ingresar un valor y actualizar mediante la solicitud su estado cada vez que sea
-  updateTipoRuta(id: any) {
-    const idTipoRuta = this.selectedTipoRuta[id];
-    const tipoRuta = (<HTMLInputElement>document.getElementById('tipoRuta'))
-      .value;
-    const fecha = this.formattedDate;
+  updateTipoRuta(id_ppu: string, event: Event) {
+    const fecha = this.formattedDate
+    const target = event.target as HTMLSelectElement;
+    if (target) {
+      const selectedValue = target.value;
+      this.selectedTipoRuta[id_ppu] = selectedValue;
 
-    this.Ct.actualizarTipoRuta(tipoRuta, id, fecha).subscribe(
-      (Response) => {
-        console.log('estado actualizado');
-      },
-      (error) => {
-        console.error('error al actualizar el estado', error);
-      }
-    );
+      this.Ct.actualizarTipoRuta(selectedValue,id_ppu,fecha).subscribe(
+        (Response) => {
+          alert('El cambio se ha realizado correctamente.')
+        },
+        (error) => {
+          alert('Error al actualizar el estado')
+        }
+      );
+    }
   }
 
   getPpu(op: any, cop: any) {
@@ -297,7 +376,6 @@ export class CitacionesComponent implements OnInit {
         this.initializeSelectedEstados();
         this.initializeRutaMeliValues();
         this.initializeTipoRutaValues();
-        this.patentesList[data.ruta_meli];
         
       },
       (error) => {
@@ -320,8 +398,7 @@ export class CitacionesComponent implements OnInit {
   initializeTipoRutaValues() {
     this.patentesList.forEach((pu) => {
       this.selectedTipoRuta[pu.id_ppu] = pu.tipo_ruta;
-      console.log(this.patentesListFiltrada)
-      console.log(this.selectedTipoRuta)
+
     });
   }
 
@@ -511,7 +588,6 @@ export class CitacionesComponent implements OnInit {
   initializeAmbulanceCode(): void {
     this.Ct.GetAmbulanciaCode().subscribe((data)=> {
       this.ambulanciaCode = data[0].genera_codigo_ambulancia
-      console.log(this.ambulanciaCode)
     })
     
   }
@@ -575,5 +651,38 @@ export class CitacionesComponent implements OnInit {
       return 'No se encuentra el color'
     }
   }
+
+  getLocation(): any {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.showPosition(position);
+      });
+    } else {
+      console.log("Localización no disponible");
+    }
+  }
+
+  showPosition(position: any): any{
+    this.latitude = position.coords.latitude
+    this.longitud= position.coords.longitude 
+
+    this.latStr = this.latitude.toString()
+    this.longStr = this.longitud.toString()
+
+    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
+}
+getLocationAsync(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        resolve(position);
+      }, (error) => {
+        reject(error);
+      });
+    } else {
+      reject("Localización no disponible");
+    }
+  });
+}
 
 }

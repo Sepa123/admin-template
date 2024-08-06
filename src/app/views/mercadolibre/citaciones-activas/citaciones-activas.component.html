@@ -1,0 +1,87 @@
+<div class="container mt-5">
+    <h4 class="mb-4">Gestión de Citaciones de Vehículos</h4>
+
+    <!-- Selector de Fecha y Botón Nueva Citación -->
+        <div class="form-date mb-3">
+            <label for="fechaCitaciones" class="mr-3">Seleccionar Fecha:</label>
+            <input type="date" class="from-control" id="fechaCitaciones"  formControlName="date"  >
+        </div>
+    <!-- Tabla de Citaciones -->
+</div>
+
+
+
+<div>
+    <table >
+        <thead >
+            <th>Operación</th>
+            <th>Centro de operación</th>
+            <th>Región</th>
+            <th>Detalle</th>
+        </thead>
+        <tbody *ngFor="let citacion of citacionSupervisores">
+            <td class="fas fa-calendar-plus">
+                {{citacion.Nombre}}
+            </td>
+            <td id="nombre_CopTd"> {{citacion.Centro}}</td>
+            <td>{{citacion.Region}}</td>
+            <td >
+
+                <button (click)="verDetalle(citacion.Detalles)" cButton>Launch demo modal</button>
+                <!-- <table>
+                    <tr *ngFor="let detalle of citacion.Detalles ">
+                        <td>{{detalle.estado}}</td>
+                        <td>{{detalle.ruta_meli}}</td>
+                        <td>{{detalle.ppu}}</td>
+                        <td>{{detalle.tipo_vehiculo}}</td>
+                        <td>
+                            <c-progress>
+                                <c-progress-bar [value]="66" class="overflow-visible text-dark px-2" color="success">
+                                  
+                                </c-progress-bar>
+                              </c-progress>
+
+                        </td>
+                    </tr>
+                </table> -->
+                <!-- {{citacion.Detalles | json}} -->
+            </td>
+
+        </tbody>
+    </table>
+</div>
+
+
+<c-modal id="modalXl" size="xl" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+        <h5 cModalTitle>Modal title</h5>
+        <button (click)="toggleLiveDemo()" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>
+        <table>
+            <tr *ngFor="let detalle of detalleCitacion ">
+                <td>{{detalle.estado}}</td>
+                <td>{{detalle.ruta_meli}}</td>
+                <td>{{detalle.ppu}}</td>
+                <td>{{detalle.tipo_vehiculo}}</td>
+                <td>
+                    <c-progress>
+                        <c-progress-bar [value]="66" class="overflow-visible text-dark px-2" color="success">
+                          
+                        </c-progress-bar>
+                      </c-progress>
+
+                </td>
+            </tr>
+        </table>
+
+
+
+      </c-modal-body>
+      <c-modal-footer>
+        <button (click)="toggleLiveDemo()" cButton color="secondary">
+          Close
+        </button>
+        <button cButton color="primary">Save changes</button>
+      </c-modal-footer>
+    </c-modal>

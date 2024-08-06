@@ -1,201 +1,220 @@
 
 .detalle-patente {
-    align-items: center;
-    padding: 3px;
+  align-items: center;
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #f3f3f3;
+}
+.inputRutaMeli{
+  padding: 2px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 18%;
+  background-color: #f3f3f3;
+}
+.selectEstado {
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 25%;
+  background-color: #f3f3f3;
+}
+
+.selectTipoRuta {
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 20%;
+  background-color: #f3f3f3;
+}
+.detalle-patente svg {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.detalle-patente svg:hover {
+  transform: scale(1.1);
+}
+
+.mensaje-notificacion {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  background-color: #4caf50; /* Verde para éxito */
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.mensaje-notificacion.error {
+  background-color: #f44336; /* Rojo para error */
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px; /* Ajusta el ancho según tus necesidades */
+  margin: 0 auto; /* Centra el formulario horizontalmente */
+  font-family: Arial, sans-serif; /* Fuente para un estilo limpio */
+}
+
+.form-group {
+  margin-bottom: 15px; /* Espacio entre cada grupo de formulario */
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px; /* Tamaño de fuente del label */
+  color: #333; /* Color del texto del label */
+}
+
+.input1[type="text"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 4px; /* Bordes redondeados */
+  box-sizing: border-box;
+}
+
+.input1[type="text"]:focus {
+  border-color: #007BFF; /* Color del borde cuando el input está enfocado */
+  outline: none; /* Elimina el borde azul predeterminado */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Añade una sombra azul */
+}
+
+.selectTipoRuta,
+.selectEstado{
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.inputRutaMeli {
+  width: 90%;
+  padding: 6px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.tableclass {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.tdclass, .thclass {
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+  text-align: left;
+  font-size: 12px;
+  width: auto;
+}
+
+.thclass {
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+.icons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.icons i {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.icons i:hover {
+  color: #007BFF;
+}
+
+.button-wrapper{
+  flex: 1 0 calc(35% - 100px); // Los botones ocuparán el 25% del ancho del contenedor, permitiendo hasta 4 por fila y restando el espacio de 10px
+  max-width: calc(35% - 100px); // Asegura que no crezcan más allá del 25% del contenedor restando el espacio de 10px
+  box-sizing: border-box; // Asegura que el padding y border no influyan en el ancho total
+}
+.detalle-patente {
+  width: 100%; // Asegura que los botones ocupen el 100% del ancho del contenedor
+  box-sizing: border-box; // Asegura que el padding y border no influyan en el ancho total
+  text-align: center; // Centra el texto dentro de los botones
+  font-size: 14px; // Ajusta el tamaño de la fuente según sea necesario
+}
+@media (max-width: 600px) {
+  .button-wrapper {
+    flex: 1 0 calc(50% - 100px); // En pantallas más pequeñas, muestra solo 2 botones por fila
+    max-width: calc(50% - 100px);
+  }
+.Modal_patentes_ingresadas{
+  background-color: #fff; /* Color de fondo del modal */
+    margin: 15% auto;
+    padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #f3f3f3;
-  }
-  .inputRutaMeli{
-    padding: 2px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    width: 18%;
-    background-color: #f3f3f3;
-  }
-  .selectEstado {
-    padding: 3px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    width: 25%;
-    background-color: #f3f3f3;
-  }
-  
-  .selectTipoRuta {
-    padding: 3px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    width: 20%;
-    background-color: #f3f3f3;
-  }
-  .detalle-patente svg {
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  
-  .detalle-patente svg:hover {
-    transform: scale(1.1);
-  }
-  
-  .mensaje-notificacion {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    padding: 10px;
-    background-color: #4caf50; /* Verde para éxito */
-    color: white;
+    width: 80%;
+    max-width: 600px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-  }
-  
-  .mensaje-notificacion.error {
-    background-color: #f44336; /* Rojo para error */
-  }
-  
-  .form-container {
-    display: flex;
-    flex-direction: column;
-    width: 300px; /* Ajusta el ancho según tus necesidades */
-    margin: 0 auto; /* Centra el formulario horizontalmente */
-    font-family: Arial, sans-serif; /* Fuente para un estilo limpio */
-  }
-  
-  .form-group {
-    margin-bottom: 15px; /* Espacio entre cada grupo de formulario */
-  }
-  
-  label {
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 14px; /* Tamaño de fuente del label */
-    color: #333; /* Color del texto del label */
-  }
-  
-  .input1[type="text"] {
-    width: 100%;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc; /* Borde gris claro */
-    border-radius: 4px; /* Bordes redondeados */
-    box-sizing: border-box;
-  }
-  
-  .input1[type="text"]:focus {
-    border-color: #007BFF; /* Color del borde cuando el input está enfocado */
-    outline: none; /* Elimina el borde azul predeterminado */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Añade una sombra azul */
-  }
-  
-  .selectTipoRuta,
-  .selectEstado{
-    width: 100%;
-    padding: 6px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    font-size: 12px;
-  }
-  .inputRutaMeli {
-    width: 90%;
-    padding: 6px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    font-size: 12px;
-  }
-  
-  .tableclass {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-  }
-  
-  .tdclass, .thclass {
-    border: 1px solid #e0e0e0;
-    padding: 8px;
-    text-align: left;
-    font-size: 12px;
-    width: auto;
-  }
-  
-  .thclass {
-    background-color: #f4f4f9;
-    color: #333;
-  }
-  
-  .icons {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-  }
-  
-  .icons i {
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .icons i:hover {
-    color: #007BFF;
-  }
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .button-wrapper{
-    flex: 1 0 calc(35% - 100px); // Los botones ocuparán el 25% del ancho del contenedor, permitiendo hasta 4 por fila y restando el espacio de 10px
-    max-width: calc(35% - 100px); // Asegura que no crezcan más allá del 25% del contenedor restando el espacio de 10px
-    box-sizing: border-box; // Asegura que el padding y border no influyan en el ancho total
-  }
-  .detalle-patente {
-    width: 100%; // Asegura que los botones ocupen el 100% del ancho del contenedor
-    box-sizing: border-box; // Asegura que el padding y border no influyan en el ancho total
-    text-align: center; // Centra el texto dentro de los botones
-    font-size: 14px; // Ajusta el tamaño de la fuente según sea necesario
-  }
-  @media (max-width: 600px) {
-    .button-wrapper {
-      flex: 1 0 calc(50% - 100px); // En pantallas más pequeñas, muestra solo 2 botones por fila
-      max-width: calc(50% - 100px);
-    }
-  .Modal_patentes_ingresadas{
-    background-color: #fff; /* Color de fondo del modal */
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      width: 80%;
-      max-width: 600px;
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  }}
-  
-  .punto_rojo {
-    width: 10px;
-    height: 10px;
-    background-color: red;
-    border-radius: 50%;
-  }
-  .Icons-vehiculo{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%; /* Ajusta esto según sea necesario */
-  }
-  
-  .form-date {
-    margin-bottom: 1rem;
-  }
-  
-  .form-date label {
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-  
-  .form-date input {
-    display: block;
-    width: 100%;
-    max-width: 300px; /* Esto es opcional, puedes ajustar el ancho del input si es necesario */
-  }
-  .container {
-    max-width: 800px; /* Ajusta este valor según tus necesidades */
-    margin: auto;
-  }
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}}
+
+.punto_rojo {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+
+  animation-name: parpadeo;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name: parpadeo;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+.Icons-vehiculo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ajusta esto según sea necesario */
+}
+
+.header{
+  background-color: #EBEDEF;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+.input-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+@-moz-keyframes parpadeo{  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes parpadeo {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+   100% { opacity: 1.0; }
+}
+
+@keyframes parpadeo {  
+  0% { opacity: 1.0; }
+   50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}

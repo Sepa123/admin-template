@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Prefactura,ResumenPrefactura } from "../models/meli/prefactura.interface"
-
+import { MainCitacionS } from "../models/meli/citacionSupervisor.interface"
 @Injectable({
   providedIn: 'root'
 })
@@ -45,4 +45,10 @@ export class MeliService {
   getResumenDatosPrefactura(){
     return this.http.get<ResumenPrefactura>(this.apiurl+`/resumen/prefacturas` )
   }
+
+
+  getDatosCitacionSupervisor(id_usuario : string, fecha : string){
+    return this.http.get<MainCitacionS []>(this.apiurl+`/citacion_supervisor?id_usuario=${id_usuario}&fecha=${fecha}` )
+  }
+
 }
