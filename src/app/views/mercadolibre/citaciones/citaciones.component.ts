@@ -39,6 +39,7 @@ export class CitacionesComponent implements OnInit {
   dataTipoRutaColor: any;
   TipoRutaImagen: any;
   RutaList: any;
+  minDate: string = '';
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -147,32 +148,36 @@ export class CitacionesComponent implements OnInit {
     
   }
   obtenerFechaFormateada() {
-    const fechaActual = new Date();
-    const year = fechaActual.getFullYear();
-    const month = ('0' + (fechaActual.getMonth() + 1)).slice(-2);
-    const day = ('0' + fechaActual.getDate()).slice(-2);
-    const formattedToday = `${year}-${month}-${day}`;
-
-    this.dateForm.get('date')?.setValue(formattedToday);
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
     this.formattedDate = `${year}-${month}-${day}`;
-
-    // Set the value of the date input directly using Renderer2
+    this.minDate = this.formattedDate;
+    
+    // Inicializa el valor del campo de fecha y la fecha mínima permitida
+    this.dateForm.get('date')?.setValue(this.formattedDate);
     const dateInput = document.querySelector('input[type="date"]');
     if (dateInput) {
-      this.renderer.setProperty(dateInput, 'value', formattedToday);
+      this.renderer.setProperty(dateInput, 'value', this.formattedDate);
     }
   }
 
   onDateChange(event: any) {
     const rawDate = event.target.value;
     if (rawDate) {
-      const [year, month, day] = rawDate.split('-');
-
-      this.formattedDate = `${year}-${month}-${day}`;
-      this.getModalidades();
+      const selectedDate = new Date(rawDate);
+      const today = new Date(this.formattedDate);
+      if (selectedDate < today) {
+        // Si se selecciona una fecha anterior, restablece al valor mínimo permitido (fecha actual)
+        this.formattedDate = rawDate
+        this.getModalidades(); // Llama a getModalidades con la fecha actual
+      } else {
+        // Actualiza this.formattedDate antes de llamar a getModalidades
+        this.formattedDate = rawDate;
+        this.getModalidades();
+      }
     }
-
-    
   }
 
   getModalidades() {
@@ -309,7 +314,9 @@ export class CitacionesComponent implements OnInit {
     const valor = id;
     return valor;
   }
-
+  preventTyping(event: KeyboardEvent) {
+    event.preventDefault();
+  }
   updateEstado(id_ppu: string, event: Event) {
     const fecha = this.formattedDate
     const target = event.target as HTMLSelectElement;
