@@ -329,6 +329,7 @@ export class CitacionesComponent implements OnInit {
         (Response) => {
           console.log('Estado actualizado', Response);
           alert('El estado se ha actualizado correctamente.');
+          this.getModalidades();
         },
         (error) => {
           console.error('Error al actualizar el estado', error);
@@ -346,6 +347,7 @@ export class CitacionesComponent implements OnInit {
         this.Ct.actualizarRutaMeli(rutaMeli, id, fecha).subscribe(
           (Response) => {
             console.log('Estado actualizado', Response);
+            this.getModalidades();
           },
           (error) => {
             console.error('Error al actualizar el estado', error);
@@ -365,6 +367,7 @@ export class CitacionesComponent implements OnInit {
       this.Ct.actualizarTipoRuta(selectedValue,id_ppu,fecha).subscribe(
         (Response) => {
           alert('El cambio se ha realizado correctamente.')
+          this.getModalidades();
         },
         (error) => {
           alert('Error al actualizar el estado')
