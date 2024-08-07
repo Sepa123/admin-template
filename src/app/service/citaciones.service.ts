@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ɵAPP_ID_RANDOM_PROVIDER } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { S } from '@fullcalendar/core/internal-common';
@@ -104,9 +104,13 @@ export class CitacionesService {
     return this.http.get<any>(this.apiUrl + '/AmbulanceCode');
   }
 
-   postData(ruta_meli_amb: string, id_ppu: number, fecha: string): Observable<any> {
-    const body = { ruta_meli_amb, id_ppu, fecha };
-    return this.http.post<any>(`${this.apiUrl} /SaveData`, body);
+  postData(ruta_meli_amb: any, id_ppu: any, fecha: string): Observable<any> {
+    const url = `${this.apiUrl}/SaveData?ruta_meli_amb=${ruta_meli_amb}&id_ppu=${id_ppu}&fecha=${fecha}`; 
+    return this.http.post<any>(url, {}, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
   }
 
   getTipoRutaColor(id_ppu: number, fecha: string): Observable<any>{

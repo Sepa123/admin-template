@@ -85,7 +85,7 @@ export class CitacionesComponent implements OnInit {
   Cargado: boolean = false;
   selectedTipoRuta: { [key: string]: string } = {};
   inputRutaAmbulance: { [key: string]: string } = {};
-
+  newRutaMeli: number = 0;
   //datos geo
   latitude!: number
   longitud! :number
@@ -230,39 +230,42 @@ export class CitacionesComponent implements OnInit {
     );
   }
   
-  colorPunto(tipoRuta: any) {
+  colorPunto(tipoRuta: any, estado:any) {
     // Aquí debes implementar la lógica para determinar el color
     // Basado en el valor seleccionado y el ID de la base de datos
-    if (tipoRuta == 1 ) {
+    if (tipoRuta == 1 && estado == 5) {
       return {
-        'background-color':'#008f39',
+        'background-color':'#87CEEB',
         'animation-duration': '0s',
-
+        
 
       };
-    } else if (tipoRuta == 2 ) {
+    } else if (tipoRuta == 2  && estado != 5) {
       return {
         'background-color':'#87CEEB',
         'animation-duration': '0s'
       };
-    } else if (tipoRuta == 3 ){
+    } else if (tipoRuta == 3 && estado != 5){
       return {
         'background-color':'Black',
         'animation-duration': '0s'
 
       };
     }
-    else if (tipoRuta == 4  ){
+    else if (tipoRuta == 4 && estado != 5 ){
       return {
         'background-color':'red',
         
       };
-    }else if (tipoRuta == 5 ){
+    }else if (tipoRuta == 5 && estado != 5){
       return {
-        'background-color':'Orange',
+        'background-color':'#87CEEB',
       };
     }else{
-      return {'background-color':'blue'};
+      return {'background-color':'green',
+        'animation-duration': '0s'
+
+      };
     }
   }
   getStyles(value: number): { [key: string]: string } {
@@ -689,4 +692,22 @@ getLocationAsync(): Promise<any> {
   });
 }
 
+ingresarDatosAmbulancia(){
+  const fecha = this.formattedDate
+  const id_ruta_meli = this.ambulanciaCode
+  const id_ppu = this.IdPpuRecuperada
+  console.log (fecha,id_ruta_meli)
+
+    this.Ct.postData(id_ruta_meli, id_ppu, fecha).subscribe(
+        (responde)=>{
+          alert('se han ingresado correctamente la ambulancia')
+        
+        },
+        (error) => {
+            console.error('error al actualizar el estado', error);
+          }
+      )
+  }
 }
+
+
