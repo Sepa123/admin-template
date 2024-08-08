@@ -470,8 +470,34 @@ label {
   align-items: center;
 }
 
-.modal-body label, .modal-body select, .modal-body #idRutaMeli, .modal-body input[type="text"] {
-  margin-right: 10px;
+.modal-body2  {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px; /* Ajusta el padding según sea necesario */
+}
+.patente-container {
+  margin-bottom: 16px; /* Espacio entre elementos si es necesario */
+}
+
+.patente-container label,
+.patente-container span {
+  font-weight: bold; /* Hacer el texto en negrita */
+  align-items: center;
+}
+
+.patente-container select {
+  margin-top: 8px; /* Espacio entre el label y el select */
+  padding: 4px; /* Espacio interno del select */
+  font-size: 1rem; /* Ajustar el tamaño de la fuente si es necesario */
+}
+
+.modal-body2 p {
+  margin-top: 16px; /* Espacio entre el select y el párrafo */
+}
+
+.modal-body2 p span {
+  font-weight: bold; /* Hacer el texto en negrita */
 }
 
 .modal-footer {
@@ -497,7 +523,3 @@ label {
   margin-right: 5px;
 }
 
-.btn-cancel {
-  background-color: #f44336;
-  color: white;
-}

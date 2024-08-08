@@ -33,13 +33,17 @@ export class CitacionesComponent implements OnInit {
   input1: any;
   input2: any;
   input3: any;
-  IdPpuRecuperada?: number;
+  IdPpuRecuperada: number = 0;
   selectedPatente: string;
   conteoIngresadosHtml: any;
   dataTipoRutaColor: any;
   TipoRutaImagen: any;
   RutaList: any;
   minDate: string = '';
+  opRecuperada: number = 0;
+  CopRecuperada: number = 0;
+  infoAmbulancia: any;
+  visible4: any;
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -71,6 +75,7 @@ export class CitacionesComponent implements OnInit {
   CopFiltrado: any[] = [];
   selectedItem: any = null;
   rutaMeliValues: { [key: number]: string } = {};
+  rutaMeliText: { [key: string]: string } = {};
   mensaje: string | null = null;
   mensajeClass: string | null = null;
   formattedDate: string = '';
@@ -86,6 +91,8 @@ export class CitacionesComponent implements OnInit {
   selectedTipoRuta: { [key: string]: string } = {};
   inputRutaAmbulance: { [key: string]: string } = {};
   newRutaMeli: number = 0;
+  rutaMeliSeleccionada: string = '';
+  idPpuSeleccionado: string = '';
   //datos geo
   latitude!: number
   longitud! :number
@@ -104,6 +111,8 @@ export class CitacionesComponent implements OnInit {
 
   toggleAmbulance() {
     this.visibleAmbulance = !this.visibleAmbulance;
+
+    this.rutaMeliSeleccionada = ''
     
   }
   handleLiveDemoChange(event: any) {
@@ -128,6 +137,10 @@ export class CitacionesComponent implements OnInit {
 
   handleLiveDemoChange3(event: any) {
     this.visible3 = event;
+    
+  }
+  handleLiveDemoChange4(event: any) {
+    this.visible4 = event;
     
   }
   openModal() {
@@ -346,6 +359,8 @@ export class CitacionesComponent implements OnInit {
   updateRutaMeli(id: any, inputElement: HTMLInputElement) {
     const rutaMeli = inputElement.value;
     const fecha = this.formattedDate;
+
+    this.rutaMeliText[id] = rutaMeli;
     // Llama a validacionRutaMeli y realiza la validación dentro de su callback
         this.Ct.actualizarRutaMeli(rutaMeli, id, fecha).subscribe(
           (Response) => {
@@ -591,34 +606,17 @@ export class CitacionesComponent implements OnInit {
   recuperarIdPpu(id: number) {
     this.IdPpuRecuperada = id;
   }
+
+  recuperarOpCopAMB(id: number, cop:number) {
+    this.opRecuperada = id;
+    this.CopRecuperada = cop;
+  }
   
   initializeAmbulanceCode(): void {
     this.Ct.GetAmbulanciaCode().subscribe((data)=> {
       this.ambulanciaCode = data[0].genera_codigo_ambulancia
     })
     
-  }
-  ambulancia() {
-    const fecha = this.formattedDate;
-    const rutaAmbulanceInterna = this.ambulanciaCode;
-    const ppuAmbulance = this.input1;
-    const rutaAmbulance = this.input2;
-    const id_ppu = this.IdPpuRecuperada;
-
-    
-    this.Ct.ingresarAmbulancia(
-      ppuAmbulance,
-      id_ppu,
-      fecha,
-      rutaAmbulance,
-      rutaAmbulanceInterna
-    ).subscribe(
-      (Response) => {
-        this.resetForm();
-      },
-      (error) => {
-      }
-    );
   }
 
   
@@ -694,20 +692,47 @@ getLocationAsync(): Promise<any> {
 
 ingresarDatosAmbulancia(){
   const fecha = this.formattedDate
-  const id_ruta_meli = this.ambulanciaCode
-  const id_ppu = this.IdPpuRecuperada
-  console.log (fecha,id_ruta_meli)
+  const ruta_amb_interna = this.ambulanciaCode
+  const id_ppu = this.idPpuSeleccionado
+  const id_ruta_meli = this.rutaMeliSeleccionada
+  const id_ppu_amb = this.IdPpuRecuperada
 
-    this.Ct.postData(id_ruta_meli, id_ppu, fecha).subscribe(
+    this.Ct.postData(ruta_amb_interna, id_ppu, fecha,id_ppu_amb,id_ruta_meli).subscribe(
         (responde)=>{
-          alert('se han ingresado correctamente la ambulancia')
-        
+          alert('se han ingresado correctamente la ambulancia');
+          this.rutaMeliSeleccionada = ''
         },
         (error) => {
             console.error('error al actualizar el estado', error);
           }
       )
   }
+
+ 
+
+getInfoAMB(){
+
+  const fecha = this.formattedDate
+  const id = this.IdPpuRecuperada
+  const op = this.opRecuperada
+  const cop = this.CopRecuperada
+
+  this.Ct.infoAMB(fecha,op,cop,id).subscribe((data)=> {
+    this.infoAmbulancia = data
+  })
+}
+onSelectChange(event: Event) {
+  const selectElement = event.target as HTMLSelectElement;
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+
+   // Capturando el id_ppu seleccionado
+   this.idPpuSeleccionado = selectElement.value;
+ // Intentar obtener el valor de data-id-ruta
+ const rutaMeli = selectedOption ? selectedOption.getAttribute('data-id-ruta') : '';
+
+ // Si rutaMeli es null o una cadena vacía, asignar 'S/I de ruta'
+ this.rutaMeliSeleccionada = rutaMeli ? rutaMeli : 'S/i de ruta';
+}
 }
 
 
