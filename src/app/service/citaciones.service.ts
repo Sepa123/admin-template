@@ -113,6 +113,15 @@ export class CitacionesService {
     });
   }
 
+  Bitacora(id_usuario: any, ids_usuario: any, modificacion: string, latitud: any, longitud: any, origen: string): Observable<any> {
+    const url = `${this.apiUrl}/BitacoraGeneral?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}&modificacion=${modificacion}&latitud=${latitud}&longitud=${longitud}&origen=${origen}`; 
+    return this.http.post<any>(url, {}, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
+
   getTipoRutaColor(id_ppu: number, fecha: string): Observable<any>{
     return this.http.get(`${this.apiUrl}/getEstados?fecha=${fecha}&id_ppu=${id_ppu}`);
   }

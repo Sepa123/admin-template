@@ -313,11 +313,13 @@ export class CitacionesComponent implements OnInit {
   eliminarPpu(ppu: any) {
     // Llamar a la API para eliminar la razón social por su ID
     this.http
-      .delete(`http://localhost:8000/api/borrar?id_ppu=${ppu}`)
+      .delete(`https://hela.transyanez.cl/api/meli/borrar?id_ppu=${ppu}`)
       .subscribe(
         (response) => {
           // Si la eliminación es exitosa
           this.getModalidades();
+          this.getPatentesFiltradasPorOpyCop(this.opRecuperada, this.CopRecuperada)
+          this.bitacoraUpdate('Se elimino la patente ' + ppu, 'citacion-Mercadolibre')
           console.log('Se ha eliminado correctamente', response);
           alert('Eliminado correctamente ${ppu}');
         },
@@ -343,9 +345,12 @@ export class CitacionesComponent implements OnInit {
   
       this.Ct.actualizarEstadoPpu(selectedValue, id_ppu, fecha).subscribe(
         (Response) => {
+          this.getModalidades();
+          this.bitacoraUpdate('Se cambio el estado de la patente '+ id_ppu + ' a ' + selectedValue, 'citacion-Mercadolibre')
           console.log('Estado actualizado', Response);
           alert('El estado se ha actualizado correctamente.');
-          this.getModalidades();
+          
+
         },
         (error) => {
           console.error('Error al actualizar el estado', error);
@@ -357,6 +362,8 @@ export class CitacionesComponent implements OnInit {
  
   
   updateRutaMeli(id: any, inputElement: HTMLInputElement) {
+    const rutaMeliAntiguo = this.rutaMeliText[id];
+
     const rutaMeli = inputElement.value;
     const fecha = this.formattedDate;
 
@@ -366,6 +373,7 @@ export class CitacionesComponent implements OnInit {
           (Response) => {
             console.log('Estado actualizado', Response);
             this.getModalidades();
+            this.bitacoraUpdate(`Se ha cambiado la ruta de ${rutaMeliAntiguo} a ${rutaMeli} para la patente con id: ${id}`, 'citacion-Mercadolibre');
           },
           (error) => {
             console.error('Error al actualizar el estado', error);
@@ -386,6 +394,7 @@ export class CitacionesComponent implements OnInit {
         (Response) => {
           alert('El cambio se ha realizado correctamente.')
           this.getModalidades();
+          this.bitacoraUpdate(`Se ha cambiado el tipo de ruta a ${selectedValue} en la patente: ${id_ppu}`, 'citacion-Mercadolibre');
         },
         (error) => {
           alert('Error al actualizar el estado')
@@ -476,11 +485,13 @@ export class CitacionesComponent implements OnInit {
     };
     // llamado al api para entregar el formulario y poster en base de datos
     this.http
-      .post('http://localhost:8000/api/agregarpatente/', formData)
+      .post('https://hela.transyanez.cl/api/meli/agregarpatente', formData)
       .subscribe(
         (data) => {
           //mostrar aletar exito
           this.getModalidades();
+          this.getRecargarPatentesCitaciones();
+          this.bitacoraUpdate('Se ha agregado la patente ' + id_ppu, 'citacion-Mercadolibre')
           alert('El ingreso se ha realizado Correctamente');
         },
 
@@ -732,6 +743,26 @@ onSelectChange(event: Event) {
 
  // Si rutaMeli es null o una cadena vacía, asignar 'S/I de ruta'
  this.rutaMeliSeleccionada = rutaMeli ? rutaMeli : 'S/i de ruta';
+}
+
+bitacoraUpdate(modificacion: string, origen: string){
+  const id_user = sessionStorage.getItem('id')?.toString() + '';
+  const ids_user =
+      sessionStorage.getItem('server') +
+      '-' +
+      sessionStorage.getItem('id') +
+      '';
+  const latitud  =  this.latStr 
+  const longitud = this.longStr
+
+  this.Ct.Bitacora(id_user, ids_user,modificacion,latitud,longitud,origen ).subscribe(
+    (responde)=>{
+    },
+    (error) => {
+        console.error('error al actualizar el estado', error);
+      }
+  )
+
 }
 }
 

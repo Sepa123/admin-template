@@ -75,7 +75,7 @@
                 <!-- Ejemplo de fila de datos -->
                 <tr *ngFor="let pu of patentesList2">
                     <td class="thclass"><button id="Codigo_patente" class="detalle-patente" (click)="submitForm(pu.id_ppu)"
-                            (click)="recuperarIdPpu(pu.id_ppu)" (click)="getRecargarPatentesCitaciones()" (click)="getLocation()">
+                            (click)="recuperarIdPpu(pu.id_ppu)" (click)="getRecargarPatentesCitaciones()" (click)="getLocation()" >
                             {{pu.ppu}}
                         </button></td>
                     <td class="thclass">
@@ -258,9 +258,8 @@
                                         </svg>
                                         <span class="tooltip">
                                             Usuarios
-
-                                            {{pu.nombre_driver}}
-                                            {{pu.nombre_peoneta}}
+                                            <br>
+                                            {{ (pu.nombre_driver || pu.nombre_peoneta) ? (pu.nombre_driver + ' ' + pu.nombre_peoneta) : 'S/I de conductores' }}
                                         </span>
                                     </li>
                                     <li class="nav-item">
