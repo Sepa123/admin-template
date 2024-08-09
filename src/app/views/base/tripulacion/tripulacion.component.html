@@ -499,7 +499,6 @@
 
 <h2>Tripulación</h2>
 <p></p>
-
 <c-row>
     <c-col [xs] *ngIf="rol !== '50'" >
         <button  class="btn btn-success" (click)="toggleLiveAgregar()">Agregar Tripulación
@@ -518,6 +517,8 @@
         <button class="btn btn-success" (click)=" buscarColaboradoresPorNombre()" >Buscar</button>
     </c-col>
 </c-row>
+<p></p>
+<h5>Cantidad : {{tripulacion.length}} </h5>
 <p></p>
 
     <div class="greenTable" style="width: 100%;">

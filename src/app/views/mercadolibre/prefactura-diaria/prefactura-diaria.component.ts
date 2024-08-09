@@ -39,13 +39,13 @@ export class PrefacturaDiariaComponent {
 
   loadQuadmindFull: boolean = true 
 
+  constructor(private service: MeliService) { }
+
   //datos geo
   latitude!: number
   longitud! :number
   latStr!: string
   longStr!: string
-
-  constructor(private service: MeliService) { }
 
   getLocation(): any {
     if (navigator.geolocation) {
@@ -65,6 +65,8 @@ export class PrefacturaDiariaComponent {
 
     console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
   }
+
+  
 
   ngOnInit(){
     this.service.getDatosPrefactura('2024','06').subscribe((data) =>{ 

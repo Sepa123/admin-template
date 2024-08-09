@@ -4,7 +4,7 @@
     <!-- Selector de Fecha y Botón Nueva Citación -->
         <div class="input-container">
             <label for="fechaCitaciones">Seleccionar Fecha:</label>
-            <input type="date" class="from-control" id="fechaCitaciones" [min]="formattedDate" formControlName="date"
+            <input type="date" class="from-control" id="fechaCitaciones" [min]="minDate" (keydown)="preventTyping($event)" formControlName="date"
                 (change)="onDateChange($event)">
         </div>
     <!-- Tabla de Citaciones -->
@@ -41,7 +41,7 @@
                 </div>
             </td>
             <td >
-                <svg  xmlns="http://www.w3.org/2000/svg" width="2.2em" height="2.2em" viewBox="0 0 24 24" (click)="getLocation()" (click)="toggleLive3()" (click)="getPatentesFiltradasPorOpyCop(Ct.Id_operacion, Ct.id_cop)" >
+                <svg  xmlns="http://www.w3.org/2000/svg" width="2.2em" height="2.2em" viewBox="0 0 24 24" (click)="getLocation()" (click)="toggleLive3()" (click)="recuperarOpCopAMB(Ct.Id_operacion, Ct.id_cop)"(click)="getPatentesFiltradasPorOpyCop(Ct.Id_operacion, Ct.id_cop)" >
                     <path fill="currentColor" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5" />
                 </svg>
             </td>
@@ -75,7 +75,7 @@
                 <!-- Ejemplo de fila de datos -->
                 <tr *ngFor="let pu of patentesList2">
                     <td class="thclass"><button id="Codigo_patente" class="detalle-patente" (click)="submitForm(pu.id_ppu)"
-                            (click)="recuperarIdPpu(pu.id_ppu)" (click)="getRecargarPatentesCitaciones()" (click)="getLocation()">
+                            (click)="recuperarIdPpu(pu.id_ppu)" (click)="getRecargarPatentesCitaciones()" (click)="getLocation()" >
                             {{pu.ppu}}
                         </button></td>
                     <td class="thclass">
@@ -233,11 +233,69 @@
                             <option *ngFor="let tr of dataTipoRuta" [value]="tr.id">{{tr.tipo}}</option>
                         </select>
                     </td>
-                    <td class="icons">
-                        <div [ngStyle]="colorPunto(selectedTipoRuta[pu.id_ppu])"
-                             class="punto_rojo"></div>
+                    <td>
+                        <!-- class="icons" -->
+                        
+                            <nav class="icons">
+                                <div [ngStyle]="colorPunto(selectedEstados[pu.id_ppu], selectedTipoRuta[pu.id_ppu])" class="punto_rojo"></div>
+                                <ul class="nav-list">
+                                    <li class="nav-item">
+                                        <svg  xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
+                                            viewBox="0 0 24 24" (click)="recuperarIdPpu(pu.id_ppu)"
+                                            (click)="getLocation()">
+                                            <g fill="none">
+                                                <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-linecap="round" />
+                                                <path stroke="currentColor" d="M11.768 8.5a2 2 0 1 1 3.464 2a2 2 0 0 1-3.464-2z" />
+                                                <path fill="currentColor"
+                                                    d="m13.405 17.507l.494-.079zM12.5 18h-9v1h9zm-9.412-.414c.13-.814.442-1.971 1.176-2.915C4.979 13.751 6.119 13 8 13v-1c-2.199 0-3.626.9-4.526 2.057c-.88 1.134-1.231 2.48-1.373 3.371zM8 13c1.881 0 3.02.75 3.736 1.671c.734.944 1.046 2.1 1.176 2.915l.987-.158c-.142-.89-.492-2.237-1.373-3.37C11.626 12.9 10.199 12 8 12zm-4.5 5c-.292 0-.443-.217-.412-.414l-.987-.158C1.958 18.322 2.687 19 3.5 19zm9 1c.813 0 1.542-.678 1.4-1.572l-.988.158c.031.197-.12.414-.412.414z" />
+                                                <path fill="currentColor"
+                                                    d="m17.297 17.416l-.485.122zM11.8 13.981l-.268-.422l-.515.327l.422.44zm1.605 3.526l.494-.079zm2.99.493H12.5v1h3.895zm.417-.462c.053.215-.104.462-.417.462v1c.87 0 1.62-.772 1.387-1.705zM13.5 14c1.028 0 1.75.503 2.278 1.207c.54.718.856 1.624 1.034 2.33l.97-.242c-.192-.764-.55-1.816-1.204-2.689C15.913 13.72 14.92 13 13.5 13zm-1.432.403c.39-.247.858-.403 1.432-.403v-1c-.768 0-1.421.212-1.968.559zm-.629-.077c.947.99 1.326 2.339 1.473 3.26l.987-.158c-.16-1-.583-2.586-1.737-3.793zm1.473 3.26c.031.197-.12.414-.412.414v1c.813 0 1.542-.678 1.4-1.572z" />
+                                                <rect width="4.5" height=".5" x="16.25" y="5.25" stroke="currentColor" stroke-linecap="round"
+                                                    stroke-width="0.5" rx=".25" />
+                                                <rect width="4.5" height=".5" x="18.75" y="3.25" stroke="currentColor" stroke-linecap="round"
+                                                    stroke-width="0.5" rx=".25" transform="rotate(90 18.75 3.25)" />
+                                            </g>
+                                        </svg>
+                                        <span class="tooltip">
+                                            Usuarios
+                                            <br>
+                                            {{ (pu.nombre_driver || pu.nombre_peoneta) ? (pu.nombre_driver + ' ' + pu.nombre_peoneta) : 'S/I de conductores' }}
+                                        </span>
+                                    </li>
+                                    <li class="nav-item">
+                                        <svg class="fas fa-save" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"
+                                            (click)="updateRutaMeli(pu.id_ppu, rutaMeliInput)" (click)="getLocation()">
+                                            <path fill="currentColor"
+                                                d="M21 7v12q0 .825-.587 1.413T19 21H5q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h12zm-9 11q1.25 0 2.125-.875T15 15t-.875-2.125T12 12t-2.125.875T9 15t.875 2.125T12 18m-6-8h9V6H6z" />
+                                        </svg>
+                                        <span class="tooltip">
+                                                Guardar
+                                        </span>
+                                    </li>
+                                    <li class="nav-item">
+                                        <svg class="fas fa-trash" xmlns="http://www.w3.org/2000/svg" style="color: red;" width="1.5em" height="1.5em"
+                                            viewBox="0 0 512 512" (click)="eliminarPpu(pu.id_ppu)" (click)="getLocation()"
+                                            (click)="getRecargarPatentesCitaciones()">
+                                            <rect width="448" height="80" x="32" y="48" fill="currentColor" rx="32" ry="32" />
+                                            <path fill="currentColor"
+                                                d="M74.45 160a8 8 0 0 0-8 8.83l26.31 252.56a1.5 1.5 0 0 0 0 .22A48 48 0 0 0 140.45 464h231.09a48 48 0 0 0 47.67-42.39v-.21l26.27-252.57a8 8 0 0 0-8-8.83Zm248.86 180.69a16 16 0 1 1-22.63 22.62L256 318.63l-44.69 44.68a16 16 0 0 1-22.63-22.62L233.37 296l-44.69-44.69a16 16 0 0 1 22.63-22.62L256 273.37l44.68-44.68a16 16 0 0 1 22.63 22.62L278.62 296Z" />
+                                        </svg>
+                                        <span class="tooltip">Eliminar</span>
+                                    </li>
+                                    <li class="nav-item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" *ngIf="selectedTipoRuta[pu.id_ppu] == '5' && selectedEstados[pu.id_ppu] == '1'" (click)="recuperarIdPpu(pu.id_ppu)"(click)="initializeAmbulanceCode();" (click)="getInfoAMB()" width="1.5em" height="1.5em" viewBox="0 0 24 24"(click)="toggleAmbulance()" (click)="toggleLive3()">
+                                            <path fill="currentColor" 
+                                            d="M18 18.5a1.5 1.5 0 0 0 1.5-1.5a1.5 1.5 0 0 0-1.5-1.5a1.5 1.5 0 0 0-1.5 1.5a1.5 1.5 0 0 0 1.5 1.5m1.5-9H17V12h4.46zM6 18.5A1.5 1.5 0 0 0 7.5 17A1.5 1.5 0 0 0 6 15.5A1.5 1.5 0 0 0 4.5 17A1.5 1.5 0 0 0 6 18.5M20 8l3 4v5h-2a3 3 0 0 1-3 3a3 3 0 0 1-3-3H9a3 3 0 0 1-3 3a3 3 0 0 1-3-3H1V6c0-1.11.89-2 2-2h14v4zM8 6v3H5v2h3v3h2v-3h3V9h-3V6z" />
+                                        </svg> 
+                                        <span class="tooltip">
+                                            Ambulancia
+                                        </span>
+                                    </li>
+                                </ul>
+                            </nav>
 
-                        <svg class="fa-solid fa-user-plus" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
+
+                        <!-- <svg class="fa-solid fa-user-plus" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
                             viewBox="0 0 24 24" (click)="toggleLiveTP()" (click)="recuperarIdPpu(pu.id_ppu)" 
                             (click)="toggleLive3()" (click)="getLocation()">
                             <g fill="none">
@@ -268,7 +326,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" *ngIf="selectedTipoRuta[pu.id_ppu] == '5'" width="1.5em" height="1.5em" viewBox="0 0 24 24"(click)="toggleAmbulance()" (click)="recuperarIdPpu(pu.id_ppu)" (click)="toggleLive3()">
                             <path fill="currentColor" 
                             d="M18 18.5a1.5 1.5 0 0 0 1.5-1.5a1.5 1.5 0 0 0-1.5-1.5a1.5 1.5 0 0 0-1.5 1.5a1.5 1.5 0 0 0 1.5 1.5m1.5-9H17V12h4.46zM6 18.5A1.5 1.5 0 0 0 7.5 17A1.5 1.5 0 0 0 6 15.5A1.5 1.5 0 0 0 4.5 17A1.5 1.5 0 0 0 6 18.5M20 8l3 4v5h-2a3 3 0 0 1-3 3a3 3 0 0 1-3-3H9a3 3 0 0 1-3 3a3 3 0 0 1-3-3H1V6c0-1.11.89-2 2-2h14v4zM8 6v3H5v2h3v3h2v-3h3V9h-3V6z" />
-                        </svg>
+                        </svg> -->
                     </td>
                 
                 </tr>
@@ -282,34 +340,45 @@
 
 </c-modal>
 
-<c-modal [visible]="visibleAmbulance" (visibleChange)="handleLiveDemoChange3($event)">
+<c-modal [visible]="visibleAmbulance" (visibleChange)="handleLiveDemoChange4($event)">
     <c-modal-header class="code-font">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+            <path fill="currentColor" 
+            d="M18 18.5a1.5 1.5 0 0 0 1.5-1.5a1.5 1.5 0 0 0-1.5-1.5a1.5 1.5 0 0 0-1.5 1.5a1.5 1.5 0 0 0 1.5 1.5m1.5-9H17V12h4.46zM6 18.5A1.5 1.5 0 0 0 7.5 17A1.5 1.5 0 0 0 6 15.5A1.5 1.5 0 0 0 4.5 17A1.5 1.5 0 0 0 6 18.5M20 8l3 4v5h-2a3 3 0 0 1-3 3a3 3 0 0 1-3-3H9a3 3 0 0 1-3 3a3 3 0 0 1-3-3H1V6c0-1.11.89-2 2-2h14v4zM8 6v3H5v2h3v3h2v-3h3V9h-3V6z" />
+        </svg>
         <h5 class="modal-title" id="modalNuevaCitacionLabel">Ambulancia</h5>
-        <button (click)="toggleAmbulance()" cButtonClose type="button" class="close" data-dismiss="modal"
-            aria-label="Close">
+        <button    cButtonClose type="button" class="close" data-dismiss="modal"
+            aria-label="Close" (click)="toggleLive3()" (click)="toggleAmbulance()">
         </button>
         <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
     </c-modal-header>
-    <c-modal-body class="code-font">
-        <form >
-            <div class="form-container">
-                <div class="form-group">
-                    <label for="input1">Ppu Ambulancia</label>
-                    <select id="input1" type="text" [(ngModel)]="input1">
-                        <option *ngFor="let pu of patentesList2" [value]="pu.id_ppu">{{pu.ppu}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="input2">Ruta Ambulancia</label>
-                    <input id="input2" [(ngModel)]="input2" type="text">
-                </div>
-
+    <c-modal-body class="code-font" >
+    
+        <div class="divider"></div>
+        <div class="modal-body2">
+        
+            <div class="patente-container">
+                <label for="patente">Patente:</label>
+                <select id="patente" (change)="onSelectChange($event)">
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option *ngFor="let ia of infoAmbulancia" [value]="ia.id_ppu" [attr.data-id-ruta]="ia.ruta_meli">
+                        <span>{{ia.ppu}}</span>
+                    </option>
+                </select>
             </div>
-        </form>
+            <div>
+                <p id="idRutaMeli">Ruta: <span>{{rutaMeliSeleccionada}}</span></p>
+            </div>
+        </div>
+    
     </c-modal-body>
     <c-modal-footer class="code-font">
-        <button (click)="ambulancia()" (click)="initializeAmbulanceCode()" (click)="toggleAmbulance()" (click)="getLocation()"
-            (click)="toggleLive3()">Guardar</button>
+        <div class="modal-footer">
+            <button class="btn btn-save" (click)="getLocation()" (click)="initializeAmbulanceCode()" (click)="ingresarDatosAmbulancia()"  
+                 >Guardar</button>
+    
+        </div>
+    
     </c-modal-footer>
 
 </c-modal>

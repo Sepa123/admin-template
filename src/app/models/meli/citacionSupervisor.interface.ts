@@ -8,6 +8,7 @@ export interface MainCitacionS {
 }
 
 export interface Detalle {
+    [key: string]:        string|null|boolean|number;
     estado:        number;
     id_ppu:        number;
     ruta_meli:     null | string;

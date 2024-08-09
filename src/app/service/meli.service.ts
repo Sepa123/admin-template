@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Prefactura,ResumenPrefactura } from "../models/meli/prefactura.interface"
 import { MainCitacionS } from "../models/meli/citacionSupervisor.interface"
+import { MainCitacionA } from "../models/meli/citacionActiva.interface"
 @Injectable({
   providedIn: 'root'
 })
@@ -42,6 +43,10 @@ export class MeliService {
     })
   }
 
+  getEstadoList(): Observable<any>{
+    return this.http.get<any>(this.apiurl + '/estadoList');
+  }
+
   getResumenDatosPrefactura(){
     return this.http.get<ResumenPrefactura>(this.apiurl+`/resumen/prefacturas` )
   }
@@ -49,6 +54,10 @@ export class MeliService {
 
   getDatosCitacionSupervisor(id_usuario : string, fecha : string){
     return this.http.get<MainCitacionS []>(this.apiurl+`/citacion_supervisor?id_usuario=${id_usuario}&fecha=${fecha}` )
+  }
+
+  getDatosCitacionActiva(op: number,cop : number, fecha : string){
+    return this.http.get<MainCitacionA []>(this.apiurl+`/citacion_activa?op=${op}&cop=${cop}&fecha=${fecha}` )
   }
 
 }

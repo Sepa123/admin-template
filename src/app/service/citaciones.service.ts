@@ -105,13 +105,37 @@ export class CitacionesService {
     return this.http.get<any>(this.apiUrl + '/AmbulanceCode');
   }
 
-   postData(ruta_meli_amb: string, id_ppu: number, fecha: string): Observable<any> {
-    const body = { ruta_meli_amb, id_ppu, fecha };
-    return this.http.post<any>(`${this.apiUrl} /SaveData`, body);
-  }
+   
 
   getTipoRutaColor(id_ppu: number, fecha: string): Observable<any>{
     return this.http.get(`${this.apiUrl}/getEstados?fecha=${fecha}&id_ppu=${id_ppu}`);
   }
+
+  postData(ruta_amb_interna: any, id_ppu: any, fecha: string, id_ppu_amb: number, ruta_meli_amb:string): Observable<any> {
+    const url = `${this.apiUrl}/SaveData?ruta_amb_interna=${ruta_amb_interna}&id_ppu=${id_ppu}&fecha=${fecha}&id_ppu_amb=${id_ppu_amb}&ruta_meli_amb=${ruta_meli_amb}`; 
+    return this.http.post<any>(url, {}, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
+
+  validarData():Observable<any>{
+    return this.http.get(`${this.apiUrl}/validacion`);
+  }
+
+  infoAMB( fecha: string, op:number,cop:number,  id_ppu: number): Observable<any>{
+    return this.http.get(`${this.apiUrl}/infoAMB?fecha=${fecha}&op=${op}&cop=${cop}&id_ppu=${id_ppu}`);
+  }
+
+  Bitacora(id_usuario: any, ids_usuario: any, modificacion: string, latitud: any, longitud: any, origen: string): Observable<any> {
+    const url = `${this.apiUrl}/BitacoraGeneral?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}&modificacion=${modificacion}&latitud=${latitud}&longitud=${longitud}&origen=${origen}`; 
+    return this.http.post<any>(url, {}, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
+
 
   }

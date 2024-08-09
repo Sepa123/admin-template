@@ -29,8 +29,11 @@ export class CitacionesActivasComponent implements OnInit {
   handleLiveDemoChange(event: any) {
     this.visible = event;
   }
+
+  currentDate : string = ''
   
   ngOnInit() {
+    
     this.service.getDatosCitacionSupervisor('158','20240802').subscribe((data) => {
       this.citacionSupervisores = data
     })

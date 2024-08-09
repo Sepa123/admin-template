@@ -14,9 +14,9 @@ import { getStyle } from '@coreui/utils';
 @Component({
   selector: 'app-citaciones',
   templateUrl: './citaciones.component.html',
-  styleUrls: ['./citaciones.component.scss','./citaciones2.component.scss'],
+  styleUrls: ['./citaciones.component.scss','./citaciones2.component.scss','./citaciones3.component.scss'],
 })
-export class CitacionesComponent implements OnInit {
+export class CitacionesComponent implements OnInit  {
   
   @ViewChild('ambulanceForm') ambulanceForm: NgForm | undefined;
 
@@ -33,12 +33,17 @@ export class CitacionesComponent implements OnInit {
   input1: any;
   input2: any;
   input3: any;
-  IdPpuRecuperada?: number;
+  IdPpuRecuperada: number = 0;
   selectedPatente: string;
   conteoIngresadosHtml: any;
   dataTipoRutaColor: any;
   TipoRutaImagen: any;
   RutaList: any;
+  minDate: string = '';
+  opRecuperada: number = 0;
+  CopRecuperada: number = 0;
+  infoAmbulancia: any;
+  visible4: any;
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -70,6 +75,7 @@ export class CitacionesComponent implements OnInit {
   CopFiltrado: any[] = [];
   selectedItem: any = null;
   rutaMeliValues: { [key: number]: string } = {};
+  rutaMeliText: { [key: string]: string } = {};
   mensaje: string | null = null;
   mensajeClass: string | null = null;
   formattedDate: string = '';
@@ -84,12 +90,14 @@ export class CitacionesComponent implements OnInit {
   Cargado: boolean = false;
   selectedTipoRuta: { [key: string]: string } = {};
   inputRutaAmbulance: { [key: string]: string } = {};
-
-    //datos geo
-    latitude!: number
-    longitud! :number
-    latStr!: string
-    longStr!: string
+  newRutaMeli: number = 0;
+  rutaMeliSeleccionada: string = '';
+  idPpuSeleccionado: string = '';
+  //datos geo
+  latitude!: number
+  longitud! :number
+  latStr!: string
+  longStr!: string
 
   resetForm() {
     if (this.ambulanceForm) {
@@ -103,6 +111,8 @@ export class CitacionesComponent implements OnInit {
 
   toggleAmbulance() {
     this.visibleAmbulance = !this.visibleAmbulance;
+
+    this.rutaMeliSeleccionada = ''
     
   }
   handleLiveDemoChange(event: any) {
@@ -129,6 +139,10 @@ export class CitacionesComponent implements OnInit {
     this.visible3 = event;
     
   }
+  handleLiveDemoChange4(event: any) {
+    this.visible4 = event;
+    
+  }
   openModal() {
     this.isModalOpen = true;
   }
@@ -144,41 +158,44 @@ export class CitacionesComponent implements OnInit {
     this.getPeonetas();
     this.getEstados();
     this.getTipoRuta();
-
+    
   }
   obtenerFechaFormateada() {
-    const fechaActual = new Date();
-    const year = fechaActual.getFullYear();
-    const month = ('0' + (fechaActual.getMonth() + 1)).slice(-2);
-    const day = ('0' + fechaActual.getDate()).slice(-2);
-    const formattedToday = `${year}-${month}-${day}`;
-
-    this.dateForm.get('date')?.setValue(formattedToday);
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
     this.formattedDate = `${year}-${month}-${day}`;
-
-    // Set the value of the date input directly using Renderer2
+    this.minDate = this.formattedDate;
+    
+    // Inicializa el valor del campo de fecha y la fecha mínima permitida
+    this.dateForm.get('date')?.setValue(this.formattedDate);
     const dateInput = document.querySelector('input[type="date"]');
     if (dateInput) {
-      this.renderer.setProperty(dateInput, 'value', formattedToday);
+      this.renderer.setProperty(dateInput, 'value', this.formattedDate);
     }
   }
 
   onDateChange(event: any) {
     const rawDate = event.target.value;
     if (rawDate) {
-      const [year, month, day] = rawDate.split('-');
-
-      this.formattedDate = `${year}-${month}-${day}`;
-      this.getModalidades();
+      const selectedDate = new Date(rawDate);
+      const today = new Date(this.formattedDate);
+      if (selectedDate < today) {
+        // Si se selecciona una fecha anterior, restablece al valor mínimo permitido (fecha actual)
+        this.formattedDate = rawDate
+        this.getModalidades(); // Llama a getModalidades con la fecha actual
+      } else {
+        // Actualiza this.formattedDate antes de llamar a getModalidades
+        this.formattedDate = rawDate;
+        this.getModalidades();
+      }
     }
-
-    
   }
 
   getModalidades() {
     
-    const id_user = sessionStorage.getItem('id')?.toString() + '';
-    // const id_user = '130'
+    const id_user = '130'
     // sessionStorage.getItem('id')?.toString() + '';;
     const fecha = this.formattedDate;
     
@@ -225,40 +242,43 @@ export class CitacionesComponent implements OnInit {
       }
     );
   }
-
-  colorPunto(tipoRuta: any) {
+  
+  colorPunto(tipoRuta: any, estado:any) {
     // Aquí debes implementar la lógica para determinar el color
     // Basado en el valor seleccionado y el ID de la base de datos
-    if (tipoRuta == 1 ) {
+    if (tipoRuta == 1 && estado == 5) {
       return {
-        'background-color':'#008f39',
+        'background-color':'#87CEEB',
         'animation-duration': '0s',
-
+        
 
       };
-    } else if (tipoRuta == 2 ) {
+    } else if (tipoRuta == 2  && estado != 5) {
       return {
         'background-color':'#87CEEB',
         'animation-duration': '0s'
       };
-    } else if (tipoRuta == 3 ){
+    } else if (tipoRuta == 3 && estado != 5){
       return {
         'background-color':'Black',
         'animation-duration': '0s'
 
       };
     }
-    else if (tipoRuta == 4  ){
+    else if (tipoRuta == 4 && estado != 5 ){
       return {
         'background-color':'red',
-
+        
       };
-    }else if (tipoRuta == 5 ){
+    }else if (tipoRuta == 5 && estado != 5){
       return {
-        'background-color':'Orange',
+        'background-color':'#87CEEB',
       };
     }else{
-      return {'background-color':'blue'};
+      return {'background-color':'green',
+        'animation-duration': '0s'
+
+      };
     }
   }
   getStyles(value: number): { [key: string]: string } {
@@ -290,7 +310,6 @@ export class CitacionesComponent implements OnInit {
       return {};
     }
   }
-
   eliminarPpu(ppu: any) {
     // Llamar a la API para eliminar la razón social por su ID
     this.http
@@ -299,6 +318,8 @@ export class CitacionesComponent implements OnInit {
         (response) => {
           // Si la eliminación es exitosa
           this.getModalidades();
+          this.getPatentesFiltradasPorOpyCop(this.opRecuperada, this.CopRecuperada)
+          this.bitacoraUpdate('Se elimino la patente ' + ppu, 'citacion-Mercadolibre')
           console.log('Se ha eliminado correctamente', response);
           alert('Eliminado correctamente ${ppu}');
         },
@@ -311,19 +332,25 @@ export class CitacionesComponent implements OnInit {
     const valor = id;
     return valor;
   }
-
+  preventTyping(event: KeyboardEvent) {
+    event.preventDefault();
+  }
   updateEstado(id_ppu: string, event: Event) {
     const fecha = this.formattedDate
     const target = event.target as HTMLSelectElement;
     if (target) {
       const selectedValue = target.value;
-
+  
       this.selectedEstados[id_ppu] = selectedValue;
-
+  
       this.Ct.actualizarEstadoPpu(selectedValue, id_ppu, fecha).subscribe(
         (Response) => {
+          this.getModalidades();
+          this.bitacoraUpdate('Se cambio el estado de la patente '+ id_ppu + ' a ' + selectedValue, 'citacion-Mercadolibre')
           console.log('Estado actualizado', Response);
           alert('El estado se ha actualizado correctamente.');
+          
+
         },
         (error) => {
           console.error('Error al actualizar el estado', error);
@@ -332,20 +359,26 @@ export class CitacionesComponent implements OnInit {
       );
     }
   }
-
+ 
+  
   updateRutaMeli(id: any, inputElement: HTMLInputElement) {
+    const rutaMeliAntiguo = this.rutaMeliText[id];
+
     const rutaMeli = inputElement.value;
     const fecha = this.formattedDate;
 
+    this.rutaMeliText[id] = rutaMeli;
     // Llama a validacionRutaMeli y realiza la validación dentro de su callback
-    this.Ct.actualizarRutaMeli(rutaMeli, id, fecha).subscribe(
-      (Response) => {
-        console.log('Estado actualizado', Response);
-      },
-      (error) => {
-        console.error('Error al actualizar el estado', error);
-      }
-    );
+        this.Ct.actualizarRutaMeli(rutaMeli, id, fecha).subscribe(
+          (Response) => {
+            console.log('Estado actualizado', Response);
+            this.getModalidades();
+            this.bitacoraUpdate(`Se ha cambiado la ruta de ${rutaMeliAntiguo} a ${rutaMeli} para la patente con id: ${id}`, 'citacion-Mercadolibre');
+          },
+          (error) => {
+            console.error('Error al actualizar el estado', error);
+          }
+        );
   }
 
   //funcion para ingresar un valor y actualizar mediante la solicitud su estado cada vez que sea
@@ -354,11 +387,14 @@ export class CitacionesComponent implements OnInit {
     const target = event.target as HTMLSelectElement;
     if (target) {
       const selectedValue = target.value;
+
       this.selectedTipoRuta[id_ppu] = selectedValue;
 
       this.Ct.actualizarTipoRuta(selectedValue,id_ppu,fecha).subscribe(
         (Response) => {
           alert('El cambio se ha realizado correctamente.')
+          this.getModalidades();
+          this.bitacoraUpdate(`Se ha cambiado el tipo de ruta a ${selectedValue} en la patente: ${id_ppu}`, 'citacion-Mercadolibre');
         },
         (error) => {
           alert('Error al actualizar el estado')
@@ -377,9 +413,9 @@ export class CitacionesComponent implements OnInit {
         this.initializeRutaMeliValues();
         this.initializeTipoRutaValues();
         
+        
       },
       (error) => {
-        this.patentesList = []
         console.error('Error al obtener modalidades de operación', error);
       }
     );
@@ -398,7 +434,7 @@ export class CitacionesComponent implements OnInit {
   initializeTipoRutaValues() {
     this.patentesList.forEach((pu) => {
       this.selectedTipoRuta[pu.id_ppu] = pu.tipo_ruta;
-
+      
     });
   }
 
@@ -449,11 +485,13 @@ export class CitacionesComponent implements OnInit {
     };
     // llamado al api para entregar el formulario y poster en base de datos
     this.http
-      .post('https://hela.transyanez.cl/api/meli/agregarpatente/', formData)
+      .post('https://hela.transyanez.cl/api/meli/agregarpatente', formData)
       .subscribe(
         (data) => {
           //mostrar aletar exito
           this.getModalidades();
+          this.getRecargarPatentesCitaciones();
+          this.bitacoraUpdate('Se ha agregado la patente ' + id_ppu, 'citacion-Mercadolibre')
           alert('El ingreso se ha realizado Correctamente');
         },
 
@@ -517,8 +555,6 @@ export class CitacionesComponent implements OnInit {
         this.Cargado = true;
       },
       (error) => {
-        this.isLoadingFull = false;
-        this.Cargado = true;
         console.error('Error al obtener modalidades de operación', error);
       }
     );
@@ -556,9 +592,6 @@ export class CitacionesComponent implements OnInit {
         this.isLoadingFull = false;
         this.Cargado = true
         
-      }, error => {
-        this.isLoadingFull = false;
-        this.Cargado = true;
       }
     );
 
@@ -584,34 +617,17 @@ export class CitacionesComponent implements OnInit {
   recuperarIdPpu(id: number) {
     this.IdPpuRecuperada = id;
   }
+
+  recuperarOpCopAMB(id: number, cop:number) {
+    this.opRecuperada = id;
+    this.CopRecuperada = cop;
+  }
   
   initializeAmbulanceCode(): void {
     this.Ct.GetAmbulanciaCode().subscribe((data)=> {
       this.ambulanciaCode = data[0].genera_codigo_ambulancia
     })
     
-  }
-  ambulancia() {
-    const fecha = this.formattedDate;
-    const rutaAmbulanceInterna = this.ambulanciaCode;
-    const ppuAmbulance = this.input1;
-    const rutaAmbulance = this.input2;
-    const id_ppu = this.IdPpuRecuperada;
-
-    
-    this.Ct.ingresarAmbulancia(
-      ppuAmbulance,
-      id_ppu,
-      fecha,
-      rutaAmbulance,
-      rutaAmbulanceInterna
-    ).subscribe(
-      (Response) => {
-        this.resetForm();
-      },
-      (error) => {
-      }
-    );
   }
 
   
@@ -665,7 +681,7 @@ export class CitacionesComponent implements OnInit {
   showPosition(position: any): any{
     this.latitude = position.coords.latitude
     this.longitud= position.coords.longitude 
-
+    
     this.latStr = this.latitude.toString()
     this.longStr = this.longitud.toString()
 
@@ -685,4 +701,67 @@ getLocationAsync(): Promise<any> {
   });
 }
 
+ingresarDatosAmbulancia(){
+  const fecha = this.formattedDate
+  const ruta_amb_interna = this.ambulanciaCode
+  const id_ppu = this.idPpuSeleccionado
+  const id_ruta_meli = this.rutaMeliSeleccionada
+  const id_ppu_amb = this.IdPpuRecuperada
+
+    this.Ct.postData(ruta_amb_interna, id_ppu, fecha,id_ppu_amb,id_ruta_meli).subscribe(
+        (responde)=>{
+          alert('se han ingresado correctamente la ambulancia');
+          this.rutaMeliSeleccionada = ''
+        },
+        (error) => {
+            console.error('error al actualizar el estado', error);
+          }
+      )
+  }
+
+ 
+
+getInfoAMB(){
+
+  const fecha = this.formattedDate
+  const id = this.IdPpuRecuperada
+  const op = this.opRecuperada
+  const cop = this.CopRecuperada
+
+  this.Ct.infoAMB(fecha,op,cop,id).subscribe((data)=> {
+    this.infoAmbulancia = data
+  })
+}
+onSelectChange(event: Event) {
+  const selectElement = event.target as HTMLSelectElement;
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+
+   // Capturando el id_ppu seleccionado
+   this.idPpuSeleccionado = selectElement.value;
+ // Intentar obtener el valor de data-id-ruta
+ const rutaMeli = selectedOption ? selectedOption.getAttribute('data-id-ruta') : '';
+
+ // Si rutaMeli es null o una cadena vacía, asignar 'S/I de ruta'
+ this.rutaMeliSeleccionada = rutaMeli ? rutaMeli : 'S/i de ruta';
+}
+
+bitacoraUpdate(modificacion: string, origen: string){
+  const id_user = sessionStorage.getItem('id')?.toString() + '';
+  const ids_user =
+      sessionStorage.getItem('server') +
+      '-' +
+      sessionStorage.getItem('id') +
+      '';
+  const latitud  =  this.latStr 
+  const longitud = this.longStr
+
+  this.Ct.Bitacora(id_user, ids_user,modificacion,latitud,longitud,origen ).subscribe(
+    (responde)=>{
+    },
+    (error) => {
+        console.error('error al actualizar el estado', error);
+      }
+  )
+
+}
 }
