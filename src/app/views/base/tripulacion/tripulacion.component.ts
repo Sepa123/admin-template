@@ -204,7 +204,8 @@ colaboradores : Colaborador [] = []
       this.tripulacion = this.tripulacionFull
     }else{
       this.tripulacion = this.tripulacionFull.filter(t => t.Nombre_completo.toLowerCase().includes(this.nombreColaborador.toLowerCase())
-                                                    || t.Razon_social.toLowerCase().includes(this.nombreColaborador.toLowerCase()))
+                                                    || t.Razon_social.toLowerCase().includes(this.nombreColaborador.toLowerCase())
+                                                    || t.Rut.toLowerCase().includes(this.nombreColaborador.toLowerCase()))
 
     }
     

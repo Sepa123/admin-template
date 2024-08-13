@@ -571,7 +571,7 @@ seleccionarRut(){
           this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
           this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
           this.toggleLiveDemo()
-          this.formVehiculo.patchValue({Desc_desabilitado : ''})
+          // this.formVehiculo.patchValue({Desc_desabilitado : ''})
         })
       }, error => {
         alert(error.error.detail)
