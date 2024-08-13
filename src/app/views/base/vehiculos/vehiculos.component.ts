@@ -64,6 +64,12 @@ export class VehiculosComponent {
   banco : any [] = bancos
   formaPago : any [] = formasPago
 
+  //datos geo
+  latitude!: number
+  longitud! :number
+  latStr!: string
+  longStr!: string
+
 
   /// Modales
 
@@ -89,6 +95,25 @@ export class VehiculosComponent {
     this.isModalOpen = false
   }
 
+
+  getLocation(): any {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.showPosition(position)
+
+      });
+    } else {
+      console.log("Localización no disponible");
+    }
+  }
+  showPosition(position: any): any{
+        this.latitude = position.coords.latitude
+        this.longitud= position.coords.longitude 
+       this.latStr = this.latitude.toString()
+        this.longStr = this.longitud.toString()
+
+    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
+  }
 
   formatearRUT(rut: string | null): string {
     // Separar el número del dígito verificador
@@ -215,11 +240,17 @@ seleccionarRut(){
     Desc_desabilitado :this.builder.control(""),
     Fecha_desinstalacion : this.builder.control(""),
     Oc_desinstalacion : this.builder.control(""),
+    Modificacion: this.builder.control("" ),
+    Latitud: this.builder.control("" ),
+    Longitud: this.builder.control("" ),
+    Origen: this.builder.control("" ),
     // Habilitado : this.builder.control(false ),
   })
 
   cantVehiculo : number = 0
   ngOnInit() : void {
+
+    this.getLocation()
     this.comunaService.getListaRegiones().subscribe((data : any) => {
       this.listaRegiones = data
 
@@ -357,7 +388,13 @@ seleccionarRut(){
     this.isErrorView = false
 
     this.formVehiculo.patchValue({
-      Estado : this.formVehiculo.value.Disponible
+      Estado : this.formVehiculo.value.Disponible,
+      Id_user : sessionStorage.getItem("id")?.toString()+"",
+      Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+      Latitud : this.latStr,
+      Longitud : this.longStr,
+      Modificacion : `Datos de ${this.form.value.Rut} registrado por ${sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""}`,
+      Origen : '/transporte/vehiculos'
     })
 
     if(this.formVehiculo.valid && this.form.value.Rut != 'Seleccione un colaborador'){
@@ -502,6 +539,16 @@ seleccionarRut(){
   actualizarDatosVehiculo(){
 
     this.isErrorView = false
+
+    this.formVehiculo.patchValue({
+      // Estado : this.formVehiculo.value.Disponible,
+      Id_user : sessionStorage.getItem("id")?.toString()+"",
+      Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+      Latitud : this.latStr,
+      Longitud : this.longStr,
+      Modificacion : `Datos de ${this.form.value.Rut} actualizado por ${sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""}`,
+      Origen : '/transporte/vehiculos'
+    })
 
     if(this.formVehiculo.valid){
 

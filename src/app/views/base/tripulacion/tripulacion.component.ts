@@ -65,25 +65,23 @@ colaboradores : Colaborador [] = []
     this.isModalOpen = false
   }
 
-  showPosition(position: any): any{
-    this.latitude = position.coords.latitude
-    this.longitud= position.coords.longitude 
-    this.latStr = this.latitude.toString()
-    this.longStr = this.longitud.toString()
-  }
-
-  getLocationAsync(): Promise<any> {
-  return new Promise((resolve, reject) => {
+  getLocation(): any {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        resolve(position);
-      }, (error) => {
-        reject(error);
+        this.showPosition(position)
+
       });
     } else {
-      reject("Localización no disponible");
+      console.log("Localización no disponible");
     }
-  });
+  }
+  showPosition(position: any): any{
+        this.latitude = position.coords.latitude
+        this.longitud= position.coords.longitude 
+       this.latStr = this.latitude.toString()
+        this.longStr = this.longitud.toString()
+
+    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
   }
 
 
@@ -213,6 +211,9 @@ colaboradores : Colaborador [] = []
   }
 
   ngOnInit() : void {
+
+    this.getLocation()
+
     this.comunaService.getListaRegiones().subscribe((data : any) => {
       this.listaRegiones = data
     })
@@ -441,7 +442,11 @@ colaboradores : Colaborador [] = []
 
     this.form.patchValue({
       Id_user : sessionStorage.getItem("id")?.toString()+"",
-      Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+      Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+      Latitud : this.latStr,
+      Longitud : this.longStr,
+      Modificacion : `Datos de ${this.form.value.Rut} registrado por ${sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""}`,
+      Origen : '/transporte/tripulacion'
     })
 
     this.isErrorView = false

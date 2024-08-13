@@ -67,26 +67,23 @@ export class ColaboradoresComponent {
     this.isModalOpen = false
   }
 
-  showPosition(position: any): any{
-    this.latitude = position.coords.latitude
-    this.longitud= position.coords.longitude 
-   this.latStr = this.latitude.toString()
-    this.longStr = this.longitud.toString()
-
-
-  }
-  getLocationAsync(): Promise<any> {
-  return new Promise((resolve, reject) => {
+  getLocation(): any {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        resolve(position);
-      }, (error) => {
-        reject(error);
+        this.showPosition(position)
+
       });
     } else {
-      reject("Localización no disponible");
+      console.log("Localización no disponible");
     }
-  });
+  }
+  showPosition(position: any): any{
+        this.latitude = position.coords.latitude
+        this.longitud= position.coords.longitude 
+       this.latStr = this.latitude.toString()
+        this.longStr = this.longitud.toString()
+
+    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
   }
 
   /// Modal observación
@@ -263,6 +260,8 @@ export class ColaboradoresComponent {
   
   ngOnInit() : void {
 
+
+    this.getLocation()
     const now = new Date();
 
     const year = now.getFullYear();
@@ -530,7 +529,11 @@ export class ColaboradoresComponent {
 
     this.form.patchValue({
       Id_user : sessionStorage.getItem("id")?.toString()+"",
-      Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
+      Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+      Latitud : this.latStr,
+      Longitud : this.longStr,
+      Modificacion : `Datos de ${this.form.value.Rut} registrado por ${sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""}`,
+      Origen : '/transporte/colaboradores'
     })
 
     this.isErrorView = false
