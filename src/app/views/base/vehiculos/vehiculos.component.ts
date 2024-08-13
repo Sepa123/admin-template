@@ -393,7 +393,7 @@ seleccionarRut(){
       Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
       Latitud : this.latStr,
       Longitud : this.longStr,
-      Modificacion : `Datos de ${this.form.value.Rut} registrado por ${sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""}`,
+      Modificacion : `Datos de ${this.formVehiculo.value.Ppu} registrado por ${sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""}`,
       Origen : '/transporte/vehiculos'
     })
 
@@ -546,7 +546,7 @@ seleccionarRut(){
       Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
       Latitud : this.latStr,
       Longitud : this.longStr,
-      Modificacion : `Datos de ${this.form.value.Rut} actualizado por ${sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""}`,
+      Modificacion : `Datos de ${this.formVehiculo.value.Ppu} actualizado por ${sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""}`,
       Origen : '/transporte/vehiculos'
     })
 
