@@ -9,8 +9,8 @@ import { MainCitacionA } from "../models/meli/citacionActiva.interface"
 })
 export class MeliService {
 
-  private apiurl = 'http://localhost:8000/api/meli';
-  // private apiurl = "https://hela.transyanez.cl/api/meli"
+  // private apiurl = 'http://localhost:8000/api/meli';
+  private apiurl = "https://hela.transyanez.cl/api/meli"
 
   constructor(private http: HttpClient) { }
 

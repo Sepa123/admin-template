@@ -223,12 +223,20 @@
                 <!-- <th >tipo_vehiculo</th> -->
                 <th >valor_ruta</th>
                 <!-- <th >ruta_cerrada</th> -->
-                 <th>total_paradas</th>
-                 <th>paqueteria_colectada</th>
-                 <th>estimados</th>
-                 <th>preparados</th>
-                 <th>% colectas</th>
-                 <th>% no colectadas</th>
+                 <th *ngIf="tipoOperacion == 'FM'">total_paradas</th>
+                 <th *ngIf="tipoOperacion == 'FM'">paqueteria_colectada</th>
+                 <th *ngIf="tipoOperacion == 'FM'">estimados</th>
+                 <th *ngIf="tipoOperacion == 'FM'">preparados</th>
+                 <th *ngIf="tipoOperacion == 'FM'">% colectas</th>
+                 <th *ngIf="tipoOperacion == 'FM'">% no colectadas</th>
+                
+
+                 <th *ngIf="tipoOperacion == 'LM'">fallido</th>
+                 <th *ngIf="tipoOperacion == 'LM'">pendiente</th>
+                 <th *ngIf="tipoOperacion == 'LM'">spr</th>
+                 <th *ngIf="tipoOperacion == 'LM'">entregas</th>
+                 <th *ngIf="tipoOperacion == 'LM'">tiempo ruta</th>
+                 <th *ngIf="tipoOperacion == 'LM'">estado</th>
             </thead>
             <tr *ngFor="let detalle of datosCitacionActiva;let i = index">
                 <!-- <td contenteditable="true" (blur)="updateCell($event, i, 'id_ty')">{{detalle.id_ty}}</td> -->
@@ -262,13 +270,20 @@
                   <svg *ngIf="!detalle.ruta_cerrada" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" ><path  fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
                 </td> -->
                 
-                  <td *ngIf="detalle.operacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'total_paradas')">{{detalle.campos_por_operacion[0].total_paradas}}</td>
-                  <td *ngIf="detalle.operacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'paqueteria_colectada')">{{detalle.campos_por_operacion[0].paqueteria_colectada}}</td>
-                  <td *ngIf="detalle.operacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'estimados')">{{detalle.campos_por_operacion[0].estimados}}</td>
-                  <td *ngIf="detalle.operacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'preparados')">{{detalle.campos_por_operacion[0].preparados}}</td>
-                  <td *ngIf="detalle.operacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'p_colectas_a_tiempo')">{{detalle.campos_por_operacion[0].p_colectas_a_tiempo}}</td>
-                  <td *ngIf="detalle.operacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'p_no_colectadas')">{{detalle.campos_por_operacion[0].p_no_colectadas}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_total_paradas')">{{detalle.campos_por_operacion[0].fm_total_paradas}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_paqueteria_colectada')">{{detalle.campos_por_operacion[0].fm_paqueteria_colectada}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_estimados')">{{detalle.campos_por_operacion[0].fm_estimados}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_preparados')">{{detalle.campos_por_operacion[0].fm_preparados}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_p_colectas_a_tiempo')">{{detalle.campos_por_operacion[0].fm_p_colectas_a_tiempo}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_p_no_colectadas')">{{detalle.campos_por_operacion[0].fm_p_no_colectadas}}</td>
+                  
 
+                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_fallido')">{{detalle.campos_por_operacion[0].lm_fallido}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_pendiente')">{{detalle.campos_por_operacion[0].lm_pendiente}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_spr')">{{detalle.campos_por_operacion[0].lm_spr}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_entregas')">{{detalle.campos_por_operacion[0].lm_entregas}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_tiempo_ruta')">{{detalle.campos_por_operacion[0].lm_tiempo_ruta}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_estado')">{{detalle.campos_por_operacion[0].lm_estado}}</td>
                 <!-- <div *ngIf="detalle.operacion == 'LM'">
                   <td contenteditable="true" (blur)="updateCell($event, i, 'total_paradas')">{{detalle.campos_por_operacion[0].total_paradas}}</td>
                   <td contenteditable="true" (blur)="updateCell($event, i, 'paqueteria_colectada')">{{detalle.campos_por_operacion[0].paqueteria_colectada}}</td>
@@ -280,7 +295,7 @@
                 </div> -->
                 
                 <td>
-                  <button cButton>
+                  <button cButton (click)="CerrarRuta(i)" >
                     cerrar 
                   </button>
                 </td>

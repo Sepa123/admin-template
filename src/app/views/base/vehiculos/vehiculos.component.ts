@@ -822,6 +822,23 @@ estaAsignadoCO(){
   
 }
 
+
+descargarDatosVehiculos(){
+
+  const datos_send = this.vehiculos.map((v) => {
+    return { ...v,
+      Tipo : this.tipoVehiculos.filter(f => f.id == v.Tipo)[0].name,
+      Region : this.listaRegiones.filter(f => f.Id_region == v.Region)[0].Nombre_region,
+      // Comuna : this.listaComunasFull.filter(f => f.Id_comuna == v.Comuna)[0].Nombre_comuna,
+      // Operaciones : v.Operaciones.join(', '),
+      // Centro_operaciones : v.Centro_operaciones.join(', ')
+    }
+  })
+
+  this.service.descargar_vehiculos_buscados_resumen(datos_send)
+
+ }
+
  ngOnDestroy(): void {
 
 

@@ -20,10 +20,20 @@ export interface MainCitacionA {
 }
 
 export interface CamposPorOperacion {
-    total_paradas:        number;
-    paqueteria_colectada: number;
-    estimados:            number;
-    preparados:           number | null;
-    p_colectas_a_tiempo:  number;
-    p_no_colectadas:      number;
+    [key: string]:        string|null|boolean|number;
+    fm_total_paradas:        number;
+    fm_paqueteria_colectada: number;
+    fm_estimados:            number;
+    fm_preparados:           number | null;
+    fm_p_colectas_a_tiempo:  number;
+    fm_p_no_colectadas:      number;
+
+    lm_fallido:              number;
+    lm_pendiente:            number;
+    lm_spr:                  number;
+    lm_entregas:             number;
+    lm_tiempo_ruta:          string;
+    lm_estado:               string;
+
+
 }

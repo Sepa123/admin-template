@@ -247,6 +247,17 @@ export class PortalTransyanezService {
         window.URL.revokeObjectURL(url);
     })
   }
+
+  descargar_vehiculos_buscados_resumen(body : any) {
+    this.http.post(this.apiurl + "/vehiculos/descargar/resumen", body, {responseType:"blob"}).subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`vehiculos.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
  
 
   getMotivosDesvinculacion(){

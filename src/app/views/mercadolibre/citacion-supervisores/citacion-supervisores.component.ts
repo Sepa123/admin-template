@@ -30,6 +30,8 @@ export class CitacionSupervisoresComponent {
   operacion : string = ''
   centroOperacion : string = ''
 
+  tipoOperacion : string = ''
+
   toggleLiveDemo() {
     this.visible = !this.visible;
   }
@@ -108,14 +110,24 @@ export class CitacionSupervisoresComponent {
     })
   }
 
+  idOperacion : number = 0
+  idCentroOperacion : number = 0
   verDetalle(detalle : Detalle [],op : string, cop : string, id_op:number,id_cop : number){
     this.datosCitacionActiva = []
     this.operacion = op
     this.centroOperacion = cop
     this.detalleCitacion = detalle
 
+    this.idCentroOperacion = id_cop
+    this.idOperacion = id_op
+
     this.service.getDatosCitacionActiva(id_op,id_cop,'20240802').subscribe((data) => {
       this.datosCitacionActiva = data
+
+      const operacion = this.datosCitacionActiva[0].operacion
+
+      this.tipoOperacion = operacion
+
     },
     error =>{
       
@@ -302,13 +314,34 @@ idsUsuario = sessionStorage.getItem('server')+'-'+this.idUsuario
 
 guardarDatos() {
 
+  this.datosCitacionActiva.map((data)=>{
+    data['fm_total_paradas'] = data.campos_por_operacion[0].fm_total_paradas    
+    data['fm_estimados'] = data.campos_por_operacion[0].fm_estimados 
+    data['fm_preparados'] = data.campos_por_operacion[0].fm_preparados 
+    data['fm_p_colectas_a_tiempo'] = data.campos_por_operacion[0].fm_p_colectas_a_tiempo 
+    data['fm_p_no_colectadas'] = data.campos_por_operacion[0].fm_p_no_colectadas 
+    data['fm_paqueteria_colectada'] = data.campos_por_operacion[0].fm_paqueteria_colectada 
+    data['lm_fallido'] = data.campos_por_operacion[0].lm_fallido 
+    data['lm_pendiente'] = data.campos_por_operacion[0].lm_pendiente 
+    data['lm_spr'] = data.campos_por_operacion[0].lm_spr 
+    data['lm_entregas'] = data.campos_por_operacion[0].lm_entregas 
+    data['lm_tiempo_ruta'] = data.campos_por_operacion[0].lm_tiempo_ruta 
+    data['lm_estado'] = data.campos_por_operacion[0].lm_estado 
+
+  }
+  )
+
+  // this.idCentroOperacion = id_cop
+  // this.idOperacion = id_op
+
   const body = {
     id_usuario : sessionStorage.getItem('id')+"",
     ids_usuario : sessionStorage.getItem('server')+'-'+this.idUsuario,
     latitud: this.latStr ,
     longitud:  this.longStr,
     operacion: this.operacion,
-    id_operacion: 1,
+    id_operacion: this.idOperacion,
+    id_centro_operacion : this.idCentroOperacion ,
     datos :  this.datosCitacionActiva
   }
   const jsonDatos = JSON.stringify(this.datosCitacionActiva);
@@ -317,18 +350,39 @@ guardarDatos() {
     console.log(data)
     // console.log(body);
   alert('Datos guardados con éxito (simulado)');
-  }))
+  }), (error) => {
+    const listaCampos = error.error.detail.map((data : any) => {
+      return data.loc[3]
+    })
+
+    let lista = [...new Set(listaCampos)];
+
+    const message: string = `Estos campos contienen información incorrecta: ${lista.join(', ')}`;
+
+    alert(message)
+    
+  }
+)
   
 }
 
 updateCell(event: any, index: number, field: string) {
   const value = event.target.innerText;
   if(field )
+  this.datosCitacionActiva[index].campos_por_operacion[0][field] = value+'';
   this.datosCitacionActiva[index][field] = value+'';
+}
 
-  console.log(this.datosCitacionActiva)
+CerrarRuta( index: number) {
 
-  console.log(this.datosCitacionActiva)
+  if(this.datosCitacionActiva[index]['ruta_cerrada'] == null){
+    this.datosCitacionActiva[index]['ruta_cerrada'] = true ;
+  } else {
+    this.datosCitacionActiva[index]['ruta_cerrada'] = !this.datosCitacionActiva[index]['ruta_cerrada'] ;
+  }
+
+  // this.datosCitacionActiva[index]['ruta_cerrada'] = true ;
+
 }
 
 

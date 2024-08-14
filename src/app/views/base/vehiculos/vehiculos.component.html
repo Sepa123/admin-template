@@ -829,6 +829,8 @@
         </tbody>
         </table>
       </div>
+      <p></p>
+      <button class="btn btn-success" (click)="descargarDatosVehiculos()">Descargar</button>
 
 
       <c-modal id="liveCOModal" [visible]="visibleCO" (visibleChange)="handleLiveCOChange($event)" size="lg">
@@ -838,7 +840,7 @@
         </c-modal-header>
         <c-modal-body>
               <p></p>
-              <c-row *ngIf="rol_no_permitido.includes(rol+'') == false">
+              <c-row *ngIf="['72','50'].includes(rol+'') == false">
                 <c-col >
                   <select id="Region" cSelect  class="form-control" [(ngModel)]="idOperacion" (change)="buscarPorModalidadOperacion()">
                     <option [value]="0" selected>Seleccione una operación</option>
