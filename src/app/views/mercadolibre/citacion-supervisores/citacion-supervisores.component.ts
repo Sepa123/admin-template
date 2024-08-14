@@ -5,6 +5,8 @@ import { MainCitacionS,Detalle } from "src/app/models/meli/citacionSupervisor.in
 import {CitacionesService} from '../../../service/citaciones.service'
 import { MeliService } from 'src/app/service/meli.service'
 import { MainCitacionA,CamposPorOperacion } from "src/app/models/meli/citacionActiva.interface"
+import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-citacion-supervisores',
@@ -23,6 +25,8 @@ export class CitacionSupervisoresComponent {
   detalleCitacion : Detalle [] = []
 
   public visible = false;
+  public chartVisible = false
+  public graficoVisible = false
   operacion : string = ''
   centroOperacion : string = ''
 
@@ -64,6 +68,8 @@ export class CitacionSupervisoresComponent {
   onDateChange(event: any) {
     const rawDate = event.target.value;
     if (rawDate) {
+      this.chartVisible = false
+      this.graficoVisible = false
       const [year, month, day] = rawDate.split('-');
 
       const fecha = `${year}-${month}-${day}`;
@@ -71,6 +77,10 @@ export class CitacionSupervisoresComponent {
 
       this.service.getDatosCitacionSupervisor('158',fecha).subscribe((data) => {
         this.citacionSupervisores = data
+        
+        console.log(this.citacionSupervisores[0].Id_operacion)
+        this.chartVisible = true
+        this.graficoVisible = true
         
       }, error => {
         this.citacionSupervisores = []
@@ -81,26 +91,34 @@ export class CitacionSupervisoresComponent {
   }
   
   ngOnInit() {
+    this.getLocation()
     
     this.obtenerFechas()
 
-    this.service.getEstadoList().subscribe((data) => {
-      this.estadosCitacion = data
-    })
+    // this.service.getEstadoList().subscribe((data) => {
+    //   this.estadosCitacion = data
+    // })
     
     this.service.getDatosCitacionSupervisor('158','20240802').subscribe((data) => {
       this.citacionSupervisores = data
+      console.log(this.citacionSupervisores[0].chart_data)
+      this.chartVisible = true
+      this.graficoVisible = true
       
     })
   }
 
   verDetalle(detalle : Detalle [],op : string, cop : string, id_op:number,id_cop : number){
+    this.datosCitacionActiva = []
     this.operacion = op
     this.centroOperacion = cop
     this.detalleCitacion = detalle
 
     this.service.getDatosCitacionActiva(id_op,id_cop,'20240802').subscribe((data) => {
       this.datosCitacionActiva = data
+    },
+    error =>{
+      
     })
     this.toggleLiveDemo()
   }
@@ -179,6 +197,68 @@ export class CitacionSupervisoresComponent {
   }
 
 
+
+
+//////////////////// grafico 
+
+@ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+
+
+  public pieChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'right',
+      // },
+      // datalabels: {
+      //   formatter: (value: any, ctx: any) => {
+      //     if (ctx.chart.data.labels) {
+      //       return ctx.chart.data.labels[ctx.dataIndex];
+      //     }
+      //   },
+      },
+    },
+  };
+
+  public pieChartData: ChartData<'pie', number[], string | string[]> = {
+    
+    labels: ["nada"],
+    datasets: [
+      {
+        data: [1],
+      },
+    ],
+  };
+
+  public pieChartType: ChartType = 'pie';
+
+  
+
+  options = {
+    plugins : {
+      legend: {
+        display: true,
+        // position : 'right'
+      },
+    },
+  }
+
+  data = {
+    labels: [
+      'Red',
+      'Blue',
+      'Yellow'
+    ],
+    datasets: [{
+      label: 'My First Dataset',
+      data: [300, 50, 100],
+      backgroundColor: ['#FF6384', '#4BC0C0', '#FFCE56', '#E7E9ED', '#36A2EB'],
+      hoverOffset: 4
+    }],
+  };
+
+
 ///// tabla editada
 
 inputText: string = '';
@@ -221,17 +301,34 @@ idsUsuario = sessionStorage.getItem('server')+'-'+this.idUsuario
 // }
 
 guardarDatos() {
+
+  const body = {
+    id_usuario : sessionStorage.getItem('id')+"",
+    ids_usuario : sessionStorage.getItem('server')+'-'+this.idUsuario,
+    latitud: this.latStr ,
+    longitud:  this.longStr,
+    operacion: this.operacion,
+    id_operacion: 1,
+    datos :  this.datosCitacionActiva
+  }
   const jsonDatos = JSON.stringify(this.datosCitacionActiva);
-  console.log(jsonDatos);
+
+  this.service.guardarDatosCitacionSupervisores(body).subscribe((data => {
+    console.log(data)
+    // console.log(body);
   alert('Datos guardados con éxito (simulado)');
+  }))
+  
 }
 
 updateCell(event: any, index: number, field: string) {
   const value = event.target.innerText;
   if(field )
-  this.detalleCitacion[index][field] = value+'';
+  this.datosCitacionActiva[index][field] = value+'';
 
-  console.log(this.citacionSupervisores)
+  console.log(this.datosCitacionActiva)
+
+  console.log(this.datosCitacionActiva)
 }
 
 

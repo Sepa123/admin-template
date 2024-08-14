@@ -1,3 +1,16 @@
+import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+
+export interface DataChart {
+    labels:   string[];
+    datasets: Dataset[];
+}
+
+export interface Dataset {
+    data:            number[];
+    backgroundColor: string[];
+    hoverOffset:     number;
+}
+
 export interface MainCitacionS {
     Id_operacion: number;
     Nombre:       string;
@@ -5,6 +18,7 @@ export interface MainCitacionS {
     Centro:       string;
     Region:       string;
     Detalles:     Detalle[];
+    chart_data:   DataChart ;
 }
 
 export interface Detalle {

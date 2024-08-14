@@ -34,7 +34,7 @@ import { SeguimientoDiarioComponent } from './seguimiento-diario/seguimiento-dia
 import { PrefacturaDiariaComponent } from './prefactura-diaria/prefactura-diaria.component';
 import { CitacionesActivasComponent } from './citaciones-activas/citaciones-activas.component';
 import { CitacionSupervisoresComponent } from './citacion-supervisores/citacion-supervisores.component';
-
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -75,7 +75,8 @@ import { CitacionSupervisoresComponent } from './citacion-supervisores/citacion-
     NavModule,
     ModalModule,
     TableModule,
-    CollapseModule
+    CollapseModule,
+    NgChartsModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

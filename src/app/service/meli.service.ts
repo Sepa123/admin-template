@@ -9,8 +9,8 @@ import { MainCitacionA } from "../models/meli/citacionActiva.interface"
 })
 export class MeliService {
 
-  // private apiurl = 'http://localhost:8000/api/meli';
-  private apiurl = "https://hela.transyanez.cl/api/meli"
+  private apiurl = 'http://localhost:8000/api/meli';
+  // private apiurl = "https://hela.transyanez.cl/api/meli"
 
   constructor(private http: HttpClient) { }
 
@@ -58,6 +58,10 @@ export class MeliService {
 
   getDatosCitacionActiva(op: number,cop : number, fecha : string){
     return this.http.get<MainCitacionA []>(this.apiurl+`/citacion_activa?op=${op}&cop=${cop}&fecha=${fecha}` )
+  }
+
+  guardarDatosCitacionSupervisores(formData : any){
+    return this.http.post(this.apiurl+`/citacion_supervisores/guardar`, formData)
   }
 
 }

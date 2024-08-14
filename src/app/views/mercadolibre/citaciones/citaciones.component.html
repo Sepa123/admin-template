@@ -168,14 +168,19 @@
             <label for="conductores"> Choferes</label>
             <select class="form-control" id="conductores2"[(ngModel)]="conductores2">
                 <option value="" disabled selected>Seleccione una opción</option>
-                <option *ngFor="let con of conductores" [value]="con.id">{{con.nombre_completo}}</option>
+                <ng-container *ngFor="let pu of patentesList">
+                <option  [value]="pu.id_driver" *ngIf="pu.nombre_driver">{{pu.nombre_driver}}</option>
+                </ng-container>
             </select>
         </div>
         <div class="select-peoneta-container">
             <Label>Peonetas</Label>
             <select class="form-control" id="peonetas2" [(ngModel)]="peonetas2">
                 <option value="" disabled selected>Seleccione una opción</option>
-                <option *ngFor="let peo of peonetas" [value]="peo.id">{{peo.nombre_completo}}</option>
+                <ng-container *ngFor="let pu of patentesList" >
+                    <option [value]="pu.id_peoneta" *ngIf="pu.nombre_peoneta">{{pu.nombre_peoneta}}</option>
+                </ng-container>
+                
             </select>
         </div>
         
@@ -242,7 +247,7 @@
                                     <li class="nav-item">
                                         <svg  xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
                                             viewBox="0 0 24 24" (click)="recuperarIdPpu(pu.id_ppu)"
-                                            (click)="getLocation()">
+                                            (click)="getLocation()" (click)="toggleLiveTP()" (click)="toggleLive3()">
                                             <g fill="none">
                                                 <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-linecap="round" />
                                                 <path stroke="currentColor" d="M11.768 8.5a2 2 0 1 1 3.464 2a2 2 0 0 1-3.464-2z" />
