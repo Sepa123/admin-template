@@ -264,4 +264,9 @@ export class PortalTransyanezService {
     return this.http.get(this.apiurl+"/colaborador/desvinculacion")
   }
 
+
+  getMarcasVehiculos(){
+    return this.http.get(this.apiurl+"/marcas/vehiculos")
+  }
+
 }

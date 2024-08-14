@@ -244,8 +244,13 @@ export class UsuariosComponent {
 
     this.service.obtenerColaboradores().subscribe((data) => {
       this.colaboradores = data
-      this.service.getEstadoTransporte().subscribe((data : any) => {
-        this.estadoTransporte = data
+
+      this.service.getMarcasVehiculos().subscribe((data : any) => {
+        this.marcaVehiculo = data
+      
+        this.service.getEstadoTransporte().subscribe((data : any) => {
+          this.estadoTransporte = data
+         })
       })
     })
 

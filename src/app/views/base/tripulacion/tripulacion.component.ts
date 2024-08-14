@@ -237,8 +237,14 @@ colaboradores : Colaborador [] = []
           Tipo_usuario : '1',
         })
 
-        this.service.obtenerColaboradores().subscribe((data) => {
-          this.colaboradores = data
+        this.service.getMarcasVehiculos().subscribe((data : any) => {
+          this.marcaVehiculo = data
+        
+          this.service.obtenerColaboradores().subscribe((data) => {
+            this.colaboradores = data
+
+          })
+
         })
       })
     })

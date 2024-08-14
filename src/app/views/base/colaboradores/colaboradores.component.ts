@@ -271,7 +271,11 @@ export class ColaboradoresComponent {
     const formattedDate = `${year}-${month}-${day}`;
     this.currentDate = formattedDate
     this.fechaDesvinculacion = formattedDate
-    
+
+
+    this.service.getMarcasVehiculos().subscribe((data : any) => {
+      this.marcaVehiculo = data
+    })
     this.comunaService.getListaRegiones().subscribe((data : any) => {
       this.listaRegiones = data
     })

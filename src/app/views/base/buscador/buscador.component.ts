@@ -233,7 +233,9 @@ seleccionarRut(){
     this.comunaService.getListaRegiones().subscribe((data : any) => {
       this.listaRegiones = data
 
-      
+      this.service.getMarcasVehiculos().subscribe((data : any) => {
+        this.marcaVehiculo = data
+      })
     })
 
     this.MoService.getRazonesSocial().subscribe((data) => {
