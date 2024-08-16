@@ -11,7 +11,7 @@ import { BaseChartDirective } from 'ng2-charts';
 @Component({
   selector: 'app-citacion-supervisores',
   templateUrl: './citacion-supervisores.component.html',
-  styleUrls: ['./citacion-supervisores.component.scss']
+  styleUrls: ['../styles/citacion1.component.scss','../styles/citacion2.component.scss']
 })
 export class CitacionSupervisoresComponent {
   

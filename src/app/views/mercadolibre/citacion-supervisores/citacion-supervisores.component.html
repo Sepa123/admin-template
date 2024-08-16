@@ -209,55 +209,85 @@
               <thead >
                 <!-- <th >id_ty</th> -->
                 <!-- <th >Operación</th> -->
-                <th >estado</th>
+                <th >Estado</th>
                 <!-- <th >estado_correcto</th> -->
-                <th >ruta</th>
+                <th >Ruta</th>
                 <!-- <th >id_ppu</th>
                 <th >razon_id</th> -->
-                <th >ppu</th>
+                <th >PPU</th>
                 <!-- <th >patente igual</th> -->
-                <th >driver</th>
+                <th >Driver</th>
                 <!-- <th >driver_ok</th> -->
                 <!-- <th >p_avance</th>
                 <th >avance</th> -->
                 <!-- <th >tipo_vehiculo</th> -->
-                <th >valor_ruta</th>
+                <th >Valor ruta</th>
                 <!-- <th >ruta_cerrada</th> -->
-                 <th *ngIf="tipoOperacion == 'FM'">total_paradas</th>
-                 <th *ngIf="tipoOperacion == 'FM'">paqueteria_colectada</th>
-                 <th *ngIf="tipoOperacion == 'FM'">estimados</th>
-                 <th *ngIf="tipoOperacion == 'FM'">preparados</th>
-                 <th *ngIf="tipoOperacion == 'FM'">% colectas</th>
-                 <th *ngIf="tipoOperacion == 'FM'">% no colectadas</th>
+                 <th *ngIf="tipoOperacion == 'FM'">Total paradas</th>
+                 <th *ngIf="tipoOperacion == 'FM'">Paq. colectada</th>
+                 <th *ngIf="tipoOperacion == 'FM'">Estimados</th>
+                 <th *ngIf="tipoOperacion == 'FM'">Preparados</th>
+                 <th *ngIf="tipoOperacion == 'FM'">% Colectas</th>
+                 <th *ngIf="tipoOperacion == 'FM'">% No colectadas</th>
                 
 
-                 <th *ngIf="tipoOperacion == 'LM'">fallido</th>
-                 <th *ngIf="tipoOperacion == 'LM'">pendiente</th>
-                 <th *ngIf="tipoOperacion == 'LM'">spr</th>
-                 <th *ngIf="tipoOperacion == 'LM'">entregas</th>
-                 <th *ngIf="tipoOperacion == 'LM'">tiempo ruta</th>
-                 <th *ngIf="tipoOperacion == 'LM'">estado</th>
+                 <th *ngIf="tipoOperacion == 'LM'">Fallido</th>
+                 <th *ngIf="tipoOperacion == 'LM'">Pendiente</th>
+                 <th *ngIf="tipoOperacion == 'LM'">Spr</th>
+                 <th *ngIf="tipoOperacion == 'LM'">Entregas</th>
+                 <th *ngIf="tipoOperacion == 'LM'">Tiempo ruta</th>
+                 <th *ngIf="tipoOperacion == 'LM'">Estado</th>
             </thead>
             <tr *ngFor="let detalle of datosCitacionActiva;let i = index">
                 <!-- <td contenteditable="true" (blur)="updateCell($event, i, 'id_ty')">{{detalle.id_ty}}</td> -->
                 <!-- <td contenteditable="false" >{{detalle.operacion}}</td> -->
-                <td contenteditable="true" (blur)="updateCell($event, i, 'estado')"> 
-                  <svg *ngIf="detalle.estado" xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" ><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-                   <svg *ngIf="!detalle.estado" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" ><path  fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                <td contenteditable="false" (blur)="updateCell($event, i, 'estado')"> 
+                  <!-- <svg *ngIf="detalle.estado" xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" ><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                   <svg *ngIf="!detalle.estado" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" ><path  fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg> -->
+
+                   <svg *ngIf="detalle.estado" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 1536 1536" title="Este es un mensaje emergente">
+                    <path fill="Green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                  </svg>
+
+                  <svg *ngIf="!detalle.estado" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 1536 1536" title="Este es un mensaje emergente">
+                    <path fill="Red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                  </svg>
 
                 </td>
                 <!-- <td contenteditable="true" (blur)="updateCell($event, i, 'estado_correcto')">{{detalle.estado_correcto}}</td> -->
-                <td contenteditable="true" (blur)="updateCell($event, i, 'ruta_meli')">{{detalle.ruta_meli}}</td>
+                <td contenteditable="false" (blur)="updateCell($event, i, 'ruta_meli')">{{detalle.ruta_meli}}</td>
                 <!-- <td contenteditable="true" (blur)="updateCell($event, i, 'id_ppu')">{{detalle.id_ppu}}</td>
                 <td contenteditable="true" (blur)="updateCell($event, i, 'razon_id')"> {{detalle.razon_id}}</td> -->
-                <td contenteditable="false" > {{detalle.ppu}}
-                  <svg *ngIf="detalle.patente_igual" xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" ><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-                   <svg *ngIf="!detalle.patente_igual" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" ><path  fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                <td contenteditable="false" ><span title="Patente " *ngIf="detalle.patente_igual">{{detalle.ppu}} 
+                  <svg  title="Este es un mensaje emergente" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 1536 1536">
+                    <path fill="Green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                  </svg>
+                </span> 
+
+                <span title="Patente "  *ngIf="!detalle.patente_igual" > {{detalle.ppu}} 
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 1536 1536">
+                    <path fill="Red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                  </svg>
+                </span>
+
+                  
+
+                  
+
+                  <!-- <svg *ngIf="detalle.patente_igual" xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" ><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                   <svg *ngIf="!detalle.patente_igual" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" ><path  fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg> -->
 
                 </td>
                 <td contenteditable="false" (blur)="updateCell($event, i, 'driver')">{{detalle.driver}}
-                  <svg *ngIf="detalle.driver_ok" xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" ><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-                   <svg *ngIf="!detalle.driver_ok" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" ><path  fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+
+                  <svg *ngIf="detalle.driver_ok" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 1536 1536">
+                    <path fill="Green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                  </svg>
+                  <svg *ngIf="!detalle.driver_ok" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 1536 1536">
+                    <path fill="Red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                  </svg>
+                  <!-- <svg *ngIf="detalle.driver_ok" xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" ><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                   <svg *ngIf="!detalle.driver_ok" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" ><path  fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg> -->
 
                 </td>
 
@@ -295,9 +325,9 @@
                 </div> -->
                 
                 <td>
-                  <button cButton (click)="CerrarRuta(i)" >
+                  <!-- <button cButton (click)="CerrarRuta(i)" >
                     cerrar 
-                  </button>
+                  </button> -->
                 </td>
                 <!-- <td >
                     <c-progress>
@@ -309,9 +339,12 @@
                 </td> -->
             </tr>
         </table>
+        <p></p>
 
+        <button (click)="guardarDatos()" cButton color="success">guardar
+          <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
 
-        <button (click)="guardarDatos()">guardar</button>
+        </button>
 
 
       </c-modal-body>
