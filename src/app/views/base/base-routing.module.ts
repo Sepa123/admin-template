@@ -7,6 +7,7 @@ import { TestComponent } from './test/test.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { TripulacionComponent } from './tripulacion/tripulacion.component';
 import { BuscadorComponent } from './buscador/buscador.component';
+import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
 const routes: Routes = [
   {
     path: '',
@@ -67,7 +68,14 @@ const routes: Routes = [
         data: {
           title: 'rest',
         },
-      },      
+      },    
+      {
+        path: 'gestion-gps',
+        component: GestionGpsComponent,
+        data: {
+          title: 'rest',
+        },
+      },  
     ],
   },
 ];

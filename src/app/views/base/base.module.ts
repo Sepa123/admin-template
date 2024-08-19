@@ -39,6 +39,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { TripulacionComponent } from './tripulacion/tripulacion.component';
 import { BuscadorComponent } from './buscador/buscador.component';
+import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
+
 @NgModule({
   imports: [
     FormsModule, ReactiveFormsModule,
@@ -71,7 +73,8 @@ import { BuscadorComponent } from './buscador/buscador.component';
     VehiculosComponent,
     UsuariosComponent,
     TripulacionComponent,
-    BuscadorComponent
+    BuscadorComponent,
+    GestionGpsComponent
   ],
 })
 export class BaseModule {}

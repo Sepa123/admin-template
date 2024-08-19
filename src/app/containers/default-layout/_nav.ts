@@ -112,7 +112,39 @@ export const navItems: INavDataBar[] = [
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
-    roles : [ROLES_ENUM.ADMIN,ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA,ROLES_ENUM.JEFE_SEGURIDAD],
+    roles : [ROLES_ENUM.ADMIN],
+    children: [
+      // {
+      //   name: 'Reportes',
+      //   url : '/transporte/reportes'
+      // },
+      {
+        name: 'Razón Social',
+        url : '/transporte/colaboradores'
+      },
+      {
+        name: 'Vehículos ',
+        url : '/transporte/vehiculos'
+      },
+      {
+        name: 'Tripulación',
+        url : '/transporte/tripulacion'
+      },
+      {
+        name: 'Reporte',
+        url : '/transporte/buscador'
+      },
+      {
+        name:'Gestión Gps',
+        url: '/transporte/gestion-gps'
+      }
+    ]
+  },
+  {
+    name: 'Transporte',
+    url: '/transporte',
+    iconComponent: { name: 'cil-car-alt' },
+    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA,ROLES_ENUM.JEFE_SEGURIDAD],
     children: [
       // {
       //   name: 'Reportes',
