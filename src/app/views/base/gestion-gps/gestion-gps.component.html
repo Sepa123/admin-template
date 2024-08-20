@@ -8,7 +8,7 @@
 <body class="greenTable">
     <table id="tablaProductosPicking" #tablaProductosPicking style="height: 100vh;">
         <thead>
-            <tr>
+            <!-- <tr> -->
                 <th>
                     Patente
                     <input type="text" #filtroPpu (input)="filtrarTabla()" placeholder="🔍">
@@ -26,8 +26,8 @@
                 <th>Monto</th>
                 <th>Descontado</th>
                 <th>Devuelto</th>
-                <th>Acción</th>
-            </tr>
+                <th *ngIf="rol == '70' || rol == '71'" class="icons">Acción</th>
+            <!-- </tr> -->
         </thead>
         <tbody>
             <tr *ngFor="let ti of tableInfo">
@@ -47,29 +47,31 @@
                     {{ ti.fec_baja ? ti.fec_baja : 'S/I' }}
                 </td>
                 <td>
-                    <input *ngIf="rol != '70' && rol != '71'" type="text" [(ngModel)]="id_oc_baja[ti.id_gps]">
-                    <span *ngIf="rol == '70' || rol == '71'">
-                        {{ id_oc_baja[ti.id_gps]}}
-                      </span>
+
+                    <!-- <input type="text" [(ngModel)]="id_oc_baja[ti.id_gps]"> -->
+                    <input *ngIf="rol != '70'&& rol != '71'" type="text" [(ngModel)]="id_oc_baja[ti.id_gps]">
+                    <span *ngIf="rol === '70' || rol === '71'">{{ id_oc_baja[ti.id_gps] }}</span>
                 </td>
                 <td>
-                    <input *ngIf="rol != '70' && rol != '71'" type="text"  [(ngModel)]="id_monto[ti.id_gps]">
-                    <span *ngIf="rol == '70' || rol == '71'">
-                        {{ id_monto[ti.id_gps]}}
-                      </span>
+                    <!-- <input type="text"  [(ngModel)]="id_monto[ti.id_gps]"> -->
+                    <input *ngIf="rol != '70'&& rol != '71'" type="text"  [(ngModel)]="id_monto[ti.id_gps]">
+                    <span *ngIf="rol === '70' || rol === '71'">{{ id_monto[ti.id_gps] }}</span>
                 </td>
                 <td>
-                    <input *ngIf="rol != '70' && rol != '71'" type="checkbox" class="checkbox" (change)="descontado(ti.id_gps)" [(ngModel)]="id_descontado[ti.id_gps]">
+                    <!-- <input type="checkbox" class="checkbox" (change)="descontado(ti.id_gps)" [(ngModel)]="id_descontado[ti.id_gps]"> -->
+                    <input  *ngIf="rol != '70'&& rol != '71'" type="checkbox" class="checkbox" (change)="descontado(ti.id_gps)" [(ngModel)]="id_descontado[ti.id_gps]">
                     <span *ngIf="rol == '70' || rol == '71'">
                         {{ id_descontado[ti.id_gps] ? '✓' : '✗' }}
-                    </span>
+                      </span>
                 </td>
                 <td>
-                    <input *ngIf="rol != '70' && rol != '71'" type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)" [(ngModel)]="id_devuelto[ti.id_gps]">
+                    <!-- <input type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)" [(ngModel)]="id_devuelto[ti.id_gps]"> -->
+                    <input *ngIf="rol != '70'&& rol != '71'" type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)" [(ngModel)]="id_devuelto[ti.id_gps]">
                     <span *ngIf="rol == '70' || rol == '71'">
                         {{ id_devuelto[ti.id_gps] ? '✓' : '✗' }}
-                    </span>
+                      </span>
                 </td>
+
                 <td >
                     <nav  class="icons">
                         <ul  class="nav-list">
