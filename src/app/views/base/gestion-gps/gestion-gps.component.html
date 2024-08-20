@@ -39,22 +39,36 @@
                 <td>
                     <!-- <input type="text" [(ngModel)]="id_insta[ti.id_gps]"> -->
                     <input *ngIf="rol != '70'&& rol != '71'" type="text" [(ngModel)]="id_insta[ti.id_gps]">
-                    <span *ngIf="rol === '70' || rol === '71'">{{ id_insta[ti.id_gps] }}</span>
+                    <span *ngIf="rol === '70' || rol === '71'">
+                        {{ id_insta[ti.id_gps] }}
+                    </span>
                 </td>
                 <td>
                     {{ ti.fec_baja ? ti.fec_baja : 'S/I' }}
                 </td>
                 <td>
-                    <input type="text" [(ngModel)]="id_oc_baja[ti.id_gps]">
+                    <input *ngIf="rol != '70' && rol != '71'" type="text" [(ngModel)]="id_oc_baja[ti.id_gps]">
+                    <span *ngIf="rol == '70' || rol == '71'">
+                        {{ id_oc_baja[ti.id_gps]}}
+                      </span>
                 </td>
                 <td>
-                    <input type="text"  [(ngModel)]="id_monto[ti.id_gps]">
+                    <input *ngIf="rol != '70' && rol != '71'" type="text"  [(ngModel)]="id_monto[ti.id_gps]">
+                    <span *ngIf="rol == '70' || rol == '71'">
+                        {{ id_monto[ti.id_gps]}}
+                      </span>
                 </td>
                 <td>
-                    <input type="checkbox" class="checkbox" (change)="descontado(ti.id_gps)" [(ngModel)]="id_descontado[ti.id_gps]">
+                    <input *ngIf="rol != '70' && rol != '71'" type="checkbox" class="checkbox" (change)="descontado(ti.id_gps)" [(ngModel)]="id_descontado[ti.id_gps]">
+                    <span *ngIf="rol == '70' || rol == '71'">
+                        {{ id_descontado[ti.id_gps] ? '✓' : '✗' }}
+                    </span>
                 </td>
                 <td>
-                    <input type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)" [(ngModel)]="id_devuelto[ti.id_gps]">
+                    <input *ngIf="rol != '70' && rol != '71'" type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)" [(ngModel)]="id_devuelto[ti.id_gps]">
+                    <span *ngIf="rol == '70' || rol == '71'">
+                        {{ id_devuelto[ti.id_gps] ? '✓' : '✗' }}
+                    </span>
                 </td>
                 <td>
                     <nav class="icons">
