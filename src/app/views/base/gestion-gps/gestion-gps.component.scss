@@ -34,19 +34,12 @@ h3 {
   }
   
   .greenTable table tbody td, .greenTable table tbody th {
+    
     vertical-align: top;
     font-size: 12px;
   }
-  .greenTable table tbody{
-    display: block;
-    height: 100%; /* Ensures the tbody takes up the full height */
-  }
-  .greenTable table tbody tr,
-  .greenTable table thead tr{
-    display: table; /* Ensures each row behaves like a table row */
-    width: 100%;
-    table-layout: fixed;
-  }
+  
+  
   .greenTable th.sortable:hover {
     background-color: #1ece27;
     cursor: pointer;

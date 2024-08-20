@@ -26,7 +26,7 @@
                 <th>Monto</th>
                 <th>Descontado</th>
                 <th>Devuelto</th>
-                <th *ngIf="rol == '70' || rol == '71'" class="icons">Acción</th>
+                <th>Acción</th>
             <!-- </tr> -->
         </thead>
         <tbody>
@@ -75,8 +75,9 @@
                 <td >
                     <nav  class="icons">
                         <ul  class="nav-list">
+
                             <li>
-                                <svg *ngIf="rol != '70'&& rol != '71'"  (click)="oc_instalacion(ti.id_gps)"  (click)="oc_baja(ti.id_gps)" (click)="monto(ti.id_gps)" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 7v12q0 .825-.587 1.413T19 21H5q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h12zm-9 11q1.25 0 2.125-.875T15 15t-.875-2.125T12 12t-2.125.875T9 15t.875 2.125T12 18m-6-8h9V6H6z"/></svg>
+                                <svg *ngIf="rol != '70' && rol != '71'"  (click)="oc_instalacion(ti.id_gps)"  (click)="oc_baja(ti.id_gps)" (click)="monto(ti.id_gps)" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 7v12q0 .825-.587 1.413T19 21H5q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h12zm-9 11q1.25 0 2.125-.875T15 15t-.875-2.125T12 12t-2.125.875T9 15t.875 2.125T12 18m-6-8h9V6H6z"/></svg>
                             </li>
                             <li class="nav-item">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10c0-3.771 0-5.657 1.172-6.828S7.229 2 11 2h2c3.771 0 5.657 0 6.828 1.172S21 6.229 21 10v4c0 3.771 0 5.657-1.172 6.828S16.771 22 13 22h-2c-3.771 0-5.657 0-6.828-1.172S3 17.771 3 14z"/><path stroke-linecap="round" d="M8 10h8m-8 4h5"/></g></svg>
