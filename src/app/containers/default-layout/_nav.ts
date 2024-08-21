@@ -166,6 +166,10 @@ export const navItems: INavDataBar[] = [
         name: 'Reporte',
         url : '/transporte/buscador'
       },
+      {
+        name:'Gestión Gps',
+        url: '/transporte/gestion-gps'
+      }
     ]
   },
   {
