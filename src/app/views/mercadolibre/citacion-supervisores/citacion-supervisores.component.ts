@@ -46,6 +46,9 @@ export class CitacionSupervisoresComponent {
 
   estadosCitacion : any = []
 
+  public id_usuario = sessionStorage.getItem('id') + ''
+
+
   obtenerFechas(){
     let hoy = new Date();
 
@@ -77,7 +80,9 @@ export class CitacionSupervisoresComponent {
       const fecha = `${year}-${month}-${day}`;
       // this.getModalidades();
 
-      this.service.getDatosCitacionSupervisor('158',fecha).subscribe((data) => {
+      this.currentDate = fecha
+
+      this.service.getDatosCitacionSupervisor(this.id_usuario,fecha).subscribe((data) => {
         this.citacionSupervisores = data
         
         console.log(this.citacionSupervisores[0].Id_operacion)
@@ -97,11 +102,20 @@ export class CitacionSupervisoresComponent {
     
     this.obtenerFechas()
 
+
+    // let hoy = new Date();
+
+    // let año = hoy.getFullYear();
+    // let mes = ("0" + (hoy.getMonth() + 1)).slice(-2); // Los meses comienzan en 0
+    // let día = ("0" + hoy.getDate()).slice(-2);
+
+    // this.currentDate = `${año}-${mes}-${día}`;
+    
     // this.service.getEstadoList().subscribe((data) => {
     //   this.estadosCitacion = data
     // })
     
-    this.service.getDatosCitacionSupervisor('158','20240802').subscribe((data) => {
+    this.service.getDatosCitacionSupervisor(this.id_usuario,this.currentDate).subscribe((data) => {
       this.citacionSupervisores = data
       console.log(this.citacionSupervisores[0].chart_data)
       this.chartVisible = true
@@ -113,6 +127,8 @@ export class CitacionSupervisoresComponent {
   idOperacion : number = 0
   idCentroOperacion : number = 0
   verDetalle(detalle : Detalle [],op : string, cop : string, id_op:number,id_cop : number){
+
+    
     this.datosCitacionActiva = []
     this.operacion = op
     this.centroOperacion = cop
@@ -120,8 +136,11 @@ export class CitacionSupervisoresComponent {
 
     this.idCentroOperacion = id_cop
     this.idOperacion = id_op
+    console.log(this.currentDate)
 
-    this.service.getDatosCitacionActiva(id_op,id_cop,'20240802').subscribe((data) => {
+    this.service.getDatosCitacionActiva(id_op,id_cop,this.currentDate.split('-').join('')).subscribe((data) => {
+
+      
       this.datosCitacionActiva = data
 
       const operacion = this.datosCitacionActiva[0].operacion
@@ -192,6 +211,20 @@ export class CitacionSupervisoresComponent {
           }
           this.message = data.message
           console.log('Archivo subido exitosamente');
+
+          this.service.getDatosCitacionActiva(this.idOperacion,this.idCentroOperacion,this.currentDate.split('-').join()).subscribe((data) => {
+
+      
+            this.datosCitacionActiva = data
+      
+            const operacion = this.datosCitacionActiva[0].operacion
+      
+            this.tipoOperacion = operacion
+      
+          },
+          error =>{
+            
+          })
           // Lógica adicional en caso de éxito.
         },
         (error) => {
