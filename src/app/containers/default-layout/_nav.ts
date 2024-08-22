@@ -587,7 +587,7 @@ export const navItems: INavDataBar[] = [
         url:  '/mercadolibre/prefactura'
       },
       {
-        name: "Citación Supervisores",
+        name: "Seguimiento Diario",
         url:  '/mercadolibre/citacion-supervisores'
       },
       // {

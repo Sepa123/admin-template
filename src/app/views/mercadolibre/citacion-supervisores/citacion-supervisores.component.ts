@@ -128,7 +128,7 @@ export class CitacionSupervisoresComponent {
   idCentroOperacion : number = 0
   verDetalle(detalle : Detalle [],op : string, cop : string, id_op:number,id_cop : number){
 
-    
+    this.tipoOperacion = ''
     this.datosCitacionActiva = []
     this.operacion = op
     this.centroOperacion = cop
@@ -379,10 +379,10 @@ guardarDatos() {
   }
   const jsonDatos = JSON.stringify(this.datosCitacionActiva);
 
-  this.service.guardarDatosCitacionSupervisores(body).subscribe((data => {
+  this.service.guardarDatosCitacionSupervisores(body).subscribe(((data : any) => {
     console.log(data)
     // console.log(body);
-  alert('Datos guardados con éxito (simulado)');
+  alert(data.message);
   }), (error) => {
     const listaCampos = error.error.detail.map((data : any) => {
       return data.loc[3]

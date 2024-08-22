@@ -122,17 +122,17 @@
           <!-- <th>Descripción</th> -->
           <th>
             Id Ruta
-            <input type="text" [(ngModel)]="textoIdRuta" (keyup)="filtrarTabla('Id_de_ruta')" placeholder="🔍" maxlength="9" size="7">
+            <input type="text" [(ngModel)]="textoIdRuta" (keyup)="onKeyUp()" placeholder="🔍" maxlength="9" size="7">
           </th>
           <th>Fecha Inicio</th>
           <th>Fecha Fin</th>
           <th>
             Patente 
-            <input type="text" [(ngModel)]="textoPatente" (keyup)="filtrarTabla('Patente')" placeholder="🔍" maxlength="6" size="4">
+            <input type="text" [(ngModel)]="textoPatente" (keyup)="onKeyUp()" placeholder="🔍" maxlength="6" size="4">
           </th>
           <th>
             Conductor
-            <input type="text" [(ngModel)]="textoConductor" (keyup)="filtrarTabla('Conductor')" placeholder="🔍"  size="8">
+            <input type="text" [(ngModel)]="textoConductor" (keyup)="onKeyUp()" placeholder="🔍"  size="8">
           </th>
           <th>Cantidad</th>
           <th>Precio Unitario</th>
