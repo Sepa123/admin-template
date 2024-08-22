@@ -30,7 +30,8 @@ export class GestionGpsComponent implements OnInit {
   tablaProductosPicking!: ElementRef;
   @ViewChild('filtroRazonSocial', { static: true })
   filtroRazonSocial!: ElementRef;
-
+  tableinfoFull: any;
+  private originalTableInfo: any[] = [];
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -43,6 +44,7 @@ export class GestionGpsComponent implements OnInit {
 
   ngOnInit() {
     this.getInfoTable();
+    this.originalTableInfo = [...this.tableInfo];
     this.initializeOc_instalacion();
     this.initializeOc_baja();
     this.initialize_devuelto();
@@ -50,35 +52,40 @@ export class GestionGpsComponent implements OnInit {
     this.initialize_monto();
   }
 
-  filtrarTabla(): void {
-    const ppuFiltro = this.filtroPpu.nativeElement.value.toLowerCase();
-    const razonSocialFiltro =
-      this.filtroRazonSocial.nativeElement.value.toLowerCase();
-    const tr =
-      this.tablaProductosPicking.nativeElement.getElementsByTagName('tr');
-
-    for (let i = 1; i < tr.length; i++) {
-      const tdPpu = tr[i].getElementsByTagName('td')[0];
-      const tdRazon = tr[i].getElementsByTagName('td')[1];
-      if (tdPpu && tdRazon) {
-        const ppuTexto = tdPpu.textContent || tdPpu.innerText;
-        const razonTexto = tdRazon.textContent || tdRazon.innerText;
-        if (
-          ppuTexto.toLowerCase().indexOf(ppuFiltro) > -1 &&
-          razonTexto.toLowerCase().indexOf(razonSocialFiltro) > -1
-        ) {
-          tr[i].style.display = '';
-        } else {
-          tr[i].style.display = 'none';
-        }
-      }
-    }
-  }
+  // filtrarTabla(): void {
+  //   const ppuFiltro = this.filtroPpu.nativeElement.value.toLowerCase().trim();
+  //   const razonSocialFiltro = this.filtroRazonSocial.nativeElement.value.toLowerCase().trim();
+  //   const tr = this.tablaProductosPicking.nativeElement.getElementsByTagName('tr');
+  
+  //   for (let i = 1; i < tr.length; i++) {
+  //     const tdPpu = tr[i].getElementsByTagName('td')[0];
+  //     const tdRazon = tr[i].getElementsByTagName('td')[1];
+      
+  //     if (tdPpu && tdRazon) {
+  //       const ppuTexto = (tdPpu.textContent || tdPpu.innerText).toLowerCase().trim();
+  //       const razonTexto = (tdRazon.textContent || tdRazon.innerText).toLowerCase().trim();
+  //       console.log('PPU Texto:', ppuTexto);
+  //       console.log('Razón Texto:', razonTexto);
+  //       // Mostrar fila si ambos filtros coinciden
+  //       if (
+  //         (ppuFiltro === '' || ppuTexto.includes(ppuFiltro)) &&
+  //         (razonSocialFiltro === '' || razonTexto.includes(razonSocialFiltro))
+  //       ) {
+  //         tr[i].style.display = '';
+  //       } else {
+  //         tr[i].style.display = 'none';
+  //       }
+  //     }
+  //  }
+  //}
+  
+  
 
   getInfoTable() {
     this.isLoadingFull = true;
     this.Gps.getInfoList().subscribe(
       (data) => {
+        this.tableinfoFull= data;
         this.tableInfo = data;
         this.initializeOc_instalacion();
         this.initializeOc_baja();
@@ -92,6 +99,34 @@ export class GestionGpsComponent implements OnInit {
       }
     );
   }
+  textoPpu : any = ''
+  textoRazon_social : any = ''
+
+
+  filtrarTabla(campo : string){
+    const filtroPpu = this.tableInfo.filter((lista: any) =>
+      lista.ppu.toString().toLowerCase().startsWith(this.textoPpu.toLowerCase())
+    );
+  
+    // Filtra por Razon Social
+    const filtroRazonSocial = filtroPpu.filter((lista: any) =>
+      lista.razon_social.toString().toLowerCase().startsWith(this.textoRazon_social.toLowerCase())
+    );
+  // Verifica si ambos campos están vacíos
+  if (this.textoPpu === '' && this.textoRazon_social === '') {
+    this.getInfoTable(); // Carga la tabla completa si no hay filtros
+  } else {
+    // Si hay algún filtro aplicado, verifica si hay resultados
+    if (filtroRazonSocial.length > 0) {
+      this.tableInfo = filtroRazonSocial; // Asigna los resultados filtrados
+    } else {
+      this.tableInfo = []; // No muestra nada si no hay coincidencias
+    }
+  }
+}
+
+
+
   initializeOc_instalacion() {
     this.tableInfo.forEach((gps: any) => {
       this.id_insta[gps.id_gps] = gps.oc_instalacion;
