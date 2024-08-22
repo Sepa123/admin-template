@@ -1,173 +1,169 @@
 h3 {
-    align-items: center;
+  align-items: center;
 }
 
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .greenTable {
-    max-height: 500px; /* Altura de ejemplo */
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: auto;
-  }
-  
-  .greenTable table {
-    border: 1px solid #28A745;
-    background-color: #FFFEF3;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    border-collapse: separate;
-    border-spacing: 0;
-    table-layout: fixed;  /* Ajuste del layout de la tabla */
-  }
-  
-  .greenTable table th, .greenTable table td {
-    border: 0px solid #AAAAAA;
-    padding: 8px;
-    width: 100px; /* Ajusta el ancho según tus necesidades */
-    vertical-align: middle;
-    text-align: center;
-  }
-  
-  .greenTable table tbody td, .greenTable table tbody th {
-    
-    vertical-align: top;
-    font-size: 12px;
-  }
-  
-  
-  .greenTable th.sortable:hover {
-    background-color: #1ece27;
-    cursor: pointer;
-  }
+  max-height: 600px; /* Aumenta la altura para mostrar más contenido */
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+}
 
-  
-  
-  .greenTable table thead {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    left: 0;
-    background: #28A745;
-  }
-  
-  .greenTable table thead th {
-    font-size: 10px;
-    font-weight: bold;
-    color: #FFFFFF;
-    text-align: center;
-    border-left: 2px solid #28A745;
-  }
-  
-  .greenTable table thead th:first-child {
-    border-left: none;
-  }
-  
-  /* Ajustar el tamaño de los inputs en la tabla */
-  .greenTable input[type="text"] {
-    width: 80%; /* Ajusta el ancho según tus necesidades */
-    padding: 4px;
-    font-size: 12px;
-    border: 1px solid #CCCCCC;
-    border-radius: 4px;
-  }
-  
-  .greenTable input[type="checkbox"] {
-    transform: scale(0.8); /* Ajusta el tamaño del checkbox */
-  }
-  
-  .greenTable td input {
-    box-sizing: border-box;
-  }
-  
-  /* Tooltip */
-  .tooltip {
-    visibility: hidden;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 10px;
-    position: absolute;
-    z-index: 1;
-    top: 125%; /* Posiciona el tooltip arriba del texto */
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  
-  .nav-item:hover .tooltip {
-    visibility: visible;
-    opacity: 1;
-  }
-  
-  /* Botón */
-  .btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+.greenTable table {
+  border-collapse: collapse; /* Asegura que las celdas colapsen entre sí */
+  background-color: #FFFEF3;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  table-layout: auto; /* Ajuste del layout de la tabla a automático */
+}
 
-  .nav-list {
-    display: flex;
-    gap: 10px; /* Adjust the gap as needed */
-    align-items: center; /* Vertically aligns the icons */
-    justify-content: center; /* Horizontally centers the icons within the <li> */
-    list-style-type: none; /* Removes the default list styling */
-    padding: 0; /* Removes padding from the list */
-    margin: 0; /* Removes margin from the list */
+.greenTable table th, .greenTable table td {
+  border: none; /* Elimina los bordes de las celdas */
+  padding: 8px;
+  min-width: 100px; /* Mínimo ancho para evitar truncamientos */
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.greenTable table tbody td {
+  border-bottom: 1px solid #CCCCCC; /* Solo una línea sutil debajo de las celdas */
+  font-size: 12px;
+  padding: 8px;
+}
+
+.greenTable table tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Agrega un color de fondo alternativo para mayor claridad visual */
+}
+
+.greenTable th.sortable:hover {
+  background-color: #1ece27;
+  cursor: pointer;
+}
+
+.greenTable table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #28A745;
+}
+
+.greenTable table thead th {
+  font-size: 12px; /* Aumenta el tamaño para mejor legibilidad */
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-bottom: 1px solid #28A745; /* Borde inferior para el encabezado */
+}
+
+.greenTable table thead th:first-child {
+  border-left: none;
+}
+
+/* Ajustar el tamaño de los inputs en la tabla */
+.greenTable input[type="text"] {
+  width: 90%; /* Aumenta el ancho de los inputs */
+  padding: 4px;
+  font-size: 12px;
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+}
+
+.greenTable input[type="checkbox"] {
+  transform: scale(1); /* Tamaño estándar del checkbox */
+}
+
+.greenTable td input {
+  box-sizing: border-box;
+}
+
+/* Tooltip */
+.tooltip {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 1;
+  top: 125%; /* Posiciona el tooltip arriba del texto */
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.nav-item:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Botón */
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-list {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .nav-list li {
-    display: flex;
-    align-items: center; /* Ensures the icon and any text are aligned */
-    justify-content: center;
-    cursor: pointer; /* Changes the cursor to a pointer for clickable icons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .nav-list li svg {
-    width: 24px; /* Sets the width of the icons */
-    height: 24px; /* Sets the height of the icons */
+  width: 24px;
+  height: 24px;
 }
+
 .checkbox {
-    width: 20px; /* Adjust the width as needed */
-    height: 20px; /* Adjust the height as needed */
-    transform: scale(1.5); /* Scales the checkbox size */
-    -webkit-transform: scale(1.5); /* Ensures compatibility with older browsers */
-    -moz-transform: scale(1.5); /* Ensures compatibility with older browsers */
-    -ms-transform: scale(1.5); /* Ensures compatibility with older browsers */
-    -o-transform: scale(1.5); /* Ensures compatibility with older browsers */
-    margin-right: 10px; /* Optional: adds space to the right of the checkbox */
-    vertical-align: middle; /* Aligns checkbox with text vertically */
+  width: 20px;
+  height: 20px;
+  transform: scale(1.5);
+  margin-right: 10px;
+  vertical-align: middle;
 }
 
 button {
-    background-color: #4CAF50; /* Green color similar to the table header */
-    color: white; /* White text color for contrast */
-    border: none; /* Remove default border */
-    padding: 10px 20px; /* Add padding for a comfortable clickable area */
-    text-align: center; /* Center the text */
-    text-decoration: none; /* Remove underline from text */
-    display: inline-block; /* Aligns the button properly in the flow */
-    font-size: 16px; /* Make the font size readable */
-    border-radius: 5px; /* Rounded corners for a smooth look */
-    cursor: pointer; /* Pointer cursor to indicate it's clickable */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition on hover */
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-    background-color: #45a049; /* Slightly darker green on hover */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+  background-color: #45a049;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 button:active {
-    background-color: #39843b; /* Even darker green when clicked */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slightly reduced shadow when active */
+  background-color: #39843b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
