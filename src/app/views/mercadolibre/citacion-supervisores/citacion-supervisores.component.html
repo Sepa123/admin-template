@@ -4,10 +4,10 @@
     <!-- Selector de Fecha y Botón Nueva Citación -->
         <div class="form-date mb-3">
             <label for="fechaCitaciones" class="mr-3">Seleccionar Fecha:</label>
-            <!-- <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate" onkeydown="return false;" onpaste="return false;" -->
-            <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate" 
+            <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate" onkeydown="return false;" onpaste="return false;"
+            
              onblur="this.value=this.value;" (change)="onDateChange($event)">
-
+             <!-- <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate"  -->
         </div>
     <!-- Tabla de Citaciones -->
 </div>
@@ -218,8 +218,8 @@
                 <!-- <th >patente igual</th> -->
                 <th >Driver</th>
                 <!-- <th >driver_ok</th> -->
-                <!-- <th >p_avance</th>
-                <th >avance</th> -->
+                <!-- <th >p_avance</th> -->
+                <th >Avance</th>
                 <!-- <th >tipo_vehiculo</th> -->
                 <th >Valor ruta</th>
                 <!-- <th >ruta_cerrada</th> -->
@@ -291,8 +291,8 @@
 
                 </td>
 
-                <!-- <td contenteditable="true" (blur)="updateCell($event, i, 'p_avance')"> {{detalle.p_avance}}</td>
-                <td contenteditable="true" (blur)="updateCell($event, i, 'avance')">{{detalle.avance}}</td> -->
+                <td contenteditable="false" (blur)="updateCell($event, i, 'p_avance')"> {{detalle.avance}} ({{detalle.p_avance}}%)</td>
+                <!-- <td contenteditable="false" (blur)="updateCell($event, i, 'avance')"></td> -->
                 <!-- <td contenteditable="false" (blur)="updateCell($event, i, 'tipo_vehiculo')">{{detalle.tipo_vehiculo}}</td> -->
                 <td [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'valor_ruta')"> {{detalle.valor_ruta}}</td>
                 <!-- <td contenteditable="false" (blur)="updateCell($event, i, 'ruta_cerrada')">

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
-import { Vehiculo,AsignarOperacion } from 'src/app/models/transporte/vehiculo.interface' 
+import { Vehiculo,AsignarOperacion, VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
 import { Usuario } from 'src/app/models/transporte/tripulacion.interface' 
 @Injectable({
   providedIn: 'root'
@@ -268,5 +268,22 @@ export class PortalTransyanezService {
   getMarcasVehiculos(){
     return this.http.get(this.apiurl+"/marcas/vehiculos")
   }
+  
+  getVehiculosObservaciones(){
+    return this.http.get<VehiculoObservaciones []>(this.apiurl+"/vehiculos/observaciones")
+  }
 
+
+
+
+  descargarVehiculosObservaciones() {
+    this.http.get(this.apiurl + "/vehiculos/observaciones/descargar",{responseType:"blob"}).subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`Observacion_vehiculo.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
 }

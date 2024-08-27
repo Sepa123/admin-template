@@ -56,3 +56,16 @@ export interface AsignarOperacion {
     Id_centro_op: number;
     Estado:       boolean;
 }
+
+
+export interface VehiculoObservaciones {
+    Codigo_retorno:            number;
+    Ppu:                       string;
+    Razon_social:              string;
+    Rut:                       string;
+    Celular:                   string;
+    Permiso_circulacion_fvenc: string | null;
+    Soap_fvenc:                string | null;
+    Revision_tecnica_fvenc:    string | null;
+    Gps:                       boolean;
+}

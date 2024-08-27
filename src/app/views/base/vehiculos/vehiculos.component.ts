@@ -7,7 +7,7 @@ import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angu
 import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
 import { Colaborador } from 'src/app/models/transporte/colaborador.interface' 
-import { Vehiculo, AsignarOperacion } from 'src/app/models/transporte/vehiculo.interface' 
+import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
 import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
 import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
 import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
@@ -63,6 +63,8 @@ export class VehiculosComponent {
   tipoCuentas : any [] = tipoCuenta
   banco : any [] = bancos
   formaPago : any [] = formasPago
+
+  ObservacionVehiculos: VehiculoObservaciones [] = []
 
   //datos geo
   latitude!: number
@@ -268,6 +270,10 @@ seleccionarRut(){
             this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
             this.service.obtenerColaboradores().subscribe((data) => {
               this.colaboradores = data
+
+              this.service.getVehiculosObservaciones().subscribe((data) => {
+                this.ObservacionVehiculos = data
+              })
           })
         })
       })
@@ -843,6 +849,14 @@ descargarDatosVehiculos(){
   })
 
   this.service.descargar_vehiculos_buscados_resumen(datos_send)
+
+ }
+
+
+ descargarObservacionVehiculos(){
+
+
+  this.service.descargarVehiculosObservaciones()
 
  }
 

@@ -832,6 +832,93 @@
       <p></p>
       <button class="btn btn-success" (click)="descargarDatosVehiculos()">Descargar</button>
 
+      <p></p>
+      <h2>Resultados de Vehículos</h2>
+      <div *ngIf="ObservacionVehiculos.length != 0" class="greenTable" style="width: 100%;">
+        
+        <table id="tablaProductosPicking">
+            <thead>
+                <tr>
+                    <th>Estado</th>
+                    <th>PPU</th>
+                    <th>Razón Social</th>
+                    <th>RUT</th>
+                    <th>Celular</th>
+                    <th>Permiso Circulación</th>
+                    <th>SOAP</th>
+                    <th>Revisión Técnica</th>
+                    <th>GPS</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let obs of ObservacionVehiculos">
+                <td class="indicator">
+
+                  <span *ngIf="obs.Codigo_retorno == 1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
+                      <path fill="green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                    </svg>
+                    OK
+                  </span>
+                  
+                  <span *ngIf="obs.Codigo_retorno == 2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
+                      <path fill="red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                    </svg>
+                    No OK
+                  </span>
+
+                  <span *ngIf="obs.Codigo_retorno == 3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1856 1664">
+                      <path fill="yellow" d="M1056 1375v-190q0-14-9.5-23.5t-22.5-9.5H832q-13 0-22.5 9.5T800 1185v190q0 14 9.5 23.5t22.5 9.5h192q13 0 22.5-9.5t9.5-23.5m-2-374l18-459q0-12-10-19q-13-11-24-11H818q-11 0-24 11q-10 7-10 21l17 457q0 10 10 16.5t24 6.5h185q14 0 23.5-6.5t10.5-16.5m-14-934l768 1408q35 63-2 126q-17 29-46.5 46t-63.5 17H160q-34 0-63.5-17T50 1601q-37-63-2-126L816 67q17-31 47-49t65-18t65 18t47 49" />
+                    </svg>
+                    Advertencia
+                  </span>
+                  
+                  <span *ngIf="obs.Codigo_retorno == 4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
+                      <path fill="gray" d="M896 1248v-192q0-14-9-23t-23-9H672q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23m256-672q0-88-55.5-163T958 297t-170-41q-243 0-371 213q-15 24 8 42l132 100q7 6 19 6q16 0 25-12q53-68 86-92q34-24 86-24q48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5T640 892v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5T972 829q32-18 49-28.5t46-35t44.5-48t28-60.5t12.5-81m384 192q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                    </svg>
+                    Falta Información
+                  </span>
+                  
+                  <span *ngIf="obs.Codigo_retorno == 5">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1664 1792">
+                      <path fill="skyblue" d="M128 1664h288v-288H128zm352 0h320v-288H480zm-352-352h288V992H128zm352 0h320V992H480zM128 928h288V640H128zm736 736h320v-288H864zM480 928h320V640H480zm768 736h288v-288h-288zm-384-352h320V992H864zM512 448V160q0-13-9.5-22.5T480 128h-64q-13 0-22.5 9.5T384 160v288q0 13 9.5 22.5T416 480h64q13 0 22.5-9.5T512 448m736 864h288V992h-288zM864 928h320V640H864zm384 0h288V640h-288zm32-480V160q0-13-9.5-22.5T1248 128h-64q-13 0-22.5 9.5T1152 160v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5m384-64v1280q0 52-38 90t-90 38H128q-52 0-90-38t-38-90V384q0-52 38-90t90-38h128v-96q0-66 47-113T416 0h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90" />
+                    </svg>
+
+                    Próx. Vencimiento
+                  </span>
+
+
+                </td>
+                <td>{{obs.Ppu}}</td>
+                <td>{{obs.Razon_social}}</td>
+                <td>{{obs.Rut}}</td>
+                <td>{{obs.Celular}}</td>
+                <td>{{obs.Permiso_circulacion_fvenc}}</td>
+                <td>{{obs.Soap_fvenc}}</td>
+                <td>{{obs.Revision_tecnica_fvenc}}</td>
+                <td>
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 384 512" *ngIf="obs.Gps">
+                    <path fill="#2eb85c" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 384 512" *ngIf="!obs.Gps">
+                    <path fill="#ff0000" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
+                  </svg>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+
+      </div>
+
+      <p></p>
+        
+        <button *ngIf="ObservacionVehiculos.length != 0" class="btn btn-success" (click)="descargarObservacionVehiculos()">Descargar</button>
+
 
       <c-modal id="liveCOModal" [visible]="visibleCO" (visibleChange)="handleLiveCOChange($event)" size="lg">
         <c-modal-header>
