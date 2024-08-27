@@ -127,6 +127,15 @@ const routes: Routes = [
           import('./views/informacion/informacion.module').then((m) => m.InformacionModule )
       },
       {
+        path : 'finanzas',
+        data : {
+          roles : ROLES_PERMITIDOS.FINANZAS
+        },
+        canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/finanzas/finanzas.module').then((m) => m.FinanzasModule )
+      },
+      {
         path : 'info',
         data : {
           roles : ROLES_PERMITIDOS.INFORMACION_PICKING
