@@ -222,6 +222,16 @@ const routes: Routes = [
         loadChildren:()=>
           import('./views/inventario-ti/inventario-ti.module').then((m)=> m.InventarioTiModule)
       },
+
+      {
+        path : 'finanzas',
+        data : {
+          roles : ROLES_PERMITIDOS.FINANZAS
+        },
+        canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/finanzas/finanzas.module').then((m) => m.FinanzasModule )
+      },
     ],
     canActivate: [UserGuard]
   },
