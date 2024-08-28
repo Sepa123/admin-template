@@ -856,7 +856,7 @@ export const navItems: INavDataBar[] = [
     name: 'Finanzas',
     url: '/finanzas',
     iconComponent : {name : 'cilMoney'},
-    roles : ROLES_PERMITIDOS.DASHBOARD,
+    roles : ROLES_PERMITIDOS.FINANZAS,
     children: [
       {
         name: "Car. Tarifario General",
