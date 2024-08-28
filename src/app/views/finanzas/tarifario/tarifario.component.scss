@@ -105,7 +105,7 @@ h3 {
     margin-bottom: 5px;
     font-size: 14px; /* Aumenta el tamaño de la fuente */
   }
-  button {
+  .btnNueva {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -120,12 +120,12 @@ h3 {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
   }
   
-  button:hover {
+  .btnNueva:hover {
     background-color: #45a049;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
   }
   
-  button:active {
+  .btnNueva:active {
     background-color: #39843b;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
@@ -155,4 +155,33 @@ h3 {
   }
   .table-cell {
     font-size: 15px;
+  }
+
+  .x-button {
+    position: relative;
+    width: 30px; /* Ancho del botón */
+    height: 30px; /* Alto del botón */
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin bordes */
+    cursor: pointer; /* Manito al pasar el mouse */
+  }
+  
+  .x-button::before, 
+  .x-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px; /* Ancho de la línea */
+    height: 2px; /* Grosor de la línea */
+    background-color: black; /* Color de la línea */
+    transform-origin: center;
+  }
+  
+  .x-button::before {
+    transform: translate(-50%, -50%) rotate(45deg); /* Línea diagonal */
+  }
+  
+  .x-button::after {
+    transform: translate(-50%, -50%) rotate(-45deg); /* Línea opuesta diagonal */
   }

@@ -9,7 +9,7 @@
 </div>
 
 
-    <button (click)="toggleLiveDemo()">Nueva  <svg  xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+    <button class="btnNueva" (click)="toggleLiveDemo()">Nueva  <svg  xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
         <path fill="currentColor" d="M7 1h10v2h4v9h-2V5h-2v2H7V5H5v16h7v2H3V3h4zm2 4h6V3H9zm11 9v4h4v2h-4v4h-2v-4h-4v-2h4v-4z" />
     </svg></button>
 
@@ -73,8 +73,7 @@
 <c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
     <c-modal-header>
         <h5 class="modal-title" id="modalNuevaCitacionLabel">Agregar Transportista</h5>
-        <button (click)="toggleLiveDemo()" cButtonClose type="button" class="close" data-dismiss="modal"
-            aria-label="Close">
+        <button  cButtonClose (click)="toggleLiveDemo()"type="button" class="close x-button" data-dismiss="modal" aria-label="Close">
         </button>
         <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
     </c-modal-header>
