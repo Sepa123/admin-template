@@ -28,7 +28,8 @@ import {
   cilPlus,
   cilMinus,
   cilChatBubble,
-  cilHandshake
+  cilHandshake,
+  cilMoney
 } from '@coreui/icons';
 
 
@@ -64,7 +65,8 @@ export const iconSubset = {
   cilPlus,
   cilMinus,
   cilBarChart,
-  cilChatBubble
+  cilChatBubble,
+  cilMoney
 };
 
 export enum IconSubset { 
@@ -92,5 +94,6 @@ export enum IconSubset {
   cilAccountLogout = "cilAccountLogout",
   cilPlus = "cilPlus",
   cilMinus = "cilMinus",
-  cilBarChart = "cilBarChart"
+  cilBarChart = "cilBarChart",
+  cilMoney = 'cilMoney'
 }

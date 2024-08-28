@@ -876,21 +876,21 @@ export const navItems: INavDataBar[] = [
   { /// Pantalla Informacion Para Finanzas
     name: 'Finanzas',
     url: '/finanzas',
-    iconComponent : {name : 'cil-magnifying-glass'},
-    roles : ROLES_PERMITIDOS.MELI_ADMIN,
+    iconComponent : {name : 'cilMoney'},
+    roles : ROLES_PERMITIDOS.FINANZAS,
     children: [
       {
         name: "Car. Tarifario General",
         url : '/finanzas/tarifario'
       },
-      {
-        name: "Car. Vehículo",
-        url: '/finanzas/carVehiculo'
-      },
-      {
-        name: "Car. Tarifario Especifico",
-        url: '/finanzas/carTarifarioEspecifico'
-      }
+      // {
+      //   name: "Car. Vehículo",
+      //   url: '/finanzas/carVehiculo'
+      // },
+      // {
+      //   name: "Car. Tarifario Especifico",
+      //   url: '/finanzas/carTarifarioEspecifico'
+      // }
 
     ]
   },

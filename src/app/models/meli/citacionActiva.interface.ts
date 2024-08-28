@@ -17,6 +17,8 @@ export interface MainCitacionA {
     tipo_vehiculo:        string;
     valor_ruta:           string;
     ruta_cerrada:         boolean;
+    observacion:          string;
+    kilometro:            number;
 }
 
 export interface CamposPorOperacion {

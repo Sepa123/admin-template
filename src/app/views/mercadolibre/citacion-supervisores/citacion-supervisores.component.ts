@@ -32,6 +32,10 @@ export class CitacionSupervisoresComponent {
 
   tipoOperacion : string = ''
 
+  observacionPatente : string = ''
+
+  indexActualPatente : number = 0
+
   toggleLiveDemo() {
     this.visible = !this.visible;
   }
@@ -49,6 +53,16 @@ export class CitacionSupervisoresComponent {
   public id_usuario = sessionStorage.getItem('id') + ''
 
 
+  public visibleObservacion = false;
+
+  toggleLiveObservacion() {
+    this.visibleObservacion = !this.visibleObservacion;
+  }
+
+  handleLiveObservacionChange(event: any) {
+    this.visibleObservacion = event;
+  }
+
   obtenerFechas(){
     let hoy = new Date();
 
@@ -64,6 +78,21 @@ export class CitacionSupervisoresComponent {
     let minMes = ("0" + (hoy.getMonth() + 1)).slice(-2); // Los meses comienzan en 0
     let MinDía = ("0" + hoy.getDate()).slice(-2);
     this.minDate = `${minAño}-${minMes}-${MinDía}`;
+  }
+  
+
+  verObservacion(detalle : MainCitacionA,index : number){
+    this.toggleLiveObservacion()
+    this.indexActualPatente = index
+    this.observacionPatente = detalle.observacion 
+    console.log(detalle)
+  }
+
+
+  guardarObservacion(){
+
+    this.datosCitacionActiva[this.indexActualPatente].observacion = this.observacionPatente
+    this.toggleLiveObservacion()
   }
 
   cambiarEstado(id_estado : any){

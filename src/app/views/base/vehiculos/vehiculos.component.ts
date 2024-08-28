@@ -97,6 +97,18 @@ export class VehiculosComponent {
     this.isModalOpen = false
   }
 
+  public visibleIconos = false;
+
+  toggleLiveIconos() {
+    this.visibleIconos = !this.visibleIconos;
+  }
+
+  handleLiveIconosChange(event: any) {
+    this.visibleIconos = event;
+  }
+  
+
+
 
   getLocation(): any {
     if (navigator.geolocation) {
