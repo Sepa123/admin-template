@@ -171,17 +171,24 @@ filtrarTabla(campo : string){
   oc_instalacion(id: number) {
     const oc_instalacion = this.id_insta[id];
 
-    this.Gps.oc_instalacion(oc_instalacion, id).subscribe(
-      (response) => {
-        this.getInfoTable();
-        console.log('Estado actualizado:', response);
-        alert('Estado actualizado correctamente.');
-      },
-      (error) => {
-        console.error('Error al actualizar el estado:', error);
-        alert('Error al actualizar el estado.');
-      }
-    );
+
+    // Verificar si oc_instalacion es null, undefined o está vacío
+  if (oc_instalacion === null || oc_instalacion === undefined || isNaN(oc_instalacion)){
+    alert('El campo oc_instalacion está vacío o no tiene información válida.');
+    return; // Salir de la función si no hay datos válidos
+  }
+
+  this.Gps.oc_instalacion(oc_instalacion, id).subscribe(
+    (response) => {
+      this.getInfoTable();
+      console.log('oc_instalacion actualizado:', response);
+      alert('oc_instalacion actualizado correctamente.');
+    },
+    (error) => {
+      console.error('Error al actualizar el oc_instalacion:', error);
+      alert('Error al actualizar el oc_instalacion.');
+    }
+);
   }
   initializeOc_baja() {
     this.tableInfo.forEach((gps: any) => {
@@ -191,15 +198,20 @@ filtrarTabla(campo : string){
   oc_baja(id: number) {
     const oc_baja = this.id_oc_baja[id];
 
+    if (oc_baja === null || oc_baja === undefined || isNaN(oc_baja)) {
+      alert('El campo oc_baja no tiene información válida.');
+      return; // Salir de la función si no hay datos válidos
+    }
+
     this.Gps.oc_baja(oc_baja, id).subscribe(
       (response) => {
         this.getInfoTable();
-        console.log('Estado actualizado:', response);
-        alert('Estado actualizado correctamente.');
+        console.log('oc_baja actualizado:', response);
+        alert('oc_baja actualizado correctamente.');
       },
       (error) => {
-        console.error('Error al actualizar el estado:', error);
-        alert('Error al actualizar el estado.');
+        console.error('Error al actualizar el oc_baja:', error);
+        alert('Error al actualizar el oc_baja.');
       }
     );
   }
@@ -212,15 +224,21 @@ filtrarTabla(campo : string){
   monto(id: number) {
     const monto = this.id_monto[id];
 
+    // Verificar si oc_instalacion es null, undefined, o no es un número válido
+    if (monto === null || monto === undefined || isNaN(monto)) {
+      alert('El campo monto no tiene información válida.');
+      return; // Salir de la función si no hay datos válidos
+    }
+
     this.Gps.monto(monto, id).subscribe(
       (response) => {
         this.getInfoTable();
-        console.log('Estado actualizado:', response);
-        alert('Estado actualizado correctamente.');
+        console.log('monto actualizado:', response);
+        alert('monto actualizado correctamente.');
       },
       (error) => {
-        console.error('Error al actualizar el estado:', error);
-        alert('Error al actualizar el estado.');
+        console.error('Error al actualizar el monto:', error);
+        alert('Error al actualizar el monto.');
       }
     );
   }
