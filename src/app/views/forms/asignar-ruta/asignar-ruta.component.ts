@@ -4,7 +4,8 @@ import { RutasService } from 'src/app/service/rutas.service';
 import { NombreRutaService } from 'src/app/service/nombre-ruta.service';
 import { RutasAsignadas } from 'src/app/models/rutaAsignada.interface'
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
-import { VehiculoDisponible } from 'src/app/models/rutas/vehiculosDisponibles.interface'
+import { PatenteDisponible, VehiculoDisponible } from 'src/app/models/rutas/vehiculosDisponibles.interface'
+import {NgbRating} from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
   selector: 'app-asignar-ruta',
@@ -18,6 +19,18 @@ export class AsignarRutaComponent {
 
   isClicked : boolean = false
 
+
+
+  public visible = false
+
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
   // razon_social : string = ""
 
   // driver! : string
@@ -45,6 +58,8 @@ export class AsignarRutaComponent {
   })
   // , Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\']+')
   patentesVehiculos:VehiculoDisponible [] = []
+
+  patentesDisponibles: PatenteDisponible [] = []
 
   ngOnInit() {
 
@@ -80,6 +95,8 @@ export class AsignarRutaComponent {
      }
 
      
+     
+     
     })
 
     this.id_usuario = sessionStorage.getItem("id")?.toString()
@@ -90,6 +107,10 @@ export class AsignarRutaComponent {
     // this.despachado = this.nombreRutaService.getDataDriver().despachador
    
     // this.asignarRutaForm.patchValue({region: "ccdddd"})
+
+    this.service.get_lista_patentes_disponibles().subscribe((data) => {
+      this.patentesDisponibles = data
+     })
   }
 
   volverRutaActiva(){

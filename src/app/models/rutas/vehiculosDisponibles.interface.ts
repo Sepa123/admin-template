@@ -6,3 +6,14 @@ export interface VehiculoDisponible {
     Razon_social:   string;
     Tripulacion:    null;
 }
+
+
+export interface PatenteDisponible {
+    Patentes:     string;
+    Tipo:         number | null;
+    Razon_social: string;
+    Rutas:        number;
+    Porcentaje:   number;
+    Estrellas:    number;
+    Habilitado:   boolean;
+}

@@ -41,6 +41,8 @@ import { BuscarRutaComponent } from './buscar-ruta/buscar-ruta.component';
 import { ResumenRutasComponent } from './resumen-rutas/resumen-rutas.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { PendientesObligadosComponent } from './pendientes-obligados/pendientes-obligados.component';
+import {NgbRating} from '@ng-bootstrap/ng-bootstrap'
+
 @NgModule({
   declarations: [
     RangesComponent,
@@ -83,7 +85,8 @@ import { PendientesObligadosComponent } from './pendientes-obligados/pendientes-
     ListGroupModule,
     NgbAlertModule, NgbPaginationModule, NgbDatepickerModule,
     NgSelectModule,
-    FullCalendarModule
+    FullCalendarModule,
+    NgbRating
   ]
 })
 export class CoreUIFormsModule {

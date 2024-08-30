@@ -389,7 +389,7 @@ guardarDatos() {
     data['lm_entregas'] = data.campos_por_operacion[0].lm_entregas 
     data['lm_tiempo_ruta'] = data.campos_por_operacion[0].lm_tiempo_ruta 
     data['lm_estado'] = data.campos_por_operacion[0].lm_estado 
-
+    data['fecha'] = this.currentDate
   }
   )
 

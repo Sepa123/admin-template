@@ -40,6 +40,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { TripulacionComponent } from './tripulacion/tripulacion.component';
 import { BuscadorComponent } from './buscador/buscador.component';
 import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
+import {NgbRating} from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
   imports: [
@@ -64,7 +65,8 @@ import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
     TabsModule,
     NavModule,
     NgChartsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    NgbRating
   ],
   declarations: [
     ReportesComponent,
