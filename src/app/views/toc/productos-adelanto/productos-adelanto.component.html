@@ -1,0 +1,72 @@
+<c-row ngPreserveWhitespaces>  
+
+    
+    <!-- <div class="col-md-6 mx-auto"> -->
+        <h2>Reporte Productos Adelanto</h2>
+
+  <p></p>
+
+  <c-row>
+
+  </c-row>
+  <p></p>
+  <div class="greenTable" >
+    <p></p>
+    <table id="tablaProductosPicking" >
+      <thead>
+        <tr>
+          
+          <th>Nombre</th>
+          <th>Dirección</th>
+          <th>Comuna</th>
+          <th>Teléfono</th>
+          <th>Entrega</th>
+          <th>Descripcion</th>
+          <th>Fecha Compromiso Original</th>
+          <th>Fecha Reprogramada</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <!-- <td colspan="11" *ngIf="isLoadingFull"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td> -->
+      </tr>
+      <tr *ngFor="let dato of productoAdelanto;let i = index ">
+          <td>{{dato.Nombre}}</td>
+          <td>{{dato.Direccion}}</td>
+          <td>{{dato.Ciudad}}</td>
+          <td>{{dato.Telefono}}</td>
+          <td>{{dato.entrega}}</td>
+          <!-- <td>{{dato.Cod_pedido}}</td> -->
+          <td>{{dato.Fecha_comp_original}}</td>
+          <!-- <td >{{dato.Direccion}}</td>  -->
+          <td>{{dato.Fecha_reprogramada}}</td>
+      </tr>
+    <tr *ngIf="productoAdelanto.length == 0">
+     <td colspan="11">
+      no hay registros
+     </td> 
+    </tr>
+    
+    </tbody>
+    </table>
+    <p></p>
+
+    
+  </div>
+
+  <p></p>
+
+  <div>
+    <button cButton color="success" size="sm" (click)="descargarExcel()" *ngIf="productoAdelanto.length !== 0" >
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg"  height="1.5em" viewBox="0 0 384 512">
+          <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+      </svg> descargar
+      </button>
+  </div>
+  
+  <p></p>
+  <!-- <button (click)="descargarExcel()">descargar</button> -->
+  <c-row>
+    
+
+</c-row>

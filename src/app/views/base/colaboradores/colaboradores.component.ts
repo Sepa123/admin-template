@@ -55,6 +55,10 @@ export class ColaboradoresComponent {
     this.visible = !this.visible;
   }
 
+  get colaboradoresInactivos() {
+    return this.colaboradores.filter(c => c.Activo).length;
+  }
+
   handleLiveDemoChange(event: any) {
     this.visible = event;
   }
@@ -481,7 +485,8 @@ export class ColaboradoresComponent {
           Rut_representante_legal : colaborador.Rut_representante_legal,
           Giro: colaborador.Giro,
           Abogado : colaborador.Abogado,
-          Activo: colaborador.Activo
+          Activo: colaborador.Activo,
+          Fecha_nacimiento : colaborador.Fecha_nacimiento
 
         })
         this.descargarDocBancario = null
@@ -515,7 +520,8 @@ export class ColaboradoresComponent {
           Forma_pago: detallePago.Forma_pago+'',
           Giro: colaborador.Giro,
           Abogado : colaborador.Abogado,
-          Activo: colaborador.Activo
+          Activo: colaborador.Activo,
+          Fecha_nacimiento : colaborador.Fecha_nacimiento
         })
       this.descargarDocBancario = detallePago.Pdf_documento
       this.descargarConstitucionLegal = colaborador.Pdf_legal_contitution

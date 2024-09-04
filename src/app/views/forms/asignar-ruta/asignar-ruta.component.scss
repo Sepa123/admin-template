@@ -21,9 +21,11 @@ ngb-rating{
 }
 .greenTable  table td, table th {
   border: 0px solid #AAAAAA;
+  white-space: nowrap;
   padding: 3px 2px;
 }
 .greenTable  table tbody td {
+  white-space: nowrap;
   font-size: 12px;
 }
 
@@ -78,6 +80,13 @@ ngb-rating{
   border-radius: 5px;
 }
 
+.detalle-patente {
+  align-items: center;
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #f3f3f3;
+}
 
 input[type=file] {
   width: 450px;
@@ -113,7 +122,7 @@ input[type=file]::file-selector-button:hover {
 .star {
   position: relative;
   display: inline-block;
-  font-size: 1.3rem;
+  font-size: 1.0rem;
   z-index: 1;
 }
 .full {}

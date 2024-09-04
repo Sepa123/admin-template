@@ -64,9 +64,11 @@ export class AsignarRutaComponent {
   ngOnInit() {
 
 
-    this.service.get_vehiculos_disponibles_op().subscribe((data) => {
-     this.patentesVehiculos = data
-     console.log(this.patentesVehiculos)
+    this.service.get_lista_patentes_disponibles().subscribe((data) => {
+
+      this.patentesDisponibles = data
+    //  this.patentesVehiculos = data
+    //  console.log(this.patentesVehiculos)
 
      const patentePasada = this.nombreRutaService.getDataDriver().patente
 
@@ -108,18 +110,31 @@ export class AsignarRutaComponent {
    
     // this.asignarRutaForm.patchValue({region: "ccdddd"})
 
-    this.service.get_lista_patentes_disponibles().subscribe((data) => {
-      this.patentesDisponibles = data
-     })
+    // this.service.get_lista_patentes_disponibles().subscribe((data) => {
+    //   this.patentesDisponibles = data
+    //  })
   }
 
   volverRutaActiva(){
     this.router.navigate(['/picking/rutas-activas']);
   }
 
+  agregarPantenteNueva(patente : string){
+    this.asignarRutaForm.patchValue({
+      patente : patente
+    })
+
+    this.seleccionarPatente()
+  }
+
   seleccionarPatente(){
     const patenteForm = this.asignarRutaForm.value.patente
-    const patenteSeleccionada = this.patentesVehiculos.filter(patente=> patente.Ppu ==  patenteForm)[0]
+    // const patenteSeleccionada = this.patentesVehiculos.filter(patente=> patente.Ppu ==  patenteForm)[0]
+    console.log(this.patentesDisponibles)
+    const patenteSeleccionada = this.patentesDisponibles.filter(patente=> patente.Patentes ==  patenteForm)[0]
+
+    console.log(patenteSeleccionada)
+    
     // this.razon_social = patenteSeleccionada.Razon_social
     this.asignarRutaForm.patchValue({
       despachador: this.nombreRutaService.getDataDriver().despachador,
@@ -154,6 +169,11 @@ export class AsignarRutaComponent {
     }else {
       alert("Error, formulario invalido")
     }
+  }
+
+
+  asignarPatente(){
+    
   }
 
 }

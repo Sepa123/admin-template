@@ -638,6 +638,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Seguimiento Ruta',
         url: '/toc/seguimiento-ruta'
+      },
+      {
+        name: 'Productos Adelanto',
+        url : '/toc/producto-adelanto'
       }
     ]
   },

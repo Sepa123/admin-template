@@ -103,6 +103,22 @@ export class VehiculosComponent {
     this.visibleIconos = !this.visibleIconos;
   }
 
+  isDocumentExpiringOrExpired(): boolean {
+    const fechaVenc = this.formVehiculo.value.Permiso_circulacion_fec_venc+""
+    const documentDate = new Date(fechaVenc)
+    const today = new Date();
+    const timeDifference = documentDate.getTime() - today.getTime();
+  
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+  
+    // Si la fecha ya pasó o está dentro de los próximos 30 días, retorna true
+    return daysDifference <= 30;
+  }
+
+  get vehiculosHabilitados() {
+    return this.vehiculos.filter(c => c.Habilitado).length;
+  }
+
   handleLiveIconosChange(event: any) {
     this.visibleIconos = event;
   }
@@ -599,7 +615,15 @@ seleccionarRut(){
           // this.formVehiculo.patchValue({Desc_desabilitado : ''})
         })
       }, error => {
-        alert(error.error.detail)
+
+        if (error.status == 422){
+          alert('Uno o varios campos tiene datos invalidos')
+        } else {
+          alert(error.error.detail)
+        }
+        
+        // console.log(error)
+        // console.log(error.status)
       })
     }else{
       this.isErrorView = true

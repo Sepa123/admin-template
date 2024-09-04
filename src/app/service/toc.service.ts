@@ -14,6 +14,7 @@ import { EditarTOC, AlertaExistenteTOC } from 'src/app/models/editarTOC.interfac
 import { MainDifFechasEasy,Dato } from 'src/app/models/TOC/difFechasEasy.interface'
 import { MainProductoIngresado, DatoPI } from 'src/app/models/TOC/productosIngresadosEasy.interface'
 import {MainTelefonosTruncados, DatoTelefonos} from 'src/app/models/TOC/telefonosTruncados.interface'
+import { ProductoAdelanto } from 'src/app/models/TOC/productosAdelanto.interface'
 @Injectable({
   providedIn: 'root'
 })
@@ -147,5 +148,9 @@ export class TocService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
+
+  buscar_productos_adelanto(){
+    return this.http.get<ProductoAdelanto []>(this.apiurl + `/productos/adelanto`)
   }
 }

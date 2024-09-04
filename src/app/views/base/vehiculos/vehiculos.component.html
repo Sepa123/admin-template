@@ -456,6 +456,12 @@
             <button class="btn btn-success" type="button" *ngIf="descargarPermisoCirculacion" (click)="descargarArchivo(descargarPermisoCirculacion)" >descargar 
               <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
           </button>
+          &nbsp;&nbsp;
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 1536 1536"
+              *ngIf="isDocumentExpiringOrExpired()">
+            <path fill="green" d="M1536 768q0 156-61 298t-164 245t-245 164t-298 61q-172 0-327-72.5T177 1259q-7-10-6.5-22.5t8.5-20.5l137-138q10-9 25-9q16 2 23 12q73 95 179 147t225 52q104 0 198.5-40.5T1130 1130t109.5-163.5T1280 768t-40.5-198.5T1130 406T966.5 296.5T768 256q-98 0-188 35.5T420 393l137 138q31 30 14 69q-17 40-59 40H64q-26 0-45-19T0 576V128q0-42 40-59q39-17 69 14l130 129Q346 111 483.5 55.5T768 0q156 0 298 61t245 164t164 245t61 298" />
+          </svg>
+
           </div>
       </c-col>
         </c-row>
@@ -748,13 +754,19 @@
     <c-row>
       <c-col [xs] >
        <h5>Cantidad : {{cantVehiculo}} </h5>
+
+       
       </c-col>
       <c-col [xs]>
-
+        <h5>Habilitados : {{vehiculosHabilitados}} </h5>
       </c-col>
       <c-col [xs]>
           
 
+      </c-col>
+      <c-col [xs]>
+          
+        
       </c-col>
       <c-col [xs]>
           

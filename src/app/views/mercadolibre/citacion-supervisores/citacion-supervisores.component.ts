@@ -412,6 +412,14 @@ guardarDatos() {
     console.log(data)
     // console.log(body);
   alert(data.message);
+
+  this.service.getDatosCitacionSupervisor(this.id_usuario,this.currentDate).subscribe((data) => {
+    this.citacionSupervisores = data
+    console.log(this.citacionSupervisores[0].chart_data)
+    this.chartVisible = true
+    this.graficoVisible = true
+    
+  })
   }), (error) => {
     const listaCampos = error.error.detail.map((data : any) => {
       return data.loc[3]
