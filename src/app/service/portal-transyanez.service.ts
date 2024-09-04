@@ -286,4 +286,15 @@ export class PortalTransyanezService {
         window.URL.revokeObjectURL(url);
     })
   }
+
+  descargarInformeAT() {
+    this.http.get(this.apiurl + "/razon_social/at/descargar",{responseType:"blob"}).subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`Actualizacion AT - HELA.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
 }

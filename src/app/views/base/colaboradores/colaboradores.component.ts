@@ -777,6 +777,10 @@ sortTableRazon(orden : boolean){
   }
 
 
+  descargarExcelATHela(){
+    this.service.descargarInformeAT()
+  }
+
 
  ngOnDestroy(): void {
 
