@@ -11,6 +11,7 @@
   </c-row>
   <p></p>
   <div class="greenTable" >
+    <h5>Total: {{productoAdelanto.length}}</h5>
     <p></p>
     <table id="tablaProductosPicking" >
       <thead>
@@ -21,7 +22,7 @@
           <th>Comuna</th>
           <th>Teléfono</th>
           <th>Entrega</th>
-          <th>Descripcion</th>
+          <th>Descripción</th>
           <th>Fecha Compromiso Original</th>
           <th>Fecha Reprogramada</th>
         </tr>
@@ -34,8 +35,18 @@
           <td>{{dato.Nombre}}</td>
           <td>{{dato.Direccion}}</td>
           <td>{{dato.Ciudad}}</td>
-          <td>{{dato.Telefono}}</td>
+          <td style="white-space: nowrap;">{{dato.Telefono}}</td>
           <td>{{dato.entrega}}</td>
+          <td>
+            <c-row *ngFor="let desc of dato.Descripcion.split('@')">
+              <c-col style="white-space: nowrap;">
+                {{desc}}
+              </c-col>
+              
+            </c-row>
+           
+            <!-- {{dato.Descripcion}} -->
+          </td>
           <!-- <td>{{dato.Cod_pedido}}</td> -->
           <td>{{dato.Fecha_comp_original}}</td>
           <!-- <td >{{dato.Direccion}}</td>  -->

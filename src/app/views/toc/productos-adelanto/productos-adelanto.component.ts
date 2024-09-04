@@ -29,12 +29,12 @@ export class ProductosAdelantoComponent {
 
     const datos: any[][] = [[]];
 
-    datos.push(["Nombre","Dirección","Ciudad","Teléfono","Entrega","Fecha Fin","Fecha Compromiso Original",
+    datos.push(["Nombre","Dirección","Ciudad","Teléfono","Entrega","Descripción","Fecha Fin","Fecha Compromiso Original",
       "Fecha Reprogramada"])
 
     this.productoAdelanto.forEach((pedido) => {
         const fila: any[] = [];
-        fila.push(pedido.Nombre, pedido.Direccion, pedido.Ciudad, pedido.Ciudad, pedido.Telefono, pedido.entrega, pedido.Fecha_comp_original, pedido.Fecha_reprogramada); 
+        fila.push(pedido.Nombre, pedido.Direccion, pedido.Ciudad, pedido.Ciudad, pedido.Telefono, pedido.entrega,pedido.Descripcion, pedido.Fecha_comp_original, pedido.Fecha_reprogramada); 
         datos.push(fila);
       });
 

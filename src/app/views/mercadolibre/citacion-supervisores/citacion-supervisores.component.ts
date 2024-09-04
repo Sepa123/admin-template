@@ -30,6 +30,8 @@ export class CitacionSupervisoresComponent {
   operacion : string = ''
   centroOperacion : string = ''
 
+  subidoOk : boolean = false
+
   tipoOperacion : string = ''
 
   observacionPatente : string = ''
@@ -82,6 +84,7 @@ export class CitacionSupervisoresComponent {
   
 
   verObservacion(detalle : MainCitacionA,index : number){
+    this.subidoOk = false
     this.toggleLiveObservacion()
     this.indexActualPatente = index
     this.observacionPatente = detalle.observacion 
@@ -241,15 +244,12 @@ export class CitacionSupervisoresComponent {
           this.message = data.message
           console.log('Archivo subido exitosamente');
 
-          this.service.getDatosCitacionActiva(this.idOperacion,this.idCentroOperacion,this.currentDate.split('-').join()).subscribe((data) => {
+          this.subidoOk = true
 
-      
+          this.service.getDatosCitacionActiva(this.idOperacion,this.idCentroOperacion,this.currentDate.split('-').join()).subscribe((data) => {
             this.datosCitacionActiva = data
-      
             const operacion = this.datosCitacionActiva[0].operacion
-      
             this.tipoOperacion = operacion
-      
           },
           error =>{
             
@@ -258,6 +258,7 @@ export class CitacionSupervisoresComponent {
         },
         (error) => {
           console.error('Error al subir el archivo:', error);
+          this.subidoOk = false
           alert('Error al subir el archivo')
           this.termino = true
           // Lógica de manejo de errores.
