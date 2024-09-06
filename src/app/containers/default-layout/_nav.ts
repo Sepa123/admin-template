@@ -189,6 +189,22 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
+    name: 'Transporte',
+    url: '/transporte',
+    iconComponent: { name: 'cil-car-alt' },
+    roles : [ROLES_ENUM.FINANZA,ROLES_ENUM.JEFE_FINANZAS],
+    children: [
+      {
+        name:'Gestión Gps',
+        url: '/transporte/gestion-gps'
+      }
+      // {
+      //   name: 'Colaboradores',
+      //   url : '/transporte/colaboradores'
+      // },
+    ]
+  },
+  {
     name: 'EXO',
     url: '/exo',
     iconComponent: { name: 'cil-bar-chart' },
@@ -569,6 +585,10 @@ export const navItems: INavDataBar[] = [
         name: "Prefactura",
         url:  '/mercadolibre/prefactura'
       },
+      {
+        name: "Citación Supervisores",
+        url:  '/mercadolibre/citacion-supervisores'
+      },
       // {
       //   name: "Prefactura Diaria",
       //   url:  '/mercadolibre/prefactura-diaria'
@@ -861,6 +881,10 @@ export const navItems: INavDataBar[] = [
       {
         name: "Car. Tarifario General",
         url : '/finanzas/tarifario'
+      },
+      {
+        name: "Tarifario General",
+        url : '/finanzas/tarifarioGeneral'
       },
       // {
       //   name: "Car. Vehículo",

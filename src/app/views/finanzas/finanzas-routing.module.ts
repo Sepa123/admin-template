@@ -4,6 +4,7 @@ import { TarifarioComponent } from './tarifario/tarifario.component';
 import { CarVehiculoComponent } from './car-vehiculo/car-vehiculo.component';
 import { Title } from 'chart.js';
 import { CarTarifarioEspecificoComponent } from './car-tarifario-especifico/car-tarifario-especifico.component';
+import { TarifarioGeneralComponent } from './tarifario-general/tarifario-general.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,13 @@ const routes: Routes = [
         component: CarTarifarioEspecificoComponent,
         data : {
           title: "carTarifarioEspecifico"
+        }
+      },
+      {
+        path: 'tarifarioGeneral',
+        component: TarifarioGeneralComponent,
+        data : {
+          title: "Tarifario General"
         }
       }
 
