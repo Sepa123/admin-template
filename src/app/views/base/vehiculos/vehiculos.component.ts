@@ -11,7 +11,7 @@ import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from 'src/app/models
 import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
 import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
 import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
-
+import { PanelVehiculos } from 'src/app/models/transporte/paneles.interface'
 
 @Component({
   selector: 'app-vehiculos',
@@ -65,6 +65,13 @@ export class VehiculosComponent {
   formaPago : any [] = formasPago
 
   ObservacionVehiculos: VehiculoObservaciones [] = []
+
+  panelVehiculos : PanelVehiculos = {
+    "Total": 0,
+    "Vehiculos_Habilitados": 0,
+    "Habilitados_con_GPS": 0,
+    "Habilitados_sin_GPS": 0
+}
 
   //datos geo
   latitude!: number
@@ -301,6 +308,10 @@ seleccionarRut(){
 
               this.service.getVehiculosObservaciones().subscribe((data) => {
                 this.ObservacionVehiculos = data
+
+                this.service.getpanelVehiculos().subscribe(data => {
+                  this.panelVehiculos= data
+                })
               })
           })
         })
@@ -895,6 +906,10 @@ descargarDatosVehiculos(){
   this.service.descargarVehiculosObservaciones()
 
  }
+
+ descargarExcelATHela(){
+  this.service.descargarInformeATVehiculos()
+}
 
  ngOnDestroy(): void {
 

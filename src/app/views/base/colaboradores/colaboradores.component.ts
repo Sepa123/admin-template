@@ -6,7 +6,7 @@ import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angu
 import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
 import { Colaborador,DetallePago, Patentes, Usuario } from 'src/app/models/transporte/colaborador.interface' 
-
+import { PanelColaboradore } from 'src/app/models/transporte/paneles.interface' 
 @Component({
   selector: 'app-colaboradores',
   templateUrl: './colaboradores.component.html',
@@ -31,6 +31,13 @@ export class ColaboradoresComponent {
   longitud! :number
   latStr!: string
   longStr!: string
+
+  panelColab : PanelColaboradore = {
+    "Total": 0,
+    "Colaboradores_Activos": 0,
+    "Activos_con_Contrato": 0,
+    "Activos_sin_Contrato": 0
+}
 
   constructor(private service: PortalTransyanezService,public builder: FormBuilder,private comunaService : ComunasService) { }
 
@@ -300,6 +307,10 @@ export class ColaboradoresComponent {
 
         this.service.getMotivosDesvinculacion().subscribe((data : any) => {
           this.listaMotivosD = data
+
+          this.service.getpanelColaboradores().subscribe((data : any) => {
+            this.panelColab = data
+          })
         })
       })
     })

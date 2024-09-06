@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
 import { Vehiculo,AsignarOperacion, VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
 import { Usuario } from 'src/app/models/transporte/tripulacion.interface' 
+import { PanelColaboradore, PanelVehiculos } from 'src/app/models/transporte/paneles.interface' 
 @Injectable({
   providedIn: 'root'
 })
@@ -296,5 +297,24 @@ export class PortalTransyanezService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
+
+  descargarInformeATVehiculos() {
+    this.http.get(this.apiurl + "/vehiculos/at/descargar",{responseType:"blob"}).subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`Actualizacion Vehículos AT - HELA.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+  getpanelColaboradores(){
+    return this.http.get<PanelColaboradore>(this.apiurl+"/panel/colaboradores")
+  }
+
+  getpanelVehiculos(){
+    return this.http.get<PanelVehiculos>(this.apiurl+"/panel/vehiculos")
   }
 }

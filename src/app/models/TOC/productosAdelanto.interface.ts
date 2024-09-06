@@ -7,4 +7,6 @@ export interface ProductoAdelanto {
     Descripcion:         string;
     Fecha_comp_original: string;
     Fecha_reprogramada:  string | null;
+    Region:              string;
+    Observacion:         string
 }

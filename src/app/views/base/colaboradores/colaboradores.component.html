@@ -1361,6 +1361,9 @@
 <h2>Razón social</h2>
 <p></p>
 
+
+
+
 <c-row>
     <c-col [xs] >
         <button *ngIf="rol_no_permitido.includes(rol+'') == false" class="btn btn-success" (click)="toggleLiveAgregar()">Agregar Razón social
@@ -1380,7 +1383,7 @@
     </c-col>
 </c-row>
 <p></p>
-<c-row>
+<!-- <c-row>
   <c-col [xs]>
     <h5>Total : {{ colaboradores.length }} </h5>
   </c-col>
@@ -1399,6 +1402,86 @@
   <c-col [xs]>
     
   </c-col>
+</c-row> -->
+<c-row >
+  <c-col xs="6" sm="3">
+    <!-- <c-widget-stat-e
+      class="mb-4 text-white fs-4"
+      color="#98ff98"
+    >
+    Total
+    <br />
+      {{panelColab.Total}}  
+
+
+  </c-widget-stat-e> -->
+  <div class="card" style="background-color: #98ff98;">
+    <div class="card-body d-flex align-items-center ">
+      <table>
+        <tr>
+          <span style="font-weight: bolder; font-size: 14px;"> Total  </span>
+        </tr>
+        <tr>
+          <span style="font-weight: bolder; font-size: 28px;">{{panelColab.Total}}</span>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
+  </c-col>
+
+  <c-col xs="6" sm="3">
+
+  <div class="card" style="background-color: #ADD8E6;">
+    <div class="card-body d-flex align-items-center ">
+      <table>
+        <tr>
+          <span style="font-weight: bolder; font-size: 14px;">  Colaboradoress Activos  </span>
+        </tr>
+        <tr>
+          <span style="font-weight: bolder; font-size: 28px;">{{panelColab.Colaboradores_Activos}}</span>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  </c-col>
+
+  <c-col xs="6" sm="3">
+
+  <div class="card" style="background-color: #ADD8E6;">
+    <div class="card-body d-flex align-items-center ">
+      <table>
+        <tr>
+          <span style="font-weight: bolder; font-size: 14px;">  Activos con Contrato </span>
+        </tr>
+        <tr>
+          <span style="font-weight: bolder; font-size: 28px;">{{ panelColab.Activos_con_Contrato }}</span>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  </c-col>
+
+  <c-col xs="6" sm="3">
+
+  <div class="card" style="background-color: #ADD8E6;">
+    <div class="card-body d-flex align-items-center ">
+      <table>
+        <tr>
+          <span style="font-weight: bolder; font-size: 14px;">   Activos sin Contrato </span>
+        </tr>
+        <tr>
+          <span style="font-weight: bolder; font-size: 28px;"> {{panelColab.Activos_sin_Contrato}}</span>
+        </tr>
+      </table>
+    </div>
+  </div>
+  </c-col>
+
+  
 </c-row>
 <p></p>
 

@@ -20,7 +20,8 @@ import {
   CardModule,
   DropdownModule,
   TabsModule,
-  NavModule
+  NavModule,
+  WidgetModule
 } from '@coreui/angular';
 import { NgSelectModule } from '@ng-select/ng-select';
 

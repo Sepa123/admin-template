@@ -19,6 +19,19 @@ export class ProductosAdelantoComponent {
   constructor( private service : TocService){
 
   }
+
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+
+
+
   ngOnInit(){
     this.service.buscar_productos_adelanto().subscribe((data) => {
       this.productoAdelanto = data
@@ -29,12 +42,12 @@ export class ProductosAdelantoComponent {
 
     const datos: any[][] = [[]];
 
-    datos.push(["Nombre","Dirección","Ciudad","Teléfono","Entrega","Descripción","Fecha Compromiso Original",
-      "Fecha Reprogramada"])
+    datos.push(["Nombre","Dirección",'Región',"Ciudad","Teléfono","Entrega","Descripción","Fecha Compromiso Original",
+      "Fecha Reprogramada",'Observación'])
 
     this.productoAdelanto.forEach((pedido) => {
         const fila: any[] = [];
-        fila.push(pedido.Nombre, pedido.Direccion, pedido.Ciudad, pedido.Telefono, pedido.entrega,pedido.Descripcion, pedido.Fecha_comp_original, pedido.Fecha_reprogramada); 
+        fila.push(pedido.Nombre, pedido.Direccion, pedido.Region, pedido.Ciudad, pedido.Telefono, pedido.entrega,pedido.Descripcion, pedido.Fecha_comp_original, pedido.Fecha_reprogramada,pedido.Observacion); 
         datos.push(fila);
       });
 
@@ -52,4 +65,10 @@ export class ProductosAdelantoComponent {
     XLSX.writeFile(libroExcel, nombreArchivo);
   }
 
+  ObservacionProducto: string = ''
+
+  verObservacion(obs: string){
+    this.ObservacionProducto = obs
+    this.toggleLiveDemo()
+  }
 }
