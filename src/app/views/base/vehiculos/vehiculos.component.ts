@@ -616,15 +616,20 @@ seleccionarRut(){
         this.uploadFileVehiculos(this.selectedPadron,'padron',nombre)
         this.uploadFileVehiculos(this.selectedCertGases,'cert_gases',nombre)
 
-        this.service.buscarVehiculos().subscribe((data) => {
-          this.vehiculos = data
-          this.vehiculosFull = this.vehiculos
-          this.cantVehiculo = this.vehiculosFull.length
-          this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
-          this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
-          this.toggleLiveDemo()
-          // this.formVehiculo.patchValue({Desc_desabilitado : ''})
-        })
+        setTimeout(() => {
+          this.service.buscarVehiculos().subscribe((data) => {
+            this.vehiculos = data
+            this.vehiculosFull = this.vehiculos
+            this.cantVehiculo = this.vehiculosFull.length
+            this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
+            this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
+            this.toggleLiveDemo()
+            // this.formVehiculo.patchValue({Desc_desabilitado : ''})
+          })
+        }, 1000);
+
+        
+
       }, error => {
 
         if (error.status == 422){

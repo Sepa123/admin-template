@@ -336,6 +336,8 @@ export class ColaboradoresComponent {
   
 
   descargarArchivo(archivo : string | null){
+
+    console.log(archivo)
     if(archivo){
       this.service.downloadArchivos(archivo)
     }
@@ -670,20 +672,9 @@ export class ColaboradoresComponent {
           Id_razon_social : data.razon
         })
 
-        
-        if(this.checkDetallePago == true){
-          this.service.actualizarDetallePago(this.formBancario.value).subscribe((data : any) => {
-            this.formBancario.reset()
-            this.uploadFile(this.selectedDocBancario,'documento_bancario',nombre)
-  
-            this.service.obtenerColaboradores().subscribe((data) => {
-              this.colaboradores = data
-              this.toggleLiveDemo()
-            })
-          })
-        }else {
-          if(this.formBancario.valid){
-            this.service.registrarDetallePago(this.formBancario.value).subscribe((data : any) => {
+        setTimeout(() => {
+          if(this.checkDetallePago == true){
+            this.service.actualizarDetallePago(this.formBancario.value).subscribe((data : any) => {
               this.formBancario.reset()
               this.uploadFile(this.selectedDocBancario,'documento_bancario',nombre)
     
@@ -692,13 +683,27 @@ export class ColaboradoresComponent {
                 this.toggleLiveDemo()
               })
             })
-          } else{
-            this.service.obtenerColaboradores().subscribe((data) => {
-              this.colaboradores = data
-              this.toggleLiveDemo()
-            })
+          }else {
+            if(this.formBancario.valid){
+              this.service.registrarDetallePago(this.formBancario.value).subscribe((data : any) => {
+                this.formBancario.reset()
+                this.uploadFile(this.selectedDocBancario,'documento_bancario',nombre)
+      
+                this.service.obtenerColaboradores().subscribe((data) => {
+                  this.colaboradores = data
+                  this.toggleLiveDemo()
+                })
+              })
+            } else{
+              this.service.obtenerColaboradores().subscribe((data) => {
+                this.colaboradores = data
+                this.toggleLiveDemo()
+              })
+            }
           }
-        }
+          
+        }, 1000);
+        
         
         
 
