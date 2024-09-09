@@ -8,6 +8,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { TripulacionComponent } from './tripulacion/tripulacion.component';
 import { BuscadorComponent } from './buscador/buscador.component';
 import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
+import { ReclutamientoComponent } from './reclutamiento/reclutamiento.component'
+
 const routes: Routes = [
   {
     path: '',
@@ -76,6 +78,16 @@ const routes: Routes = [
           title: 'rest',
         },
       },  
+      {
+        path: 'reclutamiento',
+        component: ReclutamientoComponent,
+        data: {
+          title: 'rest',
+        },
+      },  
+
+
+      
     ],
   },
 ];

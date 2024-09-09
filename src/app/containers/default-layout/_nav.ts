@@ -115,8 +115,8 @@ export const navItems: INavDataBar[] = [
     roles : [ROLES_ENUM.ADMIN],
     children: [
       // {
-      //   name: 'Reportes',
-      //   url : '/transporte/reportes'
+      //   name: 'Reclutamiento',
+      //   url : '/transporte/reclutamiento'
       // },
       {
         name: 'Razón Social',

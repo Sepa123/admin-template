@@ -207,8 +207,9 @@
                 <!-- <th >patente igual</th> -->
                 <th >Driver</th>
                 <!-- <th >driver_ok</th> -->
-                <th >% Avance</th>
                 <th >Avance</th>
+                <th >% Avance</th>
+                
                 <!-- <th >tipo_vehiculo</th> -->
                 <th >Valor ruta</th>
                 <!-- <th >ruta_cerrada</th> -->
@@ -282,8 +283,8 @@
 
                 </td>
                 
-                <td contenteditable="true" (blur)="updateCell($event, i, 'avance')">  {{detalle.avance}}</td>
-                <td contenteditable="true" (blur)="updateCell($event, i, 'p_avance')">  {{detalle.p_avance}}</td>
+                <td [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'avance')">  {{detalle.avance}}</td>
+                <td [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'p_avance')">  {{detalle.p_avance}}</td>
                 <!-- <td contenteditable="false" (blur)="updateCell($event, i, 'avance')"></td> -->
                 <!-- <td contenteditable="false" (blur)="updateCell($event, i, 'tipo_vehiculo')">{{detalle.tipo_vehiculo}}</td> -->
                 <td [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'valor_ruta')"> {{detalle.valor_ruta}}</td>
@@ -315,7 +316,7 @@
                   <td contenteditable="true" (blur)="updateCell($event, i, 'p_no_colectadas')">{{detalle.campos_por_operacion[0].p_no_colectadas}}</td>
 
                 </div> -->
-                <td contenteditable="true" (blur)="updateCell($event, i, 'kilometro')">  {{detalle.kilometro}}</td>
+                <td [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'kilometro')">  {{detalle.kilometro}}</td>
                 <td>
                   <svg (click)="verObservacion(detalle,i)" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
  

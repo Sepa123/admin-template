@@ -41,7 +41,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { TripulacionComponent } from './tripulacion/tripulacion.component';
 import { BuscadorComponent } from './buscador/buscador.component';
 import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
-import {NgbRating} from '@ng-bootstrap/ng-bootstrap'
+import {NgbRating} from '@ng-bootstrap/ng-bootstrap';
+import { ReclutamientoComponent } from './reclutamiento/reclutamiento.component'
 
 @NgModule({
   imports: [
@@ -77,7 +78,8 @@ import {NgbRating} from '@ng-bootstrap/ng-bootstrap'
     UsuariosComponent,
     TripulacionComponent,
     BuscadorComponent,
-    GestionGpsComponent
+    GestionGpsComponent,
+    ReclutamientoComponent
   ],
 })
 export class BaseModule {}
