@@ -12,7 +12,7 @@ import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
 import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
 import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
 import { PanelVehiculos } from 'src/app/models/transporte/paneles.interface'
-
+import { ContactoEjecutivo, EstadoContacto, MainSeleccionReclutamiento, MotivoSubestado, Operacion, Origen, Region,TipoVehiculo } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
 
 @Component({
   selector: 'app-reclutamiento',
@@ -42,6 +42,20 @@ export class ReclutamientoComponent {
     private MoService: ModalidadDeOperacionesService
   ) { }
 
+
+  /// seleccion de reclutamiento
+  listaRegiones : Region [] = []
+  listaRegionesFiltro : Region [] = []
+
+  listaOperacion : Operacion [] = []
+  listaOrigen : Origen [] = []
+  listaTipoVehiculo : TipoVehiculo [] = []
+  listaContactoEjecutivo: ContactoEjecutivo [] = []
+  listaMotivo: MotivoSubestado [] = []
+  listaEstadoContacto: EstadoContacto [] = []
+
+
+
   buscadorVehiculo : string = ''
 
   isErrorView : boolean = false
@@ -49,8 +63,7 @@ export class ReclutamientoComponent {
   rutColaborador: boolean = true
   rutRepresentanteValido : boolean = true
   rutTitularBanco : boolean = true
-  listaRegiones : any [] = []
-  listaRegionesFiltro : any [] = []
+  
   listaComunas : any [] = []
   listaComunasFull : any [] = []
   tipoUsuario : string = "7"
@@ -287,54 +300,21 @@ seleccionarRut(){
 
   cantVehiculo : number = 0
   ngOnInit() : void {
-
-    
-
     this.getLocation()
-    this.comunaService.getListaRegiones().subscribe((data : any) => {
-      this.listaRegiones = data
 
-      this.service.getMarcasVehiculos().subscribe((data : any) => {
-        this.marcaVehiculo = data
-      
+    this.service.getSeleccionesReclutamiento().subscribe((data) => {
 
-        this.service.buscarVehiculos().subscribe((data) => {
-            this.vehiculos = data
-            this.vehiculosFull = this.vehiculos
-            this.cantVehiculo = this.vehiculosFull.length
-            this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
-            this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
-            this.service.obtenerColaboradores().subscribe((data) => {
-              this.colaboradores = data
+      this.listaRegiones = data.Region
+      this.listaOperacion = data.Operacion
+      this.listaOrigen = data.Origen
+      this.listaTipoVehiculo = data.Tipo_vehiculo
+      this.listaContactoEjecutivo = data.Contacto_ejecutivo
+      this.listaMotivo = data.Motivo_subestado
+      this.listaEstadoContacto = data.Estado_contacto
 
-              this.service.getVehiculosObservaciones().subscribe((data) => {
-                this.ObservacionVehiculos = data
-
-                this.service.getpanelVehiculos().subscribe(data => {
-                  this.panelVehiculos= data
-                })
-              })
-          })
-        })
-      })
     })
 
-    // this.MoService.getCentroOperaciones().subscribe(data => {
-    //     this.centroOperacionFull = data
-    //     this.centroOperacionLista = data
-    //     this.centroOperacion = data
-    // })
 
-    this.comunaService.getListaComunas().subscribe((data : any) => {
-      this.listaComunas = data
-      this.listaComunasFull = this.listaComunas
-      this.formVehiculo.patchValue({
-        Region : '1',
-        Comuna : '1'
-      })
-    })
-
-   
   }
 
   pv : boolean = true
@@ -468,8 +448,8 @@ seleccionarRut(){
           this.vehiculos = data
           this.vehiculosFull = this.vehiculos
           this.cantVehiculo = this.vehiculosFull.length
-          this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
-          this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
+          // this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
+          // this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
           this.toggleLiveAgregar()
 
         })   
@@ -622,8 +602,8 @@ seleccionarRut(){
             this.vehiculos = data
             this.vehiculosFull = this.vehiculos
             this.cantVehiculo = this.vehiculosFull.length
-            this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
-            this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
+            // this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
+            // this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
             this.toggleLiveDemo()
             // this.formVehiculo.patchValue({Desc_desabilitado : ''})
           })

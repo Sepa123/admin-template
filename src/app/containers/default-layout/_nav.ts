@@ -114,10 +114,10 @@ export const navItems: INavDataBar[] = [
     iconComponent: { name: 'cil-car-alt' },
     roles : [ROLES_ENUM.ADMIN],
     children: [
-      // {
-      //   name: 'Reclutamiento',
-      //   url : '/transporte/reclutamiento'
-      // },
+      {
+        name: 'Reclutamiento',
+        url : '/transporte/reclutamiento'
+      },
       {
         name: 'Razón Social',
         url : '/transporte/colaboradores'
@@ -572,7 +572,7 @@ export const navItems: INavDataBar[] = [
     name: 'Mercado Libre',
     url: '/mercadolibre',
     iconComponent : {name : 'cil-handshake'},
-    roles :  [ROLES_ENUM.JEFE_OPERACIONES],
+    roles :  [ROLES_ENUM.JEFE_OPERACIONES,ROLES_ENUM.GERENTE_OPERACION],
     children: [
       // {
       //   name: "Información",

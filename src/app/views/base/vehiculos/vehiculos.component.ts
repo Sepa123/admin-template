@@ -11,7 +11,7 @@ import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from 'src/app/models
 import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
 import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
 import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
-import { PanelVehiculos } from 'src/app/models/transporte/paneles.interface'
+import { MainPanelVehiculos, PanelVehiculos, PanelVehiculosObs } from 'src/app/models/transporte/paneles.interface'
 
 @Component({
   selector: 'app-vehiculos',
@@ -58,7 +58,7 @@ export class VehiculosComponent {
 
   vehiculos : Vehiculo [] = []
   vehiculosFull : Vehiculo [] = []
-
+  errorServer : any []= []
    
   tipoCuentas : any [] = tipoCuenta
   banco : any [] = bancos
@@ -71,7 +71,13 @@ export class VehiculosComponent {
     "Vehiculos_Habilitados": 0,
     "Habilitados_con_GPS": 0,
     "Habilitados_sin_GPS": 0
-}
+  }
+  panelVehiculosObs : PanelVehiculosObs = {
+    "Observados":  0,
+    "Vencidos":    0,
+    "por_Vencer":  0,
+    "Incompletos": 0,
+  }
 
   //datos geo
   latitude!: number
@@ -290,11 +296,22 @@ seleccionarRut(){
     
 
     this.getLocation()
-    this.comunaService.getListaRegiones().subscribe((data : any) => {
-      this.listaRegiones = data
 
-      this.service.getMarcasVehiculos().subscribe((data : any) => {
-        this.marcaVehiculo = data
+
+    this.service.getSeleccionesVehiculos().subscribe((data) => {
+      this.listaRegiones = data.Region
+      this.marcaVehiculo = data.Marca_vehiculo
+      this.ObservacionVehiculos = data.Vehiculos_observaciones
+      this.tipoVehiculos = data.Tipo_vehiculo
+      this.listaComunas = data.Comuna
+      this.listaComunasFull = this.listaComunas
+
+    })
+    // this.comunaService.getListaRegiones().subscribe((data : any) => {
+    //   this.listaRegiones = data
+
+    //   this.service.getMarcasVehiculos().subscribe((data : any) => {
+    //     this.marcaVehiculo = data
       
 
         this.service.buscarVehiculos().subscribe((data) => {
@@ -306,17 +323,18 @@ seleccionarRut(){
             this.service.obtenerColaboradores().subscribe((data) => {
               this.colaboradores = data
 
-              this.service.getVehiculosObservaciones().subscribe((data) => {
-                this.ObservacionVehiculos = data
+              // this.service.getVehiculosObservaciones().subscribe((data) => {
+              //   this.ObservacionVehiculos = data
 
-                this.service.getpanelVehiculos().subscribe(data => {
-                  this.panelVehiculos= data
+              this.service.getpanelVehiculos().subscribe(data => {
+                  this.panelVehiculos= data.Panel_vehiculos
+                  this.panelVehiculosObs = data.Panel_vehiculos_obs
                 })
-              })
+              // })
           })
         })
-      })
-    })
+    //   })
+    // })
 
     // this.MoService.getCentroOperaciones().subscribe(data => {
     //     this.centroOperacionFull = data
@@ -324,14 +342,11 @@ seleccionarRut(){
     //     this.centroOperacion = data
     // })
 
-    this.comunaService.getListaComunas().subscribe((data : any) => {
-      this.listaComunas = data
-      this.listaComunasFull = this.listaComunas
-      this.formVehiculo.patchValue({
-        Region : '1',
-        Comuna : '1'
-      })
-    })
+    // this.comunaService.getListaComunas().subscribe((data : any) => {
+    //   this.listaComunas = data
+    //   this.listaComunasFull = this.listaComunas
+      
+    // })
 
    
   }
@@ -486,6 +501,7 @@ seleccionarRut(){
 
 
   revisarDatosVehiculo(ppu : string){
+    this.errorServer = []
     const datosVehiculo = this.vehiculos.filter(vehiculo => vehiculo.Ppu == ppu)[0]
     this.formVehiculo.patchValue({
       Id_user  : sessionStorage.getItem("id")?.toString()+"",
@@ -590,6 +606,8 @@ seleccionarRut(){
 
   actualizarDatosVehiculo(){
 
+    this.errorServer = []
+
     this.isErrorView = false
 
     this.formVehiculo.patchValue({
@@ -626,14 +644,23 @@ seleccionarRut(){
             this.toggleLiveDemo()
             // this.formVehiculo.patchValue({Desc_desabilitado : ''})
           })
-        }, 1000);
+        }, 1200);
 
         
 
       }, error => {
 
         if (error.status == 422){
-          alert('Uno o varios campos tiene datos invalidos')
+          
+          
+          error.error.detail.map((error : any) => {
+            this.errorServer.push(error.loc[1], error.msg)
+          })
+
+
+
+          alert('Datos invalidos \n'+ this.errorServer.join(': '))
+    
         } else {
           alert(error.error.detail)
         }
@@ -647,7 +674,6 @@ seleccionarRut(){
     }
 
   }
-
 
  veficarColabExiste(rut: string | null | undefined){
   if (rut){

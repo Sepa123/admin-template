@@ -702,7 +702,7 @@ export class ColaboradoresComponent {
             }
           }
           
-        }, 1000);
+        }, 1200);
         
         
         

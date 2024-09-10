@@ -159,8 +159,10 @@
 
         <c-row>
           <c-col [xs]>
-              <div class="">
-                Capacidad de carga Kg *
+              <div class=""  >
+                <span title="">
+                  Capacidad de carga Kg *
+                </span>
                   <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_kg" min="0" >
                   <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                   <span class="error" *ngIf="form.get('Capacidad_carga_kg')?.errors?.['required'] && isErrorView">
@@ -171,12 +173,15 @@
     
           <c-col [xs]>
               <div class="noEditar">
-                Capacidad de carga M3 *
+                <span title="El valor puede tener un máximo de 2 decimales ">
+                  Capacidad de carga M3 *
+                </span>
+                
                   <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_m3" min="0">
                   <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                   <span class="error" *ngIf="formVehiculo.get('Capacidad_carga_m3')?.errors?.['required'] && isErrorView">
                       Falta agregar la capacidad de carga M3
-                  </span>
+                  </span> 
               </div>
           </c-col>
           <c-col [xs]>
@@ -526,7 +531,9 @@
     
           <c-col [xs]>
               <div class="noEditar">
-                Capacidad de carga M3 *
+                <span title="El valor puede tener un máximo de 2 decimales ">
+                  Capacidad de carga M3 *
+                </span>
                   <input type="number" placeholder="" class="form-control" formControlName="Capacidad_carga_m3" min="0">
                   <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                   <span class="error" *ngIf="formVehiculo.get('Capacidad_carga_m3')?.errors?.['required'] && isErrorView">
@@ -947,6 +954,90 @@
       <p></p>
       <h2>Observaciones <svg (click)="toggleLiveIconos()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg>
       </h2> 
+      <p></p>
+
+      <c-row>
+        <c-col xs="6" sm="3">
+          <!-- <c-widget-stat-e
+            class="mb-4 text-white fs-4"
+            color="#98ff98"
+          >
+          Total
+          <br />
+            {{panelColab.Total}}  
+      
+      
+        </c-widget-stat-e> -->
+        <div class="card" style="background-color: #98ff98;">
+          <div class="card-body d-flex align-items-center ">
+            <table>
+              <tr>
+                <span style="font-weight: bolder; font-size: 14px;"> Observados </span>
+              </tr>
+              <tr>
+                <span style="font-weight: bolder; font-size: 28px;">{{panelVehiculosObs.Observados}}</span>
+              </tr>
+            </table>
+          </div>
+        </div>
+      
+      
+        </c-col>
+      
+        <c-col xs="6" sm="3">
+      
+        <div class="card" style="background-color: #ADD8E6;">
+          <div class="card-body d-flex align-items-center ">
+            <table>
+              <tr>
+                <span style="font-weight: bolder; font-size: 14px;">  Vencidos  </span>
+              </tr>
+              <tr>
+                <span style="font-weight: bolder; font-size: 28px;">{{panelVehiculosObs.Vencidos}}</span>
+              </tr>
+            </table>
+          </div>
+        </div>
+      
+        </c-col>
+      
+        <c-col xs="6" sm="3">
+      
+        <div class="card" style="background-color: #ADD8E6;">
+          <div class="card-body d-flex align-items-center ">
+            <table>
+              <tr>
+                <span style="font-weight: bolder; font-size: 14px;">  Por Vencer </span>
+              </tr>
+              <tr>
+                <span style="font-weight: bolder; font-size: 28px;">{{ panelVehiculosObs.por_Vencer }}</span>
+              </tr>
+            </table>
+          </div>
+        </div>
+      
+        </c-col>
+      
+        <c-col xs="6" sm="3">
+      
+        <div class="card" style="background-color: #ADD8E6;">
+          <div class="card-body d-flex align-items-center ">
+            <table>
+              <tr>
+                <span style="font-weight: bolder; font-size: 14px;">  Incompletos </span>
+              </tr>
+              <tr>
+                <span style="font-weight: bolder; font-size: 28px;"> {{panelVehiculosObs.Incompletos}}</span>
+              </tr>
+            </table>
+          </div>
+        </div>
+        </c-col>
+      
+        
+      </c-row>
+  
+      <p></p>
       <div *ngIf="ObservacionVehiculos.length != 0" class="greenTable" style="width: 100%;">
         
         <table id="tablaProductosPicking" style="width: 100%;">
