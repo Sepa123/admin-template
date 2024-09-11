@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
 import { Vehiculo,AsignarOperacion, VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
-import { Usuario } from 'src/app/models/transporte/tripulacion.interface' 
+import { Usuario, ObservacionDriver } from 'src/app/models/transporte/tripulacion.interface' 
 import { MainPanelVehiculos, PanelColaboradore, PanelVehiculos } from 'src/app/models/transporte/paneles.interface' 
 import { MainSeleccionReclutamiento } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
 import { SeleccionesVehiculo } from 'src/app/models/transporte/seleccionesVehiculos.interface'
+import { SeleccionRazonSocial } from 'src/app/models/transporte/seleccionesRazonSocial.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -321,6 +322,14 @@ export class PortalTransyanezService {
     return this.http.get<MainPanelVehiculos>(this.apiurl+"/panel/vehiculos")
   }
 
+  getSeleccionesRazonSocial(){
+    return this.http.get<SeleccionRazonSocial>(this.apiurl+"/datos/razon_social")
+  }
+
+  getSeleccioneTripulacion(){
+    return this.http.get(this.apiurl+"/selecciones/tripulacion")
+  }
+
 
   getSeleccionesReclutamiento(){
     return this.http.get<MainSeleccionReclutamiento>(this.apiurl+"/selecciones/reclutamiento")
@@ -328,5 +337,9 @@ export class PortalTransyanezService {
 
   getSeleccionesVehiculos(){
     return this.http.get<SeleccionesVehiculo>(this.apiurl+"/datos/vehiculos")
+  }
+
+  getObservacionesDriver(){
+    return this.http.get<ObservacionDriver []>(this.apiurl+"/drivers/observaciones")
   }
 }

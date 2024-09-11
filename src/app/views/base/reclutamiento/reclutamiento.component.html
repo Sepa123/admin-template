@@ -2,11 +2,11 @@
 
 <c-modal id="liveAgregaModal" [visible]="visibleAgregar" (visibleChange)="handleLiveAgregaChange($event)" size="xl">
     <c-modal-header>
-      <h5 cModalTitle>Agregar  </h5>
+      <h5 cModalTitle>Agregar Candidato  </h5>
       <button (click)="toggleLiveAgregar()" cButtonClose></button>
     </c-modal-header>
     <c-modal-body>
-      <form cForm [formGroup]="formVehiculo" (ngSubmit)="registrarVehiculo()" > 
+      <form cForm  (ngSubmit)="registrarCandidato()" > 
         <div class="card">
           <p></p>
           <h5>Vehículo</h5>
@@ -15,11 +15,9 @@
             <c-col [xs]>
                 <div class="noEditar">
                     Región
-                    <input list="RutColaboradores" name="RutColaboradores" formControlName="Rut_colaborador"  class="form-control" placeholder="Seleccione un colaborador" (change)="seleccionarRut()" />
-                    <datalist id="RutColaboradores" >
-
-                      <option *ngFor="let colab of colaboradores"  [value]="colab.Rut"  >{{colab.Rut}}</option>
-                    </datalist>
+                    <select id="EstadoContacto" cSelect class="form-control">
+                      <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                    </select>
 
 
                 </div>
@@ -27,30 +25,28 @@
             <c-col [xs]>
               <div class="">
                   Operación Postula
-                  <input list="RutColaboradores" name="RutColaboradores" formControlName="Rut_colaborador"  class="form-control" placeholder="Seleccione un colaborador" (change)="seleccionarRut()" />
-                  <datalist id="RutColaboradores" >
-
-                    <option *ngFor="let colab of colaboradores"  [value]="colab.Rut"  >{{colab.Rut}}</option>
-                  </datalist>
+                  <select id="EstadoContacto" cSelect class="form-control">
+                    <option *ngFor="let op of listaOperacion"  [value]="op.Id"  >{{op.Operacion}}</option>
+                  </select>
               </div>
           </c-col>
           <c-col [xs]>
             <div class="">
               Nombre Contacto
 
-              <input type="text" placeholder="Razón Social" class="form-control" formControlName="" >
+              <input type="text" placeholder="Nombre Contacto" class="form-control"  >
                 <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                 <span class="error">
-                    Falta agregar la razón social
+                    Falta agregar el nombre de contacto
                 </span>
           </div>
         </c-col>
             <c-col [xs]>
               Teléfono
-              <input type="text" placeholder="Razón Social" class="form-control" formControlName="" >
+              <input type="text" placeholder="Teléfono" class="form-control"  >
                 <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                 <span class="error">
-                    Falta agregar la razón social
+                    Falta agregar el teléfono
                 </span>
 
               
@@ -61,38 +57,34 @@
             <div class="">
               Tipo vehículo *
 
-              <input list="RutColaboradores" name="RutColaboradores" formControlName="Rut_colaborador"  class="form-control" placeholder="Seleccione un colaborador" (change)="seleccionarRut()" />
-                  <datalist id="RutColaboradores" >
-
-                    <option *ngFor="let colab of colaboradores"  [value]="colab.Rut"  >{{colab.Rut}}</option>
-              </datalist>
+              <select id="EstadoContacto" cSelect class="form-control">
+                    <option *ngFor="let veh of listaTipoVehiculo"  [value]="veh.Id"  >{{veh.Tipo_vehiculo }}</option>
+              </select>
               
           </div>
         </c-col>
             <c-col [xs]>
               Origen Contacto
 
-              <input list="RutColaboradores" name="RutColaboradores" formControlName="Rut_colaborador"  class="form-control" placeholder="Seleccione un colaborador" (change)="seleccionarRut()" />
-                  <datalist id="RutColaboradores" >
+              <select id="EstadoContacto" cSelect class="form-control">
 
-                    <option *ngFor="let colab of colaboradores"  [value]="colab.Rut"  >{{colab.Rut}}</option>
-              </datalist>
+                    <option *ngFor="let origen of listaOrigen"  [value]="origen.Id"  >{{origen.Origen}}</option>
+              </select>
             </c-col>
             <c-col [xs]>
               <div class="">
                 Estado Contacto
-                  <select id="Tipo"  cSelect formControlName="Tipo"  class="form-control">
-                    <option *ngFor="let tipo of tipoVehiculos"  [value]="tipo.id"  >{{tipo.name}}</option>
+                  <select id="EstadoContacto" cSelect class="form-control">
+                    <option *ngFor="let estado of listaEstadoContacto"  [value]="estado.Id"  >{{estado.Estado_contacto}}</option>
                   </select>
                   </div>
           </c-col>
               <c-col [xs]>
                   <div class="">
                     Motivo Subestado
-                    <input list="RutColaboradores" name="RutColaboradores" formControlName="Rut_colaborador"  class="form-control" placeholder="Seleccione un colaborador" (change)="seleccionarRut()" />
-                    <datalist id="RutColaboradores" >
-                          <option *ngFor="let colab of colaboradores"  [value]="colab.Rut"  >{{colab.Rut}}</option>
-                    </datalist>
+                    <select id="EstadoContacto" cSelect class="form-control">
+                          <option *ngFor="let motivo of listaMotivo"  [value]="motivo.Id"  >{{motivo.Motivo_subestado}}</option>
+                    </select>
                   </div>
               </c-col>
         </c-row>
@@ -100,16 +92,15 @@
             <c-col [xs]>
               <div class="">
                 Contacto Ejecutivo
-                <input list="RutColaboradores" name="RutColaboradores" formControlName="Rut_colaborador"  class="form-control" placeholder="Seleccione un colaborador" (change)="seleccionarRut()" />
-                    <datalist id="RutColaboradores" >
-                          <option *ngFor="let colab of colaboradores"  [value]="colab.Rut"  >{{colab.Rut}}</option>
-                    </datalist>
+                <select id="EstadoContacto" cSelect class="form-control">
+                          <option *ngFor="let contacto of listaContactoEjecutivo"  [value]="contacto.Id"  >{{contacto.Ejecutivo}}</option>
+                </select>
             </div>
           </c-col>
           <c-col [xs]>
             <div class="">
               Razón Social
-              <input type="text" placeholder="Razón Social" class="form-control" formControlName="" >
+              <input type="text" placeholder="Razón Social" class="form-control"  >
               <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
               <span class="error">
                   Falta agregar la razón social
@@ -120,10 +111,10 @@
                 <c-col [xs]>
                   <div class="">
                     Rut Empresa 
-                    <input type="text" placeholder="Razón Social" class="form-control" formControlName="" >
+                    <input type="text" placeholder=" Rut Empresa " class="form-control"  >
                     <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
                     <span class="error">
-                        Falta agregar la razón social
+                        Falta agregar el rut de la empresa
                     </span>
                   </div>
               </c-col>
@@ -162,7 +153,7 @@
       <button (click)="toggleLiveDemo()" cButtonClose></button>
     </c-modal-header>
     <c-modal-body>
-      <form cForm [formGroup]="formVehiculo" (ngSubmit)="actualizarDatosVehiculo()" *ngIf="listaComunasFull.length !== 0" > 
+      <form cForm (ngSubmit)="actualizarDatosVehiculo()" *ngIf="listaComunasFull.length !== 0" > 
 
       </form>
   
@@ -174,25 +165,25 @@
     </c-modal-footer>
   </c-modal>
   
-  <h2>Vehículos Inscritos</h2>
+  <h2>Reclutamiento</h2>
   <p></p>
   
         <c-row>
           <c-col [xs] >
-              <button *ngIf="rol_no_permitido.includes(rol+'') == false" class="btn btn-success" (click)="toggleLiveAgregar()">Agregar Vehículo
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
-                  <path fill="black" d="M441.885 141.649A32.028 32.028 0 0 0 415.669 128H336V80a32.036 32.036 0 0 0-32-32H48a32.036 32.036 0 0 0-32 32v328h53.082a67.982 67.982 0 0 0 133.836 0h106.164a67.982 67.982 0 0 0 133.836 0H496V226.522a23.882 23.882 0 0 0-4.338-13.763ZM47.98 80H304v176H48ZM136 432a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m240 0a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m88-56h-23.006a68 68 0 0 0-129.988 0H200.994a68 68 0 0 0-129.988 0H48v-88h416Zm0-120H336v-96h79.669L464 229.044Z" />
-                </svg>   
+              <button *ngIf="rol_no_permitido.includes(rol+'') == false" class="btn btn-success" (click)="toggleLiveAgregar()">Agregar Candidato
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 20 20">
+                  <path fill="currentColor" d="M8.5 4.5a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0M10 2a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5m4.5 3a1 1 0 1 1 2 0a1 1 0 0 1-2 0m1-2a2 2 0 1 0 0 4a2 2 0 0 0 0-4m-11 1a1 1 0 1 0 0 2a1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0a2 2 0 0 1-4 0M5 15l.1-.002q.103.509.304.975A3 3 0 0 1 2 13V9.25C2 8.56 2.56 8 3.25 8h2.129a2.24 2.24 0 0 0-.365 1H3.25a.25.25 0 0 0-.25.25V13a2 2 0 0 0 2 2m12-5.5a2.5 2.5 0 0 1 .958 1.542l.042.008v-1.8C18 8.56 17.44 8 16.75 8h-2.129c.196.292.325.633.365 1h1.764a.25.25 0 0 1 .25.25zm-1.5.5h-2a1.5 1.5 0 0 0-1.5 1.5v.5h-.5a1.5 1.5 0 0 0-1.5 1.5V15h2v-.5a.5.5 0 0 1 1 0v.5h3v-.5a.5.5 0 0 1 1 0v.5h2v-1.5a1.5 1.5 0 0 0-1.5-1.5H17v-.5a1.5 1.5 0 0 0-1.5-1.5M7.25 9a.25.25 0 0 0-.25.25V14c0 1.306.835 2.418 2 2.83v.67q0 .195.029.381A4 4 0 0 1 6 14V9.25C6 8.56 6.56 8 7.25 8h5.5c.605 0 1.11.43 1.225 1zM13 12v-.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v.5zm4 4v.5a.5.5 0 0 1-1 0V16h-3v.5a.5.5 0 0 1-1 0V16h-2v1.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V16z" />
+                </svg>
               </button>
           </c-col>
           <c-col [xs]>
-            <select id="Region"  cSelect  class="form-control" (change)="filtrarVehiculoRegion()" [(ngModel)]="regionSeleccionada">
+            <!-- <select id="Region"  cSelect  class="form-control" (change)="filtrarVehiculoRegion()" [(ngModel)]="regionSeleccionada">
               <option  [value]="0" >Todas las regiones</option>
               <option *ngFor="let region of listaRegionesFiltro"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
-          </select>
+          </select> -->
           </c-col>
           <c-col [xs]>
-              <input type="text" placeholder="Buscar Vehículo" class="form-control" [(ngModel)]="buscadorVehiculo">
+              <input type="text" placeholder="Buscador" class="form-control" [(ngModel)]="buscadorVehiculo">
   
           </c-col>
           <c-col [xs]>
@@ -202,87 +193,6 @@
       </c-row>
       <p></p>
   
-      <c-row>
-        <c-col xs="6" sm="3">
-          <!-- <c-widget-stat-e
-            class="mb-4 text-white fs-4"
-            color="#98ff98"
-          >
-          Total
-          <br />
-            {{panelColab.Total}}  
-      
-      
-        </c-widget-stat-e> -->
-        <div class="card" style="background-color: #98ff98;">
-          <div class="card-body d-flex align-items-center ">
-            <table>
-              <tr>
-                <span style="font-weight: bolder; font-size: 14px;"> Total  </span>
-              </tr>
-              <tr>
-                <span style="font-weight: bolder; font-size: 28px;">{{panelVehiculos.Total}}</span>
-              </tr>
-            </table>
-          </div>
-        </div>
-      
-      
-        </c-col>
-      
-        <c-col xs="6" sm="3">
-      
-        <div class="card" style="background-color: #ADD8E6;">
-          <div class="card-body d-flex align-items-center ">
-            <table>
-              <tr>
-                <span style="font-weight: bolder; font-size: 14px;">  Vehículos Habilitados  </span>
-              </tr>
-              <tr>
-                <span style="font-weight: bolder; font-size: 28px;">{{panelVehiculos.Vehiculos_Habilitados}}</span>
-              </tr>
-            </table>
-          </div>
-        </div>
-      
-        </c-col>
-      
-        <c-col xs="6" sm="3">
-      
-        <div class="card" style="background-color: #ADD8E6;">
-          <div class="card-body d-flex align-items-center ">
-            <table>
-              <tr>
-                <span style="font-weight: bolder; font-size: 14px;">  Habilitados con GPS </span>
-              </tr>
-              <tr>
-                <span style="font-weight: bolder; font-size: 28px;">{{ panelVehiculos.Habilitados_con_GPS }}</span>
-              </tr>
-            </table>
-          </div>
-        </div>
-      
-        </c-col>
-      
-        <c-col xs="6" sm="3">
-      
-        <div class="card" style="background-color: #ADD8E6;">
-          <div class="card-body d-flex align-items-center ">
-            <table>
-              <tr>
-                <span style="font-weight: bolder; font-size: 14px;">  Habilitados sin GPS </span>
-              </tr>
-              <tr>
-                <span style="font-weight: bolder; font-size: 28px;"> {{panelVehiculos.Habilitados_sin_GPS}}</span>
-              </tr>
-            </table>
-          </div>
-        </div>
-        </c-col>
-      
-        
-      </c-row>
-  
 
         <p></p>
         <div class="greenTable" style="width: 100%;">
@@ -290,159 +200,34 @@
           <table id="tablaProductosPicking" style="width: 100%;"  >
           <thead>
             <tr>
-                <th>Razón social</th>
-                <th class="sortable" (click)="sortTable(sortOrder)">Patente</th>
-                <th>Tipo Vehículo</th>
-                <th>Región Disponible</th>
-                <!-- <th>Rut</th> -->
-                <th>GPS</th>
-                <th (click)="sortTableDisponible(sortOrderEstado)" class="sortable">Disponible </th>
-                <th (click)="sortTableHabilitado(sortOrderHabilitado)" class="sortable">Habilitado</th>
-                <th>Fecha de registro</th>
-                <th>Detalle</th>
-                <th>Operación</th>
+              <th>Región</th>
+              <th>Operación postula</th>
+              <th>Nombre contacto</th>
+              <th>Teléfono</th>
+              <th>Vehículo</th>
+              <th>Origen Contacto</th>
+              <th>Estado contacto</th>
+              <th>Motivo</th>
+              <th>Contacto ejecutivo</th>
+              <th>Razón social</th>
+              <th>Rut empresas</th>
+              <th>Internalizado</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let vehiculo of vehiculos; let i = index">
-              <td>{{vehiculo.Razon_social}}</td>
-              <td>{{vehiculo.Ppu}}</td>
-              <td>{{ convertirVehiculo(vehiculo.Tipo) }}</td>
-              <td>{{ convertirRegion(vehiculo.Region) }}</td>
-              <td>
-                <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 384 512" *ngIf="vehiculo.Gps">
-                  <path fill="#2eb85c" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 384 512" *ngIf="!vehiculo.Gps">
-                  <path fill="#ff0000" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
-                </svg>
-              </td>
-              <!-- <td>{{formatearRUT(vehiculo.Rut)}}</td> -->
-              <td>
-                <div class="slide-toggle-container">
-                  <mat-slide-toggle  [disabled]=" rol == '50' " [(ngModel)]="vehiculo.Disponible" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
-                    <!-- <span *ngIf="formVehiculo.value.Estado">Activado</span>
-                    <span *ngIf="!formVehiculo.value.Estado">Desactivado</span> -->
-                  </mat-slide-toggle>
-                  </div> 
-              </td>
-              <td *ngIf="vehiculo.Habilitado">
-                <svg  xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-              </td>
-              <td *ngIf="!vehiculo.Habilitado">
-                  <svg  xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
-              </td>
-              <td>{{vehiculo.Created_at}}</td>
-              <td>
-                
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="revisarDatosVehiculo(vehiculo.Ppu)" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
-  
-              </td>
-              <td>
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512" (click)="toggleLiveCO(vehiculo.Id)">
-                  <path fill="black" d="M124 166.291v179.418a76 76 0 1 0 32 0V282h152a80.091 80.091 0 0 0 80-80v-36.689a75.983 75.983 0 1 0-32 1.733V202a48.055 48.055 0 0 1-48 48H156v-83.709a76 76 0 1 0-32 0M324 92a44 44 0 1 1 44 44a44.049 44.049 0 0 1-44-44M184 420a44 44 0 1 1-44-44a44.049 44.049 0 0 1 44 44M140 48a44 44 0 1 1-44 44a44.049 44.049 0 0 1 44-44" />
-                </svg>
-              </td>
-              <!-- <td>{{colab.Created_at}}</td> -->
-            </tr>
-            <tr *ngIf="vehiculos.length==0">
-              <td colspan="9" align="center">No hay registros</td>
-            </tr>
+
          
           </tbody>
           </table>
         </div>
         <p></p>
-        <button class="btn btn-success" (click)="descargarDatosVehiculos()">Descargar</button>
+        <!-- <button class="btn btn-success" (click)="descargarDatosVehiculos()">Descargar</button>
        &nbsp;&nbsp;
         <button cButton style="background-color: #f1948a; border: #f1948a; color: #000000;" (click)="descargarExcelATHela()" >
           <svg class="dExcel" xmlns="http://www.w3.org/2000/svg"  height="1.5em" viewBox="0 0 384 512">
               <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
           </svg> Descarga AT
-      </button>
+      </button> -->
   
-        <p></p>
-        <h2>Observaciones <svg (click)="toggleLiveIconos()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg>
-        </h2> 
-        <div *ngIf="ObservacionVehiculos.length != 0" class="greenTable" style="width: 100%;">
-          
-          <table id="tablaProductosPicking" style="width: 100%;">
-              <thead>
-                  <tr>
-                      <th>Estado</th>
-                      <th>PPU</th>
-                      <th>Razón Social</th>
-                      <th>RUT</th>
-                      <th>Celular</th>
-                      <th>Permiso Circulación</th>
-                      <th>SOAP</th>
-                      <th>Revisión Técnica</th>
-                      <th>GPS</th>
-                  </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let obs of ObservacionVehiculos">
-                  <td class="indicator">
-  
-                    <span *ngIf="obs.Codigo_retorno == 1">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
-                        <path fill="green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
-                      </svg>
-                    </span>
-                    
-                    <span *ngIf="obs.Codigo_retorno == 2">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
-                        <path fill="red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
-                      </svg>
-                    </span>
-  
-                    <span *ngIf="obs.Codigo_retorno == 3">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1856 1664">
-                        <path fill="yellow" d="M1056 1375v-190q0-14-9.5-23.5t-22.5-9.5H832q-13 0-22.5 9.5T800 1185v190q0 14 9.5 23.5t22.5 9.5h192q13 0 22.5-9.5t9.5-23.5m-2-374l18-459q0-12-10-19q-13-11-24-11H818q-11 0-24 11q-10 7-10 21l17 457q0 10 10 16.5t24 6.5h185q14 0 23.5-6.5t10.5-16.5m-14-934l768 1408q35 63-2 126q-17 29-46.5 46t-63.5 17H160q-34 0-63.5-17T50 1601q-37-63-2-126L816 67q17-31 47-49t65-18t65 18t47 49" />
-                      </svg>
-                    </span>
-                    
-                    <span *ngIf="obs.Codigo_retorno == 4">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
-                        <path fill="gray" d="M896 1248v-192q0-14-9-23t-23-9H672q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23m256-672q0-88-55.5-163T958 297t-170-41q-243 0-371 213q-15 24 8 42l132 100q7 6 19 6q16 0 25-12q53-68 86-92q34-24 86-24q48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5T640 892v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5T972 829q32-18 49-28.5t46-35t44.5-48t28-60.5t12.5-81m384 192q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
-                      </svg>
-                    </span>
-                    
-                    <span *ngIf="obs.Codigo_retorno == 5">
-  
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1664 1792">
-                        <path fill="skyblue" d="M128 1664h288v-288H128zm352 0h320v-288H480zm-352-352h288V992H128zm352 0h320V992H480zM128 928h288V640H128zm736 736h320v-288H864zM480 928h320V640H480zm768 736h288v-288h-288zm-384-352h320V992H864zM512 448V160q0-13-9.5-22.5T480 128h-64q-13 0-22.5 9.5T384 160v288q0 13 9.5 22.5T416 480h64q13 0 22.5-9.5T512 448m736 864h288V992h-288zM864 928h320V640H864zm384 0h288V640h-288zm32-480V160q0-13-9.5-22.5T1248 128h-64q-13 0-22.5 9.5T1152 160v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5m384-64v1280q0 52-38 90t-90 38H128q-52 0-90-38t-38-90V384q0-52 38-90t90-38h128v-96q0-66 47-113T416 0h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90" />
-                      </svg>
-  
-                    </span>
-  
-  
-                  </td>
-                  <td>{{obs.Ppu}}</td>
-                  <td>{{obs.Razon_social}}</td>
-                  <td>{{obs.Rut}}</td>
-                  <td>{{obs.Celular}}</td>
-                  <td>{{obs.Permiso_circulacion_fvenc}}</td>
-                  <td>{{obs.Soap_fvenc}}</td>
-                  <td>{{obs.Revision_tecnica_fvenc}}</td>
-                  <td>
-  
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 384 512" *ngIf="obs.Gps">
-                      <path fill="#2eb85c" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 384 512" *ngIf="!obs.Gps">
-                      <path fill="#ff0000" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
-                    </svg>
-                  </td>
-                </tr>
-              </tbody>
-          </table>
-  
-        </div>
-  
-        <p></p>
-          
-          <button *ngIf="ObservacionVehiculos.length != 0" class="btn btn-success" (click)="descargarObservacionVehiculos()">Descargar</button>
-  
-          <p></p>
+
 

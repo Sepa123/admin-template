@@ -7,6 +7,7 @@ import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
 import { Colaborador,DetallePago, Patentes, Usuario } from 'src/app/models/transporte/colaborador.interface' 
 import { PanelColaboradore } from 'src/app/models/transporte/paneles.interface' 
+
 @Component({
   selector: 'app-colaboradores',
   templateUrl: './colaboradores.component.html',
@@ -284,35 +285,49 @@ export class ColaboradoresComponent {
     this.fechaDesvinculacion = formattedDate
 
 
-    this.service.getMarcasVehiculos().subscribe((data : any) => {
-      this.marcaVehiculo = data
-    })
-    this.comunaService.getListaRegiones().subscribe((data : any) => {
-      this.listaRegiones = data
-    })
-
-    this.comunaService.getListaComunas().subscribe((data : any) => {
-      this.listaComunas = data
+    this.service.getSeleccionesRazonSocial().subscribe((data) => {
+      this.marcaVehiculo = data.Marca_vehiculo
+      this.listaRegiones = data.Region
+      this.listaComunas = data.Comuna
       this.listaComunasFull = this.listaComunas
       this.form.patchValue({
         Region : '1',
         Comuna : '1'
       })
+      this.estadoTransporte = data.Estado
+      this.listaMotivosD = data.Motivo
     })
+
+
+    // this.service.getMarcasVehiculos().subscribe((data : any) => {
+    //   this.marcaVehiculo = data
+    // })
+    // this.comunaService.getListaRegiones().subscribe((data : any) => {
+    //   this.listaRegiones = data
+    // })
+
+    // this.comunaService.getListaComunas().subscribe((data : any) => {
+    //   this.listaComunas = data
+    //   this.listaComunasFull = this.listaComunas
+    //   this.form.patchValue({
+    //     Region : '1',
+    //     Comuna : '1'
+    //   })
+    // })
 
     this.service.obtenerColaboradores().subscribe((data) => {
       this.colaboradores = data
-      this.service.getEstadoTransporte().subscribe((data : any) => {
-        this.estadoTransporte = data
+      // this.service.getEstadoTransporte().subscribe((data : any) => {
+      //   this.estadoTransporte = data
 
-        this.service.getMotivosDesvinculacion().subscribe((data : any) => {
-          this.listaMotivosD = data
+      //   this.service.getMotivosDesvinculacion().subscribe((data : any) => {
+      //     this.listaMotivosD = data
 
           this.service.getpanelColaboradores().subscribe((data : any) => {
             this.panelColab = data
           })
-        })
-      })
+      //   })
+      // })
     })
 
   }
@@ -405,7 +420,11 @@ export class ColaboradoresComponent {
         this.service.obtenerColaboradores().subscribe((data) => {
           this.colaboradores = data
           alert(mes.message)
-          this.toggleLiveDemo()
+          this.service.getpanelColaboradores().subscribe((data : any) => {
+            this.panelColab = data
+            this.toggleLiveDemo()
+          })
+          
         })
       })
     }else{
@@ -452,8 +471,12 @@ export class ColaboradoresComponent {
 
         this.service.obtenerColaboradores().subscribe((data) => {
           this.colaboradores = data
-          this.toggleLiveEstado()
-          this.toggleLiveDemo()
+          this.service.getpanelColaboradores().subscribe((data : any) => {
+            this.panelColab = data
+            this.toggleLiveEstado()
+            this.toggleLiveDemo()
+          })
+          
         })
       })
       

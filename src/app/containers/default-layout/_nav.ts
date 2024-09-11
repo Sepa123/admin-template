@@ -114,6 +114,7 @@ export const navItems: INavDataBar[] = [
     iconComponent: { name: 'cil-car-alt' },
     roles : [ROLES_ENUM.ADMIN],
     children: [
+      
       {
         name: 'Reclutamiento',
         url : '/transporte/reclutamiento'
@@ -194,6 +195,7 @@ export const navItems: INavDataBar[] = [
     iconComponent: { name: 'cil-car-alt' },
     roles : [ROLES_ENUM.FINANZA,ROLES_ENUM.JEFE_FINANZAS],
     children: [
+      
       {
         name:'Gestión Gps',
         url: '/transporte/gestion-gps'
@@ -912,6 +914,10 @@ export const navItems: INavDataBar[] = [
     iconComponent : {name : 'cilMoney'},
     roles : ROLES_PERMITIDOS.FINANZAS,
     children: [
+      {
+        name: "Tarifario General",
+        url : '/finanzas/tarifarioGeneral'
+      },
       {
         name: "Car. Tarifario General",
         url : '/finanzas/tarifario'

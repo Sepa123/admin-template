@@ -27,3 +27,14 @@ export interface Usuario {
     Razon_social:          string;
     Rut_razon_social :     string;
 }
+
+
+export interface ObservacionDriver {
+    Codigo_retorno:    number;
+    Nombre:            string;
+    Rut:               string;
+    Razon_social:      string;
+    Telefono:          string;
+    Fec_venc_licencia: Date | null;
+    Rut_valido:        boolean;
+}
