@@ -97,46 +97,38 @@ export class TarifarioGeneralComponent implements OnInit {
     const unidadMedida = parseInt((<HTMLSelectElement>document.getElementById('UnidadMedida')).value, 10);
     const periodo = parseInt((<HTMLSelectElement>document.getElementById('Periodicidad')).value, 10);
   
-    console.log('Verificando existencia con los siguientes valores:');
-    console.log('Operación:', nombreOperacion);
-    console.log('Centro de operación:', centro_operacion);
-    console.log('Tipo de vehículo:', tipo_vehiculo);
-    console.log('Unidad medida:', unidadMedida);
-    console.log('Periodo:', periodo);
-  
     // Filtrar los datos que coinciden con los valores ingresados
     let resultadosFiltrados = this.infoTable2;
   
-    // Verificar cada campo y filtrar según el valor si existe
-  if (this.operacion) {
-    resultadosFiltrados = resultadosFiltrados.filter(item => item.operacion === this.nombreOperacion);
-  }
-  if (this.centro_operacion) {
-    resultadosFiltrados = resultadosFiltrados.filter(item => item.centro_operacion === this.centro_operacion);
-  }
-  if (this.tipo_vehiculo) {
-    resultadosFiltrados = resultadosFiltrados.filter(item => item.tipo_vehiculo === this.tipo_vehiculo);
-  }
-  if (this.unidadMedida) {
-    resultadosFiltrados = resultadosFiltrados.filter(item => item.capacidad === this.unidadMedida);
-  }
-  if (this.periodo) {
-    resultadosFiltrados = resultadosFiltrados.filter(item => item.periodicidad === this.periodo);
-  }
-
+    if (nombreOperacion) {
+      resultadosFiltrados = resultadosFiltrados.filter(item => item.operacion === nombreOperacion);
+    }
+    if (centro_operacion) {
+      resultadosFiltrados = resultadosFiltrados.filter(item => item.centro_operacion === centro_operacion);
+    }
+    if (tipo_vehiculo) {
+      resultadosFiltrados = resultadosFiltrados.filter(item => item.tipo_vehiculo === tipo_vehiculo);
+    }
+    if (unidadMedida) {
+      resultadosFiltrados = resultadosFiltrados.filter(item => item.capacidad === unidadMedida);
+    }
+    if (periodo) {
+      resultadosFiltrados = resultadosFiltrados.filter(item => item.periodicidad === periodo);
+    }
   
-     // Mostrar los resultados filtrados en la consola
-  console.log('Resultados filtrados:', resultadosFiltrados);
-
-  // Verificar si hay resultados que coincidan completamente con todos los campos
-  const DatoEncontrado = resultadosFiltrados.length > 0 ? true : false;
-
-  this.idCambioFecha = DatoEncontrado ? resultadosFiltrados[0].id : null;
-  this.showUpdateButton = DatoEncontrado;
-
-  // Forzar la detección de cambios
-  this.cdr.detectChanges();
+    // Verificar si hay resultados que coincidan completamente con todos los campos
+    const DatoEncontrado = resultadosFiltrados.length > 0;
+  
+    // Asignar el id de la coincidencia y actualizar el estado del botón
+    this.idCambioFecha = DatoEncontrado ? resultadosFiltrados[0].id : null;
+    this.showUpdateButton = DatoEncontrado;
+  
+    // Forzar la detección de cambios
+    this.cdr.detectChanges();
+  
+    console.log("Verificación realizada, botón de actualización:", this.showUpdateButton);
   }
+  
   
   updateFecha() {
     const idParaCambio = this.idCambioFecha;
