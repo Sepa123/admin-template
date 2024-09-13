@@ -4,7 +4,7 @@ import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.i
 import { Vehiculo,AsignarOperacion, VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
 import { Usuario, ObservacionDriver } from 'src/app/models/transporte/tripulacion.interface' 
 import { MainPanelVehiculos, PanelColaboradore, PanelVehiculos } from 'src/app/models/transporte/paneles.interface' 
-import { MainSeleccionReclutamiento } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
+import { ComentarioReclutamiento, MainSeleccionReclutamiento, Reclutamiento } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
 import { SeleccionesVehiculo } from 'src/app/models/transporte/seleccionesVehiculos.interface'
 import { SeleccionRazonSocial } from 'src/app/models/transporte/seleccionesRazonSocial.interface'
 
@@ -342,4 +342,24 @@ export class PortalTransyanezService {
   getObservacionesDriver(){
     return this.http.get<ObservacionDriver []>(this.apiurl+"/drivers/observaciones")
   }
+
+  registrarCandidiato(data : any){
+    return this.http.post(this.apiurl+"/agregar/recluta",data)
+  }
+
+  actualizarCandidiato(data : any){
+    return this.http.put(this.apiurl+"/actualizar/recluta",data)
+  }
+
+
+  getDatosReclutas(){
+    return this.http.get<Reclutamiento []>(this.apiurl+"/datos/reclutamiento")
+  }
+
+  getdatosComentariosReclutas(){
+    return this.http.get<ComentarioReclutamiento []>(this.apiurl+"/datos/reclutamiento")
+  }
+
+
+  
 }

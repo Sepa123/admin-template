@@ -6,6 +6,7 @@ export interface MainSeleccionReclutamiento {
     Contacto_ejecutivo: ContactoEjecutivo[];
     Tipo_vehiculo:      TipoVehiculo[];
     Region:             Region[];
+    Comentarios :        ComentarioReclutamiento [];
 }
 
 export interface ContactoEjecutivo {
@@ -41,4 +42,38 @@ export interface Region {
 export interface TipoVehiculo {
     Id:            number;
     Tipo_vehiculo: string;
+}
+
+
+
+export interface Reclutamiento {
+    Id_reclutamiento:   number;
+    Region:             number;
+    Operacion_postula:  number;
+    Nombre:             string;
+    Telefono:           string;
+    Tipo_vehiculo:      number;
+    Origen_contacto:    number;
+    Estado_contacto:    number;
+    Motivo_subestado:   number;
+    Contacto_ejecutivo: number;
+    Razon_social:       string;
+    Rut_empresa:        string;
+    Internalizado:      null;
+    Region_nombre:      string;
+    Operacion_nombre:   string;
+    Nombre_origen:      string;
+    Nombre_estados:     string;
+    Nombre_motivo:      string;
+}
+
+
+export interface ComentarioReclutamiento {
+    Id:           number;
+    Calificacion: string;
+    Icono:        string;
+    Color:        string;
+    Latitud:      string;
+    Longitud:     string;
+    Comentario:   string;
 }

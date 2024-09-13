@@ -159,3 +159,44 @@
   --mdc-switch-disabled-unselected-icon-color: #fff;
   --mdc-switch-unselected-icon-color: #fff;
 }
+
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+.select-selected {
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.select-selected:after {
+  content: '\f107'; /* Icono de flecha abajo */
+  font-family: "FontAwesome";
+  position: absolute;
+  right: 10px;
+  top: 14px;
+  font-size: 16px;
+}
+.select-items {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  z-index: 99;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.select-items div {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.select-items div:hover {
+  background-color: #ddd;
+}
