@@ -1,7 +1,12 @@
 h3 {
     align-items: center;
   }
-  
+  .Botones {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Cuatro columnas */
+    gap: 10px; /* Espacio entre los botones */
+    width: 100%; /* Asegurar que ocupe todo el ancho */
+  }
   .modal-body {
     overflow: hidden;
   }

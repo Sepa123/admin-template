@@ -130,5 +130,7 @@ export class TarifarioComponent implements OnInit{
       return 0;
     });
   }
+
+  
 }
 
