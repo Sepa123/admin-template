@@ -31,7 +31,7 @@ export class TarifarioGeneralComponent implements OnInit {
   CopSelect2: any[] = [];
   CarTarifa: any[] = [];
   Periodicidad: any[] = [];
-  tipovehiculo: any = [];
+  tipovehiculo: any[]= [];
   infoTable: any[] = [];
   infoTable2: any[] = [];
 
