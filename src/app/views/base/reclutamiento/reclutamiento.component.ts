@@ -141,6 +141,18 @@ export class ReclutamientoComponent {
 
   public visibleComentarios = false;
 
+
+  AgregarComentarios(){
+    
+  }
+
+  abrirModalComentario(id_recluta :number){
+    this.selectedOption.Id_recluta = id_recluta+''
+    this.selectedOption.Id_user = sessionStorage.getItem("id")?.toString()+"",
+    this.selectedOption.Ids_user = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+    this.toggleLiveComentarios()
+  }
+
   toggleLiveComentarios() {
     this.comentario = ''
     this.selectedOption.Latitud = this.latStr
@@ -260,7 +272,7 @@ export class ReclutamientoComponent {
   time!: Date;
 
   cantVehiculo : number = 0
-  
+
   ngOnInit() : void {
     this.getLocation()
     this.time = new Date()
@@ -472,7 +484,7 @@ export class ReclutamientoComponent {
   }
 
 
- buscarVehiculoFiltro(){
+ buscarReclutaFiltro(){
   if(this.buscadorVehiculo == '') {
     this.vehiculos = this.vehiculosFull
     this.cantVehiculo = this.vehiculos.length
@@ -543,7 +555,10 @@ selectedOption = {
   "Color": "#28b463 ",
   "Latitud": "",
   "Longitud": "",
-  "Comentario": ""
+  "Comentario": "",
+  "Id_recluta":   "",
+  "Id_user":    "",
+  "Ids_user":   ""
 };
 
 
@@ -554,7 +569,9 @@ toggleSelect() {
 
 selectOption(option: any) {
 
-  this.selectedOption = option;
+  this.selectedOption.Id = option.Id;
+  this.selectedOption.Calificacion = option.Calificacion;
+  this.selectedOption.Color = option.Color;
   this.showOptions = false;
 }
 
@@ -562,7 +579,13 @@ comentario : string = ''
 
 guardarComentarios(){
 this.selectedOption.Comentario = this.comentario
-console.log(this.selectedOption)
+
+this.service.registrarComentario(this.selectedOption).subscribe((data : any) => {
+    alert(data.message)
+}, error => {
+  alert(error.error.detail)
+})
+
 }
 
 

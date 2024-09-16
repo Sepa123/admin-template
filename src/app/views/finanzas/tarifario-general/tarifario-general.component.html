@@ -1,171 +1,231 @@
-
 <div class="container">
   <H3> Tarifario General</H3>
-  
+
 </div>
 <div class="container">
-  <H2 *ngIf="isLoadingFull"><img width="45" height="45"
-  src="../../../assets/images/loading-gif.gif" /></H2>
+  <H2 *ngIf="isLoadingFull"><img width="45" height="45" src="../../../assets/images/loading-gif.gif" /></H2>
 </div>
 
+<div class="Botones">
+  <button class="btnNueva" (click)="toggleLiveDemo()">Nueva <svg xmlns="http://www.w3.org/2000/svg" width="1.5em"
+      height="1.5em" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M7 1h10v2h4v9h-2V5h-2v2H7V5H5v16h7v2H3V3h4zm2 4h6V3H9zm11 9v4h4v2h-4v4h-2v-4h-4v-2h4v-4z" />
+    </svg></button>
+  <!-- Botón para resetear el filtro -->
+  
+  <button class="btnNueva" (click)="exportToExcel()">Descargar</button>
 
-  <button class="btnNueva" (click)="toggleLiveDemo()">Nueva  <svg  xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M7 1h10v2h4v9h-2V5h-2v2H7V5H5v16h7v2H3V3h4zm2 4h6V3H9zm11 9v4h4v2h-4v4h-2v-4h-4v-2h4v-4z" />
-  </svg></button>
-
+  <div>
+    <span>Filtro Operacion</span>
+    <select id="operacion" [(ngModel)]="selectedOperacion" (change)="filtrarDatos()">
+      <option value="">Todos</option>
+      <option *ngFor="let operacion of OperacionSelect" [value]="operacion.nombre">{{ operacion.nombre }}</option>
+    </select>
+  </div>
+  <div>
+    <label for="vehiculo">Filtrar por Tipo de Vehículo:</label>
+    <select [(ngModel)]="selectedTipoVehiculo" (change)="filtrarDatos()">
+      <option value="">Todos</option>
+      <option *ngFor="let vehiculo of tipovehiculo" [value]="vehiculo.tipo">{{ vehiculo.tipo }}</option>
+    </select>
+  </div>
+</div>
 <div class="greenTable">
   <br>
-  <table >
-      <thead>
-          <!-- <tr> -->
-          <th>
-              Operación
-              <svg (click)="sortTable(0)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 576 512"><path d="M151.6 42.4C145.5 35.8 137 32 128 32s-17.5 3.8-23.6 10.4l-88 96c-11.9 13-11.1 33.3 2 45.2s33.3 11.1 45.2-2L96 146.3 96 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-301.7 32.4 35.4c11.9 13 32.2 13.9 45.2 2s13.9-32.2 2-45.2l-88-96zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-224 0z"/></svg>
-              
+  <table>
+    <thead>
+      <!-- <tr> -->
+      <th>
+        ID
 
-          </th>
-          <th>
-              Centro Operación
+      </th>
+      <th>
+        Operación
+        <svg (click)="sortTable(0)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
+          viewBox="0 0 576 512">
+          <path
+            d="M151.6 42.4C145.5 35.8 137 32 128 32s-17.5 3.8-23.6 10.4l-88 96c-11.9 13-11.1 33.3 2 45.2s33.3 11.1 45.2-2L96 146.3 96 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-301.7 32.4 35.4c11.9 13 32.2 13.9 45.2 2s13.9-32.2 2-45.2l-88-96zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-224 0z" />
+        </svg>
 
-              <svg (click)="sortTable(1)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 576 512"><path d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z"/></svg>
-          </th>
-          <th>
-              Tipo Vehículo
-          
-              <svg (click)="sortTable(2)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 576 512"><path d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z"/></svg>
-              
-          </th>
-          <th>
-              Capacidad
-          
-              <svg (click)="sortTable(3)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 576 512"><path d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z"/></svg>
 
-          </th>
-          <th>
-              Periodicidad
-          </th>
-          <th>
-              Tarifa
-          </th>
-          <th>
-              Caducidad
-          </th>
-          <!-- </tr> -->
-      </thead>
-      <tbody>
-          <tr *ngFor="let ti of infoTable">
-            <td>{{getNombreOperacion(ti.operacion)}}</td>
-            <td>{{getNombreCentroOperacion(ti.centro_operacion)}}</td>
-            <td>{{getTipoVehiculoName(ti.tipo_vehiculo)}}</td>
-            <td>{{getNombreCaracteristica(ti.capacidad)}}</td>
-            <td>{{getNombrePeriodicidad(ti.periodicidad)}}</td>
-            <td>${{ti.tarifa}}</td>
-            <td>{{ti.fecha_de_caducidad}}</td>
-          </tr>
-      </tbody>
+      </th>
+      <th>
+        Centro Operación
+
+        <svg (click)="sortTable(1)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
+          viewBox="0 0 576 512">
+          <path
+            d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z" />
+        </svg>
+      </th>
+      <th>
+        Tipo Vehículo
+
+        <svg (click)="sortTable(2)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
+          viewBox="0 0 576 512">
+          <path
+            d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z" />
+        </svg>
+
+      </th>
+      <th>
+        Capacidad
+
+        <svg (click)="sortTable(3)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
+          viewBox="0 0 576 512">
+          <path
+            d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z" />
+        </svg>
+
+      </th>
+      <th>
+        Periodicidad
+
+        <svg (click)="sortTable(4)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
+          viewBox="0 0 576 512">
+          <path
+            d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z" />
+        </svg>
+      </th>
+      <th>
+        Tarifa
+      </th>
+      <th>
+        Caducidad
+
+        <svg (click)="sortTable(5)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
+          viewBox="0 0 576 512">
+          <path
+            d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z" />
+        </svg>
+      </th>
+      <!-- </tr> -->
+    </thead>
+    <tbody>
+      <tr *ngFor="let ti of filteredData">
+        <td>{{ti.id}}</td>
+        <td>{{ti.nombre}}</td>
+        <td>{{ti.centro}}</td>
+        <td>{{ti.tipo}}</td>
+        <td>{{ti.caracteristica_tarifa}}</td>
+        <td>{{ti.periodo}}</td>
+        <td>${{ti.tarifa}}</td>
+        <td>{{ti.fecha_de_caducidad}}</td>
+      </tr>
+    </tbody>
   </table>
+
 </div>
 
 
 
 <c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
   <c-modal-header>
-      <h5 class="modal-title" id="modalNuevaCitacionLabel">Agregar Tarifa</h5>
-      <button  cButtonClose (click)="toggleLiveDemo()"type="button" class="close x-button" data-dismiss="modal" aria-label="Close">
-      </button>
-      <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+    <h5 class="modal-title" id="modalNuevaCitacionLabel">Agregar Tarifa</h5>
+    <button cButtonClose (click)="toggleLiveDemo()" type="button" class="close x-button" data-dismiss="modal"
+      aria-label="Close">
+    </button>
+    <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
   </c-modal-header>
 
   <c-modal-body>
-      <form #tarifaForm="ngForm">
-          <div class="form-group">
-            <label for="Nombre">Nombre *</label>
-            <select  id="Nombre" class="form-control"  [(ngModel)]="nombreOperacion" name="nombre" (change)="getCentroOperacion()" (change)="verificarExistencia()">
-              <ng-container *ngFor="let Tg of OperacionSelect">
-              <option [value]="Tg.id" >{{Tg.nombre}}</option>
-              </ng-container>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="Valor_Inf">Centro de operacion *</label>
-            <select  id="nombreCop" class="form-control"  [(ngModel)]="getCentroOperacion" (change)="verificarExistencia()" >
-              <ng-container *ngFor="let Tg of CopSelect">
-              <option [value]="Tg.id">{{Tg.centro}}</option>
-              </ng-container>
-            </select>
-          
-          </div>
-          <div class="form-group">
-            <label for="valor_s"> Tipo de vehiculo*</label>
-            <select  id="vehiculo" class="form-control" [(ngModel)]="tipovehiculo"  (change)="verificarExistencia()">
-              <ng-container *ngFor="let Tp of tipovehiculo">
-              <option [value]="Tp.id">{{Tp.tipo}}</option>
-              </ng-container>
-            </select>
-          
-          </div>
-          <div class="form-group">
-            <label for="unidad">Unidad de medida*</label>
-            <select  id="UnidadMedida" class="form-control" [(ngModel)]="unidadMedida"  (change)="verificarExistencia()">
-              <ng-container *ngFor="let Tm of CarTarifa">
-              <option [value]="Tm.id">{{Tm.nombre}}</option>
-              </ng-container>
-            </select>
-          </div>
-          <div>
-            <label for="Periodicidad"> Periodo</label>
-            <select  id="Periodicidad" class="form-control"  [(ngModel)]="selectedPeriodo"  (change)="verificarExistencia()">
-              <ng-container *ngFor="let Pd of Periodicidad">
-              <option [value]="Pd.id">{{Pd.periodo}}</option>
-              </ng-container>
-            </select>
-          </div>
-          <div>
-            <label for=""> Tarifa </label>
-            <input (keypress)="verificarExistencia()" type="number" class="form-control" id="Monto" name="Monto" [(ngModel)]="tarifaMonto">
-            
-          </div>
-        </form>
-        
-    </c-modal-body>
+    <form #tarifaForm="ngForm">
+      <div class="form-group">
+        <label for="Nombre">Nombre *</label>
+        <select id="Nombre" class="form-control" [(ngModel)]="nombreOperacion" name="nombre"
+          (change)="getCentroOperacion()" (change)="verificarExistencia()">
+          <ng-container *ngFor="let Tg of OperacionSelect">
+            <option [value]="Tg.id">{{Tg.nombre}}</option>
+          </ng-container>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="Valor_Inf">Centro de operacion *</label>
+        <select id="nombreCop" class="form-control" [(ngModel)]="getCentroOperacion" name="cetro_operacion" 
+          (change)="verificarExistencia()">
+          <ng-container *ngFor="let Tg of CopSelect">
+            <option [value]="Tg.id">{{Tg.centro}}</option>
+          </ng-container>
+        </select>
+
+      </div>
+      <div class="form-group">
+        <label for="valor_s"> Tipo de vehiculo*</label>
+        <select id="vehiculo" class="form-control" [(ngModel)]="tipo_vehiculo" name="tipoVehiculo" (change)="verificarExistencia()">
+          <ng-container *ngFor="let Tp of tipovehiculo">
+            <option [value]="Tp.id">{{Tp.tipo}}</option>
+          </ng-container>
+        </select>
+
+      </div>
+      <div class="form-group">
+        <label for="unidad">Unidad de medida*</label>
+        <select id="UnidadMedida" class="form-control" [(ngModel)]="unidadMedida" name="Medida" (change)="verificarExistencia()">
+          <ng-container *ngFor="let Tm of CarTarifa">
+            <option [value]="Tm.id">{{Tm.nombre}}</option>
+          </ng-container>
+        </select>
+      </div>
+      <div>
+        <label for="Periodicidad"> Periodo</label>
+        <select id="Periodicidad" class="form-control" [(ngModel)]="selectedPeriodo" name="Periodo" (change)="verificarExistencia()">
+          <ng-container *ngFor="let Pd of Periodicidad">
+            <option [value]="Pd.id">{{Pd.periodo}}</option>
+          </ng-container>
+        </select>
+      </div>
+      <div>
+        <label for=""> Tarifa </label>
+        <input (keypress)="verificarExistencia()" type="number" class="form-control" id="Monto" name="Monto"
+          [(ngModel)]="tarifaMonto">
+
+      </div>
+    </form>
+
+  </c-modal-body>
 
   <c-modal-footer>
     <!-- //(click)="actualizarTarifa()" -->
     <div>
-      <div >
-        <svg  *ngIf="showUpdateButton" (click)="toggleDanger()" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+      <div>
+        <svg *ngIf="showUpdateButton" (click)="toggleDanger()" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
           viewBox="0 0 24 24">
           <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
             d="M12 8.5V14m0 3.247v-.5m-6.02-5.985C8.608 5.587 9.92 3 12 3s3.393 2.587 6.02 7.762l.327.644c2.182 4.3 3.274 6.45 2.287 8.022C19.648 21 17.208 21 12.327 21h-.654c-4.88 0-7.321 0-8.307-1.572s.105-3.722 2.287-8.022z" />
         </svg>
       </div>
-      <div >
-        <button *ngIf="!showUpdateButton" type="submit" class="btn btn-success" (click)="ingresoFormNuevaTarifa(tarifaForm)" (click)="verificarExistencia()" (click)="toggleLiveDemo()">Guardar</button>
+      <div>
+        <button *ngIf="!showUpdateButton" type="submit" class="btn btn-success"
+          (click)="ingresoFormNuevaTarifa(tarifaForm)" (click)="verificarExistencia()"
+          (click)="toggleLiveDemo()">Guardar</button>
       </div>
     </div>
   </c-modal-footer>
-</c-modal> 
+</c-modal>
 
 
 <c-modal [visible]="visible2" (visibleChange)="handleLiveDemoChange2($event)">
-<c-modal-header>
+  <c-modal-header>
     <h5 class="modal-title" id="modalNuevaCitacionLabel">Agregar fecha de termino *</h5>
-    <button  cButtonClose (click)="toggleDanger()"type="button" class="close x-button" data-dismiss="modal" aria-label="Close">
+    <button cButtonClose (click)="toggleDanger()" type="button" class="close x-button" data-dismiss="modal"
+      aria-label="Close">
     </button>
     <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
-</c-modal-header>
+  </c-modal-header>
 
-<c-modal-body>
+  <c-modal-body>
     <form>
-        <div class="form-group">
-          <label for="Nombre">Fecha de termino *</label>
-          <input type="date" id="Fecha"name="Fecha" class="form-control" [(ngModel)]="fechaSeleccionada" required>
-        </div>
-      </form>
+      <div class="form-group">
+        <label for="Nombre">Fecha de termino *</label>
+        <input type="date" id="Fecha" name="Fecha" class="form-control" [(ngModel)]="fechaSeleccionada" required>
+      </div>
+    </form>
   </c-modal-body>
 
-<c-modal-footer>
-    <button type="submit" class="btn btn-success" (click)="toggleDanger()" (click)="updateFecha()" (click)="verificarExistencia()">Guardar</button>
+  <c-modal-footer>
+    <button type="submit" class="btn btn-success" (click)="toggleDanger()" (click)="updateFecha()"
+      (click)="verificarExistencia()">Guardar</button>
 
-</c-modal-footer>
+  </c-modal-footer>
 </c-modal>

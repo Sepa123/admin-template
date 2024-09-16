@@ -283,30 +283,30 @@
 
                 </td>
                 
-                <td [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'avance')">  {{detalle.avance}}</td>
-                <td [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'p_avance')">  {{detalle.p_avance}}</td>
+                <td [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'avance')">  {{detalle.avance}}</td>
+                <td [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'p_avance')">  {{detalle.p_avance}}</td>
                 <!-- <td contenteditable="false" (blur)="updateCell($event, i, 'avance')"></td> -->
                 <!-- <td contenteditable="false" (blur)="updateCell($event, i, 'tipo_vehiculo')">{{detalle.tipo_vehiculo}}</td> -->
-                <td [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'valor_ruta')"> {{detalle.valor_ruta}}</td>
+                <td [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'valor_ruta')"> {{detalle.valor_ruta}}</td>
                 <!-- <td contenteditable="false" (blur)="updateCell($event, i, 'ruta_cerrada')">
                   <svg *ngIf="detalle.ruta_cerrada" xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" ><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
                   <svg *ngIf="!detalle.ruta_cerrada" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" ><path  fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
                 </td> -->
                 
-                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'fm_total_paradas')">{{detalle.campos_por_operacion[0].fm_total_paradas}}</td>
-                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'fm_paqueteria_colectada')">{{detalle.campos_por_operacion[0].fm_paqueteria_colectada}}</td>
-                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'fm_estimados')">{{detalle.campos_por_operacion[0].fm_estimados}}</td>
-                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'fm_preparados')">{{detalle.campos_por_operacion[0].fm_preparados}}</td>
-                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'fm_p_colectas_a_tiempo')">{{detalle.campos_por_operacion[0].fm_p_colectas_a_tiempo}}</td>
-                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'fm_p_no_colectadas')">{{detalle.campos_por_operacion[0].fm_p_no_colectadas}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_total_paradas')">{{detalle.campos_por_operacion[0].fm_total_paradas}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_paqueteria_colectada')">{{detalle.campos_por_operacion[0].fm_paqueteria_colectada}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_estimados')">{{detalle.campos_por_operacion[0].fm_estimados}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_preparados')">{{detalle.campos_por_operacion[0].fm_preparados}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_p_colectas_a_tiempo')">{{detalle.campos_por_operacion[0].fm_p_colectas_a_tiempo}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_p_no_colectadas')">{{detalle.campos_por_operacion[0].fm_p_no_colectadas}}</td>
                   
 
-                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'lm_fallido')">{{detalle.campos_por_operacion[0].lm_fallido}}</td>
-                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'lm_pendiente')">{{detalle.campos_por_operacion[0].lm_pendiente}}</td>
-                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'lm_spr')">{{detalle.campos_por_operacion[0].lm_spr}}</td>
-                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'lm_entregas')">{{detalle.campos_por_operacion[0].lm_entregas}}</td>
-                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'lm_tiempo_ruta')">{{detalle.campos_por_operacion[0].lm_tiempo_ruta}}</td>
-                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'lm_estado')">{{detalle.campos_por_operacion[0].lm_estado}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_fallido')">{{detalle.campos_por_operacion[0].lm_fallido}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_pendiente')">{{detalle.campos_por_operacion[0].lm_pendiente}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_spr')">{{detalle.campos_por_operacion[0].lm_spr}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_entregas')">{{detalle.campos_por_operacion[0].lm_entregas}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_tiempo_ruta')">{{detalle.campos_por_operacion[0].lm_tiempo_ruta}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_estado')">{{detalle.campos_por_operacion[0].lm_estado}}</td>
                 <!-- <div *ngIf="detalle.operacion == 'LM'">
                   <td contenteditable="true" (blur)="updateCell($event, i, 'total_paradas')">{{detalle.campos_por_operacion[0].total_paradas}}</td>
                   <td contenteditable="true" (blur)="updateCell($event, i, 'paqueteria_colectada')">{{detalle.campos_por_operacion[0].paqueteria_colectada}}</td>
@@ -316,7 +316,7 @@
                   <td contenteditable="true" (blur)="updateCell($event, i, 'p_no_colectadas')">{{detalle.campos_por_operacion[0].p_no_colectadas}}</td>
 
                 </div> -->
-                <td [attr.contenteditable]="detalle.ruta_cerrada != true" (blur)="updateCell($event, i, 'kilometro')">  {{detalle.kilometro}}</td>
+                <td [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90'" (blur)="updateCell($event, i, 'kilometro')">  {{detalle.kilometro}}</td>
                 <td>
                   <svg (click)="verObservacion(detalle,i)" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
  
@@ -325,18 +325,24 @@
                 <td>
                   <!-- lock -->
                   <span title="Ruta Cerrada ">
-                    <svg *ngIf="detalle.ruta_cerrada" xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
+                    <svg *ngIf="detalle.ruta_cerrada " xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
                       <path fill="red" d="M320 640h512V448q0-106-75-181t-181-75t-181 75t-75 181zm832 96v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h32V448q0-184 132-316T576 0t316 132t132 316v192h32q40 0 68 28t28 68" />
                     </svg>
 
                 </span>
                   <!-- lock-open -->
 
-                  <span title="Ruta Cbierta ">
-                    <svg *ngIf="!detalle.ruta_cerrada" xmlns="http://www.w3.org/2000/svg" (click)="CerrarRuta(i)" width="20" height="14" viewBox="0 0 1664 1408">
+                  <span title="Ruta Abierta ">
+                    <svg *ngIf="!detalle.ruta_cerrada && rol != '90'" xmlns="http://www.w3.org/2000/svg" (click)="CerrarRuta(i)" width="20" height="14" viewBox="0 0 1664 1408">
                       <path fill="black" d="M1664 448v256q0 26-19 45t-45 19h-64q-26 0-45-19t-19-45V448q0-106-75-181t-181-75t-181 75t-75 181v192h96q40 0 68 28t28 68v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h672V448q0-185 131.5-316.5T1216 0t316.5 131.5T1664 448" />
                     </svg>
                 </span>
+
+                <span title="Ruta Abierta " *ngIf="!detalle.ruta_cerrada && rol == '90'">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 1664 1408">
+                    <path fill="black" d="M1664 448v256q0 26-19 45t-45 19h-64q-26 0-45-19t-19-45V448q0-106-75-181t-181-75t-181 75t-75 181v192h96q40 0 68 28t28 68v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h672V448q0-185 131.5-316.5T1216 0t316.5 131.5T1664 448" />
+                  </svg>
+              </span>
                   <!-- <button cButton (click)="CerrarRuta(i)" >
                     cerrar 
                   </button> -->

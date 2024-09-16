@@ -23,7 +23,7 @@ export class CitacionSupervisoresComponent {
   operacionCampo : CamposPorOperacion [] = []
 
   detalleCitacion : Detalle [] = []
-
+  rol =   sessionStorage.getItem("rol_id")+''
   public visible = false;
   public chartVisible = false
   public graficoVisible = false

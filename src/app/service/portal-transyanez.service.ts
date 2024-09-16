@@ -360,6 +360,10 @@ export class PortalTransyanezService {
     return this.http.get<ComentarioReclutamiento []>(this.apiurl+"/datos/reclutamiento")
   }
 
+  registrarComentario(data : any){
+    return this.http.post(this.apiurl+"/agregar/comentario",data)
+  }
+
 
   
 }

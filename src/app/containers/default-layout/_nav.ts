@@ -574,7 +574,7 @@ export const navItems: INavDataBar[] = [
     name: 'Mercado Libre',
     url: '/mercadolibre',
     iconComponent : {name : 'cil-handshake'},
-    roles :  [ROLES_ENUM.JEFE_OPERACIONES,ROLES_ENUM.GERENTE_OPERACION],
+    roles :  [ROLES_ENUM.JEFE_OPERACIONES],
     children: [
       // {
       //   name: "Información",

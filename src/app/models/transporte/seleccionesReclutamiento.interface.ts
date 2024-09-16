@@ -76,4 +76,5 @@ export interface ComentarioReclutamiento {
     Latitud:      string;
     Longitud:     string;
     Comentario:   string;
+    
 }

@@ -5,6 +5,7 @@ import {TarifarioGeneralService} from '../../../service/tarifario-general.servic
 import { ChangeDetectorRef } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-tarifario-general',
@@ -31,14 +32,15 @@ export class TarifarioGeneralComponent implements OnInit {
   CopSelect2: any[] = [];
   CarTarifa: any[] = [];
   Periodicidad: any[] = [];
-  tipovehiculo: any = [];
+  tipovehiculo: any[]= [];
   infoTable: any[] = [];
   infoTable2: any[] = [];
+  originalData: any[] = [];
 
   valorInf: string = '';
   valorSup: string = '';
   unidad: number = 0;
-
+  selectedTipoVehiculo: string = ''; // Almacena el tipo de vehículo seleccionado
   
   tarifaMonto: number | null = null;
   idCambioFecha: number | null = null;
@@ -203,6 +205,7 @@ export class TarifarioGeneralComponent implements OnInit {
     this.Tg.getPeriodicidad().subscribe((data)=>
     this.Periodicidad = data)
   }
+ 
 
   // getinfoTable(){
   //   this.isLoadingFull = true;
@@ -214,10 +217,31 @@ export class TarifarioGeneralComponent implements OnInit {
     this.isLoadingFull = true;
     this.Tg.getInfoTable().subscribe((data) => {
       this.infoTable = data
+      this.filteredData = data
       this.isLoadingFull = false;
+      this.originalData = [...this.infoTable]; // Hacemos una copia del array original
+    });
+  } 
+
+  //variables para filtrar
+  selectedOperacion: string = ''; // Almacena la operación seleccionada por el usuario
+  filteredData: any[] = [];       // Almacena los datos filtrados 
+
+  
+  filtrarDatos() {
+    this.filteredData = this.infoTable.filter(item => {
+      const matchOperacion = this.selectedOperacion ? item.nombre === this.selectedOperacion : true;
+      const matchVehiculo = this.selectedTipoVehiculo ? item.tipo === this.selectedTipoVehiculo : true;
+      return matchOperacion && matchVehiculo;
     });
   }
 
+
+  resetFiltros() {
+    this.selectedOperacion = '';
+    this.selectedTipoVehiculo = '';
+    this.filteredData = [...this.infoTable]; // Restablece los datos originales
+  }
   getinfoTableSearch() {
     this.isLoadingFull = true;
     this.Tg.getInfoTableSearch().pipe(
@@ -259,29 +283,14 @@ export class TarifarioGeneralComponent implements OnInit {
     return caracteristicas ? caracteristicas.nombre : 'S/I';
   }
 
-  getNombreOperacion(id: number): string {
-    const operacion = this.OperacionSelect.find(op => op.id === id);
-    return operacion ? operacion.nombre : 'Nombre no encontrado';
-  }
-  getTipoVehiculoName(idnombreVehiculo: number): string {
-    // Busca el centro de operación en CopSelect2 basado en el ID de centro de operación
-    const nombreVehiculo = this.tipovehiculo.find((tv: { id: number; })  => tv.id === idnombreVehiculo);
-    
-    // Retorna el nombre del centro o un mensaje si no se encuentra
-    return nombreVehiculo ? nombreVehiculo.tipo : 'Vehiculo no encontrado';
-  }
+  
+  
 
   operacion: number = 0;
   fechaCaducidad: string = '';
 
 
-  getNombreCentroOperacion(idCentroOperacion: number): string {
-    // Busca el centro de operación en CopSelect2 basado en el ID de centro de operación
-    const centroOperacion = this.CopSelect2.find(co => co.id === idCentroOperacion);
-    
-    // Retorna el nombre del centro o un mensaje si no se encuentra
-    return centroOperacion ? centroOperacion.centro : 'Centro no encontrado';
-  }
+  
   
   // Propiedad para almacenar el valor seleccionado en el select
   selectedPeriodo: number | null = null;
@@ -340,7 +349,7 @@ export class TarifarioGeneralComponent implements OnInit {
       this.currentColumn = columnIndex;
     }
 
-    this.tableinfo.sort((a, b) => {
+    this.infoTable.sort((a, b) => {
       let cellA, cellB;
 
       switch (columnIndex) {
@@ -349,16 +358,24 @@ export class TarifarioGeneralComponent implements OnInit {
           cellB = b.nombre.toLowerCase();
           break;
         case 1: // Ordenar por valor inferior
-          cellA = a.valor_inferior;
-          cellB = b.valor_inferior;
+          cellA = a.centro;
+          cellB = b.centro;
           break;
         case 2: // Ordenar por valor superior
-          cellA = a.valor_superior;
-          cellB = b.valor_superior;
+          cellA = a.tipo;
+          cellB = b.tipo;
           break;
-        case 3: // Ordenar por unidad
-          cellA = a.unidad;
-          cellB = b.unidad;
+        case 3: // Ordenar por uni_dad
+          cellA = a.caracteristica_tarifa;
+          cellB = b.caracteristica_tarifa;
+          break;
+        case 4: // Ordenar por uni_dad
+          cellA = a.periodo;
+          cellB = b.periodo;
+          break;
+        case 5: // Ordenar por uni_dad
+          cellA = a.fecha_de_caducidad;
+          cellB = b.fecha_de_caducidad;
           break;
         default:
           return 0;
@@ -370,4 +387,41 @@ export class TarifarioGeneralComponent implements OnInit {
     });
   }
 
+
+  // Función para exportar los datos de la tabla a Excel
+  exportToExcel(): void {
+    // Definir el encabezado de la tabla (ajústalo a tus columnas)
+    const header = [
+      'Operación', 
+      'Centro Operación', 
+      'Tipo Vehículo', 
+      'Capacidad', 
+      'Periodicidad', 
+      'Tarifa', 
+      'Caducidad'
+    ];
+
+    // Mapear los datos de la tabla desde infoTable
+    const data = this.filteredData.map((ti: any) => [
+      ti.nombre,
+      ti.centro,
+      ti.tipo,
+      ti.caracteristica_tarifa,
+      ti.tarifa,
+      ti.fecha_de_caducidad
+    ]);
+
+    // Unir el encabezado con los datos
+    const wsData = [header, ...data];
+
+    // Crear una hoja de trabajo
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(wsData);
+
+    // Crear un libro de trabajo
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Tarifario General');
+
+    // Exportar el archivo Excel
+    XLSX.writeFile(wb, 'tarifario_general.xlsx');
+  }
 }
