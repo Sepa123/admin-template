@@ -97,7 +97,7 @@
             </div>
             <div class="form-group">
               <label for="valor_s"> Tipo de vehiculo*</label>
-              <select  id="vehiculo" class="form-control" [(ngModel)]="tipovehiculo"  (change)="verificarExistencia()">
+              <select  id="vehiculo" class="form-control" [(ngModel)]="tipo_vehiculo"  (change)="verificarExistencia()">
                 <ng-container *ngFor="let Tp of tipovehiculo">
                 <option [value]="Tp.id">{{Tp.tipo}}</option>
                 </ng-container>
