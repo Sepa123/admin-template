@@ -18,7 +18,7 @@ import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, O
 @Component({
   selector: 'app-reclutamiento',
   templateUrl: './reclutamiento.component.html',
-  styleUrls: ['./reclutamiento.component.scss']
+  styleUrls: ['./reclutamiento.component.scss','./reclutamiento2.component.scss']
 })
 export class ReclutamientoComponent {
 

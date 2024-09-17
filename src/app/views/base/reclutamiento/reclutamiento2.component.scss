@@ -1,0 +1,87 @@
+.select-items div {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .select-items div:hover {
+    background-color: #ddd;
+  }
+  
+  /* Estilos de la línea de tiempo */
+  .timeline {
+    position: relative;
+    padding: 10px 0;
+    list-style: none;
+  }
+  
+  .timeline-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+  }
+  
+  .timeline-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+    margin-right: 20px;
+  }
+  
+  .grata {
+    background-color: #28b463;
+  }
+  
+  .neutral {
+    background-color: #eb984e;
+  }
+  
+  .ingrata {
+    background-color: #cd6155;
+  }
+  
+  .timeline-content {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+  }
+  
+  .timeline-content h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .timeline-content p {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .timeline-content .datetime {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 10px;
+  }
+  
+  .datetime i {
+    margin-right: 5px;
+  }
+  
+  .divider {
+    margin: 10px 0;
+    border-top: 1px solid #ccc;
+  }
+  

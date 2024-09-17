@@ -349,7 +349,7 @@ export class TarifarioGeneralComponent implements OnInit {
       this.currentColumn = columnIndex;
     }
 
-    this.infoTable.sort((a, b) => {
+    this.filteredData.sort((a, b) => {
       let cellA, cellB;
 
       switch (columnIndex) {
