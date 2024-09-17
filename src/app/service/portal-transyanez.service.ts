@@ -4,7 +4,7 @@ import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.i
 import { Vehiculo,AsignarOperacion, VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
 import { Usuario, ObservacionDriver } from 'src/app/models/transporte/tripulacion.interface' 
 import { MainPanelVehiculos, PanelColaboradore, PanelVehiculos } from 'src/app/models/transporte/paneles.interface' 
-import { ComentarioReclutamiento, MainSeleccionReclutamiento, Reclutamiento } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
+import { ComentarioReclutamiento, listaComentarios, MainSeleccionReclutamiento, Reclutamiento } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
 import { SeleccionesVehiculo } from 'src/app/models/transporte/seleccionesVehiculos.interface'
 import { SeleccionRazonSocial } from 'src/app/models/transporte/seleccionesRazonSocial.interface'
 
@@ -363,6 +363,13 @@ export class PortalTransyanezService {
   registrarComentario(data : any){
     return this.http.post(this.apiurl+"/agregar/comentario",data)
   }
+
+
+  listaComentariosRecluta(id : any){
+    return this.http.get<listaComentarios []>(this.apiurl+`/lista/comentarios?id=${id}`)
+  }
+
+  
 
 
   

@@ -13,7 +13,7 @@ import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
 import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
 import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
 import { PanelVehiculos } from 'src/app/models/transporte/paneles.interface'
-import { ContactoEjecutivo, EstadoContacto, MotivoSubestado, Operacion, Origen, Reclutamiento, Region,TipoVehiculo } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
+import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, Operacion, Origen, Reclutamiento, Region,TipoVehiculo } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
 
 @Component({
   selector: 'app-reclutamiento',
@@ -166,6 +166,27 @@ export class ReclutamientoComponent {
     this.visibleComentarios = event;
   }
 
+  visibleListaComentarios : boolean = false
+
+  toggleLiveListaComentarios() {
+
+    this.visibleListaComentarios = !this.visibleListaComentarios;
+  }
+
+
+  handleLiveListaComentariosChange(event: any) {
+    this.visibleListaComentarios = event;
+  }
+
+  listaComentarios : listaComentarios [] =[]
+
+  abrirModalListaComentario(id_recluta :number){
+    this.service.listaComentariosRecluta(id_recluta).subscribe(data => {
+      this.listaComentarios = data
+      this.toggleLiveListaComentarios()
+    })
+    
+  }
 
 
   getLocation(): any {

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Prefactura,ResumenPrefactura } from "../models/meli/prefactura.interface"
 import { MainCitacionS } from "../models/meli/citacionSupervisor.interface"
-import { MainCitacionA } from "../models/meli/citacionActiva.interface"
+import { MainCitacionA, ResumenSupervisores } from "../models/meli/citacionActiva.interface"
 @Injectable({
   providedIn: 'root'
 })
@@ -62,6 +62,10 @@ export class MeliService {
 
   guardarDatosCitacionSupervisores(formData : any){
     return this.http.post(this.apiurl+`/citacion_supervisores/guardar`, formData)
+  }
+
+  getResumenRutaSupervisores(fecha_ini : string,fecha_fin : string,id:string){
+    return this.http.get<ResumenSupervisores []>(this.apiurl+`/resumen/rutas/supervisor?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}&usuario=${id}`)
   }
 
 }

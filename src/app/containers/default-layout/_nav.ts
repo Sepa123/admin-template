@@ -617,10 +617,10 @@ export const navItems: INavDataBar[] = [
         name: "Seguimiento Diario",
         url:  '/mercadolibre/citacion-supervisores'
       },
-      // {
-      //   name: "Prefactura Diaria",
-      //   url:  '/mercadolibre/prefactura-diaria'
-      // }
+      {
+        name: "Resumen Supervisores",
+        url:  '/mercadolibre/ns-supervisores'
+      },
     ]
   },
   { /// Pantalla de info para Mercadolibre

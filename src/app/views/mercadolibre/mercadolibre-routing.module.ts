@@ -9,6 +9,7 @@ import { SeguimientoDiarioComponent } from './seguimiento-diario/seguimiento-dia
 import { PrefacturaDiariaComponent } from './prefactura-diaria/prefactura-diaria.component';
 import { CitacionesActivasComponent } from './citaciones-activas/citaciones-activas.component';
 import { CitacionSupervisoresComponent } from './citacion-supervisores/citacion-supervisores.component';
+import { NsSupervisoresComponent } from './ns-supervisores/ns-supervisores.component';
 
 const routes: Routes = [
   {
@@ -76,6 +77,13 @@ const routes: Routes = [
         {
             path:'citaciones-activas',
             component: CitacionesActivasComponent,
+            data:{
+                title: "Citaciones"
+            }
+        },
+        {
+            path:'ns-supervisores',
+            component: NsSupervisoresComponent,
             data:{
                 title: "Citaciones"
             }

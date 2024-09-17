@@ -65,6 +65,7 @@ export interface Reclutamiento {
     Nombre_origen:      string;
     Nombre_estados:     string;
     Nombre_motivo:      string;
+    Nombre_contacto:      string;
 }
 
 
@@ -77,4 +78,12 @@ export interface ComentarioReclutamiento {
     Longitud:     string;
     Comentario:   string;
     
+}
+
+export interface listaComentarios {
+    Estatus_comentario: number;
+    Nombre:             string;
+    Fecha:              string;
+    Hora:               string;
+    Comentario:         string;
 }
