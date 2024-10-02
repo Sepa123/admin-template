@@ -8,6 +8,7 @@ import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteris
 import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
 import { Usuario,ObservacionDriver } from 'src/app/models/transporte/tripulacion.interface' 
 import { VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface';
+import { PanelTripulacion } from 'src/app/models/transporte/paneles.interface';
 
 @Component({
   selector: 'app-tripulacion',
@@ -163,6 +164,12 @@ export class TripulacionComponent {
 
   ObservacionVehiculos: VehiculoObservaciones [] = []
 
+  panelTripulacion : PanelTripulacion = {
+    "Total": 0,
+    "Activos": 0,
+    "Drivers_Activos": 0,
+    "Peonetas_Activos": 0
+  }
 
   public visibleIconos = false;
 
@@ -250,6 +257,10 @@ export class TripulacionComponent {
       })
       this.marcaVehiculo = data.Marca_vehiculo
       this.tipoTripulacion = data.Tipo_tripulacion
+
+      this.service.getpanelTripulacion().subscribe(data => {
+        this.panelTripulacion= data
+      })
     })
 
     this.service.getObservacionesDriver().subscribe(data => {

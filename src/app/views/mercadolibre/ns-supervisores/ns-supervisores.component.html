@@ -1,0 +1,183 @@
+<h2> Resumen Ruta Supervisores</h2>
+<c-row>
+  <c-col [xs]>
+    Fecha Inicio
+<input type="date"  class="form-control" placeholder="Fecha" [(ngModel)]="fecha_inicio"  required>
+  </c-col>
+  
+  <c-col [xs]>
+    Fecha Fin
+    <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fecha_fin"  required>
+  </c-col>
+  <c-col [xs]> 
+    <p></p>
+    <button  (click)="buscarNsFechaSupervisor()" cButton  color="secondary" >Buscar</button>
+
+  </c-col>
+</c-row>
+<p></p>
+
+<div>
+
+
+<c-row>
+  <c-col [xs]>
+    <input type="text" [(ngModel)]="textoFiltro" (keyup)="onKeyUp()" placeholder="Buscador" class="form-control">
+  </c-col>
+  <c-col [xs]>
+    <button  (click)="onKeyUp()" cButton  color="secondary" >Filtrar</button>
+    <!-- <button *ngIf="chartVisible == true" (click)="DescargarNS()" cButton  color="success" size="sm">Descargar
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+        <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+      </svg>
+    </button> -->
+  </c-col>
+</c-row>
+<p></p>
+
+ 
+
+  <h4>LM</h4>
+  <p></p>
+  <div class="greenTable">
+    <table>
+    <thead>
+      <tr>
+        <th >Operación
+          
+          <!-- <input type="text" [(ngModel)]="textoIdRuta" (keyup)="onKeyUp()" placeholder="🔍" maxlength="9" size="7"> -->
+      
+        </th>
+        <th>Centro Operación</th>
+        <th class="sortable" (click)="sortTableRegion(sortOrderRegion)">Región</th>
+        <th>Fecha</th>
+        <th>Id Ruta</th>
+        <th class="sortable" (click)="sortTablePpu(sortOrderPpu)">Patente</th>
+        <th class="sortable" (click)="sortTableDriver(sortOrderDriver)">Driver</th>
+        <th>Kilometros</th>
+        <th>% Avance</th>
+        <th>Avance</th>
+        <th>Fallido</th>
+        <th>Pendiente</th>
+        <th>Spr</th>
+        <th>Entregas</th>
+        <th>Tiempo ruta</th>
+        <th>Estado</th>
+        <th>Valor ruta</th>
+        <th>Ruta cerrada</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let driver of this.resumenSupervisores;let i = index ">
+    <tr *ngIf="driver.Modalidad == 'LM'">
+        <td>{{driver.Operacion}}</td>
+        <td>{{driver.Centro_operacion}}</td>
+        <td>{{driver.Region}}</td>
+        <td>{{driver.Fecha}}</td>
+        <td>{{driver.Id_ruta}}</td>
+        <td>{{driver.Ppu}}</td>
+        <td>{{driver.Driver}}</td>
+        <td>{{driver.Kilometros}}</td> 
+        <td>{{driver.P_avance}}</td> 
+        <td>{{driver.Avance}}</td> 
+        <td>{{driver.Campos_por_operacion[0].lm_fallido}}</td>
+        <td>{{driver.Campos_por_operacion[0].lm_pendiente}}</td>
+        <td>{{driver.Campos_por_operacion[0].lm_spr}}</td>
+        <td>{{driver.Campos_por_operacion[0].lm_entregas}}</td>
+        <td>{{driver.Campos_por_operacion[0].lm_tiempo_ruta}}</td>
+        <td>{{driver.Campos_por_operacion[0].lm_estado}}</td>
+        <td>{{driver.Valor_ruta}}</td> 
+        <td>
+            <!-- lock -->
+            <span title="Ruta Cerrada ">
+              <svg *ngIf="driver.Ruta_cerrada" xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
+                <path fill="red" d="M320 640h512V448q0-106-75-181t-181-75t-181 75t-75 181zm832 96v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h32V448q0-184 132-316T576 0t316 132t132 316v192h32q40 0 68 28t28 68" />
+              </svg>
+
+          </span>
+            <!-- lock-open -->
+
+            <span title="Ruta Abierta ">
+              <svg *ngIf="!driver.Ruta_cerrada" xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 1664 1408">
+                <path fill="black" d="M1664 448v256q0 26-19 45t-45 19h-64q-26 0-45-19t-19-45V448q0-106-75-181t-181-75t-181 75t-75 181v192h96q40 0 68 28t28 68v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h672V448q0-185 131.5-316.5T1216 0t316.5 131.5T1664 448" />
+              </svg>
+          </span>
+        </td>
+    </tr>
+    <!-- <tr *ngIf="contadorNS === 0">
+     <td colspan="11">
+      no hay registros
+     </td> 
+    </tr> -->
+    
+    </tbody>
+    </table>
+  </div>
+
+  <p></p>
+  <h4>FM</h4>
+  <p></p>
+  <div class="greenTable">
+    <table id="tablaProductosPicking" >
+    <thead>
+      <tr>
+        <th>Operación</th>
+        <th>Centro Operación</th>
+        <th>Región</th>
+        <th>Fecha</th>
+        <th>Id Ruta</th>
+        <th>Patente</th>
+        <th>Driver</th>
+        <th>Kilometros</th>
+        <th>% Avance</th>
+        <th>Avance</th>
+        <th>Total paradas</th>
+        <th>Paqueteria colectada</th>
+        <th>Estimados</th>
+        <th>Preparado</th>
+        <th>% Colectas</th>
+        <th>% No colectadas</th>
+        <th>Valor ruta</th>
+        <th>Ruta cerrada</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let driver of resumenSupervisores;let i = index ">
+    <tr *ngIf="driver.Modalidad == 'FM'">
+        <td>{{driver.Operacion}}</td>
+        <td>{{driver.Centro_operacion}}</td>
+        <td>{{driver.Region}}</td>
+        <td>{{driver.Fecha}}</td>
+        <td>{{driver.Id_ruta}}</td>
+        <td>{{driver.Ppu}}</td>
+        <td>{{driver.Driver}}</td>
+        <td>{{driver.Kilometros}}</td> 
+        <td>{{driver.P_avance}}</td> 
+        <td>{{driver.Avance}}</td> 
+        <th>{{driver.Campos_por_operacion[0].fm_total_paradas}}</th>
+        <th>{{driver.Campos_por_operacion[0].fm_paqueteria_colectada}}</th>
+        <th>{{driver.Campos_por_operacion[0].fm_estimados}}</th>
+        <th>{{driver.Campos_por_operacion[0].fm_preparados}}</th>
+        <th>{{driver.Campos_por_operacion[0].fm_p_colectas_a_tiempo}}</th>
+        <th>{{driver.Campos_por_operacion[0].fm_p_no_colectadas}}</th>
+    </tr>
+    </tbody>
+    </table>
+  </div>
+  
+  <p></p>
+
+<c-row>
+  <c-col [xs]>
+    <button (click)="DescargarNS()" cButton  color="success" size="sm">Descargar
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+        <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+      </svg>
+    </button>
+  </c-col>
+  <c-col [xs]>
+    
+  </c-col>
+</c-row>
+
+</div>
+
+  

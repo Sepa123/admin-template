@@ -23,7 +23,7 @@ import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, O
 export class ReclutamientoComponent {
 
   public rol = sessionStorage.getItem("rol_id") 
-  public rol_no_permitido = ['71','72','50']
+  public rol_no_permitido = ['50','90']
   
 
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []
@@ -140,11 +140,6 @@ export class ReclutamientoComponent {
   
 
   public visibleComentarios = false;
-
-
-  AgregarComentarios(){
-    
-  }
 
   abrirModalComentario(id_recluta :number){
     this.selectedOption.Id_recluta = id_recluta+''
@@ -288,6 +283,7 @@ export class ReclutamientoComponent {
     Internalizado : this.builder.control("" ),
     Latitud: this.builder.control("" ),
     Longitud: this.builder.control("" ),
+    Capacidad: this.builder.control("" )
   })
 
   time!: Date;
@@ -440,6 +436,7 @@ export class ReclutamientoComponent {
     if(this.form.valid){
       this.service.registrarCandidiato(this.form.value).subscribe((data : any) => {
         console.log(data.message)
+        this.toggleLiveAgregar()
       }, error => {
         alert(error.error.detail)
       }
@@ -603,6 +600,7 @@ this.selectedOption.Comentario = this.comentario
 
 this.service.registrarComentario(this.selectedOption).subscribe((data : any) => {
     alert(data.message)
+    this.toggleLiveComentarios()
 }, error => {
   alert(error.error.detail)
 })

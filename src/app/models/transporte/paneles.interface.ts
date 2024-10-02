@@ -23,3 +23,12 @@ export interface PanelColaboradore {
     Activos_con_Contrato:  number;
     Activos_sin_Contrato:  number;
 }
+
+
+
+export interface PanelTripulacion {
+    Total:            number;
+    Activos:          number;
+    Drivers_Activos:  number;
+    Peonetas_Activos: number;
+}

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
 import { Vehiculo,AsignarOperacion, VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
 import { Usuario, ObservacionDriver } from 'src/app/models/transporte/tripulacion.interface' 
-import { MainPanelVehiculos, PanelColaboradore, PanelVehiculos } from 'src/app/models/transporte/paneles.interface' 
+import { MainPanelVehiculos, PanelColaboradore, PanelVehiculos, PanelTripulacion } from 'src/app/models/transporte/paneles.interface' 
 import { ComentarioReclutamiento, listaComentarios, MainSeleccionReclutamiento, Reclutamiento } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
 import { SeleccionesVehiculo } from 'src/app/models/transporte/seleccionesVehiculos.interface'
 import { SeleccionRazonSocial } from 'src/app/models/transporte/seleccionesRazonSocial.interface'
@@ -320,6 +320,10 @@ export class PortalTransyanezService {
 
   getpanelVehiculos(){
     return this.http.get<MainPanelVehiculos>(this.apiurl+"/panel/vehiculos")
+  }
+
+  getpanelTripulacion(){
+    return this.http.get<PanelTripulacion>(this.apiurl+"/panel/tripulacion")
   }
 
   getSeleccionesRazonSocial(){

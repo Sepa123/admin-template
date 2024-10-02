@@ -1,0 +1,100 @@
+.greenTable{
+    width: auto;
+    max-height: 400px; /* Altura de ejemplo */
+    overflow: auto;
+  }
+  
+  .greenTable  table {
+    border: 1px solid #28A745;
+    background-color: #FFFEF3;
+    width: 100%;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .greenTable  table td, table th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  .greenTable  table tbody td {
+    font-size: 12px;
+  }
+  
+  .greenTable  table tbody th {
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .greenTable  table tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  .greenTable table thead {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: #28A745;
+  }
+  .greenTable  table thead th {
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+  .greenTable  table thead th:first-child {
+    border-left: none;
+  }
+  
+  .greenTable  table tfoot {
+    font-size: 13px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: #A40808;
+  }
+  .greenTable table tfoot td {
+    font-size: 13px;
+  }
+  
+  .greenTable  table tfoot .links {
+    text-align: right;
+  }
+  .greenTable  table tfoot .links a{
+    display: inline-block;
+    background: #FFFFFF;
+    color: #A40808;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+
+  
+  input[type=file] {
+    width: 450px;
+    max-width: 100%;
+    color: #444;
+    padding: 5px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #555;
+  }
+  
+  input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #084cdf;
+    padding: 4px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+  }
+  
+  input[type=file]::file-selector-button:hover {
+    background: #0d45a5;
+  }
+
+  .tamano {
+    font-size: 12px;
+  }
+  .greenTable th.sortable:hover {
+    background-color: #1ece27;
+    cursor: pointer;
+  }

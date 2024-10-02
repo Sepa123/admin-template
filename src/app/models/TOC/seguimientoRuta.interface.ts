@@ -9,6 +9,14 @@ export interface seguimientoRuta {
     Entregado_fec_comp: number;
     Pendientes:         number;
     No_entregados:      number;
-    Obs_total_pedidos:  null | string;
+    Obs_total_pedidos:  ObsTotalPedido []
     obs : string [];
+}
+
+export interface ObsTotalPedido {
+    guia:          string;
+    fecha_entrega: string;
+    estado:        string;
+    descripcion:   string;
+    bultos:        string;
 }

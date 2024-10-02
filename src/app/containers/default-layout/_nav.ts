@@ -145,8 +145,25 @@ export const navItems: INavDataBar[] = [
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
+    roles : [ROLES_ENUM.GERENTE_OPERACION],
+    children: [
+      
+      {
+        name: 'Reclutamiento',
+        url : '/transporte/reclutamiento'
+      }
+    ]
+  },
+  {
+    name: 'Transporte',
+    url: '/transporte',
+    iconComponent: { name: 'cil-car-alt' },
     roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA,ROLES_ENUM.JEFE_SEGURIDAD],
     children: [
+      {
+        name: 'Reclutamiento',
+        url : '/transporte/reclutamiento'
+      },
       // {
       //   name: 'Reportes',
       //   url : '/transporte/reportes'
