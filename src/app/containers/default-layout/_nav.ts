@@ -939,6 +939,10 @@ export const navItems: INavDataBar[] = [
         name: "Car. Tarifario General",
         url : '/finanzas/tarifario'
       },
+      {
+        name: "Rutas Mercado Libre",
+        url : '/finanzas/rutas-meli'
+      },
       // {
       //   name: "Car. Vehículo",
       //   url: '/finanzas/carVehiculo'

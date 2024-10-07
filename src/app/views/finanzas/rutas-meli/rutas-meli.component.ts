@@ -8,13 +8,14 @@ import { MainCitacionA,CamposPorOperacion, ResumenSupervisores } from "src/app/m
 import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import * as XLSX from 'xlsx';
+import { ReporteMeliFinanza } from 'src/app/models/meli/reporteMeliFinanzas.interface';
 
 @Component({
-  selector: 'app-ns-supervisores',
-  templateUrl: './ns-supervisores.component.html',
-  styleUrls: ['./ns-supervisores.component.scss']
+  selector: 'app-rutas-meli',
+  templateUrl: './rutas-meli.component.html',
+  styleUrls: ['./rutas-meli.component.scss']
 })
-export class NsSupervisoresComponent {
+export class RutasMeliComponent {
   
   constructor(private service: MeliService) {
 
@@ -209,11 +210,11 @@ export class NsSupervisoresComponent {
   buscadorResumenNS(fecha_i: string,fecha_f: string){
 
 
-    this.service.getResumenRutaSupervisores(fecha_i,fecha_f,this.id_usuario).subscribe((data) => {
+    this.service.getReporteMeliFinanza(fecha_i,fecha_f).subscribe((data) => {
       console.log(data)
-      this.resumenSupervisores = data
+      this.reporteMeliFinanza = data
 
-      this.resumenSupervisoresFull = data
+      this.reporteMeliFinanzaFull = data
     })
   }
 
@@ -286,40 +287,38 @@ export class NsSupervisoresComponent {
     const datos: any[][] = [[]];
 
     datos.push([
-      'Modalidad',
-      'Operación',
-      'Centro Operación',
-      'Región',
       'Fecha',
+      'Modalidad',
       'Id Ruta',
+      'Centro Operación',
       'Patente',
+      'Tipo Vehículo',
+      'Estado Ruta',
       'Driver',
-      'Kilometros',
-      '% Avance',
+      'Tipo',
+      'Ruta Auxiliada',
       'Avance',
+      '% Avance',
       'Fallido',
       'Pendiente',
-      'Spr',
-      'Entregas',
-      'Tiempo ruta',
-      'Estado',
-      'Total paradas',
-      'Paqueteria colectada',
-      'Estimados',
-      'Preparado',
-      '% Colectas',
-      '% No colectadas',
-      'Valor ruta',
-      'Ruta cerrada'
+      'Kilometros',
+      'Peoneta',
+      'Valor Ruta',
+      'Observación',
+      'Razón Id',
+      'Razón Social',
+      'Rut Empresa',
     ])
 
-    this.resumenSupervisores.forEach((pedido) => {
+    this.reporteMeliFinanza.forEach((reporte) => {
         const fila: any[] = [];
-        fila.push(pedido.Modalidad, pedido.Operacion, pedido.Centro_operacion, pedido.Region, pedido.Fecha, pedido.Id_ruta, pedido.Ppu, pedido.Driver,
-                  pedido.Kilometros,pedido.P_avance,pedido.Avance,
-                  pedido.Campos_por_operacion[0].lm_fallido,pedido.Campos_por_operacion[0].lm_pendiente,pedido.Campos_por_operacion[0].lm_spr,pedido.Campos_por_operacion[0].lm_entregas,pedido.Campos_por_operacion[0].lm_tiempo_ruta,pedido.Campos_por_operacion[0].lm_estado,
-                  pedido.Campos_por_operacion[0].fm_total_paradas,pedido.Campos_por_operacion[0].fm_paqueteria_colectada,pedido.Campos_por_operacion[0].fm_estimados,pedido.Campos_por_operacion[0].fm_preparados,pedido.Campos_por_operacion[0].fm_p_colectas_a_tiempo,pedido.Campos_por_operacion[0].fm_p_no_colectadas,
-                  pedido.Valor_ruta,pedido.Ruta_cerrada); 
+
+        fila.push(reporte.Fecha,reporte.Modalidad,reporte.Id_ruta, reporte.Centro_operacion,reporte.Ppu, reporte.Tipo_vehiculo,
+          reporte.Estado_ruta,reporte.Driver,reporte.Tipo,reporte.Ruta_auxiliada,
+          reporte.Avance, reporte.P_avance,reporte.Lm_fallido,reporte.Lm_entregas,reporte.Km,reporte.Peoneta, reporte.Valor_ruta,
+          reporte.Observacion, reporte.Razon_id,reporte.Razon_social,reporte.Rut_empresa
+        );
+
         datos.push(fila);
       });
 
@@ -332,7 +331,7 @@ export class NsSupervisoresComponent {
 
     // Descarga el archivo Excel `Quadminds_Manual_${fechaActual}.xlsx` 
     
-    const nombreArchivo = `resumen-supervisores-${fechaActual}.xlsx`;
+    const nombreArchivo = `lista-rutas-meli-${fechaActual}.xlsx`;
     // Nombre del archivo Excel a descargar 
     XLSX.writeFile(libroExcel, nombreArchivo);
   }
@@ -360,23 +359,23 @@ export class NsSupervisoresComponent {
     const resultado: any[] = [];
     const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
 
-    for (let i = 0; i < this.resumenSupervisoresFull.length; i++) {
-        const lista = this.resumenSupervisoresFull[i];
-        if (
-            lista.Operacion.toString().toLowerCase().startsWith(filtro) ||
-            lista.Ppu.toString().toLowerCase().startsWith(filtro) ||
-            lista.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||
-            lista.Driver.toString().toLowerCase().startsWith(filtro) ||
-            lista.Id_ruta.toString().toLowerCase().startsWith(filtro) 
-        ) {
-            resultado.push(lista);
-            if (resultado.length >= maxResults) {
-                break; // Terminar el bucle si se alcanza el máximo de resultados
-            }
-        }
-    }
+    // for (let i = 0; i < this.resumenSupervisoresFull.length; i++) {
+    //     const lista = this.resumenSupervisoresFull[i];
+    //     if (
+    //         lista.Operacion.toString().toLowerCase().startsWith(filtro) ||
+    //         lista.Ppu.toString().toLowerCase().startsWith(filtro) ||
+    //         lista.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||
+    //         lista.Driver.toString().toLowerCase().startsWith(filtro) ||
+    //         lista.Id_ruta.toString().toLowerCase().startsWith(filtro) 
+    //     ) {
+    //         resultado.push(lista);
+    //         if (resultado.length >= maxResults) {
+    //             break; // Terminar el bucle si se alcanza el máximo de resultados
+    //         }
+    //     }
+    // }
 
-    this.resumenSupervisores = resultado;
+    // this.resumenSupervisores = resultado;
     // console.log(this.ListaPrefactura);
 }
 
@@ -392,9 +391,9 @@ sortOrderPpu : boolean = true
 
   sortTablePpu(orden : boolean){
     if(orden){
-      this.resumenSupervisores.sort((a,b) => a.Ppu.localeCompare(b.Ppu))
+      this.reporteMeliFinanza.sort((a,b) => a.Ppu.localeCompare(b.Ppu))
     }else{
-      this.resumenSupervisores.sort((a,b) => b.Ppu.localeCompare(a.Ppu))
+      this.reporteMeliFinanza.sort((a,b) => b.Ppu.localeCompare(a.Ppu))
     }
     this.sortOrderPpu = !this.sortOrderPpu
     
@@ -404,22 +403,11 @@ sortOrderPpu : boolean = true
 
   sortTableDriver(orden : boolean){
     if(orden){
-      this.resumenSupervisores.sort((a,b) => a.Driver.localeCompare(b.Driver))
+      this.reporteMeliFinanza.sort((a,b) => a.Driver.localeCompare(b.Driver))
     }else{
-      this.resumenSupervisores.sort((a,b) => b.Driver.localeCompare(a.Driver))
+      this.reporteMeliFinanza.sort((a,b) => b.Driver.localeCompare(a.Driver))
     }
     this.sortOrderDriver = !this.sortOrderDriver
-    
-  }
-
-  sortOrderRegion : boolean = true
-  sortTableRegion(orden : boolean){
-    if(orden){
-      this.resumenSupervisores.sort((a,b) => a.Region.localeCompare(b.Region))
-    }else{
-      this.resumenSupervisores.sort((a,b) => b.Region.localeCompare(a.Region))
-    }
-    this.sortOrderRegion = !this.sortOrderRegion
     
   }
 
@@ -486,8 +474,8 @@ sortOrderPpu : boolean = true
 ///// tabla editada
 
 inputText: string = '';
-resumenSupervisores: ResumenSupervisores [] = [];
-resumenSupervisoresFull: ResumenSupervisores [] = []
+reporteMeliFinanza: ReporteMeliFinanza [] = [];
+reporteMeliFinanzaFull: ReporteMeliFinanza [] = []
 
 idUsuario = sessionStorage.getItem('id')+""
 idsUsuario = sessionStorage.getItem('server')+'-'+this.idUsuario

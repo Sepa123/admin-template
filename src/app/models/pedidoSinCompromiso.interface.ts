@@ -1,3 +1,4 @@
+// kasdsdadasd
 export interface PedidoSinCompromiso {
     Origen:           string;
     Cod_entrega:      number;
@@ -15,4 +16,6 @@ export interface PedidoSinCompromiso {
     Nombre_ruta:      string;
     Direccion:           string;
     Talla:            string;
+    Observacion:      null | string;
+    Alerta:           boolean;
 }
