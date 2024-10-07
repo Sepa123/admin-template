@@ -64,7 +64,7 @@ public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger']
 
   regionSeleccionada : string = ""
 
-  tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","sportex-electrolux","fin"]
+  tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","fin"]
 
   toggleLiveDemo() {
     this.visible = !this.visible;
