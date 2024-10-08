@@ -222,18 +222,18 @@
                         </span>
                     </td>
                     <td class="tdclass">
-                        <select id="estado" name="estado_{{pu.id_ppu}}" class="selectEstado"  [(ngModel)]="selectedEstados[pu.id_ppu]" (change)="updateEstado(pu.id_ppu, $event)">
+                        <select id="estado" name="estado_{{pu.id}}" class="selectEstado"  [(ngModel)]="selectedEstados[pu.id]" (change)="updateEstado(pu.id, $event)">
                             <option value="" disabled selected>Seleccione una opción</option>
                             <option *ngFor="let es of estados" [value]="es.id">{{es.estado}}</option>
                         </select>
                     </td>
                     <td class="tdclass">
                         <input type="text" placeholder="Id Meli" #rutaMeliInput id="rutaMeli" class="inputRutaMeli" 
-                            [(ngModel)]="rutaMeliValues[pu.id_ppu]">
+                            [(ngModel)]="rutaMeliValues[pu.id]">
                     </td>
                     <td class="tdclass">
-                        <select name="selectTipoRuta" id="tipoRuta"  [name]="'tipoRuta' + pu.id_ppu" class="selectTipoRuta"
-                            [(ngModel)]="selectedTipoRuta[pu.id_ppu]" (change)="updateTipoRuta(pu.id_ppu, $event)" >
+                        <select name="selectTipoRuta" id="tipoRuta"  [name]="'tipoRuta' + pu.id" class="selectTipoRuta"
+                            [(ngModel)]="selectedTipoRuta[pu.id]" (change)="updateTipoRuta(pu.id, $event)" >
                             <option value="" disabled selected>Seleccione una opción</option>
                             <option *ngFor="let tr of dataTipoRuta" [value]="tr.id">{{tr.tipo}}</option>
                         </select>
@@ -242,7 +242,7 @@
                         <!-- class="icons" -->
                         
                             <nav class="icons">
-                                <div [ngStyle]="colorPunto(selectedEstados[pu.id_ppu], selectedTipoRuta[pu.id_ppu])" class="punto_rojo"></div>
+                                <div [ngStyle]="colorPunto(selectedEstados[pu.id], selectedTipoRuta[pu.id])" class="punto_rojo"></div>
                                 <ul class="nav-list">
                                     <li class="nav-item">
                                         <svg  xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em"
@@ -357,26 +357,32 @@
         </button>
         <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
     </c-modal-header>
-    <c-modal-body class="code-font" >
-    
+    <c-modal-body class="code-font">
         <div class="divider"></div>
         <div class="modal-body2">
-        
-            <div class="patente-container">
-                <label for="patente">Patente:</label>
-                <select id="patente" (change)="onSelectChange($event)">
-                    <option value="" disabled selected>Seleccione una opción</option>
-                    <option *ngFor="let ia of infoAmbulancia" [value]="ia.id_ppu" [attr.data-id-ruta]="ia.ruta_meli">
-                        <span>{{ia.ppu}}</span>
-                    </option>
-                </select>
-            </div>
-            <div>
-                <p id="idRutaMeli">Ruta: <span>{{rutaMeliSeleccionada}}</span></p>
-            </div>
+          <div class="patente-container">
+            <label for="patente">Patente:</label>
+            <select id="patente" (change)="onSelectChange($event)">
+                <!-- [(ngModel)]="rutaMeliValuesAmb[pu.id_ppu]" -->
+              <option value="" disabled selected>Seleccione una opción</option>
+      
+              <ng-container *ngFor="let ia of infoAmbulancia">
+                <option [value]="ia.id_ppu" [attr.data-id-ruta]="ia.ruta_meli" >
+                  {{ia.ppu}}
+                </option>
+              </ng-container>
+              
+            </select>
+          </div>
+          <div>
+            <p id="idRutaMeli">Ruta: 
+              <ng-container *ngIf="rutaMeliSeleccionada">
+                <span>{{rutaMeliSeleccionada}}</span>
+              </ng-container>
+            </p>
+          </div>
         </div>
-    
-    </c-modal-body>
+      </c-modal-body>
     <c-modal-footer class="code-font">
         <div class="modal-footer">
             <button class="btn btn-save" (click)="getLocation()" (click)="initializeAmbulanceCode()" (click)="ingresarDatosAmbulancia()"  

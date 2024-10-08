@@ -75,6 +75,7 @@ export class CitacionesComponent implements OnInit  {
   CopFiltrado: any[] = [];
   selectedItem: any = null;
   rutaMeliValues: { [key: number]: string } = {};
+  rutaMeliValuesAmb: { [key: number]: string } = {};
   rutaMeliText: { [key: string]: string } = {};
   mensaje: string | null = null;
   mensajeClass: string | null = null;
@@ -93,6 +94,7 @@ export class CitacionesComponent implements OnInit  {
   newRutaMeli: number = 0;
   rutaMeliSeleccionada: string = '';
   idPpuSeleccionado: string = '';
+  selectedPatenteId : string ='';
   //datos geo
   latitude!: number
   longitud! :number
@@ -111,8 +113,7 @@ export class CitacionesComponent implements OnInit  {
 
   toggleAmbulance() {
     this.visibleAmbulance = !this.visibleAmbulance;
-
-    this.rutaMeliSeleccionada = ''
+    
     
   }
   handleLiveDemoChange(event: any) {
@@ -158,6 +159,7 @@ export class CitacionesComponent implements OnInit  {
     this.getPeonetas();
     this.getEstados();
     this.getTipoRuta();
+    this.initializeAmbulancia();
     
   }
   obtenerFechaFormateada() {
@@ -336,18 +338,18 @@ export class CitacionesComponent implements OnInit  {
   preventTyping(event: KeyboardEvent) {
     event.preventDefault();
   }
-  updateEstado(id_ppu: string, event: Event) {
+  updateEstado(id: string, event: Event) {
     const fecha = this.formattedDate
     const target = event.target as HTMLSelectElement;
     if (target) {
       const selectedValue = target.value;
   
-      this.selectedEstados[id_ppu] = selectedValue;
+      this.selectedEstados[id] = selectedValue;
   
-      this.Ct.actualizarEstadoPpu(selectedValue, id_ppu, fecha).subscribe(
+      this.Ct.actualizarEstadoPpu(selectedValue, id, fecha).subscribe(
         (Response) => {
           this.getModalidades();
-          this.bitacoraUpdate('Se cambio el estado de la patente '+ id_ppu + ' a ' + selectedValue, 'citacion-Mercadolibre')
+          this.bitacoraUpdate('Se cambio el estado de la patente '+ id + ' a ' + selectedValue, 'citacion-Mercadolibre')
           console.log('Estado actualizado', Response);
           alert('El estado se ha actualizado correctamente.');
           
@@ -383,19 +385,19 @@ export class CitacionesComponent implements OnInit  {
   }
 
   //funcion para ingresar un valor y actualizar mediante la solicitud su estado cada vez que sea
-  updateTipoRuta(id_ppu: string, event: Event) {
+  updateTipoRuta(id : string, event: Event) {
     const fecha = this.formattedDate
     const target = event.target as HTMLSelectElement;
     if (target) {
       const selectedValue = target.value;
 
-      this.selectedTipoRuta[id_ppu] = selectedValue;
+      this.selectedTipoRuta[id] = selectedValue;
 
-      this.Ct.actualizarTipoRuta(selectedValue,id_ppu,fecha).subscribe(
+      this.Ct.actualizarTipoRuta(selectedValue,id,fecha).subscribe(
         (Response) => {
           alert('El cambio se ha realizado correctamente.')
           this.getModalidades();
-          this.bitacoraUpdate(`Se ha cambiado el tipo de ruta a ${selectedValue} en la patente: ${id_ppu}`, 'citacion-Mercadolibre');
+          this.bitacoraUpdate(`Se ha cambiado el tipo de ruta a ${selectedValue} en la patente: ${id}`, 'citacion-Mercadolibre');
         },
         (error) => {
           alert('Error al actualizar el estado')
@@ -424,17 +426,23 @@ export class CitacionesComponent implements OnInit  {
 
   initializeSelectedEstados() {
     this.patentesList.forEach((pu) => {
-      this.selectedEstados[pu.id_ppu] = pu.estado;
+      this.selectedEstados[pu.id] = pu.estado;
     });
   }
+  initializeAmbulancia() {
+    this.patentesList.forEach((pu) => {
+      this.rutaMeliValuesAmb[pu.id_ppu_amb] = pu.ruta_meli;
+    });
+  }
+
   initializeRutaMeliValues() {
     this.patentesList.forEach((pu) => {
-      this.rutaMeliValues[pu.id_ppu] = pu.ruta_meli;
+      this.rutaMeliValues[pu.id] = pu.ruta_meli;
     });
   }
   initializeTipoRutaValues() {
     this.patentesList.forEach((pu) => {
-      this.selectedTipoRuta[pu.id_ppu] = pu.tipo_ruta;
+      this.selectedTipoRuta[pu.id] = pu.tipo_ruta;
       
     });
   }
@@ -712,7 +720,6 @@ ingresarDatosAmbulancia(){
     this.Ct.postData(ruta_amb_interna, id_ppu, fecha,id_ppu_amb,id_ruta_meli).subscribe(
         (responde)=>{
           alert('se han ingresado correctamente la ambulancia');
-          this.rutaMeliSeleccionada = ''
         },
         (error) => {
             console.error('error al actualizar el estado', error);
@@ -737,14 +744,18 @@ onSelectChange(event: Event) {
   const selectElement = event.target as HTMLSelectElement;
   const selectedOption = selectElement.options[selectElement.selectedIndex];
 
-   // Capturando el id_ppu seleccionado
-   this.idPpuSeleccionado = selectElement.value;
- // Intentar obtener el valor de data-id-ruta
- const rutaMeli = selectedOption ? selectedOption.getAttribute('data-id-ruta') : '';
+  // Capturando el id_ppu seleccionado
+  this.idPpuSeleccionado = selectElement.value;
 
- // Si rutaMeli es null o una cadena vacía, asignar 'S/I de ruta'
- this.rutaMeliSeleccionada = rutaMeli ? rutaMeli : 'S/i de ruta';
+  // Intentar obtener el valor de data-id-ruta
+  const rutaMeli = selectedOption ? selectedOption.getAttribute('data-id-ruta') : '';
+
+  // Si rutaMeli es null o una cadena vacía, asignar 'S/I de ruta'
+  this.rutaMeliSeleccionada = rutaMeli ? rutaMeli : 'S/i de ruta';
 }
+
+// Llamar a esta función cuando el modal se abra
+
 
 bitacoraUpdate(modificacion: string, origen: string){
   const id_user = sessionStorage.getItem('id')?.toString() + '';

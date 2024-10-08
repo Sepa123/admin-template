@@ -9,7 +9,7 @@ import { S } from '@fullcalendar/core/internal-common';
 })
 export class CitacionesService {
 
-  // private apiUrl = 'http://localhost:8000/api/meli';
+  //  private apiUrl = 'http://localhost:8000/api';
   apiUrl = "https://hela.transyanez.cl/api/meli"
   constructor(private http: HttpClient) { }
 
@@ -34,11 +34,11 @@ export class CitacionesService {
   getOperaciones(fecha:any, id :any): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/citacionOperacionFecha?fecha=${fecha}&id=${id}`);
   }
-  getPpu(fecha:any,op: number, cop:number): Observable<any>{
+  getPpu(fecha:any, op: number, cop:number): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/citacion_cop?fecha=${fecha}&op=${op}&cop=${cop}`);
   }
   actualizarEstadoPpu(estado: any, id: any, fecha:string): Observable<any> {
-    const url = `${this.apiUrl}/actualizar_estadoPpu?estado=${estado}&id_ppu=${id}&fecha=${fecha}`;
+    const url = `${this.apiUrl}/actualizar_estadoPpu?estado=${estado}&id=${id}&fecha=${fecha}`;
     return this.http.post<any>(url, {}, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -46,16 +46,16 @@ export class CitacionesService {
     });
   }
   
-  actualizarRutaMeli(ruta_meli: any, id_ppu: any, fecha:string): Observable<any> {
-    const url = `${this.apiUrl}/actualizar_rutaMeli?ruta_meli=${ruta_meli}&id_ppu=${id_ppu}&fecha=${fecha}`; 
+  actualizarRutaMeli(ruta_meli: any, id: any, fecha:string): Observable<any> {
+    const url = `${this.apiUrl}/actualizar_rutaMeli?ruta_meli=${ruta_meli}&id=${id}&fecha=${fecha}`; 
     return this.http.post<any>(url, {}, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     });
   }
-  actualizarTipoRuta(tipo_ruta: any, id_ppu: any, fecha:string): Observable<any> {
-    const url = `${this.apiUrl}/actualizar_tipoRuta?tipo_ruta=${tipo_ruta}&id_ppu=${id_ppu}&fecha=${fecha}`; 
+  actualizarTipoRuta(tipo_ruta: any, id: any, fecha:string): Observable<any> {
+    const url = `${this.apiUrl}/actualizar_tipoRuta?tipo_ruta=${tipo_ruta}&id=${id}&fecha=${fecha}`; 
     return this.http.post<any>(url, {}, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -72,8 +72,8 @@ export class CitacionesService {
   }
 
 
-  ingresarAmbulancia(id_ppu_amb: any, id_ppu: any, fecha:string, ruta_meli_amb: number, ruta_amb_interna: string): Observable<any> {
-    const url = `${this.apiUrl}/Ambulancia?id_ppu_amb=${id_ppu_amb}&ruta_meli_amb=${ruta_meli_amb}&ruta_amb_interna=${ruta_amb_interna}&fecha=${fecha}&id_ppu=${id_ppu}`; 
+  ingresarAmbulancia(id_ppu_amb: any, id: any, fecha:string, ruta_meli_amb: number, ruta_amb_interna: string): Observable<any> {
+    const url = `${this.apiUrl}/Ambulancia?id_ppu_amb=${id_ppu_amb}&ruta_meli_amb=${ruta_meli_amb}&ruta_amb_interna=${ruta_amb_interna}&fecha=${fecha}&id${id}`; 
     return this.http.post<any>(url, {}, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
