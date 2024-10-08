@@ -1,4 +1,4 @@
-<h2> Resumen Ruta Supervisores</h2>
+<h2> Resumen Ruta Mercado Libre</h2>
 <c-row>
   <c-col [xs]>
     Fecha Inicio
@@ -16,6 +16,20 @@
   </c-col>
 </c-row>
 <p></p>
+
+<c-row>
+  <c-col [xs]>
+    <input type="text" [(ngModel)]="textoFiltro" (keyup)="onKeyUp()" placeholder="Buscador" class="form-control">
+  </c-col>
+  <c-col [xs]>
+    <button  (click)="onKeyUp()" cButton  color="secondary" >Filtrar</button>
+    <!-- <button *ngIf="chartVisible == true" (click)="DescargarNS()" cButton  color="success" size="sm">Descargar
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+        <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+      </svg>
+    </button> -->
+  </c-col>
+</c-row>
 
 <div>
 
@@ -38,9 +52,7 @@
         <th>Id Ruta</th>
         <th>Centro Operación</th>
         <th class="sortable" (click)="sortTablePpu(sortOrderPpu)">Patente</th>
-        <th>Tipo Vehículo</th>
         <th>Estado Ruta</th>
-        <th class="sortable" (click)="sortTableDriver(sortOrderDriver)">Driver</th>
         <th>Tipo</th>
         <th>Ruta Auxiliadora</th>
         <th>Avance</th>
@@ -52,20 +64,21 @@
         <th>Valor Ruta</th>
         <!-- <th>Observación</th> -->
         <!-- <th>Razón Id</th> -->
-        <th>Razón Social</th>
         <th>Rut Empresa</th>
+        <th>En proforma</th>
+        <th>Total Descuentos</th>
+        <th>A Pagos</th>
+        <th>Acciones</th>
       </tr>
     </thead>
-    <tbody>
-    <tr *ngFor="let reporte of this.reporteMeliFinanza;let i = index ">
+    <tbody *ngFor="let reporte of this.reporteMeliFinanza; let i = index ">
+    <tr >
         <td>{{reporte.Fecha}}</td>
         <td>{{reporte.Modalidad}}</td>
         <td>{{reporte.Id_ruta}}</td>
         <td>{{reporte.Centro_operacion}}</td>
         <td>{{reporte.Ppu}}</td>
-        <td>{{reporte.Tipo_vehiculo}}</td>
         <td>{{reporte.Estado_ruta}}</td>
-        <td>{{reporte.Driver}}</td>
         <td>{{reporte.Tipo}}</td> 
         <td>{{reporte.Ruta_auxiliada}}</td> 
         <td>{{reporte.Avance}} ({{reporte.P_avance}}%)</td> 
@@ -78,28 +91,65 @@
         <td>{{reporte.Valor_ruta}}</td> 
         <!-- <td>{{reporte.Observacion}}</td> -->
         <!-- <td>{{reporte.Razon_id}}</td> -->
-        <td>{{reporte.Razon_social}}</td>
         <td>{{reporte.Rut_empresa}}</td>
-        <!-- <td>
-            <span title="Ruta Cerrada ">
-              <svg *ngIf="reporte.Ruta_cerrada" xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
-                <path fill="red" d="M320 640h512V448q0-106-75-181t-181-75t-181 75t-75 181zm832 96v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h32V448q0-184 132-316T576 0t316 132t132 316v192h32q40 0 68 28t28 68" />
-              </svg>
-          </span>
-            <span title="Ruta Abierta ">
-              <svg *ngIf="!reporte.Ruta_cerrada" xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 1664 1408">
-                <path fill="black" d="M1664 448v256q0 26-19 45t-45 19h-64q-26 0-45-19t-19-45V448q0-106-75-181t-181-75t-181 75t-75 181v192h96q40 0 68 28t28 68v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h672V448q0-185 131.5-316.5T1216 0t316.5 131.5T1664 448" />
-              </svg>
-          </span>
-        </td> -->
+        <td>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536" *ngIf="reporte.En_proforma">
+            <path fill="green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536" *ngIf="!reporte.En_proforma">
+            <path fill="red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+          </svg>
+        </td>
+        <td>{{reporte.P_total_descuentos}}%</td>
+        
+        <td>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536" *ngIf="reporte.P_a_pago">
+            <path fill="green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536" *ngIf="!reporte.P_a_pago">
+            <path fill="red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+          </svg>
+        </td>
+        <td>
+          <svg *ngIf="!reporte.Adicional" (click)="verInfoAdicional(reporte.Id_ruta)" xmlns="http://www.w3.org/2000/svg" width="13.13" height="15" viewBox="0 0 448 512">
+            <path fill="gray" d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0" />
+          </svg>
+
+          <svg *ngIf="reporte.Adicional" (click)="verInfoAdicional(reporte.Id_ruta)" xmlns="http://www.w3.org/2000/svg" width="13.13" height="15" viewBox="0 0 448 512">
+            <path fill="gray" d="m240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495L69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001" />
+          </svg>
+        </td>
     </tr>
-    <tr *ngIf="reporteMeliFinanza.length === 0">
-     <td colspan="11">
-      no hay registros
-     </td> 
+    <tr *ngIf="reporte.Adicional">
+      <td colspan="17">
+        <strong>Información adicional:</strong>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo Vehículo</th>
+                    <th>Driver</th>
+                    <th>Razón Social</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td>{{reporte.Tipo_vehiculo}}</td>
+                  <td>{{reporte.Driver}}</td>
+                  <td>{{reporte.Razon_social}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+
     </tr>
     
+    
     </tbody>
+    <tr *ngIf="reporteMeliFinanza.length === 0">
+      <td colspan="11">
+       no hay registros
+      </td> 
+     </tr>
     </table>
   </div>  
   <p></p>

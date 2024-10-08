@@ -20,4 +20,8 @@ export interface ReporteMeliFinanza {
     Razon_id:         number;
     Razon_social:     string;
     Rut_empresa:      string;
+    En_proforma:        boolean;
+    P_total_descuentos: number;
+    P_a_pago:           boolean;
+    Adicional:          boolean
 }

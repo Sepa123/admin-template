@@ -336,6 +336,23 @@ export class RutasMeliComponent {
     XLSX.writeFile(libroExcel, nombreArchivo);
   }
 
+
+  verInfoAdicional(id_ruta : number){
+    this.reporteMeliFinanza.map(reporte => {
+      
+      if(reporte.Id_ruta == id_ruta){
+        if(reporte.Adicional){
+          reporte.Adicional = false
+        }else{
+          reporte.Adicional = true
+        }
+      } else{
+        reporte.Adicional = false
+      }
+    })
+
+  }
+
    // Método para aplicar debouncing
    debounce(fn: Function, delay: number) {
     let timeoutId: number | undefined;
@@ -359,24 +376,22 @@ export class RutasMeliComponent {
     const resultado: any[] = [];
     const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
 
-    // for (let i = 0; i < this.resumenSupervisoresFull.length; i++) {
-    //     const lista = this.resumenSupervisoresFull[i];
-    //     if (
-    //         lista.Operacion.toString().toLowerCase().startsWith(filtro) ||
-    //         lista.Ppu.toString().toLowerCase().startsWith(filtro) ||
-    //         lista.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||
-    //         lista.Driver.toString().toLowerCase().startsWith(filtro) ||
-    //         lista.Id_ruta.toString().toLowerCase().startsWith(filtro) 
-    //     ) {
-    //         resultado.push(lista);
-    //         if (resultado.length >= maxResults) {
-    //             break; // Terminar el bucle si se alcanza el máximo de resultados
-    //         }
-    //     }
-    // }
+    for (let i = 0; i < this.reporteMeliFinanzaFull.length; i++) {
+        const lista = this.reporteMeliFinanzaFull[i];
+        if (
+            lista.Ppu.toString().toLowerCase().startsWith(filtro) ||
+            lista.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||
+            lista.Driver.toString().toLowerCase().startsWith(filtro) ||
+            lista.Razon_social.toString().toLowerCase().startsWith(filtro) 
+        ) {
+            resultado.push(lista);
+            if (resultado.length >= maxResults) {
+                break; // Terminar el bucle si se alcanza el máximo de resultados
+            }
+        }
+    }
 
-    // this.resumenSupervisores = resultado;
-    // console.log(this.ListaPrefactura);
+    this.reporteMeliFinanza = resultado;
 }
 
   // Aplica debouncing a la función filtrarTabla
