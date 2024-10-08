@@ -48,7 +48,7 @@ export class CitacionesComponent implements OnInit  {
     private http: HttpClient,
     private fb: FormBuilder,
     private Ct: CitacionesService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) {
     this.dateForm = this.fb.group({
       date: [''],
@@ -128,17 +128,29 @@ export class CitacionesComponent implements OnInit  {
     
   }
   toggleLive3() {
+    // Cambia la visibilidad del modal
     this.visible3 = !this.visible3;
-    
+  
+    // Si el modal se está cerrando, reiniciar las variables y el contenido relacionado con la función getPpu
+    if (!this.visible3) {
+      this.resetModalContent();
+    }
+  }
+
+  resetModalContent() {
+    this.patentesList = []; // Reiniciar la lista de patentes
   }
   handleLiveDemoChange2(event: any) {
     this.visible2 = event;
     
   }
 
-  handleLiveDemoChange3(event: any) {
+  handleLiveDemoChange3(event: boolean) {
     this.visible3 = event;
-    
+  
+    if (!event) {
+      this.resetModalContent();  // Reinicia el contenido cuando se cierra el modal
+    }
   }
   handleLiveDemoChange4(event: any) {
     this.visible4 = event;
@@ -603,7 +615,7 @@ export class CitacionesComponent implements OnInit  {
         
       }
     );
-
+  
     this.getPpu(id_operacion, id_centro_op);
   }
 
