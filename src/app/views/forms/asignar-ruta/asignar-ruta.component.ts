@@ -60,6 +60,7 @@ export class AsignarRutaComponent {
   patentesVehiculos:VehiculoDisponible [] = []
 
   patentesDisponibles: PatenteDisponible [] = []
+  patentesDisponiblesFull: PatenteDisponible [] = []
 
   ngOnInit() {
 
@@ -67,6 +68,7 @@ export class AsignarRutaComponent {
     this.service.get_lista_patentes_disponibles().subscribe((data) => {
 
       this.patentesDisponibles = data
+      this.patentesDisponiblesFull = data
     //  this.patentesVehiculos = data
     //  console.log(this.patentesVehiculos)
 
@@ -175,5 +177,49 @@ export class AsignarRutaComponent {
   asignarPatente(){
     
   }
+
+  // Método para aplicar debouncing
+  debounce(fn: Function, delay: number) {
+    let timeoutId: number | undefined;
+    return (...args: any[]) => {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = window.setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    }
+}
+
+pantente : string = ''
+
+
+  filtrarTabla(campo: string) {
+
+
+    const resultado: any[] = [];
+    const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
+
+    for (let i = 0; i < this.patentesDisponiblesFull.length; i++) {
+        const lista = this.patentesDisponiblesFull[i];
+        if (
+            lista.Patentes.toString().toLowerCase().startsWith(this.pantente.toLocaleLowerCase()) 
+        ) {
+            resultado.push(lista);
+            if (resultado.length >= maxResults) {
+                break; // Terminar el bucle si se alcanza el máximo de resultados
+            }
+        }
+    }
+
+    this.patentesDisponibles = resultado;
+}
+
+  // Aplica debouncing a la función filtrarTabla
+  filtrarTablaDebounced = this.debounce(this.filtrarTabla, 200);
+
+  onKeyUp() {
+    this.filtrarTablaDebounced('campo');
+}
 
 }

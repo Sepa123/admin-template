@@ -27,7 +27,7 @@ export class VehiculosComponent {
   private selectedPadron: File | null = null;
   private selectedCertGases: File | null = null;
   public rol = sessionStorage.getItem("rol_id") 
-  public rol_no_permitido = ['71','72','50']
+  public rol_no_permitido = ['71','72','50','75']
   
   descargarPermisoCirculacion : string | null = null
   descargarRevisionTecnica : string | null = null

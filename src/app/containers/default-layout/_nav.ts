@@ -224,6 +224,23 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
+    name: 'Transporte',
+    url: '/transporte',
+    iconComponent: { name: 'cil-car-alt' },
+    roles : [ROLES_ENUM.JEFE_MANTENCION],
+    children: [
+      
+      {
+        name:'Vehículos',
+        url: '/transporte/vehiculos'
+      }
+      // {
+      //   name: 'Colaboradores',
+      //   url : '/transporte/colaboradores'
+      // },
+    ]
+  },
+  {
     name: 'EXO',
     url: '/exo',
     iconComponent: { name: 'cil-bar-chart' },
@@ -584,6 +601,10 @@ export const navItems: INavDataBar[] = [
         name: "Seguimiento Diario",
         url:  '/mercadolibre/citacion-supervisores'
       },
+      {
+        name: "Resumen Supervisores",
+        url:  '/mercadolibre/ns-supervisores'
+      }
       
     ]
   },

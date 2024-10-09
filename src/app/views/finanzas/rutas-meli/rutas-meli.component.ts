@@ -207,11 +207,19 @@ export class RutasMeliComponent {
     return paresDeFechas;
 }
 
+ formatearAPesoCLP(numero : number) {
+  return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 }).format(numero);
+}
+
   buscadorResumenNS(fecha_i: string,fecha_f: string){
 
 
     this.service.getReporteMeliFinanza(fecha_i,fecha_f).subscribe((data) => {
       console.log(data)
+
+      data.map(r =>{
+        r.Descuento_clp = this.formatearAPesoCLP(r.P_total_descuentos)
+      })
       this.reporteMeliFinanza = data
 
       this.reporteMeliFinanzaFull = data

@@ -22,6 +22,7 @@ export interface ReporteMeliFinanza {
     Rut_empresa:      string;
     En_proforma:        boolean;
     P_total_descuentos: number;
+    Descuento_clp:    string;
     P_a_pago:           boolean;
     Adicional:          boolean
 }
