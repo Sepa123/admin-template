@@ -910,7 +910,7 @@
             <!-- <td>{{formatearRUT(vehiculo.Rut)}}</td> -->
             <td>
               <div class="slide-toggle-container">
-                <mat-slide-toggle  [disabled]=" rol == '50' " [(ngModel)]="vehiculo.Disponible" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
+                <mat-slide-toggle  [disabled]=" rol == '50' || rol == '75' " [(ngModel)]="vehiculo.Disponible" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
                   <!-- <span *ngIf="formVehiculo.value.Estado">Activado</span>
                   <span *ngIf="!formVehiculo.value.Estado">Desactivado</span> -->
                 </mat-slide-toggle>
@@ -1127,8 +1127,9 @@
           <button (click)="toggleLiveCO(0)" cButtonClose></button>
         </c-modal-header>
         <c-modal-body>
-              <p></p>
-              <c-row *ngIf="['72','50'].includes(rol+'') == false">
+              
+              <c-row *ngIf="['72','50','75'].includes(rol+'') == false">
+                <p></p>
                 <c-col >
                   <select id="Region" cSelect  class="form-control" [(ngModel)]="idOperacion" (change)="buscarPorModalidadOperacion()">
                     <option [value]="0" selected>Seleccione una operación</option>
