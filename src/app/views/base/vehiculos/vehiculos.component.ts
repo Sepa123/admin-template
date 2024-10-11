@@ -16,7 +16,7 @@ import { MainPanelVehiculos, PanelVehiculos, PanelVehiculosObs } from 'src/app/m
 @Component({
   selector: 'app-vehiculos',
   templateUrl: './vehiculos.component.html',
-  styleUrls: ['./vehiculos.component.scss']
+  styleUrls: ['./vehiculos.component.scss','../styles/cards.scss']
 })
 export class VehiculosComponent {
 

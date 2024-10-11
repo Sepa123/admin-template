@@ -11,7 +11,7 @@ import { PanelColaboradore } from 'src/app/models/transporte/paneles.interface'
 @Component({
   selector: 'app-colaboradores',
   templateUrl: './colaboradores.component.html',
-  styleUrls: ['./colaboradores.component.scss']
+  styleUrls: ['./colaboradores.component.scss','../styles/cards.scss']
 })
 export class ColaboradoresComponent {
 

@@ -13,7 +13,7 @@ import { PanelTripulacion } from 'src/app/models/transporte/paneles.interface';
 @Component({
   selector: 'app-tripulacion',
   templateUrl: './tripulacion.component.html',
-  styleUrls: ['./tripulacion.component.scss']
+  styleUrls: ['./tripulacion.component.scss','../styles/cards.scss']
 })
 export class TripulacionComponent {
 
