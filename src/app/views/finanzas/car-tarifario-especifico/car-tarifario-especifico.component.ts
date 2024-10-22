@@ -5,7 +5,6 @@ import { NgForm } from '@angular/forms';
 import * as XLSX from 'xlsx';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-
 @Component({
   selector: 'app-car-tarifario-especifico',
   templateUrl: './car-tarifario-especifico.component.html',
@@ -33,15 +32,48 @@ export class CarTarifarioEspecificoComponent {
   selectedPeriodo: number | null = null;
   RazonSocial: any[] = [];
 
-  ngOnInit() {
-    this.getOperacion();
-    this.getinfotableVerificar()
-    this.getCentroOp();
-    this.getCentroOperacion();
-    this.getinfoTable();
-    this.getPeriodicidad();
-    this.getinfoTableSearch() ;
+  ngOnInit(): void {
+    // Llamada al servicio para obtener los datos (suponiendo que uses un servicio para esto)
+    this.Te.getInfoTableTE().subscribe({
+      next: (infoTable: any[]) => {
+        this.infoTable = infoTable || [];  // Aseguramos que no sea void ni undefined
+        this.filteredData = [...this.infoTable]; // Copiamos el array para filtrados posteriores
+        this.originalData = [...this.infoTable]; // Guardamos una copia original de los datos
+        this.isLoadingFull = false;
+        // Llamadas a otros servicios para obtener más datos si es necesario
+        this.Te.getInfoTableSearch().subscribe({
+          next: (infoTableSearch: any[]) => {
+            this.infoTable2 = infoTableSearch || [];
+          },
+          error: (error) => {
+            console.error('Error al obtener infoTableSearch', error);
+          }
+        });
+  
+        this.Te.getOperacion().subscribe({
+          next: (operacion: any[]) => {
+            this.OperacionSelect = operacion || [];
+          },
+          error: (error) => {
+            console.error('Error al obtener operacion', error);
+          }
+        });
+  
+        this.Te.getPeriodicidad().subscribe({
+          next: (periodicidad: any[]) => {
+            this.Periodicidad = periodicidad || [];
+          },
+          error: (error) => {
+            console.error('Error al obtener periodicidad', error);
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Error al obtener infoTable', error);
+      }
+    });
   }
+  
 
   public visible = false;
   public visibleDanger = false;
@@ -50,7 +82,7 @@ export class CarTarifarioEspecificoComponent {
 
   filtrarDatos() {
     this.filteredData = this.infoTable.filter(item => {
-      const matchOperacion = this.selectedOperacion ? item.nombre === this.selectedOperacion : true;
+      const matchOperacion = this.selectedOperacion ? item.operacion === this.selectedOperacion : true;
       return matchOperacion;
     });
   }
@@ -68,28 +100,25 @@ export class CarTarifarioEspecificoComponent {
 
       switch (columnIndex) {
         case 0: // Ordenar por nombre
-          cellA = a.nombre.toLowerCase();
-          cellB = b.nombre.toLowerCase();
+          cellA = a.ppu.toLowerCase();
+          cellB = b.ppu.toLowerCase();
           break;
         case 1: // Ordenar por valor inferior
-          cellA = a.centro;
-          cellB = b.centro;
+          cellA = a.operacion;
+          cellB = b.operacion;
           break;
         case 2: // Ordenar por valor superior
-          cellA = a.tipo;
-          cellB = b.tipo;
+          cellA = a.cop;
+          cellB = b.cop;
           break;
         case 3: // Ordenar por uni_dad
-          cellA = a.caracteristica_tarifa;
-          cellB = b.caracteristica_tarifa;
-          break;
-        case 4: // Ordenar por uni_dad
           cellA = a.periodo;
           cellB = b.periodo;
           break;
-        case 5: // Ordenar por uni_dad
-          cellA = a.fecha_de_caducidad;
-          cellB = b.fecha_de_caducidad;
+        
+        case 4: // Ordenar por uni_dad
+          cellA = a.id;
+          cellB = b.id;
           break;
         default:
           return 0;
@@ -134,7 +163,6 @@ export class CarTarifarioEspecificoComponent {
   getOperacion() {
     this.Te.getOperacion().subscribe((data) => {
       this.OperacionSelect = data;
-      this.getCentroOperacion();
     });
   }
 

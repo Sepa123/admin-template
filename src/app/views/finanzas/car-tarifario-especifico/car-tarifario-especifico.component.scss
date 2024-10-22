@@ -4,12 +4,25 @@
   margin: 10px 0;
 }
 
-.container h3 {
+.TitleContainer h3 {
   font-family: 'Arial', sans-serif;
-  color: #333;
-  justify-items: center;
+  text-align: center; /* Centra el texto horizontalmente */
+  font-weight: bold;  /* Pone el texto en negrita */
+  font-size: 24px;    /* Tamaño de fuente opcional */
+  margin: 0;          /* Elimina los márgenes del h3 si es necesario */
 }
-
+.selectOperacionFiltro {
+  display: flex;
+  flex-direction: column; /* Pone los elementos en columna */
+  align-items: flex-start; /* Alinea el span y el select al inicio */
+}
+.selectOperacionFiltro select {
+  width: 200px; /* Ancho del select de 200px */
+}
+.selectOperacionFiltro span {
+  margin-bottom: 5px; /* Espacio entre el span y el select */
+  font-weight: bold; /* O cualquier otro estilo que prefieras */
+}
 /* Estilos para botones */
 .Botones {
   display: flex;

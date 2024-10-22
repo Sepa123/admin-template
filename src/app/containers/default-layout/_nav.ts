@@ -891,7 +891,7 @@ export const navItems: INavDataBar[] = [
       //   url: '/finanzas/carVehiculo'
       // },
       {
-        name: "Car. Tarifario Especifico",
+        name: "Tarifario Especifico",
         url: '/finanzas/carTarifarioEspecifico'
       }
       
