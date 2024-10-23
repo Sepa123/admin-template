@@ -6,18 +6,65 @@ import { ChangeDetectorRef } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as XLSX from 'xlsx';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
 @Component({
   selector: 'app-tarifario-general',
   templateUrl: './tarifario-general.component.html',
   styleUrls: ['./tarifario-general.component.scss']
 })
 export class TarifarioGeneralComponent implements OnInit {
+   private tarifaSubject = new Subject<void>();
   constructor(
     private http: HttpClient,
     private Tg : TarifarioGeneralService,
-    private cdr: ChangeDetectorRef
-
-  ){}
+    private cdr: ChangeDetectorRef,  
+  ){
+    // Aquí aplicamos debounceTime
+    this.tarifaSubject.pipe(
+      debounceTime(200) // Puedes ajustar el tiempo en milisegundos
+    ).subscribe(() => {
+      this.Tg.getOperacion().subscribe({
+        next: (OperacionSelect: any[]) => {
+          this.OperacionSelect = OperacionSelect || []; // Aseguramos que no sea void ni undefined
+          this.isLoadingFull = false;
+          // Llamadas a otros servicios para obtener más datos si es necesario
+          this.Tg.getCentroFiltro().subscribe({
+            next: (CopFilter: any[]) => {
+              this.CopSelect2 = CopFilter || [];
+            },
+            error: (error) => {
+              console.error('Error al obtener centro de operacion', error);
+            },
+          });
+          this.Tg.getTipoVehiculo().subscribe({
+            next: (TPV: any[]) => {
+              this.tipovehiculo = TPV || [];
+            },
+            error: (error) => {
+              console.error('Error al obtener centro de operacion', error);
+            },
+          });
+  
+          this.Tg.getPeriodicidad().subscribe({
+            next: (periodo: any[]) => {
+              this.Periodicidad = periodo || [];
+            },
+            error: (error) => {
+              console.error('Error al obtener centro de operacion', error);
+            },
+          });
+          this.Tg.GetCaracteristicasTarifa().subscribe({
+            next: (tarifa: any[]) => {
+              this.CarTarifa = tarifa || [];
+            },
+            error: (error) => {
+              console.error('Error al obtener centro de operacion', error);
+            },
+          });
+      }});
+    });}
   @ViewChild("formulario") formulario: NgForm | undefined;
   showUpdateButton: boolean | undefined;
   isLoadingFull: boolean = true;
@@ -70,17 +117,21 @@ export class TarifarioGeneralComponent implements OnInit {
   }
 
 
-  ngOnInit(){
-    this.getOperacion();
-    this.getCentroOp();
-    this.getCentroOperacion();
-    this.getTipoVehiculo();
-    this.GetCaracteristicasTarifa();
-    this.getPeriodicidad();
-    this.getinfoTableSearch() ;
-    this.getinfoTable();
-  }
+  ngOnInit(): void {
 
+    this.Tg.getInfoTable().subscribe({
+      next: (infoTable: any[]) => {
+        this.infoTable = infoTable || []; // Aseguramos que no sea void ni undefined
+        this.filteredData = [...this.infoTable]
+        this.originalData = [...this.infoTable]
+        this.isLoadingFull = false;
+        // Llamadas a otros servicios para obtener más datos si es necesario
+        this.getinfoTableSearch();
+      },
+    });
+    
+  }
+  
   limpiarInput() {
     this.tarifaMonto = null; // Limpia el valor del input
   }
@@ -89,6 +140,10 @@ export class TarifarioGeneralComponent implements OnInit {
   tipo_vehiculo: number = 0;
   unidadMedida: number = 0;
   periodo: number = 0;
+
+  solicitarInfoNuevaTarifa() {
+    this.tarifaSubject.next();
+  }
 
   verificarExistencia() {
     // Obtener los valores de los inputs
