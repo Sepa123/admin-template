@@ -1,1 +1,206 @@
-<p>car-tarifario-especifico works!</p>
+<div class="TitleContainer">
+  <H3> Tarifario especifico</H3>
+
+</div>
+<div class="container">
+  <H2 *ngIf="isLoadingFull"><img width="45" height="45" src="../../../assets/images/loading-gif.gif" /></H2>
+</div>
+
+<div class="Botones">
+  <button class="btnNueva"  (click)="toggleLiveDemo()" (click)="getColaborador()" (click)="getinfotableVerificar()">Nueva <svg xmlns="http://www.w3.org/2000/svg" width="1.5em"
+      height="1.5em" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M7 1h10v2h4v9h-2V5h-2v2H7V5H5v16h7v2H3V3h4zm2 4h6V3H9zm11 9v4h4v2h-4v4h-2v-4h-4v-2h4v-4z" />
+    </svg></button>
+  <!-- Botón para resetear el filtro -->
+  
+  <button class="btnNueva" id="text" (click)="exportToExcel()" >Descargar 
+    <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512">
+    <path fill="currentColor" d="M453.547 273.449H372.12v-40.714h81.427zm0 23.264H372.12v40.714h81.427zm0-191.934H372.12v40.713h81.427zm0 63.978H372.12v40.713h81.427zm0 191.934H372.12v40.714h81.427zm56.242 80.264c-2.326 12.098-16.867 12.388-26.58 12.796H302.326v52.345h-36.119L0 459.566V52.492L267.778 5.904h34.548v46.355h174.66c9.83.407 20.648-.291 29.197 5.583c5.991 8.608 5.41 19.543 5.817 29.43l-.233 302.791c-.29 16.925 1.57 34.2-1.978 50.892m-296.51-91.256c-16.052-32.57-32.395-64.909-48.39-97.48c15.82-31.698 31.408-63.512 46.937-95.327c-13.203.64-26.406 1.454-39.55 2.385c-9.83 23.904-21.288 47.169-28.965 71.888c-7.154-23.323-16.634-45.774-25.3-68.515c-12.796.698-25.592 1.454-38.387 2.21c13.493 29.78 27.86 59.15 40.946 89.104c-15.413 29.081-29.837 58.57-44.785 87.825c12.737.523 25.475 1.047 38.212 1.221c9.074-23.148 20.357-45.424 28.267-69.038c7.096 25.359 19.135 48.798 29.023 73.051c14.017.99 27.976 1.862 41.993 2.676M484.26 79.882H302.326v24.897h46.53v40.713h-46.53v23.265h46.53v40.713h-46.53v23.265h46.53v40.714h-46.53v23.264h46.53v40.714h-46.53v23.264h46.53v40.714h-46.53v26.897H484.26z" /></svg>
+  </button>
+
+  <div>
+    <div class="selectOperacionFiltro">
+      <span>Filtro Operacion</span>
+      <select id="operacion" name="FiltroOperaciones" [(ngModel)]="selectedOperacion" (change)="filtrarDatos()">
+        <option value="">Todos</option>
+        <option *ngFor="let operacion of OperacionSelect" [value]="operacion.nombre">{{ operacion.nombre }}</option>
+      </select>
+    </div>
+  </div>
+  
+</div>
+  <div class="greenTable">
+    <table>
+      <thead>
+        <th>
+          ID
+          <svg (click)="sortTable(4)" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em"
+            viewBox="0 0 576 512">
+            <path
+              d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z" />
+          </svg>
+        </th>
+        <th>
+          PPU
+          <svg (click)="sortTable(0)" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em"
+            viewBox="0 0 576 512">
+            <path
+              d="M151.6 42.4C145.5 35.8 137 32 128 32s-17.5 3.8-23.6 10.4l-88 96c-11.9 13-11.1 33.3 2 45.2s33.3 11.1 45.2-2L96 146.3 96 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-301.7 32.4 35.4c11.9 13 32.2 13.9 45.2 2s13.9-32.2 2-45.2l-88-96zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-224 0z" />
+          </svg>
+        </th>
+        <th>
+          Razon Social
+        </th>
+        <th>
+          Operación
+          <svg (click)="sortTable(1)" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em"
+            viewBox="0 0 576 512">
+            <path
+              d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z" />
+          </svg>
+        </th>
+        <th>
+          Centro de operación
+          <svg (click)="sortTable(2)" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em"
+            viewBox="0 0 576 512">
+            <path
+              d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z" />
+          </svg>
+        </th>
+        <th>
+          Periodicidad
+          <svg (click)="sortTable(3)" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em"
+            viewBox="0 0 576 512">
+            <path
+              d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z" />
+          </svg>
+
+        </th>
+        <th>
+          Tarifa
+        </th>
+        <th>
+          Caducidad
+        </th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ti of filteredData">
+          <td>{{ti.id}}</td>
+          <td>{{ti.ppu}}</td>
+          <td>{{ti.razon_social}}</td>
+          <td>{{ti.operacion}}</td>
+          <td>{{ti.cop}}</td>
+          <td>{{ti.periodo}}</td>
+          <td>{{ti.tarifa | currency:'':'symbol':'1.0-0' }}</td>
+          <td>{{ti.fecha_de_caducidad}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+<c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+  <c-modal-header>
+    <h5 class="modal-title" id="modalNuevaCitacionLabel">Agregar Tarifa</h5>
+    <button cButtonClose (click)="toggleLiveDemo()" type="button" class="close x-button" name="CloseAT" data-dismiss="modal"
+      aria-label="Close">
+    </button>
+    <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+  </c-modal-header>
+
+  <c-modal-body>
+    <form #tarifaForm="ngForm">
+      <div class="form-group">
+        <label for="Nombre">Nombre *</label>
+        <select id="Nombre" class="form-control" [(ngModel)]="nombreOperacion" name="nombre" (change)="getCentroOperacion()" (change)="verificarExistencia()">
+          <ng-container *ngFor="let Tg of OperacionSelect">
+            <option [value]="Tg.id">{{Tg.nombre}}</option>
+          </ng-container>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="Valor_Inf">Centro de operacion *</label>
+        <select id="nombreCop" class="form-control" [(ngModel)]="getCentroOperacion" name="centro_operacion" (change)="verificarExistencia()">
+          <ng-container *ngFor="let Tg of CopSelect">
+            <option [value]="Tg.id">{{Tg.centro}}</option>
+          </ng-container>
+        </select>
+
+      </div>
+      <div class="form-group">
+        <label for="valor_s"> Razon Social*</label>
+        <select id="RazonSocial" class="form-control" [(ngModel)]="razon_social" name="RazonSocial" (change)="Vehiculofilter()" (change)="verificarExistencia()">
+          <ng-container *ngFor="let Tp of ColaboradorSelect">
+            <option [value]="Tp.id">{{Tp.razon_social}}</option>
+          </ng-container>
+        </select>
+
+      </div>
+      <div class="form-group">
+        <label for="unidad">Patente*</label>
+        <select id="ppu" class="form-control" [(ngModel)]="Ppu_Vehiculo" name="Vehiculo" (change)="verificarExistencia()">
+          <ng-container *ngFor="let ve of vehiculo">
+            <option [value]="ve.id"> {{ve.ppu}} </option>
+          </ng-container>
+        </select>
+      </div>
+      <div>
+        <label for="Periodicidad"> Periodo</label>
+        <select id="Periodicidad" class="form-control" [(ngModel)]="selectedPeriodo" (keypress)="verificarExistencia()" name="Periodo" (change)="verificarExistencia()">
+          <ng-container *ngFor="let Pd of Periodicidad">
+            <option [value]="Pd.id">{{Pd.periodo}}</option>
+          </ng-container>
+        </select>
+      </div>
+      <div>
+        <label for=""> Tarifa </label>
+        <input type="number" class="form-control" id="Monto" name="Monto" >
+
+      </div>
+    </form>
+
+  </c-modal-body>
+
+  <c-modal-footer>
+    <!-- //(click)="actualizarTarifa()" -->
+    <div>
+      <div>
+        <svg *ngIf="showUpdateButton" xmlns="http://www.w3.org/2000/svg"  width="50" height="50" (click)="toggleDanger()"
+          viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            d="M12 8.5V14m0 3.247v-.5m-6.02-5.985C8.608 5.587 9.92 3 12 3s3.393 2.587 6.02 7.762l.327.644c2.182 4.3 3.274 6.45 2.287 8.022C19.648 21 17.208 21 12.327 21h-.654c-4.88 0-7.321 0-8.307-1.572s.105-3.722 2.287-8.022z" />
+        </svg>
+      </div>
+      <div>
+        <button *ngIf="!showUpdateButton" type="submit" name="Guardar" class="btn btn-success" (click)="ingresoFormNuevaTarifa(tarifaForm)" (click)="toggleLiveDemo()">Guardar</button>
+      </div>
+    </div>
+  </c-modal-footer>
+</c-modal>
+
+
+<c-modal [visible]="visibleDanger" (visibleChange)="handleLiveDemoChange2($event)">
+  <c-modal-header>
+    <h5 class="modal-title" id="modalNuevaCitacionLabel">Agregar fecha de termino *</h5>
+    <button cButtonClose  type="button" name="CloseAFT" (click)="toggleDanger()" class="close x-button" data-dismiss="modal"
+      aria-label="Close">
+    </button>
+    <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+  </c-modal-header>
+
+  <c-modal-body>
+    <form>
+      <div class="form-group">
+        <label for="Nombre">Fecha de termino *</label>
+        <input type="date" id="Fecha" name="Fecha" class="form-control" [(ngModel)]="fechaSeleccionada" required>
+      </div>
+    </form>
+  </c-modal-body>
+
+  <c-modal-footer>
+    <button type="submit" class="btn btn-success" name="btnGuardar" (click)="updateFecha()" >Guardar</button>
+
+  </c-modal-footer>
+</c-modal>

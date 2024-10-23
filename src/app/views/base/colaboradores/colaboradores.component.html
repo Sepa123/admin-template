@@ -6,9 +6,9 @@
     <c-modal-body>
 
         <form cForm [formGroup]="form" (ngSubmit)="actualizarDatos()" *ngIf="tipoRazon == 'Usuario Natural'" > 
-            <div class="card">
+            <div>
               <p></p>
-              <h5>Razón social</h5>
+              <h5>Razón Social</h5>
               <p></p>
             <c-row>
                 <c-col [xs]>
@@ -287,7 +287,7 @@
           </form>
 
         <form cForm [formGroup]="form" (ngSubmit)="actualizarDatos()" *ngIf="tipoRazon == 'Usuario Juridico'" > 
-            <div class="card">
+            <div>
               <p></p>
               <h5>Razón social</h5>
               <p></p>
@@ -622,7 +622,7 @@
     <c-tab-content #tabContent="cTabContent">
       <c-tab-pane class="p-3">
         <form cForm [formGroup]="form" (ngSubmit)="registrar()" *ngIf="listaComunasFull.length !== 0" > 
-          <div class="card">
+          <div >
             <p></p>
             <h5>Razón social</h5>
             <p></p>
@@ -858,7 +858,7 @@
       </c-tab-pane>
       <c-tab-pane class="p-3">
         <form cForm [formGroup]="form" (ngSubmit)="registrar()" *ngIf="listaComunasFull.length !== 0" > 
-          <div class="card">
+          <div >
             <p></p>
             <h5>Razón Social</h5>
             <p></p>
@@ -1359,7 +1359,7 @@
 </c-modal>
 
 
-<h2>Razón social</h2>
+<h2>Razón Social</h2>
 <p></p>
 
 

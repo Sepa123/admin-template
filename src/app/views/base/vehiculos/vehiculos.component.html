@@ -5,7 +5,7 @@
   </c-modal-header>
   <c-modal-body>
     <form cForm [formGroup]="formVehiculo" (ngSubmit)="registrarVehiculo()" *ngIf="listaComunasFull.length !== 0" > 
-      <div class="card">
+      <div>
         <p></p>
         <h5>Vehículo</h5>
         <p></p>
@@ -350,7 +350,7 @@
   </c-modal-header>
   <c-modal-body>
     <form cForm [formGroup]="formVehiculo" (ngSubmit)="actualizarDatosVehiculo()" *ngIf="listaComunasFull.length !== 0" > 
-      <div class="card">
+      <div>
         <p></p>
         <h5>Vehículos</h5>
         <p></p>
@@ -892,20 +892,20 @@
     
       <c-col xs="6" sm="3">
 
-        <div class="card card-blue">
+        <div class="card card-yellow">
           <table>
             <tr>
               <td width="98" height="98">
                 <div class="icon-background">
                   <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 512 512">
-                    <path fill="#3399ff" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m0-384c13.3 0 24 10.7 24 24v112c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24m-32 224a32 32 0 1 1 64 0a32 32 0 1 1-64 0" />
+                    <path fill="#ffcc00" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m0-384c13.3 0 24 10.7 24 24v112c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24m-32 224a32 32 0 1 1 64 0a32 32 0 1 1-64 0" />
                   </svg>
               </div>
               </td>
               <td>
                 <div class="text-content">
                   <h3> Habilitados sin GPS</h3>
-                  <div class="number">{{ panelVehiculos.Habilitados_con_GPS }}</div>
+                  <div class="number">{{ panelVehiculos.Habilitados_sin_GPS }}</div>
               </div>
               </td>
             </tr>

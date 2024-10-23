@@ -21,7 +21,7 @@ import { MainNs,Dato } from 'src/app/models/nivel_servicio/nsFechaCompromisoReal
 @Component({
   selector: 'app-widgets-dropdown',
   templateUrl: './widgets-dropdown.component.html',
-  styleUrls: ['./widgets-dropdown.component.scss'],
+  styleUrls: ['./widgets-dropdown.component.scss','./card.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {

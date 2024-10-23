@@ -968,10 +968,10 @@ export const navItems: INavDataBar[] = [
       //   name: "Car. Vehículo",
       //   url: '/finanzas/carVehiculo'
       // },
-      // {
-      //   name: "Car. Tarifario Especifico",
-      //   url: '/finanzas/carTarifarioEspecifico'
-      // }
+      {
+        name: "Tarifario Especifico",
+        url: '/finanzas/carTarifarioEspecifico'
+      }
 
     ]
   },
