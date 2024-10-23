@@ -1,94 +1,151 @@
-h3 {
-  align-items: center;
-}
-.Botones {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Cuatro columnas */
-  gap: 10px; /* Espacio entre los botones */
-  width: 100%; /* Asegurar que ocupe todo el ancho */
-}
-.modal-body {
-  overflow: hidden;
-}
-
+/* Estilos para contenedor y títulos */
 .container {
+  padding: 20px;
+  margin: 10px 0;
+}
+
+.TitleContainer h3 {
+  font-family: 'Arial', sans-serif;
+  text-align: center; /* Centra el texto horizontalmente */
+  font-weight: bold;  /* Pone el texto en negrita */
+  font-size: 24px;    /* Tamaño de fuente opcional */
+  margin: 0;          /* Elimina los márgenes del h3 si es necesario */
+}
+.selectOperacionFiltro {
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* Pone los elementos en columna */
+  align-items: flex-start; /* Alinea el span y el select al inicio */
+}
+.selectOperacionFiltro select {
+  width: 200px; /* Ancho del select de 200px */
+}
+.selectOperacionFiltro span {
+  margin-bottom: 5px; /* Espacio entre el span y el select */
+  font-weight: bold; /* O cualquier otro estilo que prefieras */
+}
+/* Estilos para botones */
+.Botones {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.x-button {
+  position: relative;
+  width: 30px; /* Ancho del botón */
+  height: 30px; /* Alto del botón */
+  background-color: transparent; /* Fondo transparente */
+  border: none; /* Sin bordes */
+  cursor: pointer; /* Manito al pasar el mouse */
+}
+.x-button::before, 
+  .x-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px; /* Ancho de la línea */
+    height: 2px; /* Grosor de la línea */
+    background-color: black; /* Color de la línea */
+    transform-origin: center;
+  }
+  
+  .x-button::before {
+    transform: translate(-50%, -50%) rotate(45deg); /* Línea diagonal */
+  }
+  
+  .x-button::after {
+    transform: translate(-50%, -50%) rotate(-45deg); /* Línea opuesta diagonal */
+  }
+
+.btnNueva {
+  background-color: #28a745; /* Verde */
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
 }
 
+.btnNueva:hover {
+  background-color: #218838; /* Verde oscuro */
+}
+
+.btnNueva svg {
+  margin-left: 5px;
+}
+/* Estilo para la tabla */
 .greenTable {
-  max-height: 600px; /* Aumenta la altura para mostrar más contenido */
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: auto;
-  border-radius: 10px; /* Bordes redondeados para toda la tabla */
+  max-height: 600px; /* Altura para aproximadamente 10 filas */
+  overflow-y: scroll; /* Habilitar scroll vertical */
+  border: 1px solid #ddd; /* Añadir borde para mejorar la visibilidad */
 }
 
 .greenTable table {
-  background-color: #FFFEF3;
   width: 100%;
-  height: 100%;
-  text-align: center;
-  table-layout: auto; /* Ajuste del layout de la tabla a automático */
-  border-radius: 10px; /* Bordes redondeados */
-  overflow: hidden; /* Asegura que los bordes redondeados se apliquen correctamente */
-  font-family: Arial, sans-serif; /* Mejora de la fuente */
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-.greenTable table th, .greenTable table td {
-  border: none; /* Elimina los bordes de las celdas */
-  padding: 8px;
-  min-width: 100px; /* Mínimo ancho para evitar truncamientos */
-  text-align: center;
-  box-sizing: border-box;
-  border-radius: 5px; /* Bordes redondeados para celdas */
+.greenTable th, .greenTable td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
-.greenTable table tbody td {
-  border-bottom: 1px solid #CCCCCC; /* Solo una línea sutil debajo de las celdas */
-  font-size: 14px; /* Tamaño de fuente más grande */
-  padding: 10px;
-  color: #333333; /* Cambia el color de texto a un gris oscuro */
+.greenTable th {
+  background-color: #28a745;
+  color: white;
 }
 
-.greenTable table tbody tr:nth-child(even) {
-  background-color: #f9f9f9; /* Agrega un color de fondo alternativo para mayor claridad visual */
+.greenTable td {
+  font-size: 14px;
 }
 
-.greenTable th.sortable:hover {
-  background-color: #1ece27;
+/* SVG dentro de la tabla para ordenar */
+.greenTable th svg {
   cursor: pointer;
+  margin-left: 8px;
 }
 
-.greenTable table thead {
+.greenTable th svg:hover {
+  fill: #ccc;
+}
+
+/* Estilo para ajustar visualmente la tabla */
+.greenTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* NUEVO: Limitar filas visibles a 10 y habilitar el scroll */
+
+
+/* Sticky header para que el <thead> se mantenga visible al hacer scroll */
+.greenTable thead  {
+  position: -webkit-sticky; /* Safari... */
   position: sticky;
   top: 0;
-  z-index: 10;
-  background: #28A745;
+  left: 0;
 }
 
-.greenTable table thead th {
-  font-size: 14px; /* Aumenta el tamaño para mejor legibilidad */
-  font-weight: bold;
-  color: #FFFFFF;
-  text-align: center;
-  border-bottom: 1px solid #28A745; /* Borde inferior para el encabezado */
-  border-radius: 5px; /* Bordes redondeados */
-  padding: 12px; /* Aumenta el padding */
+/* Opcional: Estilo del scrollbar */
+.greenTable::-webkit-scrollbar {
+  width: 10px;
 }
 
-.greenTable table thead th:first-child {
-  border-left: none;
+.greenTable::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
-/* Ajustar el tamaño de los inputs en la tabla */
-.greenTable input[type="text"] {
-  width: 90%; /* Aumenta el ancho de los inputs */
-  padding: 6px; /* Aumenta el padding */
-  font-size: 14px; /* Tamaño de fuente más grande */
-  border: 1px solid #CCCCCC;
-  border-radius: 5px; /* Bordes redondeados para los inputs */
+.greenTable::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+.greenTable::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
 
 .form-group {
@@ -103,90 +160,26 @@ h3 {
   font-size: 14px;
   font-family: Arial, sans-serif; /* Mejora de la fuente */
 }
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  font-size: 14px; /* Aumenta el tamaño de la fuente */
-}
-.btnNueva {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.btnNueva:hover {
-  background-color: #45a049;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-.btnNueva:active {
-  background-color: #39843b;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 select.form-control {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ced4da;
-  border-radius: 5px;
-  font-size: 14px;
-  font-family: Arial, sans-serif; /* Coincide con el diseño de los inputs */
-  -webkit-appearance: none; /* Elimina el estilo por defecto en algunos navegadores */
-  -moz-appearance: none; /* Elimina el estilo por defecto en Firefox */
-  appearance: none; /* Elimina el estilo por defecto en navegadores más modernos */
-  background-color: white;
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMiAxMiIgd2lkdGg9IjE0cHgiIGhlaWdodD0iMTRweCI+PHBvbHlsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHBvaW50cz0iMSw0IDYsOSAxMSw0Ii8+PC9zdmc+');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 10px;
-  cursor: pointer;
-}
-
-select.form-control:focus {
-  outline: none;
-  border-color: #80bdff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-.table-cell {
-  font-size: 15px;
-}
-
-.x-button {
-  position: relative;
-  width: 30px; /* Ancho del botón */
-  height: 30px; /* Alto del botón */
-  background-color: transparent; /* Fondo transparente */
-  border: none; /* Sin bordes */
-  cursor: pointer; /* Manito al pasar el mouse */
-}
-
-.x-button::before, 
-.x-button::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 24px; /* Ancho de la línea */
-  height: 2px; /* Grosor de la línea */
-  background-color: black; /* Color de la línea */
-  transform-origin: center;
-}
-
-.x-button::before {
-  transform: translate(-50%, -50%) rotate(45deg); /* Línea diagonal */
-}
-
-.x-button::after {
-  transform: translate(-50%, -50%) rotate(-45deg); /* Línea opuesta diagonal */
-}
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: Arial, sans-serif; /* Coincide con el diseño de los inputs */
+    -webkit-appearance: none; /* Elimina el estilo por defecto en algunos navegadores */
+    -moz-appearance: none; /* Elimina el estilo por defecto en Firefox */
+    appearance: none; /* Elimina el estilo por defecto en navegadores más modernos */
+    background-color: white;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMiAxMiIgd2lkdGg9IjE0cHgiIGhlaWdodD0iMTRweCI+PHBvbHlsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHBvaW50cz0iMSw0IDYsOSAxMSw0Ii8+PC9zdmc+');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    cursor: pointer;
+  }
+  
+  select.form-control:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }

@@ -41,6 +41,8 @@ export interface Vehiculo {
     Desc_desabilitado:            string;
     Fecha_desinstalacion :        string
     Oc_desinstalacion:            string
+    Nombre_region:            string
+    Nombre_tipo_vehiculo:            string
     Disponible :                boolean;
     Habilitado :               boolean;
 }   

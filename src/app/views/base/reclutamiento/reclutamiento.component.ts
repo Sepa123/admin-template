@@ -272,7 +272,7 @@ export class ReclutamientoComponent {
     Region: this.builder.control("" , [Validators.required]),
     Operacion_postula : this.builder.control("" , [Validators.required]),
     Nombre_contacto : this.builder.control("" , [Validators.required]),
-    Telefono : this.builder.control("" ),
+    Telefono : this.builder.control("",[Validators.pattern(/^\+?\d{7,15}$/)]),
     Tipo_vehiculo : this.builder.control("", [Validators.required] ),
     Origen_contacto : this.builder.control("", [Validators.required] ),
     Estado_contacto : this.builder.control("", [Validators.required] ),
@@ -367,7 +367,11 @@ export class ReclutamientoComponent {
       }
     }
 
-    if(rut == 'Rut_empresa') this.rutValido = Fn.validaRut(this.form.value.Rut_empresa?.trim()) ? true : false
+    if(this.form.value.Rut_empresa){
+      if(rut == 'Rut_empresa') this.rutValido = Fn.validaRut(this.form.value.Rut_empresa?.trim()) ? true : false
+    }
+
+    
     
 
   }
@@ -502,27 +506,7 @@ export class ReclutamientoComponent {
   }
 
 
- buscarReclutaFiltro(){
-  if(this.buscadorVehiculo == '') {
-    this.vehiculos = this.vehiculosFull
-    this.cantVehiculo = this.vehiculos.length
-  } else {
-    this.service.buscarVehiculo(this.buscadorVehiculo).subscribe((data) => {
-      this.vehiculos = data
-      this.cantVehiculo = this.vehiculos.length
-    })
-  }
- }
 
-
- /////// tickets 
-
- ticketGPS : boolean = false
-
- checkGPS(){
-   
-   this.ticketGPS = !this.ticketGPS
- }
 
 /////
 
@@ -552,11 +536,6 @@ closeModalCO(){
 idOperacion : number = 0
 
 
-
-
-convertirVehiculo(id : number){
-  return this.tipoVehiculos.filter(v => v.id == id)[0].name
-}
 
 
 // options = [

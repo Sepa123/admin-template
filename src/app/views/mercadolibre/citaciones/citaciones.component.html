@@ -2,11 +2,25 @@
     <h4 class="header">Gestión de Citaciones de Vehículos</h4>
 
     <!-- Selector de Fecha y Botón Nueva Citación -->
-        <div class="input-container">
+        <!-- <div class="input-container">
             <label for="fechaCitaciones">Seleccionar Fecha:</label>
             <input type="date" class="from-control" id="fechaCitaciones" [min]="minDate" (keydown)="preventTyping($event)" formControlName="date"
                 (change)="onDateChange($event)">
-        </div>
+        </div> -->
+
+        <table>
+            <tr>
+                <td>
+                    <label for="fechaCitaciones">Seleccionar Fecha:</label>
+                    <input type="date" class="form-control" id="fechaCitaciones" [min]="minDate" (keydown)="preventTyping($event)" formControlName="date"
+                        (change)="onDateChange($event)">
+                </td>
+                <td>
+                    <label for="fechaCitaciones">Buscador:</label>
+                    <input type="text" [(ngModel)]="textoFiltro" (keyup)="onKeyUp()" placeholder="Buscador" class="form-control">
+                </td>
+            </tr>
+        </table>
     <!-- Tabla de Citaciones -->
 </div>
 

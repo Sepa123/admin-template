@@ -65,6 +65,7 @@ export class CitacionesComponent implements OnInit  {
   form: FormGroup | any;
   myControl = new FormControl();
   modalidades: any[] = [];
+  modalidadesFull: any[] = [];
   conductores: any[] = [];
   estados: any[] = [];
   peonetas: any[] = [];
@@ -217,6 +218,7 @@ export class CitacionesComponent implements OnInit  {
     this.Ct.getOperaciones( fecha, id_user).subscribe(
       (data) => {
         this.modalidades = data;
+        this.modalidadesFull = data;
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -788,4 +790,52 @@ bitacoraUpdate(modificacion: string, origen: string){
   )
 
 }
+
+textoFiltro : any = ''
+
+// Método para aplicar debouncing
+debounce(fn: Function, delay: number) {
+  let timeoutId: number | undefined;
+  return (...args: any[]) => {
+      if (timeoutId) {
+          clearTimeout(timeoutId);
+      }
+      timeoutId = window.setTimeout(() => {
+          fn.apply(this, args);
+      }, delay);
+  }
+}
+
+filtrarTabla() {
+  const filtro = this.textoFiltro.toLowerCase();
+
+  const resultado: any[] = [];
+  const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
+
+  for (let i = 0; i < this.modalidadesFull.length; i++) {
+      const lista = this.modalidadesFull[i];
+      if (
+          lista.region_name.toString().toLowerCase().startsWith(filtro) ||
+          lista.nombre_cop.toString().toLowerCase().startsWith(filtro) ||
+          lista.operacion.toString().toLowerCase().startsWith(filtro) 
+      ) {
+          resultado.push(lista);
+          if (resultado.length >= maxResults) {
+              break; // Terminar el bucle si se alcanza el máximo de resultados
+          }
+      }
+  }
+
+  this.modalidades = resultado;
+  // console.log(this.ListaPrefactura);
+}
+
+// Aplica debouncing a la función filtrarTabla
+filtrarTablaDebounced = this.debounce(this.filtrarTabla, 200);
+
+onKeyUp() {
+  this.filtrarTablaDebounced('campo');
+}
+
+
 }
