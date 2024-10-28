@@ -174,6 +174,40 @@ export class CitacionesComponent implements OnInit  {
     this.initializeAmbulancia();
     
   }
+
+  patentesFiltradas = [...this.patentesList2]; // Inicialmente todas las patentes
+
+  buscarPatente(event: Event) {
+  const inputElement = event.target as HTMLInputElement;
+  const valorBusqueda = inputElement.value;
+
+  this.patentesFiltradas = this.patentesList2.filter(patente => {
+    return (
+      patente.ppu?.toLowerCase().includes(valorBusqueda)
+      // patente.razon_social?.toLowerCase().includes(valorBusqueda) ||
+      // patente.tipo?.toString().includes(valorBusqueda) ||
+      // patente.colaborador_id?.toString().includes(valorBusqueda) ||
+      // patente.tripulacion?.toLowerCase().includes(valorBusqueda)
+    );
+  });
+}
+
+patentesFiltradasDetalle = [...this.patentesList];
+
+buscarPatenteDetalle(event: Event) {
+  const inputElement = event.target as HTMLInputElement;
+  const valorBusqueda = inputElement.value;
+
+  this.patentesFiltradasDetalle = this.patentesList.filter(patente => {
+    return (
+      patente.ppu?.toLowerCase().includes(valorBusqueda)
+      // patente.razon_social?.toLowerCase().includes(valorBusqueda) ||
+      // patente.tipo?.toString().includes(valorBusqueda) ||
+      // patente.colaborador_id?.toString().includes(valorBusqueda) ||
+      // patente.tripulacion?.toLowerCase().includes(valorBusqueda)
+    );
+  });
+}
   obtenerFechaFormateada() {
     const today = new Date();
     const year = today.getFullYear();
@@ -424,6 +458,7 @@ export class CitacionesComponent implements OnInit  {
     this.Ct.getPpu(fecha, op, cop).subscribe(
       (data) => {
         this.patentesList = data;
+        this.patentesFiltradasDetalle= data;
         this.initializeSelectedEstados();
         this.initializeRutaMeliValues();
         this.initializeTipoRutaValues();
@@ -571,6 +606,7 @@ export class CitacionesComponent implements OnInit  {
     this.Ct.getPatenteCitacion(id_operacion, id_cop, fecha).subscribe(
       (data) => {
         this.patentesList2 = data;
+        this.patentesFiltradas = data
         this.TipoRutaImagen = data[1].tipo_ruta
         this.isLoadingFull = false;
         this.Cargado = true;

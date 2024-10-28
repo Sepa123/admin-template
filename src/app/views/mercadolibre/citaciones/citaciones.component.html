@@ -62,6 +62,7 @@
 
     <c-modal-body class ="Modal_patentes_ingresadas">
         <!-- *ngFor="let pu of patentesList2 -->
+        <input class="inputSP" placeholder="🔍 Patente" type="text" (input)="buscarPatente($event)">
         <table *ngIf="Cargado" >
             <thead >
                 <tr >
@@ -73,7 +74,7 @@
             </thead>
             <tbody class="modal-body">
                 <!-- Ejemplo de fila de datos -->
-                <tr *ngFor="let pu of patentesList2">
+                <tr *ngFor="let pu of patentesFiltradas">
                     <td class="thclass"><button id="Codigo_patente" class="detalle-patente" (click)="submitForm(pu.id_ppu)"
                             (click)="recuperarIdPpu(pu.id_ppu)" (click)="getRecargarPatentesCitaciones()" (click)="getLocation()" >
                             {{pu.ppu}}
@@ -193,18 +194,21 @@
 </c-modal>
 
 <c-modal [visible]="visible3" (visibleChange)="handleLiveDemoChange3($event)">
-    <c-modal-header class ="code-font">
+   
+    <c-modal-header class ="Modal_patentes_ingresadas">
         <h5  id="modalNuevaCitacionLabel">Patentes</h5>
         <td colspan="2" *ngIf="isLoadingFull"><img width="15rem" height="15rem"
             src="../../../assets/images/loading-gif.gif" /></td>
         <button (click)="toggleLive3()" cButtonClose type="button" class="close" data-dismiss="modal"
             aria-label="Close">
         </button>
+         
         <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
     </c-modal-header>
-    <c-modal-body class ="code-font" *ngIf="Cargado">
-        
-        <table class="tableclass">
+    <c-modal-body class ="Modal_patentes_ingresadas" *ngIf="Cargado">
+        <input class="inputSP" placeholder="🔍 Patente" type="text" (input)="buscarPatenteDetalle($event)">
+        <table >
+            
             <thead>
                 <tr>
                     <th class="thclass">Patente</th>
@@ -214,7 +218,7 @@
                     <th class="thclass">Acciones</th>
                 </tr>
             </thead>
-            <tbody *ngFor="let pu of patentesList" class="modal-body" >
+            <tbody *ngFor="let pu of patentesFiltradasDetalle" class="modal-body" >
                 <tr>
                     <td class="tdclass">
                         <span id="Codigo_patente" class="detalle-patente">
@@ -339,7 +343,7 @@
         </table>
 
     </c-modal-body>
-    <c-modal-footer class ="code-font">
+    <c-modal-footer class ="Modal_patentes_ingresadas">
         <br>
     </c-modal-footer>
 
