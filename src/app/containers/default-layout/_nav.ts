@@ -258,10 +258,10 @@ export const navItems: INavDataBar[] = [
         name: 'NS Easy',
         url : '/exo/ns-easy'
       },
-      {
-        name: 'NS Electrolux',
-        url : '/exo/ns-electrolux'
-      }
+      // {
+      //   name: 'NS Electrolux',
+      //   url : '/exo/ns-electrolux'
+      // }
     ]
   },
   /// exo para coordinador
@@ -292,10 +292,10 @@ export const navItems: INavDataBar[] = [
         name: 'NS Easy',
         url : '/exo/ns-easy'
       },
-      {
-        name: 'NS Electrolux',
-        url : '/exo/ns-electrolux'
-      }
+      // {
+      //   name: 'NS Electrolux',
+      //   url : '/exo/ns-electrolux'
+      // }
       
     ]
   },
@@ -314,10 +314,10 @@ export const navItems: INavDataBar[] = [
         name: 'NS Easy',
         url : '/exo/ns-easy'
       },
-      {
-        name: 'NS Electrolux',
-        url : '/exo/ns-electrolux'
-      }
+      // {
+      //   name: 'NS Electrolux',
+      //   url : '/exo/ns-electrolux'
+      // }
     ]
   },
   // FULL PANTALLA
@@ -953,16 +953,12 @@ export const navItems: INavDataBar[] = [
     roles : ROLES_PERMITIDOS.FINANZAS,
     children: [
       {
-        name: "Tarifario General",
-        url : '/finanzas/tarifarioGeneral'
-      },
-      {
         name: "Car. Tarifario General",
         url : '/finanzas/tarifario'
       },
       {
-        name: "Rutas Mercado Libre",
-        url : '/finanzas/rutas-meli'
+        name: "Tarifario General",
+        url : '/finanzas/tarifarioGeneral'
       },
       // {
       //   name: "Car. Vehículo",
@@ -971,8 +967,11 @@ export const navItems: INavDataBar[] = [
       {
         name: "Tarifario Especifico",
         url: '/finanzas/carTarifarioEspecifico'
-      }
-
+      },
+      {
+        name: "Rutas Mercado Libre",
+        url : '/finanzas/rutas-meli'
+      },
     ]
   },
   { /// Pantalla Informacion Para TOC

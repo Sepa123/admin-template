@@ -9,7 +9,20 @@
   width: 100vh;
   margin: 0;
 }
+.inputSP{
+  width: 100%;           /* Ocupa el 100% del ancho del contenedor */
+  padding: 10px;         /* Espacio interno para mejor presentación */
+  border: 1px solid #ccc; /* Borde sutil */
+  border-radius: 5px;    /* Bordes redondeados */
+  font-size: 16px;       /* Tamaño de fuente adecuado */
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+  outline: none;         /* Elimina el borde azul al hacer clic */
+}
 
+.inputSP:focus{
+  border-color: #66afe9; /* Cambia el color del borde al hacer foco */
+  box-shadow: 0 0 5px rgba(102, 175, 233, 0.6); /* Sombra suave al hacer foco */
+}
 
 .modal-body {
   overflow: hidden;

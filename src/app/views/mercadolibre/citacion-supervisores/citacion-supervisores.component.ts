@@ -20,6 +20,7 @@ export class CitacionSupervisoresComponent {
   }
   
   citacionSupervisores : MainCitacionS [] = []
+  citacionSupervisoresFull : MainCitacionS [] = []
   operacionCampo : CamposPorOperacion [] = []
 
   detalleCitacion : Detalle [] = []
@@ -116,6 +117,7 @@ export class CitacionSupervisoresComponent {
 
       this.service.getDatosCitacionSupervisor(this.id_usuario,fecha).subscribe((data) => {
         this.citacionSupervisores = data
+        this.citacionSupervisoresFull = data
         
         console.log(this.citacionSupervisores[0].Id_operacion)
         this.chartVisible = true
@@ -149,6 +151,7 @@ export class CitacionSupervisoresComponent {
     
     this.service.getDatosCitacionSupervisor(this.id_usuario,this.currentDate).subscribe((data) => {
       this.citacionSupervisores = data
+      this.citacionSupervisoresFull = data
       console.log(this.citacionSupervisores[0].chart_data)
       this.chartVisible = true
       this.graficoVisible = true
@@ -416,6 +419,7 @@ guardarDatos() {
 
   this.service.getDatosCitacionSupervisor(this.id_usuario,this.currentDate).subscribe((data) => {
     this.citacionSupervisores = data
+    this.citacionSupervisoresFull = data
     console.log(this.citacionSupervisores[0].chart_data)
     this.chartVisible = true
     this.graficoVisible = true
@@ -454,6 +458,51 @@ CerrarRuta( index: number) {
 
   // this.datosCitacionActiva[index]['ruta_cerrada'] = true ;
 
+}
+
+
+textoFiltro : any = ''
+
+// Método para aplicar debouncing
+debounce(fn: Function, delay: number) {
+  let timeoutId: number | undefined;
+  return (...args: any[]) => {
+      if (timeoutId) {
+          clearTimeout(timeoutId);
+      }
+      timeoutId = window.setTimeout(() => {
+          fn.apply(this, args);
+      }, delay);
+  }
+}
+
+filtrarTabla() {
+  const filtro = this.textoFiltro.toLowerCase();
+
+  const resultado: any[] = [];
+  const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
+  for (let i = 0; i < this.citacionSupervisoresFull.length; i++) {
+      const lista = this.citacionSupervisoresFull[i];
+      if (
+          lista.Nombre.toString().toLowerCase().startsWith(filtro) ||
+          lista.Centro.toString().toLowerCase().startsWith(filtro) 
+      ) {
+          resultado.push(lista);
+          if (resultado.length >= maxResults) {
+              break; // Terminar el bucle si se alcanza el máximo de resultados
+          }
+      }
+  }
+
+  this.citacionSupervisores = resultado;
+  // console.log(this.ListaPrefactura);
+}
+
+// Aplica debouncing a la función filtrarTabla
+filtrarTablaDebounced = this.debounce(this.filtrarTabla, 200);
+
+onKeyUp() {
+  this.filtrarTablaDebounced('campo');
 }
 
 

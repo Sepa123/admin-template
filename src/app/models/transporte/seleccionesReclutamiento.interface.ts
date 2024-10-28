@@ -7,6 +7,7 @@ export interface MainSeleccionReclutamiento {
     Tipo_vehiculo:      TipoVehiculo[];
     Region:             Region[];
     Comentarios :        ComentarioReclutamiento [];
+    Comuna : Comuna []
 }
 
 export interface ContactoEjecutivo {
@@ -39,6 +40,12 @@ export interface Region {
     Nombre_region: string;
 }
 
+export interface Comuna {
+    Nombre_comuna: string;
+    Id_region:     string;
+    Id_comuna:     string;
+}
+
 export interface TipoVehiculo {
     Id:            number;
     Tipo_vehiculo: string;
@@ -47,25 +54,35 @@ export interface TipoVehiculo {
 
 
 export interface Reclutamiento {
-    Id_reclutamiento:   number;
-    Region:             number;
-    Operacion_postula:  number;
-    Nombre:             string;
-    Telefono:           string;
-    Tipo_vehiculo:      number;
-    Origen_contacto:    number;
-    Estado_contacto:    number;
-    Motivo_subestado:   number;
-    Contacto_ejecutivo: number;
-    Razon_social:       string;
-    Rut_empresa:        string;
-    Internalizado:      null;
-    Region_nombre:      string;
-    Operacion_nombre:   string;
-    Nombre_origen:      string;
-    Nombre_estados:     string;
-    Nombre_motivo:      string;
-    Nombre_contacto:      string;
+    Id_reclutamiento:           number;
+    Fecha_creacion:             string;
+    Region:                     number;
+    Comuna:                     number;
+    Operacion_postula:          null;
+    Nombre:                     string;
+    Telefono:                   string;
+    Tipo_vehiculo:              number;
+    Origen_contacto:            number;
+    Estado_contacto:            number;
+    Motivo_subestado:           number;
+    Contacto_ejecutivo:         null;
+    Razon_social:               null;
+    Rut_empresa:                null;
+    Internalizado:              boolean | null;
+    Region_nombre:              string;
+    Operacion_nombre:           null;
+    Nombre_origen:              string;
+    Nombre_estados:             string;
+    Nombre_motivo:              string;
+    Nombre_contacto:            null;
+    Pais:                       number;
+    Inicio_actividades_factura: boolean;
+    Giro:                       number;
+    Cantidad_vehiculo:          number;
+    Correo:                     string;
+    Ppu:                        string;
+    Metros_cubicos:             number;
+    Rango_fecha:                number;
 }
 
 

@@ -13,7 +13,8 @@ import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
 import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
 import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
 import { PanelVehiculos } from 'src/app/models/transporte/paneles.interface'
-import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, Operacion, Origen, Reclutamiento, Region,TipoVehiculo } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
+import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, Operacion, Origen, Reclutamiento, Region,TipoVehiculo,Comuna } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
+import { RecursiveAstVisitor } from '@angular/compiler';
 
 @Component({
   selector: 'app-reclutamiento',
@@ -54,8 +55,8 @@ export class ReclutamientoComponent {
   rutRepresentanteValido : boolean = true
   rutTitularBanco : boolean = true
   
-  listaComunas : any [] = []
-  listaComunasFull : any [] = []
+  listaComunas : Comuna [] = []
+  listaComunasFull : Comuna [] = []
   tipoUsuario : string = "7"
 
   colaboradores : Colaborador [] = []
@@ -83,7 +84,6 @@ export class ReclutamientoComponent {
   latStr!: string
   longStr!: string
 
-
   //Comentarios
   options : any [] = []
 
@@ -106,6 +106,7 @@ export class ReclutamientoComponent {
       Estado_contacto : "1",
       Motivo_subestado : "1",
       Contacto_ejecutivo : this.listaContactoEjecutivo[0].Id+"",
+      Comuna : "1"
     })
     this.rutValido = true
     this.visible = !this.visible;
@@ -238,6 +239,8 @@ export class ReclutamientoComponent {
       Estado_contacto : "1",
       Motivo_subestado : "1",
       Contacto_ejecutivo : this.listaContactoEjecutivo[0].Id+"",
+      Inicio_actividades_factura: true,
+      Giro: "1"
     })
     this.isErrorView = false
     this.visibleAgregar = !this.visibleAgregar;
@@ -270,6 +273,7 @@ export class ReclutamientoComponent {
     Id_user : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
     Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
     Region: this.builder.control("" , [Validators.required]),
+    Comuna: this.builder.control("1" , [Validators.required]),
     Operacion_postula : this.builder.control("" , [Validators.required]),
     Nombre_contacto : this.builder.control("" , [Validators.required]),
     Telefono : this.builder.control("",[Validators.pattern(/^\+?\d{7,15}$/)]),
@@ -283,7 +287,14 @@ export class ReclutamientoComponent {
     Internalizado : this.builder.control("" ),
     Latitud: this.builder.control("" ),
     Longitud: this.builder.control("" ),
-    Capacidad: this.builder.control("" )
+    Capacidad: this.builder.control("" ),
+    Pais: this.builder.control("" ),
+    Correo: this.builder.control("",[Validators.required, Validators.email] ),
+    Ppu: this.builder.control("",[Validators.maxLength(6)]),
+    Metros_cubicos: this.builder.control("",[Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
+    Cant_vehiculos: this.builder.control("" ),
+    Inicio_actividades_factura: this.builder.control(true),
+    Giro: this.builder.control("1")
   })
 
   time!: Date;
@@ -304,6 +315,8 @@ export class ReclutamientoComponent {
 
     this.service.getSeleccionesReclutamiento().subscribe((data) => {
 
+      this.listaComunas = data.Comuna
+      this.listaComunasFull = data.Comuna
       this.listaRegiones = data.Region
       this.listaOperacion = data.Operacion
       this.listaOrigen = data.Origen
@@ -325,6 +338,9 @@ export class ReclutamientoComponent {
         Estado_contacto : "1",
         Motivo_subestado : "1",
         Contacto_ejecutivo : data.Contacto_ejecutivo[0].Id+"",
+        Inicio_actividades_factura: true,
+        Giro: "1",
+        Comuna : "1"
       })
 
       this.service.getDatosReclutas().subscribe((data) => {
@@ -406,6 +422,10 @@ export class ReclutamientoComponent {
   buscarComunas(event: any){
     const selectedRegionId = event.target.value;
     this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
+    this.form.patchValue({
+      Comuna : this.listaComunas[0].Id_comuna
+    }
+    )
 
   }
 
@@ -468,7 +488,15 @@ export class ReclutamientoComponent {
       Motivo_subestado : recluta.Motivo_subestado+"",
       Contacto_ejecutivo : recluta.Contacto_ejecutivo+"",
       Razon_social : recluta.Razon_social,
-      Rut_empresa : recluta.Rut_empresa
+      Rut_empresa : recluta.Rut_empresa,
+      Pais: recluta.Pais+"",
+      Inicio_actividades_factura : recluta.Inicio_actividades_factura,
+      Giro : recluta.Giro +'',
+      Cant_vehiculos : recluta.Cantidad_vehiculo+'',
+      Correo : recluta.Correo,
+      Ppu : recluta.Ppu,
+      Metros_cubicos: recluta.Metros_cubicos+'',
+      Comuna: recluta.Comuna+''
     })
     
   }
@@ -482,6 +510,8 @@ export class ReclutamientoComponent {
     })
 
     this.verificaRut('Rut_empresa')
+
+    console.log(this.form.value)
 
     this.isErrorView = false
 

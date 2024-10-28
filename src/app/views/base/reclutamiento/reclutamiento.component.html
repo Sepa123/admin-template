@@ -12,51 +12,118 @@
           <h5>Vehículo</h5> -->
           <p></p>
           <c-row>
+
+            <c-col [xs]>
+              <div class="">
+                Nombre Contacto
+  
+                <input type="text" placeholder="Nombre Contacto" class="form-control" formControlName="Nombre_contacto" >
+                  <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                  <span class="error" *ngIf="form.get('Nombre_contacto')?.errors?.['required'] && isErrorView">
+                      Falta agregar el nombre de contacto
+                  </span>
+            </div>
+          </c-col>
+          <c-col [xs]>
+            Teléfono
+            <input type="text" placeholder="Teléfono" class="form-control"  formControlName="Telefono">
+              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+              <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                  Falta agregar el teléfono
+              </span>
+
+              <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span>
+
+            
+          </c-col>
+          <c-col [xs]>
+            Correo 
+            <input type="text" placeholder="name@example.com" class="form-control"  formControlName="Correo">
+            <span class="error" *ngIf="form.get('Correo')?.errors?.['required'] && isErrorView" >
+              Falta agregar el Correo
+            </span>
+
+            <span class="error" *ngIf="form.get('Correo')?.errors?.['email'] && isErrorView" >
+              Formato de correo invalido
+            </span>
+
+              <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span> -->
+
+            
+          </c-col>
             <c-col [xs]>
                 <div class="noEditar">
                     Región
-                    <select id="EstadoContacto" cSelect class="form-control" formControlName="Region">
+                    <select id="EstadoContacto" cSelect class="form-control" formControlName="Region" (change)="buscarComunas($event)">
                       <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
                     </select>
 
 
                 </div>
             </c-col>
-            <c-col [xs]>
-              <div class="">
-                  Operación Postula
-                  <select id="EstadoContacto" cSelect class="form-control" formControlName="Operacion_postula">
-                    <option *ngFor="let op of listaOperacion"  [value]="op.Id"  >{{op.Operacion}}</option>
-                  </select>
-              </div>
-          </c-col>
-          <c-col [xs]>
-            <div class="">
-              Nombre Contacto
-
-              <input type="text" placeholder="Nombre Contacto" class="form-control" formControlName="Nombre_contacto" >
-                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                <span class="error" *ngIf="form.get('Nombre_contacto')?.errors?.['required'] && isErrorView">
-                    Falta agregar el nombre de contacto
-                </span>
-          </div>
-        </c-col>
-            <c-col [xs]>
-              Teléfono
-              <input type="text" placeholder="Teléfono" class="form-control"  formControlName="Telefono">
-                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
-                    Falta agregar el teléfono
-                </span>
-
-                <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
-                  Numero de Teléfono no es valido
-              </span>
-
-              
-            </c-col>
+           
+          
+            
         </c-row>
         <c-row>
+          <c-col [xs]>
+            <div class="noEditar">
+                Comuna
+                <select id="EstadoContacto" cSelect class="form-control" formControlName="Comuna">
+                  <option *ngFor="let comuna of listaComunas" [value]="comuna.Id_comuna">{{comuna.Nombre_comuna}}</option>
+                </select>
+
+
+            </div>
+        </c-col>
+
+        <c-col [xs]>
+          <div class="">
+              Operación Postula
+              <select id="EstadoContacto" cSelect class="form-control" formControlName="Operacion_postula">
+                <option *ngFor="let op of listaOperacion"  [value]="op.Id"  >{{op.Operacion}}</option>
+              </select>
+          </div>
+      </c-col>
+
+      <c-col [xs]>
+        Cantidad de vehículos
+        <input type="text" placeholder="Cantidad" class="form-control"  formControlName="Cant_vehiculos">
+          <span class="error" *ngIf="form.get('Cant_vehiculos')?.errors?.['required'] && isErrorView">
+              Falta agregar la patente
+          </span>
+
+          <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+            Numero de Teléfono no es valido
+        </span> -->
+
+        
+      </c-col>
+
+      <c-col [xs]>
+        Patente
+        <input type="text" placeholder="WXYZ01" class="form-control"  formControlName="Ppu">
+          <span class="error" *ngIf="form.get('Ppu')?.errors?.['required'] && isErrorView">
+              Falta agregar la patente
+          </span>
+
+          <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+            Numero de Teléfono no es valido
+        </span> -->
+
+        
+      </c-col>
+          
+          
+            
+              
+        </c-row>
+        <c-row>
+
           <c-col [xs]>
             <div class="">
               Tipo vehículo *
@@ -77,14 +144,33 @@
 
             
           </c-col>
-            <c-col [xs]>
-              Origen Contacto
+          <c-col [xs]>
+            Metros cubicos
+            <input type="number" placeholder="5.2" class="form-control"  formControlName="Metros_cubicos">
+              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+              <span class="error" *ngIf="form.get('Metros_cubicos')?.errors?.['required'] && isErrorView">
+                Falta agregar los metros cúbicos
+              </span>
 
-              <select id="EstadoContacto" cSelect class="form-control" formControlName="Origen_contacto">
+              <span class="error" *ngIf="form.get('Metros_cubicos')?.errors?.['pattern'] && isErrorView">
+                  Formato de los metros cúbicos es incorrecto
+              </span>
 
-                    <option *ngFor="let origen of listaOrigen"  [value]="origen.Id"  >{{origen.Origen}}</option>
-              </select>
-            </c-col>
+            
+          </c-col>
+          <c-col [xs]>
+            Origen Contacto
+
+            <select id="EstadoContacto" cSelect class="form-control" formControlName="Origen_contacto">
+
+                  <option *ngFor="let origen of listaOrigen"  [value]="origen.Id"  >{{origen.Origen}}</option>
+            </select>
+          </c-col>
+          
+          
+          
+          </c-row>
+          <c-row>
             <c-col [xs]>
               <div class="">
                 Estado Contacto
@@ -93,49 +179,91 @@
                   </select>
                   </div>
           </c-col>
-              
-        </c-row>
-        <c-row>
-          <c-col [xs]>
-            <div class="">
-              Motivo Subestado
-              <select id="EstadoContacto" cSelect class="form-control" formControlName="Motivo_subestado">
-                    <option *ngFor="let motivo of listaMotivo"  [value]="motivo.Id"  >{{motivo.Motivo_subestado}}</option>
-              </select>
-            </div>
-        </c-col>
+            
             <c-col [xs]>
               <div class="">
-                Contacto Ejecutivo
-                <select id="EstadoContacto" cSelect class="form-control" formControlName="Contacto_ejecutivo">
-                          <option *ngFor="let contacto of listaContactoEjecutivo"  [value]="contacto.Id"  >{{contacto.Ejecutivo}}</option>
+                Motivo Subestado
+                <select id="EstadoContacto" cSelect class="form-control" formControlName="Motivo_subestado">
+                      <option *ngFor="let motivo of listaMotivo"  [value]="motivo.Id"  >{{motivo.Motivo_subestado}}</option>
                 </select>
+              </div>
+          </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Contacto Ejecutivo
+                  <select id="EstadoContacto" cSelect class="form-control" formControlName="Contacto_ejecutivo">
+                            <option *ngFor="let contacto of listaContactoEjecutivo"  [value]="contacto.Id"  >{{contacto.Ejecutivo}}</option>
+                  </select>
+              </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                Razón Social
+                <input type="text" placeholder="Razón Social" class="form-control"  formControlName="Razon_social">
+                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                    Falta agregar la razón social
+                </span>
+  
             </div>
+                </c-col>
+                  
+
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="">
+                Rut Empresa 
+                <input type="text" placeholder="11111111-1" class="form-control" formControlName="Rut_empresa" (change)="verificaRut('Rut_empresa')" maxlength="10">
+                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                <span class="error" *ngIf="form.get('Rut_empresa')?.errors?.['required'] && isErrorView">
+                    Falta agregar el rut de la empresa
+                </span>
+                <span class="error" *ngIf="!rutValido ">
+                  Rut Invalido
+              </span>
+              </div>
           </c-col>
           <c-col [xs]>
-            <div class="">
-              Razón Social
-              <input type="text" placeholder="Razón Social" class="form-control"  formControlName="Razon_social">
-              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-              <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
-                  Falta agregar la razón social
-              </span>
 
+          </c-col>
+          <c-col [xs]>
+
+          </c-col>
+          <c-col [xs]>
+
+          </c-col>
+          </c-row>
+
+          <c-row>
+
+            <div class="full-width">
+              <label>¿Cuenta con inicio de actividades para facturar?*</label>
+              <div class="radio-group">
+                  <input type="radio" id="factura_si" formControlName="Inicio_actividades_factura" [value]="true" required>
+                  <label for="factura_si">Sí</label>
+                  <input type="radio" id="factura_no" formControlName="Inicio_actividades_factura" [value]="false">
+                  <label for="factura_no">No</label>
+              </div>
           </div>
-              </c-col>
-                <c-col [xs]>
-                  <div class="">
-                    Rut Empresa 
-                    <input type="text" placeholder="11111111-1" class="form-control" formControlName="Rut_empresa" (change)="verificaRut('Rut_empresa')" maxlength="10">
-                    <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                    <span class="error" *ngIf="form.get('Rut_empresa')?.errors?.['required'] && isErrorView">
-                        Falta agregar el rut de la empresa
-                    </span>
-                    <span class="error" *ngIf="!rutValido ">
-                      Rut Invalido
-                  </span>
-                  </div>
-              </c-col>
+  
+          <!-- Giros para facturar -->
+          <div class="full-width">
+              <label>¿Cuenta con alguno de estos giros para poder facturar?*</label>
+              <div class="radio-group">
+                  <input type="radio" id="transporte" formControlName="Giro" value="2" required>
+                  <label for="transporte">Transporte de carga por carretera</label>
+              </div>
+              <div class="radio-group">
+                  <input type="radio" id="otras"  formControlName="Giro" value="3">
+                  <label for="otras">Otras actividades de apoyo a las empresas N.C.P</label>
+              </div>
+              <div class="radio-group">
+                  <input type="radio" id="no_giro" formControlName="Giro" value="1">
+                  <label for="no_giro">No</label>
+              </div>
+          </div>
+
           </c-row>
           <p></p>
           <!-- <h5>Datos proporcionados por transporte</h5> -->
@@ -173,47 +301,118 @@
           <h5>Vehículo</h5> -->
           <p></p>
           <c-row>
-            <c-col [xs]>
-                <div class="noEditar">
-                    Región
-                    <select id="EstadoContacto" cSelect class="form-control" formControlName="Region">
-                      <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
-                    </select>
 
-
-                </div>
-            </c-col>
             <c-col [xs]>
               <div class="">
-                  Operación Postula
-                  <select id="EstadoContacto" cSelect class="form-control" formControlName="Operacion_postula">
-                    <option *ngFor="let op of listaOperacion"  [value]="op.Id"  >{{op.Operacion}}</option>
-                  </select>
-              </div>
+                Nombre Contacto
+  
+                <input type="text" placeholder="Nombre Contacto" class="form-control" formControlName="Nombre_contacto" >
+                  <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                  <span class="error" *ngIf="form.get('Nombre_contacto')?.errors?.['required'] && isErrorView">
+                      Falta agregar el nombre de contacto
+                  </span>
+            </div>
           </c-col>
           <c-col [xs]>
-            <div class="">
-              Nombre Contacto
+            Teléfono
+            <input type="text" placeholder="Teléfono" class="form-control"  formControlName="Telefono">
+              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+              <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                  Falta agregar el teléfono
+              </span>
 
-              <input type="text" placeholder="Nombre Contacto" class="form-control" formControlName="Nombre_contacto" >
-                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                <span class="error" *ngIf="form.get('Nombre_contacto')?.errors?.['required'] && isErrorView">
-                    Falta agregar el nombre de contacto
-                </span>
-          </div>
+              <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span>
+
+            
+          </c-col>
+          <c-col [xs]>
+            Correo 
+            <input type="text" placeholder="name@example.com" class="form-control"  formControlName="Correo">
+            <span class="error" *ngIf="form.get('Correo')?.errors?.['required'] && isErrorView" >
+              Falta agregar el Correo
+            </span>
+
+            <span class="error" *ngIf="form.get('Correo')?.errors?.['email'] && isErrorView" >
+                Formato de correo invalido
+            </span>
+
+              <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span> -->
+
+            
+          </c-col>
+          <c-col [xs]>
+            <div class="noEditar">
+                Región
+                <select id="EstadoContacto" cSelect class="form-control" formControlName="Region" (change)="buscarComunas($event)">
+                  <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                </select>
+
+
+            </div>
         </c-col>
-            <c-col [xs]>
-              Teléfono
-              <input type="text" placeholder="Teléfono" class="form-control"  formControlName="Telefono">
-                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
-                    Falta agregar el teléfono
-                </span>
+       
+      
+        
+    </c-row>
+    <c-row>
+      <c-col [xs]>
+        <div class="noEditar">
+            Comuna
+            <select id="EstadoContacto" cSelect class="form-control" formControlName="Comuna">
+              <option *ngFor="let comuna of listaComunas" [value]="comuna.Id_comuna">{{comuna.Nombre_comuna}}</option>
+            </select>
 
+
+        </div>
+    </c-col>
+
+        <c-col [xs]>
+          <div class="">
+              Operación Postula
+              <select id="EstadoContacto" cSelect class="form-control" formControlName="Operacion_postula">
+                <option *ngFor="let op of listaOperacion"  [value]="op.Id"  >{{op.Operacion}}</option>
+              </select>
+          </div>
+      </c-col>
+
+      <c-col [xs]>
+        Cantidad de vehículos
+        <input type="text" placeholder="Cantidad" class="form-control"  formControlName="Cant_vehiculos">
+          <span class="error" *ngIf="form.get('Cant_vehiculos')?.errors?.['required'] && isErrorView">
+              Falta agregar la patente
+          </span>
+
+          <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+            Numero de Teléfono no es valido
+        </span> -->
+
+        
+      </c-col>
+
+      <c-col [xs]>
+        Patente
+        <input type="text" placeholder="WXYZ01" class="form-control"  formControlName="Ppu">
+          <span class="error" *ngIf="form.get('Ppu')?.errors?.['required'] && isErrorView">
+              Falta agregar la patente
+          </span>
+
+          <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+            Numero de Teléfono no es valido
+        </span> -->
+
+        
+      </c-col>
+          
+          
+            
               
-            </c-col>
         </c-row>
         <c-row>
+
           <c-col [xs]>
             <div class="">
               Tipo vehículo *
@@ -224,24 +423,43 @@
               
           </div>
         </c-col>
-
           <c-col [xs]>
             Capacidad
-
             <input type="text" placeholder="Capacidad" class="form-control"  formControlName="Capacidad">
-            <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-            <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
-                Falta agregar el teléfono
-            </span>
+              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+              <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                  Falta agregar el teléfono
+              </span>
+
+            
           </c-col>
-            <c-col [xs]>
-              Origen Contacto
+          <c-col [xs]>
+            Metros cubicos
+            <input type="number" placeholder="Metros cubicos" class="form-control"  formControlName="Metros_cubicos">
+              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+              <span class="error" *ngIf="form.get('Metros_cubicos')?.errors?.['required'] && isErrorView">
+                Falta agregar los metros cúbicos
+              </span>
 
-              <select id="EstadoContacto" cSelect class="form-control" formControlName="Origen_contacto">
+              <span class="error" *ngIf="form.get('Metros_cubicos')?.errors?.['pattern'] && isErrorView">
+                  Formato de los metros cúbicos es incorrecto
+              </span>
 
-                    <option *ngFor="let origen of listaOrigen"  [value]="origen.Id"  >{{origen.Origen}}</option>
-              </select>
-            </c-col>
+            
+          </c-col>
+          <c-col [xs]>
+            Origen Contacto
+
+            <select id="EstadoContacto" cSelect class="form-control" formControlName="Origen_contacto">
+
+                  <option *ngFor="let origen of listaOrigen"  [value]="origen.Id"  >{{origen.Origen}}</option>
+            </select>
+          </c-col>
+          
+          
+          
+          </c-row>
+          <c-row>
             <c-col [xs]>
               <div class="">
                 Estado Contacto
@@ -250,9 +468,7 @@
                   </select>
                   </div>
           </c-col>
-              
-        </c-row>
-        <c-row>
+            
             <c-col [xs]>
               <div class="">
                 Motivo Subestado
@@ -261,38 +477,82 @@
                 </select>
               </div>
           </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Contacto Ejecutivo
+                  <select id="EstadoContacto" cSelect class="form-control" formControlName="Contacto_ejecutivo">
+                            <option *ngFor="let contacto of listaContactoEjecutivo"  [value]="contacto.Id"  >{{contacto.Ejecutivo}}</option>
+                  </select>
+              </div>
+            </c-col>
             <c-col [xs]>
               <div class="">
-                Contacto Ejecutivo
-                <select id="EstadoContacto" cSelect class="form-control" formControlName="Contacto_ejecutivo">
-                          <option *ngFor="let contacto of listaContactoEjecutivo"  [value]="contacto.Id"  >{{contacto.Ejecutivo}}</option>
-                </select>
+                Razón Social
+                <input type="text" placeholder="Razón Social" class="form-control"  formControlName="Razon_social">
+                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                    Falta agregar la razón social
+                </span>
+  
             </div>
+                </c-col>
+                  
+
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="">
+                Rut Empresa 
+                <input type="text" placeholder="11111111-1" class="form-control" formControlName="Rut_empresa" (change)="verificaRut('Rut_empresa')" maxlength="10">
+                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                <span class="error" *ngIf="form.get('Rut_empresa')?.errors?.['required'] && isErrorView">
+                    Falta agregar el rut de la empresa
+                </span>
+                <span class="error" *ngIf="!rutValido ">
+                  Rut Invalido
+              </span>
+              </div>
           </c-col>
           <c-col [xs]>
-            <div class="">
-              Razón Social
-              <input type="text" placeholder="Razón Social" class="form-control"  formControlName="Razon_social">
-              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-              <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
-                  Falta agregar la razón social
-              </span>
 
+          </c-col>
+          <c-col [xs]>
+
+          </c-col>
+          <c-col [xs]>
+
+          </c-col>
+          </c-row>
+
+          <c-row>
+
+            <div class="full-width">
+              <label>¿Cuenta con inicio de actividades para facturar?*</label>
+              <div class="radio-group">
+                  <input type="radio" id="factura_si" formControlName="Inicio_actividades_factura" [value]="true" required>
+                  <label for="factura_si">Sí</label>
+                  <input type="radio" id="factura_no" formControlName="Inicio_actividades_factura" [value]="false">
+                  <label for="factura_no">No</label>
+              </div>
           </div>
-              </c-col>
-                <c-col [xs]>
-                  <div class="">
-                    Rut Empresa 
-                    <input type="text" placeholder="11111111-1" class="form-control" formControlName="Rut_empresa" (change)="verificaRut('Rut_empresa')" maxlength="10">
-                    <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-                    <span class="error" *ngIf="form.get('Rut_empresa')?.errors?.['required'] && isErrorView">
-                        Falta agregar el rut de la empresa
-                    </span>
-                    <span class="error" *ngIf="!rutValido ">
-                      Rut Invalido
-                  </span>
-                  </div>
-              </c-col>
+  
+          <!-- Giros para facturar -->
+          <div class="full-width">
+              <label>¿Cuenta con alguno de estos giros para poder facturar?*</label>
+              <div class="radio-group">
+                  <input type="radio" id="transporte" formControlName="Giro" value="2" required>
+                  <label for="transporte">Transporte de carga por carretera</label>
+              </div>
+              <div class="radio-group">
+                  <input type="radio" id="otras"  formControlName="Giro" value="3">
+                  <label for="otras">Otras actividades de apoyo a las empresas N.C.P</label>
+              </div>
+              <div class="radio-group">
+                  <input type="radio" id="no_giro" formControlName="Giro" value="1">
+                  <label for="no_giro">No</label>
+              </div>
+          </div>
+
           </c-row>
           <p></p>
           <!-- <h5>Datos proporcionados por transporte</h5> -->
@@ -367,12 +627,14 @@
               <!-- <th>Contacto ejecutivo</th> -->
               <th>Razón social</th>
               <th>Rut empresas</th>
+              <th>Fecha creación</th>
               <th>Contacto ejecutivo</th>
+              
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let recluta of reclutas">
+          <tbody *ngFor="let recluta of reclutas">
+            <tr  [class]="recluta.Rango_fecha == 3 ? 'alerta-rojo': recluta.Rango_fecha == 2 ? 'alerta_amarillo' : '' ">
               <td>{{recluta.Region_nombre}}</td>
               <td style="text-align: center;">{{recluta.Operacion_nombre}} </td>
               <td >{{recluta.Nombre}}</td>
@@ -384,11 +646,22 @@
               <!-- <td>{{recluta.Contacto_ejecutivo}}</td> -->
               <td>{{recluta.Razon_social}}</td>
               <td style="text-align: center;">{{recluta.Rut_empresa}}</td>
-              <td>{{recluta.Nombre_contacto}}</td>
+              <td>{{recluta.Fecha_creacion}}</td>
+              <td >
+                <span *ngIf="recluta.Contacto_ejecutivo">
+                  {{recluta.Nombre_contacto}}
+                </span>
+                <span *ngIf="!recluta.Contacto_ejecutivo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16.74" height="15" viewBox="0 0 1856 1664">
+                    <path [ngClass]="recluta.Rango_fecha == 3 ? 'alerta-rojoi': 'alerta_amarilloi' " d="M1056 1375v-190q0-14-9.5-23.5t-22.5-9.5H832q-13 0-22.5 9.5T800 1185v190q0 14 9.5 23.5t22.5 9.5h192q13 0 22.5-9.5t9.5-23.5m-2-374l18-459q0-12-10-19q-13-11-24-11H818q-11 0-24 11q-10 7-10 21l17 457q0 10 10 16.5t24 6.5h185q14 0 23.5-6.5t10.5-16.5m-14-934l768 1408q35 63-2 126q-17 29-46.5 46t-63.5 17H160q-34 0-63.5-17T50 1601q-37-63-2-126L816 67q17-31 47-49t65-18t65 18t47 49" />
+                  </svg>
+                  No asignado
+                </span>
+              </td>
               <td>
                 <span title="Editar datos"  *ngIf="rol_no_permitido.includes(rol+'') == false">
                   <svg xmlns="http://www.w3.org/2000/svg" (click)="verDatosReclutas(recluta)" width="17" height="17" viewBox="0 0 512 512">
-                    <path fill="#f5b041" d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0l-30.1 30l97.9 97.9l30.1-30.1c21.9-21.9 21.9-57.3 0-79.2zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5l167.3-167.4l-98-98zM96 64c-53 0-96 43-96 96v256c0 53 43 96 96 96h256c53 0 96-43 96-96v-96c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32z" />
+                    <path  fill="#f5b041" d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0l-30.1 30l97.9 97.9l30.1-30.1c21.9-21.9 21.9-57.3 0-79.2zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5l167.3-167.4l-98-98zM96 64c-53 0-96 43-96 96v256c0 53 43 96 96 96h256c53 0 96-43 96-96v-96c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32z" />
                   </svg>
                 </span> 
                 &nbsp;

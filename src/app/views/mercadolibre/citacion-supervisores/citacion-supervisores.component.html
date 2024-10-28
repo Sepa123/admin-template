@@ -2,13 +2,30 @@
     <h4 class="mb-4"> Seguimiento Diario</h4>
 
     <!-- Selector de Fecha y Botón Nueva Citación -->
-        <div class="form-date mb-3">
+        <!-- <div class="form-date mb-3">
             <label for="fechaCitaciones" class="mr-3">Seleccionar Fecha:</label>
-            <!-- <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate" onkeydown="return false;" onpaste="return false;" -->
             <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate"
              onblur="this.value=this.value;" (change)="onDateChange($event)">
-             <!-- <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate"  -->
-        </div>
+
+        </div> -->
+
+      <table>
+        <tr>
+            <td>
+              
+                <label for="fechaCitaciones" class="mr-3">Seleccionar Fecha:</label>
+                <!-- <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate" onkeydown="return false;" onpaste="return false;" -->
+                <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate"
+                 onblur="this.value=this.value;" (change)="onDateChange($event)">
+                 <!-- <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate"  -->
+            </td>
+            <td>
+                <label for="fechaCitaciones">Buscador:</label>
+                <input type="text" [(ngModel)]="textoFiltro" (keyup)="onKeyUp()" placeholder="Buscador" class="form-control">
+            </td>
+        </tr>
+      </table>
+
     <!-- Tabla de Citaciones -->
 </div>
 

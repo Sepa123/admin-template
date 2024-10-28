@@ -65,7 +65,6 @@ export class CitacionesComponent implements OnInit  {
   form: FormGroup | any;
   myControl = new FormControl();
   modalidades: any[] = [];
-  modalidadesFull: any[] = [];
   conductores: any[] = [];
   estados: any[] = [];
   peonetas: any[] = [];
@@ -175,6 +174,40 @@ export class CitacionesComponent implements OnInit  {
     this.initializeAmbulancia();
     
   }
+
+  patentesFiltradas = [...this.patentesList2]; // Inicialmente todas las patentes
+
+  buscarPatente(event: Event) {
+  const inputElement = event.target as HTMLInputElement;
+  const valorBusqueda = inputElement.value;
+
+  this.patentesFiltradas = this.patentesList2.filter(patente => {
+    return (
+      patente.ppu?.toLowerCase().includes(valorBusqueda)
+      // patente.razon_social?.toLowerCase().includes(valorBusqueda) ||
+      // patente.tipo?.toString().includes(valorBusqueda) ||
+      // patente.colaborador_id?.toString().includes(valorBusqueda) ||
+      // patente.tripulacion?.toLowerCase().includes(valorBusqueda)
+    );
+  });
+}
+
+patentesFiltradasDetalle = [...this.patentesList];
+
+buscarPatenteDetalle(event: Event) {
+  const inputElement = event.target as HTMLInputElement;
+  const valorBusqueda = inputElement.value;
+
+  this.patentesFiltradasDetalle = this.patentesList.filter(patente => {
+    return (
+      patente.ppu?.toLowerCase().includes(valorBusqueda)
+      // patente.razon_social?.toLowerCase().includes(valorBusqueda) ||
+      // patente.tipo?.toString().includes(valorBusqueda) ||
+      // patente.colaborador_id?.toString().includes(valorBusqueda) ||
+      // patente.tripulacion?.toLowerCase().includes(valorBusqueda)
+    );
+  });
+}
   obtenerFechaFormateada() {
     const today = new Date();
     const year = today.getFullYear();
@@ -218,7 +251,6 @@ export class CitacionesComponent implements OnInit  {
     this.Ct.getOperaciones( fecha, id_user).subscribe(
       (data) => {
         this.modalidades = data;
-        this.modalidadesFull = data;
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -426,6 +458,7 @@ export class CitacionesComponent implements OnInit  {
     this.Ct.getPpu(fecha, op, cop).subscribe(
       (data) => {
         this.patentesList = data;
+        this.patentesFiltradasDetalle= data;
         this.initializeSelectedEstados();
         this.initializeRutaMeliValues();
         this.initializeTipoRutaValues();
@@ -573,6 +606,7 @@ export class CitacionesComponent implements OnInit  {
     this.Ct.getPatenteCitacion(id_operacion, id_cop, fecha).subscribe(
       (data) => {
         this.patentesList2 = data;
+        this.patentesFiltradas = data
         this.TipoRutaImagen = data[1].tipo_ruta
         this.isLoadingFull = false;
         this.Cargado = true;
@@ -790,52 +824,4 @@ bitacoraUpdate(modificacion: string, origen: string){
   )
 
 }
-
-textoFiltro : any = ''
-
-// Método para aplicar debouncing
-debounce(fn: Function, delay: number) {
-  let timeoutId: number | undefined;
-  return (...args: any[]) => {
-      if (timeoutId) {
-          clearTimeout(timeoutId);
-      }
-      timeoutId = window.setTimeout(() => {
-          fn.apply(this, args);
-      }, delay);
-  }
-}
-
-filtrarTabla() {
-  const filtro = this.textoFiltro.toLowerCase();
-
-  const resultado: any[] = [];
-  const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
-
-  for (let i = 0; i < this.modalidadesFull.length; i++) {
-      const lista = this.modalidadesFull[i];
-      if (
-          lista.region_name.toString().toLowerCase().startsWith(filtro) ||
-          lista.nombre_cop.toString().toLowerCase().startsWith(filtro) ||
-          lista.operacion.toString().toLowerCase().startsWith(filtro) 
-      ) {
-          resultado.push(lista);
-          if (resultado.length >= maxResults) {
-              break; // Terminar el bucle si se alcanza el máximo de resultados
-          }
-      }
-  }
-
-  this.modalidades = resultado;
-  // console.log(this.ListaPrefactura);
-}
-
-// Aplica debouncing a la función filtrarTabla
-filtrarTablaDebounced = this.debounce(this.filtrarTabla, 200);
-
-onKeyUp() {
-  this.filtrarTablaDebounced('campo');
-}
-
-
 }
