@@ -104,3 +104,52 @@
     height: 100%;
     padding-right: 10px;
 }
+
+
+
+/* Estilos para el tooltip personalizado */
+.tooltip-cell {
+    position: relative;
+    cursor: pointer;
+}
+.tooltip-cell::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    color: #333333;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #333333;
+    transition: opacity 0.2s;
+}
+.tooltip-cell::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent #333333 transparent;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.tooltip-cell:hover::after,
+.tooltip-cell:hover::before {
+    opacity: 1;
+}
+.vehicle-icon {
+    margin-left: 5px;
+}
+.total-pedidos-icon {
+    margin-right: 5px;
+    color: #FF9800; /* Color de la cajita */
+}
