@@ -146,10 +146,30 @@
 .tooltip-cell:hover::before {
     opacity: 1;
 }
-.vehicle-icon {
-    margin-left: 5px;
+// .vehicle-icon {
+//     margin-left: 5px;
+// }
+// .total-pedidos-icon {
+//     margin-right: 5px;
+//     color: #FF9800; /* Color de la cajita */
+// }
+
+.title-container {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
 }
-.total-pedidos-icon {
-    margin-right: 5px;
-    color: #FF9800; /* Color de la cajita */
+.title-container h2 {
+    font-size: 20px;
+    margin: 0 10px;
+    color: #333;
+}
+.title-container i {
+    color: #4CAF50;
+}
+.title-line {
+    flex-grow: 1;
+    height: 2px;
+    background-color: #4CAF50;
+    margin-left: 10px;
 }
