@@ -35,6 +35,8 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   subPedidos!: Subscription
   subBeetrackHoy!: Subscription
 
+  subReloj!: any
+
   subPedidosPendientesTotal!: Subscription
   subPedidosPendientesEntregados!: Subscription
   subPedidosPendientesNoEntregados!: Subscription
@@ -53,6 +55,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   rutasBeetrackHoyFullData!: RutaBeetrackHoy []
   
   regiones! : string []
+  regionSeleccionada : string = '0'
 
   pendientesBodega : PendienteBodega [] = []
  
@@ -162,6 +165,8 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   fecha : string = ""
 
+  clockPositionActual: number = 0
+
 
   ngOnInit(): void {
 
@@ -212,6 +217,13 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     setTimeout( () => {
       this.getPedidosPendientes();
     },2000)
+
+    this.updatePosicionReloj()
+
+    this.subReloj = setInterval(() => {
+      this.updatePosicionReloj()
+      // console.log('sss')
+    }, 60000);
     
 
     // Subcripciones 
@@ -227,6 +239,26 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   }
 
+  updatePosicionReloj(){
+    const hours = [11, 13, 15, 17, 18, 20];
+      const now = new Date();
+      const currentHour = now.getHours();
+
+      let clockPosition = 0;
+      for (let i = 0; i < hours.length; i++) {
+          if (currentHour < hours[i]) {
+              break;
+          }
+          clockPosition = i;
+          
+      }
+
+
+      this.clockPositionActual = hours[clockPosition]
+  }
+
+
+
   getPendientesBodegas(){
       this.service.get_pendientes_bodega().subscribe((data) => {
       this.pendientesBodega = data
@@ -234,8 +266,13 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   }
 
   filterByRegion(region : string) {
-    this.rutasBeetrackHoy = this.rutasBeetrackHoyFullData
-    this.rutasBeetrackHoy = this.rutasBeetrackHoy.filter(ruta => ruta.Region === region)
+    if (region == '0'){
+      this.getAllRegion()
+    } else {
+      this.rutasBeetrackHoy = this.rutasBeetrackHoyFullData
+      this.rutasBeetrackHoy = this.rutasBeetrackHoy.filter(ruta => ruta.Region === region)
+    }
+    
   }
 
   getAllRegion() {
@@ -313,6 +350,11 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
     if(this.subNsFC) this.subNsFC.unsubscribe()
     if(this.subRutaBeetrackHoy) this.subRutaBeetrackHoy.unsubscribe()
+
+      if (this.subReloj) {
+        clearInterval(this.subReloj);
+        this.subReloj = null;
+      }
   }
  
   setData() {

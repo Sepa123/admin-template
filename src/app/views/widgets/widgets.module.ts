@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule } from '@angular/forms';
 import {
   ButtonModule,
   CardModule,
@@ -41,7 +41,8 @@ import { WidgetsEComponent } from './widgets-e/widgets-e.component';
     CardModule,
     DocsComponentsModule,
     ProgressModule,
-    ChartjsModule
+    ChartjsModule,
+    FormsModule
   ],
   exports: [
     WidgetsBrandComponent,

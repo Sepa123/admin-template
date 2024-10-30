@@ -137,3 +137,27 @@ table.greenTable {
   text-align: center;
   width: 33%;
 }
+
+
+
+tr.ocultate {
+  width: 100%;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ebedef;
+  text-align: center;
+  border-left: 2px solid #28A745;
+}
+
+.verde {
+  background-color: #d4edda;
+  color: #155724;
+}
+.rojo {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.amarillo {
+  background-color: #fff3cd;
+  color: #856404;
+}
