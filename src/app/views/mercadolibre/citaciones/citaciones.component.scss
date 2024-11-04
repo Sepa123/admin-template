@@ -24,6 +24,28 @@
   box-shadow: 0 0 5px rgba(102, 175, 233, 0.6); /* Sombra suave al hacer foco */
 }
 
+/* Estilos individuales para cada input-container */
+.input-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Para que ambos inputs ocupen el mismo ancho */
+}
+
+/* Estilo para el label */
+.input-container label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Estilo para el input */
+.input-container input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .modal-body {
   overflow: hidden;
 }

@@ -2,11 +2,17 @@
     <h4 class="header">Gestión de Citaciones de Vehículos</h4>
 
     <!-- Selector de Fecha y Botón Nueva Citación -->
+    <div class="input-group">
         <div class="input-container">
             <label for="fechaCitaciones">Seleccionar Fecha:</label>
-            <input type="date" class="from-control" id="fechaCitaciones" [min]="minDate" (keydown)="preventTyping($event)" formControlName="date"
-                (change)="onDateChange($event)">
+            <input type="date" class="from-control" id="fechaCitaciones" [min]="minDate" (keydown)="preventTyping($event)"
+                formControlName="date" (change)="onDateChange($event)">
         </div>
+        <div class="input-container">
+            <label for="OperacionInput">Filtrar por Operación/Centro</label>
+            <input placeholder="🔍 Operacion" type="text" (input)="buscarOperaciones($event)">
+        </div>
+    </div>
     <!-- Tabla de Citaciones -->
 </div>
 
@@ -22,7 +28,7 @@
             <th>Citaciones</th>
             <th>Detalle</th>
         </thead>
-        <tbody *ngFor="let Ct of modalidades">
+        <tbody *ngFor="let Ct of OperacionesFiltradas">
             <td class="fas fa-calendar-plus">
                 <svg (click)="getLocation()" (click)="toggleLiveDemo()" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"  (click)="getRecuperarPatentesCitaciones(Ct.Id_operacion,Ct.id_cop)" (click)="recuperarId(Ct.Id_operacion, Ct.id_cop)">
                     <path fill="currentColor" d="M7 1h10v2h4v9h-2V5h-2v2H7V5H5v16h7v2H3V3h4zm2 4h6V3H9zm11 9v4h4v2h-4v4h-2v-4h-4v-2h4v-4z" />
