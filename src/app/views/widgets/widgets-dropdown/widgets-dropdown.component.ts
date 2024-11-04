@@ -182,6 +182,8 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
         this.rutasBeetrackHoy  = data
         this.rutasBeetrackHoyFullData = this.rutasBeetrackHoy
         this.isLoadingBeetrack = false
+
+        this.clockPositionActual = data[0].P_hora_actual
   
         this.regiones = [...new Set(this.rutasBeetrackHoyFullData.map(ruta => ruta.Region))];
   
@@ -218,12 +220,12 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
       this.getPedidosPendientes();
     },2000)
 
-    this.updatePosicionReloj()
+    // this.updatePosicionReloj()
 
-    this.subReloj = setInterval(() => {
-      this.updatePosicionReloj()
-      // console.log('sss')
-    }, 60000);
+    // this.subReloj = setInterval(() => {
+    //   this.updatePosicionReloj()
+    //   // console.log('sss')
+    // }, 60000);
     
 
     // Subcripciones 
@@ -233,6 +235,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
     this.subBeetrackHoy = this.service.get_ruta_beetrack_hoy_update().subscribe((update_data) => {
       this.rutasBeetrackHoy = update_data
+      this.clockPositionActual = update_data[0].P_hora_actual
     })
 
     this.subPedidosPendientes();

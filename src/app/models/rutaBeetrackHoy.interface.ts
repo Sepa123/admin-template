@@ -22,4 +22,5 @@ export interface RutaBeetrackHoy {
     Entregados:    number;
     No_entregados: number;
     Porcentaje:    number;
+    P_hora_actual: number;
 }

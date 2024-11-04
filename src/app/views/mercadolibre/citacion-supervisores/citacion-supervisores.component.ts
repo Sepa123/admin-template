@@ -485,7 +485,8 @@ filtrarTabla() {
       const lista = this.citacionSupervisoresFull[i];
       if (
           lista.Nombre.toString().toLowerCase().startsWith(filtro) ||
-          lista.Centro.toString().toLowerCase().startsWith(filtro) 
+          lista.Centro.toString().toLowerCase().startsWith(filtro) ||
+          lista.Nombre.toString().toLowerCase().replace('-',' ').includes(filtro)
       ) {
           resultado.push(lista);
           if (resultado.length >= maxResults) {

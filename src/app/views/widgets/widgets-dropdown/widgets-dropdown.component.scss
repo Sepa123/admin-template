@@ -5,11 +5,11 @@ table.greenTable {
     margin: 20px 0;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px #ebedef;
     font-size: 12px;
   }
   table.greenTable td, table.greenTable th {
-    border: 0px solid #AAAAAA;
+    border: 0px solid #ebedef;
     padding: 3px 2px;
   }
   table.greenTable tbody td {
@@ -40,20 +40,6 @@ table.greenTable {
     color: #FFFFFF;
     background: #A40808;
   }
-  table.greenTable tfoot td {
-    font-size: 13px;
-  }
-  table.greenTable tfoot .links {
-    text-align: right;
-  }
-  table.greenTable tfoot .links a{
-    display: inline-block;
-    background: #FFFFFF;
-    color: #A40808;
-    padding: 2px 8px;
-    border-radius: 5px;
-  }
-
 
   .myButton {
     box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -145,8 +131,13 @@ tr.ocultate {
   font-size: 12px;
   font-weight: bold;
   color: #ebedef;
+  background-color: #ebedef;
   text-align: center;
-  border-left: 2px solid #28A745;
+  // border-left: 2px solid #28A745;
+  user-select: none; /* Para navegadores modernos */
+-webkit-user-select: none; /* Para Safari */
+-moz-user-select: none; /* Para Firefox */
+-ms-user-select: none; /* Para Internet Explorer/Edge */
 }
 
 .verde {
@@ -160,4 +151,13 @@ tr.ocultate {
 .amarillo {
   background-color: #fff3cd;
   color: #856404;
+}
+
+.overlay {
+  position: relative;
+  top: 50px;
+  color: red;
+  font-size: 18px;
+  transform: translateX(-50%);
+  transition: left 0.5s;
 }

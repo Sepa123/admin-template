@@ -53,6 +53,7 @@ export class ColaboradoresComponent {
   usuarioActivado : boolean | null = false
 
   colaboradores : Colaborador [] = []
+  colaboradoresFull : Colaborador [] = []
   detallePago : DetallePago [] = []
   
 
@@ -258,13 +259,14 @@ export class ColaboradoresComponent {
 
   buscarColaboradoresPorNombre(){
     if(this.nombreColaborador == ""){
-      this.service.obtenerColaboradores().subscribe((data) => {
-        this.colaboradores = data
-      })
+        this.colaboradores = this.colaboradoresFull
     }else{
-      this.service.buscarColaboradores(this.nombreColaborador).subscribe((data) => {
-        this.colaboradores = data
-      })
+
+      this.onKeyUp()
+      // this.service.buscarColaboradores(this.nombreColaborador).subscribe((data) => {
+      //   this.colaboradores = data
+      //   this.colaboradoresFull = data
+      // })
     }
     
   }
@@ -317,6 +319,7 @@ export class ColaboradoresComponent {
 
     this.service.obtenerColaboradores().subscribe((data) => {
       this.colaboradores = data
+      this.colaboradoresFull = data
       // this.service.getEstadoTransporte().subscribe((data : any) => {
       //   this.estadoTransporte = data
 
@@ -419,9 +422,11 @@ export class ColaboradoresComponent {
       this.service.activarColaborador(rut+'',true).subscribe((mes : any) => {
         this.service.obtenerColaboradores().subscribe((data) => {
           this.colaboradores = data
+          this.colaboradoresFull = data
           alert(mes.message)
           this.service.getpanelColaboradores().subscribe((data : any) => {
             this.panelColab = data
+            this.colaboradoresFull = data
             this.toggleLiveDemo()
           })
           
@@ -471,6 +476,7 @@ export class ColaboradoresComponent {
 
         this.service.obtenerColaboradores().subscribe((data) => {
           this.colaboradores = data
+          this.colaboradoresFull = data
           this.service.getpanelColaboradores().subscribe((data : any) => {
             this.panelColab = data
             this.toggleLiveEstado()
@@ -629,12 +635,14 @@ export class ColaboradoresComponent {
   
             this.service.obtenerColaboradores().subscribe((data) => {
               this.colaboradores = data
+              this.colaboradoresFull = data
               this.toggleLiveAgregar()
             })
           })
         } else{
           this.service.obtenerColaboradores().subscribe((data) => {
             this.colaboradores = data
+            this.colaboradoresFull = data
             this.toggleLiveAgregar()
           })
         }
@@ -703,6 +711,7 @@ export class ColaboradoresComponent {
     
               this.service.obtenerColaboradores().subscribe((data) => {
                 this.colaboradores = data
+                this.colaboradoresFull = data
                 this.toggleLiveDemo()
               })
             })
@@ -714,12 +723,14 @@ export class ColaboradoresComponent {
       
                 this.service.obtenerColaboradores().subscribe((data) => {
                   this.colaboradores = data
+                  this.colaboradoresFull = data
                   this.toggleLiveDemo()
                 })
               })
             } else{
               this.service.obtenerColaboradores().subscribe((data) => {
                 this.colaboradores = data
+                this.colaboradoresFull = data
                 this.toggleLiveDemo()
               })
             }
@@ -825,5 +836,51 @@ sortTableRazon(orden : boolean){
 
 
   }
+
+
+  textoFiltro : any = ''
+
+// Método para aplicar debouncing
+debounce(fn: Function, delay: number) {
+  let timeoutId: number | undefined;
+  return (...args: any[]) => {
+      if (timeoutId) {
+          clearTimeout(timeoutId);
+      }
+      timeoutId = window.setTimeout(() => {
+          fn.apply(this, args);
+      }, delay);
+  }
+}
+
+filtrarTabla() {
+  const filtro = this.nombreColaborador.toLowerCase();
+
+  const resultado: any[] = [];
+  const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
+  for (let i = 0; i < this.colaboradoresFull.length; i++) {
+      const lista = this.colaboradoresFull[i];
+      if (
+          lista.Razon_social.toString().toLowerCase().startsWith(filtro) ||
+          lista.Razon_social.toString().toLowerCase().includes(filtro)
+          // lista.Patentes.toString().toLowerCase().startsWith(filtro) 
+      ) {
+          resultado.push(lista);
+          if (resultado.length >= maxResults) {
+              break; // Terminar el bucle si se alcanza el máximo de resultados
+          }
+      }
+  }
+
+  this.colaboradores = resultado;
+  // console.log(this.ListaPrefactura);
+}
+
+// Aplica debouncing a la función filtrarTabla
+filtrarTablaDebounced = this.debounce(this.filtrarTabla, 200);
+
+onKeyUp() {
+  this.filtrarTablaDebounced('campo');
+}
 
 }
