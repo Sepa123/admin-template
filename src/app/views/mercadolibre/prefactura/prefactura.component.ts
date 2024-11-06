@@ -47,12 +47,36 @@ export class PrefacturaComponent {
   constructor(private service: MeliService) { }
 
   ngOnInit(){
-    this.service.getDatosPrefactura('2024','06').subscribe((data) =>{ 
-      this.ListaPrefacturaFull = data
+    this
+
+    const fechaActual = new Date();
+
+    // Obtener mes y año
+    const mes = fechaActual.getMonth() + 1;  // Los meses comienzan desde 0, así que sumamos 1
+    const año = fechaActual.getFullYear();
+
+    this.mesSeleccionado = año+'-'+mes
+    // año+'',mes+''
+    
+
+
+    this.service.getDatosPrefacturaLimit(año+'',mes+'').subscribe((data) =>{ 
+      // this.ListaPrefacturaFull = data
 
       this.ListaPrefactura = data
       this.isLoadingTable = false
+
+      this.service.getDatosPrefactura(año+'',mes+'').subscribe((data) =>{ 
+        this.ListaPrefacturaFull = data
+      }, error => {
+        this.isLoadingTable = false
+      })
+
+    }, error => {
+      this.isLoadingTable = false
     })
+
+
 
     this.service.getResumenDatosPrefactura().subscribe((data) => {
       this.resumenPrefactura = [data]
@@ -65,17 +89,31 @@ export class PrefacturaComponent {
     console.log(this.mesSeleccionado.split('-')[0])
     this.isLoadingTable = true
     this.ListaPrefactura = []
-    this.service.getDatosPrefactura(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1]).subscribe((data) =>{ 
-      this.ListaPrefacturaFull = data
 
+
+    this.service.getDatosPrefacturaLimit(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1]).subscribe((data) =>{ 
       this.ListaPrefactura = data
-      this.isLoadingTable = false
+
+
+      this.service.getDatosPrefactura(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1]).subscribe((data) =>{ 
+        this.ListaPrefacturaFull = data
+  
+        // this.ListaPrefactura = data
+        this.isLoadingTable = false
+      }, error => {
+        alert(error.error.detail)
+        this.ListaPrefactura = []
+        this.isLoadingTable = false
+      }
+    )
     }, error => {
       alert(error.error.detail)
       this.ListaPrefactura = []
       this.isLoadingTable = false
-    }
-  )
+    })
+
+
+    
   }
 
   descargarExcel(){

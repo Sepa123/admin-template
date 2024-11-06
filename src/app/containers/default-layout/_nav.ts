@@ -492,8 +492,16 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/pendientes'
       },
       {
+        name: 'Pendientes en ruta',
+        url: '/operaciones/pendientes-en-ruta'
+      },
+      {
         name: 'Estados',
         url: '/operaciones/estados'
+      },
+      {
+        name: 'Edicion Pendientes',
+        url: '/operaciones/edicion-pendientes'
       },
     ]
   }
@@ -576,7 +584,15 @@ export const navItems: INavDataBar[] = [
       {
         name : 'Despacho Ruta',
         url : '/picking/buscar-ruta'
-      }
+      },
+      {
+        name : 'Resumen Rutas',
+        url : '/picking/resumen-rutas'
+      },
+      {
+        name: 'Pedidos Comp. Obligatorio',
+        url: '/picking/pendientes-obligados'
+      },
     ]
   },
   { /// Pantalla de info para Mercadolibre

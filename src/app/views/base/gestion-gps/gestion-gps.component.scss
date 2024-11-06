@@ -83,6 +83,22 @@ h3 {
   box-sizing: border-box;
 }
 
+.greenTable  table thead th:first-child {
+  border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+}
+
+.greenTable table th:last-child {
+border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+}
+
+.greenTable table tr:last-child td:first-child {
+border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+}
+
+.greenTable table tr:last-child td:last-child {
+border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
+}
+
 /* Tooltip */
 .tooltip {
   visibility: hidden;

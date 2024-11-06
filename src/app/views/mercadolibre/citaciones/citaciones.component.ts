@@ -65,6 +65,7 @@ export class CitacionesComponent implements OnInit  {
   form: FormGroup | any;
   myControl = new FormControl();
   modalidades: any[] = [];
+  modalidades2: any[] = [];
   conductores: any[] = [];
   estados: any[] = [];
   peonetas: any[] = [];
@@ -179,7 +180,7 @@ export class CitacionesComponent implements OnInit  {
 
   buscarPatente(event: Event) {
   const inputElement = event.target as HTMLInputElement;
-  const valorBusqueda = inputElement.value;
+  const valorBusqueda = inputElement.value.trim().toLowerCase();
 
   this.patentesFiltradas = this.patentesList2.filter(patente => {
     return (
@@ -196,7 +197,7 @@ patentesFiltradasDetalle = [...this.patentesList];
 
 buscarPatenteDetalle(event: Event) {
   const inputElement = event.target as HTMLInputElement;
-  const valorBusqueda = inputElement.value;
+  const valorBusqueda = inputElement.value.trim().toLowerCase();
 
   this.patentesFiltradasDetalle = this.patentesList.filter(patente => {
     return (
@@ -251,12 +252,31 @@ buscarPatenteDetalle(event: Event) {
     this.Ct.getOperaciones( fecha, id_user).subscribe(
       (data) => {
         this.modalidades = data;
+        this.OperacionesFiltradas = data
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
       }
     );
   }
+
+  OperacionesFiltradas = [...this.modalidades];
+
+  buscarOperaciones(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const valorBusqueda = inputElement.value.trim().toLowerCase();
+    console.log("Valor de búsqueda:", valorBusqueda); // Verifica el valor
+
+    this.OperacionesFiltradas = this.modalidades.filter(operacion => {
+        return (
+            operacion.operacion?.toLowerCase().includes(valorBusqueda) ||
+            operacion.nombre_cop?.toLowerCase().includes(valorBusqueda)
+            
+        );
+    });
+    console.log("Operaciones filtradas:", this.OperacionesFiltradas); // Verifica el resultado
+}
+
 
   getEstados() {
     this.Ct.getEstadoList().subscribe(

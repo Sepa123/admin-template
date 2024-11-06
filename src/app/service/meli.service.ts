@@ -32,6 +32,10 @@ export class MeliService {
     return this.http.get<Prefactura []>(this.apiurl+`/prefacturas?ano=${ano}&mes=${mes}` )
   }
 
+  getDatosPrefacturaLimit(ano : string, mes : string){
+    return this.http.get<Prefactura []>(this.apiurl+`/prefacturas/limit?ano=${ano}&mes=${mes}` )
+  }
+
   download_prefactura_excel( ano : string, mes : string) {
     this.http.get(`${this.apiurl}/descargar/prefacturas?ano=${ano}&mes=${mes}`, {responseType:"blob"})
     .subscribe((blob:Blob) => {
