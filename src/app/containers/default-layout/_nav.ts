@@ -1091,10 +1091,10 @@ export const navItems: INavDataBar[] = [
         name: 'Easy CD',
         url: '/recepcion/easy-cd'
       },
-      {
-        name: 'Electrolux',
-        url: '/recepcion/electrolux'
-      },
+      // {
+      //   name: 'Electrolux',
+      //   url: '/recepcion/electrolux'
+      // },
       // {
       //   name: 'Sportex',
       //   url: '/recepcion/sportex'

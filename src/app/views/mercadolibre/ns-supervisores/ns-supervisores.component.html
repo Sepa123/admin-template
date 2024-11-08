@@ -67,26 +67,26 @@
         <th>Ruta cerrada</th>
       </tr>
     </thead>
-    <tbody *ngFor="let driver of this.resumenSupervisores;let i = index ">
-    <tr *ngIf="driver.Modalidad == 'LM'">
-        <td>{{driver.Operacion}}</td>
-        <td>{{driver.Centro_operacion}}</td>
-        <td>{{driver.Region}}</td>
-        <td>{{driver.Fecha}}</td>
-        <td>{{driver.Id_ruta}}</td>
-        <td>{{driver.Ppu}}</td>
-        <td>{{driver.Driver}}</td>
-        <td>{{driver.Kilometros}}</td> 
-        <td>{{driver.P_avance}}</td> 
-        <td>{{driver.Avance}}</td> 
-        <td>{{driver.Campos_por_operacion[0].lm_fallido}}</td>
-        <td>{{driver.Campos_por_operacion[0].lm_pendiente}}</td>
-        <td>{{driver.Campos_por_operacion[0].lm_spr}}</td>
-        <td>{{driver.Campos_por_operacion[0].lm_entregas}}</td>
-        <td>{{driver.Campos_por_operacion[0].lm_tiempo_ruta}}</td>
-        <td>{{driver.Campos_por_operacion[0].lm_estado}}</td>
-        <td>{{driver.Valor_ruta}}</td> 
-        <td>
+    <tbody >
+    <tr *ngFor="let driver of this.resumenSupervisores;let i = index ">
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Operacion}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Centro_operacion}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Region}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Fecha}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Id_ruta}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Ppu}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Driver}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Kilometros}}</td> 
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.P_avance}}</td> 
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Avance}}</td> 
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_fallido}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_pendiente}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_spr}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_entregas}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_tiempo_ruta}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_estado}}</td>
+        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Valor_ruta}}</td> 
+        <td *ngIf="driver.Modalidad == 'LM'">
             <!-- lock -->
             <span title="Ruta Cerrada ">
               <svg *ngIf="driver.Ruta_cerrada" xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
@@ -140,24 +140,24 @@
         <th>Ruta cerrada</th>
       </tr>
     </thead>
-    <tbody *ngFor="let driver of resumenSupervisores;let i = index ">
-    <tr *ngIf="driver.Modalidad == 'FM'">
-        <td>{{driver.Operacion}}</td>
-        <td>{{driver.Centro_operacion}}</td>
-        <td>{{driver.Region}}</td>
-        <td>{{driver.Fecha}}</td>
-        <td>{{driver.Id_ruta}}</td>
-        <td>{{driver.Ppu}}</td>
-        <td>{{driver.Driver}}</td>
-        <td>{{driver.Kilometros}}</td> 
-        <td>{{driver.P_avance}}</td> 
-        <td>{{driver.Avance}}</td> 
-        <th>{{driver.Campos_por_operacion[0].fm_total_paradas}}</th>
-        <th>{{driver.Campos_por_operacion[0].fm_paqueteria_colectada}}</th>
-        <th>{{driver.Campos_por_operacion[0].fm_estimados}}</th>
-        <th>{{driver.Campos_por_operacion[0].fm_preparados}}</th>
-        <th>{{driver.Campos_por_operacion[0].fm_p_colectas_a_tiempo}}</th>
-        <th>{{driver.Campos_por_operacion[0].fm_p_no_colectadas}}</th>
+    <tbody >
+    <tr *ngFor="let driver of resumenSupervisores;let i = index ">
+        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Operacion}}</td>
+        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Centro_operacion}}</td>
+        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Region}}</td>
+        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Fecha}}</td>
+        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Id_ruta}}</td>
+        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Ppu}}</td>
+        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Driver}}</td>
+        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Kilometros}}</td> 
+        <td *ngIf="driver.Modalidad == 'FM'">{{driver.P_avance}}</td> 
+        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Avance}}</td> 
+        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_total_paradas}}</th>
+        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_paqueteria_colectada}}</th>
+        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_estimados}}</th>
+        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_preparados}}</th>
+        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_p_colectas_a_tiempo}}</th>
+        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_p_no_colectadas}}</th>
     </tr>
     </tbody>
     </table>

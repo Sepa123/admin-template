@@ -15,12 +15,15 @@
   }
   
   .greenTable  table {
-    border: 1px solid #28A745;
-    background-color: #FFFEF3;
-    width: auto;
-    text-align: center;
+    width: 100%;
     border-collapse: separate;
     border-spacing: 0;
+    margin: 20px 0;
+    border-radius: 10px;
+    // overflow: hidden;
+    box-shadow: 0 4px 8px #ebedef;
+    font-size: 12px; 
+    text-align: center
   }
   .greenTable  table td, table th {
     border: 0px solid #AAAAAA;
@@ -83,3 +86,19 @@
   .svgF{
     fill:#d60a0a
   }
+
+  .greenTable  table thead th:first-child {
+    border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+}
+
+.greenTable table th:last-child {
+  border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+}
+
+.greenTable table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+}
+
+.greenTable table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
+}

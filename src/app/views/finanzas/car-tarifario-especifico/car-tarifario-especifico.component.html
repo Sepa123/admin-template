@@ -50,7 +50,7 @@
           </svg>
         </th>
         <th>
-          Razon Social
+          Razón Social
         </th>
         <th>
           Operación
@@ -61,7 +61,7 @@
           </svg>
         </th>
         <th>
-          Centro de operación
+          Centro operación
           <svg (click)="sortTable(2)" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em"
             viewBox="0 0 576 512">
             <path
@@ -130,7 +130,7 @@
 
       </div>
       <div class="form-group">
-        <label for="valor_s"> Razon Social*</label>
+        <label for="valor_s"> Razón Social*</label>
         <select id="RazonSocial" class="form-control" [(ngModel)]="razon_social" name="RazonSocial" (change)="Vehiculofilter()" (change)="verificarExistencia()">
           <ng-container *ngFor="let Tp of ColaboradorSelect">
             <option [value]="Tp.id">{{Tp.razon_social}}</option>
