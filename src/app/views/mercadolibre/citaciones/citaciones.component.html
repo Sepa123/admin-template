@@ -69,7 +69,7 @@
     <c-modal-body class ="Modal_patentes_ingresadas">
         <!-- *ngFor="let pu of patentesList2 -->
         <input class="inputSP" placeholder="🔍 Patente" type="text" (input)="buscarPatente($event)">
-        <table *ngIf="Cargado" >
+        <table  >
             <thead >
                 <tr >
                     <th class="thclass" style="background-color: #f2f2f2; color: #333">Patentes</th>
@@ -81,10 +81,12 @@
             <tbody class="modal-body">
                 <!-- Ejemplo de fila de datos -->
                 <tr *ngFor="let pu of patentesFiltradas">
-                    <td class="thclass"><button id="Codigo_patente" class="detalle-patente" (click)="submitForm(pu.id_ppu)"
+                    <td class="thclass">
+                        <button id="Codigo_patente" class="detalle-patente" (click)="submitForm(pu.id_ppu)"
                             (click)="recuperarIdPpu(pu.id_ppu)" (click)="getRecargarPatentesCitaciones()" (click)="getLocation()" >
                             {{pu.ppu}}
-                        </button></td>
+                        </button>
+                    </td>
                     <td class="thclass">
 
                         <div *ngIf="pu.tipo == null">
@@ -211,7 +213,7 @@
          
         <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
     </c-modal-header>
-    <c-modal-body class ="Modal_patentes_ingresadas" *ngIf="Cargado">
+    <c-modal-body class ="Modal_patentes_ingresadas">
         <input class="inputSP" placeholder="🔍 Patente" type="text" (input)="buscarPatenteDetalle($event)">
         <table >
             

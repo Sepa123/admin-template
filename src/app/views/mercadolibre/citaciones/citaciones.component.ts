@@ -109,6 +109,10 @@ export class CitacionesComponent implements OnInit  {
   }
   toggleLiveDemo() {
     this.visible = !this.visible;
+
+    if (!this.visible) {
+      this.resetModalContent();
+    }
       
   }
 
@@ -119,7 +123,10 @@ export class CitacionesComponent implements OnInit  {
   }
   handleLiveDemoChange(event: any) {
     this.visible = event;
-    
+
+    if (!event) {
+      this.resetModalContent2();  // Reinicia el contenido cuando se cierra el modal
+    }
   }
   resetForm2() {
     this.form.reset();
@@ -141,6 +148,13 @@ export class CitacionesComponent implements OnInit  {
   resetModalContent() {
     this.patentesList = []; // Reiniciar la lista de patentes
   }
+
+  resetModalContent2() {
+    this.patentesFiltradas = []; // Reiniciar la lista de patentes
+  }
+  resetModalContent3() {
+    this.patentesFiltradasDetalle = []; // Reiniciar la lista de patentes
+  }
   handleLiveDemoChange2(event: any) {
     this.visible2 = event;
     
@@ -150,7 +164,7 @@ export class CitacionesComponent implements OnInit  {
     this.visible3 = event;
   
     if (!event) {
-      this.resetModalContent();  // Reinicia el contenido cuando se cierra el modal
+      this.resetModalContent3();  // Reinicia el contenido cuando se cierra el modal
     }
   }
   handleLiveDemoChange4(event: any) {
@@ -191,6 +205,7 @@ export class CitacionesComponent implements OnInit  {
       // patente.tripulacion?.toLowerCase().includes(valorBusqueda)
     );
   });
+  console.log(this.patentesFiltradas);
 }
 
 patentesFiltradasDetalle = [...this.patentesList];
@@ -379,10 +394,13 @@ buscarPatenteDetalle(event: Event) {
       return {};
     }
   }
-  eliminarPpu(ppu: any) {
+  eliminarPpu(ppu: any, ) {
     // Llamar a la API para eliminar la razón social por su ID
+    // https://hela.transyanez.cl/api/meli/borrar?id_ppu
+    const fecha = this.formattedDate
+
     this.http
-      .delete(`https://hela.transyanez.cl/api/meli/borrar?id_ppu=${ppu}`)
+      .delete(`http://localhost:8000/api/borrar?id_ppu=${ppu}&fecha=${fecha}`)
       .subscribe(
         (response) => {
           // Si la eliminación es exitosa
@@ -606,7 +624,7 @@ buscarPatenteDetalle(event: Event) {
     const id_cop = this.getCentroOperacion
     this.Ct.getPatenteCitacion(id_operacion, id_cop, fecha).subscribe(
       (data) => {
-        this.patentesList2 = data;
+        this.patentesFiltradas = data;
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -629,7 +647,6 @@ buscarPatenteDetalle(event: Event) {
         this.patentesFiltradas = data
         this.TipoRutaImagen = data[1].tipo_ruta
         this.isLoadingFull = false;
-        this.Cargado = true;
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
