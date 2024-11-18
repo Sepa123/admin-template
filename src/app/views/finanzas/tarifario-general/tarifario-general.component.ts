@@ -129,6 +129,8 @@ export class TarifarioGeneralComponent implements OnInit {
         this.getinfoTableSearch();
       },
     });
+    this.getOperacion();
+    this.getTipoVehiculo();
     
   }
   
