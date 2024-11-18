@@ -195,7 +195,7 @@ export class CitacionesComponent implements OnInit  {
   buscarPatente(event: Event) {
   const inputElement = event.target as HTMLInputElement;
   const valorBusqueda = inputElement.value.trim().toLowerCase();
-
+  this.isLoadingFull = true;
   this.patentesFiltradas = this.patentesList2.filter(patente => {
     return (
       patente.ppu?.toLowerCase().includes(valorBusqueda)
@@ -203,7 +203,9 @@ export class CitacionesComponent implements OnInit  {
       // patente.tipo?.toString().includes(valorBusqueda) ||
       // patente.colaborador_id?.toString().includes(valorBusqueda) ||
       // patente.tripulacion?.toLowerCase().includes(valorBusqueda)
+      
     );
+    
   });
   console.log(this.patentesFiltradas);
 }
@@ -496,7 +498,8 @@ buscarPatenteDetalle(event: Event) {
     this.Ct.getPpu(fecha, op, cop).subscribe(
       (data) => {
         this.patentesList = data;
-        this.patentesFiltradasDetalle= data;
+        this.patentesFiltradasDetalle = data;
+        this.isLoadingFull = false;
         this.initializeSelectedEstados();
         this.initializeRutaMeliValues();
         this.initializeTipoRutaValues();
@@ -622,9 +625,18 @@ buscarPatenteDetalle(event: Event) {
     const fecha = this.formattedDate;
     const id_operacion = this.getOperacion 
     const id_cop = this.getCentroOperacion
+    this.isLoadingFull = true;
+
     this.Ct.getPatenteCitacion(id_operacion, id_cop, fecha).subscribe(
       (data) => {
+        if (data && data.length > 0){
         this.patentesFiltradas = data;
+      }else{
+        console.warn('No se encontraron patentes citadas.');
+        this.patentesFiltradas = []; // Limpiar la lista si no hay datos
+      }
+        this.isLoadingFull = false;
+
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -634,7 +646,6 @@ buscarPatenteDetalle(event: Event) {
 
   getRecuperarPatentesCitaciones(id_operacion: number, id_cop: number) {
     this.isLoadingFull = true;
-    this.Cargado = false;
     const fecha = this.formattedDate;
     
     if (id_operacion && id_cop) {
@@ -643,13 +654,19 @@ buscarPatenteDetalle(event: Event) {
     }
     this.Ct.getPatenteCitacion(id_operacion, id_cop, fecha).subscribe(
       (data) => {
-        this.patentesList2 = data;
-        this.patentesFiltradas = data
-        this.TipoRutaImagen = data[1].tipo_ruta
-        this.isLoadingFull = false;
+        if (data && data.length > 0){
+          this.patentesList2 = data;
+          this.patentesFiltradas = data;
+          this.TipoRutaImagen = data[1].tipo_ruta
+        }else{
+          console.warn('No se encontraron patentes citadas.');
+          this.patentesFiltradas = []; // Limpiar la lista si no hay datos
+        }
+          this.isLoadingFull = false
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
+        this.isLoadingFull = false
       }
     );
   }
@@ -674,17 +691,19 @@ buscarPatenteDetalle(event: Event) {
     this.Ct.getpatentesFiltradas(id_operacion, id_centro_op).subscribe(
       (data) => {
         this.patentesListFiltrada = data;
+        this.isLoadingFull = false;
+
       });
   }
 
   getPatentesFiltradasPorOpyCop(id_operacion: number, id_centro_op: number) {
     this.isLoadingFull = true
-    this.Cargado = false
+    
     this.Ct.getpatentesFiltradas(id_operacion, id_centro_op).subscribe(
       (data) => {
         this.patentesListFiltrada = data;
         this.isLoadingFull = false;
-        this.Cargado = true
+        
         
       }
     );
