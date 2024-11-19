@@ -54,6 +54,12 @@ export class TripulacionComponent {
   public visible = false;
 
   toggleLiveDemo() {
+
+    if (document.getElementById('cert_antecedentes')) (document.getElementById('cert_antecedentes') as HTMLInputElement).value = '';
+    if (document.getElementById('licencia_conducir')) (document.getElementById('licencia_conducir') as HTMLInputElement).value = '';
+    if (document.getElementById('cedula_identidad')) (document.getElementById('cedula_identidad') as HTMLInputElement).value = '';
+    if (document.getElementById('contrato')) (document.getElementById('contrato') as HTMLInputElement).value = '';
+    if (document.getElementById('foto_perfil')) (document.getElementById('foto_perfil') as HTMLInputElement).value = '';
     this.visible = !this.visible;
   }
 
@@ -106,6 +112,14 @@ export class TripulacionComponent {
   public visibleAgregar = false;
 
   toggleLiveAgregar() {
+
+    if (document.getElementById('A_cert_antecedentes')) (document.getElementById('A_cert_antecedentes') as HTMLInputElement).value = '';
+    if (document.getElementById('A_licencia_conducir')) (document.getElementById('A_licencia_conducir') as HTMLInputElement).value = '';
+    if (document.getElementById('A_cedula_identidad')) (document.getElementById('A_cedula_identidad') as HTMLInputElement).value = '';
+    if (document.getElementById('A_contrato')) (document.getElementById('A_contrato') as HTMLInputElement).value = '';
+    if (document.getElementById('A_foto_perfil')) (document.getElementById('A_foto_perfil') as HTMLInputElement).value = '';
+
+
     this.form.reset()
 
     this.form.patchValue({
@@ -174,6 +188,14 @@ export class TripulacionComponent {
   public visibleIconos = false;
 
   toggleLiveIconos() {
+
+    
+
+    this.selectedDocAntecedentes = null;
+    this.selectedLicenciaConducir = null;
+    this.selectedCedulaIdentidad = null;
+    this.selectedContrato = null;
+    this.selectedFotoPerfil = null;
     this.visibleIconos = !this.visibleIconos;
   }
 

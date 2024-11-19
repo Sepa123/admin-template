@@ -93,6 +93,19 @@ export class VehiculosComponent {
   public visible = false;
 
   toggleLiveDemo() {
+
+    if (document.getElementById('permiso_circulacion')) (document.getElementById('permiso_circulacion') as HTMLInputElement).value = '';
+    if (document.getElementById('revision_tecnica')) (document.getElementById('revision_tecnica') as HTMLInputElement).value = '';
+    if (document.getElementById('soap')) (document.getElementById('soap') as HTMLInputElement).value = '';
+    if (document.getElementById('padron')) (document.getElementById('padron') as HTMLInputElement).value = '';
+    if (document.getElementById('cert_gases')) (document.getElementById('cert_gases') as HTMLInputElement).value = '';
+
+
+    this.selectedPermisoCirculacion = null;
+  this.selectedRevisionTecnica = null;
+  this.selectedSOAP  = null;
+  this.selectedPadron = null;
+  this.selectedCertGases = null;
     
     this.visible = !this.visible;
     
@@ -190,6 +203,19 @@ seleccionarRut(){
   public visibleAgregar = false;
 
   toggleLiveAgregar() {
+
+    if (document.getElementById('A_permiso_circulacion')) (document.getElementById('A_permiso_circulacion') as HTMLInputElement).value = '';
+    if (document.getElementById('A_revision_tecnica')) (document.getElementById('A_revision_tecnica') as HTMLInputElement).value = '';
+    if (document.getElementById('A_soap')) (document.getElementById('A_soap') as HTMLInputElement).value = '';
+    if (document.getElementById('A_padron')) (document.getElementById('A_padron') as HTMLInputElement).value = '';
+    if (document.getElementById('A_cert_gases')) (document.getElementById('A_cert_gases') as HTMLInputElement).value = '';
+
+
+    this.selectedPermisoCirculacion = null;
+  this.selectedRevisionTecnica = null;
+  this.selectedSOAP  = null;
+  this.selectedPadron = null;
+  this.selectedCertGases = null;
     this.formVehiculo.reset()
     this.formVehiculo.patchValue({
       Id_user  : sessionStorage.getItem("id")?.toString()+"",
@@ -736,6 +762,12 @@ IdVehiculo : number = 0
 Patente : string = ''
 
 toggleLiveCO(id_vehiculo : number) {
+
+  this.selectedPermisoCirculacion = null;
+  this.selectedRevisionTecnica = null;
+  this.selectedSOAP  = null;
+  this.selectedPadron = null;
+  this.selectedCertGases = null;
 
   const vehiculo = this.vehiculos.filter(vehiculo => vehiculo.Id == id_vehiculo)[0]
 

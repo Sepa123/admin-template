@@ -61,6 +61,14 @@ export class ColaboradoresComponent {
   public visible = false;
 
   toggleLiveDemo() {
+
+    if (document.getElementById('doc_bancario')) (document.getElementById('doc_bancario') as HTMLInputElement).value = '';
+    if (document.getElementById('pdf_contrato')) (document.getElementById('pdf_contrato') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_constitucion')) (document.getElementById('doc_constitucion') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_RRPP')) (document.getElementById('doc_RRPP') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_vigencia')) (document.getElementById('doc_vigencia') as HTMLInputElement).value = '';
+    if (document.getElementById('registro_comercio')) (document.getElementById('registro_comercio') as HTMLInputElement).value = '';
+
     this.visible = !this.visible;
   }
 
@@ -142,6 +150,17 @@ export class ColaboradoresComponent {
   public visibleAgregar = false;
 
   toggleLiveAgregar() {
+
+
+    if (document.getElementById('doc_bancario')) (document.getElementById('doc_bancario') as HTMLInputElement).value = '';
+    if (document.getElementById('pdf_contrato')) (document.getElementById('pdf_contrato') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_constitucion')) (document.getElementById('doc_constitucion') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_RRPP')) (document.getElementById('doc_RRPP') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_vigencia')) (document.getElementById('doc_vigencia') as HTMLInputElement).value = '';
+    if (document.getElementById('registro_comercio')) (document.getElementById('registro_comercio') as HTMLInputElement).value = '';
+    if (document.getElementById('A_pdf_contrato')) (document.getElementById('A_pdf_contrato') as HTMLInputElement).value = '';
+    if (document.getElementById('A2_pdf_contrato')) (document.getElementById('A2_pdf_contrato') as HTMLInputElement).value = '';
+    
     this.form.reset()
     this.visibleAgregar = !this.visibleAgregar;
   }

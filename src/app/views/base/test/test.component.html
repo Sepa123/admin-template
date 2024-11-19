@@ -1,196 +1,190 @@
-<div class="container">
-    <h1>¡SÉ NUESTRO PARTNER TRANSPORTISTA Y GANA LUCAS!</h1>
-    <h2>Completa el siguiente <strong>formulario</strong></h2>
+<c-nav variant="tabs">
+    <a [cTabContent]="tabContent" [active]="pv" [routerLink] [tabPaneIdx]="0" cNavLink (click)="activate(true,'7')">Usuario Natural</a>
+    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink (click)="activate(false,'11')">Usuario Juridico</a>
+  </c-nav>
+  <c-tab-content #tabContent="cTabContent">
+    <c-tab-pane class="p-3">
+      <form cForm [formGroup]="form" (ngSubmit)="registrar()" > 
+        <div >
+          <p></p>
+          <h5>Razón social</h5>
+          <p></p>
+        <c-row>
+            <c-col [xs]>
+                <div class="">
+                    Driver
+                    <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" >
+                    <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                    <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Driver
+                    </span>
+                </div>
+            </c-col>
+      
+            <c-col [xs]>
+                <div class="noEditar">
+                    Guía
+                    <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                    <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut"  maxlength="10"> 
+                    <span class="error" *ngIf="form.get('Rut')?.errors?.['required'] && isErrorView">
+                        Falta ingresar el Guía
+                    </span>
+                </div>
+            </c-col>
+            <c-col [xs]>
+                <div class="">
+                    Cliente
+                     <input type="email" class="form-control"  placeholder="E-Mail" formControlName="Email" >
+                     <span class="error" *ngIf="form.get('Email')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Cliente
+                    </span>
+                    </div>
+            </c-col>
 
-    <form [formGroup]="form" (ngSubmit)="registrar()">
-        <!-- Nombre y Apellido -->
-        <div>
-            <label for="nombre">Nombre*</label>
-            <input formControlName="Nombre_contacto" type="text" id="nombre" name="nombre" required>
+        </c-row>
+        <c-row>
+          <c-col [xs]>
+            <div class="noEditar">
+                Estado
+                <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                <input type="text" placeholder="Telefono" class="form-control"  formControlName="Telefono" maxlength="12">
+                <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                    Falta agregar el Estado
+                </span>
+            </div>
+        </c-col>
+        <c-col [xs]>
+              <div class="">
+                Subestado
+                <input type="text" placeholder="Dirección" class="form-control" formControlName="Direccion" >
 
-            <span class="error" *ngIf="form.get('Nombre_contacto')?.errors?.['required'] && isErrorView">
-                Falta agregar el Nombre
-            </span>
+            </div>
+          </c-col>
 
-        </div>
-        <div>
-            <label for="apellido">Apellido*</label>
-            <input formControlName="Apellido" type="text" id="apellido" name="apellido" required>
-
-            <span class="error" *ngIf="form.get('Apellido')?.errors?.['required'] && isErrorView">
-                Falta agregar el Apellido
-            </span>
-        </div>
-
-        <!-- Teléfono y Correo -->
-        <div>
-            <label for="telefono">Teléfono*</label>
-            <div style="display: flex;">
-                <select id="pais" formControlName="Pais" (click)="seleccionarPais()">
-                    <option value="">Selecciona</option>
-                    <option *ngFor="let pais of Paises" [value]="pais.Id" >{{pais.Pais}}</option>
-
+          <c-col [xs]>
+            <div class="">
+                Código1
+                <select id="Codigo1Str" cSelect class="form-control">
+                    <!-- <option *ngFor="let codigo of listaCodigos1" [value]="codigo.Id"  >{{codigo.Descripcion}}</option> -->
+                     <option value="ssssss">ssssss</option>
                 </select>
-                
-                <input type="text" formControlName="Telefono" id="telefono" name="telefono" [placeholder]="CodigoTelefono" style="flex-grow: 1;" required>         
             </div>
-            <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
-                Falta agregar el Teléfono
-            </span>
-
-            <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
-                Numero de Teléfono no es valido
-            </span>
-        </div>
-        <div>
-            <label for="correo">Correo*</label>
-            <input formControlName="Correo" placeholder="name@example.com" type="email" id="correo" name="correo" required>
-            <span class="error" *ngIf="form.get('Correo')?.errors?.['required'] && isErrorView" >
-                Falta agregar el Correo
-            </span>
-
-            <span class="error" *ngIf="form.get('Correo')?.errors?.['email'] && isErrorView" >
-                Formato de correo invalido
-            </span>
-        </div>
-
-        <!-- Región y Comuna -->
-        <div>
-            <label for="region">Región*</label>
-            <select  formControlName="Region"  (change)="buscarComunas($event)"  id="region" name="region" required>
-                <option value="">Selecciona</option>
-                <option *ngFor="let region of Region" [value]="region.Id_region">{{region.Nombre_region}}</option>
-
-            </select>
-
-            <span class="error" *ngIf="form.get('Region')?.errors?.['required'] && isErrorView" >
-                Falta seleccionar la Región
-            </span>
-        </div>
-        <div>
-            <label for="comuna">Comuna*</label>
-            <select formControlName="Comuna" id="comuna" name="comuna" required>
-                <option value="">Selecciona</option>
-                <option *ngFor="let comuna of Comuna" [value]="comuna.Id_comuna">{{comuna.Nombre_comuna}}</option>
-
-            </select>
-
-            <span class="error" *ngIf="form.get('Comuna')?.errors?.['required'] && isErrorView">
-                Falta seleccionar la Comuna
-            </span>
-        </div>
-
-        <!-- Cantidad de vehículos -->
-        <div>
-            <label for="vehiculos">Cantidad de vehículos*</label>
-            <!-- <select formControlName="Cant_vehiculos" id="vehiculos" name="vehiculos" required>
-                <option value="">Selecciona</option>
-                <option value="1-5">1-5</option>
-                <option value="6-10">6-10</option>
-            </select> -->
-
-            <input type="number"  formControlName="Cant_vehiculos" id="vehiculos" name="vehiculos"  required>
-
-            <span class="error" *ngIf="form.get('Cant_vehiculos')?.errors?.['required'] && isErrorView" >
-                Falta agregar la cantidad de vehículos
-            </span>
-        </div>
-
-        <!-- Patente y Tipo de vehículo -->
-        <div>
-            <label for="patente">Patente del vehículo*</label>
-            <input maxlength="6"  formControlName="Ppu" type="text" id="patente" placeholder="WXYZ01" name="patente" required>
-            <span class="error" *ngIf="form.get('Ppu')?.errors?.['required'] && isErrorView"  >
-                Falta agregar la patente del vehículo
-            </span>
-        </div>
-        <div>
-            <label for="tipo-vehiculo">Tipo de vehículo*</label>
-            <select formControlName="Tipo_vehiculo" id="tipo-vehiculo" name="tipo-vehiculo" required>
-                <option value="">Selecciona</option>
-                <option *ngFor="let tipo_veh of TipoVehiculo" [value]="tipo_veh.Id">{{tipo_veh.Name}}</option>
-            </select>
-
-            <span class="error" *ngIf="form.get('Tipo_vehiculo')?.errors?.['required'] && isErrorView" >
-                Falta seleccionar el tipo de vehículo
-            </span>
-        </div>
-
-        <!-- Tipo de carrocería -->
-        <div>
-            <label for="tipo-carroceria">Tipo de carrocería*</label>
-            <select formControlName="Tipo_carroceria" id="tipo-carroceria" name="tipo-carroceria" required>
-                <option value="">Selecciona</option>
-                <option *ngFor="let tipo_car of TipoCar" [value]="tipo_car.Id">{{tipo_car.Tipo}}</option>
-
-            </select>
-
-            <span class="error" *ngIf="form.get('Tipo_carroceria')?.errors?.['required'] && isErrorView"  >
-                Falta seleccionarel tipo de carrocería
-            </span>
-        </div>
-
-        <!-- Adicionales -->
-        <div>
-            <label for="adicionales">Adicionales*</label>
-            <select  formControlName="Tipo_adicionales"  id="adicionales" name="adicionales"  required>
-                <option value="">Selecciona</option>
-                <option *ngFor="let tipo_add of TipoAdd" [value]="tipo_add.Id">{{tipo_add.Tipo}}</option>
-            </select>
-
-            <span class="error" *ngIf="form.get('Tipo_adicionales')?.errors?.['required'] && isErrorView">
-                Falta seleccionar los adicionales
-            </span>
-        </div>
-
-        <!-- Metros cúbicos -->
-        <div>
-            <label for="metros-cubicos">Metros cúbicos*</label>
-            <input  formControlName="Metros_cubicos" placeholder="5.2"  type="text" id="metros-cubicos" name="metros-cubicos" required>
+        </c-col>
+          
+          </c-row>
+          <c-row>
             
-            <span class="error" *ngIf="form.get('Metros_cubicos')?.errors?.['required'] && isErrorView">
-                Falta agregar los metros cúbicos
-            </span>
-
-            <span class="error" *ngIf="form.get('Metros_cubicos')?.errors?.['pattern'] && isErrorView">
-                Formato de los metros cúbicos es incorrecto
-            </span>
-        
-        </div>
-
-        <!-- Inicio de actividades para facturar -->
-        <div class="full-width">
-            <label>¿Cuenta con inicio de actividades para facturar?*</label>
-            <div class="radio-group">
-                <input type="radio" id="factura_si" formControlName="Inicio_actividades_factura" [value]="true" required>
-                <label for="factura_si">Sí</label>
-                <input type="radio" id="factura_no" formControlName="Inicio_actividades_factura" [value]="false">
-                <label for="factura_no">No</label>
+          <c-col [xs]>
+            <div class="">
+                Observación
+                <!-- <input type="text" placeholder="Subestado" class="form-control" formControlName="Observacion" required> -->
+                <textarea rows="6"  placeholder="Observación" class="form-control" formControlName="Observacion" ></textarea>
+                <span class="error" *ngIf="form.get('Observacion')?.errors?.['required'] && isErrorView">
+                    Falta la Observación
+                  </span>
             </div>
-        </div>
+        </c-col>
+        <c-col [xs]>
 
-        <!-- Giros para facturar -->
-        <div class="full-width">
-            <label>¿Cuenta con alguno de estos giros para poder facturar?*</label>
-            <div class="radio-group">
-                <input type="radio" id="transporte" formControlName="Giro" value="2" required>
-                <label for="transporte">Transporte de carga por carretera</label>
-            </div>
-            <div class="radio-group">
-                <input type="radio" id="otras"  formControlName="Giro" value="3">
-                <label for="otras">Otras actividades de apoyo a las empresas N.C.P</label>
-            </div>
-            <div class="radio-group">
-                <input type="radio" id="no_giro" formControlName="Giro" value="1">
-                <label for="no_giro">No</label>
-            </div>
-        </div>
+        </c-col>
+          </c-row>
+          <p></p>
+      </div>
+        <p></p>
 
-        <!-- Botón de envío -->
-        <div class="full-width">
-            <button type="submit" class="submit-btn">
-                <i class="fas fa-paper-plane"></i> Enviar
-            </button>
-        </div>
-    </form>
-</div>
+      </form>
+      
+  
+    </c-tab-pane>
+    <c-tab-pane class="p-3">
+        <form cForm [formGroup]="form" (ngSubmit)="registrar()" > 
+            <div >
+              <p></p>
+              <h5>Razón social</h5>
+              <p></p>
+            <c-row>
+                <c-col [xs]>
+                    <div class="">
+                        Driver
+                        <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" >
+                        <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                        <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                            Falta agregar el Driver
+                        </span>
+                    </div>
+                </c-col>
+          
+                <c-col [xs]>
+                    <div class="noEditar">
+                        Guía
+                        <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                        <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut" maxlength="10"> 
+                        <span class="error" *ngIf="form.get('Rut')?.errors?.['required'] && isErrorView">
+                            Falta ingresar el Guía
+                        </span>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="">
+                        Cliente
+                         <input type="email" class="form-control"  placeholder="E-Mail" formControlName="Email" >
+                         <span class="error" *ngIf="form.get('Email')?.errors?.['required'] && isErrorView">
+                            Falta agregar el Cliente
+                        </span>
+                        </div>
+                </c-col>
+    
+            </c-row>
+            <c-row>
+              <c-col [xs]>
+                <div class="noEditar">
+                    Estado
+                    <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                    <input type="text" placeholder="Telefono" class="form-control"  formControlName="Telefono" maxlength="12">
+                    <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Estado
+                    </span>
+                </div>
+            </c-col>
+            <c-col [xs]>
+                  <div class="">
+                    Subestado
+                    <input type="text" placeholder="Dirección" class="form-control" formControlName="Direccion" >
+    
+                </div>
+              </c-col>
+    
+              <c-col [xs]>
+                <div class="">
+                    Código1
+                    <select id="Codigo1Str" cSelect class="form-control">
+                        <!-- <option *ngFor="let codigo of listaCodigos1" [value]="codigo.Id"  >{{codigo.Descripcion}}</option> -->
+                         <option value="ssssss">ssssss</option>
+                    </select>
+                </div>
+            </c-col>
+              
+              </c-row>
+              <c-row>
+                
+              <c-col [xs]>
+                <div class="">
+                    Observación
+                    <!-- <input type="text" placeholder="Subestado" class="form-control" formControlName="Observacion" required> -->
+                    <textarea rows="6"  placeholder="Observación" class="form-control" formControlName="Observacion" ></textarea>
+                    <span class="error" *ngIf="form.get('Observacion')?.errors?.['required'] && isErrorView">
+                        Falta la Observación
+                      </span>
+                </div>
+            </c-col>
+            <c-col [xs]>
+    
+            </c-col>
+              </c-row>
+              <p></p>
+          </div>
+            <p></p>
+    
+          </form>
+    </c-tab-pane>
+  </c-tab-content>

@@ -48,6 +48,12 @@ export class UsuariosComponent {
   public visible = false;
 
   toggleLiveDemo() {
+
+    this.selectedConstitucion = null;
+    this.selectedCertRRPP = null;
+    this.selectedCertViPoderes = null;
+    this.selectedRegistroComercio = null;
+    this.selectedDocBancario = null;
     this.visible = !this.visible;
   }
 
@@ -102,6 +108,12 @@ export class UsuariosComponent {
   public visibleAgregar = false;
 
   toggleLiveAgregar() {
+
+  this.selectedConstitucion = null;
+  this.selectedCertRRPP = null;
+  this.selectedCertViPoderes = null;
+  this.selectedRegistroComercio = null;
+  this.selectedDocBancario = null;
     this.form.reset()
     this.visibleAgregar = !this.visibleAgregar;
   }

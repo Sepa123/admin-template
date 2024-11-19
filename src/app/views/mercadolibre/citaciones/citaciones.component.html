@@ -58,7 +58,7 @@
 <c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
     <c-modal-header class ="Modal_patentes_ingresadas">
         <h5 class="modal-title" id="modalNuevaCitacionLabel">Selección de Patentes</h5>
-        <td colspan="2" *ngIf="isLoadingFull"><img width="15" height="15"
+        <td  *ngIf="isLoadingFull"><img width="15" height="15"
             src="../../../assets/images/loading-gif.gif" /></td>
         <button (click)="toggleLiveDemo()" type="button" cButtonClose class="close" data-dismiss="modal" aria-label="Close" >
         </button>
@@ -69,7 +69,7 @@
     <c-modal-body class ="Modal_patentes_ingresadas">
         <!-- *ngFor="let pu of patentesList2 -->
         <input class="inputSP" placeholder="🔍 Patente" type="text" (input)="buscarPatente($event)">
-        <table *ngIf="Cargado" >
+        <table  >
             <thead >
                 <tr >
                     <th class="thclass" style="background-color: #f2f2f2; color: #333">Patentes</th>
@@ -80,11 +80,16 @@
             </thead>
             <tbody class="modal-body">
                 <!-- Ejemplo de fila de datos -->
+                <tr *ngIf="patentesFiltradas.length === 0">
+                    <td colspan="4" class="thclass">No se han encontrado información de patentes</td>
+                </tr>
                 <tr *ngFor="let pu of patentesFiltradas">
-                    <td class="thclass"><button id="Codigo_patente" class="detalle-patente" (click)="submitForm(pu.id_ppu)"
+                    <td class="thclass">
+                        <button id="Codigo_patente" class="detalle-patente" (click)="submitForm(pu.id_ppu)"
                             (click)="recuperarIdPpu(pu.id_ppu)" (click)="getRecargarPatentesCitaciones()" (click)="getLocation()" >
                             {{pu.ppu}}
-                        </button></td>
+                        </button>
+                    </td>
                     <td class="thclass">
 
                         <div *ngIf="pu.tipo == null">
@@ -211,7 +216,7 @@
          
         <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
     </c-modal-header>
-    <c-modal-body class ="Modal_patentes_ingresadas" *ngIf="Cargado">
+    <c-modal-body class ="Modal_patentes_ingresadas">
         <input class="inputSP" placeholder="🔍 Patente" type="text" (input)="buscarPatenteDetalle($event)">
         <table >
             
@@ -224,8 +229,9 @@
                     <th class="thclass">Acciones</th>
                 </tr>
             </thead>
-            <tbody *ngFor="let pu of patentesFiltradasDetalle" class="modal-body" >
-                <tr>
+            <tbody  class="modal-body" >
+                
+                <tr *ngFor="let pu of patentesFiltradasDetalle">
                     <td class="tdclass">
                         <span id="Codigo_patente" class="detalle-patente">
                             {{pu.ppu}}
@@ -297,8 +303,8 @@
                                         </svg>
                                         <span class="tooltip">Eliminar</span>
                                     </li>
-                                    <li class="nav-item">
-                                        <svg xmlns="http://www.w3.org/2000/svg" *ngIf="selectedTipoRuta[pu.id_ppu] == '5' && selectedEstados[pu.id_ppu] == '1'" (click)="recuperarIdPpu(pu.id_ppu)"(click)="initializeAmbulanceCode();" (click)="getInfoAMB()" width="1.5em" height="1.5em" viewBox="0 0 24 24"(click)="toggleAmbulance()" (click)="toggleLive3()">
+                                    <li class="nav-item" *ngIf="selectedTipoRuta[pu.id] == '5' && selectedEstados[pu.id] == '1'">
+                                        <svg xmlns="http://www.w3.org/2000/svg"  (click)="recuperarIdPpu(pu.id_ppu)"(click)="initializeAmbulanceCode();" (click)="getInfoAMB()" width="1.5em" height="1.5em" viewBox="0 0 24 24"(click)="toggleAmbulance()" (click)="toggleLive3()">
                                             <path fill="currentColor" 
                                             d="M18 18.5a1.5 1.5 0 0 0 1.5-1.5a1.5 1.5 0 0 0-1.5-1.5a1.5 1.5 0 0 0-1.5 1.5a1.5 1.5 0 0 0 1.5 1.5m1.5-9H17V12h4.46zM6 18.5A1.5 1.5 0 0 0 7.5 17A1.5 1.5 0 0 0 6 15.5A1.5 1.5 0 0 0 4.5 17A1.5 1.5 0 0 0 6 18.5M20 8l3 4v5h-2a3 3 0 0 1-3 3a3 3 0 0 1-3-3H9a3 3 0 0 1-3 3a3 3 0 0 1-3-3H1V6c0-1.11.89-2 2-2h14v4zM8 6v3H5v2h3v3h2v-3h3V9h-3V6z" />
                                         </svg> 
@@ -343,7 +349,6 @@
                             d="M18 18.5a1.5 1.5 0 0 0 1.5-1.5a1.5 1.5 0 0 0-1.5-1.5a1.5 1.5 0 0 0-1.5 1.5a1.5 1.5 0 0 0 1.5 1.5m1.5-9H17V12h4.46zM6 18.5A1.5 1.5 0 0 0 7.5 17A1.5 1.5 0 0 0 6 15.5A1.5 1.5 0 0 0 4.5 17A1.5 1.5 0 0 0 6 18.5M20 8l3 4v5h-2a3 3 0 0 1-3 3a3 3 0 0 1-3-3H9a3 3 0 0 1-3 3a3 3 0 0 1-3-3H1V6c0-1.11.89-2 2-2h14v4zM8 6v3H5v2h3v3h2v-3h3V9h-3V6z" />
                         </svg> -->
                     </td>
-                
                 </tr>
             </tbody>
         </table>
