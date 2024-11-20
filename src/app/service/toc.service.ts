@@ -15,6 +15,7 @@ import { MainDifFechasEasy,Dato } from 'src/app/models/TOC/difFechasEasy.interfa
 import { MainProductoIngresado, DatoPI } from 'src/app/models/TOC/productosIngresadosEasy.interface'
 import {MainTelefonosTruncados, DatoTelefonos} from 'src/app/models/TOC/telefonosTruncados.interface'
 import { ProductoAdelanto } from 'src/app/models/TOC/productosAdelanto.interface'
+import {MainCamposBT} from 'src/app/models/TOC/camposBitTienda.interface'
 @Injectable({
   providedIn: 'root'
 })
@@ -32,8 +33,8 @@ export class TocService {
 }
 
   
-  apiurl = "https://hela.transyanez.cl/api/toc"
-  // apiurl = "http://127.0.0.1:8000/api/toc"
+  // apiurl = "https://hela.transyanez.cl/api/toc"
+  apiurl = "http://127.0.0.1:8000/api/toc"
 
 
   buscar_producto_toc(cod_producto : string){
@@ -152,5 +153,14 @@ export class TocService {
 
   buscar_productos_adelanto(){
     return this.http.get<ProductoAdelanto []>(this.apiurl + `/productos/adelanto`)
+  }
+
+
+  campos_bitacora_tienda(){
+    return this.http.get<MainCamposBT>(this.apiurl + `/bitacora/tienda/campos`)
+  }
+
+  insert_bitacora_tienda_toc(body : any){
+    return this.http.post(this.apiurl + "/registrar_bitacora_tienda", body)
   }
 }

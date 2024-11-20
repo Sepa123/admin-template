@@ -21,7 +21,8 @@ import {
   DropdownModule,
   TabsModule,
   NavModule,
-  WidgetModule
+  WidgetModule,
+  FormModule,
 } from '@coreui/angular';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -68,7 +69,8 @@ import { ReclutamientoComponent } from './reclutamiento/reclutamiento.component'
     NavModule,
     NgChartsModule,
     MatSlideToggleModule,
-    NgbRating
+    NgbRating,
+    FormModule,
   ],
   declarations: [
     ReportesComponent,
