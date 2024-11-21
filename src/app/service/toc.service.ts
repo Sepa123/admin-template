@@ -33,8 +33,8 @@ export class TocService {
 }
 
   
-  // apiurl = "https://hela.transyanez.cl/api/toc"
-  apiurl = "http://127.0.0.1:8000/api/toc"
+  apiurl = "https://hela.transyanez.cl/api/toc"
+  // apiurl = "http://127.0.0.1:8000/api/toc"
 
 
   buscar_producto_toc(cod_producto : string){

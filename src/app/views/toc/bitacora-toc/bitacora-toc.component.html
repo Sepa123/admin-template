@@ -15,7 +15,7 @@
 
 <h2>Bitacora TOC</h2>
 
-<form cForm [formGroup]="form" (ngSubmit)="registrar()">
+<!-- <form cForm [formGroup]="formCD" (ngSubmit)="registrar()">
     <c-row>
         <c-col [xs]>
             <div class="">
@@ -41,10 +41,10 @@
             <div class="">
                 Fecha 
                 <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha" readonly>
-                <span class="error" *ngIf="form.get('Fecha')?.errors?.['required'] && isErrorView">
+                <span class="error" *ngIf="formCD.get('Fecha')?.errors?.['required'] && isErrorView">
                       Falta agregar la fecha 
                     </span>
-                <span class="error" *ngIf="form.get('Fecha')?.errors?.['pattern'] && isErrorView">
+                <span class="error" *ngIf="formCD.get('Fecha')?.errors?.['pattern'] && isErrorView">
                       El formato de la fecha no es valido
                     </span>
             </div>
@@ -69,17 +69,14 @@
              <div class="">
                 Región
                 <input type="text" class="form-control"  placeholder="Region" formControlName="Region" readonly>
-                <!-- <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region" readonly>
-                    <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
-                </select> -->
             </div>
             <div class="">
                 Fecha Compromiso
                 <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha_compromiso" readonly>
-                <span class="error" *ngIf="form.get('Fecha_compromiso')?.errors?.['required'] && isErrorView">
+                <span class="error" *ngIf="formCD.get('Fecha_compromiso')?.errors?.['required'] && isErrorView">
                         Falta agregar la fecha de compromiso
                     </span>
-                <span class="error" *ngIf="form.get('Fecha_compromiso')?.errors?.['pattern'] && isErrorView">
+                <span class="error" *ngIf="formCD.get('Fecha_compromiso')?.errors?.['pattern'] && isErrorView">
                         El formato de la fecha de compromiso no es valido
                     </span>
             </div>
@@ -96,9 +93,6 @@
              <div class="">
                 Comuna
                 <input type="text" class="form-control" placeholder="Comuna"  formControlName="Comuna" readonly>
-                <!-- <select id="Comuna" cSelect formControlName="Comuna" readonly>
-                    <option  *ngFor="let comuna of listaComunas" value={{comuna.Nombre_comuna}} >{{comuna.Nombre_comuna}}</option>
-                </select> -->
             </div>
             <div class="">
                 Driver
@@ -118,7 +112,7 @@
             <div class="">
                 Fecha reprogramada
                 <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha_reprogramada" >
-                <span class="error" *ngIf="form.get('Fecha_reprogramada')?.errors?.['pattern'] && isErrorView">
+                <span class="error" *ngIf="formCD.get('Fecha_reprogramada')?.errors?.['pattern'] && isErrorView">
                         El formato de la fecha reprogramada no es valido
                     </span>
             </div> 
@@ -149,16 +143,15 @@
         <c-col [xs]>
         <div class="">
             Observación
-            <!-- <input type="text" placeholder="Subestado" class="form-control" formControlName="Observacion" required> -->
             <textarea rows="6"  cFormContro placeholder="Observación" class="form-control" formControlName="Observacion" ></textarea>
-            <span class="error" *ngIf="form.get('Observacion')?.errors?.['required'] && isErrorView">
+            <span class="error" *ngIf="formCD.get('Observacion')?.errors?.['required'] && isErrorView">
                 Falta la Observación
               </span>
         </div>
         <div class="">
             Subestado esperado
             <select id="Subestado_esperado" cSelect formControlName="Subestado_esperado">
-                <option *ngFor="let subestado of listaSubestados" [value]="subestado.Nombre"  >{{subestado.Nombre}}</option>
+                <option *ngFor="let subestado of subestados" [value]="subestado.Descripcion"  >{{subestado.Descripcion}}</option>
             </select>
         </div>
         </c-col>
@@ -167,7 +160,7 @@
     <c-row>
         <c-col [xs]>
             <button class="btn btn-success" type="submit">Guardar 
-                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
             </button>
         </c-col>
         <c-col [xs]>
@@ -176,10 +169,187 @@
                 </button>
         </c-col>
     </c-row>
-    <!-- <button class="btn btn-success" type="submit">Registrar</button> -->
-  </form>
 
-  <p></p>
+  </form> -->
+  <c-nav variant="tabs">
+    <a [cTabContent]="tabContent" [active]="pv" [routerLink] [tabPaneIdx]="0" cNavLink (click)="activate(true,'1')">CD</a>
+    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink (click)="activate(false,'2')">Tienda</a>
+  </c-nav>
+  <c-tab-content #tabContent="cTabContent">
+  <c-tab-pane class="p-3">
+      
+    <form cForm [formGroup]="formCD" (ngSubmit)="registrarCD()">
+        <c-row>
+            <c-col [xs]>
+                <div class="">
+                    <span style="font-weight: bold;">Código pedido</span> 
+                     <input type="text" class="form-control" placeholder="Codigo producto" (change)="BuscarProducto()" formControlName="Codigo_producto" required>
+                 </div>
+            </c-col>
+            <c-col [xs]>
+
+                <c-row>
+                    <c-col>
+                        <div class="">
+                            Alerta
+                            <c-form-check>
+                                <input cFormCheckInput id="stackOne" type="checkbox" formControlName="Alerta"/>
+                                <label cFormCheckLabel for="stackOne">Alerta</label>
+                            </c-form-check>
+                            <p></p>
+                        </div>
+                    </c-col>
+
+                    <c-col>
+                        <p></p>
+                        Copiar código TY
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24" (click)="copiarAlPortapapeles()">
+                            <path fill="currentColor" d="M15.24 2h-3.894c-1.764 0-3.162 0-4.255.148c-1.126.152-2.037.472-2.755 1.193c-.719.721-1.038 1.636-1.189 2.766C3 7.205 3 8.608 3 10.379v5.838c0 1.508.92 2.8 2.227 3.342c-.067-.91-.067-2.185-.067-3.247v-5.01c0-1.281 0-2.386.118-3.27c.127-.948.413-1.856 1.147-2.593s1.639-1.024 2.583-1.152c.88-.118 1.98-.118 3.257-.118h3.07c1.276 0 2.374 0 3.255.118A3.6 3.6 0 0 0 15.24 2" />
+                            <path fill="currentColor" d="M6.6 11.397c0-2.726 0-4.089.844-4.936c.843-.847 2.2-.847 4.916-.847h2.88c2.715 0 4.073 0 4.917.847S21 8.671 21 11.397v4.82c0 2.726 0 4.089-.843 4.936c-.844.847-2.202.847-4.917.847h-2.88c-2.715 0-4.073 0-4.916-.847c-.844-.847-.844-2.21-.844-4.936z" />
+                        </svg>
+                    </c-col>
+                </c-row>
+                
+            </c-col>
+        </c-row>
+    
+        <div class="noEditar">
+        <c-row>
+            <c-col [xs]>
+                <div class="">
+                    Fecha 
+                    <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha" readonly>
+                    <span class="error" *ngIf="formCD.get('Fecha')?.errors?.['required'] && isErrorView">
+                          Falta agregar la fecha 
+                        </span>
+                    <span class="error" *ngIf="formCD.get('Fecha')?.errors?.['pattern'] && isErrorView">
+                          El formato de la fecha no es valido
+                        </span>
+                </div>
+                <div class="">
+                    Cliente
+                     <input type="text" placeholder="Cliente" class="form-control" formControlName="Cliente" readonly>
+                 </div>
+                 <div class="">
+                    Estado
+                    <input type="text" placeholder="Estado" class="form-control" formControlName="Estado" readonly>
+                </div>
+                <div class="">
+                    Nombre Cliente
+                    <input type="text" placeholder="Nombre" class="form-control" formControlName="Nombre_cliente" readonly>
+                </div>
+            </c-col>
+            <c-col [xs]>
+                <div class="">
+                    PPU
+                     <input type="text" class="form-control"  placeholder="PPU" formControlName="PPU" readonly>
+                 </div>
+                 <div class="">
+                    Región
+                    <input type="text" class="form-control"  placeholder="Region" formControlName="Region" readonly>
+                </div>
+                <div class="">
+                    Fecha Compromiso
+                    <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha_compromiso" readonly>
+                    <span class="error" *ngIf="formCD.get('Fecha_compromiso')?.errors?.['required'] && isErrorView">
+                            Falta agregar la fecha de compromiso
+                        </span>
+                    <span class="error" *ngIf="formCD.get('Fecha_compromiso')?.errors?.['pattern'] && isErrorView">
+                            El formato de la fecha de compromiso no es valido
+                        </span>
+                </div>
+                <div class="">
+                    Telefono
+                     <input type="text" class="form-control"  placeholder="Telefono" formControlName="Telefono" readonly>
+                 </div>    
+            </c-col>
+            <c-col [xs]>
+                <div class="">
+                    Guía
+                     <input type="text" class="form-control" placeholder="Guia"  formControlName="Guia" readonly>
+                 </div>
+                 <div class="">
+                    Comuna
+                    <input type="text" class="form-control" placeholder="Comuna"  formControlName="Comuna" readonly>
+                </div>
+                <div class="">
+                    Driver
+                    <input type="text" placeholder="Driver" class="form-control" formControlName="Driver" readonly>
+                </div>
+                <div class="">
+                    Correo
+                     <input type="text" class="form-control"  placeholder="Correo" formControlName="Correo" readonly>
+                 </div>   
+            
+            </c-col>
+            <p></p>
+        </c-row>
+    </div>
+        <c-row>
+            <c-col [xs]>
+                <div class="">
+                    Fecha reprogramada
+                    <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha_reprogramada" >
+                    <span class="error" *ngIf="formCD.get('Fecha_reprogramada')?.errors?.['pattern'] && isErrorView">
+                            El formato de la fecha reprogramada no es valido
+                        </span>
+                </div> 
+                <div class="">
+                    Dirección correcta
+                    <input type="text" class="form-control" placeholder="Direccion Correcta" formControlName="Direccion_correcta" >
+                </div>
+                <div class="">
+                    Comuna Correcta
+                    <select id="Comuna_correcta" cSelect formControlName="Comuna_correcta">
+                        <option  *ngFor="let comuna of listaComunas" value={{comuna.Nombre_comuna}} >{{comuna.Nombre_comuna}}</option>
+                    </select>
+                </div>
+                
+                <div class="noEditar">
+                    Subestado
+                    <input type="text" placeholder="Subestado" class="form-control" formControlName="Subestado" readonly>
+                </div>
+        
+                <div class="">
+                    Codigo1
+                    <select id="Codigo1Str" cSelect formControlName="Codigo1Str">
+                        <option *ngFor="let codigo of listaCodigos1" [value]="codigo.Id"  >{{codigo.Descripcion}}</option>
+                    </select>
+                </div>
+            
+            </c-col>
+            <c-col [xs]>
+            <div class="">
+                Observación
+                <textarea rows="6"  cFormContro placeholder="Observación" class="form-control" formControlName="Observacion" ></textarea>
+                <span class="error" *ngIf="formCD.get('Observacion')?.errors?.['required'] && isErrorView">
+                    Falta la Observación
+                  </span>
+            </div>
+            <div class="">
+                Subestado esperado
+                <select id="Subestado_esperado" cSelect formControlName="Subestado_esperado">
+                    <option *ngFor="let subestado of subestados" [value]="subestado.Descripcion"  >{{subestado.Descripcion}}</option>
+                </select>
+            </div>
+            </c-col>
+        </c-row>
+        <p></p>
+        <c-row>
+            <c-col [xs]>
+                <button class="btn btn-success" type="submit">Guardar 
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                </button>
+            </c-col>
+            <c-col [xs]>
+                    <button class="btn btn-secondary" type="button" (click)="reiniciar()">Reiniciar
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 32 32"><path fill="currentColor" d="M18 28A12 12 0 1 0 6 16v6.2l-3.6-3.6L1 20l6 6l6-6l-1.4-1.4L8 22.2V16a10 10 0 1 1 10 10Z"/></svg>
+                    </button>
+            </c-col>
+        </c-row>
+      </form>
+
+      <p></p>
   <h2>Back Office</h2>
   <p></p>
 
@@ -297,6 +467,222 @@
     </tbody>
     </table>
   </div>
+
+      <!-- <form cForm [formGroup]="form" (ngSubmit)="registrar()" > 
+        <div >
+          <p></p>
+
+          <c-row>
+            <c-col [xs]>
+                <div class="">
+                    <span style="font-weight: bold;">Código pedido</span> 
+                     <input type="text" class="form-control" placeholder="Codigo producto" (change)="BuscarProductoTienda()" formControlName="Codigo_producto" required>
+                 </div>
+            </c-col>
+            <c-col [xs]>
+                <p></p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24" (click)="copiarAlPortapapeles()">
+                    <path fill="currentColor" d="M15.24 2h-3.894c-1.764 0-3.162 0-4.255.148c-1.126.152-2.037.472-2.755 1.193c-.719.721-1.038 1.636-1.189 2.766C3 7.205 3 8.608 3 10.379v5.838c0 1.508.92 2.8 2.227 3.342c-.067-.91-.067-2.185-.067-3.247v-5.01c0-1.281 0-2.386.118-3.27c.127-.948.413-1.856 1.147-2.593s1.639-1.024 2.583-1.152c.88-.118 1.98-.118 3.257-.118h3.07c1.276 0 2.374 0 3.255.118A3.6 3.6 0 0 0 15.24 2" />
+                    <path fill="currentColor" d="M6.6 11.397c0-2.726 0-4.089.844-4.936c.843-.847 2.2-.847 4.916-.847h2.88c2.715 0 4.073 0 4.917.847S21 8.671 21 11.397v4.82c0 2.726 0 4.089-.843 4.936c-.844.847-2.202.847-4.917.847h-2.88c-2.715 0-4.073 0-4.916-.847c-.844-.847-.844-2.21-.844-4.936z" />
+                </svg>
+            </c-col>
+        </c-row>
+        <c-row>
+            <c-col [xs]>
+                <div class="">
+                    Driver
+                    <input type="text" placeholder="Driver" class="form-control" formControlName="Driver" >
+                    <span class="error" *ngIf="form.get('Driver')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Driver
+                    </span>
+                </div>
+            </c-col>
+      
+            <c-col [xs]>
+                <div class="noEditar">
+                    Guía 
+                    <input type="text" placeholder="Guía" class="form-control" formControlName="Guia"  maxlength="11"> 
+                    <span class="error" *ngIf="form.get('Guia')?.errors?.['required'] && isErrorView">
+                        Falta ingresar el Guía
+                    </span>
+                </div>
+
+                
+
+            </c-col>
+
+        </c-row>
+        <c-row>
+            <c-col [xs]>
+                <div class="noEditar">
+                    Estado
+                    <select id="Estado" (change)="buscarSubestados($event)" cSelect class="form-control"  formControlName="Estado">
+                        <option *ngFor="let estado of estados" [value]="estado.Id_estado"  >{{estado.Descripcion}}</option>
+                    </select>
+                </div>
+            </c-col>
+            <c-col [xs]>
+                  <div class="">
+                    Subestado
+                    <select id="Subestado" cSelect class="form-control"  formControlName="Subestado">
+                        <option *ngFor="let subestado of listaSubestados" [value]="subestado.Id_subestado"  >{{subestado.Descripcion}}</option>
+                    </select>
+    
+                </div>
+              </c-col>
+
+          
+          
+          </c-row>
+          <c-row>
+
+            <c-col [xs]>
+                <div class="">
+                    Código1
+                    <select id="Codigo1Str" cSelect class="form-control"  formControlName="Codigo1">
+                        <option *ngFor="let codigo of listaCodigos1" [value]="codigo.Id"  >{{codigo.Descripcion}}</option>
+                    </select>
+                </div>
+            </c-col>
+            
+            <c-col [xs]>
+                <div class="">
+                    Observación
+                    <textarea rows="6"  placeholder="Observación" class="form-control" formControlName="Observacion" ></textarea>
+                    <span class="error" *ngIf="form.get('Observacion')?.errors?.['required'] && isErrorView">
+                        Falta la Observación
+                    </span>
+                </div>
+            </c-col>
+          </c-row>
+          <p></p>
+      </div>
+        <p></p>
+
+        <c-row>
+            <c-col [xs]>
+                <button class="btn btn-success" type="submit"  >Guardar 
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                </button>
+            </c-col>
+        </c-row>
+
+      </form> -->
+
+</c-tab-pane>
+<c-tab-pane class="p-3">
+    <form cForm [formGroup]="form" (ngSubmit)="registrar()" > 
+        <div >
+          <p></p>
+
+          <c-row>
+            <c-col [xs]>
+                <div class="">
+                    <span style="font-weight: bold;">Código pedido</span> 
+                     <input type="text" class="form-control" placeholder="Codigo producto" (change)="BuscarProductoTienda()" formControlName="Codigo_producto" required>
+                 </div>
+            </c-col>
+            <c-col [xs]>
+                <p></p>
+                Copiar código TY
+                <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24" (click)="copiarAlPortapapeles()">
+                    <path fill="currentColor" d="M15.24 2h-3.894c-1.764 0-3.162 0-4.255.148c-1.126.152-2.037.472-2.755 1.193c-.719.721-1.038 1.636-1.189 2.766C3 7.205 3 8.608 3 10.379v5.838c0 1.508.92 2.8 2.227 3.342c-.067-.91-.067-2.185-.067-3.247v-5.01c0-1.281 0-2.386.118-3.27c.127-.948.413-1.856 1.147-2.593s1.639-1.024 2.583-1.152c.88-.118 1.98-.118 3.257-.118h3.07c1.276 0 2.374 0 3.255.118A3.6 3.6 0 0 0 15.24 2" />
+                    <path fill="currentColor" d="M6.6 11.397c0-2.726 0-4.089.844-4.936c.843-.847 2.2-.847 4.916-.847h2.88c2.715 0 4.073 0 4.917.847S21 8.671 21 11.397v4.82c0 2.726 0 4.089-.843 4.936c-.844.847-2.202.847-4.917.847h-2.88c-2.715 0-4.073 0-4.916-.847c-.844-.847-.844-2.21-.844-4.936z" />
+                </svg>
+                <!-- <div class="">
+                    Alerta
+                    <c-form-check>
+                        <input cFormCheckInput id="stackOne" type="checkbox" formControlName="Alerta"/>
+                        <label cFormCheckLabel for="stackOne">Alerta</label>
+                    </c-form-check>
+                    <p></p>
+                </div> -->
+            </c-col>
+        </c-row>
+        <c-row>
+            <c-col [xs]>
+                <div class="">
+                    Driver
+                    <input type="text" placeholder="Driver" class="form-control" formControlName="Driver" >
+                    <span class="error" *ngIf="form.get('Driver')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Driver
+                    </span>
+                </div>
+            </c-col>
+      
+            <c-col [xs]>
+                <div class="noEditar">
+                    Guía 
+                    <input type="text" placeholder="Guía" class="form-control" formControlName="Guia"  maxlength="11"> 
+                    <span class="error" *ngIf="form.get('Guia')?.errors?.['required'] && isErrorView">
+                        Falta ingresar el Guía
+                    </span>
+                </div>
+
+                
+
+            </c-col>
+
+        </c-row>
+        <c-row>
+            <c-col [xs]>
+                <div class="noEditar">
+                    Estado
+                    <select id="Estado" (change)="buscarSubestados($event)" cSelect class="form-control"  formControlName="Estado">
+                        <option *ngFor="let estado of estados" [value]="estado.Id_estado"  >{{estado.Descripcion}}</option>
+                    </select>
+                </div>
+            </c-col>
+            <c-col [xs]>
+                  <div class="">
+                    Subestado
+                    <select id="Subestado" cSelect class="form-control"  formControlName="Subestado">
+                        <option *ngFor="let subestado of listaSubestados" [value]="subestado.Id_subestado"  >{{subestado.Descripcion}}</option>
+                    </select>
+    
+                </div>
+              </c-col>
+
+          
+          
+          </c-row>
+          <c-row>
+
+            <c-col [xs]>
+                <div class="">
+                    Código1
+                    <select id="Codigo1Str" cSelect class="form-control"  formControlName="Codigo1">
+                        <option *ngFor="let codigo of listaCodigos1" [value]="codigo.Id"  >{{codigo.Descripcion}}</option>
+                    </select>
+                </div>
+            </c-col>
+            
+            <c-col [xs]>
+                <div class="">
+                    Observación
+                    <textarea rows="6"  placeholder="Observación" class="form-control" formControlName="Observacion" ></textarea>
+                    <span class="error" *ngIf="form.get('Observacion')?.errors?.['required'] && isErrorView">
+                        Falta la Observación
+                    </span>
+                </div>
+            </c-col>
+          </c-row>
+          <p></p>
+      </div>
+        <p></p>
+
+        <c-row>
+            <c-col [xs]>
+                <button class="btn btn-success" type="submit"  >Guardar 
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                </button>
+            </c-col>
+        </c-row>
+
+      </form>
+</c-tab-pane>
+
+
 
 
   

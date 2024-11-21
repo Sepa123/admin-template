@@ -18,7 +18,8 @@ import {
   NavbarModule,
   NavModule,
   SharedModule,
-  UtilitiesModule
+  UtilitiesModule,
+  TabsModule
 } from '@coreui/angular';
 
 import { TocRoutingModule } from './toc-routing.module';
@@ -65,7 +66,8 @@ import { ProductosAdelantoComponent } from './productos-adelanto/productos-adela
     NgSelectModule,
     ChartjsModule,
     ModalModule,
-    NgChartsModule
+    NgChartsModule,
+    TabsModule
   ]
 })
 export class TocModule { }
