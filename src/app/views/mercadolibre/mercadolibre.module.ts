@@ -35,6 +35,7 @@ import { PrefacturaDiariaComponent } from './prefactura-diaria/prefactura-diaria
 import { CitacionesActivasComponent } from './citaciones-activas/citaciones-activas.component';
 import { CitacionSupervisoresComponent } from './citacion-supervisores/citacion-supervisores.component';
 import { NgChartsModule } from 'ng2-charts';
+import { VentaOTraspasoDeVehiculoComponent } from './venta-o-traspaso-de-vehiculo/venta-o-traspaso-de-vehiculo.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { NgChartsModule } from 'ng2-charts';
     SeguimientoDiarioComponent,
     PrefacturaDiariaComponent,
     CitacionesActivasComponent,
-    CitacionSupervisoresComponent
+    CitacionSupervisoresComponent,
+    VentaOTraspasoDeVehiculoComponent
     
   ],
   imports: [

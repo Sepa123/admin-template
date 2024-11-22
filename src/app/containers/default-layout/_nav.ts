@@ -589,6 +589,10 @@ export const navItems: INavDataBar[] = [
         name: "Citación Supervisores",
         url:  '/mercadolibre/citacion-supervisores'
       },
+      {
+        name: "Venta/Traspaso de vehiculo",
+        url:  '/mercadolibre/venta-o-traspaso-de-vehiculo'
+      },
       // {
       //   name: "Prefactura Diaria",
       //   url:  '/mercadolibre/prefactura-diaria'
