@@ -62,11 +62,13 @@ export class VentaOTraspasoDeVehiculoComponent {
   }
 
   getInfoPpu() {
+    this.isLoadingFull = true;
     this.VoT.getInfoPpu().subscribe(
       (data) => {
         this.infoPPu = data;
         this.infoPPu2 = data;
         this.patentesFiltradas = data
+        this.isLoadingFull = false;
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
@@ -75,12 +77,13 @@ export class VentaOTraspasoDeVehiculoComponent {
   }
 
   getInfoEmpresa() {
-    
+    this.isLoadingFull = true;
     this.VoT.getInfoEmpresas().subscribe(
       (data) => {
         this.infoEmpresa = data;
         this.infoEmpresa2 = data
         this.RazonesFiltradas = data
+        this.isLoadingFull = false;
       },
       (error) => {
         console.error('Error al obtener modalidades de operación', error);
