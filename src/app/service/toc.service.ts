@@ -15,7 +15,10 @@ import { MainDifFechasEasy,Dato } from 'src/app/models/TOC/difFechasEasy.interfa
 import { MainProductoIngresado, DatoPI } from 'src/app/models/TOC/productosIngresadosEasy.interface'
 import {MainTelefonosTruncados, DatoTelefonos} from 'src/app/models/TOC/telefonosTruncados.interface'
 import { ProductoAdelanto } from 'src/app/models/TOC/productosAdelanto.interface'
-import {MainCamposBT} from 'src/app/models/TOC/camposBitTienda.interface'
+import {MainCamposBT, BitacoraTiendaTOC} from 'src/app/models/TOC/camposBitTienda.interface'
+import {PanelAlertasTOC, DatosAlertasVigentes} from 'src/app/models/TOC/alertaVigentes.interface'
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -160,7 +163,19 @@ export class TocService {
     return this.http.get<MainCamposBT>(this.apiurl + `/bitacora/tienda/campos`)
   }
 
+  get_panel_alertas_toc(){
+    return this.http.get<PanelAlertasTOC>(this.apiurl + `/alertas_vigentes/panel`)
+  }
+
+  get_datos_alertas_toc(){
+    return this.http.get<DatosAlertasVigentes>(this.apiurl + `/alertas_vigentes/datos`)
+  }
+
   insert_bitacora_tienda_toc(body : any){
     return this.http.post(this.apiurl + "/registrar_bitacora_tienda", body)
+  }
+
+  get_bitacora_tiendas_toc(fecha_inicio : string, fecha_fin : string){
+    return this.http.get<BitacoraTiendaTOC []>(this.apiurl + `/bitacoras/tienda?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`)
   }
 }

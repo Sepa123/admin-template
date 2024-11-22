@@ -8,12 +8,13 @@ import { AlertaExistenteTOC } from 'src/app/models/editarTOC.interface'
 import { ComunasService } from 'src/app/service/comunas/comunas.service';
 import { Codigo1 } from 'src/app/models/Codigos1.interface';
 import { Subestados } from 'src/app/models/subestados.interface';
+import { PanelAlertasTOC } from 'src/app/models/TOC/alertaVigentes.interface';
 
 
 @Component({
   selector: 'app-alertas-vigentes',
   templateUrl: './alertas-vigentes.component.html',
-  styleUrls: ['./alertas-vigentes.component.scss']
+  styleUrls: ['./alertas-vigentes.component.scss','../styles/cards.scss']
 })
 export class AlertasVigentesComponent {
   chart: any;
@@ -90,6 +91,13 @@ export class AlertasVigentesComponent {
   listaCodigos1 : Codigo1 [] = []
 
   loadingData : boolean = true
+
+  panelAlertas: PanelAlertasTOC = {
+    "Tickets_Creados_Hoy": 0,
+    "CD":                  0,
+    "Easy_Tienda":         0,
+    "Alertas_Vigentes":    0,
+}
 
   public rol = sessionStorage.getItem("rol_id")
 
@@ -189,17 +197,19 @@ export class AlertasVigentesComponent {
 
   ngOnInit(){
 
-    this.comunaService.getListaComunas().subscribe((data : any) => {
-      this.listaComunas = data
+    
+    this.service.get_datos_alertas_toc().subscribe((data) =>{ 
+      this.listaComunas = data.Comuna
       this.listaComunasFull = this.listaComunas
+
+      this.listaSubestados = data.Subestados
+
+      this.listaCodigos1 = data.Codigo1
     })
 
-    this.service.buscar_subestados().subscribe((data) => {
-      this.listaSubestados = data
-    })
 
-    this.service.buscar_codigos1().subscribe((data) => {
-      this.listaCodigos1 = data
+    this.service.get_panel_alertas_toc().subscribe((data) => {
+      this.panelAlertas = data
     })
     
     this.service.buscar_alertas_vigentes().subscribe((data) => {

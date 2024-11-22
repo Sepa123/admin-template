@@ -5,11 +5,11 @@ import { ProductoToc } from 'src/app/models/productosToc.interface';
 import { ComunasService } from 'src/app/service/comunas/comunas.service';
 import { Subestados } from 'src/app/models/subestados.interface';
 // import { Codigo1 } from 'src/app/models/Codigos1.interface';
-import {Codigo1,Estado,Subestado} from 'src/app/models/TOC/camposBitTienda.interface'
+import {Codigo1,Estado,Subestado, Cliente} from 'src/app/models/TOC/camposBitTienda.interface'
 import { ObservacionTOC } from 'src/app/models/ObservacionesTOC.interface';
 import { ActividadDiariaTOC } from 'src/app/models/actividadesDiariasTOC.interface'
 import { BackofficeUsuarioTOC } from 'src/app/models/backofficeUsuarioTOC.interface'
-
+import {MainCamposBT, BitacoraTiendaTOC} from 'src/app/models/TOC/camposBitTienda.interface'
 @Component({
   selector: 'app-bitacora-toc',
   templateUrl: './bitacora-toc.component.html',
@@ -20,11 +20,14 @@ export class BitacoraTocComponent {
   listaCodigos1 : Codigo1 [] = []
 
   tipoCliente : string = "1"
+  clientes : Cliente [] = []
   estados : Estado [] = []
   subestados : Subestado [] = []
   listaSubestados : Subestado [] = []
 
   public rol = sessionStorage.getItem("rol_id") 
+
+  bitacoraTienda : BitacoraTiendaTOC [] = []
 
   //datos geo
   latitude!: number
@@ -82,7 +85,7 @@ export class BitacoraTocComponent {
     Observacion : this.builder.control(""),
     Id_transyanez : this.builder.control(1),
     Ids_transyanez : this.builder.control("Ids_transyanez"),
-    Codigo1 : this.builder.control(1),
+    Codigo1 : this.builder.control(0),
     Codigo1Str: this.builder.control(""),
     Codigo_producto : this.builder.control(""),
   })
@@ -111,6 +114,7 @@ export class BitacoraTocComponent {
       this.listaCodigos1 = data.Codigo1
       this.estados  = data.Estados
       this.subestados = data.Subestados
+      this.clientes = data.Clientes
     })
 
     this.comunaService.getListaRegiones().subscribe((data : any) => {
@@ -125,6 +129,8 @@ export class BitacoraTocComponent {
     
 
   }
+
+
 
   pv : boolean = true
 
@@ -152,7 +158,7 @@ export class BitacoraTocComponent {
  
     this.isErrorView = false
     this.form.patchValue({
-      Cliente : this.tipoCliente,
+      // Cliente : this.tipoCliente,
       EstadoStr : this.estados.find((e) => e.Id_estado == idEstado)?.Descripcion,
       SubestadoStr : this.subestados.find((e) => e.Id_subestado == idSubestado)?.Descripcion,
     })
@@ -176,7 +182,7 @@ export class BitacoraTocComponent {
           Subestado :0,  
           Id_transyanez : 1,
           Ids_transyanez : "Ids_transyanez",
-          Codigo1 : 1
+          Codigo1 : 0
         })
       })
 
@@ -493,6 +499,15 @@ export class BitacoraTocComponent {
     }else{
       this.isErrorView = true
     }
+  }
+
+  fechaInicio : string = ''
+  fechaFin : string = ''
+
+  buscarBitacoraTienda(){
+    this.service.get_bitacora_tiendas_toc(this.fechaInicio,this.fechaFin).subscribe((data)=> {
+      this.bitacoraTienda = data
+    })
   }
 
 

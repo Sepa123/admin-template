@@ -138,7 +138,11 @@ export const navItems: INavDataBar[] = [
       {
         name:'Gestión Gps',
         url: '/transporte/gestion-gps'
-      }
+      },
+      {
+        name: "Venta/Traspaso de vehiculo",
+        url:  '/transporte/venta-o-traspaso-de-vehiculo'
+      },
     ]
   },
   {
@@ -187,7 +191,48 @@ export const navItems: INavDataBar[] = [
       {
         name:'Gestión Gps',
         url: '/transporte/gestion-gps'
-      }
+      },
+      
+    ]
+  },
+  {
+    name: 'Transporte',
+    url: '/transporte',
+    iconComponent: { name: 'cil-car-alt' },
+    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO],
+    children: [
+      {
+        name: 'Reclutamiento',
+        url : '/transporte/reclutamiento'
+      },
+      // {
+      //   name: 'Reportes',
+      //   url : '/transporte/reportes'
+      // },
+      {
+        name: 'Razón Social',
+        url : '/transporte/colaboradores'
+      },
+      {
+        name: 'Vehículos ',
+        url : '/transporte/vehiculos'
+      },
+      {
+        name: 'Tripulación',
+        url : '/transporte/tripulacion'
+      },
+      {
+        name: 'Reporte',
+        url : '/transporte/buscador'
+      },
+      {
+        name:'Gestión Gps',
+        url: '/transporte/gestion-gps'
+      },
+      {
+        name: "Venta/Traspaso de vehiculo",
+        url:  '/transporte/venta-o-traspaso-de-vehiculo'
+      },
     ]
   },
   {
@@ -620,7 +665,11 @@ export const navItems: INavDataBar[] = [
       {
         name: "Resumen Supervisores",
         url:  '/mercadolibre/ns-supervisores'
-      }
+      },
+      {
+        name: "Venta/Traspaso de vehiculo",
+        url:  '/mercadolibre/venta-o-traspaso-de-vehiculo'
+      },
       
     ]
   },
@@ -675,6 +724,7 @@ export const navItems: INavDataBar[] = [
         name: "Resumen Supervisores",
         url:  '/mercadolibre/ns-supervisores'
       },
+      
     ]
   },
   { /// Pantalla de info para Mercadolibre

@@ -9,6 +9,7 @@ import { TripulacionComponent } from './tripulacion/tripulacion.component';
 import { BuscadorComponent } from './buscador/buscador.component';
 import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
 import { ReclutamientoComponent } from './reclutamiento/reclutamiento.component'
+import { VentaOTraspasoDeVehiculoComponent } from './venta-o-traspaso-de-vehiculo/venta-o-traspaso-de-vehiculo.component';
 
 const routes: Routes = [
   {
@@ -84,10 +85,14 @@ const routes: Routes = [
         data: {
           title: 'rest',
         },
+      },
+      {
+        path: 'venta-o-traspaso-de-vehiculo',
+        component: VentaOTraspasoDeVehiculoComponent,
+        data: {
+          title: 'rest',
+        },
       },  
-
-
-      
     ],
   },
 ];

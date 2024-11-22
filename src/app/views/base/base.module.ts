@@ -44,6 +44,7 @@ import { BuscadorComponent } from './buscador/buscador.component';
 import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
 import {NgbRating} from '@ng-bootstrap/ng-bootstrap';
 import { ReclutamientoComponent } from './reclutamiento/reclutamiento.component'
+import { VentaOTraspasoDeVehiculoComponent } from './venta-o-traspaso-de-vehiculo/venta-o-traspaso-de-vehiculo.component'
 
 @NgModule({
   imports: [
@@ -81,7 +82,8 @@ import { ReclutamientoComponent } from './reclutamiento/reclutamiento.component'
     TripulacionComponent,
     BuscadorComponent,
     GestionGpsComponent,
-    ReclutamientoComponent
+    ReclutamientoComponent,
+    VentaOTraspasoDeVehiculoComponent
   ],
 })
 export class BaseModule {}
