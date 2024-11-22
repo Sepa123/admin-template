@@ -76,17 +76,15 @@
         <table>
             <thead class="greenTable">
                 <tr>
-                    <th>Id</th>
                     <th>Razon Social</th>
                     <th>Vehiculo</th>
                     <th>Seleccionar</th>
                 </tr>
             </thead>
             <tbody class="greenTable" *ngFor="let Ipp of patentesFiltradas">
-                <td> {{Ipp.id}}</td>
                 <td> {{Ipp.razon_social}}</td>
                 <td> {{Ipp.ppu}}</td>
-                <TD><button
+                <TD><button class="buttonSelect"
                         (click)="obtenerDatosIniciales(Ipp.id, Ipp.razon_social, Ipp.id_razon_social, Ipp.rut, Ipp.ppu)">seleccionar</button>
                 </TD>
 
@@ -101,7 +99,7 @@
 
 <c-modal [visible]="visible2" (visibleChange)="handleLiveDemoChange2($event)">
     <c-modal-header class="Modal_patentes_ingresadas">
-        <h5 class="modal-title" id="modalNuevaCitacionLabel">Selección de Patentes</h5>
+        <h5 class="modal-title" id="modalNuevaCitacionLabel">Selección de colaborador</h5>
         <td *ngIf="isLoadingFull"><img width="15" height="15" src="../../../assets/images/loading-gif.gif" /></td>
         <button (click)="toggleLiveDemo2()" type="button" cButtonClose class="close" data-dismiss="modal"
             aria-label="Close">
@@ -112,19 +110,19 @@
 
     <c-modal-body class="Modal_patentes_ingresadas">
         <!-- *ngFor="let pu of patentesList2 -->
-        <input class="inputSP" placeholder="🔍 Patente" type="text" (input)="BuscarRazon($event)">
+        <input class="inputSP" placeholder="🔍 colaborador" type="text" (input)="BuscarRazon($event)">
         <table>
             <thead class="greenTable">
                 <tr>
-                    <th class="thclass" style="background-color: #f2f2f2; color: #333">Id</th>
-                    <th class="thclass" style="background-color: #f2f2f2;color: #333">Razon Social</th>
-                    <th class="thclass" style="background-color: #f2f2f2;color: #333">Seleccionar</th>
+                    <th>Rut</th>
+                    <th>Razon Social</th>
+                    <th>Seleccionar</th>
                 </tr>
             </thead>
             <tbody class="greenTable" *ngFor="let Ipp of RazonesFiltradas">
-                <td> {{Ipp.id}}</td>
+                <td class="rut"> {{Ipp.rut}}</td>
                 <td> {{Ipp.razon_social}}</td>
-                <td><button (click)="ObtenerDatosResultantes(Ipp.id,Ipp.rut,Ipp.razon_social)">Seleccionar</button></td>
+                <td><button class="buttonSelect" (click)="ObtenerDatosResultantes(Ipp.id,Ipp.rut,Ipp.razon_social)">Seleccionar</button></td>
             </tbody>
         </table>
     </c-modal-body>

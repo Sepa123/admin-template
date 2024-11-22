@@ -39,7 +39,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { TripulacionComponent } from './tripulacion/tripulacion.component';
 import { BuscadorComponent } from './buscador/buscador.component';
-import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
+import { GestionGpsComponent } from './gestion-gps/gestion-gps.component';
+import { VentaOTraspasoDeVehiculoComponent } from './venta-o-traspaso-de-vehiculo/venta-o-traspaso-de-vehiculo.component'
 
 @NgModule({
   imports: [
@@ -74,7 +75,8 @@ import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
     UsuariosComponent,
     TripulacionComponent,
     BuscadorComponent,
-    GestionGpsComponent
+    GestionGpsComponent,
+    VentaOTraspasoDeVehiculoComponent
   ],
 })
 export class BaseModule {}

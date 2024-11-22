@@ -9,7 +9,6 @@ import { SeguimientoDiarioComponent } from './seguimiento-diario/seguimiento-dia
 import { PrefacturaDiariaComponent } from './prefactura-diaria/prefactura-diaria.component';
 import { CitacionesActivasComponent } from './citaciones-activas/citaciones-activas.component';
 import { CitacionSupervisoresComponent } from './citacion-supervisores/citacion-supervisores.component';
-import { VentaOTraspasoDeVehiculoComponent } from './venta-o-traspaso-de-vehiculo/venta-o-traspaso-de-vehiculo.component';
 
 const routes: Routes = [
   {
@@ -79,13 +78,6 @@ const routes: Routes = [
             component: CitacionesActivasComponent,
             data:{
                 title: "Citaciones"
-            }
-        },
-        {
-            path:'venta-o-traspaso-de-vehiculo',
-            component: VentaOTraspasoDeVehiculoComponent,
-            data:{
-                title: "Venta/traspaso de Vehiculo"
             }
         },
     ]}

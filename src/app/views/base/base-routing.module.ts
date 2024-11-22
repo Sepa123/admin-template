@@ -8,6 +8,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { TripulacionComponent } from './tripulacion/tripulacion.component';
 import { BuscadorComponent } from './buscador/buscador.component';
 import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
+import { VentaOTraspasoDeVehiculoComponent } from './venta-o-traspaso-de-vehiculo/venta-o-traspaso-de-vehiculo.component';
 const routes: Routes = [
   {
     path: '',
@@ -26,14 +27,14 @@ const routes: Routes = [
         data: {
           title: 'Reportes',
         },
-      },    
+      },
       {
         path: 'test',
         component: TestComponent,
         data: {
           title: 'rest',
         },
-      }, 
+      },
       {
         path: 'colaboradores',
         component: ColaboradoresComponent,
@@ -68,14 +69,21 @@ const routes: Routes = [
         data: {
           title: 'rest',
         },
-      },    
+      },
       {
         path: 'gestion-gps',
         component: GestionGpsComponent,
         data: {
           title: 'rest',
         },
-      },  
+      },
+      {
+        path: 'venta-o-traspaso-de-vehiculo',
+        component: VentaOTraspasoDeVehiculoComponent,
+        data: {
+          title: 'rest',
+        },
+      },
     ],
   },
 ];

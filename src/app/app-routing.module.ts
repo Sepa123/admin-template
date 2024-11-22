@@ -49,8 +49,7 @@ const routes: Routes = [
         },
         canActivate: [PermissionGuard],
         loadChildren: () =>
-          import('./views/base/base.module').then((m) => m.BaseModule),
-        
+          import('./views/base/base.module').then((m) => m.BaseModule)
       },
       {
         path: 'operaciones', // operaciones
