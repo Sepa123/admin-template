@@ -9,7 +9,7 @@ import { S } from '@fullcalendar/core/internal-common';
 })
 export class CitacionesService {
 
-  //  private apiUrl = 'http://localhost:8000/api';
+  // private apiUrl = 'http://localhost:8000/api/meli';
   apiUrl = "https://hela.transyanez.cl/api/meli"
   constructor(private http: HttpClient) { }
 
@@ -34,7 +34,7 @@ export class CitacionesService {
   getOperaciones(fecha:any, id :any): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/citacionOperacionFecha?fecha=${fecha}&id=${id}`);
   }
-  getPpu(fecha:any, op: number, cop:number): Observable<any>{
+  getPpu(fecha:any,op: number, cop:number): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/citacion_cop?fecha=${fecha}&op=${op}&cop=${cop}`);
   }
   actualizarEstadoPpu(estado: any, id: any, fecha:string): Observable<any> {
@@ -73,7 +73,7 @@ export class CitacionesService {
 
 
   ingresarAmbulancia(id_ppu_amb: any, id: any, fecha:string, ruta_meli_amb: number, ruta_amb_interna: string): Observable<any> {
-    const url = `${this.apiUrl}/Ambulancia?id_ppu_amb=${id_ppu_amb}&ruta_meli_amb=${ruta_meli_amb}&ruta_amb_interna=${ruta_amb_interna}&fecha=${fecha}&id${id}`; 
+    const url = `${this.apiUrl}/Ambulancia?id_ppu_amb=${id_ppu_amb}&ruta_meli_amb=${ruta_meli_amb}&ruta_amb_interna=${ruta_amb_interna}&fecha=${fecha}&id=${id}`; 
     return this.http.post<any>(url, {}, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

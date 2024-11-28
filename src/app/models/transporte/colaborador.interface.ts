@@ -45,6 +45,7 @@ export interface Colaborador {
     Tripulacion:              number;
     Patentes:                 Patentes[];     
     Usuarios:                 Usuario[];   
+    Fecha_nacimiento:         string;
 }
 
 

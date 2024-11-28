@@ -7,16 +7,16 @@ import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angu
 import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
 import { Colaborador } from 'src/app/models/transporte/colaborador.interface' 
-import { Vehiculo, AsignarOperacion } from 'src/app/models/transporte/vehiculo.interface' 
+import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
 import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
 import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
 import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
-
+import { MainPanelVehiculos, PanelVehiculos, PanelVehiculosObs } from 'src/app/models/transporte/paneles.interface'
 
 @Component({
   selector: 'app-vehiculos',
   templateUrl: './vehiculos.component.html',
-  styleUrls: ['./vehiculos.component.scss']
+  styleUrls: ['./vehiculos.component.scss','../styles/cards.scss']
 })
 export class VehiculosComponent {
 
@@ -27,7 +27,7 @@ export class VehiculosComponent {
   private selectedPadron: File | null = null;
   private selectedCertGases: File | null = null;
   public rol = sessionStorage.getItem("rol_id") 
-  public rol_no_permitido = ['71','72','50']
+  public rol_no_permitido = ['71','72','50','75']
   
   descargarPermisoCirculacion : string | null = null
   descargarRevisionTecnica : string | null = null
@@ -58,11 +58,26 @@ export class VehiculosComponent {
 
   vehiculos : Vehiculo [] = []
   vehiculosFull : Vehiculo [] = []
-
+  errorServer : any []= []
    
   tipoCuentas : any [] = tipoCuenta
   banco : any [] = bancos
   formaPago : any [] = formasPago
+
+  ObservacionVehiculos: VehiculoObservaciones [] = []
+
+  panelVehiculos : PanelVehiculos = {
+    "Total": 0,
+    "Vehiculos_Habilitados": 0,
+    "Habilitados_con_GPS": 0,
+    "Habilitados_sin_GPS": 0
+  }
+  panelVehiculosObs : PanelVehiculosObs = {
+    "Observados":  0,
+    "Vencidos":    0,
+    "por_Vencer":  0,
+    "Incompletos": 0,
+  }
 
   //datos geo
   latitude!: number
@@ -78,6 +93,19 @@ export class VehiculosComponent {
   public visible = false;
 
   toggleLiveDemo() {
+
+    if (document.getElementById('permiso_circulacion')) (document.getElementById('permiso_circulacion') as HTMLInputElement).value = '';
+    if (document.getElementById('revision_tecnica')) (document.getElementById('revision_tecnica') as HTMLInputElement).value = '';
+    if (document.getElementById('soap')) (document.getElementById('soap') as HTMLInputElement).value = '';
+    if (document.getElementById('padron')) (document.getElementById('padron') as HTMLInputElement).value = '';
+    if (document.getElementById('cert_gases')) (document.getElementById('cert_gases') as HTMLInputElement).value = '';
+
+
+    this.selectedPermisoCirculacion = null;
+  this.selectedRevisionTecnica = null;
+  this.selectedSOAP  = null;
+  this.selectedPadron = null;
+  this.selectedCertGases = null;
     
     this.visible = !this.visible;
     
@@ -94,6 +122,34 @@ export class VehiculosComponent {
   closeModal(){
     this.isModalOpen = false
   }
+
+  public visibleIconos = false;
+
+  toggleLiveIconos() {
+    this.visibleIconos = !this.visibleIconos;
+  }
+
+  isDocumentExpiringOrExpired(): boolean {
+    const fechaVenc = this.formVehiculo.value.Permiso_circulacion_fec_venc+""
+    const documentDate = new Date(fechaVenc)
+    const today = new Date();
+    const timeDifference = documentDate.getTime() - today.getTime();
+  
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+  
+    // Si la fecha ya pasó o está dentro de los próximos 30 días, retorna true
+    return daysDifference <= 30;
+  }
+
+  get vehiculosHabilitados() {
+    return this.vehiculos.filter(c => c.Habilitado).length;
+  }
+
+  handleLiveIconosChange(event: any) {
+    this.visibleIconos = event;
+  }
+  
+
 
 
   getLocation(): any {
@@ -147,6 +203,19 @@ seleccionarRut(){
   public visibleAgregar = false;
 
   toggleLiveAgregar() {
+
+    if (document.getElementById('A_permiso_circulacion')) (document.getElementById('A_permiso_circulacion') as HTMLInputElement).value = '';
+    if (document.getElementById('A_revision_tecnica')) (document.getElementById('A_revision_tecnica') as HTMLInputElement).value = '';
+    if (document.getElementById('A_soap')) (document.getElementById('A_soap') as HTMLInputElement).value = '';
+    if (document.getElementById('A_padron')) (document.getElementById('A_padron') as HTMLInputElement).value = '';
+    if (document.getElementById('A_cert_gases')) (document.getElementById('A_cert_gases') as HTMLInputElement).value = '';
+
+
+    this.selectedPermisoCirculacion = null;
+  this.selectedRevisionTecnica = null;
+  this.selectedSOAP  = null;
+  this.selectedPadron = null;
+  this.selectedCertGases = null;
     this.formVehiculo.reset()
     this.formVehiculo.patchValue({
       Id_user  : sessionStorage.getItem("id")?.toString()+"",
@@ -253,11 +322,22 @@ seleccionarRut(){
     
 
     this.getLocation()
-    this.comunaService.getListaRegiones().subscribe((data : any) => {
-      this.listaRegiones = data
 
-      this.service.getMarcasVehiculos().subscribe((data : any) => {
-        this.marcaVehiculo = data
+
+    this.service.getSeleccionesVehiculos().subscribe((data) => {
+      this.listaRegiones = data.Region
+      this.marcaVehiculo = data.Marca_vehiculo
+      this.ObservacionVehiculos = data.Vehiculos_observaciones
+      this.tipoVehiculos = data.Tipo_vehiculo
+      this.listaComunas = data.Comuna
+      this.listaComunasFull = this.listaComunas
+
+    })
+    // this.comunaService.getListaRegiones().subscribe((data : any) => {
+    //   this.listaRegiones = data
+
+    //   this.service.getMarcasVehiculos().subscribe((data : any) => {
+    //     this.marcaVehiculo = data
       
 
         this.service.buscarVehiculos().subscribe((data) => {
@@ -268,10 +348,19 @@ seleccionarRut(){
             this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
             this.service.obtenerColaboradores().subscribe((data) => {
               this.colaboradores = data
+
+              // this.service.getVehiculosObservaciones().subscribe((data) => {
+              //   this.ObservacionVehiculos = data
+
+              this.service.getpanelVehiculos().subscribe(data => {
+                  this.panelVehiculos= data.Panel_vehiculos
+                  this.panelVehiculosObs = data.Panel_vehiculos_obs
+                })
+              // })
           })
         })
-      })
-    })
+    //   })
+    // })
 
     // this.MoService.getCentroOperaciones().subscribe(data => {
     //     this.centroOperacionFull = data
@@ -279,14 +368,11 @@ seleccionarRut(){
     //     this.centroOperacion = data
     // })
 
-    this.comunaService.getListaComunas().subscribe((data : any) => {
-      this.listaComunas = data
-      this.listaComunasFull = this.listaComunas
-      this.formVehiculo.patchValue({
-        Region : '1',
-        Comuna : '1'
-      })
-    })
+    // this.comunaService.getListaComunas().subscribe((data : any) => {
+    //   this.listaComunas = data
+    //   this.listaComunasFull = this.listaComunas
+      
+    // })
 
    
   }
@@ -441,6 +527,7 @@ seleccionarRut(){
 
 
   revisarDatosVehiculo(ppu : string){
+    this.errorServer = []
     const datosVehiculo = this.vehiculos.filter(vehiculo => vehiculo.Ppu == ppu)[0]
     this.formVehiculo.patchValue({
       Id_user  : sessionStorage.getItem("id")?.toString()+"",
@@ -545,6 +632,8 @@ seleccionarRut(){
 
   actualizarDatosVehiculo(){
 
+    this.errorServer = []
+
     this.isErrorView = false
 
     this.formVehiculo.patchValue({
@@ -571,17 +660,39 @@ seleccionarRut(){
         this.uploadFileVehiculos(this.selectedPadron,'padron',nombre)
         this.uploadFileVehiculos(this.selectedCertGases,'cert_gases',nombre)
 
-        this.service.buscarVehiculos().subscribe((data) => {
-          this.vehiculos = data
-          this.vehiculosFull = this.vehiculos
-          this.cantVehiculo = this.vehiculosFull.length
-          this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
-          this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
-          this.toggleLiveDemo()
-          // this.formVehiculo.patchValue({Desc_desabilitado : ''})
-        })
+        setTimeout(() => {
+          this.service.buscarVehiculos().subscribe((data) => {
+            this.vehiculos = data
+            this.vehiculosFull = this.vehiculos
+            this.cantVehiculo = this.vehiculosFull.length
+            this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
+            this.listaRegionesFiltro =this.listaRegiones.filter((r) => this.listaRegionesFiltro.includes(parseInt(r.Id_region)))
+            this.toggleLiveDemo()
+            // this.formVehiculo.patchValue({Desc_desabilitado : ''})
+          })
+        }, 1200);
+
+        
+
       }, error => {
-        alert(error.error.detail)
+
+        if (error.status == 422){
+          
+          
+          error.error.detail.map((error : any) => {
+            this.errorServer.push(error.loc[1], error.msg)
+          })
+
+
+
+          alert('Datos invalidos \n'+ this.errorServer.join(': '))
+    
+        } else {
+          alert(error.error.detail)
+        }
+        
+        // console.log(error)
+        // console.log(error.status)
       })
     }else{
       this.isErrorView = true
@@ -589,7 +700,6 @@ seleccionarRut(){
     }
 
   }
-
 
  veficarColabExiste(rut: string | null | undefined){
   if (rut){
@@ -652,6 +762,12 @@ IdVehiculo : number = 0
 Patente : string = ''
 
 toggleLiveCO(id_vehiculo : number) {
+
+  this.selectedPermisoCirculacion = null;
+  this.selectedRevisionTecnica = null;
+  this.selectedSOAP  = null;
+  this.selectedPadron = null;
+  this.selectedCertGases = null;
 
   const vehiculo = this.vehiculos.filter(vehiculo => vehiculo.Id == id_vehiculo)[0]
 
@@ -845,6 +961,18 @@ descargarDatosVehiculos(){
   this.service.descargar_vehiculos_buscados_resumen(datos_send)
 
  }
+
+
+ descargarObservacionVehiculos(){
+
+
+  this.service.descargarVehiculosObservaciones()
+
+ }
+
+ descargarExcelATHela(){
+  this.service.descargarInformeATVehiculos()
+}
 
  ngOnDestroy(): void {
 

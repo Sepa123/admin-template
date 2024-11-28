@@ -52,26 +52,27 @@
     
   
   .greenTable  table {
-    border: 1px solid #28A745;
-    background-color: #FFFEF3;
-    width: auto;
-    text-align: left;
     border-collapse: separate;
     border-spacing: 0;
+    margin: 20px 0;
+    border-radius: 10px;
+    // overflow: hidden;
+    box-shadow: 0 4px 8px #ebedef;
+    font-size: 12px;
   }
   .greenTable  table td, table th {
-    border: 0px solid #AAAAAA;
+    border: 0px solid #ebedef;
     padding: 3px 2px;
   }
   .greenTable  table tbody td {
-    font-size: 12px;
-    // white-space: nowrap;
+    font-size: 10px;
+    padding: 8px;
+    text-align: center;
   }
   
   .greenTable  table td {
     font-size: 12px;
   }
-  
 
   .greenTable th.sortable:hover {
     background-color: #1ece27;
@@ -90,8 +91,8 @@
   .greenTable table thead {
     position: sticky;
     top: 0;
-    left: 0;
     z-index: 10;
+    left: 0;
     background: #28A745;
   }
   .greenTable  table thead th {
@@ -101,9 +102,22 @@
     text-align: center;
     border-left: 2px solid #28A745;
   }
+
   .greenTable  table thead th:first-child {
-    border-left: none;
-  }
+    border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+}
+
+.greenTable table th:last-child {
+  border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+}
+
+.greenTable table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+}
+
+.greenTable table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
+}
   
   .inline-container {
     margin: 1px;

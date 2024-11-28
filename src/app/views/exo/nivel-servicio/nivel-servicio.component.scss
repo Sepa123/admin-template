@@ -5,12 +5,15 @@
 }
 
 .table-wrapper table {
-  border: 1px solid #28A745;
-  background-color: #FFFEF3;
-  width: auto;
-  text-align: center;
-  border-collapse: separate;
-  border-spacing: 0;
+  width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    border-radius: 10px;
+    // overflow: hidden;
+    box-shadow: 0 4px 8px #ebedef;
+    font-size: 12px; 
+    text-align: center
 }
 .table-wrapper table td, table th {
   border: 0px solid #AAAAAA;
@@ -45,6 +48,22 @@
 }
 .table-wrapper table thead th:first-child {
   border-left: none;
+}
+
+.table-wrapper   table thead th:first-child {
+  border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+}
+
+.table-wrapper  table th:last-child {
+border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+}
+
+.table-wrapper  table tr:last-child td:first-child {
+border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+}
+
+.table-wrapper  table tr:last-child td:last-child {
+border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
 }
 
 .table-wrapper table tfoot {

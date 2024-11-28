@@ -6,7 +6,7 @@
     <c-modal-body>
 
         <form cForm [formGroup]="form"  (ngSubmit)="actualizarDatos()"> 
-            <div class="card">
+            <div >
               <p></p>
               <h5>Tripulación</h5>
               <p></p>
@@ -124,7 +124,7 @@
                     <div class="">
                       Documento Antecedentes
                       
-                    <input type="file" name="" id="doc_antecedentes"  (change)="onFileSelected($event,'cert_antecedentes')" class="form-control" accept=".pdf"> 
+                    <input type="file" name="" (change)="onFileSelected($event,'cert_antecedentes')" class="form-control" accept=".pdf" id="cert_antecedentes"> 
                     <p></p>
                     <button class="btn btn-success" type="button" *ngIf="descargarDocAntecedentes" (click)="descargarArchivo(descargarDocAntecedentes)" >descargar 
                       <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -136,7 +136,7 @@
                 <c-col [xs]>
                     <div class="noEditar">
                       Licencia de conducir
-                      <input type="file" name="" id="doc_bancario"  (change)="onFileSelected($event,'licencia_conducir')" class="form-control" accept=".pdf"> 
+                      <input type="file" name="" (change)="onFileSelected($event,'licencia_conducir')" class="form-control" accept=".pdf" id="licencia_conducir"> 
                       <p></p>
                       <button class="btn btn-success" type="button" *ngIf="descargarLicenciaConducir" (click)="descargarArchivo(descargarLicenciaConducir)" >descargar 
                         <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -156,7 +156,7 @@
                 <c-col [xs]>
                     <div class="noEditar">
                       PDF cedula_identidad
-                      <input type="file" name="" id="doc_bancario"  (change)="onFileSelected($event,'cedula_identidad')" class="form-control" accept=".pdf"> 
+                      <input type="file" name="" (change)="onFileSelected($event,'cedula_identidad')" class="form-control" accept=".pdf" id="cedula_identidad"> 
                       <p></p>
                       <button class="btn btn-success" type="button" *ngIf="descargarCedulaIdentidad" (click)="descargarArchivo(descargarCedulaIdentidad)" >descargar 
                         <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -171,7 +171,7 @@
                 <c-col [xs]>
                     <div class="noEditar">
                       Contrato
-                      <input type="file" name="" id="doc_bancario"  (change)="onFileSelected($event,'contrato')" class="form-control" accept=".pdf"> 
+                      <input type="file" name="" (change)="onFileSelected($event,'contrato')" class="form-control" accept=".pdf" id="contrato"> 
                       <p></p>
                       <button class="btn btn-success" type="button" *ngIf="descargarContrato" (click)="descargarArchivo(descargarContrato)" >descargar 
                         <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -182,7 +182,7 @@
               <c-col [xs]>
                 <div class="noEditar">
                   Foto Perfil
-                  <input type="file" name="" id="doc_bancario"  (change)="onFileSelected($event,'foto_perfil')" class="form-control" accept=".jpg, .png"> 
+                  <input type="file" name=""  (change)="onFileSelected($event,'foto_perfil')" class="form-control" accept=".jpg, .png" id="foto_perfil"> 
                   <p></p>
                   <button class="btn btn-success" type="button" *ngIf="descargarFotoPerfil" (click)="descargarArchivo(descargarFotoPerfil)" >descargar 
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -233,7 +233,7 @@
   </c-modal-header>
   <c-modal-body>
         <form cForm [formGroup]="form" (ngSubmit)="registrar()" > 
-          <div class="card">
+          <div >
             <p></p>
             <h5>Datos Razón Social</h5>
             <p></p>
@@ -400,11 +400,8 @@
                   <div class="">
                     Documento Antecedentes
                     
-                  <input type="file" name="" id="doc_bancario" *ngIf="descargarDocAntecedentes == null || descargarDocAntecedentes == ''" (change)="onFileSelected($event,'cert_antecedentes')" class="form-control" accept=".pdf"> 
-                  
-                  <button class="btn btn-success" type="button" *ngIf="descargarDocAntecedentes" (click)="descargarArchivo(descargarDocAntecedentes)" >descargar 
-                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-                </button>
+                  <input type="file" name="" (change)="onFileSelected($event,'cert_antecedentes')" class="form-control" accept=".pdf" id="A_cert_antecedentes"> 
+
                 
                 </div>
             </c-col>
@@ -412,11 +409,8 @@
               <c-col [xs]>
                   <div class="noEditar">
                     Licencia de conducir
-                    <input type="file" name="" id="doc_bancario" *ngIf="descargarLicenciaConducir == null || descargarLicenciaConducir == ''" (change)="onFileSelected($event,'licencia_conducir')" class="form-control" accept=".pdf"> 
-                  
-                    <button class="btn btn-success" type="button" *ngIf="descargarLicenciaConducir" (click)="descargarArchivo(descargarLicenciaConducir)" >descargar 
-                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-                  </button>
+                    <input type="file" name=""  (change)="onFileSelected($event,'licencia_conducir')" class="form-control" accept=".pdf" id="A_licencia_conducir"> 
+
                   </div>
               </c-col>
               <c-col [xs]>
@@ -430,12 +424,9 @@
               </c-col>
               <c-col [xs]>
                   <div class="noEditar">
-                    PDF cedula_identidad
-                    <input type="file" name="" id="cedula_identidad" *ngIf="descargarCedulaIdentidad == null || descargarCedulaIdentidad == ''" (change)="onFileSelected($event,'cedula_identidad')" class="form-control" accept=".pdf"> 
-                  
-                    <button class="btn btn-success" type="button" *ngIf="descargarCedulaIdentidad" (click)="descargarArchivo(descargarCedulaIdentidad)" >descargar 
-                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-                  </button>
+                    PDF cedula identidad
+                    <input type="file" name="" (change)="onFileSelected($event,'cedula_identidad')" class="form-control" accept=".pdf" id="A_cedula_identidad"> 
+
                   </div>
               </c-col>
               
@@ -445,21 +436,17 @@
               <c-col [xs]>
                   <div class="noEditar">
                     Contrato
-                    <input type="file" name="" id="doc_bancario" *ngIf="descargarContrato == null || descargarContrato == ''" (change)="onFileSelected($event,'contrato')" class="form-control" accept=".pdf"> 
-                    <p></p>
-                    <button class="btn btn-success" type="button" *ngIf="descargarContrato" (click)="descargarArchivo(descargarContrato)" >descargar 
-                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-                  </button>
+                    <input type="file" name="" (change)="onFileSelected($event,'contrato')" class="form-control" accept=".pdf" id="A_contrato"> 
+
+
                   </div>
               </c-col>
             <c-col [xs]>
               <div class="noEditar">
                 Foto Perfil
-                <input type="file" name="" id="doc_bancario" *ngIf="descargarFotoPerfil == null || descargarFotoPerfil == ''" (change)="onFileSelected($event,'foto_perfil')" class="form-control"  accept=".jpg, .png"> 
+                <input type="file" name="" (change)="onFileSelected($event,'foto_perfil')" class="form-control"  accept=".jpg, .png" id="A_foto_perfil"> 
                 <p></p>
-                <button class="btn btn-success" type="button" *ngIf="descargarFotoPerfil" (click)="descargarArchivo(descargarFotoPerfil)" >descargar 
-                  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-              </button>
+
               
               </div>
 
@@ -518,7 +505,157 @@
     </c-col>
 </c-row>
 <p></p>
-<h5>Cantidad : {{tripulacion.length}} </h5>
+<c-row>
+  <c-col xs="6" sm="3">
+
+  <!-- <div class="card" style="background-color: #98ff98;">
+    <div class="card-body d-flex align-items-center ">
+      <table>
+        <tr>
+          <span style="font-weight: bolder; font-size: 14px;"> Total  </span>
+        </tr>
+        <tr>
+          <span style="font-weight: bolder; font-size: 28px;">{{panelTripulacion.Total}}</span>
+        </tr>
+      </table>
+    </div>
+  </div> -->
+
+  <div class="card card-green">
+    <table>
+      <tr>
+        <td width="98" height="98" >
+          <div class="icon-background">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 640 512">
+              <path fill="#5cb85c" d="M96 128a128 128 0 1 1 256 0a128 128 0 1 1-256 0M0 482.3C0 383.8 79.8 304 178.3 304h91.4c98.5 0 178.3 79.8 178.3 178.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3M609.3 512H471.5c5.4-9.4 8.6-20.3 8.6-32v-8c0-60.7-27.1-115.2-69.8-151.8c2.4-.1 4.7-.2 7.1-.2h61.4c89 0 161.2 72.2 161.2 161.3c0 17-13.8 30.7-30.7 30.7M432 256c-31 0-59-12.6-79.3-32.9c19.7-26.6 31.3-59.5 31.3-95.1c0-26.8-6.6-52.1-18.3-74.3C384.3 40.1 407.2 32 432 32c61.9 0 112 50.1 112 112s-50.1 112-112 112" />
+            </svg>
+        </div>
+        </td>
+        <td>
+          <div class="text-content">
+            <h3>Total</h3>
+            <div class="number">{{panelTripulacion.Total}}</div>
+        </div>
+        </td>
+      </tr>
+    </table>
+</div>
+
+
+  </c-col>
+
+  <c-col xs="6" sm="3">
+
+  <!-- <div class="card" style="background-color: #ADD8E6;">
+    <div class="card-body d-flex align-items-center ">
+      <table>
+        <tr>
+          <span style="font-weight: bolder; font-size: 14px;">  Activos  </span>
+        </tr>
+        <tr>
+          <span style="font-weight: bolder; font-size: 28px;">{{panelTripulacion.Activos}}</span>
+        </tr>
+      </table>
+    </div>
+  </div> -->
+
+  <div class="card card-blue">
+    <table>
+      <tr>
+        <td width="98" height="98">
+          <div class="icon-background">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 640 512">
+              <path fill="#3399ff" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128m89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4m323-128.4l-27.8-28.1c-4.6-4.7-12.1-4.7-16.8-.1l-104.8 104l-45.5-45.8c-4.6-4.7-12.1-4.7-16.8-.1l-28.1 27.9c-4.7 4.6-4.7 12.1-.1 16.8l81.7 82.3c4.6 4.7 12.1 4.7 16.8.1l141.3-140.2c4.6-4.7 4.7-12.2.1-16.8" />
+            </svg>
+        </div>
+        </td>
+        <td>
+          <div class="text-content">
+            <h3>Activos</h3>
+            <div class="number">{{panelTripulacion.Activos}}</div>
+        </div>
+        </td>
+      </tr>
+    </table>
+</div>
+
+  </c-col>
+
+  <c-col xs="6" sm="3">
+
+  <!-- <div class="card" style="background-color: #ADD8E6;">
+    <div class="card-body d-flex align-items-center ">
+      <table>
+        <tr>
+          <span style="font-weight: bolder; font-size: 14px;">  Drivers Activos </span>
+        </tr>
+        <tr>
+          <span style="font-weight: bolder; font-size: 28px;">{{ panelTripulacion.Drivers_Activos }}</span>
+        </tr>
+      </table>
+    </div>
+  </div> -->
+
+  <div class="card card-blue">
+    <table>
+      <tr>
+        <td width="98" height="98">
+          <div class="icon-background">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 576 512">
+              <path fill="#3399ff" d="M528 32H48C21.5 32 0 53.5 0 80v16h576V80c0-26.5-21.5-48-48-48M0 432c0 26.5 21.5 48 48 48h480c26.5 0 48-21.5 48-48V128H0zm352-232c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H360c-4.4 0-8-3.6-8-8zm0 64c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H360c-4.4 0-8-3.6-8-8zm0 64c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H360c-4.4 0-8-3.6-8-8zM176 192c35.3 0 64 28.7 64 64s-28.7 64-64 64s-64-28.7-64-64s28.7-64 64-64M67.1 396.2C75.5 370.5 99.6 352 128 352h8.2c12.3 5.1 25.7 8 39.8 8s27.6-2.9 39.8-8h8.2c28.4 0 52.5 18.5 60.9 44.2c3.2 9.9-5.2 19.8-15.6 19.8H82.7c-10.4 0-18.8-10-15.6-19.8" />
+            </svg>
+        </div>
+        </td>
+        <td>
+          <div class="text-content">
+            <h3>Drivers Activos</h3>
+            <div class="number">{{panelTripulacion.Drivers_Activos}}</div>
+        </div>
+        </td>
+      </tr>
+    </table>
+</div>
+
+  </c-col>
+
+  <c-col xs="6" sm="3">
+
+  <!-- <div class="card" style="background-color: #ADD8E6;">
+    <div class="card-body d-flex align-items-center ">
+      <table>
+        <tr>
+          <span style="font-weight: bolder; font-size: 14px;"> Peonetas Activos</span>
+        </tr>
+        <tr>
+          <span style="font-weight: bolder; font-size: 28px;"> {{panelTripulacion.Peonetas_Activos}}</span>
+        </tr>
+      </table>
+    </div>
+  </div> -->
+
+  <div class="card card-blue">
+    <table>
+      <tr>
+        <td width="98" height="98">
+          <div class="icon-background">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 576 512">
+              <path fill="#3399ff" d="M0 32C0 14.3 14.3 0 32 0h72.9c27.5 0 52 17.6 60.7 43.8L257.7 320c30.1.5 56.8 14.9 74 37l202.1-67.4c16.8-5.6 34.9 3.5 40.5 20.2s-3.5 34.9-20.2 40.5L352 417.7c-.9 52.2-43.5 94.3-96 94.3c-53 0-96-43-96-96c0-30.8 14.5-58.2 37-75.8L104.9 64H32C14.3 64 0 49.7 0 32m244.8 102.5c-5.5-16.8 3.7-34.9 20.5-40.3L311 79.4l19.8 60.9l60.9-19.8l-19.9-60.9l45.7-14.8c16.8-5.5 34.9 3.7 40.3 20.5l49.4 152.2c5.5 16.8-3.7 34.9-20.5 40.3l-152.2 49.4c-16.8 5.5-34.9-3.7-40.3-20.5z" />
+            </svg>
+        </div>
+        </td>
+        <td>
+          <div class="text-content">
+            <h3> Peonetas Activos</h3>
+            <div class="number">{{panelTripulacion.Peonetas_Activos}}</div>
+        </div>
+        </td>
+      </tr>
+    </table>
+</div>
+  </c-col>
+
+  
+</c-row>
 <p></p>
 
     <div class="greenTable" style="width: 100%;">
@@ -560,5 +697,229 @@
       </table>
       
     </div>
+
+
+    <p></p>
+      <h2>Observaciones <svg (click)="toggleLiveIconos()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg>
+      </h2> 
+      <p></p>
+
+      <!-- <c-row>
+        <c-col xs="6" sm="3">
+        <div class="card" style="background-color: #98ff98;">
+          <div class="card-body d-flex align-items-center ">
+            <table>
+              <tr>
+                <span style="font-weight: bolder; font-size: 14px;"> Observados </span>
+              </tr>
+              <tr>
+               </tr>
+            </table>
+          </div>
+        </div>
+      
+      
+        </c-col>
+      
+        <c-col xs="6" sm="3">
+      
+        <div class="card" style="background-color: #ADD8E6;">
+          <div class="card-body d-flex align-items-center ">
+            <table>
+              <tr>
+                <span style="font-weight: bolder; font-size: 14px;">  Vencidos  </span>
+              </tr>
+              <tr>
+              </tr>
+            </table>
+          </div>
+        </div>
+      
+        </c-col>
+      
+        <c-col xs="6" sm="3">
+      
+        <div class="card" style="background-color: #ADD8E6;">
+          <div class="card-body d-flex align-items-center ">
+            <table>
+              <tr>
+                <span style="font-weight: bolder; font-size: 14px;">  Por Vencer </span>
+              </tr>
+              <tr>
+               </tr>
+            </table>
+          </div>
+        </div>
+      
+        </c-col>
+      
+        <c-col xs="6" sm="3">
+      
+        <div class="card" style="background-color: #ADD8E6;">
+          <div class="card-body d-flex align-items-center ">
+            <table>
+              <tr>
+                <span style="font-weight: bolder; font-size: 14px;">  Incompletos </span>
+              </tr>
+              <tr>
+               </tr>
+            </table>
+          </div>
+        </div>
+        </c-col>
+      
+        
+      </c-row> -->
+  
+      <p></p>
+      <div *ngIf="observacionDriver.length != 0" class="greenTable" style="width: 100%;">
+        
+        <table id="tablaProductosPicking" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Estado</th>
+                    <th>Nombre</th>
+                    <th>Rut</th>
+                    <th>Razón Social</th>
+                    <th>Celular</th>
+                    <th>Fecha Vencimiento Licencia</th>
+                    <th>Rut Valido</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let obs of observacionDriver">
+                <td class="indicator">
+
+                  <span *ngIf="obs.Codigo_retorno == 1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
+                      <path fill="green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                    </svg>
+                  </span>
+                  
+                  <span *ngIf="obs.Codigo_retorno == 2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
+                      <path fill="red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                    </svg>
+                  </span>
+
+                  <span *ngIf="obs.Codigo_retorno == 3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1856 1664">
+                      <path fill="yellow" d="M1056 1375v-190q0-14-9.5-23.5t-22.5-9.5H832q-13 0-22.5 9.5T800 1185v190q0 14 9.5 23.5t22.5 9.5h192q13 0 22.5-9.5t9.5-23.5m-2-374l18-459q0-12-10-19q-13-11-24-11H818q-11 0-24 11q-10 7-10 21l17 457q0 10 10 16.5t24 6.5h185q14 0 23.5-6.5t10.5-16.5m-14-934l768 1408q35 63-2 126q-17 29-46.5 46t-63.5 17H160q-34 0-63.5-17T50 1601q-37-63-2-126L816 67q17-31 47-49t65-18t65 18t47 49" />
+                    </svg>
+                  </span>
+                  
+                  <span *ngIf="obs.Codigo_retorno == 4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
+                      <path fill="gray" d="M896 1248v-192q0-14-9-23t-23-9H672q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23m256-672q0-88-55.5-163T958 297t-170-41q-243 0-371 213q-15 24 8 42l132 100q7 6 19 6q16 0 25-12q53-68 86-92q34-24 86-24q48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5T640 892v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5T972 829q32-18 49-28.5t46-35t44.5-48t28-60.5t12.5-81m384 192q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                    </svg>
+                  </span>
+                  
+                  <span *ngIf="obs.Codigo_retorno == 5">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1664 1792">
+                      <path fill="skyblue" d="M128 1664h288v-288H128zm352 0h320v-288H480zm-352-352h288V992H128zm352 0h320V992H480zM128 928h288V640H128zm736 736h320v-288H864zM480 928h320V640H480zm768 736h288v-288h-288zm-384-352h320V992H864zM512 448V160q0-13-9.5-22.5T480 128h-64q-13 0-22.5 9.5T384 160v288q0 13 9.5 22.5T416 480h64q13 0 22.5-9.5T512 448m736 864h288V992h-288zM864 928h320V640H864zm384 0h288V640h-288zm32-480V160q0-13-9.5-22.5T1248 128h-64q-13 0-22.5 9.5T1152 160v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5m384-64v1280q0 52-38 90t-90 38H128q-52 0-90-38t-38-90V384q0-52 38-90t90-38h128v-96q0-66 47-113T416 0h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90" />
+                    </svg>
+
+                  </span>
+
+
+                </td>
+                <td>{{obs.Nombre}}</td>
+                <td>{{obs.Rut}}</td>
+                <td>{{obs.Razon_social}}</td>
+                <td>{{obs.Telefono}}</td>
+                <td>{{obs.Fec_venc_licencia}}</td>
+                <td>
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536" *ngIf="obs.Rut_valido">
+                    <path fill="green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536" *ngIf="!obs.Rut_valido">
+                    <path fill="red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                  </svg>
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 384 512" *ngIf="obs.Rut_valido">
+                    <path fill="#2eb85c" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
+                  </svg> -->
+
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 384 512" *ngIf="!obs.Rut_valido">
+                    <path fill="#ff0000" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
+                  </svg> -->
+                </td>
+              </tr>
+            </tbody>
+        </table>
+
+      </div>
+
+      <p></p>
+        
+        <button *ngIf="ObservacionVehiculos.length != 0" class="btn btn-success" (click)="descargarObservacionVehiculos()">Descargar</button>
+
+        <p></p>
+          
+
+    
+
+
+
+      <c-modal id="liveDemoModal" [visible]="visibleIconos" (visibleChange)="handleLiveIconosChange($event)">
+        <c-modal-header>
+          <h5 cModalTitle>Simbolos</h5>
+          <button (click)="toggleLiveIconos()" cButtonClose></button>
+        </c-modal-header>
+        <c-modal-body>
+          <table>
+            <thead>
+              <th>Icono</th>
+              <th>Descripción</th>
+            </thead>
+            <tr>
+              <td>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
+                  <path fill="green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                </svg>
+            </td>
+              <td>OK</td>
+            </tr>
+            <tr>
+              <td>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
+                  <path fill="red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                </svg>
+              </td>
+              <td>No OK</td>
+            </tr>
+            <tr>
+              <td>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1856 1664">
+                  <path fill="yellow" d="M1056 1375v-190q0-14-9.5-23.5t-22.5-9.5H832q-13 0-22.5 9.5T800 1185v190q0 14 9.5 23.5t22.5 9.5h192q13 0 22.5-9.5t9.5-23.5m-2-374l18-459q0-12-10-19q-13-11-24-11H818q-11 0-24 11q-10 7-10 21l17 457q0 10 10 16.5t24 6.5h185q14 0 23.5-6.5t10.5-16.5m-14-934l768 1408q35 63-2 126q-17 29-46.5 46t-63.5 17H160q-34 0-63.5-17T50 1601q-37-63-2-126L816 67q17-31 47-49t65-18t65 18t47 49" />
+                </svg>
+              </td>
+              <td>Advertencia</td>
+            </tr>
+            <tr>
+              <td>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1536 1536">
+                  <path fill="gray" d="M896 1248v-192q0-14-9-23t-23-9H672q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23m256-672q0-88-55.5-163T958 297t-170-41q-243 0-371 213q-15 24 8 42l132 100q7 6 19 6q16 0 25-12q53-68 86-92q34-24 86-24q48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5T640 892v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5T972 829q32-18 49-28.5t46-35t44.5-48t28-60.5t12.5-81m384 192q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" />
+                </svg>
+              </td>
+              <td>Falta Información</td>
+            </tr>
+            <tr>
+              <td>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1664 1792">
+                  <path fill="skyblue" d="M128 1664h288v-288H128zm352 0h320v-288H480zm-352-352h288V992H128zm352 0h320V992H480zM128 928h288V640H128zm736 736h320v-288H864zM480 928h320V640H480zm768 736h288v-288h-288zm-384-352h320V992H864zM512 448V160q0-13-9.5-22.5T480 128h-64q-13 0-22.5 9.5T384 160v288q0 13 9.5 22.5T416 480h64q13 0 22.5-9.5T512 448m736 864h288V992h-288zM864 928h320V640H864zm384 0h288V640h-288zm32-480V160q0-13-9.5-22.5T1248 128h-64q-13 0-22.5 9.5T1152 160v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5m384-64v1280q0 52-38 90t-90 38H128q-52 0-90-38t-38-90V384q0-52 38-90t90-38h128v-96q0-66 47-113T416 0h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90" />
+                </svg>
+              </td>
+              <td>Próximo Vencimiento</td>
+            </tr>
+          </table>
+        </c-modal-body>
+        <c-modal-footer>
+          <button (click)="toggleLiveIconos()" cButton color="secondary">
+            Cerrar
+          </button>
+        </c-modal-footer>
+      </c-modal>
 
 

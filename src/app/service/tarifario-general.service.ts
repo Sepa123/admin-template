@@ -9,7 +9,8 @@ export class TarifarioGeneralService {
 
   constructor(private http: HttpClient) { }
 
-   private apiUrl="http://localhost:8000/api"
+  //  private apiUrl="http://localhost:8000/api"
+   private apiUrl="https://hela.transyanez.cl/api/finanzas/tarifarioGeneral"
 
    getOperacion(): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/getOperacion`);
@@ -24,7 +25,7 @@ export class TarifarioGeneralService {
   GetCaracteristicasTarifa(): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/GetCaracteristicasTarifa`);
   }
-  
+
   getPeriodicidad(): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/getPeriodicidad`);
   }

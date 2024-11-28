@@ -45,7 +45,7 @@ export class PendientesEnRutaComponent implements OnInit{
   fecha_inicio : string =""
   fecha_fin : string =""
 
-  tienda : string [] = ["easy_opl","retiro_tienda","electrolux","fin"]
+  tienda : string [] = ["easy_opl","retiro_tienda","fin"]
 
   ngOnInit():void {
     // this.getData()

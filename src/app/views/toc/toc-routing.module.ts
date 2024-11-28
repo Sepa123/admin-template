@@ -7,6 +7,7 @@ import { EditarTocComponent } from './editar-toc/editar-toc.component';
 import { ReporteEntregaDiariaComponent } from './reporte-entrega.diaria/reporte-entrega.diaria.component';
 import { ReporteTelefonoComponent } from './reporte-telefono/reporte-telefono.component';
 import { SeguimientoRutaComponent } from './seguimiento-ruta/seguimiento-ruta.component';
+import { ProductosAdelantoComponent } from './productos-adelanto/productos-adelanto.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,13 @@ const routes: Routes = [
         component : SeguimientoRutaComponent,
         data : {
           title: "Reporte Entregas"
+        }
+      },
+      {
+        path: 'producto-adelanto',
+        component : ProductosAdelantoComponent,
+        data : {
+          title: "Producto Adelanto"
         }
       }
     ]

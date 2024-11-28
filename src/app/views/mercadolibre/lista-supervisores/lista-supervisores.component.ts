@@ -18,6 +18,7 @@ export class ListaSupervisoresComponent {
 
   private selectedImagenPerfil: File | null = null
   rol =   sessionStorage.getItem("rol_id")+''
+  lista_no_permitidos :string [] =['90','80']
   id =   ''
   server = ''
   nombre_usuario = ''

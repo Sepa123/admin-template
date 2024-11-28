@@ -20,7 +20,9 @@ import {
   CardModule,
   DropdownModule,
   TabsModule,
-  NavModule
+  NavModule,
+  WidgetModule,
+  FormModule,
 } from '@coreui/angular';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -39,7 +41,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { TripulacionComponent } from './tripulacion/tripulacion.component';
 import { BuscadorComponent } from './buscador/buscador.component';
-import { GestionGpsComponent } from './gestion-gps/gestion-gps.component';
+import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
+import {NgbRating} from '@ng-bootstrap/ng-bootstrap';
+import { ReclutamientoComponent } from './reclutamiento/reclutamiento.component'
 import { VentaOTraspasoDeVehiculoComponent } from './venta-o-traspaso-de-vehiculo/venta-o-traspaso-de-vehiculo.component'
 
 @NgModule({
@@ -65,7 +69,9 @@ import { VentaOTraspasoDeVehiculoComponent } from './venta-o-traspaso-de-vehicul
     TabsModule,
     NavModule,
     NgChartsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    NgbRating,
+    FormModule,
   ],
   declarations: [
     ReportesComponent,
@@ -76,6 +82,7 @@ import { VentaOTraspasoDeVehiculoComponent } from './venta-o-traspaso-de-vehicul
     TripulacionComponent,
     BuscadorComponent,
     GestionGpsComponent,
+    ReclutamientoComponent,
     VentaOTraspasoDeVehiculoComponent
   ],
 })

@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
-import { Vehiculo,AsignarOperacion } from 'src/app/models/transporte/vehiculo.interface' 
-import { Usuario } from 'src/app/models/transporte/tripulacion.interface' 
+import { Vehiculo,AsignarOperacion, VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
+import { Usuario, ObservacionDriver } from 'src/app/models/transporte/tripulacion.interface' 
+import { MainPanelVehiculos, PanelColaboradore, PanelVehiculos, PanelTripulacion } from 'src/app/models/transporte/paneles.interface' 
+import { ComentarioReclutamiento, listaComentarios, MainSeleccionReclutamiento, Reclutamiento } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
+import { SeleccionesVehiculo } from 'src/app/models/transporte/seleccionesVehiculos.interface'
+import { SeleccionRazonSocial } from 'src/app/models/transporte/seleccionesRazonSocial.interface'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -268,5 +273,108 @@ export class PortalTransyanezService {
   getMarcasVehiculos(){
     return this.http.get(this.apiurl+"/marcas/vehiculos")
   }
+  
+  getVehiculosObservaciones(){
+    return this.http.get<VehiculoObservaciones []>(this.apiurl+"/vehiculos/observaciones")
+  }
 
+
+
+
+  descargarVehiculosObservaciones() {
+    this.http.get(this.apiurl + "/vehiculos/observaciones/descargar",{responseType:"blob"}).subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`Observacion_vehiculo.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+  descargarInformeAT() {
+    this.http.get(this.apiurl + "/razon_social/at/descargar",{responseType:"blob"}).subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`Actualizacion AT - HELA.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+  descargarInformeATVehiculos() {
+    this.http.get(this.apiurl + "/vehiculos/at/descargar",{responseType:"blob"}).subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`Actualizacion Vehículos AT - HELA.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+  getpanelColaboradores(){
+    return this.http.get<PanelColaboradore>(this.apiurl+"/panel/colaboradores")
+  }
+
+  getpanelVehiculos(){
+    return this.http.get<MainPanelVehiculos>(this.apiurl+"/panel/vehiculos")
+  }
+
+  getpanelTripulacion(){
+    return this.http.get<PanelTripulacion>(this.apiurl+"/panel/tripulacion")
+  }
+
+  getSeleccionesRazonSocial(){
+    return this.http.get<SeleccionRazonSocial>(this.apiurl+"/datos/razon_social")
+  }
+
+  getSeleccioneTripulacion(){
+    return this.http.get(this.apiurl+"/selecciones/tripulacion")
+  }
+
+
+  getSeleccionesReclutamiento(){
+    return this.http.get<MainSeleccionReclutamiento>(this.apiurl+"/selecciones/reclutamiento")
+  }
+
+  getSeleccionesVehiculos(){
+    return this.http.get<SeleccionesVehiculo>(this.apiurl+"/datos/vehiculos")
+  }
+
+  getObservacionesDriver(){
+    return this.http.get<ObservacionDriver []>(this.apiurl+"/drivers/observaciones")
+  }
+
+  registrarCandidiato(data : any){
+    return this.http.post(this.apiurl+"/agregar/recluta",data)
+  }
+
+  actualizarCandidiato(data : any){
+    return this.http.put(this.apiurl+"/actualizar/recluta",data)
+  }
+
+
+  getDatosReclutas(){
+    return this.http.get<Reclutamiento []>(this.apiurl+"/datos/reclutamiento")
+  }
+
+  getdatosComentariosReclutas(){
+    return this.http.get<ComentarioReclutamiento []>(this.apiurl+"/datos/reclutamiento")
+  }
+
+  registrarComentario(data : any){
+    return this.http.post(this.apiurl+"/agregar/comentario",data)
+  }
+
+
+  listaComentariosRecluta(id : any){
+    return this.http.get<listaComentarios []>(this.apiurl+`/lista/comentarios?id=${id}`)
+  }
+
+  
+
+
+  
 }

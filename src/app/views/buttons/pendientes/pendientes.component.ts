@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PedidoService } from  'src/app/service/pedido.service'
 import { PedidoSinCompromiso } from 'src/app/models/pedidoSinCompromiso.interface';
-import { RutasAsignadas } from 'src/app/models/rutaAsignada.interface'
 import * as XLSX from 'xlsx';
 import { Subscription } from 'rxjs';
 
@@ -15,6 +14,28 @@ export class PendientesComponent implements OnInit{
   public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger'];
 
   isLoadingTable: boolean = true;
+
+  isModalOpen: boolean = false
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+ 
+  observacionActual : string = ""
+
+  verObservacion(obs : string | null){
+    if(obs === null || obs === ""){
+      this.observacionActual = "Sin observación"
+    }else{
+      this.observacionActual = obs
+    }
+    this.toggleLiveDemo()
+  }
 
   constructor(private service:PedidoService) { }
 
@@ -44,7 +65,7 @@ export class PendientesComponent implements OnInit{
   fecha_inicio : string =""
   fecha_fin : string =""
 
-  tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","sportex-electrolux","fin"]
+  tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","fin"]
 
   ngOnInit():void {
     // this.getData()
@@ -150,7 +171,7 @@ export class PendientesComponent implements OnInit{
             alert(error.error.detail)
           });
         }
-        }, 15320 * i);
+        }, 14000 * i);
         // Guardar la referencia al setTimeout en el arreglo
         this.timeouts.push(timeoutId);
         
@@ -259,12 +280,12 @@ export class PendientesComponent implements OnInit{
 
   const datos: any[][] = [[]];
 
-  datos.push(["Origen","Cod. Entrega","Fecha Ingreso","Fecha Compromiso","Región","Comuna","Descripción","Bultos","Estado","Subestado","Verificado","Recibido"])
+  datos.push(["Origen","Cod. Entrega","Fecha Ingreso","Fecha Compromiso","Región","Comuna","Descripción","Bultos","Estado","Subestado","Verificado","Recibido","Alerta","Observación"])
 
   this.pedidosFull.forEach((pedido) => {
       const fila: any[] = [];
       fila.push(pedido.Origen, pedido.Cod_entrega, pedido.Fecha_ingreso, pedido.Fecha_compromiso, pedido.Region, pedido.Comuna, pedido.Descripcion, pedido.Bultos,
-                pedido.Estado,pedido.Subestado,pedido.Verificado, pedido.Recibido); 
+                pedido.Estado,pedido.Subestado,pedido.Verificado, pedido.Recibido,pedido.Alerta,pedido.Observacion); 
       datos.push(fila);
     });
 

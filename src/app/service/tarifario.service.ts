@@ -9,7 +9,8 @@ export class TarifarioService {
 
   constructor(private http: HttpClient) { }
   
-  private apiUrl="http://localhost:8000/api"
+  // private apiUrl="http://localhost:8000/api"
+  private apiUrl="https://hela.transyanez.cl/api/finanzas"
 
   getInfoList(): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/infoTarifas`);

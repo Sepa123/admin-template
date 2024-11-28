@@ -124,7 +124,7 @@ export class EdicionPendientesComponent {
   fecha_inicio : string =""
   fecha_fin : string =""
 
-  tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","sportex-electrolux","fin"]
+  tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","fin"]
 
 
   seleccionSubestados(){

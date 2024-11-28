@@ -21,14 +21,14 @@
   </button>
 
   <div class="selectOperacionFiltro">
-    <span>Filtro Operacion</span>
-    <select id="operacion" [(ngModel)]="selectedOperacion" (change)="filtrarDatos()">
+    <span>Filtro Operación</span>
+    <select  id="operacion" [(ngModel)]="selectedOperacion" (change)="filtrarDatos()">
       <option value="">Todos</option>
       <option *ngFor="let operacion of OperacionSelect" [value]="operacion.nombre">{{ operacion.nombre }}</option>
     </select>
   </div>
   <div class="selectOperacionFiltro">
-    <label for="vehiculo">Filtrar por Tipo de Vehículo:</label>
+    <span>Filtrar por Tipo de Vehículo:</span>
     <select [(ngModel)]="selectedTipoVehiculo" loading="lazy" (change)="filtrarDatos()">
       <option value="">Todos</option>
       <option *ngFor="let vehiculo of tipovehiculo" [value]="vehiculo.tipo">{{ vehiculo.tipo }}</option>

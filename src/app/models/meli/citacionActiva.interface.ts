@@ -17,6 +17,25 @@ export interface MainCitacionA {
     tipo_vehiculo:        string;
     valor_ruta:           string;
     ruta_cerrada:         boolean;
+    observacion:          string;
+    kilometro:            number;
+}
+
+export interface ResumenSupervisores {
+    Modalidad:            string;
+    Operacion:            string;
+    Centro_operacion:     string;
+    Region:               string;
+    Fecha:                Date;
+    Id_ruta:              number;
+    Ppu:                  string;
+    Driver:               string;
+    Kilometros:           number;
+    P_avance:             number;
+    Avance:               number;
+    Campos_por_operacion: CamposPorOperacion[];
+    Valor_ruta:           number;
+    Ruta_cerrada:         boolean;
 }
 
 export interface CamposPorOperacion {

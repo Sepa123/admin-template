@@ -18,7 +18,8 @@ import {
   NavbarModule,
   NavModule,
   SharedModule,
-  UtilitiesModule
+  UtilitiesModule,
+  TabsModule
 } from '@coreui/angular';
 
 import { TocRoutingModule } from './toc-routing.module';
@@ -32,6 +33,7 @@ import { EditarTocComponent } from './editar-toc/editar-toc.component';
 import { ReporteEntregaDiariaComponent } from './reporte-entrega.diaria/reporte-entrega.diaria.component';
 import { ReporteTelefonoComponent } from './reporte-telefono/reporte-telefono.component';
 import { SeguimientoRutaComponent } from './seguimiento-ruta/seguimiento-ruta.component';
+import { ProductosAdelantoComponent } from './productos-adelanto/productos-adelanto.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { SeguimientoRutaComponent } from './seguimiento-ruta/seguimiento-ruta.co
     EditarTocComponent,
     ReporteEntregaDiariaComponent,
     ReporteTelefonoComponent,
-    SeguimientoRutaComponent
+    SeguimientoRutaComponent,
+    ProductosAdelantoComponent
   ],
   imports: [
     CommonModule,
@@ -63,7 +66,8 @@ import { SeguimientoRutaComponent } from './seguimiento-ruta/seguimiento-ruta.co
     NgSelectModule,
     ChartjsModule,
     ModalModule,
-    NgChartsModule
+    NgChartsModule,
+    TabsModule
   ]
 })
 export class TocModule { }

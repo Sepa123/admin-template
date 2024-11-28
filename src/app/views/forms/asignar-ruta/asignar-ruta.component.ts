@@ -4,7 +4,8 @@ import { RutasService } from 'src/app/service/rutas.service';
 import { NombreRutaService } from 'src/app/service/nombre-ruta.service';
 import { RutasAsignadas } from 'src/app/models/rutaAsignada.interface'
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
-import { VehiculoDisponible } from 'src/app/models/rutas/vehiculosDisponibles.interface'
+import { PatenteDisponible, VehiculoDisponible } from 'src/app/models/rutas/vehiculosDisponibles.interface'
+import {NgbRating} from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
   selector: 'app-asignar-ruta',
@@ -18,6 +19,18 @@ export class AsignarRutaComponent {
 
   isClicked : boolean = false
 
+
+
+  public visible = false
+
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
   // razon_social : string = ""
 
   // driver! : string
@@ -46,12 +59,18 @@ export class AsignarRutaComponent {
   // , Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\']+')
   patentesVehiculos:VehiculoDisponible [] = []
 
+  patentesDisponibles: PatenteDisponible [] = []
+  patentesDisponiblesFull: PatenteDisponible [] = []
+
   ngOnInit() {
 
 
-    this.service.get_vehiculos_disponibles_op().subscribe((data) => {
-     this.patentesVehiculos = data
-     console.log(this.patentesVehiculos)
+    this.service.get_lista_patentes_disponibles().subscribe((data) => {
+
+      this.patentesDisponibles = data
+      this.patentesDisponiblesFull = data
+    //  this.patentesVehiculos = data
+    //  console.log(this.patentesVehiculos)
 
      const patentePasada = this.nombreRutaService.getDataDriver().patente
 
@@ -80,6 +99,8 @@ export class AsignarRutaComponent {
      }
 
      
+     
+     
     })
 
     this.id_usuario = sessionStorage.getItem("id")?.toString()
@@ -90,15 +111,32 @@ export class AsignarRutaComponent {
     // this.despachado = this.nombreRutaService.getDataDriver().despachador
    
     // this.asignarRutaForm.patchValue({region: "ccdddd"})
+
+    // this.service.get_lista_patentes_disponibles().subscribe((data) => {
+    //   this.patentesDisponibles = data
+    //  })
   }
 
   volverRutaActiva(){
     this.router.navigate(['/picking/rutas-activas']);
   }
 
+  agregarPantenteNueva(patente : string){
+    this.asignarRutaForm.patchValue({
+      patente : patente
+    })
+
+    this.seleccionarPatente()
+  }
+
   seleccionarPatente(){
     const patenteForm = this.asignarRutaForm.value.patente
-    const patenteSeleccionada = this.patentesVehiculos.filter(patente=> patente.Ppu ==  patenteForm)[0]
+    // const patenteSeleccionada = this.patentesVehiculos.filter(patente=> patente.Ppu ==  patenteForm)[0]
+    console.log(this.patentesDisponibles)
+    const patenteSeleccionada = this.patentesDisponibles.filter(patente=> patente.Patentes ==  patenteForm)[0]
+
+    console.log(patenteSeleccionada)
+    
     // this.razon_social = patenteSeleccionada.Razon_social
     this.asignarRutaForm.patchValue({
       despachador: this.nombreRutaService.getDataDriver().despachador,
@@ -134,5 +172,54 @@ export class AsignarRutaComponent {
       alert("Error, formulario invalido")
     }
   }
+
+
+  asignarPatente(){
+    
+  }
+
+  // Método para aplicar debouncing
+  debounce(fn: Function, delay: number) {
+    let timeoutId: number | undefined;
+    return (...args: any[]) => {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = window.setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    }
+}
+
+pantente : string = ''
+
+
+  filtrarTabla(campo: string) {
+
+
+    const resultado: any[] = [];
+    const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
+
+    for (let i = 0; i < this.patentesDisponiblesFull.length; i++) {
+        const lista = this.patentesDisponiblesFull[i];
+        if (
+            lista.Patentes.toString().toLowerCase().startsWith(this.pantente.toLocaleLowerCase()) 
+        ) {
+            resultado.push(lista);
+            if (resultado.length >= maxResults) {
+                break; // Terminar el bucle si se alcanza el máximo de resultados
+            }
+        }
+    }
+
+    this.patentesDisponibles = resultado;
+}
+
+  // Aplica debouncing a la función filtrarTabla
+  filtrarTablaDebounced = this.debounce(this.filtrarTabla, 200);
+
+  onKeyUp() {
+    this.filtrarTablaDebounced('campo');
+}
 
 }

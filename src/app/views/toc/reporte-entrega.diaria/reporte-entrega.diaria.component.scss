@@ -38,60 +38,26 @@ height: 10vh; /* Altura del contenedor al 100% de la altura de la ventana */
 background-color:#ebedef ;
 }
 
-table.greenTable2 {
-border: 1px solid #28A745;
-background-color: #FFFEF3;
-width: auto;
-text-align: left;
-table-layout:auto;
-padding: 30px;
-margin-bottom: 20px;
-align-items: center;
-}
+
 table.greenTable {
-  border: 1px solid #28A745;
-  background-color: #FFFEF3;
-  width: auto;
-  text-align: left;
-  table-layout:auto;
-  padding: 30px;
-  margin-bottom: 20px;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 20px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px #ebedef;
+  font-size: 12px; 
+  text-align: center
 }
 table.greenTable td, table.greenTable th {
-  border: 0px solid #AAAAAA;
+  border: 0px solid #ebedef;
   padding: 3px 2px;
-  justify-content: center;
-}
-table.greenTable2 td, table.greenTable2 th {
-  border: 0px solid #AAAAAA;
-  padding: 3px 2px;
-  justify-content: center;
-}
-table.greenTable2 tbody td {
-  font-size: 10px;
-  
 }
 table.greenTable tbody td {
   font-size: 10px;
-  
-}
-.greenTable  table td, table th {
-  border: 0px solid #AAAAAA;
-  padding: 3px 2px;
-}
-table.greenTable tbody th {
-  font-size: 12px;
-  justify-content: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-table.greenTable2 tbody th {
-  font-size: 12px;
-  justify-content: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding: 8px;
+   text-align: center;
 }
 table.greenTable tr:nth-child(even) {
   background: #FFFEF3;
@@ -110,6 +76,43 @@ table.greenTable thead th:first-child {
   border-left: none;
 }
 
+table.greenTable tfoot {
+  font-size: 13px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #A40808;
+}
+
+
+table.greenTable2 {
+  width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px #ebedef;
+    font-size: 12px; 
+    text-align: center
+  }
+table.greenTable2 td, table.greenTable2 th {
+  border: 0px solid #AAAAAA;
+  padding: 3px 2px;
+  justify-content: center;
+}
+table.greenTable2 tbody td {
+  font-size: 10px;
+  
+}
+
+table.greenTable2 tbody th {
+  font-size: 12px;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 table.greenTable2 thead {
   background: #28A745;
 }
@@ -122,25 +125,4 @@ table.greenTable2 thead th {
 }
 table.greenTable2 thead th:first-child {
   border-left: none;
-}
-
-table.greenTable tfoot {
-  font-size: 13px;
-  font-weight: bold;
-  color: #FFFFFF;
-  background: #A40808;
-}
-table.greenTable tfoot td {
-  font-size: 13px;
-}
-
-table.greenTable tfoot .links {
-  text-align: right;
-}
-table.greenTable tfoot .links a{
-  display: inline-block;
-  background: #FFFFFF;
-  color: #A40808;
-  padding: 2px 8px;
-  border-radius: 5px;
 }

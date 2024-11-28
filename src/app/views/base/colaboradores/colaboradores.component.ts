@@ -6,11 +6,12 @@ import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angu
 import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
 import { Colaborador,DetallePago, Patentes, Usuario } from 'src/app/models/transporte/colaborador.interface' 
+import { PanelColaboradore } from 'src/app/models/transporte/paneles.interface' 
 
 @Component({
   selector: 'app-colaboradores',
   templateUrl: './colaboradores.component.html',
-  styleUrls: ['./colaboradores.component.scss']
+  styleUrls: ['./colaboradores.component.scss','../styles/cards.scss']
 })
 export class ColaboradoresComponent {
 
@@ -25,12 +26,19 @@ export class ColaboradoresComponent {
   estadoActivoMat : boolean = false
   public rol = sessionStorage.getItem("rol_id") 
 
-  public rol_no_permitido = ['71','72','50']
+  public rol_no_permitido = ['71','50']
   //datos geo
   latitude!: number
   longitud! :number
   latStr!: string
   longStr!: string
+
+  panelColab : PanelColaboradore = {
+    "Total": 0,
+    "Colaboradores_Activos": 0,
+    "Activos_con_Contrato": 0,
+    "Activos_sin_Contrato": 0
+}
 
   constructor(private service: PortalTransyanezService,public builder: FormBuilder,private comunaService : ComunasService) { }
 
@@ -45,6 +53,7 @@ export class ColaboradoresComponent {
   usuarioActivado : boolean | null = false
 
   colaboradores : Colaborador [] = []
+  colaboradoresFull : Colaborador [] = []
   detallePago : DetallePago [] = []
   
 
@@ -52,7 +61,19 @@ export class ColaboradoresComponent {
   public visible = false;
 
   toggleLiveDemo() {
+
+    if (document.getElementById('doc_bancario')) (document.getElementById('doc_bancario') as HTMLInputElement).value = '';
+    if (document.getElementById('pdf_contrato')) (document.getElementById('pdf_contrato') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_constitucion')) (document.getElementById('doc_constitucion') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_RRPP')) (document.getElementById('doc_RRPP') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_vigencia')) (document.getElementById('doc_vigencia') as HTMLInputElement).value = '';
+    if (document.getElementById('registro_comercio')) (document.getElementById('registro_comercio') as HTMLInputElement).value = '';
+
     this.visible = !this.visible;
+  }
+
+  get colaboradoresInactivos() {
+    return this.colaboradores.filter(c => c.Activo).length;
   }
 
   handleLiveDemoChange(event: any) {
@@ -129,6 +150,17 @@ export class ColaboradoresComponent {
   public visibleAgregar = false;
 
   toggleLiveAgregar() {
+
+
+    if (document.getElementById('doc_bancario')) (document.getElementById('doc_bancario') as HTMLInputElement).value = '';
+    if (document.getElementById('pdf_contrato')) (document.getElementById('pdf_contrato') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_constitucion')) (document.getElementById('doc_constitucion') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_RRPP')) (document.getElementById('doc_RRPP') as HTMLInputElement).value = '';
+    if (document.getElementById('doc_vigencia')) (document.getElementById('doc_vigencia') as HTMLInputElement).value = '';
+    if (document.getElementById('registro_comercio')) (document.getElementById('registro_comercio') as HTMLInputElement).value = '';
+    if (document.getElementById('A_pdf_contrato')) (document.getElementById('A_pdf_contrato') as HTMLInputElement).value = '';
+    if (document.getElementById('A2_pdf_contrato')) (document.getElementById('A2_pdf_contrato') as HTMLInputElement).value = '';
+    
     this.form.reset()
     this.visibleAgregar = !this.visibleAgregar;
   }
@@ -246,13 +278,14 @@ export class ColaboradoresComponent {
 
   buscarColaboradoresPorNombre(){
     if(this.nombreColaborador == ""){
-      this.service.obtenerColaboradores().subscribe((data) => {
-        this.colaboradores = data
-      })
+        this.colaboradores = this.colaboradoresFull
     }else{
-      this.service.buscarColaboradores(this.nombreColaborador).subscribe((data) => {
-        this.colaboradores = data
-      })
+
+      this.onKeyUp()
+      // this.service.buscarColaboradores(this.nombreColaborador).subscribe((data) => {
+      //   this.colaboradores = data
+      //   this.colaboradoresFull = data
+      // })
     }
     
   }
@@ -273,31 +306,50 @@ export class ColaboradoresComponent {
     this.fechaDesvinculacion = formattedDate
 
 
-    this.service.getMarcasVehiculos().subscribe((data : any) => {
-      this.marcaVehiculo = data
-    })
-    this.comunaService.getListaRegiones().subscribe((data : any) => {
-      this.listaRegiones = data
-    })
-
-    this.comunaService.getListaComunas().subscribe((data : any) => {
-      this.listaComunas = data
+    this.service.getSeleccionesRazonSocial().subscribe((data) => {
+      this.marcaVehiculo = data.Marca_vehiculo
+      this.listaRegiones = data.Region
+      this.listaComunas = data.Comuna
       this.listaComunasFull = this.listaComunas
       this.form.patchValue({
         Region : '1',
         Comuna : '1'
       })
+      this.estadoTransporte = data.Estado
+      this.listaMotivosD = data.Motivo
     })
+
+
+    // this.service.getMarcasVehiculos().subscribe((data : any) => {
+    //   this.marcaVehiculo = data
+    // })
+    // this.comunaService.getListaRegiones().subscribe((data : any) => {
+    //   this.listaRegiones = data
+    // })
+
+    // this.comunaService.getListaComunas().subscribe((data : any) => {
+    //   this.listaComunas = data
+    //   this.listaComunasFull = this.listaComunas
+    //   this.form.patchValue({
+    //     Region : '1',
+    //     Comuna : '1'
+    //   })
+    // })
 
     this.service.obtenerColaboradores().subscribe((data) => {
       this.colaboradores = data
-      this.service.getEstadoTransporte().subscribe((data : any) => {
-        this.estadoTransporte = data
+      this.colaboradoresFull = data
+      // this.service.getEstadoTransporte().subscribe((data : any) => {
+      //   this.estadoTransporte = data
 
-        this.service.getMotivosDesvinculacion().subscribe((data : any) => {
-          this.listaMotivosD = data
-        })
-      })
+      //   this.service.getMotivosDesvinculacion().subscribe((data : any) => {
+      //     this.listaMotivosD = data
+
+          this.service.getpanelColaboradores().subscribe((data : any) => {
+            this.panelColab = data
+          })
+      //   })
+      // })
     })
 
   }
@@ -321,6 +373,8 @@ export class ColaboradoresComponent {
   
 
   descargarArchivo(archivo : string | null){
+
+    console.log(archivo)
     if(archivo){
       this.service.downloadArchivos(archivo)
     }
@@ -387,8 +441,14 @@ export class ColaboradoresComponent {
       this.service.activarColaborador(rut+'',true).subscribe((mes : any) => {
         this.service.obtenerColaboradores().subscribe((data) => {
           this.colaboradores = data
+          this.colaboradoresFull = data
           alert(mes.message)
-          this.toggleLiveDemo()
+          this.service.getpanelColaboradores().subscribe((data : any) => {
+            this.panelColab = data
+            this.colaboradoresFull = data
+            this.toggleLiveDemo()
+          })
+          
         })
       })
     }else{
@@ -435,8 +495,13 @@ export class ColaboradoresComponent {
 
         this.service.obtenerColaboradores().subscribe((data) => {
           this.colaboradores = data
-          this.toggleLiveEstado()
-          this.toggleLiveDemo()
+          this.colaboradoresFull = data
+          this.service.getpanelColaboradores().subscribe((data : any) => {
+            this.panelColab = data
+            this.toggleLiveEstado()
+            this.toggleLiveDemo()
+          })
+          
         })
       })
       
@@ -481,7 +546,8 @@ export class ColaboradoresComponent {
           Rut_representante_legal : colaborador.Rut_representante_legal,
           Giro: colaborador.Giro,
           Abogado : colaborador.Abogado,
-          Activo: colaborador.Activo
+          Activo: colaborador.Activo,
+          Fecha_nacimiento : colaborador.Fecha_nacimiento
 
         })
         this.descargarDocBancario = null
@@ -515,7 +581,8 @@ export class ColaboradoresComponent {
           Forma_pago: detallePago.Forma_pago+'',
           Giro: colaborador.Giro,
           Abogado : colaborador.Abogado,
-          Activo: colaborador.Activo
+          Activo: colaborador.Activo,
+          Fecha_nacimiento : colaborador.Fecha_nacimiento
         })
       this.descargarDocBancario = detallePago.Pdf_documento
       this.descargarConstitucionLegal = colaborador.Pdf_legal_contitution
@@ -587,12 +654,14 @@ export class ColaboradoresComponent {
   
             this.service.obtenerColaboradores().subscribe((data) => {
               this.colaboradores = data
+              this.colaboradoresFull = data
               this.toggleLiveAgregar()
             })
           })
         } else{
           this.service.obtenerColaboradores().subscribe((data) => {
             this.colaboradores = data
+            this.colaboradoresFull = data
             this.toggleLiveAgregar()
           })
         }
@@ -653,35 +722,41 @@ export class ColaboradoresComponent {
           Id_razon_social : data.razon
         })
 
-        
-        if(this.checkDetallePago == true){
-          this.service.actualizarDetallePago(this.formBancario.value).subscribe((data : any) => {
-            this.formBancario.reset()
-            this.uploadFile(this.selectedDocBancario,'documento_bancario',nombre)
-  
-            this.service.obtenerColaboradores().subscribe((data) => {
-              this.colaboradores = data
-              this.toggleLiveDemo()
-            })
-          })
-        }else {
-          if(this.formBancario.valid){
-            this.service.registrarDetallePago(this.formBancario.value).subscribe((data : any) => {
+        setTimeout(() => {
+          if(this.checkDetallePago == true){
+            this.service.actualizarDetallePago(this.formBancario.value).subscribe((data : any) => {
               this.formBancario.reset()
               this.uploadFile(this.selectedDocBancario,'documento_bancario',nombre)
     
               this.service.obtenerColaboradores().subscribe((data) => {
                 this.colaboradores = data
+                this.colaboradoresFull = data
                 this.toggleLiveDemo()
               })
             })
-          } else{
-            this.service.obtenerColaboradores().subscribe((data) => {
-              this.colaboradores = data
-              this.toggleLiveDemo()
-            })
+          }else {
+            if(this.formBancario.valid){
+              this.service.registrarDetallePago(this.formBancario.value).subscribe((data : any) => {
+                this.formBancario.reset()
+                this.uploadFile(this.selectedDocBancario,'documento_bancario',nombre)
+      
+                this.service.obtenerColaboradores().subscribe((data) => {
+                  this.colaboradores = data
+                  this.colaboradoresFull = data
+                  this.toggleLiveDemo()
+                })
+              })
+            } else{
+              this.service.obtenerColaboradores().subscribe((data) => {
+                this.colaboradores = data
+                this.colaboradoresFull = data
+                this.toggleLiveDemo()
+              })
+            }
           }
-        }
+          
+        }, 1200);
+        
         
         
 
@@ -771,10 +846,60 @@ sortTableRazon(orden : boolean){
   }
 
 
+  descargarExcelATHela(){
+    this.service.descargarInformeAT()
+  }
+
 
  ngOnDestroy(): void {
 
 
   }
+
+
+  textoFiltro : any = ''
+
+// Método para aplicar debouncing
+debounce(fn: Function, delay: number) {
+  let timeoutId: number | undefined;
+  return (...args: any[]) => {
+      if (timeoutId) {
+          clearTimeout(timeoutId);
+      }
+      timeoutId = window.setTimeout(() => {
+          fn.apply(this, args);
+      }, delay);
+  }
+}
+
+filtrarTabla() {
+  const filtro = this.nombreColaborador.toLowerCase();
+
+  const resultado: any[] = [];
+  const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
+  for (let i = 0; i < this.colaboradoresFull.length; i++) {
+      const lista = this.colaboradoresFull[i];
+      if (
+          lista.Razon_social.toString().toLowerCase().startsWith(filtro) ||
+          lista.Razon_social.toString().toLowerCase().includes(filtro)
+          // lista.Patentes.toString().toLowerCase().startsWith(filtro) 
+      ) {
+          resultado.push(lista);
+          if (resultado.length >= maxResults) {
+              break; // Terminar el bucle si se alcanza el máximo de resultados
+          }
+      }
+  }
+
+  this.colaboradores = resultado;
+  // console.log(this.ListaPrefactura);
+}
+
+// Aplica debouncing a la función filtrarTabla
+filtrarTablaDebounced = this.debounce(this.filtrarTabla, 200);
+
+onKeyUp() {
+  this.filtrarTablaDebounced('campo');
+}
 
 }

@@ -47,12 +47,36 @@ export class PrefacturaComponent {
   constructor(private service: MeliService) { }
 
   ngOnInit(){
-    this.service.getDatosPrefactura('2024','06').subscribe((data) =>{ 
-      this.ListaPrefacturaFull = data
+    this
+
+    const fechaActual = new Date();
+
+    // Obtener mes y año
+    const mes = fechaActual.getMonth() + 1;  // Los meses comienzan desde 0, así que sumamos 1
+    const año = fechaActual.getFullYear();
+
+    this.mesSeleccionado = año+'-'+mes
+    // año+'',mes+''
+    
+
+
+    this.service.getDatosPrefacturaLimit(año+'',mes+'').subscribe((data) =>{ 
+      // this.ListaPrefacturaFull = data
 
       this.ListaPrefactura = data
       this.isLoadingTable = false
+
+      this.service.getDatosPrefactura(año+'',mes+'').subscribe((data) =>{ 
+        this.ListaPrefacturaFull = data
+      }, error => {
+        this.isLoadingTable = false
+      })
+
+    }, error => {
+      this.isLoadingTable = false
     })
+
+
 
     this.service.getResumenDatosPrefactura().subscribe((data) => {
       this.resumenPrefactura = [data]
@@ -65,21 +89,58 @@ export class PrefacturaComponent {
     console.log(this.mesSeleccionado.split('-')[0])
     this.isLoadingTable = true
     this.ListaPrefactura = []
-    this.service.getDatosPrefactura(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1]).subscribe((data) =>{ 
-      this.ListaPrefacturaFull = data
 
+
+    this.service.getDatosPrefacturaLimit(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1]).subscribe((data) =>{ 
       this.ListaPrefactura = data
-      this.isLoadingTable = false
+
+
+      this.service.getDatosPrefactura(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1]).subscribe((data) =>{ 
+        this.ListaPrefacturaFull = data
+  
+        // this.ListaPrefactura = data
+        this.isLoadingTable = false
+      }, error => {
+        alert(error.error.detail)
+        this.ListaPrefactura = []
+        this.isLoadingTable = false
+      }
+    )
     }, error => {
       alert(error.error.detail)
       this.ListaPrefactura = []
       this.isLoadingTable = false
-    }
-  )
+    })
+
+
+    
   }
 
   descargarExcel(){
     // this.service.download_prefactura_excel(this.mesSeleccionado.split('-')[0],this.mesSeleccionado.split('-')[1])
+    
+    const idRuta = this.textoIdRuta.toLowerCase();
+    const patente = this.textoPatente.toLowerCase();
+    const conductor = this.textoConductor.toLowerCase();
+
+    const resultado: any[] = [];
+
+    for (let i = 0; i < this.ListaPrefacturaFull.length; i++) {
+        const lista = this.ListaPrefacturaFull[i];
+        if (
+            lista.Id_de_ruta.toString().toLowerCase().startsWith(idRuta) &&
+            lista.Patente.toString().toLowerCase().startsWith(patente) &&
+            lista.Conductor.toString().toLowerCase().startsWith(conductor)
+        ) {
+            resultado.push(lista);
+        }
+    }
+
+    this.ListaPrefactura = resultado;
+    
+    
+    
+    
     const datos: any[][] = [[]];
 
     datos.push(["Id Prefactura","Periodo","Descripción","Id de Ruta","Fecha Inicio","Fecha Fin","Patente",
@@ -160,14 +221,63 @@ export class PrefacturaComponent {
 
   // }
 
-  filtrarTabla(campo : string){
-      this.ListaPrefactura = this.ListaPrefacturaFull.filter((lista) => lista.Periodo.toString().toLowerCase().startsWith(this.textoPeriodo.toLowerCase())  )
-      this.ListaPrefactura = this.ListaPrefactura.filter((lista) => lista.Id_de_ruta.toString().toLowerCase().startsWith(this.textoIdRuta.toLowerCase())  )
-      this.ListaPrefactura = this.ListaPrefactura.filter((lista) => lista.Patente.toString().toLowerCase().startsWith(this.textoPatente.toLowerCase())  )
-      this.ListaPrefactura = this.ListaPrefactura.filter((lista) => lista.Conductor.toString().toLowerCase().startsWith(this.textoConductor.toLowerCase())  )
 
-
+    // Método para aplicar debouncing
+    debounce(fn: Function, delay: number) {
+      let timeoutId: number | undefined;
+      return (...args: any[]) => {
+          if (timeoutId) {
+              clearTimeout(timeoutId);
+          }
+          timeoutId = window.setTimeout(() => {
+              fn.apply(this, args);
+          }, delay);
+      };
   }
+
+  // filtrarTabla(campo : string){
+  //     this.ListaPrefactura = this.ListaPrefacturaFull.filter((lista) => lista.Id_de_ruta.toString().toLowerCase().startsWith(this.textoIdRuta.toLowerCase())  
+  //     && lista.Patente.toString().toLowerCase().startsWith(this.textoPatente.toLowerCase()) 
+  //     && lista.Conductor.toString().toLowerCase().startsWith(this.textoConductor.toLowerCase()))
+
+
+  //     console.log(this.ListaPrefactura)
+  //     // this.ListaPrefactura = this.ListaPrefactura.filter((lista) => lista.Patente.toString().toLowerCase().startsWith(this.textoPatente.toLowerCase())  )
+  //     // this.ListaPrefactura = this.ListaPrefactura.filter((lista) => lista.Conductor.toString().toLowerCase().startsWith(this.textoConductor.toLowerCase())  )
+  // }
+
+  filtrarTabla(campo: string) {
+    const idRuta = this.textoIdRuta.toLowerCase();
+    const patente = this.textoPatente.toLowerCase();
+    const conductor = this.textoConductor.toLowerCase();
+
+    const resultado: any[] = [];
+    const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
+
+    for (let i = 0; i < this.ListaPrefacturaFull.length; i++) {
+        const lista = this.ListaPrefacturaFull[i];
+        if (
+            lista.Id_de_ruta.toString().toLowerCase().startsWith(idRuta) &&
+            lista.Patente.toString().toLowerCase().startsWith(patente) &&
+            lista.Conductor.toString().toLowerCase().startsWith(conductor)
+        ) {
+            resultado.push(lista);
+            if (resultado.length >= maxResults) {
+                break; // Terminar el bucle si se alcanza el máximo de resultados
+            }
+        }
+    }
+
+    this.ListaPrefactura = resultado;
+    // console.log(this.ListaPrefactura);
+}
+
+  // Aplica debouncing a la función filtrarTabla
+  filtrarTablaDebounced = this.debounce(this.filtrarTabla, 200);
+
+  onKeyUp() {
+    this.filtrarTablaDebounced('campo');
+}
 
   
 

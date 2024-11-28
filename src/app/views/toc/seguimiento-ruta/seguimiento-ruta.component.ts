@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RutasService } from 'src/app/service/rutas.service';
-import { seguimientoRuta } from 'src/app/models/TOC/seguimientoRuta.interface'
+import { seguimientoRuta,ObsTotalPedido } from 'src/app/models/TOC/seguimientoRuta.interface'
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -44,24 +44,12 @@ export class SeguimientoRutaComponent {
   segRuta : seguimientoRuta [] = []
   segRutaFull : seguimientoRuta [] = []
  
-  obsPedidos : string [] = []
+  obsPedidos : ObsTotalPedido [] = []
   ngOnInit(){
 
     this.service.get_seguimiento_ruta().subscribe((data) => {
       this.segRuta = data
       this.segRutaFull = data
-      this.segRuta.map((ruta) => {
-        if(ruta.Obs_total_pedidos){
-          ruta.obs = ruta.Obs_total_pedidos?.split("@")
-          this.listaPatentes.push(ruta.Ppu)
-        } else {
-          ruta.obs = []
-          this.listaPatentes.push(ruta.Ppu)
-        }
-
-        
-      })
-
       this.listaPatentes = [...new Set(this.listaPatentes)];
 
       
@@ -102,9 +90,9 @@ export class SeguimientoRutaComponent {
   }
 
 
-  verObservacion(listaPedidos : string [], cliente : string){
+  verObservacion(listaPedidos : ObsTotalPedido [], cliente : string, ruta_beetrack : number){
 
-    this.clienteSeleccionado = cliente
+    this.clienteSeleccionado = cliente + ' - '+ ruta_beetrack
 
     this.obsPedidos = listaPedidos
 

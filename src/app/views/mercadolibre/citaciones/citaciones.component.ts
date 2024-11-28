@@ -402,7 +402,7 @@ buscarPatenteDetalle(event: Event) {
     const fecha = this.formattedDate
 
     this.http
-      .delete(`http://localhost:8000/api/borrar?id_ppu=${ppu}&fecha=${fecha}`)
+      .delete(`https://hela.transyanez.cl/api/meli/borrar?id_ppu=${ppu}&fecha=${fecha}`)
       .subscribe(
         (response) => {
           // Si la eliminación es exitosa

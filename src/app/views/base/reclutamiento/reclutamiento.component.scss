@@ -1,0 +1,194 @@
+.error {
+    color: #E71B24;
+  }
+
+.rectangulo,
+.rectangulo-gps,
+.rectangulo-seguridad {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.slide-toggle-container {
+  position: relative; /* o absolute, fixed, dependiendo de tus necesidades */
+  z-index: 1; /* o cualquier valor más bajo que el thead */
+}
+
+.rectangulo {
+  background-color: #ffcccc; /* Rojo claro */
+  border: 2px solid #cc0000; /* Borde rojo oscuro */
+}
+
+.rectangulo-gps {
+  background-color: #ffffcc; /* Amarillo claro */
+  border: 2px solid #cccc00; /* Borde amarillo oscuro */
+}
+
+.rectangulo-seguridad {
+  background-color: #ccffcc; /* Verde clarito */
+  border: 2px solid #006600; /* Borde verde oscuro */
+}
+  
+  .greenTable{
+      
+    max-height: 400px; /* Altura de ejemplo */
+    overflow: auto;
+  }
+  
+  
+
+  input[type="text"].disabled-like {
+    background-color: #f0f0f0; /* Color de fondo gris claro */
+    color: #a0a0a0; /* Color de texto gris */
+    border: 1px solid #d0d0d0; /* Borde gris */
+    cursor: not-allowed; /* Cursor de no permitido */
+    pointer-events: none; /* Deshabilita eventos */
+  }
+  
+  .greenTable  table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    border-radius: 10px;
+    // overflow: hidden;
+    box-shadow: 0 4px 8px #ebedef;
+    font-size: 12px;
+  }
+  .greenTable  table td, table th {
+    border: 0px solid #ebedef;
+    padding: 3px 2px;
+  }
+  .greenTable  table tbody td {
+    font-size: 10px;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .greenTable  table td {
+    font-size: 12px;
+  }
+
+  .greenTable th.sortable:hover {
+    background-color: #1ece27;
+    cursor: pointer;
+  }
+  
+  .greenTable  table tbody th {
+    font-size: 12px;
+    font-weight: bold;
+    background: #28A745;
+    color: #FFFFFF;
+  }
+  .greenTable  table tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  .greenTable table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    left: 0;
+    background: #28A745;
+  }
+  .greenTable  table thead th {
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+
+  .greenTable  table thead th:first-child {
+    border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+}
+
+.greenTable table th:last-child {
+  border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+}
+
+.greenTable table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+}
+
+.greenTable table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
+}
+  .inline-container {
+    margin: 1px;
+    display: flex;
+    align-items: center; /* Alinea los elementos verticalmente si es necesario */
+  }  
+  
+  .inline-container input,
+  .inline-container c-dropdown,
+  .inline-container span {
+    margin-right: 5px; /* Espacio personalizado entre los elementos */
+  }
+  h2 {
+      text-align: center;
+    }
+    
+  .svgT{
+    fill:#12de20
+  }
+  
+  .svgF{
+    fill:#d60a0a
+  }
+
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+.select-selected {
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.select-selected:after {
+  content: '\f107'; /* Icono de flecha abajo */
+  font-family: "FontAwesome";
+  position: absolute;
+  right: 10px;
+  top: 14px;
+  font-size: 16px;
+}
+.select-items {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  z-index: 99;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.alerta-amarillo {
+  background-color: #fff3cd;
+}
+.alerta-amarilloi {
+  fill: #856404;
+  // margin-right: 8px;
+}
+.alerta-rojo {
+  background-color: #f8d7da;
+}
+.alerta-rojoi {
+  fill: #721c24;
+  // margin-right: 8px;
+}

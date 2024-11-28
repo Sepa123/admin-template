@@ -9,7 +9,8 @@ export class TarifarioEspecificoService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl="http://localhost:8000/api"
+  // private apiUrl="http://localhost:8000/api/finanzas/tarifarioEspecifico"
+  private apiUrl="https://hela.transyanez.cl/api/finanzas/tarifarioEspecifico"
 
 getInfoTableTE(): Observable<any>{
   return this.http.get<any>(`${this.apiUrl}/tablaTarifarioEspecifico`);

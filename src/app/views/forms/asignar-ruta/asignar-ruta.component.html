@@ -4,12 +4,27 @@
 
   <c-row>
     <c-col>
-        <label for="patente">Patente</label>
-        <!-- <input type="text" [maxlength]="6" [minlength]="6" pattern='^[a-zA-Z0-9]+$' placeholder="Patente" class="form-control" id="patente" [(ngModel)]="patent" formControlName=patente required> -->
-        <select  aria-label="Región" id="Region"formControlName="patente" cSelect class="form-control"  placeholder="Patente" (change)="seleccionarPatente()">
+        <label for="patente">Patente</label> <br>
+        <c-row>
+          <c-col>
+            <input type="text" [maxlength]="6" [minlength]="6" pattern='^[a-zA-Z0-9]+$' placeholder="Patente" class="form-control" id="patente" formControlName=patente readonly="true" required>
+            <!-- <select  aria-label="Región" id="Region"formControlName="patente" cSelect class="form-control"  placeholder="Patente" (change)="seleccionarPatente()">
+              <option value="Seleccione una patente">Seleccione una patente</option>
+              <option *ngFor="let patente of patentesVehiculos" [value]="patente.Ppu" >{{patente.Ppu}}</option>
+            </select> -->
+          </c-col>
+          <c-col>
+            <svg  (click)="toggleLiveDemo()" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" >
+              <path fill="currentColor" d="M7 1h10v2h4v9h-2V5h-2v2H7V5H5v16h7v2H3V3h4zm2 4h6V3H9zm11 9v4h4v2h-4v4h-2v-4h-4v-2h4v-4z" />
+          </svg>
+          </c-col>
+        </c-row>
+        <!-- <input type="text" [maxlength]="6" [minlength]="6" pattern='^[a-zA-Z0-9]+$' placeholder="Patente" class="form-control" id="patente" formControlName=patente required> -->
+        <!-- <select  aria-label="Región" id="Region"formControlName="patente" cSelect class="form-control"  placeholder="Patente" (change)="seleccionarPatente()">
           <option value="Seleccione una patente">Seleccione una patente</option>
           <option *ngFor="let patente of patentesVehiculos" [value]="patente.Ppu" >{{patente.Ppu}}</option>
-        </select>
+        </select> -->
+        <!-- <button cButton (click)="toggleLiveDemo()">presioname</button> -->
       </c-col>
     <c-col>
       Razón Social <br>
@@ -50,9 +65,179 @@
   </c-row>
 
   </form>
+  
+
+  <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="lg">
+    <c-modal-header>
+      <h5 cModalTitle>Patentes Disponibles</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+
+      <input type="text" [(ngModel)]="pantente" (keyup)="onKeyUp()" class="form-control" placeholder="Pantente" >
+      <p></p>
+      <div class="greenTable">
+        <table >
+          <thead >
+            <tr >
+                <th >Patente</th>
+                <th >Razón Social</th>
+                <th>Rutas</th>
+                <!-- <th>Habilitado</th> -->
+                <th >Calificación</th>
+                
+            </tr>
+        </thead>
+        <tbody >
+          <!-- Ejemplo de fila de datos -->
+          <tr *ngFor="let patente of patentesDisponibles" >
+            <td> 
+              <c-row>
+                <c-col>
+                  <div *ngIf="patente.Tipo == null">
+                    <span>S/I</span>
+                </div>
+                <div  *ngIf="patente.Tipo == 1" class="Icons-vehiculo" >
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M18 18.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5m1.5-9l1.96 2.5H17V9.5m-11 9A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5M20 8h-3V4H3c-1.11 0-2 .89-2 2v11h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-5z" /></svg>
+
+              </div>
+              <div *ngIf="patente.Tipo == 2 " class="Icons-vehiculo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 640 512">
+                      <path fill="currentColor" d="m368.6 96l76.8 96H288V96zM224 80v112H64c-17.7 0-32 14.3-32 32v64c-17.7 0-32 14.3-32 32s14.3 32 32 32h33.1c-.7 5.2-1.1 10.6-1.1 16c0 61.9 50.1 112 112 112s112-50.1 112-112c0-5.4-.4-10.8-1.1-16h66.3c-.7 5.2-1.1 10.6-1.1 16c0 61.9 50.1 112 112 112s112-50.1 112-112c0-5.4-.4-10.8-1.1-16h33.1c17.7 0 32-14.3 32-32s-14.3-32-32-32v-64c0-17.7-14.3-32-32-32h-48.6L418.6 56c-12.1-15.2-30.5-24-50-24H272c-26.5 0-48 21.5-48 48m0 288a48 48 0 1 1-96 0a48 48 0 1 1 96 0m288 0a48 48 0 1 1-96 0a48 48 0 1 1 96 0" />
+                  </svg>
+              </div>
+              <div *ngIf="patente.Tipo == 3" class="Icons-vehiculo">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 512"><path fill="currentColor" d="M64 104v88h96V96H72c-4.4 0-8 3.6-8 8m482 88l-80.9-96H384v96zm-226 0V96h-96v96zm272 192h-16c0 53-43 96-96 96s-96-43-96-96H256c0 53-43 96-96 96s-96-43-96-96H48c-26.5 0-48-21.5-48-48V104c0-39.8 32.2-72 72-72h393.1c18.9 0 36.8 8.3 49 22.8L625 186.5c9.7 11.5 15 26.1 15 41.2V336c0 26.5-21.5 48-48 48m-64 0a48 48 0 1 0-96 0a48 48 0 1 0 96 0m-368 48a48 48 0 1 0 0-96a48 48 0 1 0 0 96" /></svg>
+              </div>
+              <div *ngIf="patente.Tipo == 4" class="Icons-vehiculo">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 2048 1600"><path fill="currentColor" d="M480 960q0-66-47-113t-113-47t-113 47t-47 113t47 113t113 47t113-47t47-113m36-320h1016l-89-357q-2-8-14-17.5t-21-9.5H640q-9 0-21 9.5T605 283zm1372 320q0-66-47-113t-113-47t-113 47t-47 113t47 113t113 47t113-47t47-113m160-96v384q0 14-9 23t-23 9h-96v128q0 80-56 136t-136 56t-136-56t-56-136v-128H512v128q0 80-56 136t-136 56t-136-56t-56-136v-128H32q-14 0-23-9t-9-23V864q0-93 65.5-158.5T224 640h28l105-419q23-94 104-157.5T640 0h768q98 0 179 63.5T1691 221l105 419h28q93 0 158.5 65.5T2048 864" /></svg>
+              </div>
+              <div *ngIf="patente.Tipo == 5" class="Icons-vehiculo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 512"><path fill="currentColor" d="M640 0v400c0 61.9-50.1 112-112 112c-61 0-110.5-48.7-112-109.3L48.4 502.9c-17.1 4.6-34.6-5.4-39.3-22.5s5.4-34.6 22.5-39.3L352 353.8V64c0-35.3 28.7-64 64-64zm-64 400a48 48 0 1 0-96 0a48 48 0 1 0 96 0M23.1 207.7c-4.6-17.1 5.6-34.6 22.6-39.2l46.4-12.4l20.7 77.3c2.3 8.5 11.1 13.6 19.6 11.3l30.9-8.3c8.5-2.3 13.6-11.1 11.3-19.6l-20.7-77.3l46.4-12.4c17.1-4.6 34.6 5.6 39.2 22.6l41.4 154.5c4.6 17.1-5.6 34.6-22.6 39.2l-154.6 41.5c-17.1 4.6-34.6-5.6-39.2-22.6z" /></svg>
+              </div>
+              <div *ngIf="patente.Tipo == 6" class="Icons-vehiculo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M224 96.8V96a56.06 56.06 0 0 0-56-56h-8a16 16 0 0 0-16 16v120h-16V72a8 8 0 0 0-8-8H16A16 16 0 0 0 0 80v104a32 32 0 0 0 56 21.13A32 32 0 0 0 111 192h82a32 32 0 0 0 63-8v-48a40.07 40.07 0 0 0-32-39.2M160 56h8a40 40 0 0 1 40 40v8a8 8 0 0 0 8 8a24 24 0 0 1 24 24v20.31a31.7 31.7 0 0 0-16-4.31a32.06 32.06 0 0 0-31 24h-33Zm-48 24v96h-1a32 32 0 0 0-55-13.13a31.9 31.9 0 0 0-40-6.56V80ZM32 200a16 16 0 1 1 16-16a16 16 0 0 1-16 16m48 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16m144 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16" /></svg>
+              </div>
+              <div *ngIf="patente.Tipo == 7" class="Icons-vehiculo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M224 96.8V96a56.06 56.06 0 0 0-56-56h-8a16 16 0 0 0-16 16v120h-16V72a8 8 0 0 0-8-8H16A16 16 0 0 0 0 80v104a32 32 0 0 0 56 21.13A32 32 0 0 0 111 192h82a32 32 0 0 0 63-8v-48a40.07 40.07 0 0 0-32-39.2M32 200a16 16 0 1 1 16-16a16 16 0 0 1-16 16m48 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16m144 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16" /></svg>
+              </div>
+              <div *ngIf="patente.Tipo == 8 " class="Icons-vehiculo">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                      <path fill="black" d="M6 15v2H3V8l2.45-7h13.1L21 8v9h-3v-2zm-.2-9h12.4l-1.05-3H6.85zm1.7 6q.625 0 1.063-.437T9 10.5t-.437-1.062T7.5 9t-1.062.438T6 10.5t.438 1.063T7.5 12m9 0q.625 0 1.063-.437T18 10.5t-.437-1.062T16.5 9t-1.062.438T15 10.5t.438 1.063T16.5 12M13 23l-6-3h4v-2l6 3h-4z" />
+                  </svg>
+              </div>
+              
+              <div *ngIf="patente.Tipo == 9" class="Icons-vehiculo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M240 114h-29.51l-43.9-43.9a13.94 13.94 0 0 0-9.9-4.1H44.28a14 14 0 0 0-11.65 6.23L3 116.67A6 6 0 0 0 2 120v48a14 14 0 0 0 14 14h18.6a30 30 0 0 0 58.8 0h69.2a30 30 0 0 0 58.8 0H240a14 14 0 0 0 14-14v-40a14 14 0 0 0-14-14M42.62 78.89a2 2 0 0 1 1.66-.89h112.41a2 2 0 0 1 1.41.59L193.52 114H19.21ZM64 194a18 18 0 1 1 18-18a18 18 0 0 1-18 18m128 0a18 18 0 1 1 18-18a18 18 0 0 1-18 18m50-26a2 2 0 0 1-2 2h-18.6a30 30 0 0 0-58.8 0H93.4a30 30 0 0 0-58.8 0H16a2 2 0 0 1-2-2v-42h226a2 2 0 0 1 2 2Z" /></svg>
+              </div>
+
+              <div *ngIf="patente.Tipo == 10" class="Icons-vehiculo">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path fill="black" d="M3 7c-1.11 0-2 .89-2 2v8h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-4c0-1.11-.89-2-2-2l-3-4zm12 1.5h2.5l1.96 2.5H15zm-9 7A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5m12 0a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5" />
+                  </svg>
+              </div>
+                </c-col>
+                <c-col>
+                  <button class="detalle-patente"  (click)="agregarPantenteNueva(patente.Patentes)" (click)="toggleLiveDemo()">{{patente.Patentes}}</button>
+                  
+                </c-col>
+              </c-row>
+
+                        
+            </td>
+            <td>{{patente.Razon_social}}</td>
+            <td>{{patente.Rutas}} ({{patente.Porcentaje}}%)</td>
+            <td>
+
+              <ng-template #t let-fill="fill">
+                <span class="star" [class.full]="fill === 100">
+                  <span class="half" [style.width.%]="fill">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1664 1600">
+                      <path fill="rgb(30, 206, 39)" d="M1664 615q0 22-26 48l-363 354l86 500q1 7 1 20q0 21-10.5 35.5T1321 1587q-19 0-40-12l-449-236l-449 236q-22 12-40 12q-21 0-31.5-14.5T301 1537q0-6 2-20l86-500L25 663Q0 636 0 615q0-37 56-46l502-73L783 41q19-41 49-41t49 41l225 455l502 73q56 9 56 46" />
+                    </svg>
+                  </span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1664 1600">
+                    <path fill="rgb(30, 206, 39)" d="m1137 972l306-297l-422-62l-189-382l-189 382l-422 62l306 297l-73 421l378-199l377 199zm527-357q0 22-26 48l-363 354l86 500q1 7 1 20q0 50-41 50q-19 0-40-12l-449-236l-449 236q-22 12-40 12q-21 0-31.5-14.5T301 1537q0-6 2-20l86-500L25 663Q0 636 0 615q0-37 56-46l502-73L783 41q19-41 49-41t49 41l225 455l502 73q56 9 56 46" />
+                  </svg>
+                </span>
+              </ng-template>
+
+              <ngb-rating [(rate)]="patente.Estrellas" [max]="5" [starTemplate]="t" [readonly]="true"/>
+            </td>
+            
+          </tr>
+        </tbody>
+        </table>
+
+      </div>
+     
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
 
 
 
 
+    
+  <!-- <div class="Icons-vehiculo" >
+    <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 512">
+        <path fill="currentColor"
+            d="M312 32c-13.3 0-24 10.7-24 24s10.7 24 24 24h25.7l34.6 64H222.9l-27.4-38c-4.5-6.3-11.8-10-19.5-10h-56c-13.3 0-24 10.7-24 24s10.7 24 24 24h43.7l22.1 30.7l-26.6 53.1c-10-2.5-20.5-3.8-31.2-3.8C57.3 224 0 281.3 0 352s57.3 128 128 128c65.3 0 119.1-48.9 127-112h49c8.5 0 16.3-4.5 20.7-11.8l84.8-143.5l21.7 40.1C402.4 276.3 384 312 384 352c0 70.7 57.3 128 128 128s128-57.3 128-128s-57.3-128-128-128c-13.5 0-26.5 2.1-38.7 6L375.4 48.8C369.8 38.4 359 32 347.2 32zm146.6 271.7l32.3 59.7c6.3 11.7 20.9 16 32.5 9.7s16-20.9 9.7-32.5l-32.3-59.7c3.6-.6 7.4-.9 11.2-.9c39.8 0 72 32.2 72 72s-32.2 72-72 72s-72-32.2-72-72c0-18.6 7-35.5 18.6-48.3M133.2 368h65c-7.3 32.1-36 56-70.2 56c-39.8 0-72-32.2-72-72s32.2-72 72-72c1.7 0 3.4.1 5.1.2l-24.2 48.5c-9 18.1 4.1 39.4 24.3 39.4zm33.7-48l50.7-101.3l72.9 101.2l-.1.1zm90.6-128H366l-49 82.8l-59.6-82.8z" />
+    </svg>
+</div>
+<div class="Icons-vehiculo">
+    <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+        <path fill="currentColor"
+            d="M18 18.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5m1.5-9l1.96 2.5H17V9.5m-11 9A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5M20 8h-3V4H3c-1.11 0-2 .89-2 2v11h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-5z" />
+    </svg>
+</div>
+<div class="Icons-vehiculo">
+    <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 512">
+        <path fill="currentColor"
+            d="M64 104v88h96V96H72c-4.4 0-8 3.6-8 8m482 88l-80.9-96H384v96zm-226 0V96h-96v96zm272 192h-16c0 53-43 96-96 96s-96-43-96-96H256c0 53-43 96-96 96s-96-43-96-96H48c-26.5 0-48-21.5-48-48V104c0-39.8 32.2-72 72-72h393.1c18.9 0 36.8 8.3 49 22.8L625 186.5c9.7 11.5 15 26.1 15 41.2V336c0 26.5-21.5 48-48 48m-64 0a48 48 0 1 0-96 0a48 48 0 1 0 96 0m-368 48a48 48 0 1 0 0-96a48 48 0 1 0 0 96" />
+    </svg>
+</div>
+<div class="Icons-vehiculo">
+    <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 2048 1600">
+        <path fill="currentColor"
+            d="M480 960q0-66-47-113t-113-47t-113 47t-47 113t47 113t113 47t113-47t47-113m36-320h1016l-89-357q-2-8-14-17.5t-21-9.5H640q-9 0-21 9.5T605 283zm1372 320q0-66-47-113t-113-47t-113 47t-47 113t47 113t113 47t113-47t47-113m160-96v384q0 14-9 23t-23 9h-96v128q0 80-56 136t-136 56t-136-56t-56-136v-128H512v128q0 80-56 136t-136 56t-136-56t-56-136v-128H32q-14 0-23-9t-9-23V864q0-93 65.5-158.5T224 640h28l105-419q23-94 104-157.5T640 0h768q98 0 179 63.5T1691 221l105 419h28q93 0 158.5 65.5T2048 864" />
+    </svg>
+</div>
+<div class="Icons-vehiculo">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 512">
+        <path fill="currentColor" d="M640 0v400c0 61.9-50.1 112-112 112c-61 0-110.5-48.7-112-109.3L48.4 502.9c-17.1 4.6-34.6-5.4-39.3-22.5s5.4-34.6 22.5-39.3L352 353.8V64c0-35.3 28.7-64 64-64zm-64 400a48 48 0 1 0-96 0a48 48 0 1 0 96 0M23.1 207.7c-4.6-17.1 5.6-34.6 22.6-39.2l46.4-12.4l20.7 77.3c2.3 8.5 11.1 13.6 19.6 11.3l30.9-8.3c8.5-2.3 13.6-11.1 11.3-19.6l-20.7-77.3l46.4-12.4c17.1-4.6 34.6 5.6 39.2 22.6l41.4 154.5c4.6 17.1-5.6 34.6-22.6 39.2l-154.6 41.5c-17.1 4.6-34.6-5.6-39.2-22.6z" />
+    </svg>
+</div>
+<div class="Icons-vehiculo">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+        <path fill="currentColor" d="M224 96.8V96a56.06 56.06 0 0 0-56-56h-8a16 16 0 0 0-16 16v120h-16V72a8 8 0 0 0-8-8H16A16 16 0 0 0 0 80v104a32 32 0 0 0 56 21.13A32 32 0 0 0 111 192h82a32 32 0 0 0 63-8v-48a40.07 40.07 0 0 0-32-39.2M160 56h8a40 40 0 0 1 40 40v8a8 8 0 0 0 8 8a24 24 0 0 1 24 24v20.31a31.7 31.7 0 0 0-16-4.31a32.06 32.06 0 0 0-31 24h-33Zm-48 24v96h-1a32 32 0 0 0-55-13.13a31.9 31.9 0 0 0-40-6.56V80ZM32 200a16 16 0 1 1 16-16a16 16 0 0 1-16 16m48 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16m144 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16" />
+    </svg>
+</div>
+<div class="Icons-vehiculo">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+        <path fill="currentColor" d="M224 96.8V96a56.06 56.06 0 0 0-56-56h-8a16 16 0 0 0-16 16v120h-16V72a8 8 0 0 0-8-8H16A16 16 0 0 0 0 80v104a32 32 0 0 0 56 21.13A32 32 0 0 0 111 192h82a32 32 0 0 0 63-8v-48a40.07 40.07 0 0 0-32-39.2M32 200a16 16 0 1 1 16-16a16 16 0 0 1-16 16m48 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16m144 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16" />
+    </svg>
+</div>
+<div class="Icons-vehiculo">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
+        <path fill="currentColor" d="M2 3.75C2 2.784 2.784 2 3.75 2h5.5c.967 0 1.75.784 1.75 1.75V4h.382a1.5 1.5 0 0 1 1.342.83l1.118 2.235a1.5 1.5 0 0 1 .158.671V11a1.5 1.5 0 0 1-1.5 1.5h-.563a2 2 0 0 1-3.874 0H6.937a2 2 0 0 1-3.907-.155A1.75 1.75 0 0 1 2 10.75zm6.063 7.75A2 2 0 0 1 10 10V3.75A.75.75 0 0 0 9.25 3h-5.5a.75.75 0 0 0-.75.75v7c0 .175.06.336.16.464a2 2 0 0 1 3.777.286zM11 10.268a2 2 0 0 1 .937 1.232h.563a.5.5 0 0 0 .5-.5V8h-2zM11 7h1.691l-.862-1.724A.5.5 0 0 0 11.382 5H11zm-6 4a1 1 0 1 0 0 2a1 1 0 0 0 0-2m4 1a1 1 0 1 0 2 0a1 1 0 0 0-2 0" />
+    </svg>
+</div>
 
+<div class="Icons-vehiculo">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+        <path fill="currentColor" d="M240 114h-29.51l-43.9-43.9a13.94 13.94 0 0 0-9.9-4.1H44.28a14 14 0 0 0-11.65 6.23L3 116.67A6 6 0 0 0 2 120v48a14 14 0 0 0 14 14h18.6a30 30 0 0 0 58.8 0h69.2a30 30 0 0 0 58.8 0H240a14 14 0 0 0 14-14v-40a14 14 0 0 0-14-14M42.62 78.89a2 2 0 0 1 1.66-.89h112.41a2 2 0 0 1 1.41.59L193.52 114H19.21ZM64 194a18 18 0 1 1 18-18a18 18 0 0 1-18 18m128 0a18 18 0 1 1 18-18a18 18 0 0 1-18 18m50-26a2 2 0 0 1-2 2h-18.6a30 30 0 0 0-58.8 0H93.4a30 30 0 0 0-58.8 0H16a2 2 0 0 1-2-2v-42h226a2 2 0 0 1 2 2Z" />
+    </svg>
+</div>
+
+<div class="Icons-vehiculo">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 512">
+        <path fill="currentColor"
+            d="M64 104v88h96V96H72c-4.4 0-8 3.6-8 8m482 88l-80.9-96H384v96zm-226 0V96h-96v96zm272 192h-16c0 53-43 96-96 96s-96-43-96-96H256c0 53-43 96-96 96s-96-43-96-96H48c-26.5 0-48-21.5-48-48V104c0-39.8 32.2-72 72-72h393.1c18.9 0 36.8 8.3 49 22.8L625 186.5c9.7 11.5 15 26.1 15 41.2V336c0 26.5-21.5 48-48 48m-64 0a48 48 0 1 0-96 0a48 48 0 1 0 96 0m-368 48a48 48 0 1 0 0-96a48 48 0 1 0 0 96" />
+    </svg>
+</div>  -->
 

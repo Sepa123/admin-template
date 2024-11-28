@@ -6,12 +6,14 @@ import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angu
 import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
 import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
-import { Usuario } from 'src/app/models/transporte/tripulacion.interface' 
+import { Usuario,ObservacionDriver } from 'src/app/models/transporte/tripulacion.interface' 
+import { VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface';
+import { PanelTripulacion } from 'src/app/models/transporte/paneles.interface';
 
 @Component({
   selector: 'app-tripulacion',
   templateUrl: './tripulacion.component.html',
-  styleUrls: ['./tripulacion.component.scss']
+  styleUrls: ['./tripulacion.component.scss','../styles/cards.scss']
 })
 export class TripulacionComponent {
 
@@ -41,15 +43,23 @@ export class TripulacionComponent {
   listaComunasFull : any [] = []
   tipoUsuario : string = "7"
   usuarioActivado : boolean | null = false
-colaboradores : Colaborador [] = []
+  colaboradores : Colaborador [] = []
   tripulacion : Usuario [] = []
   tripulacionFull : Usuario [] = []
   detallePago : DetallePago [] = []
+
+  observacionDriver : ObservacionDriver [] =[]
 
   isModalOpen: boolean = false
   public visible = false;
 
   toggleLiveDemo() {
+
+    if (document.getElementById('cert_antecedentes')) (document.getElementById('cert_antecedentes') as HTMLInputElement).value = '';
+    if (document.getElementById('licencia_conducir')) (document.getElementById('licencia_conducir') as HTMLInputElement).value = '';
+    if (document.getElementById('cedula_identidad')) (document.getElementById('cedula_identidad') as HTMLInputElement).value = '';
+    if (document.getElementById('contrato')) (document.getElementById('contrato') as HTMLInputElement).value = '';
+    if (document.getElementById('foto_perfil')) (document.getElementById('foto_perfil') as HTMLInputElement).value = '';
     this.visible = !this.visible;
   }
 
@@ -102,6 +112,14 @@ colaboradores : Colaborador [] = []
   public visibleAgregar = false;
 
   toggleLiveAgregar() {
+
+    if (document.getElementById('A_cert_antecedentes')) (document.getElementById('A_cert_antecedentes') as HTMLInputElement).value = '';
+    if (document.getElementById('A_licencia_conducir')) (document.getElementById('A_licencia_conducir') as HTMLInputElement).value = '';
+    if (document.getElementById('A_cedula_identidad')) (document.getElementById('A_cedula_identidad') as HTMLInputElement).value = '';
+    if (document.getElementById('A_contrato')) (document.getElementById('A_contrato') as HTMLInputElement).value = '';
+    if (document.getElementById('A_foto_perfil')) (document.getElementById('A_foto_perfil') as HTMLInputElement).value = '';
+
+
     this.form.reset()
 
     this.form.patchValue({
@@ -157,6 +175,41 @@ colaboradores : Colaborador [] = []
   tipoVehiculos : any [] = tipoVehiculo
   marcaVehiculo : any [] = marcaVehiculo
   caracteristicasVehiculo : any [] = caracteristicasVehiculo
+
+  ObservacionVehiculos: VehiculoObservaciones [] = []
+
+  panelTripulacion : PanelTripulacion = {
+    "Total": 0,
+    "Activos": 0,
+    "Drivers_Activos": 0,
+    "Peonetas_Activos": 0
+  }
+
+  public visibleIconos = false;
+
+  toggleLiveIconos() {
+
+    
+
+    this.selectedDocAntecedentes = null;
+    this.selectedLicenciaConducir = null;
+    this.selectedCedulaIdentidad = null;
+    this.selectedContrato = null;
+    this.selectedFotoPerfil = null;
+    this.visibleIconos = !this.visibleIconos;
+  }
+
+  handleLiveIconosChange(event: any) {
+    this.visibleIconos = event;
+  }
+
+  descargarObservacionVehiculos(){
+
+
+    this.service.descargarVehiculosObservaciones()
+  
+   }
+  
 
   form = this.builder.group({
     Nombre_razon_social : this.builder.control("",[Validators.required] ),
@@ -215,40 +268,34 @@ colaboradores : Colaborador [] = []
 
     this.getLocation()
 
-    this.comunaService.getListaRegiones().subscribe((data : any) => {
-      this.listaRegiones = data
-    })
-
-    this.comunaService.getListaComunas().subscribe((data : any) => {
-      this.listaComunas = data
+    this.service.getSeleccioneTripulacion().subscribe((data : any) => {
+      this.listaRegiones = data.Region
+      this.listaComunas = data.Comuna
       this.listaComunasFull = this.listaComunas
       this.form.patchValue({
         Region : '1',
-        Comuna : '1'
+        Comuna : '1',
+        Tipo_usuario : '1',
       })
+      this.marcaVehiculo = data.Marca_vehiculo
+      this.tipoTripulacion = data.Tipo_tripulacion
+
+      this.service.getpanelTripulacion().subscribe(data => {
+        this.panelTripulacion= data
+      })
+    })
+
+    this.service.getObservacionesDriver().subscribe(data => {
+      this.observacionDriver = data
     })
 
     this.service.getUsuariosTransporte().subscribe((data) => {
       this.tripulacion = data
       this.tripulacionFull = data
-      this.service.getTiposTripulacion().subscribe((data : any) => {
-        this.tipoTripulacion = data
-        this.form.patchValue({
-          Tipo_usuario : '1',
-        })
-
-        this.service.getMarcasVehiculos().subscribe((data : any) => {
-          this.marcaVehiculo = data
-        
-          this.service.obtenerColaboradores().subscribe((data) => {
+      this.service.obtenerColaboradores().subscribe((data) => {
             this.colaboradores = data
-
-          })
-
-        })
       })
     })
-
   }
 
   pv : boolean = true

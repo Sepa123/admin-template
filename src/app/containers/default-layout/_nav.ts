@@ -114,6 +114,97 @@ export const navItems: INavDataBar[] = [
     iconComponent: { name: 'cil-car-alt' },
     roles : [ROLES_ENUM.ADMIN],
     children: [
+      
+      {
+        name: 'Reclutamiento',
+        url : '/transporte/reclutamiento'
+      },
+      {
+        name: 'Razón Social',
+        url : '/transporte/colaboradores'
+      },
+      {
+        name: 'Vehículos ',
+        url : '/transporte/vehiculos'
+      },
+      {
+        name: 'Tripulación',
+        url : '/transporte/tripulacion'
+      },
+      {
+        name: 'Reporte',
+        url : '/transporte/buscador'
+      },
+      {
+        name:'Gestión Gps',
+        url: '/transporte/gestion-gps'
+      },
+      {
+        name: "Venta/Traspaso de vehiculo",
+        url:  '/transporte/venta-o-traspaso-de-vehiculo'
+      },
+    ]
+  },
+  {
+    name: 'Transporte',
+    url: '/transporte',
+    iconComponent: { name: 'cil-car-alt' },
+    roles : [ROLES_ENUM.GERENTE_OPERACION],
+    children: [
+      
+      {
+        name: 'Reclutamiento',
+        url : '/transporte/reclutamiento'
+      }
+    ]
+  },
+  {
+    name: 'Transporte',
+    url: '/transporte',
+    iconComponent: { name: 'cil-car-alt' },
+    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA,ROLES_ENUM.JEFE_SEGURIDAD],
+    children: [
+      {
+        name: 'Reclutamiento',
+        url : '/transporte/reclutamiento'
+      },
+      // {
+      //   name: 'Reportes',
+      //   url : '/transporte/reportes'
+      // },
+      {
+        name: 'Razón Social',
+        url : '/transporte/colaboradores'
+      },
+      {
+        name: 'Vehículos ',
+        url : '/transporte/vehiculos'
+      },
+      {
+        name: 'Tripulación',
+        url : '/transporte/tripulacion'
+      },
+      {
+        name: 'Reporte',
+        url : '/transporte/buscador'
+      },
+      {
+        name:'Gestión Gps',
+        url: '/transporte/gestion-gps'
+      },
+      
+    ]
+  },
+  {
+    name: 'Transporte',
+    url: '/transporte',
+    iconComponent: { name: 'cil-car-alt' },
+    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO],
+    children: [
+      {
+        name: 'Reclutamiento',
+        url : '/transporte/reclutamiento'
+      },
       // {
       //   name: 'Reportes',
       //   url : '/transporte/reportes'
@@ -148,38 +239,6 @@ export const navItems: INavDataBar[] = [
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
-    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA,ROLES_ENUM.JEFE_SEGURIDAD],
-    children: [
-      // {
-      //   name: 'Reportes',
-      //   url : '/transporte/reportes'
-      // },
-      {
-        name: 'Razón Social',
-        url : '/transporte/colaboradores'
-      },
-      {
-        name: 'Vehículos ',
-        url : '/transporte/vehiculos'
-      },
-      {
-        name: 'Tripulación',
-        url : '/transporte/tripulacion'
-      },
-      {
-        name: 'Reporte',
-        url : '/transporte/buscador'
-      },
-      {
-        name:'Gestión Gps',
-        url: '/transporte/gestion-gps'
-      }
-    ]
-  },
-  {
-    name: 'Transporte',
-    url: '/transporte',
-    iconComponent: { name: 'cil-car-alt' },
     roles : [ROLES_ENUM.SUPERVISOR_MERCADO_LIBRE,ROLES_ENUM.JEFE_OPERACION_MERCADO_LIBRE],
     children: [
       {
@@ -198,9 +257,27 @@ export const navItems: INavDataBar[] = [
     iconComponent: { name: 'cil-car-alt' },
     roles : [ROLES_ENUM.FINANZA,ROLES_ENUM.JEFE_FINANZAS],
     children: [
+      
       {
         name:'Gestión Gps',
         url: '/transporte/gestion-gps'
+      }
+      // {
+      //   name: 'Colaboradores',
+      //   url : '/transporte/colaboradores'
+      // },
+    ]
+  },
+  {
+    name: 'Transporte',
+    url: '/transporte',
+    iconComponent: { name: 'cil-car-alt' },
+    roles : [ROLES_ENUM.JEFE_MANTENCION],
+    children: [
+      
+      {
+        name:'Vehículos',
+        url: '/transporte/vehiculos'
       }
       // {
       //   name: 'Colaboradores',
@@ -226,10 +303,10 @@ export const navItems: INavDataBar[] = [
         name: 'NS Easy',
         url : '/exo/ns-easy'
       },
-      {
-        name: 'NS Electrolux',
-        url : '/exo/ns-electrolux'
-      }
+      // {
+      //   name: 'NS Electrolux',
+      //   url : '/exo/ns-electrolux'
+      // }
     ]
   },
   /// exo para coordinador
@@ -260,10 +337,10 @@ export const navItems: INavDataBar[] = [
         name: 'NS Easy',
         url : '/exo/ns-easy'
       },
-      {
-        name: 'NS Electrolux',
-        url : '/exo/ns-electrolux'
-      }
+      // {
+      //   name: 'NS Electrolux',
+      //   url : '/exo/ns-electrolux'
+      // }
       
     ]
   },
@@ -282,10 +359,10 @@ export const navItems: INavDataBar[] = [
         name: 'NS Easy',
         url : '/exo/ns-easy'
       },
-      {
-        name: 'NS Electrolux',
-        url : '/exo/ns-electrolux'
-      }
+      // {
+      //   name: 'NS Electrolux',
+      //   url : '/exo/ns-electrolux'
+      // }
     ]
   },
   // FULL PANTALLA
@@ -460,8 +537,16 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/pendientes'
       },
       {
+        name: 'Pendientes en ruta',
+        url: '/operaciones/pendientes-en-ruta'
+      },
+      {
         name: 'Estados',
         url: '/operaciones/estados'
+      },
+      {
+        name: 'Edicion Pendientes',
+        url: '/operaciones/edicion-pendientes'
       },
     ]
   }
@@ -544,14 +629,22 @@ export const navItems: INavDataBar[] = [
       {
         name : 'Despacho Ruta',
         url : '/picking/buscar-ruta'
-      }
+      },
+      {
+        name : 'Resumen Rutas',
+        url : '/picking/resumen-rutas'
+      },
+      {
+        name: 'Pedidos Comp. Obligatorio',
+        url: '/picking/pendientes-obligados'
+      },
     ]
   },
   { /// Pantalla de info para Mercadolibre
     name: 'Mercado Libre',
     url: '/mercadolibre',
     iconComponent : {name : 'cil-handshake'},
-    roles :  ROLES_PERMITIDOS.MELI_VIEW_NAV,
+    roles :  [ROLES_ENUM.SUPERVISOR_MERCADO_LIBRE,ROLES_ENUM.JEFE_OPERACION_MERCADO_LIBRE],
     children: [
       // {
       //   name: "Información",
@@ -564,7 +657,41 @@ export const navItems: INavDataBar[] = [
       {
         name: "Supervisores",
         url:  '/mercadolibre/supervisores'
-      }
+      },
+      {
+        name: "Seguimiento Diario",
+        url:  '/mercadolibre/citacion-supervisores'
+      },
+      {
+        name: "Resumen Supervisores",
+        url:  '/mercadolibre/ns-supervisores'
+      },
+      {
+        name: "Venta/Traspaso de vehiculo",
+        url:  '/mercadolibre/venta-o-traspaso-de-vehiculo'
+      },
+      
+    ]
+  },
+  { /// Pantalla de info para Mercadolibre
+    name: 'Mercado Libre',
+    url: '/mercadolibre',
+    iconComponent : {name : 'cil-handshake'},
+    roles :  [ROLES_ENUM.JEFE_OPERACIONES],
+    children: [
+      // {
+      //   name: "Información",
+      //   url : '/mercadolibre/info-mercado-libre'
+      // },
+      {
+        name: "Citaciones",
+        url:  '/mercadolibre/citaciones'
+      },
+      {
+        name: "Supervisores",
+        url:  '/mercadolibre/supervisores'
+      },
+      
     ]
   },
   { /// Pantalla de info para Mercadolibre
@@ -590,13 +717,14 @@ export const navItems: INavDataBar[] = [
         url:  '/mercadolibre/prefactura'
       },
       {
-        name: "Citación Supervisores",
+        name: "Seguimiento Diario",
         url:  '/mercadolibre/citacion-supervisores'
       },
-      // {
-      //   name: "Prefactura Diaria",
-      //   url:  '/mercadolibre/prefactura-diaria'
-      // }
+      {
+        name: "Resumen Supervisores",
+        url:  '/mercadolibre/ns-supervisores'
+      },
+      
     ]
   },
   { /// Pantalla de info para Mercadolibre
@@ -641,6 +769,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Seguimiento Ruta',
         url: '/toc/seguimiento-ruta'
+      },
+      {
+        name: 'Productos Adelanto',
+        url : '/toc/producto-adelanto'
       }
     ]
   },
@@ -666,6 +798,10 @@ export const navItems: INavDataBar[] = [
       {
         name: 'Seguimiento Ruta',
         url: '/toc/seguimiento-ruta'
+      },
+      {
+        name: 'Productos Adelanto',
+        url : '/toc/producto-adelanto'
       }
       
     ]
@@ -897,8 +1033,11 @@ export const navItems: INavDataBar[] = [
       {
         name: "Tarifario Especifico",
         url: '/finanzas/carTarifarioEspecifico'
-      }
-      
+      },
+      {
+        name: "Rutas Mercado Libre",
+        url : '/finanzas/rutas-meli'
+      },
     ]
   },
   { /// Pantalla Informacion Para TOC
@@ -1002,10 +1141,10 @@ export const navItems: INavDataBar[] = [
         name: 'Easy CD',
         url: '/recepcion/easy-cd'
       },
-      {
-        name: 'Electrolux',
-        url: '/recepcion/electrolux'
-      },
+      // {
+      //   name: 'Electrolux',
+      //   url: '/recepcion/electrolux'
+      // },
       // {
       //   name: 'Sportex',
       //   url: '/recepcion/sportex'

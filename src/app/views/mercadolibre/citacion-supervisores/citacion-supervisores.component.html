@@ -1,14 +1,31 @@
 <div class="container mt-5">
-    <h4 class="mb-4">Gestión de Citaciones de Vehículos</h4>
+    <h4 class="mb-4"> Seguimiento Diario</h4>
 
     <!-- Selector de Fecha y Botón Nueva Citación -->
-        <div class="form-date mb-3">
+        <!-- <div class="form-date mb-3">
             <label for="fechaCitaciones" class="mr-3">Seleccionar Fecha:</label>
-            <!-- <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate" onkeydown="return false;" onpaste="return false;" -->
-            <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate" 
+            <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate"
              onblur="this.value=this.value;" (change)="onDateChange($event)">
 
-        </div>
+        </div> -->
+
+      <table>
+        <tr>
+            <td>
+              
+                <label for="fechaCitaciones" class="mr-3">Seleccionar Fecha:</label>
+                <!-- <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate" onkeydown="return false;" onpaste="return false;" -->
+                <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate"
+                 onblur="this.value=this.value;" (change)="onDateChange($event)">
+                 <!-- <input type="date" class="form-control" id="fechaCitaciones" [value]="currentDate" [min]="minDate"  -->
+            </td>
+            <td>
+                <label for="fechaCitaciones">Buscador:</label>
+                <input type="text" [(ngModel)]="textoFiltro" (keyup)="onKeyUp()" placeholder="Buscador" class="form-control">
+            </td>
+        </tr>
+      </table>
+
     <!-- Tabla de Citaciones -->
 </div>
 
@@ -23,12 +40,13 @@
         </thead> -->
         <tbody *ngFor="let citacion of citacionSupervisores">
           <tr class="trverde">
-            <th width="33%">Operación : {{citacion.Nombre}}</th>
-            <th  width="33%">Centro de operación : {{citacion.Centro}} </th>
-            <th  width="33%">{{citacion.Region}}</th>
+            <th width="25%">Operación : {{citacion.Nombre}}</th>
+            <th  width="25%">Centro de operación : {{citacion.Centro}} </th>
+            <th  width="25%">{{citacion.Region}}</th>
+            <th width="25%"> Vehículos : {{citacion.Detalles.length}}</th>
           </tr>
           <tr>
-            <td width="50%" colspan="2">
+            <td width="50%" colspan="3">
               <table>
                 <tr *ngFor="let detalle of citacion.Detalles ">
                     <td width="70%">
@@ -41,48 +59,26 @@
 
                     </td>
                     <td>
-                        <svg *ngIf="detalle.tipo_vehiculo == 1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="black" d="M18 18.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5m1.5-9l1.96 2.5H17V9.5m-11 9A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5M20 8h-3V4H3c-1.11 0-2 .89-2 2v11h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-5z" />
-                          </svg>
-              
-                          <svg *ngIf="detalle.tipo_vehiculo == 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="black" d="M16 6h-5.5v4H1v5h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-3c0-1.11-.89-2-2-2h-2zm-4 1.5h3.5l1.96 2.5H12zm-6 6A1.5 1.5 0 0 1 7.5 15A1.5 1.5 0 0 1 6 16.5A1.5 1.5 0 0 1 4.5 15A1.5 1.5 0 0 1 6 13.5m12 0a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5" />
-                          </svg>
-              
-                          <svg *ngIf="detalle.tipo_vehiculo == 3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="black" d="M3 7c-1.11 0-2 .89-2 2v8h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-4c0-1.11-.89-2-2-2l-3-4zm12 1.5h2.5l1.96 2.5H15zm-9 7A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5m12 0a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5" />
-                          </svg>
-              
-                          <svg *ngIf="detalle.tipo_vehiculo == 4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
-                            <path fill="black" d="m475.656 223.142l-90.272-13.908l-55.013-89.87a32.07 32.07 0 0 0-27.548-15.291L72.265 105.91A32.018 32.018 0 0 0 42.2 127.684L16 205.375V384h55.006a68 68 0 0 0 129.988 0h102.012a68 68 0 0 0 129.988 0H496V246.862a23.873 23.873 0 0 0-20.344-23.72M224 136.7l79.078-.63l44.1 72.047L224 208.074Zm-151.479 1.208L192 136.956v71.107l-143.119-.051ZM136 400a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m232 0a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m96-48h-29.082a67.982 67.982 0 0 0-133.836 0h-98.164a67.982 67.982 0 0 0-133.836 0H48V240.026l330.526.529L464 253.724Z" />
-                          </svg>
-              
-                          <svg *ngIf="detalle.tipo_vehiculo == 5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="black" d="M18 18.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5m1.5-9l1.96 2.5H17V9.5m-11 9A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5M20 8h-3V4H3c-1.11 0-2 .89-2 2v11h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-5z" />
-                          </svg>
-              
-                          <svg *ngIf="detalle.tipo_vehiculo == 6" width="32" height="32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 199.19 86.29"><path d="M149.12,73.05a13.24,13.24,0,1,0,13.23-13.23A13.25,13.25,0,0,0,149.12,73.05Zm4.9,0a8.33,8.33,0,1,1,8.33,8.33A8.34,8.34,0,0,1,154,73.05Z"/><path d="M162.35,67.71A5.34,5.34,0,1,1,157,73.05,5.35,5.35,0,0,1,162.35,67.71Z"/>
-                            <path d="M44.67,67.71a5.34,5.34,0,1,1-5.34,5.34A5.35,5.35,0,0,1,44.67,67.71Z"/><path d="M.24,60.38v2.43a1.5,1.5,0,0,0,1.5,1.5h33a13.24,13.24,0,1,0,19.82,0H65.24v6.53a1.52,1.52,0,0,0,1.51,1.51h30.5V66.72a4.5,4.5,0,0,1,4.49-4.5h23.57a4.51,4.51,0,0,1,4.5,4.5v5.63h15.55a1.51,1.51,0,0,0,1.5-1.51V61h0V54.23a1.49,1.49,0,0,0,.69,1.26l4.86,3.12a1.52,1.52,0,0,0,1.59,0,16.67,16.67,0,0,1,23,6.53A17,17,0,0,1,179,71.8a1.49,1.49,0,0,0,1.49,1.38h15.47a2.93,2.93,0,0,0,2.3-1.07,5.57,5.57,0,0,0,1.2-3.54v-4.1s0-3.18-2.36-3.95V43.06a22,22,0,0,0-2.16-9.55C191.2,25.71,183.54,11,178.72,11H150.08s-3.22-.11-3.22,7.5V0h-5V53.87H1.64v5h.1A1.51,1.51,0,0,0,.24,60.38ZM192.11,49.93a.49.49,0,0,1,.6-.48,5.53,5.53,0,0,1,2,.88,1,1,0,0,1,.41.81v8.35a.49.49,0,0,1-.49.49h-2a.49.49,0,0,1-.5-.49ZM159.2,32.84a3.78,3.78,0,0,1-2.46-3.75V16.43s0-1.61,2.79-1.61h13.73s4.18-.11,6.43.86,11.43,18.4,11.43,23.71c0,3-1.7,2.79-3.12,2.38Zm-6,12.52c0-2,1.06-1.77,1.06-1.77s4.57-.3,6.06,1.69-.45,1.93-.45,1.93h-5.39S153.17,47.33,153.17,45.36ZM36.35,73.05a8.33,8.33,0,1,1,8.32,8.33A8.33,8.33,0,0,1,36.35,73.05Z"/><rect x="99.75" y="64.72" width="27.56" height="12.24" rx="1.99"/>
-                          </svg>
-              
-                          <svg *ngIf="detalle.tipo_vehiculo == 7" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="black" d="M18 4h-5v9H1v4h2c0 .83.3 1.53.89 2.13c.61.59 1.3.87 2.11.87s1.5-.28 2.11-.87c.59-.6.89-1.3.89-2.13h5.5c0 .83.28 1.53.88 2.13c.59.59 1.29.87 2.12.87c.8 0 1.5-.28 2.09-.87c.6-.6.91-1.3.91-2.13H23v-7zM7.08 18.07c-.28.3-.64.43-1.08.43s-.8-.13-1.08-.43s-.42-.65-.42-1.07c0-.39.14-.74.42-1.04s.64-.46 1.08-.46s.8.16 1.08.46s.42.65.42 1.04c0 .42-.14.77-.42 1.07m11.46 0c-.3.3-.65.43-1.04.43c-.42 0-.77-.13-1.07-.43S16 17.42 16 17c0-.39.13-.74.43-1.04s.65-.46 1.07-.46c.39 0 .74.16 1.04.46s.46.65.46 1.04c0 .42-.16.77-.46 1.07M15 10V6h2.06l3.33 4z" />
-                          </svg>
-              
-                          <svg *ngIf="detalle.tipo_vehiculo == 8" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="black" d="M6 15v2H3V8l2.45-7h13.1L21 8v9h-3v-2zm-.2-9h12.4l-1.05-3H6.85zm1.7 6q.625 0 1.063-.437T9 10.5t-.437-1.062T7.5 9t-1.062.438T6 10.5t.438 1.063T7.5 12m9 0q.625 0 1.063-.437T18 10.5t-.437-1.062T16.5 9t-1.062.438T15 10.5t.438 1.063T16.5 12M13 23l-6-3h4v-2l6 3h-4z" />
-                          </svg>
-              
-                          <svg *ngIf="detalle.tipo_vehiculo == 9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="32" height="32">
-                            <metadata> </metadata>
-                            <g><g><g><path fill="#000000" d="M158.7,87.6C135,88.2,119.3,90.2,109,94c-8.9,3.3-23.4,10.6-36.7,18.5c-6.1,3.6-6.1,3.6-10.4,4c-15.9,1.2-36.6,7.2-44.2,12.7c-1.6,1.2-3.6,4.4-3.6,5.8c0,0.6-0.3,1-0.7,1c-0.3,0-1.2,0.4-1.8,0.9c-2.2,1.7-2.3,8.4-0.1,9.4c1.1,0.5,1.1,0.7,1.1,5.7c0,4.2,0.1,5.2,0.8,5.4c0.9,0.4,17.5,0.4,19.4,0c1.4-0.3,1.4-0.3,1-2.7c-0.6-3.4,0.3-8.4,2-12.1c3.9-8.2,13.8-13.4,22.5-11.9c6.3,1.1,12.9,5.7,15.7,10.8c2.4,4.3,3.3,10.4,2.3,14.8l-0.4,1.8h48.9h48.9l-0.4-1.8c-2.6-11.4,5.9-23.6,18.1-25.6c8.8-1.5,18.4,3.6,22.4,11.9c1.6,3.3,2.7,8.7,2.3,10.9c-0.2,1.1-0.1,1.4,0.6,1.4c0.4,0,5.7-0.3,11.6-0.7c6-0.4,11.4-0.7,12.2-0.7c1.1,0,1.3-0.2,1.3-1.6c0-1.3,0.3-1.8,1.6-2.6c2-1.2,2.9-3.3,2.8-6.4c0-1.8-0.3-2.5-1.2-3.2c-0.6-0.5-1.4-1.1-1.6-1.3c-0.4-0.4-0.6-2.4-0.6-7c0-14.5-2.2-21.8-10.2-34.5l-2.5-4l-6.5-1c-20-3.2-25.4-3.9-34-4.1c-4.8-0.1-10.7-0.2-13.2-0.3C173.7,87.4,165.8,87.5,158.7,87.6z M171.2,95.3c0.6,0.4,1.9,2.6,3,5.2c1.9,4.4,2,4.5,1.8,9.3l-0.1,4.8l-17,1.3c-9.3,0.7-17,1.2-17.1,1c-0.4-0.4,0.9-19.6,1.4-20.5c0.6-1.1,1.3-1.3,9.1-1.8C161.2,94.1,169.8,94.4,171.2,95.3z M198.8,95.2c9.5,0.3,14.9,0.8,15.8,1.1c1,0.4,3,2.6,6.7,7.8c2.9,4,5.2,7.4,5.2,7.8s-0.3,0.8-0.6,1.1c-0.6,0.4-40.7,2.3-41.1,1.9c-0.4-0.4-9.2-19.8-9.2-20.3c0-0.3,1.6-0.4,4.4-0.2C182.4,94.5,190.8,94.9,198.8,95.2z M229.9,98.2c3.2,4.2,9.7,17.5,8.9,18.3c-0.7,0.7-2.7-0.7-4.9-3.4c-4.4-5.5-10.3-13.9-10.3-14.9c0-1.2,2-2.5,3.5-2.4C227.7,95.8,228.9,96.9,229.9,98.2z M136.9,96.8c0.1,0.4-0.6,5.2-1.7,10.8l-2,10.1l-8.5,0.3c-4.7,0.1-13.1,0.4-18.7,0.5l-10.3,0.2v-4.9v-4.9l2.9-2.2c8-5.8,14.4-8.1,27.4-9.8C132.8,95.9,136.5,95.9,136.9,96.8z"/><path fill="#000000" d="M49.5,136.5c-2.7,1-3.2,1.3-5.7,3.5c-7,6.4-6.9,17.7,0.2,24.3c3.3,3,6.7,4.3,11.1,4.3c9.7,0,16.7-7.1,16.7-16.8c0-6.2-3.9-12.1-9.6-14.7C58.6,135.4,53.2,135.2,49.5,136.5z M61.3,142.9c1.1,0.8,2.6,2.5,3.4,3.8c1.2,1.9,1.4,2.7,1.4,5.4c-0.1,11.7-15.5,15.5-20.7,5.1c-2.8-5.6-0.5-12.3,5.2-15c1.4-0.7,2.7-0.8,5.3-0.8C58.8,141.5,59.6,141.7,61.3,142.9z"/><path fill="#000000" d="M51,146.3c-0.1,0.4,0,1.2,0.3,1.6c0.7,1.2-0.6,3.3-2.1,3.3c-0.6,0-1.2,0.3-1.3,0.6c-0.4,1.1,0.1,1.8,1.5,1.8c1.7,0,2.8,1.7,2,3.2c-1,1.9,1,2.8,2.2,1c0.3-0.5,1.1-0.9,1.7-0.9c0.7,0,1.4,0.4,1.7,0.9c0.7,1.1,2.2,1.2,2.5,0.2c0.2-0.4,0-1-0.3-1.4c-0.9-1.1,0.1-2.9,1.9-3.3c1.2-0.2,1.5-0.5,1.3-1.3c-0.1-0.8-0.5-1.1-1.5-1.2c-1.6-0.2-2.3-1.5-1.9-3.3c0.4-1.9-1-2.6-2.1-1.1c-0.9,1.4-3.2,1.4-3.9,0.1C52.6,145.3,51.4,145.2,51,146.3z"/><path fill="#000000" d="M189,136.5c-4.1,1.5-7.2,4.2-9.5,8.3c-1.2,2.1-1.3,2.8-1.3,7.3c0,4.8,0,5.1,1.6,7.9c1.7,3.2,4,5.4,7.6,7.2c1.8,1,2.8,1.1,7.1,1.1c4.4,0,5.2-0.1,7.3-1.2c3.1-1.7,6.1-4.8,7.7-8c1.1-2.3,1.3-3.2,1.3-7.1c0-3.6-0.2-4.9-1-6.7c-1.4-3.1-4.9-6.7-8.1-8.2C198.2,135.5,192.6,135.2,189,136.5z M199.1,142.2c4.1,2.1,6.2,5.5,6.2,10.1c0,5.2-3.3,9.5-8.5,10.7c-6,1.5-12.4-3-13.4-9.3c-0.7-4.3,2-9.4,6-11.4C192.1,140.9,196.7,140.9,199.1,142.2z"/><path fill="#000000" d="M190.3,146.2c-0.4,0.5-0.4,0.9,0,1.6c0.9,1.4-0.1,3.3-1.8,3.5c-1.7,0.2-1.9,1.9-0.1,2.2c1.6,0.2,2.9,1.9,2.3,3.1c-1,1.9,0.9,3.1,2.1,1.3c0.8-1.3,2.9-1.2,3.8,0.1c1.1,1.6,2.4,0.8,2.1-1.2c-0.4-1.9,0-3.1,1.1-3.1c0.5,0,1.2-0.3,1.7-0.7c0.8-0.6,0.8-0.8,0.3-1.4c-0.3-0.4-1.1-0.8-1.6-0.8c-1.4,0-2.4-1.6-1.6-2.9c1-2-0.8-3.2-2-1.4c-0.4,0.6-1.1,0.9-1.8,0.9c-0.7,0-1.6-0.4-2.1-0.9C191.4,145.3,191,145.3,190.3,146.2z"/></g></g></g>
-                            </svg>
-              
-                          <svg *ngIf="detalle.tipo_vehiculo == 10" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="black" d="M3 7c-1.11 0-2 .89-2 2v8h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-4c0-1.11-.89-2-2-2l-3-4zm0 1.5h4V11H3zm6 0h4V11H9zm6 0h2.5l1.96 2.5H15zm-9 7A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5m12 0a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5" />
-                          </svg> 
-                          
-                          
+                      
+                        <svg *ngIf="detalle.tipo_vehiculo == 1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M18 18.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5m1.5-9l1.96 2.5H17V9.5m-11 9A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5M20 8h-3V4H3c-1.11 0-2 .89-2 2v11h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-5z" /></svg>
+                        <svg *ngIf="detalle.tipo_vehiculo == 2" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 640 512">
+                          <path fill="currentColor" d="m368.6 96l76.8 96H288V96zM224 80v112H64c-17.7 0-32 14.3-32 32v64c-17.7 0-32 14.3-32 32s14.3 32 32 32h33.1c-.7 5.2-1.1 10.6-1.1 16c0 61.9 50.1 112 112 112s112-50.1 112-112c0-5.4-.4-10.8-1.1-16h66.3c-.7 5.2-1.1 10.6-1.1 16c0 61.9 50.1 112 112 112s112-50.1 112-112c0-5.4-.4-10.8-1.1-16h33.1c17.7 0 32-14.3 32-32s-14.3-32-32-32v-64c0-17.7-14.3-32-32-32h-48.6L418.6 56c-12.1-15.2-30.5-24-50-24H272c-26.5 0-48 21.5-48 48m0 288a48 48 0 1 1-96 0a48 48 0 1 1 96 0m288 0a48 48 0 1 1-96 0a48 48 0 1 1 96 0" />
+                        </svg>
+
+                        <svg *ngIf="detalle.tipo_vehiculo == 3" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 512"><path fill="currentColor" d="M64 104v88h96V96H72c-4.4 0-8 3.6-8 8m482 88l-80.9-96H384v96zm-226 0V96h-96v96zm272 192h-16c0 53-43 96-96 96s-96-43-96-96H256c0 53-43 96-96 96s-96-43-96-96H48c-26.5 0-48-21.5-48-48V104c0-39.8 32.2-72 72-72h393.1c18.9 0 36.8 8.3 49 22.8L625 186.5c9.7 11.5 15 26.1 15 41.2V336c0 26.5-21.5 48-48 48m-64 0a48 48 0 1 0-96 0a48 48 0 1 0 96 0m-368 48a48 48 0 1 0 0-96a48 48 0 1 0 0 96" /></svg>
+                        <svg *ngIf="detalle.tipo_vehiculo == 4" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 2048 1600"><path fill="currentColor" d="M480 960q0-66-47-113t-113-47t-113 47t-47 113t47 113t113 47t113-47t47-113m36-320h1016l-89-357q-2-8-14-17.5t-21-9.5H640q-9 0-21 9.5T605 283zm1372 320q0-66-47-113t-113-47t-113 47t-47 113t47 113t113 47t113-47t47-113m160-96v384q0 14-9 23t-23 9h-96v128q0 80-56 136t-136 56t-136-56t-56-136v-128H512v128q0 80-56 136t-136 56t-136-56t-56-136v-128H32q-14 0-23-9t-9-23V864q0-93 65.5-158.5T224 640h28l105-419q23-94 104-157.5T640 0h768q98 0 179 63.5T1691 221l105 419h28q93 0 158.5 65.5T2048 864" /></svg>
+                        <svg *ngIf="detalle.tipo_vehiculo == 5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 512"><path fill="currentColor" d="M640 0v400c0 61.9-50.1 112-112 112c-61 0-110.5-48.7-112-109.3L48.4 502.9c-17.1 4.6-34.6-5.4-39.3-22.5s5.4-34.6 22.5-39.3L352 353.8V64c0-35.3 28.7-64 64-64zm-64 400a48 48 0 1 0-96 0a48 48 0 1 0 96 0M23.1 207.7c-4.6-17.1 5.6-34.6 22.6-39.2l46.4-12.4l20.7 77.3c2.3 8.5 11.1 13.6 19.6 11.3l30.9-8.3c8.5-2.3 13.6-11.1 11.3-19.6l-20.7-77.3l46.4-12.4c17.1-4.6 34.6 5.6 39.2 22.6l41.4 154.5c4.6 17.1-5.6 34.6-22.6 39.2l-154.6 41.5c-17.1 4.6-34.6-5.6-39.2-22.6z" /></svg>
+                        <svg *ngIf="detalle.tipo_vehiculo == 6" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M224 96.8V96a56.06 56.06 0 0 0-56-56h-8a16 16 0 0 0-16 16v120h-16V72a8 8 0 0 0-8-8H16A16 16 0 0 0 0 80v104a32 32 0 0 0 56 21.13A32 32 0 0 0 111 192h82a32 32 0 0 0 63-8v-48a40.07 40.07 0 0 0-32-39.2M160 56h8a40 40 0 0 1 40 40v8a8 8 0 0 0 8 8a24 24 0 0 1 24 24v20.31a31.7 31.7 0 0 0-16-4.31a32.06 32.06 0 0 0-31 24h-33Zm-48 24v96h-1a32 32 0 0 0-55-13.13a31.9 31.9 0 0 0-40-6.56V80ZM32 200a16 16 0 1 1 16-16a16 16 0 0 1-16 16m48 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16m144 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16" /></svg>
+                        <svg *ngIf="detalle.tipo_vehiculo == 7" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M224 96.8V96a56.06 56.06 0 0 0-56-56h-8a16 16 0 0 0-16 16v120h-16V72a8 8 0 0 0-8-8H16A16 16 0 0 0 0 80v104a32 32 0 0 0 56 21.13A32 32 0 0 0 111 192h82a32 32 0 0 0 63-8v-48a40.07 40.07 0 0 0-32-39.2M32 200a16 16 0 1 1 16-16a16 16 0 0 1-16 16m48 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16m144 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16" /></svg>
+                        <svg *ngIf="detalle.tipo_vehiculo == 8" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                                                    <path fill="black" d="M6 15v2H3V8l2.45-7h13.1L21 8v9h-3v-2zm-.2-9h12.4l-1.05-3H6.85zm1.7 6q.625 0 1.063-.437T9 10.5t-.437-1.062T7.5 9t-1.062.438T6 10.5t.438 1.063T7.5 12m9 0q.625 0 1.063-.437T18 10.5t-.437-1.062T16.5 9t-1.062.438T15 10.5t.438 1.063T16.5 12M13 23l-6-3h4v-2l6 3h-4z" />
+                        </svg>
+                        <svg *ngIf="detalle.tipo_vehiculo == 9" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M240 114h-29.51l-43.9-43.9a13.94 13.94 0 0 0-9.9-4.1H44.28a14 14 0 0 0-11.65 6.23L3 116.67A6 6 0 0 0 2 120v48a14 14 0 0 0 14 14h18.6a30 30 0 0 0 58.8 0h69.2a30 30 0 0 0 58.8 0H240a14 14 0 0 0 14-14v-40a14 14 0 0 0-14-14M42.62 78.89a2 2 0 0 1 1.66-.89h112.41a2 2 0 0 1 1.41.59L193.52 114H19.21ZM64 194a18 18 0 1 1 18-18a18 18 0 0 1-18 18m128 0a18 18 0 1 1 18-18a18 18 0 0 1-18 18m50-26a2 2 0 0 1-2 2h-18.6a30 30 0 0 0-58.8 0H93.4a30 30 0 0 0-58.8 0H16a2 2 0 0 1-2-2v-42h226a2 2 0 0 1 2 2Z" /></svg>
+
+                        <svg *ngIf="detalle.tipo_vehiculo == 10" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                    <path fill="black" d="M3 7c-1.11 0-2 .89-2 2v8h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-4c0-1.11-.89-2-2-2l-3-4zm12 1.5h2.5l1.96 2.5H15zm-9 7A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5m12 0a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5" />
+                        </svg>
+
                           {{detalle.ppu}}
                     </td>
                 </tr>
@@ -175,9 +171,12 @@
             </td>
 
         </tbody>
-        <td *ngIf="citacionSupervisores.length == 0"> No hay registros</td>
+        <td *ngIf="citacionSupervisores.length == 0" colspan="3"> <h3 style="text-align: center;">No hay registros</h3></td>
     </table>
 </div>
+
+
+
 
 
 <c-modal id="modalXl" size="xl" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
@@ -191,7 +190,14 @@
           <table >
 
               <tr>
-              <td class="tamano">Cargar Archivo<span style="font-weight: bold;"></span> </td>
+              <td class="">Cargar Archivo<span style="font-weight: bold;"></span> 
+                <span *ngIf="!subidoOk">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                    <path fill="green" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
+                  </svg>  
+                </span>
+               
+              </td>
               </tr>
               <tr>
               <td>
@@ -218,8 +224,9 @@
                 <!-- <th >patente igual</th> -->
                 <th >Driver</th>
                 <!-- <th >driver_ok</th> -->
-                <!-- <th >p_avance</th>
-                <th >avance</th> -->
+                <th >Avance</th>
+                <th >% Avance</th>
+                
                 <!-- <th >tipo_vehiculo</th> -->
                 <th >Valor ruta</th>
                 <!-- <th >ruta_cerrada</th> -->
@@ -237,6 +244,8 @@
                  <th *ngIf="tipoOperacion == 'LM'">Entregas</th>
                  <th *ngIf="tipoOperacion == 'LM'">Tiempo ruta</th>
                  <th *ngIf="tipoOperacion == 'LM'">Estado</th>
+                 <th >KM</th>
+                 <th >Obs</th>
             </thead>
             <tr *ngFor="let detalle of datosCitacionActiva;let i = index">
                 <!-- <td contenteditable="true" (blur)="updateCell($event, i, 'id_ty')">{{detalle.id_ty}}</td> -->
@@ -290,30 +299,31 @@
                    <svg *ngIf="!detalle.driver_ok" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" ><path  fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg> -->
 
                 </td>
-
-                <!-- <td contenteditable="true" (blur)="updateCell($event, i, 'p_avance')"> {{detalle.p_avance}}</td>
-                <td contenteditable="true" (blur)="updateCell($event, i, 'avance')">{{detalle.avance}}</td> -->
+                
+                <td [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'avance')">  {{detalle.avance}}</td>
+                <td [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'p_avance')">  {{detalle.p_avance}}</td>
+                <!-- <td contenteditable="false" (blur)="updateCell($event, i, 'avance')"></td> -->
                 <!-- <td contenteditable="false" (blur)="updateCell($event, i, 'tipo_vehiculo')">{{detalle.tipo_vehiculo}}</td> -->
-                <td contenteditable="true" (blur)="updateCell($event, i, 'valor_ruta')"> {{detalle.valor_ruta}}</td>
+                <td [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'valor_ruta')"> {{detalle.valor_ruta}}</td>
                 <!-- <td contenteditable="false" (blur)="updateCell($event, i, 'ruta_cerrada')">
                   <svg *ngIf="detalle.ruta_cerrada" xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" ><path fill="green" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
                   <svg *ngIf="!detalle.ruta_cerrada" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" ><path  fill="red" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
                 </td> -->
                 
-                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_total_paradas')">{{detalle.campos_por_operacion[0].fm_total_paradas}}</td>
-                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_paqueteria_colectada')">{{detalle.campos_por_operacion[0].fm_paqueteria_colectada}}</td>
-                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_estimados')">{{detalle.campos_por_operacion[0].fm_estimados}}</td>
-                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_preparados')">{{detalle.campos_por_operacion[0].fm_preparados}}</td>
-                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_p_colectas_a_tiempo')">{{detalle.campos_por_operacion[0].fm_p_colectas_a_tiempo}}</td>
-                  <td *ngIf="tipoOperacion == 'FM'" contenteditable="true" (blur)="updateCell($event, i, 'fm_p_no_colectadas')">{{detalle.campos_por_operacion[0].fm_p_no_colectadas}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_total_paradas')">{{detalle.campos_por_operacion[0].fm_total_paradas}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_paqueteria_colectada')">{{detalle.campos_por_operacion[0].fm_paqueteria_colectada}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_estimados')">{{detalle.campos_por_operacion[0].fm_estimados}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_preparados')">{{detalle.campos_por_operacion[0].fm_preparados}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_p_colectas_a_tiempo')">{{detalle.campos_por_operacion[0].fm_p_colectas_a_tiempo}}</td>
+                  <td *ngIf="tipoOperacion == 'FM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'fm_p_no_colectadas')">{{detalle.campos_por_operacion[0].fm_p_no_colectadas}}</td>
                   
 
-                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_fallido')">{{detalle.campos_por_operacion[0].lm_fallido}}</td>
-                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_pendiente')">{{detalle.campos_por_operacion[0].lm_pendiente}}</td>
-                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_spr')">{{detalle.campos_por_operacion[0].lm_spr}}</td>
-                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_entregas')">{{detalle.campos_por_operacion[0].lm_entregas}}</td>
-                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_tiempo_ruta')">{{detalle.campos_por_operacion[0].lm_tiempo_ruta}}</td>
-                  <td *ngIf="tipoOperacion == 'LM'" contenteditable="true" (blur)="updateCell($event, i, 'lm_estado')">{{detalle.campos_por_operacion[0].lm_estado}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_fallido')">{{detalle.campos_por_operacion[0].lm_fallido}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_pendiente')">{{detalle.campos_por_operacion[0].lm_pendiente}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_spr')">{{detalle.campos_por_operacion[0].lm_spr}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_entregas')">{{detalle.campos_por_operacion[0].lm_entregas}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_tiempo_ruta')">{{detalle.campos_por_operacion[0].lm_tiempo_ruta}}</td>
+                  <td *ngIf="tipoOperacion == 'LM'" [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90' " (blur)="updateCell($event, i, 'lm_estado')">{{detalle.campos_por_operacion[0].lm_estado}}</td>
                 <!-- <div *ngIf="detalle.operacion == 'LM'">
                   <td contenteditable="true" (blur)="updateCell($event, i, 'total_paradas')">{{detalle.campos_por_operacion[0].total_paradas}}</td>
                   <td contenteditable="true" (blur)="updateCell($event, i, 'paqueteria_colectada')">{{detalle.campos_por_operacion[0].paqueteria_colectada}}</td>
@@ -323,8 +333,33 @@
                   <td contenteditable="true" (blur)="updateCell($event, i, 'p_no_colectadas')">{{detalle.campos_por_operacion[0].p_no_colectadas}}</td>
 
                 </div> -->
+                <td [attr.contenteditable]="detalle.ruta_cerrada != true && rol != '90'" (blur)="updateCell($event, i, 'kilometro')">  {{detalle.kilometro}}</td>
+                <td>
+                  <svg (click)="verObservacion(detalle,i)" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+ 
+                </td>
                 
                 <td>
+                  <!-- lock -->
+                  <span title="Ruta Cerrada ">
+                    <svg *ngIf="detalle.ruta_cerrada " xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
+                      <path fill="red" d="M320 640h512V448q0-106-75-181t-181-75t-181 75t-75 181zm832 96v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h32V448q0-184 132-316T576 0t316 132t132 316v192h32q40 0 68 28t28 68" />
+                    </svg>
+
+                </span>
+                  <!-- lock-open -->
+
+                  <span title="Ruta Abierta ">
+                    <svg *ngIf="!detalle.ruta_cerrada && rol != '90'" xmlns="http://www.w3.org/2000/svg" (click)="CerrarRuta(i)" width="20" height="14" viewBox="0 0 1664 1408">
+                      <path fill="black" d="M1664 448v256q0 26-19 45t-45 19h-64q-26 0-45-19t-19-45V448q0-106-75-181t-181-75t-181 75t-75 181v192h96q40 0 68 28t28 68v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h672V448q0-185 131.5-316.5T1216 0t316.5 131.5T1664 448" />
+                    </svg>
+                </span>
+
+                <span title="Ruta Abierta " *ngIf="!detalle.ruta_cerrada && rol == '90'">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 1664 1408">
+                    <path fill="black" d="M1664 448v256q0 26-19 45t-45 19h-64q-26 0-45-19t-19-45V448q0-106-75-181t-181-75t-181 75t-75 181v192h96q40 0 68 28t28 68v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h672V448q0-185 131.5-316.5T1216 0t316.5 131.5T1664 448" />
+                  </svg>
+              </span>
                   <!-- <button cButton (click)="CerrarRuta(i)" >
                     cerrar 
                   </button> -->
@@ -340,8 +375,9 @@
             </tr>
         </table>
         <p></p>
+        
 
-        <button (click)="guardarDatos()" cButton color="success">guardar
+        <button (click)="guardarDatos()" cButton color="success">Guardar
           <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
 
         </button>
@@ -354,3 +390,24 @@
         </button>
       </c-modal-footer>
     </c-modal>
+
+
+
+<c-modal id="liveObservacionModal" [visible]="visibleObservacion" (visibleChange)="handleLiveObservacionChange($event)">
+<c-modal-header>
+  <h5 cModalTitle>Observación</h5>
+  <button (click)="toggleLiveObservacion()" cButtonClose></button>
+</c-modal-header>
+<c-modal-body>
+  <textarea rows="6"  cFormControl placeholder="Observación" class="form-control" [(ngModel)]="observacionPatente"  ></textarea>
+</c-modal-body>
+<c-modal-footer>
+  <button (click)="guardarObservacion()" cButton color="success">Guardar
+    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+
+  </button>
+  <button (click)="toggleLiveObservacion()" cButton color="secondary">
+    Cerrar
+  </button>
+</c-modal-footer>
+</c-modal>

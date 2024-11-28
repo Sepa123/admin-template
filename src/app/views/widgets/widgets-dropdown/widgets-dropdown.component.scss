@@ -1,15 +1,21 @@
 table.greenTable {
-    border: 1px solid #28A745;
-    background-color: #FFFEF3;
     width: 100%;
-    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px #ebedef;
+    font-size: 12px;
   }
   table.greenTable td, table.greenTable th {
-    border: 0px solid #AAAAAA;
+    border: 0px solid #ebedef;
     padding: 3px 2px;
   }
   table.greenTable tbody td {
     font-size: 10px;
+    padding: 8px;
+     text-align: center;
   }
   table.greenTable tr:nth-child(even) {
     background: #FFFEF3;
@@ -34,20 +40,6 @@ table.greenTable {
     color: #FFFFFF;
     background: #A40808;
   }
-  table.greenTable tfoot td {
-    font-size: 13px;
-  }
-  table.greenTable tfoot .links {
-    text-align: right;
-  }
-  table.greenTable tfoot .links a{
-    display: inline-block;
-    background: #FFFFFF;
-    color: #A40808;
-    padding: 2px 8px;
-    border-radius: 5px;
-  }
-
 
   .myButton {
     box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -130,4 +122,42 @@ table.greenTable {
 .tdTitle {
   text-align: center;
   width: 33%;
+}
+
+
+
+tr.ocultate {
+  width: 100%;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ebedef;
+  background-color: #ebedef;
+  text-align: center;
+  // border-left: 2px solid #28A745;
+  user-select: none; /* Para navegadores modernos */
+-webkit-user-select: none; /* Para Safari */
+-moz-user-select: none; /* Para Firefox */
+-ms-user-select: none; /* Para Internet Explorer/Edge */
+}
+
+.verde {
+  background-color: #d4edda;
+  color: #155724;
+}
+.rojo {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.amarillo {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.overlay {
+  position: relative;
+  top: 50px;
+  color: red;
+  font-size: 18px;
+  transform: translateX(-50%);
+  transition: left 0.5s;
 }

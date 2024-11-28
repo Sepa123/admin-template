@@ -20,17 +20,24 @@ export class CitacionSupervisoresComponent {
   }
   
   citacionSupervisores : MainCitacionS [] = []
+  citacionSupervisoresFull : MainCitacionS [] = []
   operacionCampo : CamposPorOperacion [] = []
 
   detalleCitacion : Detalle [] = []
-
+  rol =   sessionStorage.getItem("rol_id")+''
   public visible = false;
   public chartVisible = false
   public graficoVisible = false
   operacion : string = ''
   centroOperacion : string = ''
 
+  subidoOk : boolean = false
+
   tipoOperacion : string = ''
+
+  observacionPatente : string = ''
+
+  indexActualPatente : number = 0
 
   toggleLiveDemo() {
     this.visible = !this.visible;
@@ -45,6 +52,19 @@ export class CitacionSupervisoresComponent {
   maxDate : string = ''
 
   estadosCitacion : any = []
+
+  public id_usuario = sessionStorage.getItem('id') + ''
+
+
+  public visibleObservacion = false;
+
+  toggleLiveObservacion() {
+    this.visibleObservacion = !this.visibleObservacion;
+  }
+
+  handleLiveObservacionChange(event: any) {
+    this.visibleObservacion = event;
+  }
 
   obtenerFechas(){
     let hoy = new Date();
@@ -62,6 +82,22 @@ export class CitacionSupervisoresComponent {
     let MinDía = ("0" + hoy.getDate()).slice(-2);
     this.minDate = `${minAño}-${minMes}-${MinDía}`;
   }
+  
+
+  verObservacion(detalle : MainCitacionA,index : number){
+    this.subidoOk = false
+    this.toggleLiveObservacion()
+    this.indexActualPatente = index
+    this.observacionPatente = detalle.observacion 
+    console.log(detalle)
+  }
+
+
+  guardarObservacion(){
+
+    this.datosCitacionActiva[this.indexActualPatente].observacion = this.observacionPatente
+    this.toggleLiveObservacion()
+  }
 
   cambiarEstado(id_estado : any){
     return this.estadosCitacion.filter((estado: any) => estado.id == id_estado)[0].estado
@@ -77,8 +113,11 @@ export class CitacionSupervisoresComponent {
       const fecha = `${year}-${month}-${day}`;
       // this.getModalidades();
 
-      this.service.getDatosCitacionSupervisor('158',fecha).subscribe((data) => {
+      this.currentDate = fecha
+
+      this.service.getDatosCitacionSupervisor(this.id_usuario,fecha).subscribe((data) => {
         this.citacionSupervisores = data
+        this.citacionSupervisoresFull = data
         
         console.log(this.citacionSupervisores[0].Id_operacion)
         this.chartVisible = true
@@ -97,12 +136,22 @@ export class CitacionSupervisoresComponent {
     
     this.obtenerFechas()
 
+
+    // let hoy = new Date();
+
+    // let año = hoy.getFullYear();
+    // let mes = ("0" + (hoy.getMonth() + 1)).slice(-2); // Los meses comienzan en 0
+    // let día = ("0" + hoy.getDate()).slice(-2);
+
+    // this.currentDate = `${año}-${mes}-${día}`;
+    
     // this.service.getEstadoList().subscribe((data) => {
     //   this.estadosCitacion = data
     // })
     
-    this.service.getDatosCitacionSupervisor('158','20240802').subscribe((data) => {
+    this.service.getDatosCitacionSupervisor(this.id_usuario,this.currentDate).subscribe((data) => {
       this.citacionSupervisores = data
+      this.citacionSupervisoresFull = data
       console.log(this.citacionSupervisores[0].chart_data)
       this.chartVisible = true
       this.graficoVisible = true
@@ -113,6 +162,8 @@ export class CitacionSupervisoresComponent {
   idOperacion : number = 0
   idCentroOperacion : number = 0
   verDetalle(detalle : Detalle [],op : string, cop : string, id_op:number,id_cop : number){
+
+    this.tipoOperacion = ''
     this.datosCitacionActiva = []
     this.operacion = op
     this.centroOperacion = cop
@@ -120,8 +171,11 @@ export class CitacionSupervisoresComponent {
 
     this.idCentroOperacion = id_cop
     this.idOperacion = id_op
+    console.log(this.currentDate)
 
-    this.service.getDatosCitacionActiva(id_op,id_cop,'20240802').subscribe((data) => {
+    this.service.getDatosCitacionActiva(id_op,id_cop,this.currentDate.split('-').join('')).subscribe((data) => {
+
+      
       this.datosCitacionActiva = data
 
       const operacion = this.datosCitacionActiva[0].operacion
@@ -192,10 +246,22 @@ export class CitacionSupervisoresComponent {
           }
           this.message = data.message
           console.log('Archivo subido exitosamente');
+
+          this.subidoOk = true
+
+          this.service.getDatosCitacionActiva(this.idOperacion,this.idCentroOperacion,this.currentDate.split('-').join()).subscribe((data) => {
+            this.datosCitacionActiva = data
+            const operacion = this.datosCitacionActiva[0].operacion
+            this.tipoOperacion = operacion
+          },
+          error =>{
+            
+          })
           // Lógica adicional en caso de éxito.
         },
         (error) => {
           console.error('Error al subir el archivo:', error);
+          this.subidoOk = false
           alert('Error al subir el archivo')
           this.termino = true
           // Lógica de manejo de errores.
@@ -327,7 +393,7 @@ guardarDatos() {
     data['lm_entregas'] = data.campos_por_operacion[0].lm_entregas 
     data['lm_tiempo_ruta'] = data.campos_por_operacion[0].lm_tiempo_ruta 
     data['lm_estado'] = data.campos_por_operacion[0].lm_estado 
-
+    data['fecha'] = this.currentDate
   }
   )
 
@@ -346,10 +412,19 @@ guardarDatos() {
   }
   const jsonDatos = JSON.stringify(this.datosCitacionActiva);
 
-  this.service.guardarDatosCitacionSupervisores(body).subscribe((data => {
+  this.service.guardarDatosCitacionSupervisores(body).subscribe(((data : any) => {
     console.log(data)
     // console.log(body);
-  alert('Datos guardados con éxito (simulado)');
+  alert(data.message);
+
+  this.service.getDatosCitacionSupervisor(this.id_usuario,this.currentDate).subscribe((data) => {
+    this.citacionSupervisores = data
+    this.citacionSupervisoresFull = data
+    console.log(this.citacionSupervisores[0].chart_data)
+    this.chartVisible = true
+    this.graficoVisible = true
+    
+  })
   }), (error) => {
     const listaCampos = error.error.detail.map((data : any) => {
       return data.loc[3]
@@ -383,6 +458,52 @@ CerrarRuta( index: number) {
 
   // this.datosCitacionActiva[index]['ruta_cerrada'] = true ;
 
+}
+
+
+textoFiltro : any = ''
+
+// Método para aplicar debouncing
+debounce(fn: Function, delay: number) {
+  let timeoutId: number | undefined;
+  return (...args: any[]) => {
+      if (timeoutId) {
+          clearTimeout(timeoutId);
+      }
+      timeoutId = window.setTimeout(() => {
+          fn.apply(this, args);
+      }, delay);
+  }
+}
+
+filtrarTabla() {
+  const filtro = this.textoFiltro.toLowerCase();
+
+  const resultado: any[] = [];
+  const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
+  for (let i = 0; i < this.citacionSupervisoresFull.length; i++) {
+      const lista = this.citacionSupervisoresFull[i];
+      if (
+          lista.Nombre.toString().toLowerCase().startsWith(filtro) ||
+          lista.Centro.toString().toLowerCase().startsWith(filtro) ||
+          lista.Nombre.toString().toLowerCase().replace('-',' ').includes(filtro)
+      ) {
+          resultado.push(lista);
+          if (resultado.length >= maxResults) {
+              break; // Terminar el bucle si se alcanza el máximo de resultados
+          }
+      }
+  }
+
+  this.citacionSupervisores = resultado;
+  // console.log(this.ListaPrefactura);
+}
+
+// Aplica debouncing a la función filtrarTabla
+filtrarTablaDebounced = this.debounce(this.filtrarTabla, 200);
+
+onKeyUp() {
+  this.filtrarTablaDebounced('campo');
 }
 
 

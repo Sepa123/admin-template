@@ -49,7 +49,8 @@ const routes: Routes = [
         },
         canActivate: [PermissionGuard],
         loadChildren: () =>
-          import('./views/base/base.module').then((m) => m.BaseModule)
+          import('./views/base/base.module').then((m) => m.BaseModule),
+        
       },
       {
         path: 'operaciones', // operaciones
@@ -124,15 +125,6 @@ const routes: Routes = [
         canActivate :[PermissionGuard],
         loadChildren: () =>
           import('./views/informacion/informacion.module').then((m) => m.InformacionModule )
-      },
-      {
-        path : 'finanzas',
-        data : {
-          roles : ROLES_PERMITIDOS.FINANZAS
-        },
-        canActivate :[PermissionGuard],
-        loadChildren: () =>
-          import('./views/finanzas/finanzas.module').then((m) => m.FinanzasModule )
       },
       {
         path : 'info',
@@ -229,6 +221,16 @@ const routes: Routes = [
         canActivate:[PermissionGuard],
         loadChildren:()=>
           import('./views/inventario-ti/inventario-ti.module').then((m)=> m.InventarioTiModule)
+      },
+
+      {
+        path : 'finanzas',
+        data : {
+          roles : ROLES_PERMITIDOS.FINANZAS
+        },
+        canActivate :[PermissionGuard],
+        loadChildren: () =>
+          import('./views/finanzas/finanzas.module').then((m) => m.FinanzasModule )
       },
     ],
     canActivate: [UserGuard]

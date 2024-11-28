@@ -102,29 +102,64 @@ export class GestionGpsComponent implements OnInit {
   textoPpu : any = ''
   textoRazon_social : any = ''
 
-
-  filtrarTabla(campo : string){
-    const filtroPpu = this.tableInfo.filter((lista: any) =>
-      lista.ppu.toString().toLowerCase().startsWith(this.textoPpu.toLowerCase())
-    );
+/// Filtro antiguo
+//   filtrarTabla(campo : string){
+//     const filtroPpu = this.tableInfo.filter((lista: any) =>
+//       lista.ppu.toString().toLowerCase().startsWith(this.textoPpu.toLowerCase())
+//     );
   
-    // Filtra por Razon Social
-    const filtroRazonSocial = filtroPpu.filter((lista: any) =>
-      lista.razon_social.toString().toLowerCase().startsWith(this.textoRazon_social.toLowerCase())
-    );
-  // Verifica si ambos campos están vacíos
-  if (this.textoPpu === '' && this.textoRazon_social === '') {
-    this.getInfoTable(); // Carga la tabla completa si no hay filtros
-  } else {
-    // Si hay algún filtro aplicado, verifica si hay resultados
-    if (filtroRazonSocial.length > 0) {
-      this.tableInfo = filtroRazonSocial; // Asigna los resultados filtrados
-    } else {
-      this.tableInfo = []; // No muestra nada si no hay coincidencias
-    }
-  }
-}
+//     // Filtra por Razon Social
+//     const filtroRazonSocial = filtroPpu.filter((lista: any) =>
+//       lista.razon_social.toString().toLowerCase().startsWith(this.textoRazon_social.toLowerCase())
+//     );
+//   // Verifica si ambos campos están vacíos
+//   if (this.textoPpu === '' && this.textoRazon_social === '') {
+//     this.getInfoTable(); // Carga la tabla completa si no hay filtros
+//   } else {
+//     // Si hay algún filtro aplicado, verifica si hay resultados
+//     if (filtroRazonSocial.length > 0) {
+//       this.tableInfo = filtroRazonSocial; // Asigna los resultados filtrados
+//     } else {
+//       this.tableInfo = []; // No muestra nada si no hay coincidencias
+//     }
+//   }
+// }
 
+/// Filtro cpn limites
+// filtrarTabla(campo: string) {
+//   const ppu = this.textoPpu.toLowerCase();
+//   const razonSocial = this.textoRazon_social.toLowerCase();
+
+//   const resultado: any[] = [];
+//   const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
+
+//   for (let i = 0; i < this.tableinfoFull.length; i++) {
+//       const lista = this.tableinfoFull[i];
+//       if (
+//           lista.ppu.toString().toLowerCase().startsWith(ppu) &&
+//           lista.razon_social.toString().toLowerCase().startsWith(razonSocial)
+//       ) {
+//           resultado.push(lista);
+//           // if (resultado.length >= maxResults) {
+//           //     break; // Terminar el bucle si se alcanza el máximo de resultados
+//           // }
+//       }
+//   }
+  
+//   this.tableInfo = resultado;
+
+//   // console.log(this.ListaPrefactura);
+// }
+
+/// Filtro nuevo
+filtrarTabla(campo : string){
+      this.tableInfo = this.tableinfoFull.filter((lista : any) => lista.ppu.toString().toLowerCase().startsWith(this.textoPpu.toLowerCase())  
+      && lista.razon_social.toString().toLowerCase().startsWith(this.textoRazon_social.toLowerCase()) )
+
+      // alert(this.tableInfo.length)
+      // this.ListaPrefactura = this.ListaPrefactura.filter((lista) => lista.Patente.toString().toLowerCase().startsWith(this.textoPatente.toLowerCase())  )
+      // this.ListaPrefactura = this.ListaPrefactura.filter((lista) => lista.Conductor.toString().toLowerCase().startsWith(this.textoConductor.toLowerCase())  )
+  }
 
 
   initializeOc_instalacion() {
@@ -135,7 +170,9 @@ export class GestionGpsComponent implements OnInit {
 
   oc_instalacion(id: number) {
     const oc_instalacion = this.id_insta[id];
-  // Verificar si oc_instalacion es null, undefined o está vacío
+
+
+    // Verificar si oc_instalacion es null, undefined o está vacío
   if (oc_instalacion === null || oc_instalacion === undefined || isNaN(oc_instalacion)){
     alert('El campo oc_instalacion está vacío o no tiene información válida.');
     return; // Salir de la función si no hay datos válidos
@@ -165,6 +202,7 @@ export class GestionGpsComponent implements OnInit {
       alert('El campo oc_baja no tiene información válida.');
       return; // Salir de la función si no hay datos válidos
     }
+
     this.Gps.oc_baja(oc_baja, id).subscribe(
       (response) => {
         this.getInfoTable();
@@ -185,12 +223,12 @@ export class GestionGpsComponent implements OnInit {
   }
   monto(id: number) {
     const monto = this.id_monto[id];
-    
+
     // Verificar si oc_instalacion es null, undefined, o no es un número válido
-  if (monto === null || monto === undefined || isNaN(monto)) {
-    alert('El campo monto no tiene información válida.');
-    return; // Salir de la función si no hay datos válidos
-  }
+    if (monto === null || monto === undefined || isNaN(monto)) {
+      alert('El campo monto no tiene información válida.');
+      return; // Salir de la función si no hay datos válidos
+    }
 
     this.Gps.monto(monto, id).subscribe(
       (response) => {
