@@ -43,6 +43,8 @@
     "@ng-select/ng-select": "^10.0.4",
     "@popperjs/core": "^2.11.6",
     "@sweetalert2/ngx-sweetalert2": "^12.2.0",
+    "@zxing/browser": "^0.1.5",
+    "@zxing/library": "^0.21.3",
     "bootstrap": "^5.2.3",
     "chart.js": "^3.9.1",
     "chartjs-plugin-datalabels": "^2.2.0",
@@ -57,7 +59,7 @@
     "sweetalert2": "^11.7.27",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",
-    "zone.js": "~0.13.0"
+    "zxing": "^0.1.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.2.7",
