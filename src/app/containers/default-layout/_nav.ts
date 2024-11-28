@@ -45,6 +45,10 @@ export const navItems: INavDataBar[] = [
         name: 'Lista de funciones',
         url: '/areati/funciones'
       },
+      {
+        name: "Escaner",
+        url:  '/areati/scan-test'
+      }
       // {
       //   name: 'Agregar funcion',
       //   url: '/areati/agregar-funcion'
