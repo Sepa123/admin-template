@@ -42,7 +42,7 @@ export class PrefacturaComponent {
   loadQuadmindFull: boolean = true 
 
   mesSeleccionado : string = '2024-06'
-
+  public rol = sessionStorage.getItem("rol_id") 
 
   constructor(private service: MeliService) { }
 

@@ -2,10 +2,10 @@
 <c-container>
   <h2>Quadminds</h2>
 
-  <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+  <c-modal id="liveDemoModal" [visible]="visibleEstadoCarga" (visibleChange)="handleLiveEstadoCarga($event)">
     <c-modal-header>
       estatus carga archivo
-      <button (click)="toggleLiveDemo()" cButtonClose></button>
+      <button (click)="toggleEstadoCarga()" cButtonClose></button>
     </c-modal-header>
     <c-modal-body>
 
@@ -46,7 +46,7 @@
 
     </c-modal-body>
     <c-modal-footer>
-      <button (click)="toggleLiveDemo()" cButton color="secondary">
+      <button (click)="toggleEstadoCarga()" cButton color="secondary">
         Cerrar
       </button>
     </c-modal-footer>

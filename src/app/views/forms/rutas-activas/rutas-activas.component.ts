@@ -61,6 +61,19 @@ export class RutasActivasComponent {
   regionSeleccionada : string = "Regiones"
   loadingComunaRuta : boolean = true
 
+  visibleQuad : boolean = false
+
+  toggleQuadminds() {
+    this.visibleQuad = !this.visibleQuad;
+  }
+
+  handleQuadmindsChange(event: any) {
+    this.visibleQuad = event;
+  }
+
+  
+
+
   toggleDescarga() {
     this.visibleDescarga = !this.visibleDescarga;
     this.verListaComunasRutas()
@@ -454,6 +467,75 @@ export class RutasActivasComponent {
     })
 
     
+  }
+
+
+
+
+  //// subir archivo quadminds
+
+
+  private selectedFile: File | null = null;
+
+  termino : boolean = true
+  error! : number  
+  codigosErroneos : string [] = []
+  message : string = ""
+
+  contador : number = 1
+  // tablaQuadmind : CargaQuadmind[] = []
+  // tablaQuadmindFull! : CargaQuadmind[];
+  // tablaQuadmindPreview! : CargaQuadmind[];
+
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  uploadFile() {
+    if (this.selectedFile) {
+
+      this.termino = false
+      let id_usuario = sessionStorage.getItem('id')+""
+      const formData = new FormData();
+      formData.append('file', this.selectedFile, this.selectedFile.name);
+
+      this.service.upload_quadmind_manual(formData, id_usuario).subscribe(
+        (data : any) => {
+          this.termino = data.termino
+          this.error = data.error
+          if ( this.error == 1){
+            this.codigosErroneos = data.codigos.split(',')
+          }
+          this.message = data.message
+          console.log('Archivo subido exitosamente');
+          this.toggleQuadminds()
+          this.toggleEstadoCarga()
+          // Lógica adicional en caso de éxito.
+        },
+        (error) => {
+          console.error('Error al subir el archivo:', error);
+          alert('Error al subir el archivo')
+          this.termino = true
+          // Lógica de manejo de errores.
+        }
+      );
+      
+    } else {
+      console.warn('Ningún archivo seleccionado');
+      // Lógica adicional en caso de que el usuario no seleccione ningún archivo.
+    }
+  }
+
+
+  public visibleEstadoCarga = false;
+
+  toggleEstadoCarga() {
+    this.visibleEstadoCarga = !this.visibleEstadoCarga;
+  }
+
+  handleLiveEstadoCarga(event: any) {
+    this.visibleEstadoCarga = event;
   }
 
 

@@ -38,14 +38,14 @@ export class QuadmindsComponent {
 
   loadQuadmindFull: boolean = true 
 
-  public visible = false;
+  public visibleEstadoCarga = false;
 
-  toggleLiveDemo() {
-    this.visible = !this.visible;
+  toggleEstadoCarga() {
+    this.visibleEstadoCarga = !this.visibleEstadoCarga;
   }
 
-  handleLiveDemoChange(event: any) {
-    this.visible = event;
+  handleLiveEstadoCarga(event: any) {
+    this.visibleEstadoCarga = event;
   }
 
   constructor(private service: CargaService) { 
@@ -73,7 +73,7 @@ export class QuadmindsComponent {
           this.message = data.message
           console.log('Archivo subido exitosamente');
 
-          this.toggleLiveDemo()
+          this.toggleEstadoCarga()
           // Lógica adicional en caso de éxito.
         },
         (error) => {

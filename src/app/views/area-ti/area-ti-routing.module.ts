@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FuncionesComponent } from './funciones/funciones.component';
 import { AgregarFuncionComponent } from './agregar-funcion/agregar-funcion.component';
+import { ScanTestComponent } from './scan-test/scan-test.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +23,13 @@ const routes: Routes = [
         component : AgregarFuncionComponent,
         data : {
           title : "Agregar funciones"
+        }
+      },
+      {
+        path : 'scan-test',
+        component : ScanTestComponent,
+        data : {
+          title : "Test Scanner"
         }
       },
 

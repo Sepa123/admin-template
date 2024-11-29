@@ -299,7 +299,9 @@ export class RutasService {
     return this.http.get<PatenteDisponible []>(this.apiurl + `/patentes/disponibles` )  
   }
 
-
+  upload_quadmind_manual(formData : any, id_usuario : string){
+    return this.http.post(this.apiurl+`/quadminds/subir-archivo?id_usuario=${id_usuario}`, formData)
+  }
 
   
 }

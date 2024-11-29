@@ -45,6 +45,10 @@ export const navItems: INavDataBar[] = [
         name: 'Lista de funciones',
         url: '/areati/funciones'
       },
+      {
+        name: "Escaner",
+        url:  '/areati/scan-test'
+      }
       // {
       //   name: 'Agregar funcion',
       //   url: '/areati/agregar-funcion'
@@ -162,7 +166,7 @@ export const navItems: INavDataBar[] = [
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
-    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA,ROLES_ENUM.JEFE_SEGURIDAD],
+    roles : [ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA,ROLES_ENUM.JEFE_SEGURIDAD],
     children: [
       {
         name: 'Reclutamiento',
@@ -199,7 +203,7 @@ export const navItems: INavDataBar[] = [
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
-    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO],
+    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.JEFE_TRANSPORTE],
     children: [
       {
         name: 'Reclutamiento',
@@ -665,11 +669,7 @@ export const navItems: INavDataBar[] = [
       {
         name: "Resumen Supervisores",
         url:  '/mercadolibre/ns-supervisores'
-      },
-      {
-        name: "Venta/Traspaso de vehiculo",
-        url:  '/mercadolibre/venta-o-traspaso-de-vehiculo'
-      },
+      }
       
     ]
   },

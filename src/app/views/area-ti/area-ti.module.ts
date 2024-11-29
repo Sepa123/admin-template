@@ -16,12 +16,13 @@ import { ModalModule } from '@coreui/angular';
 import { AreaTiRoutingModule } from './area-ti-routing.module';
 import { FuncionesComponent } from './funciones/funciones.component';
 import { AgregarFuncionComponent } from './agregar-funcion/agregar-funcion.component';
-
+import { ScanTestComponent } from './scan-test/scan-test.component';
 
 @NgModule({
   declarations: [
     FuncionesComponent,
-    AgregarFuncionComponent
+    AgregarFuncionComponent,
+    ScanTestComponent
   ],
   imports: [
     CommonModule,
