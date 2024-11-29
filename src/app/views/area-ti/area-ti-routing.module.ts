@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FuncionesComponent } from './funciones/funciones.component';
 import { AgregarFuncionComponent } from './agregar-funcion/agregar-funcion.component';
 import { ScanTestComponent } from './scan-test/scan-test.component';
+import { CamaraTestComponent } from './camara-test/camara-test.component';
 const routes: Routes = [
   {
     path: '',
@@ -31,7 +32,13 @@ const routes: Routes = [
           title : "Test Scanner"
         }
       },
-
+      {
+        path : 'camara-test',
+        component : CamaraTestComponent,
+        data : {
+          title : "camara Scanner"
+        }
+      },
     ]
   }
 ];
