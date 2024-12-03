@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="timeline.component.scss">
 </head>
 <body>
+  
+    <h2>Historial Producto </h2>
+    <p></p>
     
     <div id="formulario">
         <input class="input"   placeholder="Codigo Pedido"  *ngIf="!loadingData" [(ngModel)]="codigoPick" name="codigoPick" (change)="buscarAlerta(codigoPick)" (change)="buscarCabecera(codigoPick)" (change)="buscarTrackBeetrack(codigoPick)">

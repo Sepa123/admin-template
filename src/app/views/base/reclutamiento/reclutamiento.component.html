@@ -593,6 +593,12 @@
               </button>
           </c-col>
           <c-col [xs]>
+
+            <select id="Ruta" cSelect  size="1" (change)="filtrarEjecutivo()" [(ngModel)]="ejecutivoSeleccionada"  style="width:auto;  display: inline-block;">
+              <option>Seleccione Ejecutivo</option>
+              <option>Todas</option>
+              <option *ngFor="let ej of listaContactoEjecutivo">{{ej.Ejecutivo}}</option>
+          </select>
             <!-- <select id="Region"  cSelect  class="form-control" (change)="filtrarVehiculoRegion()" [(ngModel)]="regionSeleccionada">
               <option  [value]="0" >Todas las regiones</option>
               <option *ngFor="let region of listaRegionesFiltro"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>

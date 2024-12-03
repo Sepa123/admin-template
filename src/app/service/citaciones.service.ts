@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { S } from '@fullcalendar/core/internal-common';
-
+import { PanelCitacion } from 'src/app/models/meli/citacion.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -136,6 +136,11 @@ export class CitacionesService {
       })
     });
   }
+
+  getPanelCitaciones(fecha : string):Observable<any>{
+    return this.http.get<PanelCitacion>(`${this.apiUrl}/citaciones/panel?fecha=${fecha}`);
+  }
+
 
 
   }

@@ -45,6 +45,7 @@ export class ReclutamientoComponent {
   listaMotivo: MotivoSubestado [] = []
   listaEstadoContacto: EstadoContacto [] = []
   reclutas : Reclutamiento [] = []
+  reclutasFull : Reclutamiento [] = []
 
 
   buscadorVehiculo : string = ''
@@ -289,7 +290,7 @@ export class ReclutamientoComponent {
     Longitud: this.builder.control("" ),
     Capacidad: this.builder.control("" ),
     Pais: this.builder.control("" ),
-    Correo: this.builder.control("",[Validators.required, Validators.email] ),
+    Correo: this.builder.control("",[ Validators.email] ),
     Ppu: this.builder.control("",[Validators.maxLength(6)]),
     Metros_cubicos: this.builder.control("",[Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
     Cant_vehiculos: this.builder.control("" ),
@@ -345,6 +346,7 @@ export class ReclutamientoComponent {
 
       this.service.getDatosReclutas().subscribe((data) => {
         this.reclutas = data
+        this.reclutasFull = data
       })
 
 
@@ -455,12 +457,19 @@ export class ReclutamientoComponent {
 
     this.verificaRut('Rut_empresa')
 
+
+    console.log(this.form.value)
     this.isErrorView = false
 
-    if(this.form.valid){
+    if(this.form.valid && (this.form.value.Correo !== null || this.form.value.Telefono !== null)){
       this.service.registrarCandidiato(this.form.value).subscribe((data : any) => {
-        console.log(data.message)
-        this.toggleLiveAgregar()
+        alert(data.message)
+        this.service.getDatosReclutas().subscribe((data) => {
+          this.reclutas = data
+          this.reclutasFull = data
+          this.toggleLiveAgregar()
+        })
+        
       }, error => {
         alert(error.error.detail)
       }
@@ -520,6 +529,7 @@ export class ReclutamientoComponent {
         alert(data.message)
         this.service.getDatosReclutas().subscribe((data) => {
           this.reclutas = data
+          this.reclutasFull = data
           this.toggleLiveDemo()
         })
       }, error => {
@@ -616,6 +626,20 @@ this.service.registrarComentario(this.selectedOption).subscribe((data : any) => 
 
 }
 
+
+ejecutivoSeleccionada : any 
+
+filtrarEjecutivo(){
+  console.log(this.ejecutivoSeleccionada )
+  if( this.ejecutivoSeleccionada == 'Seleccione Ejecutivo') return alert("Seleccione un ejectutivo por favor")
+  if( this.ejecutivoSeleccionada == 'Todas'){
+    console.log("sos")
+    this.reclutas = this.reclutasFull
+  }else {
+    this.reclutas = this.reclutasFull.filter(ruta => ruta.Nombre_contacto == this.ejecutivoSeleccionada)
+  }
+  
+}
 
  ngOnDestroy(): void {
 

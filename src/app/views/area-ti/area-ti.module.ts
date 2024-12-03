@@ -1,4 +1,4 @@
-import { NgModule} from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -17,12 +17,15 @@ import { AreaTiRoutingModule } from './area-ti-routing.module';
 import { FuncionesComponent } from './funciones/funciones.component';
 import { AgregarFuncionComponent } from './agregar-funcion/agregar-funcion.component';
 import { ScanTestComponent } from './scan-test/scan-test.component';
+import { CamaraTestComponent } from './camara-test/camara-test.component';
+import { WebcamModule } from 'ngx-webcam';
 
 @NgModule({
   declarations: [
     FuncionesComponent,
     AgregarFuncionComponent,
-    ScanTestComponent
+    ScanTestComponent,
+    CamaraTestComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +39,12 @@ import { ScanTestComponent } from './scan-test/scan-test.component';
     FormModule,
     GridModule,
     ListGroupModule,
-    SharedModule
-  ]
+    SharedModule,
+    WebcamModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
+    ],
 })
 export class AreaTiModule { }

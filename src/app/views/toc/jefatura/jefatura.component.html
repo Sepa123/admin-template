@@ -10,7 +10,7 @@
             {{observacionActual}}
         </c-modal-body>
         <c-modal-footer>
-          <button (click)="toggleLiveDemo()" cButton color="secondary">
+          <button (click)="toggleLiveDemo()" cButton color="secondary" size="sm">
             Cerrar
           </button>
         </c-modal-footer>
@@ -33,7 +33,7 @@
 
   <c-row>
     <c-col >
-      <button  (click)="buscar()" cButton  color="secondary" size="sm">buscar</button>
+      <button  (click)="buscar()" cButton  color="secondary" size="sm">Buscar</button>
     </c-col>
     <c-col *ngIf="contadorNS !== 0" >
       Registros : <label style="font-weight: bold;">{{contadorNS}} <img width="40" *ngIf="isLoadingFull" height="50" src="../../../assets/images/loading-gif.gif" /></label>

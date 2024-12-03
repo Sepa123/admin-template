@@ -7,7 +7,7 @@ import {CitacionesService} from '../../../service/citaciones.service'
 import { NgForm } from '@angular/forms'
 // import { id } from 'date-fns/locale';
 import { getStyle } from '@coreui/utils';
-
+import { PanelCitacion } from 'src/app/models/meli/citacion.interface'
 
 
 
@@ -101,6 +101,12 @@ export class CitacionesComponent implements OnInit  {
   longitud! :number
   latStr!: string
   longStr!: string
+  panelCitacion : PanelCitacion = {
+    "Total": 0,
+    "Confirmado": 0,
+    "Pendiente": 0,
+    "No_Confirma": 0
+}
 
   resetForm() {
     if (this.ambulanceForm) {
@@ -179,6 +185,8 @@ export class CitacionesComponent implements OnInit  {
     this.isModalOpen = false;
   }
 
+  
+
   ngOnInit() {
     this.obtenerFechaFormateada();
     this.getModalidades();
@@ -187,6 +195,13 @@ export class CitacionesComponent implements OnInit  {
     this.getEstados();
     this.getTipoRuta();
     this.initializeAmbulancia();
+
+    setTimeout(() => {
+      this.Ct.getPanelCitaciones(this.formattedDate).subscribe((data) => {
+        this.panelCitacion = data
+      })
+    }, 500);
+    
     
   }
 
@@ -251,10 +266,16 @@ buscarPatenteDetalle(event: Event) {
         // Si se selecciona una fecha anterior, restablece al valor mínimo permitido (fecha actual)
         this.formattedDate = rawDate
         this.getModalidades(); // Llama a getModalidades con la fecha actual
+        this.Ct.getPanelCitaciones(this.formattedDate).subscribe((data) => {
+          this.panelCitacion = data
+        })
       } else {
         // Actualiza this.formattedDate antes de llamar a getModalidades
         this.formattedDate = rawDate;
         this.getModalidades();
+        this.Ct.getPanelCitaciones(this.formattedDate).subscribe((data) => {
+          this.panelCitacion = data
+        })
       }
     }
   }
@@ -291,6 +312,39 @@ buscarPatenteDetalle(event: Event) {
             
         );
     });
+
+    if (this.OperacionesFiltradas.length == 0) {
+      this.panelCitacion = {
+          "Total": 0,
+          "Confirmado": 0,
+          "Pendiente": 0,
+          "No_Confirma": 0
+      }
+    } else {
+      this.panelCitacion.Total = this.OperacionesFiltradas.map(op => op.citacion).reduce((ant,act) => {
+        return ant + act
+      }) 
+
+      this.panelCitacion.Confirmado = this.OperacionesFiltradas.map(op => op.confirmados).reduce((ant,act) => {
+        return ant + act
+      })
+
+
+      this.panelCitacion.Pendiente = this.OperacionesFiltradas.map(op => op.pendientes).reduce((ant,act) => {
+        return ant + act
+      })
+
+
+      this.panelCitacion.No_Confirma = this.OperacionesFiltradas.map(op => op.rechazadas).reduce((ant,act) => {
+        return ant + act
+      })
+
+  
+      // console.log(this.OperacionesFiltradas.map(op => op.confirmados).reduce((ant,act) => {
+      //   return ant + act
+      // }))
+    }
+    
     console.log("Operaciones filtradas:", this.OperacionesFiltradas); // Verifica el resultado
 }
 
