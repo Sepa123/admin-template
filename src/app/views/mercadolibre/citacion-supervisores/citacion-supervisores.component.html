@@ -1,5 +1,108 @@
+
+
 <div class="container mt-5">
     <h4 class="mb-4"> Seguimiento Diario</h4>
+
+    <c-row>
+      <c-col xs="6" sm="3">
+    
+      <div class="cardo card-blue">
+        <table style="margin-top: 0px;">
+          <tr>
+            <td width="98" height="98" style="padding: 0px;">
+              <div class="icon-background">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 576 512">
+                  <path fill="#3399ff" d="M248 0h-40c-26.5 0-48 21.5-48 48v112c0 35.3 28.7 64 64 64h128c35.3 0 64-28.7 64-64V48c0-26.5-21.5-48-48-48h-40v80c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16zM64 256c-35.3 0-64 28.7-64 64v128c0 35.3 28.7 64 64 64h160c35.3 0 64-28.7 64-64V320c0-35.3-28.7-64-64-64h-40v80c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16v-80zm288 256h160c35.3 0 64-28.7 64-64V320c0-35.3-28.7-64-64-64h-40v80c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16v-80h-40c-15 0-28.8 5.1-39.7 13.8c4.9 10.4 7.7 22 7.7 34.2v160c0 12.2-2.8 23.8-7.7 34.2C323.2 506.9 337 512 352 512" />
+                </svg>
+    
+            </div>
+            </td>
+            <td>
+              <div class="text-content">
+                <h3>TOTAL PEDIDOS</h3>
+                <div class="number">{{pedidos[0].Total_pedidos}}</div>
+            </div>
+            </td>
+          </tr>
+        </table>
+    </div>
+    
+      </c-col>
+    
+      <c-col xs="6" sm="3">
+    
+        <div class="cardo card-green">
+          <table style="margin-top: 0px;">
+            <tr>
+              <td width="98" height="98" style="padding: 0px;">
+                <div class="icon-background" >
+    
+                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"  viewBox="0 0 640 512">
+                    <path fill="#5cb85c" d="M425.7 256c-16.9 0-32.8-9-41.4-23.4L320 126l-64.2 106.6c-8.7 14.5-24.6 23.5-41.5 23.5c-4.5 0-9-.6-13.3-1.9L64 215v178c0 14.7 10 27.5 24.2 31l216.2 54.1c10.2 2.5 20.9 2.5 31 0L551.8 424c14.2-3.6 24.2-16.4 24.2-31V215l-137 39.1c-4.3 1.3-8.8 1.9-13.3 1.9m212.6-112.2L586.8 41c-3.1-6.2-9.8-9.8-16.7-8.9L320 64l91.7 152.1c3.8 6.3 11.4 9.3 18.5 7.3l197.9-56.5c9.9-2.9 14.7-13.9 10.2-23.1M53.2 41L1.7 143.8c-4.6 9.2.3 20.2 10.1 23l197.9 56.5c7.1 2 14.7-1 18.5-7.3L320 64L69.8 32.1c-6.9-.8-13.5 2.7-16.6 8.9" />
+                  </svg>
+              </div>
+              </td>
+              <td>
+                <div class="text-content">
+                  <h3>ENTREGADOS</h3>
+                  <div class="number">{{pedidos[0].Entregados}}</div>
+              </div>
+              </td>
+            </tr>
+          </table>
+      </div>  
+      </c-col>
+    
+      <c-col xs="6" sm="3">
+        <div class="cardo card-red">
+          <table style="margin-top: 0px;" >
+            <tr>
+              <td width="98" height="98" style="padding: 0px;">
+                <div class="icon-background">
+    
+                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 640 512">
+                    <path fill="#d9534f" d="M320.7 352c8.1-89.7 83.5-160 175.3-160c8.9 0 17.6.7 26.1 1.9L309.5 7c-6-5-14-7-21-7s-15 1-22 8L10 231.5c-7 7-10 15-10 24c0 18 14 32.1 32 32.1h32v69.7c-.1.9-.1 1.8-.1 2.8v112c0 22.1 17.9 40 40 40h16c1.2 0 2.4-.1 3.6-.2c1.5.1 3 .2 4.5.2h55.9c22.1 0 40-17.9 40-40v-88c0-17.7 14.3-32 32-32h64.7zM496 512a144 144 0 1 0 0-288a144 144 0 1 0 0 288m59.3-180.7L518.6 368l36.7 36.7c6.2 6.2 6.2 16.4 0 22.6s-16.4 6.2-22.6 0L496 390.6l-36.7 36.7c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l36.7-36.7l-36.7-36.7c-6.2-6.2-6.2-16.4 0-22.6s16.4-6.2 22.6 0l36.7 36.7l36.7-36.7c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6" />
+                  </svg>
+    
+              </div>
+              </td>
+              <td>
+                <div class="text-content">
+                  <h3>NO ENTREGADOS</h3>
+                  <div class="number">{{ pedidos[0].No_entregados }}</div>
+              </div>
+              </td>
+            </tr>
+          </table>
+      </div>
+    
+      </c-col>
+    
+      <c-col xs="6" sm="3">
+    
+        <div class="cardo card-yellow">
+          <table style="margin-top: 0px;">
+            <tr>
+              <td width="98" height="98" style="padding: 0px;">
+                <div class="icon-background">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 640 512">
+                    <path fill="#ffcc00" d="M112 0C85.5 0 64 21.5 64 48v48H16c-8.8 0-16 7.2-16 16s7.2 16 16 16h256c8.8 0 16 7.2 16 16s-7.2 16-16 16H48c-8.8 0-16 7.2-16 16s7.2 16 16 16h192c8.8 0 16 7.2 16 16s-7.2 16-16 16H16c-8.8 0-16 7.2-16 16s7.2 16 16 16h192c8.8 0 16 7.2 16 16s-7.2 16-16 16H64v128c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48zm432 237.3V256H416v-96h50.7zM160 368a48 48 0 1 1 0 96a48 48 0 1 1 0-96m272 48a48 48 0 1 1 96 0a48 48 0 1 1-96 0" />
+                  </svg>
+              </div>
+              </td>
+              <td>
+                <div class="text-content">
+                  <h3>EN RUTA</h3>
+                  <div class="number">{{ pedidos[0].Pendientes }}</div>
+              </div>
+              </td>
+            </tr>
+          </table>
+      </div>
+      </c-col>
+    
+    </c-row>
+    
 
     <!-- Selector de Fecha y Botón Nueva Citación -->
         <!-- <div class="form-date mb-3">
@@ -9,7 +112,7 @@
 
         </div> -->
 
-      <table>
+      <table class="tablaPrincipal">
         <tr>
             <td>
               
@@ -32,7 +135,7 @@
 
 
 <div>
-    <table >
+    <table class="tablaPrincipal" >
         <!-- <thead >
             <th width="33%">Operación</th>
             <th  width="33%">Centro de operación</th>
@@ -187,7 +290,7 @@
       <c-modal-body>
 
         <div class="card">
-          <table >
+          <table class="tablaPrincipal">
 
               <tr>
               <td class="">Cargar Archivo<span style="font-weight: bold;"></span> 
@@ -211,7 +314,7 @@
           <p></p>
           <p>Procesos</p>
 
-        <table>
+        <table class="tablaPrincipal">
               <thead >
                 <!-- <th >id_ty</th> -->
                 <!-- <th >Operación</th> -->

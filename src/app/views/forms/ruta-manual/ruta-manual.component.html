@@ -63,7 +63,7 @@
      <table style="width: 70%;">
       <tr>
         <td>
-          <input type="text" name="" id="idRuta" class="form-control" placeholder="Código Producto" (ngModel)]="idPedido" (change)="getRuta(idPedido)">
+          <input type="text" name="" id="idRuta" placeholder="Código Producto" [(ngModel)]="idPedido" (change)="getRuta(idPedido)">
         </td>
         <td>
           pedidos ingresados : <span style="font-weight: bold;"> {{pedidosIngresados}}</span>

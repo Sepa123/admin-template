@@ -7,15 +7,17 @@ import { MeliService } from 'src/app/service/meli.service'
 import { MainCitacionA,CamposPorOperacion } from "src/app/models/meli/citacionActiva.interface"
 import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { TIService } from 'src/app/service/ti.service';
+import { Pedidos } from 'src/app/models/pedido.interface';
 
 @Component({
   selector: 'app-citacion-supervisores',
   templateUrl: './citacion-supervisores.component.html',
-  styleUrls: ['../styles/citacion1.component.scss','../styles/citacion2.component.scss']
+  styleUrls: ['../styles/citacion1.component.scss','../styles/citacion2.component.scss','./citacion-supervisores.component.scss']
 })
 export class CitacionSupervisoresComponent {
   
-  constructor(private service: MeliService) {
+  constructor(private service: MeliService, private TIservice: TIService) {
 
   }
   
@@ -130,6 +132,8 @@ export class CitacionSupervisoresComponent {
 
     
   }
+
+  pedidos:Pedidos[] = [{"Total_pedidos":0,"Entregados":0,"No_entregados":0,"Pendientes":0}]
   
   ngOnInit() {
     this.getLocation()
@@ -156,6 +160,11 @@ export class CitacionSupervisoresComponent {
       this.chartVisible = true
       this.graficoVisible = true
       
+    })
+    this.TIservice.get_pedidos().subscribe((data) => {
+      this.pedidos = data
+      // this.pedidos[0]["Total_pedidos"] == null ? alert("Hubo un error al cargar los datos de beetrack, Por favor espere un tiempo") 
+      //                                           : console.log(true)
     })
   }
 
