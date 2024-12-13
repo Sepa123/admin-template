@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
+import Tesseract from 'tesseract.js';
+import { WebcamModule } from 'ngx-webcam';
 
 @Component({
   selector: 'app-camara-test',
@@ -61,4 +63,36 @@ export class CamaraTestComponent {
 
     return new Blob([arrayBuffer], { type: mimeString });
   }
+
+  //TEST
+  selectedImage: File | null = null;
+  recognizedText: string = '';
+
+  onFileSelected(event: any): void {
+    if (event.target.files && event.target.files.length > 0) {
+      this.selectedImage = event.target.files[0];
+    }
+  }
+
+  processImage(): void {
+    if (this.selectedImage) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const imageData = reader.result as string;
+        Tesseract.recognize(imageData, 'eng', {
+          logger: (info: any) => console.log(info), // Opcional: muestra el progreso en la consola
+        })
+          .then(({ data: { text } }) => {
+            this.recognizedText = text;
+          })
+          .catch((err) => {
+            console.error('Error al procesar la imagen:', err);
+          });
+      };
+      reader.readAsDataURL(this.selectedImage);
+    } else {
+      alert('Por favor, selecciona una imagen primero.');
+    }
+  }
+  
 }

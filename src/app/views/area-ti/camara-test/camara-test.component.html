@@ -23,4 +23,16 @@
       <img [src]="capturedImage" alt="Imagen capturada" />
     </div>
   </div>
+
+
+
+  <div class="ocr-container">
+    <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+    <button (click)="processImage()">Reconocer Texto</button>
+    <div *ngIf="recognizedText">
+      <h3>Texto Reconocido:</h3>
+      <p>{{ recognizedText }}</p>
+    </div>
+  </div>
+  
   
