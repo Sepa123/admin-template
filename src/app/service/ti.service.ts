@@ -13,7 +13,7 @@ import { RutaBeetrackHoy } from "../models/rutaBeetrackHoy.interface"
 import { PedidoEasyOPL } from "../models/pedidoEasyOPL.interface"
 import { PedidosSinTienda } from "../models/pedidoSinTienda.interface"
 import { PedidosPendientes } from "../models/pedidoPendiente.interface" 
-import { ProductoPicking } from "src/app/models/productoPicking.interface"
+import { ProductoPicking } from "../models/productoPicking.interface"
 import { CargasComparacion } from '../models/cargasComparacion.interface';
 import { NSBeetrackRango } from '../models/nsBeetrackRango.interface'
 import { PendienteBodega } from '../models/pendienteBodega.interface'

@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
-import { ACCESO_ROL, ROLES_PERMITIDOS} from 'src/app/rolesPermitidos.const';
-import { RsvService } from 'src/app/service/rsv.service';
+import { ACCESO_ROL, ROLES_PERMITIDOS} from '../../../rolesPermitidos.const';
+import { RsvService } from '../../../service/rsv.service';
 
 
 @Component({
@@ -59,12 +59,12 @@ export class DefaultHeaderComponent extends HeaderComponent {
         "Mail" : this.mail
       }
 
-      this.service.obtener_notificaciones_api_defontana(body).subscribe((data : any) => {
-        this.contadorDefontana = data.Cantidad
-        this.numeroFolios = data.Folios.sort((a : any, b : any) => b.Numero_Factura - a.Numero_Factura)
+      // this.service.obtener_notificaciones_api_defontana(body).subscribe((data : any) => {
+      //   this.contadorDefontana = data.Cantidad
+      //   this.numeroFolios = data.Folios.sort((a : any, b : any) => b.Numero_Factura - a.Numero_Factura)
 
-        this.subNotificacionesDefontana(body)
-      })
+      //   this.subNotificacionesDefontana(body)
+      // })
     }, 1000);
 
   }

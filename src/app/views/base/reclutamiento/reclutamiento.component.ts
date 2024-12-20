@@ -505,7 +505,8 @@ export class ReclutamientoComponent {
       Correo : recluta.Correo,
       Ppu : recluta.Ppu,
       Metros_cubicos: recluta.Metros_cubicos+'',
-      Comuna: recluta.Comuna+''
+      Comuna: recluta.Comuna+'',
+      Capacidad :recluta.Capacidad+''
     })
     
   }

@@ -1,26 +1,39 @@
 <div style="text-align: center;">
-    <h1>Capturar Imagen</h1>
-  
-    <!-- Componente de la cámara -->
-    <webcam 
-      [trigger]="triggerObservable" 
-      (imageCapture)="handleImage($event)"
-      [height]="400"
-      [width]="600"
-    ></webcam>
-  
-    <br />
-  
-    <!-- Botones para capturar y descargar -->
-    <button (click)="captureImage()">Tomar Foto</button>
-    <button (click)="downloadImage()" [disabled]="!capturedImage">Descargar Imagen</button>
-  
-    <br /><br />
-  
-    <!-- Mostrar la imagen capturada -->
-    <div *ngIf="capturedImage">
-      <h2>Imagen Capturada:</h2>
-      <img [src]="capturedImage" alt="Imagen capturada" />
-    </div>
+  <h1>Capturar Imagen</h1>
+
+  <!-- Componente de la cámara -->
+  <webcam 
+    [trigger]="triggerObservable" 
+    (imageCapture)="handleImage($event)"
+    [height]="400"
+    [width]="600"
+  ></webcam>
+
+  <br />
+
+  <!-- Botones para capturar y descargar -->
+  <button (click)="captureImage()">Tomar Foto</button>
+  <button (click)="downloadImage()" [disabled]="!capturedImage">Descargar Imagen</button>
+
+  <br /><br />
+
+  <!-- Mostrar la imagen capturada -->
+  <div *ngIf="capturedImage">
+    <h2>Imagen Capturada:</h2>
+    <img [src]="capturedImage" alt="Imagen capturada" />
   </div>
+</div>
+
+
+
+<div class="ocr-container">
+  <!-- <input type="file" accept="image/*" (change)="onFileSelected($event)" /> -->
+  <button (click)="processImage()">Reconocer Texto</button>
+  <div *ngIf="recognizedText">
+    <h3>Texto Reconocido:</h3>
+    <p>{{ recognizedText }}</p>
+  </div>
+</div>
+
+
   

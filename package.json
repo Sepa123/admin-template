@@ -58,6 +58,7 @@
     "popper.js": "^1.16.1",
     "rxjs": "~7.8.1",
     "sweetalert2": "^11.7.27",
+    "tesseract.js": "^5.1.1",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",
     "zone.js": "~0.13.0"
@@ -69,7 +70,8 @@
     "@angular/localize": "^15.2.8",
     "@types/crypto-js": "^4.1.1",
     "@types/jasmine": "^4.3.1",
-    "@types/node": "^18.16.2",
+    "@types/node": "^18.19.68",
+    "@types/tesseract.js": "^2.0.0",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.2",
     "karma-chrome-launcher": "~3.2.0",

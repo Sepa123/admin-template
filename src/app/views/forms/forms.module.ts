@@ -11,7 +11,9 @@ import {
   FormModule,
   GridModule,
   ListGroupModule,
-  SharedModule
+  SharedModule,
+  NavModule,
+  TabsModule,
 } from '@coreui/angular';
 
 import { ModalModule } from '@coreui/angular';
@@ -86,7 +88,9 @@ import {NgbRating} from '@ng-bootstrap/ng-bootstrap'
     NgbAlertModule, NgbPaginationModule, NgbDatepickerModule,
     NgSelectModule,
     FullCalendarModule,
-    NgbRating
+    NgbRating,
+    NavModule,
+    TabsModule
   ]
 })
 export class CoreUIFormsModule {

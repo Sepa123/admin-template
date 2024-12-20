@@ -1,0 +1,191 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="lg">
+    <c-modal-header>
+      <h5 cModalTitle>Agregar eventos</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+
+        <form cForm [formGroup]="formDescuentos" >
+        <c-row>
+            <p></p>
+            <c-col>
+                Monto
+                <input class="form-control" formControlName="Monto" type="number" name="" id="">
+            </c-col>
+            <c-col>
+                Cuotas
+                <select name="" id=""  class="form-control" formControlName="Cant_cuotas" (change)="agregarCuotas()">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </c-col>
+            <c-col></c-col>
+        </c-row>
+        <p></p>
+        <div formArrayName="Cuotas" >
+
+        
+        <c-row *ngFor="let carga of Cuotas.controls; let i = index">
+            <!-- <p></p> -->
+            <c-row [formGroupName]="i">
+            
+            
+            <c-col>Cuota {{i+1}}
+                
+            </c-col>
+            <c-col>
+                <input class="form-control" formControlName="Fecha_comp" type="date" name="" id="">
+            </c-col>
+            <c-col>
+                <input class="form-control" type="number" [disabled]="true" formControlName="Valor_cuota" >
+            </c-col>
+        </c-row>
+            <p></p>
+        </c-row>
+    </div>
+    </form>
+    </c-modal-body>
+    <c-modal-footer>
+        <button (click)="toggleLiveDemo()" cButton color="secondary">
+            Cerrar
+          </button>
+      <!-- <button (click)="guardar()" cButton color="secondary">
+        Guardar
+      </button> -->
+    </c-modal-footer>
+  
+</c-modal>
+
+<h2> Descuentos</h2>
+<div class="divider"></div>
+<div >
+    <!-- <p></p>
+    <h5>Vehículo</h5> -->
+    <p></p>
+
+    <form cForm [formGroup]="formDescuentos" (ngSubmit)="guardar()" >
+    <c-row>
+      
+
+      <c-col [xs]>
+        <div class="">
+          Fecha evento
+
+          <input type="date" placeholder="Nombre Contacto" class="form-control" formControlName="Fecha_evento" >
+            <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+
+      </div>
+    </c-col>
+    <c-col [xs]>
+      Patente
+      <!-- <input type="text" placeholder="Teléfono" class="form-control"  formControlName="Pantente"> -->
+        <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+        <select name="" id="" class="form-control"  formControlName="Pantente">
+          <option value="" disabled>Seleccione</option>
+          <option *ngFor="let razon of seleccionPantente" [value]="razon.Id">{{razon.Patente}}</option>
+        </select>
+
+
+      
+    </c-col>
+    <c-col [xs]>
+      Razón Social 
+      <!-- <input type="text" placeholder="name@example.com" class="form-control"  formControlName="Razon_social"> -->
+
+      <select name="" id="" class="form-control"  formControlName="Razon_social">
+        <option value="" disabled>Seleccione</option>
+        <option *ngFor="let razon of seleccionRazonSocial; let i = index " [value]="razon.Id">{{razon.Nombre_razon}}</option>
+      </select>
+        <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+          Numero de Teléfono no es valido
+      </span> -->
+
+      
+    </c-col>
+      <c-col [xs]>
+          <div class="noEditar">
+              Ruta 
+              <input type="text" placeholder="Ruta" class="form-control"  formControlName="Ruta">
+
+          </div>
+      </c-col>
+     
+    
+      <p></p>
+  </c-row>
+  <c-row>
+    <c-col [xs]>
+      <div class="noEditar">
+          Etiqueta
+
+          <select name="" id="" class="form-control"  formControlName="Etiqueta">
+            <option value="" disabled>Seleccione</option>
+            <option *ngFor="let etiqueta of seleccionEtiqueta" [value]="etiqueta.Id">{{etiqueta.Etiqueta}}</option>
+          </select>
+
+      </div>
+  </c-col>
+
+  <c-col [xs]>
+    Descripción
+    <input type="text" placeholder="Cantidad" class="form-control"  formControlName="Descripcion">
+</c-col>
+
+<c-col [xs]>
+  Adjunto
+  <input type="file" name="" id="doc_bancario"  class="form-control" accept=".pdf" (change)="onFileSelected($event)"> 
+  <!-- <input type="text" placeholder="Cantidad" class="form-control"  formControlName=""> -->
+
+    <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+      Numero de Teléfono no es valido
+  </span> -->
+
+  
+</c-col>
+  </c-row>
+</form>
+  <c-row>
+    <c-col [xs]>
+      <p></p>
+      Cuotas <p></p>
+      <button class="form-control" (click)="toggleLiveDemo()">Añadir</button>
+  </c-col>
+  <c-col>
+    <!-- <p></p>
+    <button  cButton class="form-control" color="success" (click)="guardar()">Guardar</button> -->
+  </c-col>
+  <c-col>
+    
+  </c-col>
+  <c-col>
+    
+  </c-col>
+  
+  </c-row>
+<p></p>
+    <c-row>
+      <c-col>
+        <button  cButton class="form-control" color="success" (click)="guardar()">Guardar</button>
+      </c-col>
+      <c-col>
+
+      </c-col>
+      <c-col>
+        
+      </c-col>
+      <c-col>
+        
+      </c-col>
+    </c-row>
+    
+
+<p></p>
+
+</div>
+
+
+
+  

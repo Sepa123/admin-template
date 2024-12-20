@@ -1,5 +1,5 @@
-import { ROLES_ENUM } from 'src/app/models/enum/roles.enum';
-import { ROLES_PERMITIDOS } from 'src/app/rolesPermitidos.const'
+import { ROLES_ENUM } from '../../models/enum/roles.enum';
+import { ROLES_PERMITIDOS } from '../../rolesPermitidos.const'
 
 interface INavDataBar {
   name?: string;
@@ -344,6 +344,23 @@ export const navItems: INavDataBar[] = [
       {
         name: 'NS Easy',
         url : '/exo/ns-easy'
+      },
+      // {
+      //   name: 'NS Electrolux',
+      //   url : '/exo/ns-electrolux'
+      // }
+      
+    ]
+  },
+  {
+    name: 'EXO',
+    url: '/exo',
+    iconComponent: { name: 'cil-bar-chart' },
+    roles : [ROLES_ENUM.SUPERVISOR_EXO],
+    children: [
+      {
+        name: 'NS Beetrack',
+        url : '/exo/nivel-servicio'
       },
       // {
       //   name: 'NS Electrolux',
@@ -1020,7 +1037,7 @@ export const navItems: INavDataBar[] = [
     name: 'Finanzas',
     url: '/finanzas',
     iconComponent : {name : 'cilMoney'},
-    roles : ROLES_PERMITIDOS.FINANZAS,
+    roles : ROLES_PERMITIDOS.FINANZAS_VIEW,
     children: [
       {
         name: "Car. Tarifario General",
@@ -1034,6 +1051,34 @@ export const navItems: INavDataBar[] = [
       //   name: "Car. Vehículo",
       //   url: '/finanzas/carVehiculo'
       // },
+      {
+        name: "Tarifario Especifico",
+        url: '/finanzas/carTarifarioEspecifico'
+      },
+      {
+        name: "Rutas Mercado Libre",
+        url : '/finanzas/rutas-meli'
+      },
+    ]
+  },
+  { /// Pantalla Informacion Para ADMIN TI
+    name: 'Finanzas',
+    url: '/finanzas',
+    iconComponent : {name : 'cilMoney'},
+    roles : [ROLES_ENUM.ADMIN],
+    children: [
+      {
+        name: "Test",
+        url : '/finanzas/test'
+      },
+      {
+        name: "Car. Tarifario General",
+        url : '/finanzas/tarifario'
+      },
+      {
+        name: "Tarifario General",
+        url : '/finanzas/tarifarioGeneral'
+      },
       {
         name: "Tarifario Especifico",
         url: '/finanzas/carTarifarioEspecifico'

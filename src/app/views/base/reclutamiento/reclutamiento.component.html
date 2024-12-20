@@ -136,7 +136,7 @@
         </c-col>
           <c-col [xs]>
             Capacidad
-            <input type="text" placeholder="Capacidad" class="form-control"  formControlName="Capacidad">
+            <input type="number" placeholder="Capacidad" class="form-control"  formControlName="Capacidad">
               <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
               <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
                   Falta agregar el teléfono
@@ -425,7 +425,7 @@
         </c-col>
           <c-col [xs]>
             Capacidad
-            <input type="text" placeholder="Capacidad" class="form-control"  formControlName="Capacidad">
+            <input type="number" placeholder="Capacidad" class="form-control"  formControlName="Capacidad">
               <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
               <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
                   Falta agregar el teléfono

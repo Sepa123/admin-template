@@ -1,19 +1,7 @@
-import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
-import { Subscription } from 'rxjs';
-import { PortalTransyanezService } from "src/app/service/portal-transyanez.service";
-import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromisoObligatorios.interface'
-import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
-import { ComunasService } from '../../../service/comunas/comunas.service'
-import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
-import { Colaborador,DetallePago, Patentes, Usuario } from 'src/app/models/transporte/colaborador.interface' 
-import { PanelColaboradore } from 'src/app/models/transporte/paneles.interface' 
-import { TocService } from 'src/app/service/toc.service';
-import {Codigo1,Estado,Subestado} from 'src/app/models/TOC/camposBitTienda.interface'
-import { ObservacionTOC } from 'src/app/models/ObservacionesTOC.interface';
-import { ActividadDiariaTOC } from 'src/app/models/actividadesDiariasTOC.interface'
-import { BackofficeUsuarioTOC } from 'src/app/models/backofficeUsuarioTOC.interface'
-import { ProductoToc } from 'src/app/models/productosToc.interface';
-
+import { Component } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import Tesseract from 'tesseract.js';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-test',
@@ -22,451 +10,227 @@ import { ProductoToc } from 'src/app/models/productosToc.interface';
 })
 export class TestComponent{
 
-  listaCodigos1 : Codigo1 [] = []
+  constructor(private http: HttpClient) {}
 
-  tipoCliente : string = "1"
-  estados : Estado [] = []
-  subestados : Subestado [] = []
-  listaSubestados : Subestado [] = []
+  // Evento para capturar la imagen
+  private trigger: Subject<void> = new Subject<void>();
 
-  public rol = sessionStorage.getItem("rol_id") 
+  // Lista de imágenes capturadas (máximo 3)
+  public capturedImages: string[] = [];
 
-  //datos geo
-  latitude!: number
-  longitud! :number
-  latStr!: string
-  longStr!: string
+  // Texto reconocido
+  public recognizedText: string = '';
 
+  // Imagen seleccionada para vista previa
+  public selectedImage: string | null = null;
 
-  constructor(private service: TocService,public builder: FormBuilder, private comunaService : ComunasService) { }
+  public selectedImageIndex: number | null = null; // Índice de imagen seleccionada
+  public showPreview: boolean = false; // Muestra la imagen previsualizada
 
-  isErrorView : boolean = false
+  // Nueva variable para manejar el estado de la cámara
+  public isCameraActive: boolean = true;
 
-  activate( activo : boolean,tipo_usuario : string){
-    this.pv = activo
-    this.tipoCliente = tipo_usuario
-
-  }
-
-  
-
-  getLocation(): any {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.showPosition(position)
-
-      });
+  // Método para disparar la captura de imagen
+  public captureImage(): void {
+    if (this.capturedImages.length < 3) {
+      this.trigger.next();
+      this.getGeolocation();
     } else {
-      console.log("Localización no disponible");
+      alert('Solo puedes almacenar un máximo de 3 imágenes.');
     }
   }
-  showPosition(position: any): any{
-        this.latitude = position.coords.latitude
-        this.longitud= position.coords.longitude 
-       this.latStr = this.latitude.toString()
-        this.longStr = this.longitud.toString()
 
-    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
+  // Método que maneja la imagen capturada
+  public handleImage(webcamImage: any): void {
+    if (this.capturedImages.length < 3) {
+      this.capturedImages.push(webcamImage.imageAsDataUrl); // Guarda la imagen en el arreglo
+      this.processImage(webcamImage.imageAsDataUrl);
+    }
   }
 
-
-
-
-
-  form = this.builder.group({
-    Id_usuario : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
-    Ids_usuario : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-    Driver : this.builder.control(""),
-    Guia : this.builder.control("", [Validators.required]),
-    Cliente : this.builder.control(""),
-    Estado: this.builder.control(0),
-    Subestado : this.builder.control(0),  
-    EstadoStr: this.builder.control(''),
-    SubestadoStr : this.builder.control(''),
-    Nombre_cliente : this.builder.control(""),
-    Observacion : this.builder.control(""),
-    Id_transyanez : this.builder.control(1),
-    Ids_transyanez : this.builder.control("Ids_transyanez"),
-    Codigo1 : this.builder.control(1),
-    Codigo1Str: this.builder.control(""),
-  })
-
-
-
- 
-
-  currentDate : string = ''
-  
-  ngOnInit() : void {
-
-
-    this.getLocation()
-    const now = new Date();
-
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // Meses van de 0 a 11
-    const day = String(now.getDate()).padStart(2, '0');
-
-    const formattedDate = `${year}-${month}-${day}`;
-    this.currentDate = formattedDate
-
-
-    this.service.campos_bitacora_tienda().subscribe((data) => {
-      this.listaCodigos1 = data.Codigo1
-      this.estados  = data.Estados
-      this.subestados = data.Subestados
-    })
-
-    this.comunaService.getListaRegiones().subscribe((data : any) => {
-      this.listaRegiones = data
-      this.listaRegionesFull = data
-    })
-
-    this.comunaService.getListaComunas().subscribe((data : any) => {
-      this.listaComunas = data
-      this.listaComunasFull = this.listaComunas
-    })
-    
-
+  // Observable vinculado al disparador
+  public get triggerObservable(): Observable<void> {
+    return this.trigger.asObservable();
   }
 
-  pv : boolean = true
-
-
-  motivoDesactiva : number = 1
-  fechaDesvinculacion : string = ''
-  descDesviculacion : string = ''
-
-  listaMotivosD : any [] = []
-
-
-  buscarSubestados(event: any){
-    const selectedId = event.target.value;
-    this.listaSubestados = this.subestados.filter( sub => sub.Id_estado == selectedId )
-    this.form.patchValue({
-      Subestado : this.listaSubestados[0].Id_subestado
-    })
-  }
-
-
-  registrar(){
-    const idEstado = this.form.value.Estado
-    const idSubestado = this.form.value.Subestado
-
- 
-    this.isErrorView = false
-    this.form.patchValue({
-      Cliente : this.tipoCliente,
-      EstadoStr : this.estados.find((e) => e.Id_estado == idEstado)?.Descripcion,
-      SubestadoStr : this.subestados.find((e) => e.Id_subestado == idSubestado)?.Descripcion,
-    })
-
-    console.log(this.form.value)
-
-    if(this.form.valid){
-
-      this.service.insert_bitacora_tienda_toc(this.form.value).subscribe((data : any) => {
-
-        alert(data.message)
-
-        this.form.reset( )
-
-        this.form.patchValue({
-          Id_usuario : sessionStorage.getItem("id")?.toString()+"",
-          Ids_usuario : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
-          Estado: 0,
-          Subestado :0,  
-          Id_transyanez : 1,
-          Ids_transyanez : "Ids_transyanez",
-          Codigo1 : 1
-        })
+  // Método para procesar la imagen capturada
+  public processImage(image: string): void {
+    if (image) {
+      Tesseract.recognize(image, 'eng', {
+        logger: (info: any) => console.log(info), // Progreso opcional
       })
-
-    }else{
-      this.isErrorView = true
-      alert("Hay datos incorrectos")
+        .then(({ data: { text } }) => {
+          const filteredText = text.replace(/[^a-zA-Z0-9]/g, '');
+          this.recognizedText = filteredText;
+        })
+        .catch((err) => {
+          console.error('Error al procesar la imagen:', err);
+        });
     }
-
   }
 
+  // Método para abrir una imagen en grande
+  public openImage(image: string): void {
+    this.selectedImage = image;
+  }
 
-  copiarAlPortapapeles() {
-    navigator.clipboard.writeText(this.form.value.Guia+'')
-    .then(() => {
-      alert('Contenido copiado al portapapeles');
-      /* Resuelto - texto copiado al portapapeles con éxito */
-    },() => {
-      console.error('Error al copiar');
-      /* Rechazado - fallo al copiar el texto al portapapeles */
+  // Método para cerrar la vista previa
+  public closeImage(): void {
+    this.selectedImage = null;
+  }
+
+  // Previsualizar una imagen seleccionada
+  public previewImage(index: number): void {
+    this.selectedImageIndex = index;
+    this.showPreview = true; // Activa la previsualización
+  }
+
+  // Procesa la imagen seleccionada al hacer clic en ella
+  public processSelectedImage(): void {
+    if (this.selectedImageIndex !== null) {
+      const image = this.capturedImages[this.selectedImageIndex];
+      this.processImage(image);
+    }
+  }
+
+  // Función para llamar a la API y mostrar un modal
+  public apiInfo: any = null; // Información obtenida de la API
+  public isLoading: boolean = false; // Controla el estado de carga
+  public errorMessage: string = ''; // Mensaje de error
+
+  public fetchApiInfo(ppu: string): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    // Llamada HTTP GET a la API
+    this.http.get(`http://localhost:8000/api/info/?PPU=${ppu}`).subscribe({
+      next: (data) => {
+        this.apiInfo = data; // Guarda la información obtenida
+        this.isLoading = false;
+        this.openModal(); // Abre el modal al obtener los datos
+      },
+      error: (error) => {
+        console.error('Error al obtener información:', error);
+        this.errorMessage = 'Error al obtener información. Intente de nuevo.';
+        this.isLoading = false;
+      },
     });
   }
 
-
-
-  /////form cd
-
-  formCD = this.builder.group({
-    Codigo_producto : this.builder.control(""),
-    Fecha : this.builder.control(""),
-    PPU : this.builder.control(""),
-    Guia: this.builder.control(""),
-    Cliente : this.builder.control(""),
-    Region : this.builder.control(""),
-    Comuna : this.builder.control(""),
-    Estado : this.builder.control(""),  
-    Subestado : this.builder.control(""),  
-    Driver : this.builder.control(""),  
-    Nombre_cliente : this.builder.control(""),
-    Fecha_compromiso : this.builder.control("", [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
-    Direccion_correcta : this.builder.control(""),
-    Comuna_correcta : this.builder.control(""),
-    Fecha_reprogramada : this.builder.control("", [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
-    Observacion : this.builder.control("",[Validators.required]),
-    Subestado_esperado : this.builder.control(""), 
-    Id_transyanez : this.builder.control(1, [Validators.required]),
-    Ids_transyanez : this.builder.control("Ids_transyanez", [Validators.required]),
-    Id_usuario : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
-    Ids_usuario : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-    Alerta : this.builder.control(false),
-    Codigo1 : this.builder.control(0),
-    Codigo1Str: this.builder.control(""),
-    Correo: this.builder.control(""),
-    Telefono: this.builder.control("")
-  })
-
-
-
-  producto! : ProductoToc
-
-  tablaActividades : boolean = false
-  tablaBackoffice : boolean = false
-
-  isSubmitDisabled : boolean = false
-
-
-  listaRegiones : any [] = []
-  listaRegionesFull : any [] = []
-  listaComunas : any [] = []
-  listaComunasFull : any [] = []
-
-
-
-  listaObservaciones : ObservacionTOC [] = []
-
-  actividadesDiarias : ActividadDiariaTOC [] = []
-  backofficeUsuario : BackofficeUsuarioTOC [] = []
-
-  regex = /\*/;
-  portal = /\bportal-\b/;
-
-  nombre_usuario : string =""
-  
-  observacionActual : string | null = ""
-
-  isModalOpen: boolean = false
-  public visible = false;
-
-  toggleLiveDemo() {
-    this.visible = !this.visible;
-  }
-
-  handleLiveDemoChange(event: any) {
-    this.visible = event;
-  }
-  
-  openModal(){
-    this.isModalOpen = true
-  }
-
-  closeModal(){
-    this.isModalOpen = false
-  }
-
-  verObservacion(obs : string | null){
-    if(obs === null || obs === ""){
-      this.observacionActual = "Sin observación"
-    }else{
-      this.observacionActual = obs
+  // Alternar cámara
+  toggleCamera() {
+    this.isCameraActive = !this.isCameraActive;
+    if (this.isCameraActive) {
+      this.selectedImageIndex = null; // Resetear la previsualización
     }
-    this.toggleLiveDemo()
   }
 
-  verTablaActividades(){
-    this.tablaBackoffice = !this.tablaBackoffice
-    this.tablaActividades = false
-  }
-  
-  verBackOffice(){
-    this.tablaActividades = !this.tablaActividades
-    this.tablaBackoffice = false
+  public openModal(): void {
+    const modalElement = document.getElementById('infoModal');
+    if (modalElement) {
+      modalElement.style.display = 'block';
+    }
   }
 
+  // Método para cerrar el modal
+  public closeModal(): void {
+    const modalElement = document.getElementById('infoModal');
+    if (modalElement) {
+      modalElement.style.display = 'none';
+    }
+  }
 
-  buscarNombreUsuario(ids_usuario : string){
-    if(this.portal.test(ids_usuario)){
-      this.service.get_nombre_usu_portal(ids_usuario).subscribe((data : any) => {
-          this.nombre_usuario = data
-      })
+  // Nueva función para alternar entre cámara y previsualización
+  public toggleCameraAndPreview(index?: number): void {
+    if (index !== undefined) {
+      this.selectedImageIndex = index;
+      this.showPreview = true;
+      this.isCameraActive = false; // Desactiva la cámara
+    } else {
+      this.isCameraActive = true; // Activa la cámara
+      this.showPreview = false;
+      this.selectedImageIndex = null;
     }
   }
 
 
-  buscarActividadDiaria(){
-    const fechaActual = new Date();
-    const año = fechaActual.getFullYear();
-    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Sumar 1 porque los meses van de 0 a 11
-    const dia = String(fechaActual.getDate()).padStart(2, '0');
-    const formatoFecha = `${año}${mes}${dia}`;
+  //seccion subida de imagenes
 
-    this.service.backoffice_usuario(this.formCD.value.Ids_usuario+"").subscribe((data) => {
-      this.backofficeUsuario = data
-    })
-    this.service.actividad_diaria_usuario(this.formCD.value.Ids_usuario+""+"",formatoFecha).subscribe((data) => {
-      this.actividadesDiarias = data
-    })
-  }
+  public tipoArchivo: string = ''; // Tipo de archivo (puedes ajustarlo)
+  public nombreArchivo: string = ''; // Nombre base para las imágenes
 
-  
 
-  BuscarProducto(){
-    const cod_producto : any = this.formCD.value.Codigo_producto
-    this.formCD.patchValue({
-      Guia : cod_producto
-    })
-    this.service.buscar_producto_toc(cod_producto).subscribe((data) => {
-      this.producto = data
-      // const regionSeleccionada = this.listaComunasFull.filter(comuna => this.producto.Comuna == comuna.Nombre_comuna)[0].Id_region
-      // console.log(regionSeleccionada)
-
-      this.buscarComunas(this.producto.Region)
-
-      this.formCD.patchValue({
-        Fecha : this.producto.Fecha,
-        PPU : this.producto.Patente,
-        Guia : this.producto.Guia,
-        Cliente : this.producto.Cliente,
-        Region : this.producto.Region,
-        Estado : this.producto.Estado,
-        Subestado : this.producto.Subestado,
-        Driver : this.producto.Usuario_movil,
-        Nombre_cliente : this.producto.Nombre_cliente,
-        Fecha_compromiso : this.producto.Fecha_compromiso,
-        Comuna :this.producto.Comuna,
-        Correo : this.producto.Correo,
-        Telefono: this.producto.Telefono
-
-      })
-      // console.log(this.producto)
-    },((error) => {
-       alert(error.error.detail)
-    }))
-  }
-
-  buscarComunas(region : string){
-    const region_selecccionada = this.listaRegiones.filter(r => r.Nombre_region == region)[0].Id_region
-
-    this.listaComunas = this.listaComunasFull.filter( comuna => comuna.Id_region == region_selecccionada )
-  }
-
-  reiniciar(){
-    this.formCD.reset()
-
-    this.formCD.patchValue({
-      Fecha : "",
-      Fecha_compromiso : "",
-      Fecha_reprogramada : "",
-      Id_transyanez : 1,
-      Ids_transyanez :"Ids_transyanez",
-      Id_usuario : sessionStorage.getItem("id")?.toString()+"",
-      Ids_usuario : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
-      Alerta : false,
-      Codigo1 : 0,
-      Codigo1Str : ""
-    })
-
-    this.isErrorView = false
-
-    this.buscarActividadDiaria()
-
-  }
-
-  observacionesUsuario(id_usuario : string){
-    this.service.buscar_observaciones_usuario(id_usuario).subscribe((data) => {
-      this.listaObservaciones = data
-    })
-  }
-
-  registrarCD(){
-    this.isErrorView = false
-
-    if(this.formCD.value.Fecha_reprogramada  == "" ) {
-      this.formCD.patchValue({ Fecha_reprogramada : null})
-    }
-    if(this.formCD.value.Comuna_correcta  == "" ) {
-      this.formCD.patchValue({ Comuna_correcta : null})
-    }
-    if(this.formCD.value.Fecha_compromiso  == "" ) {
-
-      // this.form.patchValue({ Fecha_compromiso : formattedDate})
+  subirImagenes(): void {
+    if (!this.capturedImages || this.capturedImages.length === 0) {
+      alert('No hay imágenes para subir.');
+      return;
     }
 
-    if(this.formCD.value.Fecha  == "" ) {
-      const currentDate = new Date();
-      const year = currentDate.getFullYear();
-      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-      const day = currentDate.getDate().toString().padStart(2, '0');
-      const formattedDate = `${year}-${month}-${day}`;
-      this.formCD.patchValue({ Fecha : formattedDate})
+    if (!this.tipoArchivo || !this.nombreArchivo) {
+      alert('Por favor, completa todos los campos.');
+      return;
     }
 
-    console.log(this.formCD.value)
-    if(this.formCD.valid){
-      this.service.insert_bitacora_toc(this.formCD.value).subscribe((data : any) => {
-        alert(data.message)
-        this.formCD.reset();
-  
-        this.formCD.patchValue({
-          Fecha : "",
-          Fecha_compromiso : "",
-          Fecha_reprogramada : "",
-          Comuna_correcta : "",
-          Id_transyanez : 1,
-          Ids_transyanez :"Ids_transyanez",
-          Id_usuario : sessionStorage.getItem("id")?.toString()+"",
-          Ids_usuario : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
-          Alerta : false,
-          Codigo1 : 0
-        })
+    const formData = new FormData();
 
-        this.observacionesUsuario(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"")
+    // Convertir las imágenes base64 a blobs y agregarlas al FormData
+    this.capturedImages.forEach((base64Image, index) => {
+      const blob = this.base64ToBlob(base64Image);
+      const fileName = `${this.nombreArchivo}_${index + 1}.png`; // Asignar un nombre único a cada imagen
+      formData.append('file', blob, fileName);
+    });
 
-        this.buscarActividadDiaria()
-      }, ((error) => {
-        alert(error)
-        this.formCD.patchValue({
-          Fecha : "",
-          Fecha_reprogramada : "",
-          Fecha_compromiso : "",
-          Comuna_correcta : "",
-          Id_transyanez : 1,
-          Ids_transyanez :"Ids_transyanez",
-          Id_usuario : sessionStorage.getItem("id")?.toString()+"",
-          Ids_usuario : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
-          Alerta : false,
-          Codigo1 : 0
-        })
-      }))
-    }else{
-      this.isErrorView = true
+    // Agregar datos adicionales al FormData
+    formData.append('tipo_archivo', this.tipoArchivo);
+    formData.append('nombre', this.nombreArchivo);
+
+    // Enviar las imágenes al servidor
+    this.http.post('http://localhost:8000/colaboradores/subir-archivo', formData)
+    //Hay que cambiar el link API que aun no completo
+      .subscribe(
+        (response) => console.log('Imágenes subidas exitosamente:', response),
+        (error) => console.error('Error al subir imágenes:', error)
+      );
+  }
+
+  // Conversión de base64 a Blob
+  base64ToBlob(base64: string): Blob {
+    const byteString = atob(base64.split(',')[1]); // Decodificar base64
+    const mimeString = base64.split(',')[0].split(':')[1].split(';')[0]; // Obtener el tipo MIME
+    const byteArray = new Uint8Array(byteString.length);
+
+    for (let i = 0; i < byteString.length; i++) {
+      byteArray[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([byteArray], { type: mimeString });
+  }
+
+  //Seccion Geolocaclizacion
+
+  lat: number | null = null; // Variable para almacenar la latitud
+  lng: number | null = null; // Variable para almacenar la longitud
+
+  getGeolocation(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.lat = position.coords.latitude;
+          this.lng = position.coords.longitude;
+          console.log('Latitud:', this.lat);
+          console.log('Longitud:', this.lng);
+
+          // Aquí puedes guardar los valores en tu base de datos
+        },
+        (error) => {
+          console.error('Error al obtener la ubicación:', error);
+          alert('No se pudo obtener la ubicación.');
+        }
+      );
+    } else {
+      alert('La geolocalización no es compatible con este navegador.');
     }
   }
-
-
- ngOnDestroy(): void {
-
-
-  }
-
-
 
 }
+

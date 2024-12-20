@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
+import Tesseract from 'tesseract.js';
 
 @Component({
   selector: 'app-camara-test',
@@ -13,6 +14,9 @@ export class CamaraTestComponent {
   // Imagen capturada (en formato Base64)
   public capturedImage: string | null = null;
 
+  // Texto reconocido
+  public recognizedText: string = '';
+
   // Método para disparar la captura de imagen
   public captureImage(): void {
     this.trigger.next();
@@ -21,11 +25,33 @@ export class CamaraTestComponent {
   // Método que maneja la imagen capturada
   public handleImage(webcamImage: any): void {
     this.capturedImage = webcamImage.imageAsDataUrl; // Guarda la imagen como Base64
+
+    // Ejecuta el reconocimiento de texto automáticamente
+    this.processImage();
   }
 
   // Observable vinculado al disparador
   public get triggerObservable(): Observable<void> {
     return this.trigger.asObservable();
+  }
+
+  // Método para procesar la imagen capturada
+  public processImage(): void {
+    if (this.capturedImage) {
+      Tesseract.recognize(this.capturedImage, 'eng', {
+        logger: (info: any) => console.log(info), // Opcional: muestra el progreso en la consola
+      })
+        .then(({ data: { text } }) => {
+          // Filtra el texto reconocido: solo letras y números
+          const filteredText = text.replace(/[^a-zA-Z0-9]/g, '');
+          this.recognizedText = filteredText;
+        })
+        .catch((err) => {
+          console.error('Error al procesar la imagen:', err);
+        });
+    } else {
+      console.error('No hay una imagen capturada para procesar.');
+    }
   }
 
   // Método para descargar la imagen

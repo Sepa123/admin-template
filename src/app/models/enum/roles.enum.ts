@@ -21,6 +21,7 @@ export enum ROLES_ENUM {
     JEFE_TOC = '22',
     RAUDDY = '23',
     ANALISTA_EXO = '30',
+    SUPERVISOR_EXO = '31',
     CLIENTE_RSV = '40',
     OPERARIO_RSV = '42',
     ADMINISTRATIVO_RSV = '43',
