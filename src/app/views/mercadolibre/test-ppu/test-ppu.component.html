@@ -1,0 +1,94 @@
+<body>
+    <div class="container-fluid text-center p-3">
+  
+      <!-- Sección de la cámara -->
+      <div class="camera-preview-container mb-4">
+        <div class="camera-preview">
+          <!-- Cámara -->
+          <webcam [trigger]="triggerObservable" [width]="300" [height]="350" (imageCapture)="handleImage($event)" class="webcam" ></webcam>
+        </div>
+      </div>
+  
+      <!-- Galería de imágenes capturadas -->
+      <div *ngFor="let image of capturedImages; let i = index">
+        <div class="captured-images-container my-3">
+          <div class="captured-image" *ngIf="image && i != 0">
+            <img [src]="image" alt="Imagen {{i + 1}}" class="img-thumbnail" />
+            <button class="delete-button btn btn-danger btn-sm" (click)="deleteImage(i)">
+              ✖
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Botón para capturar imágenes -->
+      <div class="photo-container">
+        <button class="btn btn-success mb-3" (click)="captureImage()">
+          Tomar Foto
+        </button>
+        <label *ngIf="confirmacion == true" class="photo-label">>Tome las ultimas 3 fotos a su patente para finalizar el proceso.</label>
+      </div>
+      <!-- Botón para capturar imágenes -->
+      <div *ngIf="apiInfo && apiInfo.length > 0;">
+      <pre *ngFor="let i of apiInfo" class="alert alert-info">
+        <label for="" class="info-label" >
+          Patente: <span class="info-value">{{ i.patente_result ? i.patente_result : 'No se ha encontrado información sobre la patente ingresada, por favor intentelo nuevamente.'}}</span>
+        </label>
+        <label for="" class="info-label">
+          Ruta: <span class="info-value">{{ i.ruta_meli_result ? i.ruta_meli_result : 'No se ha encontrado información sobre la ruta ingresada' }}</span>
+        </label>
+      </pre>
+      </div>
+      <!-- Input editable con el texto reconocido -->
+  
+  
+  
+  
+      <!-- Botón para llamar a la API -->
+  
+      <button type="button" (click)="onSubmit()"
+        [disabled]="confirmacion == false || confirmar_Ruta == false || capturedImages.length < 4"
+        class="btn btn-success mb-3">
+        Enviar
+      </button>
+  
+      <!-- Modal -->
+      <div id="infoModal" class="modal custom-alert-modal" *ngIf="isModalOpen">
+        <div class="modal-dialog">
+          <div class="modal-content" >
+            <div class="modal-header alert-header">
+              <h5  [hidden]="!confirmar_patente" class="modal-title">¿Esta es la patente que quieres subir?</h5>
+              <h5 [hidden]="confirmar_patente" class="modal-title"> Patente no encontrada.</h5>
+            </div>
+            <div class="modal-body alert-body">
+              <p [hidden]="!confirmar_patente">Confirmar si la patente es correcta</p>
+              <img *ngIf="isLoadingFull" width="100" height="100" src="../../../assets/images/loading-gif.gif" />
+              <div *ngFor="let i of apiInfo" class="alert alert-info">
+                <label for="" class="ModalPatenteLabel">
+                  <input [hidden]="!confirmar_patente"
+                    type="checkbox" 
+                    id="miCheckbox" 
+                    [(ngModel)]="confirmacion" 
+                    [disabled]="confirmar_patente == false" 
+                    name="miCheckbox" 
+                    class="large-checkbox"/>
+                  Patente: 
+                  {{ i.patente_result ? i.patente_result : 'No hay información encontrada, reintente escanear la patente nuevamente' }}
+                </label>
+              </div>
+              
+              <button type="button" (click)="onSubmit()" [disabled]="confirmacion == false" (click)="closeModal()"
+                class="btn btn-success">
+                Confirmar
+              </button>
+              <button type="button" (click)="onSubmit()" [disabled]="confirmacion == true " (click)="LimpiarImagenes()"
+                (click)="closeModal()" class="btn btn-success">
+                Reintentar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal para mostrar la información -->
+  
+    </div>
+  </body>

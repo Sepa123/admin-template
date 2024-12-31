@@ -677,8 +677,7 @@ export const navItems: INavDataBar[] = [
       {
         name: "Venta/Traspaso de vehiculo",
         url:  '/mercadolibre/venta-o-traspaso-de-vehiculo'
-      },
-      
+      }
     ]
   },
   { /// Pantalla de info para Mercadolibre
@@ -731,6 +730,10 @@ export const navItems: INavDataBar[] = [
       {
         name: "Resumen Supervisores",
         url:  '/mercadolibre/ns-supervisores'
+      },
+      {
+        name: "Test PPU",
+        url:  '/mercadolibre/test-ppu'
       },
       
     ]
