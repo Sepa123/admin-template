@@ -191,8 +191,6 @@
 <c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
     <c-modal-header class ="Modal_patentes_ingresadas">
         <h5 class="modal-title" id="modalNuevaCitacionLabel">Selección de Patentes</h5>
-        <td  *ngIf="isLoadingFull"><img width="15" height="15"
-            src="../../../assets/images/loading-gif.gif" /></td>
         <button (click)="toggleLiveDemo()" type="button" cButtonClose class="close" data-dismiss="modal" aria-label="Close" >
         </button>
         

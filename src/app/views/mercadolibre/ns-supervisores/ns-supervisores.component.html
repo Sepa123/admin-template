@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <h2> Resumen Ruta Supervisores</h2>
 <c-row>
   <c-col [xs]>
@@ -138,6 +141,7 @@
         <th>% No colectadas</th>
         <th>Valor ruta</th>
         <th>Ruta cerrada</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody >
@@ -158,6 +162,11 @@
         <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_preparados}}</th>
         <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_p_colectas_a_tiempo}}</th>
         <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_p_no_colectadas}}</th>
+        <th *ngIf="driver.Modalidad == 'FM'">
+          <button (click)="infoPatentes()" cButton  color="success" size="sm">Abrir
+
+          </button>
+        </th>
     </tr>
     </tbody>
     </table>
@@ -180,4 +189,55 @@
 
 </div>
 
-  
+<c-modal [visible]="visible" size="lg" (visibleChange)="handleLiveDemoChange($event)">
+  <c-modal-header>
+           <!-- <h2>Información cargada por transportista</h2> -->
+           <h4 cModalTitle>Información cargada por transportista</h4>
+    <button (click)="toggleLiveDemo()" cButtonClose></button>
+  </c-modal-header>
+
+  <c-modal-body >
+      <!-- *ngFor="let pu of patentesList2 -->
+
+      <c-row>
+        <c-col>
+          <div class="image-section" >
+            <!-- <div class="image-container">
+                <img [src]="pu" alt="Patente Vehículo">
+                <div class="download"><a href="https://via.placeholder.com/150" download><i class="fas fa-download"></i></a></div>
+            </div>
+            <div class="image-container">
+                <img [src]="imagen2"  alt="Imagen 1">
+                <div class="download"><a href="https://via.placeholder.com/150" download><i class="fas fa-download"></i></a></div>
+            </div>
+            <div class="image-container">
+                <img [src]="imagen3"  alt="Imagen 2">
+                <div class="download"><a href="https://via.placeholder.com/150" download><i class="fas fa-download"></i></a></div>
+            </div> -->
+            <div class="image-container" *ngFor="let pu of Imagenes">
+                <img [src]="pu"  alt="Imagen 3">
+                <div class="download"><a [href]="pu" download target="_blank">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.2em" viewBox="0 0 1664 1536">
+                    <path fill="#4CAF50" d="M1280 1344q0-26-19-45t-45-19t-45 19t-19 45t19 45t45 19t45-19t19-45m256 0q0-26-19-45t-45-19t-45 19t-19 45t19 45t45 19t45-19t19-45m128-224v320q0 40-28 68t-68 28H96q-40 0-68-28t-28-68v-320q0-40 28-68t68-28h465l135 136q58 56 136 56t136-56l136-136h464q40 0 68 28t28 68m-325-569q17 41-14 70l-448 448q-18 19-45 19t-45-19L339 621q-31-29-14-70q17-39 59-39h256V64q0-26 19-45t45-19h256q26 0 45 19t19 45v448h256q42 0 59 39" />
+                  </svg>
+                </a></div>
+            </div>
+        </div>
+        </c-col>
+        <c-col>
+          <div class="map-section" id="map"></div>
+        </c-col>
+      </c-row>
+      
+    
+
+  </c-modal-body>
+  <c-modal-footer >
+      <br>
+  </c-modal-footer>
+</c-modal>
+
+
+<button *ngIf="rol == '5'" (click)=" infoPatentes()">Abrete sesamo</button>
+
+<!-- <div class="map-section" id="map"></div> -->

@@ -37,6 +37,9 @@ import { CitacionSupervisoresComponent } from './citacion-supervisores/citacion-
 import { NgChartsModule } from 'ng2-charts';
 import { NsSupervisoresComponent } from './ns-supervisores/ns-supervisores.component';
 
+import { TestPPUComponent } from './test-ppu/test-ppu.component';
+import { WebcamModule } from 'ngx-webcam';
+
 @NgModule({
   declarations: [
     
@@ -49,7 +52,8 @@ import { NsSupervisoresComponent } from './ns-supervisores/ns-supervisores.compo
     PrefacturaDiariaComponent,
     CitacionesActivasComponent,
     CitacionSupervisoresComponent,
-    NsSupervisoresComponent
+    NsSupervisoresComponent,
+    TestPPUComponent
     
   ],
   imports: [
@@ -78,7 +82,8 @@ import { NsSupervisoresComponent } from './ns-supervisores/ns-supervisores.compo
     ModalModule,
     TableModule,
     CollapseModule,
-    NgChartsModule
+    NgChartsModule,
+    WebcamModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit,Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MainCitacionS,Detalle } from "src/app/models/meli/citacionSupervisor.interface"
+import { MainCitacionS,Detalle } from "../../../models/meli/citacionSupervisor.interface"
 import {CitacionesService} from '../../../service/citaciones.service'
-import { MeliService } from 'src/app/service/meli.service'
-import { MainCitacionA,CamposPorOperacion } from "src/app/models/meli/citacionActiva.interface"
+import { MeliService } from '../../../service/meli.service'
+import { MainCitacionA,CamposPorOperacion } from "../../../models/meli/citacionActiva.interface"
 import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { TIService } from 'src/app/service/ti.service';
-import { Pedidos } from 'src/app/models/pedido.interface';
+import { TIService } from '../../../service/ti.service';
+import { Pedidos } from '../../../models/pedido.interface';
 
 @Component({
   selector: 'app-citacion-supervisores',
@@ -459,12 +459,21 @@ updateCell(event: any, index: number, field: string) {
 
 CerrarRuta( index: number) {
 
-  if(this.datosCitacionActiva[index]['ruta_cerrada'] == null){
-    this.datosCitacionActiva[index]['ruta_cerrada'] = true ;
+  let respuesta = confirm("¿Estás seguro de que deseas cerrar la ruta?");
+
+  // Verificar la respuesta
+  if (respuesta) {
+    if(this.datosCitacionActiva[index]['ruta_cerrada'] == null){
+      this.datosCitacionActiva[index]['ruta_cerrada'] = true ;
+    } else {
+      this.datosCitacionActiva[index]['ruta_cerrada'] = !this.datosCitacionActiva[index]['ruta_cerrada'] ;
+    }
+  
   } else {
-    this.datosCitacionActiva[index]['ruta_cerrada'] = !this.datosCitacionActiva[index]['ruta_cerrada'] ;
+      
   }
 
+  
   // this.datosCitacionActiva[index]['ruta_cerrada'] = true ;
 
 }

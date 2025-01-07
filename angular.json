@@ -37,7 +37,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/scss/styles.scss"
+              "src/scss/styles.scss",
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
@@ -106,7 +107,8 @@
             ],
             "styles": [
               "node_modules/@coreui/icons/css/free.min.css",
-              "src/scss/styles.scss"
+              "src/scss/styles.scss",
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": []
           }

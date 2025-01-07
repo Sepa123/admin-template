@@ -7,7 +7,7 @@ import {CitacionesService} from '../../../service/citaciones.service'
 import { NgForm } from '@angular/forms'
 // import { id } from 'date-fns/locale';
 import { getStyle } from '@coreui/utils';
-import { PanelCitacion } from 'src/app/models/meli/citacion.interface'
+import { PanelCitacion } from '../../../models/meli/citacion.interface'
 
 
 
@@ -643,7 +643,7 @@ buscarPatenteDetalle(event: Event) {
           this.getModalidades();
           this.getRecargarPatentesCitaciones();
           this.bitacoraUpdate('Se ha agregado la patente ' + id_ppu, 'citacion-Mercadolibre')
-          alert('El ingreso se ha realizado Correctamente');
+          // alert('El ingreso se ha realizado Correctamente');
         },
 
         (error) => {

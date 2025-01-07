@@ -103,3 +103,54 @@
     background-color: #1ece27;
     cursor: pointer;
   }
+
+
+
+  .image-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    flex: 1;
+}
+
+.image-container {
+    position: relative;
+    text-align: center;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border-radius: 5px;
+}
+
+.image-container img:hover {
+    transform: scale(2);
+    z-index: 100;
+}
+
+.image-container .download {
+    margin-top: 5px;
+}
+
+.image-container .download a {
+    text-decoration: none;
+    color: #4CAF50;
+    font-size: 1.2em;
+}
+
+.image-container .download a i {
+    margin-right: 5px;
+}
+
+.map-section {
+    flex: 1;
+    margin-left: 20px;
+    height: 350px;
+    width: 350px;
+}

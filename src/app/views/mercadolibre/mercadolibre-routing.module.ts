@@ -10,6 +10,7 @@ import { PrefacturaDiariaComponent } from './prefactura-diaria/prefactura-diaria
 import { CitacionesActivasComponent } from './citaciones-activas/citaciones-activas.component';
 import { CitacionSupervisoresComponent } from './citacion-supervisores/citacion-supervisores.component';
 import { NsSupervisoresComponent } from './ns-supervisores/ns-supervisores.component';
+import { TestPPUComponent } from './test-ppu/test-ppu.component';
 
 const routes: Routes = [
   {
@@ -86,6 +87,13 @@ const routes: Routes = [
             component: NsSupervisoresComponent,
             data:{
                 title: "Citaciones"
+            }
+        },
+        {
+            path:'test-ppu',
+            component: TestPPUComponent,
+            data:{
+                title: "Test PPU"
             }
         }
     ]}

@@ -56,3 +56,12 @@ export interface CamposPorOperacion {
 
 
 }
+
+
+
+export interface PanelResumenMelis {
+    Total:       number;
+    En_proforma:  number;
+    Sin_proforma:   number;
+    Descuentos: number;
+}

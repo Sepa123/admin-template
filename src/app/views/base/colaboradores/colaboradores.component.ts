@@ -1,12 +1,12 @@
 import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PortalTransyanezService } from "src/app/service/portal-transyanez.service";
-import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromisoObligatorios.interface'
+import { PortalTransyanezService } from "../../../service/portal-transyanez.service";
+import {PedidoCompromisoObligatorio } from '../../../models/rutas/pedidoCompromisoObligatorios.interface'
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
 import { ComunasService } from '../../../service/comunas/comunas.service'
-import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
-import { Colaborador,DetallePago, Patentes, Usuario } from 'src/app/models/transporte/colaborador.interface' 
-import { PanelColaboradore } from 'src/app/models/transporte/paneles.interface' 
+import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from '../../../models/enum/bancos.json'
+import { Colaborador,DetallePago, Patentes, Usuario } from '../../../models/transporte/colaborador.interface' 
+import { PanelColaboradore } from '../../../models/transporte/paneles.interface' 
 
 @Component({
   selector: 'app-colaboradores',

@@ -31,3 +31,14 @@ export interface Detalle {
     p_avance:      number;
     avance:        number;
 }
+
+
+export interface InfoFotos {
+    Latitud:  string;
+    Longitud: string;
+    Imagen_1: string;
+    Imagen_2: string;
+    Imagen_3: string;
+    Imagen_4: string;
+    Imagenes: string[];
+}

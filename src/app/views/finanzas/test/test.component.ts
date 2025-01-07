@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
-import { FinanzasService } from 'src/app/service/finanzas.service';
+import { FinanzasService } from '../../../service/finanzas.service';
 
-import { SeleccionesDescuentos, RazonSocial,Patente,Etiqueta } from 'src/app/models/finanzas/descuentos.interface'
+import { SeleccionesDescuentos, RazonSocial,Patente,Etiqueta } from '../../../models/finanzas/descuentos.interface'
 
 
 @Component({
@@ -136,7 +136,7 @@ export class TestComponent {
       this.Cuotas.push(this.newCuotas());
 
       this.Cuotas.at(index).patchValue({
-        Valor_cuota : Math.round(monto / this.formDescuentos.value.Cant_cuotas),
+        Valor_cuota :  new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(Math.round(monto / this.formDescuentos.value.Cant_cuotas)),
         Numero_cuota : index + 1
       })
     }

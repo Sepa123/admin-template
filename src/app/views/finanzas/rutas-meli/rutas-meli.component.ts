@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit,Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MainCitacionS,Detalle } from "src/app/models/meli/citacionSupervisor.interface"
+import { MainCitacionS,Detalle } from "../../../models/meli/citacionSupervisor.interface"
 import {CitacionesService} from '../../../service/citaciones.service'
-import { MeliService } from 'src/app/service/meli.service'
-import { MainCitacionA,CamposPorOperacion, ResumenSupervisores } from "src/app/models/meli/citacionActiva.interface"
+import { MeliService } from '../../../service/meli.service'
+import { MainCitacionA,CamposPorOperacion, ResumenSupervisores, PanelResumenMelis } from "../../../models/meli/citacionActiva.interface"
 import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import * as XLSX from 'xlsx';
-import { ReporteMeliFinanza } from 'src/app/models/meli/reporteMeliFinanzas.interface';
+import { ReporteMeliFinanza } from '../../../models/meli/reporteMeliFinanzas.interface';
 
 @Component({
   selector: 'app-rutas-meli',
@@ -20,6 +20,14 @@ export class RutasMeliComponent {
   constructor(private service: MeliService) {
 
   }
+
+
+  panelRsumenMeli : PanelResumenMelis = {
+      "Total": 0,
+      "En_proforma": 0,
+      "Sin_proforma": 0,
+      "Descuentos": 0
+    }
 
   textoPeriodo : any = ''
   textoIdRuta : any = ''
@@ -211,19 +219,62 @@ export class RutasMeliComponent {
   return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 }).format(numero);
 }
 
-  buscadorResumenNS(fecha_i: string,fecha_f: string){
 
+isLoadingFull :boolean = false
+
+  buscadorResumenNS(fecha_i: string,fecha_f: string){
+  
 
     this.service.getReporteMeliFinanza(fecha_i,fecha_f).subscribe((data) => {
-      console.log(data)
+
+      if(data == null){
+        this.panelRsumenMeli = {
+          "Total": 0,
+          "En_proforma": 0,
+          "Sin_proforma": 0,
+          "Descuentos": 0
+      }
+
+      this.isLoadingFull = false
+      }else {
+
+      
 
       data.map(r =>{
         r.Descuento_clp = this.formatearAPesoCLP(r.P_total_descuentos)
-      })
-      this.reporteMeliFinanza = data
 
-      this.reporteMeliFinanzaFull = data
-    })
+        this.reporteMeliFinanza.push(r)
+      })
+      // this.reporteMeliFinanza = data
+
+      this.reporteMeliFinanzaFull = this.reporteMeliFinanza
+
+
+
+      if(this.formatearFecha(this.fecha_fin) == fecha_f) {
+        this.isLoadingFull = false
+      }
+
+
+      if (this.reporteMeliFinanza.length == 0) {
+        this.panelRsumenMeli = {
+            "Total": 0,
+            "En_proforma": 0,
+            "Sin_proforma": 0,
+            "Descuentos": 0
+        }
+
+        this.isLoadingFull = false
+        } else {
+          this.panelRsumenMeli.Total = this.reporteMeliFinanza.length
+          this.panelRsumenMeli.En_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == true ).length
+    
+          this.panelRsumenMeli.Sin_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == false ).length
+          this.panelRsumenMeli.Descuentos = this.reporteMeliFinanza.filter(op => op.P_total_descuentos !== 0 ).length
+        
+      }
+      }
+   })
   }
 
   formatearFecha(fecha : string){
@@ -250,6 +301,17 @@ export class RutasMeliComponent {
 
   buscarNsFechaSupervisor(){
 
+
+    this.isLoadingFull = true
+
+    this.reporteMeliFinanza = []
+
+    this.panelRsumenMeli.Total = this.reporteMeliFinanza.length
+    this.panelRsumenMeli.En_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == true ).length
+
+    this.panelRsumenMeli.Sin_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == false ).length
+    this.panelRsumenMeli.Descuentos = this.reporteMeliFinanza.filter(op => op.P_total_descuentos !== 0 ).length
+
     if(this.fecha_fin == "" || this.fecha_inicio == ""){
       return alert("Por favor ingrese una fecha en ambos campos")
     }
@@ -266,7 +328,15 @@ export class RutasMeliComponent {
     console.log(myset)
 
 
-    this.buscadorResumenNS(this.fecha_inicio,this.fecha_fin)
+    myset.map( (fecha , i) => {
+      setTimeout(() => {
+        this.buscadorResumenNS(fecha[0],fecha[1]) 
+      }, 14500 * i)
+      
+    })
+
+
+    // this.buscadorResumenNS(this.fecha_inicio,this.fecha_fin)
   }
 
   DescargarNS(){
@@ -382,7 +452,7 @@ export class RutasMeliComponent {
     const filtro = this.textoFiltro.toLowerCase();
 
     const resultado: any[] = [];
-    const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
+    const maxResults = 200; // Ejemplo: limitar los resultados a los primeros 100
 
     for (let i = 0; i < this.reporteMeliFinanzaFull.length; i++) {
         const lista = this.reporteMeliFinanzaFull[i];
@@ -400,6 +470,12 @@ export class RutasMeliComponent {
     }
 
     this.reporteMeliFinanza = resultado;
+
+    this.panelRsumenMeli.Total = this.reporteMeliFinanza.length
+    this.panelRsumenMeli.En_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == true ).length
+
+    this.panelRsumenMeli.Sin_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == false ).length
+    this.panelRsumenMeli.Descuentos = this.reporteMeliFinanza.filter(op => op.P_total_descuentos !== 0 ).length
 }
 
   // Aplica debouncing a la función filtrarTabla

@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit,Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MainCitacionS,Detalle } from "src/app/models/meli/citacionSupervisor.interface"
+import { MainCitacionS,Detalle,InfoFotos } from "../../../models/meli/citacionSupervisor.interface"
 import {CitacionesService} from '../../../service/citaciones.service'
-import { MeliService } from 'src/app/service/meli.service'
-import { MainCitacionA,CamposPorOperacion, ResumenSupervisores } from "src/app/models/meli/citacionActiva.interface"
+import { MeliService } from '../../../service/meli.service'
+import { MainCitacionA,CamposPorOperacion, ResumenSupervisores } from "../../../models/meli/citacionActiva.interface"
 import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import * as XLSX from 'xlsx';
-
+import * as L from 'leaflet';
 @Component({
   selector: 'app-ns-supervisores',
   templateUrl: './ns-supervisores.component.html',
@@ -16,7 +16,7 @@ import * as XLSX from 'xlsx';
 })
 export class NsSupervisoresComponent {
   
-  constructor(private service: MeliService) {
+  constructor(private el: ElementRef,private service: MeliService) {
 
   }
 
@@ -48,8 +48,44 @@ export class NsSupervisoresComponent {
   fecha_inicio : string = ''
   fecha_fin : string = ''
 
+  imagen1 : string = ''
+  imagen2 : string = ''
+  imagen3 : string = ''
+  imagen4 : string = ''
+
+  Imagenes : string [] = []
+
+  infoPatentes(){
+    
+    
+    this.service.getInfoFotosPatente('PTHJ10').subscribe((data) => {
+      this.toggleLiveDemo()
+      this.Imagenes = data.Imagenes
+      const latitud = parseFloat(data.Latitud)
+      const longitud  = parseFloat(data.Longitud)
+      const map = L.map(this.el.nativeElement.querySelector('#map')).setView([latitud, longitud], 13);
+
+      // Añadir la capa de tiles de OpenStreetMap
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+      }).addTo(map);
+
+      // Añadir un marcador
+      L.marker([latitud, longitud]).addTo(map).bindPopup('Ubicación de la patente').openPopup();
+
+      // Añadir un popup al marcador
+
+      if (map) {
+        setTimeout(() => {
+          map.invalidateSize();
+        }, 500); // Espera un tiempo para que el modal se haya abierto completamente
+      }
+    })
+  }
+
   toggleLiveDemo() {
     this.visible = !this.visible;
+    
   }
 
   handleLiveDemoChange(event: any) {
@@ -185,7 +221,7 @@ export class NsSupervisoresComponent {
     fechaInicio.setDate(fechaInicio.getDate() + 1)
     fechaFin.setDate(fechaFin.getDate() + 1)
     // Array para almacenar los pares de fechas
-    const paresDeFechas = [];
+    const paresDeFechas : string [][] = [];
     console.log(rangoInicio)
 
     // Iterar desde la fecha inicial hasta la fecha final
