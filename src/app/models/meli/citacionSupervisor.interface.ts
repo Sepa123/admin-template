@@ -30,6 +30,9 @@ export interface Detalle {
     tipo_vehiculo: number | null;
     p_avance:      number;
     avance:        number;
+    total_entregas:  number;
+    pendientes : number
+    fallidos : number
 }
 
 

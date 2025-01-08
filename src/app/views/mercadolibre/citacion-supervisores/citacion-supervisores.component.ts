@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MainCitacionS,Detalle } from "../../../models/meli/citacionSupervisor.interface"
 import {CitacionesService} from '../../../service/citaciones.service'
 import { MeliService } from '../../../service/meli.service'
-import { MainCitacionA,CamposPorOperacion } from "../../../models/meli/citacionActiva.interface"
+import { MainCitacionA,CamposPorOperacion, PanelSeguimientoDiario} from "../../../models/meli/citacionActiva.interface"
 import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { TIService } from '../../../service/ti.service';
@@ -119,6 +119,14 @@ export class CitacionSupervisoresComponent {
 
       this.service.getDatosCitacionSupervisor(this.id_usuario,fecha).subscribe((data) => {
         this.citacionSupervisores = data
+        this.pedidos = {"Total_vehiculo":0,"Total_entrega":0,"Pendientes":0,"Fallidos":0}
+        this.citacionSupervisores.map((citacion, i) => {
+          this.pedidos.Total_entrega = this.pedidos.Total_entrega + citacion.Detalles.reduce(( acum,cur) => acum + cur.total_entregas, 0 )
+          this.pedidos.Pendientes = this.pedidos.Pendientes + citacion.Detalles.reduce(( acum,cur) => acum + cur.pendientes, 0 )
+          this.pedidos.Fallidos = this.pedidos.Fallidos + citacion.Detalles.reduce(( acum,cur) => acum + cur.fallidos, 0 )
+          this.pedidos.Total_vehiculo = this.pedidos.Total_vehiculo + citacion.Detalles.length
+        })
+
         this.citacionSupervisoresFull = data
         
         console.log(this.citacionSupervisores[0].Id_operacion)
@@ -127,13 +135,14 @@ export class CitacionSupervisoresComponent {
         
       }, error => {
         this.citacionSupervisores = []
+        this.pedidos = {"Total_vehiculo":0,"Total_entrega":0,"Pendientes":0,"Fallidos":0}
       })
     }
 
     
   }
 
-  pedidos:Pedidos[] = [{"Total_pedidos":0,"Entregados":0,"No_entregados":0,"Pendientes":0}]
+  pedidos:PanelSeguimientoDiario = {"Total_vehiculo":0,"Total_entrega":0,"Pendientes":0,"Fallidos":0}
   
   ngOnInit() {
     this.getLocation()
@@ -156,16 +165,24 @@ export class CitacionSupervisoresComponent {
     this.service.getDatosCitacionSupervisor(this.id_usuario,this.currentDate).subscribe((data) => {
       this.citacionSupervisores = data
       this.citacionSupervisoresFull = data
-      console.log(this.citacionSupervisores[0].chart_data)
+
+      this.citacionSupervisores.map((citacion, i) => {
+        this.pedidos.Total_entrega = this.pedidos.Total_entrega + citacion.Detalles.reduce(( acum,cur) => acum + cur.total_entregas, 0 )
+        this.pedidos.Pendientes = this.pedidos.Pendientes + citacion.Detalles.reduce(( acum,cur) => acum + cur.pendientes, 0 )
+        this.pedidos.Fallidos = this.pedidos.Fallidos + citacion.Detalles.reduce(( acum,cur) => acum + cur.fallidos, 0 )
+        this.pedidos.Total_vehiculo = this.pedidos.Total_vehiculo + citacion.Detalles.length
+      })
+
+      // this.pedidos.Total_vehiculo = this.citacionSupervisores.length
       this.chartVisible = true
       this.graficoVisible = true
       
     })
-    this.TIservice.get_pedidos().subscribe((data) => {
-      this.pedidos = data
-      // this.pedidos[0]["Total_pedidos"] == null ? alert("Hubo un error al cargar los datos de beetrack, Por favor espere un tiempo") 
-      //                                           : console.log(true)
-    })
+    // this.TIservice.get_pedidos().subscribe((data) => {
+    //   this.pedidos = data
+    //   // this.pedidos[0]["Total_pedidos"] == null ? alert("Hubo un error al cargar los datos de beetrack, Por favor espere un tiempo") 
+    //   //                                           : console.log(true)
+    // })
   }
 
   idOperacion : number = 0
@@ -429,6 +446,15 @@ guardarDatos() {
   this.service.getDatosCitacionSupervisor(this.id_usuario,this.currentDate).subscribe((data) => {
     this.citacionSupervisores = data
     this.citacionSupervisoresFull = data
+    this.pedidos = {"Total_vehiculo":0,"Total_entrega":0,"Pendientes":0,"Fallidos":0}
+
+    this.citacionSupervisores.map((citacion, i) => {
+      this.pedidos.Total_entrega = this.pedidos.Total_entrega + citacion.Detalles.reduce(( acum,cur) => acum + cur.total_entregas, 0 )
+
+      this.pedidos.Pendientes = this.pedidos.Pendientes + citacion.Detalles.reduce(( acum,cur) => acum + cur.pendientes, 0 )
+      this.pedidos.Fallidos = this.pedidos.Fallidos + citacion.Detalles.reduce(( acum,cur) => acum + cur.fallidos, 0 )
+      this.pedidos.Total_vehiculo = this.pedidos.Total_vehiculo + citacion.Detalles.length
+    })
     console.log(this.citacionSupervisores[0].chart_data)
     this.chartVisible = true
     this.graficoVisible = true
@@ -495,9 +521,12 @@ debounce(fn: Function, delay: number) {
 }
 
 filtrarTabla() {
+  this.pedidos = {"Total_vehiculo":0,"Total_entrega":0,"Pendientes":0,"Fallidos":0}
+
   const filtro = this.textoFiltro.toLowerCase();
 
   const resultado: any[] = [];
+  
   const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
   for (let i = 0; i < this.citacionSupervisoresFull.length; i++) {
       const lista = this.citacionSupervisoresFull[i];
@@ -514,6 +543,15 @@ filtrarTabla() {
   }
 
   this.citacionSupervisores = resultado;
+
+  this.citacionSupervisores.map((citacion, i) => {
+    this.pedidos.Total_entrega = this.pedidos.Total_entrega + citacion.Detalles.reduce(( acum,cur) => acum + cur.total_entregas, 0 )
+
+    this.pedidos.Pendientes = this.pedidos.Pendientes + citacion.Detalles.reduce(( acum,cur) => acum + cur.pendientes, 0 )
+    this.pedidos.Fallidos = this.pedidos.Fallidos + citacion.Detalles.reduce(( acum,cur) => acum + cur.fallidos, 0 )
+    this.pedidos.Total_vehiculo = this.pedidos.Total_vehiculo + citacion.Detalles.length
+
+  })
   // console.log(this.ListaPrefactura);
 }
 

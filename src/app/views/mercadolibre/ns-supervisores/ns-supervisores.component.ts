@@ -54,6 +54,7 @@ export class NsSupervisoresComponent {
   imagen4 : string = ''
 
   Imagenes : string [] = []
+  Titulo : string [] =['Patente', 'Imagen 1', 'Imagen 2', 'Imagen 3']
 
   infoPatentes(){
     

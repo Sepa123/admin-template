@@ -57,7 +57,12 @@ export interface CamposPorOperacion {
 
 }
 
-
+export interface PanelSeguimientoDiario {
+    Total_vehiculo:       number;
+    Total_entrega:  number;
+    Pendientes:   number;
+    Fallidos: number;
+}
 
 export interface PanelResumenMelis {
     Total:       number;

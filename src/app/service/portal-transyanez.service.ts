@@ -118,8 +118,9 @@ export class PortalTransyanezService {
     return this.http.get<Colaborador []>(this.apiurl+`/buscar/colaboradores?nombre=${nombre}`)
   }
 
-  activarColaborador(rut:string, activo : boolean){
-    return this.http.get(this.apiurl+`/activar/colaborador?rut=${rut}&activar=${activo}`)
+  activarColaborador(rut:string, activo : boolean, data : any){
+    // return this.http.get(this.apiurl+`/activar/colaborador?rut=${rut}&activar=${activo}`)
+    return this.http.post(this.apiurl+"/activar/colaborador",data)
   }
 
   obtenerDetallePago(id : string){

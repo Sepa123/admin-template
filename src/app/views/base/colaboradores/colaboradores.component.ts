@@ -438,7 +438,17 @@ export class ColaboradoresComponent {
     const rut = this.form.value.Rut
     const isActivo = this.form.value.Activo
     if(isActivo == true){
-      this.service.activarColaborador(rut+'',true).subscribe((mes : any) => {
+
+      const body = {
+        "Id_user" : sessionStorage.getItem("id")?.toString()+"",
+        "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+        "Latitud" : this.latStr,
+        "Longitud" : this.longStr,
+        "Origen" : '/transporte/colaboradores',
+        "Rut" : rut,
+      }
+
+      this.service.activarColaborador(rut+'',true,body).subscribe((mes : any) => {
         this.service.obtenerColaboradores().subscribe((data) => {
           this.colaboradores = data
           this.colaboradoresFull = data
