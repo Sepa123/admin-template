@@ -56,10 +56,10 @@ export class NsSupervisoresComponent {
   Imagenes : string [] = []
   Titulo : string [] =['Patente', 'Imagen 1', 'Imagen 2', 'Imagen 3']
 
-  infoPatentes(){
+  infoPatentes(ppu : string){
     
     
-    this.service.getInfoFotosPatente('PTHJ10').subscribe((data) => {
+    this.service.getInfoFotosPatente(ppu).subscribe((data) => {
       this.toggleLiveDemo()
       this.Imagenes = data.Imagenes
       const latitud = parseFloat(data.Latitud)
@@ -81,6 +81,8 @@ export class NsSupervisoresComponent {
           map.invalidateSize();
         }, 500); // Espera un tiempo para que el modal se haya abierto completamente
       }
+    }, error => {
+       alert(error.error.detail)
     })
   }
 

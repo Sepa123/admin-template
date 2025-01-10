@@ -186,7 +186,7 @@ export class RutasMeliComponent {
 
   generarParesDeFechas(rangoInicio : string, rangoFin : string) {
     const milisegundosPorDia = 24 * 60 * 60 * 1000;
-    const diferenciaDiasMaxima = 10;
+    const diferenciaDiasMaxima = 8;
 
     // Convertir las fechas a objetos de tipo Date
     const fechaInicio = new Date(rangoInicio);
@@ -331,7 +331,7 @@ isLoadingFull :boolean = false
     myset.map( (fecha , i) => {
       setTimeout(() => {
         this.buscadorResumenNS(fecha[0],fecha[1]) 
-      }, 14500 * i)
+      }, 13500 * i)
       
     })
 
@@ -376,16 +376,18 @@ isLoadingFull :boolean = false
       'Tipo',
       'Ruta Auxiliada',
       'Avance',
-      '% Avance',
+      'Total_pedidos',
       'Fallido',
       'Pendiente',
       'Kilometros',
       'Peoneta',
       'Valor Ruta',
       'Observación',
+      'Ns',
       'Razón Id',
       'Razón Social',
       'Rut Empresa',
+      'Patente Proforma',
     ])
 
     this.reporteMeliFinanza.forEach((reporte) => {
@@ -393,8 +395,8 @@ isLoadingFull :boolean = false
 
         fila.push(reporte.Fecha,reporte.Modalidad,reporte.Id_ruta, reporte.Centro_operacion,reporte.Ppu, reporte.Tipo_vehiculo,
           reporte.Estado_ruta,reporte.Driver,reporte.Tipo,reporte.Ruta_auxiliada,
-          reporte.Avance, reporte.P_avance,reporte.Lm_fallido,reporte.Lm_entregas,reporte.Km,reporte.Peoneta, reporte.Valor_ruta,
-          reporte.Observacion, reporte.Razon_id,reporte.Razon_social,reporte.Rut_empresa
+          reporte.Avance, reporte.Total_pedidos,reporte.Lm_fallido,reporte.Lm_entregas,reporte.Km,reporte.Peoneta, reporte.Valor_ruta,
+          reporte.Observacion, reporte.Ns, reporte.Razon_id,reporte.Razon_social,reporte.Rut_empresa, reporte.Patente_proforma
         );
 
         datos.push(fila);

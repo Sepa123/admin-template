@@ -162,8 +162,25 @@
         <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_preparados}}</th>
         <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_p_colectas_a_tiempo}}</th>
         <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_p_no_colectadas}}</th>
+        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Valor_ruta}}</td> 
+        <td *ngIf="driver.Modalidad == 'FM'">
+            <!-- lock -->
+            <span title="Ruta Cerrada ">
+              <svg *ngIf="driver.Ruta_cerrada" xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
+                <path fill="red" d="M320 640h512V448q0-106-75-181t-181-75t-181 75t-75 181zm832 96v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h32V448q0-184 132-316T576 0t316 132t132 316v192h32q40 0 68 28t28 68" />
+              </svg>
+
+          </span>
+            <!-- lock-open -->
+
+            <span title="Ruta Abierta ">
+              <svg *ngIf="!driver.Ruta_cerrada" xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 1664 1408">
+                <path fill="black" d="M1664 448v256q0 26-19 45t-45 19h-64q-26 0-45-19t-19-45V448q0-106-75-181t-181-75t-181 75t-75 181v192h96q40 0 68 28t28 68v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h672V448q0-185 131.5-316.5T1216 0t316.5 131.5T1664 448" />
+              </svg>
+          </span>
+        </td>
         <th *ngIf="driver.Modalidad == 'FM'">
-          <button (click)="infoPatentes()" cButton  color="success" size="sm">Abrir
+          <button (click)="infoPatentes(driver.Ppu)" cButton  color="success" size="sm">Abrir
 
           </button>
         </th>
@@ -218,8 +235,9 @@
               
                <div class="download"><a [href]="pu" download target="_blank">
                 {{Titulo[i]}}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.2em" viewBox="0 0 1664 1536">
-                    <path fill="#4CAF50" d="M1280 1344q0-26-19-45t-45-19t-45 19t-19 45t19 45t45 19t45-19t19-45m256 0q0-26-19-45t-45-19t-45 19t-19 45t19 45t45 19t45-19t19-45m128-224v320q0 40-28 68t-68 28H96q-40 0-68-28t-28-68v-320q0-40 28-68t68-28h465l135 136q58 56 136 56t136-56l136-136h464q40 0 68 28t28 68m-325-569q17 41-14 70l-448 448q-18 19-45 19t-45-19L339 621q-31-29-14-70q17-39 59-39h256V64q0-26 19-45t45-19h256q26 0 45 19t19 45v448h256q42 0 59 39" />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1664 1536">
+                    <path fill="gray" d="M1280 1344q0-26-19-45t-45-19t-45 19t-19 45t19 45t45 19t45-19t19-45m256 0q0-26-19-45t-45-19t-45 19t-19 45t19 45t45 19t45-19t19-45m128-224v320q0 40-28 68t-68 28H96q-40 0-68-28t-28-68v-320q0-40 28-68t68-28h465l135 136q58 56 136 56t136-56l136-136h464q40 0 68 28t28 68m-325-569q17 41-14 70l-448 448q-18 19-45 19t-45-19L339 621q-31-29-14-70q17-39 59-39h256V64q0-26 19-45t45-19h256q26 0 45 19t19 45v448h256q42 0 59 39" />
                   </svg>
                 </a></div>
                 <p></p>
@@ -242,6 +260,6 @@
 </c-modal>
 
 
-<button *ngIf="rol == '5'" (click)=" infoPatentes()">Abrete sesamo</button>
+<button *ngIf="rol == '5'" (click)=" infoPatentes('PTHJ10')">Abrete sesamo</button>
 
 <!-- <div class="map-section" id="map"></div> -->
