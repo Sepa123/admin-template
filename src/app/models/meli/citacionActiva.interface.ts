@@ -21,6 +21,9 @@ export interface MainCitacionA {
     kilometro:            number;
 }
 
+
+
+
 export interface ResumenSupervisores {
     Modalidad:            string;
     Operacion:            string;
@@ -36,7 +39,9 @@ export interface ResumenSupervisores {
     Campos_por_operacion: CamposPorOperacion[];
     Valor_ruta:           number;
     Ruta_cerrada:         boolean;
+    Mostrar_foto:         boolean;
 }
+
 
 export interface CamposPorOperacion {
     [key: string]:        string|null|boolean|number;
@@ -69,4 +74,14 @@ export interface PanelResumenMelis {
     En_proforma:  number;
     Sin_proforma:   number;
     Descuentos: number;
+}
+
+
+export interface MainResumenRutasSupervisores {
+    Rutas:    ResumenSupervisores[];
+    Patentes: Patente[];
+}
+
+export interface Patente {
+    Pantente: string;
 }

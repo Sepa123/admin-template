@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Prefactura,ResumenPrefactura } from "../models/meli/prefactura.interface"
 import { InfoFotos, MainCitacionS } from "../models/meli/citacionSupervisor.interface"
-import { MainCitacionA, ResumenSupervisores } from "../models/meli/citacionActiva.interface"
+import { MainCitacionA, Patente, ResumenSupervisores } from "../models/meli/citacionActiva.interface"
 import { ReporteMeliFinanza } from "../models/meli/reporteMeliFinanzas.interface"
 @Injectable({
   providedIn: 'root'
@@ -71,6 +71,10 @@ export class MeliService {
 
   getResumenRutaSupervisores(fecha_ini : string,fecha_fin : string,id:string){
     return this.http.get<ResumenSupervisores []>(this.apiurl+`/resumen/rutas/supervisor?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}&usuario=${id}`)
+  }
+
+  getListasPatentesFotos(){
+    return this.http.get(this.apiurl+`/lista_ppu/fotos`)
   }
 
   getReporteMeliFinanza(fecha_ini : string,fecha_fin : string){

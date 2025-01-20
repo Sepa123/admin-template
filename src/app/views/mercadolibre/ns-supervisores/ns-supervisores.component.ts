@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MainCitacionS,Detalle,InfoFotos } from "../../../models/meli/citacionSupervisor.interface"
 import {CitacionesService} from '../../../service/citaciones.service'
 import { MeliService } from '../../../service/meli.service'
-import { MainCitacionA,CamposPorOperacion, ResumenSupervisores } from "../../../models/meli/citacionActiva.interface"
+import { MainCitacionA,CamposPorOperacion, ResumenSupervisores,MainResumenRutasSupervisores, Patente} from "../../../models/meli/citacionActiva.interface"
 import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import * as XLSX from 'xlsx';
@@ -58,12 +58,15 @@ export class NsSupervisoresComponent {
 
   infoPatentes(ppu : string){
     
-    
+    // this.el.nativeElement.querySelector('#map').remove()
     this.service.getInfoFotosPatente(ppu).subscribe((data) => {
       this.toggleLiveDemo()
       this.Imagenes = data.Imagenes
       const latitud = parseFloat(data.Latitud)
       const longitud  = parseFloat(data.Longitud)
+
+      // this.el.nativeElement.querySelector('#map').remove()
+
       const map = L.map(this.el.nativeElement.querySelector('#map')).setView([latitud, longitud], 13);
 
       // Añadir la capa de tiles de OpenStreetMap
@@ -252,7 +255,20 @@ export class NsSupervisoresComponent {
       console.log(data)
       this.resumenSupervisores = data
 
-      this.resumenSupervisoresFull = data
+      
+
+      this.service.getListasPatentesFotos().subscribe((data : any ) => {
+        this.patentes = data
+
+        this.resumenSupervisores.map( resumen => {
+          if (this.patentes.includes(resumen.Ppu)){
+            resumen.Mostrar_foto = true
+          }
+        })
+
+        this.resumenSupervisoresFull = this.resumenSupervisores
+      })
+
     })
   }
 
@@ -527,6 +543,7 @@ sortOrderPpu : boolean = true
 inputText: string = '';
 resumenSupervisores: ResumenSupervisores [] = [];
 resumenSupervisoresFull: ResumenSupervisores [] = []
+patentes : string [] = []
 
 idUsuario = sessionStorage.getItem('id')+""
 idsUsuario = sessionStorage.getItem('server')+'-'+this.idUsuario
