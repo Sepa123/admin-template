@@ -114,7 +114,7 @@
     <form #tarifaForm="ngForm">
       <div class="form-group">
         <label for="Nombre">Nombre *</label>
-        <select id="Nombre" class="form-control" [(ngModel)]="nombreOperacion" name="nombre" (change)="getCentroOperacion()" (change)="verificarExistencia()">
+        <select id="nombre" class="form-control" [(ngModel)]="nombreOperacion" name="Nombre" (change)="fetchCentroOperacion()" (click)="verificarExistencia()">
           <ng-container *ngFor="let Tg of OperacionSelect">
             <option [value]="Tg.id">{{Tg.nombre}}</option>
           </ng-container>
@@ -122,7 +122,7 @@
       </div>
       <div class="form-group">
         <label for="Valor_Inf">Centro de operacion *</label>
-        <select id="nombreCop" class="form-control" [(ngModel)]="getCentroOperacion" name="centro_operacion" (change)="verificarExistencia()">
+        <select id="nombreCop" class="form-control" [(ngModel)]="fetchCentroOperacion" name="centro_operacion" (click)="verificarExistencia()">
           <ng-container *ngFor="let Tg of CopSelect">
             <option [value]="Tg.id">{{Tg.centro}}</option>
           </ng-container>
@@ -131,7 +131,7 @@
       </div>
       <div class="form-group">
         <label for="valor_s"> Razón Social*</label>
-        <select id="RazonSocial" class="form-control" [(ngModel)]="razon_social" name="RazonSocial" (change)="Vehiculofilter()" (change)="verificarExistencia()">
+        <select id="RazonSocial" class="form-control" [(ngModel)]="razon_social" name="RazonSocial" (change)="Vehiculofilter()" (click)="verificarExistencia()">
           <ng-container *ngFor="let Tp of ColaboradorSelect">
             <option [value]="Tp.id">{{Tp.razon_social}}</option>
           </ng-container>
@@ -140,22 +140,22 @@
       </div>
       <div class="form-group">
         <label for="unidad">Patente*</label>
-        <select id="ppu" class="form-control" [(ngModel)]="Ppu_Vehiculo" name="Vehiculo" (change)="verificarExistencia()">
+        <select id="ppu" class="form-control" [(ngModel)]="Ppu_Vehiculo" name="Vehiculo" (click)="verificarExistencia()">
           <ng-container *ngFor="let ve of vehiculo">
             <option [value]="ve.id"> {{ve.ppu}} </option>
           </ng-container>
         </select>
       </div>
       <div>
-        <label for="Periodicidad"> Periodo</label>
-        <select id="Periodicidad" class="form-control" [(ngModel)]="selectedPeriodo" (keypress)="verificarExistencia()" name="Periodo" (change)="verificarExistencia()">
+        <label for="Periodicidad"> Periodo *</label>
+        <select id="Periodicidad" class="form-control" [(ngModel)]="selectedPeriodo" (keypress)="verificarExistencia()" name="Periodo">
           <ng-container *ngFor="let Pd of Periodicidad">
             <option [value]="Pd.id">{{Pd.periodo}}</option>
           </ng-container>
         </select>
       </div>
       <div>
-        <label for=""> Tarifa </label>
+        <label for=""> Tarifa* </label>
         <input type="number" class="form-control" id="Monto" name="Monto" >
 
       </div>

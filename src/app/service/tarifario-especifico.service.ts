@@ -40,7 +40,7 @@ getVehiculoFilter(id: number): Observable<any>{
   return this.http.get<any>(`${this.apiUrl}/vehiculosXpatente?id=${id}`);
 }
 
-getInfoTableSearch(): Observable<any>{
+getInfoTableSearchTe(): Observable<any>{
   return this.http.get<any>(`${this.apiUrl}/infoTableToSearchTe`);
 }
 NuevaTarifa(id_usuario: any, ids_usuario: any, latitud:any, longitud: any, ppu: number, razon_social:number,operacion: number, centro_operacion: number, periodicidad:any, tarifa:any): Observable<any> {

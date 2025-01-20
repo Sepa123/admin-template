@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Form, NgForm } from '@angular/forms';
 import {TarifarioGeneralService} from '../../../service/tarifario-general.service'
 import { ChangeDetectorRef } from '@angular/core';
 import { catchError } from 'rxjs/operators';
@@ -16,6 +16,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class TarifarioGeneralComponent implements OnInit {
    private tarifaSubject = new Subject<void>();
+  selectedCentroOperacion: any;
   constructor(
     private http: HttpClient,
     private Tg : TarifarioGeneralService,
@@ -65,7 +66,7 @@ export class TarifarioGeneralComponent implements OnInit {
           });
       }});
     });}
-  @ViewChild("formulario") formulario: NgForm | undefined;
+  @ViewChild("tarifaForm") tarifaForm: NgForm | undefined;
   showUpdateButton: boolean | undefined;
   isLoadingFull: boolean = true;
   isModalOpen: boolean = false;
@@ -91,6 +92,14 @@ export class TarifarioGeneralComponent implements OnInit {
   tarifaMonto: number | null = null;
   idCambioFecha: number | null = null;
   fechaSeleccionada: string | null = null;
+
+  handleModalVisibility(isVisible: boolean): void {
+    if (!isVisible) {
+      // Reinicia los datos al cerrar el modal
+      this.tipovehiculo = [];
+      this.getTipoVehiculo(); // Recarga los datos
+    }
+  }
   
   toggleLiveDemo() {
     this.visible = !this.visible;
@@ -109,11 +118,25 @@ export class TarifarioGeneralComponent implements OnInit {
       }
 
   openModal() {
-    this.isModalOpen = true;
+  }
+
+
+  resetForm() {
+    this.nombreOperacion = 0;
+    this.selectedCentroOperacion = null;
+    this.tipo_vehiculo = 0;
+    this.unidad_Medida = 0;
+    this.selectedPeriodo = null;
+    this.tarifaMonto = null;
+  
+    this.tarifaForm?.resetForm(); // Reinicia el formulario
   }
 
   closeModal() {
-    this.isModalOpen = false;
+    // Reinicia el formulario si existe
+
+    this.tarifaForm?.resetForm(); // Restablece los valores del formulario
+
   }
 
 
@@ -140,7 +163,7 @@ export class TarifarioGeneralComponent implements OnInit {
   nombreOperacion: number = 0;
   centro_operacion: number = 0;
   tipo_vehiculo: number = 0;
-  unidadMedida: number = 0;
+  unidad_Medida: number = 0;
   periodo: number = 0;
 
   solicitarInfoNuevaTarifa() {
@@ -152,7 +175,7 @@ export class TarifarioGeneralComponent implements OnInit {
     const nombreOperacion = parseInt((<HTMLSelectElement>document.getElementById('Nombre')).value, 10);
     const centro_operacion = parseInt((<HTMLSelectElement>document.getElementById('nombreCop')).value, 10);
     const tipo_vehiculo = parseInt((<HTMLSelectElement>document.getElementById('vehiculo')).value, 10);
-    const unidadMedida = parseInt((<HTMLSelectElement>document.getElementById('UnidadMedida')).value, 10);
+    const unidad_Medida = parseInt((<HTMLSelectElement>document.getElementById('UnidadMedida')).value, 10);
     const periodo = parseInt((<HTMLSelectElement>document.getElementById('Periodicidad')).value, 10);
   
     // Filtrar los datos que coinciden con los valores ingresados
@@ -167,8 +190,8 @@ export class TarifarioGeneralComponent implements OnInit {
     if (tipo_vehiculo) {
       resultadosFiltrados = resultadosFiltrados.filter(item => item.tipo_vehiculo === tipo_vehiculo);
     }
-    if (unidadMedida) {
-      resultadosFiltrados = resultadosFiltrados.filter(item => item.capacidad === unidadMedida);
+    if (unidad_Medida) {
+      resultadosFiltrados = resultadosFiltrados.filter(item => item.capacidad === unidad_Medida);
     }
     if (periodo) {
       resultadosFiltrados = resultadosFiltrados.filter(item => item.periodicidad === periodo);
@@ -225,26 +248,28 @@ export class TarifarioGeneralComponent implements OnInit {
   getOperacion(){
     this.Tg.getOperacion().subscribe((data)=>{
       this.OperacionSelect = data
-      this.getCentroOperacion();
+      this.fetchCentroOperacion();
     })
   }
-  getCentroOperacion() {
+  fetchCentroOperacion() {
     // Verifica si el valor seleccionado se refleja en la consola
-    const id_op = parseInt((<HTMLSelectElement>document.getElementById('Nombre')).value);
-    
+    const id_op = parseInt(
+      (<HTMLSelectElement>document.getElementById('Nombre')).value
+    );
+  
     // Llama al servicio solo si se ha seleccionado un valor
-    if (id_op !== null) {
+    if (!isNaN(id_op)) {
       this.Tg.getCentroOperacion(id_op).subscribe(
         (data) => {
           this.CopSelect = data;
-          console.log("Datos recibidos:", data); // Verifica la respuesta
+          console.log('Datos recibidos:', data); // Verifica la respuesta
         },
         (error) => {
-          console.error("Error al obtener los datos:", error);
+          console.error('Error al obtener los datos:', error);
         }
       );
     } else {
-      console.warn("No se ha seleccionado ningún valor.");
+      console.warn('No se ha seleccionado ningún valor.');
     }
   }
 
