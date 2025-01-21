@@ -1,3 +1,5 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <c-row >
     <c-col xs="6" sm="3">
   
@@ -131,7 +133,7 @@
             <th>Detalle</th>
         </thead>
         <tbody *ngFor="let Ct of OperacionesFiltradas">
-            <td class="fas fa-calendar-plus">
+            <td>
                 <svg (click)="getLocation()" (click)="toggleLiveDemo()" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"  (click)="getRecuperarPatentesCitaciones(Ct.Id_operacion,Ct.id_cop)" (click)="recuperarId(Ct.Id_operacion, Ct.id_cop)">
                     <path fill="currentColor" d="M7 1h10v2h4v9h-2V5h-2v2H7V5H5v16h7v2H3V3h4zm2 4h6V3H9zm11 9v4h4v2h-4v4h-2v-4h-4v-2h4v-4z" />
                 </svg>
@@ -186,7 +188,7 @@
                 </tr>
                 <tr *ngFor="let pu of patentesFiltradas">
                     <td class="thclass">
-                        <button id="Codigo_patente" class="detalle-patente" (click)="submitForm(pu.id_ppu)"
+                        <button id="Codigo_patente" class="detalle-patente" (click)="submitForm(pu.id_ppu, pu.ppu)"
                             (click)="recuperarIdPpu(pu.id_ppu)" (click)="getRecargarPatentesCitaciones()" (click)="getLocation()" >
                             {{pu.ppu}}
                         </button>
@@ -509,3 +511,5 @@
     </c-modal-footer>
 
 </c-modal>
+
+<div id="alertaContainer"></div>
