@@ -37,23 +37,15 @@ export class CarTarifarioEspecificoComponent {
     // Llamada al servicio para obtener los datos (suponiendo que uses un servicio para esto)
     this.Te.getInfoTableTE().subscribe({
       next: (infoTable: any[]) => {
-        this.infoTable = infoTable || [];  // Aseguramos que no sea void ni undefined
+        this.infoTable = infoTable;  // Aseguramos que no sea void ni undefined
         this.filteredData = [...this.infoTable]; // Copiamos el array para filtrados posteriores
         this.originalData = [...this.infoTable]; // Guardamos una copia original de los datos
         this.isLoadingFull = false;
         // Llamadas a otros servicios para obtener más datos si es necesario
-        this.Te.getInfoTableSearch().subscribe({
-          next: (infoTableSearch: any[]) => {
-            this.infoTable2 = infoTableSearch || [];
-          },
-          error: (error) => {
-            console.error('Error al obtener infoTableSearch', error);
-          }
-        });
-  
         this.Te.getOperacion().subscribe({
           next: (operacion: any[]) => {
-            this.OperacionSelect = operacion || [];
+            this.OperacionSelect = operacion;
+            this.getinfoTableSearch();
           },
           error: (error) => {
             console.error('Error al obtener operacion', error);
@@ -62,7 +54,7 @@ export class CarTarifarioEspecificoComponent {
   
         this.Te.getPeriodicidad().subscribe({
           next: (periodicidad: any[]) => {
-            this.Periodicidad = periodicidad || [];
+            this.Periodicidad = periodicidad;
           },
           error: (error) => {
             console.error('Error al obtener periodicidad', error);
@@ -73,6 +65,7 @@ export class CarTarifarioEspecificoComponent {
         console.error('Error al obtener infoTable', error);
       }
     });
+    
   }
   
 
@@ -158,8 +151,9 @@ export class CarTarifarioEspecificoComponent {
       this.isLoadingFull = false;
     });
   }
-  getCentroOp() {
-    this.Te.getCentroFiltro().subscribe((data) => (this.CopSelect2 = data));
+  getCentroOp(){
+    this.Te.getCentroFiltro().subscribe((data) =>
+    this.CopSelect2 = data)
   }
   getOperacion() {
     this.Te.getOperacion().subscribe((data) => {
@@ -167,11 +161,11 @@ export class CarTarifarioEspecificoComponent {
     });
   }
 
+  
+
   getinfotableVerificar(){
     
-    this.Te.getInfoTableSearch().subscribe((data) => {
-      this.infoTable2 = data;
-    })
+    this.getinfoTableSearch();
   }
 
   //seccion para verificacion de existencia en la tabla.
@@ -181,7 +175,7 @@ export class CarTarifarioEspecificoComponent {
 
   verificarExistencia() { 
     // Obtener los valores de los inputs
-    const nombreOperacion = parseInt((<HTMLSelectElement>document.getElementById('Nombre')).value, 10);
+    const nombreOperacion = parseInt((<HTMLSelectElement>document.getElementById('nombre')).value, 10);
     const centro_operacion = parseInt((<HTMLSelectElement>document.getElementById('nombreCop')).value, 10);
     const RazonSocial = parseInt((<HTMLSelectElement>document.getElementById('RazonSocial')).value, 10);
     const Vehiculo = parseInt((<HTMLSelectElement>document.getElementById('ppu')).value, 10);
@@ -190,14 +184,15 @@ export class CarTarifarioEspecificoComponent {
     // Filtrar los datos que coinciden con los valores ingresados
     let resultadosFiltrados = this.infoTable2;
   
-    if (RazonSocial) {
-      resultadosFiltrados = resultadosFiltrados.filter(item => item.razon_social === RazonSocial);
-    }
+  
     if (nombreOperacion) {
       resultadosFiltrados = resultadosFiltrados.filter(item => item.operacion === nombreOperacion);
     }
     if (centro_operacion) {
       resultadosFiltrados = resultadosFiltrados.filter(item => item.centro_operacion === centro_operacion);
+    }
+    if (RazonSocial) {
+      resultadosFiltrados = resultadosFiltrados.filter(item => item.razon_social === RazonSocial);
     }
     
     if (Vehiculo) {
@@ -207,6 +202,7 @@ export class CarTarifarioEspecificoComponent {
       resultadosFiltrados = resultadosFiltrados.filter(item => item.periodo === periodo);
     }
   
+    console.log('Resultados filtrados:', resultadosFiltrados);
     // Verificar si hay resultados que coincidan completamente con todos los campos
     const DatoEncontrado = resultadosFiltrados.length > 0;
   
@@ -222,7 +218,7 @@ export class CarTarifarioEspecificoComponent {
   }
   getinfoTableSearch() {
     this.isLoadingFull = true;
-    this.Te.getInfoTableSearch().pipe(
+    this.Te.getInfoTableSearchTe().pipe(
       catchError((error) => {
         this.isLoadingFull = false;
   
@@ -251,18 +247,18 @@ export class CarTarifarioEspecificoComponent {
     });
   }
 
-  getCentroOperacion() {
+  fetchCentroOperacion() {
     // Verifica si el valor seleccionado se refleja en la consola
     const id_op = parseInt(
-      (<HTMLSelectElement>document.getElementById('Nombre')).value
+      (<HTMLSelectElement>document.getElementById('nombre')).value
     );
-
+  
     // Llama al servicio solo si se ha seleccionado un valor
-    if (id_op !== null) {
+    if (!isNaN(id_op)) {
       this.Te.getCentroOperacion(id_op).subscribe(
         (data) => {
           this.CopSelect = data;
-           // Verifica la respuesta
+          console.log('Datos recibidos:', data); // Verifica la respuesta
         },
         (error) => {
           console.error('Error al obtener los datos:', error);
@@ -366,8 +362,7 @@ export class CarTarifarioEspecificoComponent {
       tarifa
     ).subscribe(
       (response) => {
-        console.log('Estado actualizado correctamente:', response);
-
+        this.mostrarAlerta('Tarifa ingresada correctamente', 'success');
         //vuelvo a cargar la tabla principal post ingreso de una nueva tarifa
 
         this.getinfoTable();
@@ -376,7 +371,7 @@ export class CarTarifarioEspecificoComponent {
         
       },
       (error) => {
-        console.error('Error al actualizar el estado', error);
+        this.mostrarAlerta('Error al ingresar la tarifa', 'error');
         // Puedes manejar el error aquí
       }
     );
@@ -419,4 +414,56 @@ export class CarTarifarioEspecificoComponent {
     // Exportar el archivo Excel
     XLSX.writeFile(wb, 'tarifario_general.xlsx');
   }
+
+  mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
+    // Crear un div para la alerta
+    const alerta: HTMLDivElement = document.createElement('div');
+    alerta.classList.add('alerta', tipo); // Añadir clase para tipo (success, error, warning)
+  
+    // Elegir icono basado en el tipo
+    const icono: HTMLElement = document.createElement('i');
+    switch (tipo) {
+      case 'success':
+        icono.classList.add('fas', 'fa-check-circle'); // Icono de éxito
+        alerta.style.backgroundColor = 'rgba(40, 167, 69, 0.9)'; // Verde
+        alerta.style.borderRadius = '10px';
+        alerta.style.padding = '7px'; // Aumentar el padding
+        break;
+      case 'error':
+        icono.classList.add('fas', 'fa-times-circle'); // Icono de error
+        alerta.style.backgroundColor = '#dc3545'; // Rojo
+        alerta.style.borderRadius = '10px';
+        alerta.style.padding = '7px'; // Aumentar el padding
+        break;
+      case 'warning':
+        icono.classList.add('fas', 'fa-exclamation-triangle'); // Icono de advertencia
+        alerta.style.backgroundColor = '#ffc107'; // Amarillo
+        alerta.style.borderRadius = '10px';
+        alerta.style.padding = '7px'; // Aumentar el padding
+        break;
+    }
+  
+    // Añadir el icono y el mensaje al div de la alerta
+    alerta.appendChild(icono);
+    alerta.appendChild(document.createTextNode(mensaje));
+  
+    // Añadir la alerta al contenedor de alertas
+    const alertaContainer: HTMLElement | null = document.getElementById('alertaContainer');
+    if (alertaContainer) {
+      alertaContainer.appendChild(alerta);
+  
+      // Mostrar la alerta con una animación de opacidad
+      setTimeout(() => {
+        alerta.style.opacity = '1';
+      }, 100);
+  
+      // Ocultar la alerta después de 5 segundos y eliminarla del DOM
+      setTimeout(() => {
+        alerta.style.opacity = '0';
+        setTimeout(() => {
+          alerta.remove();
+        }, 500);
+      }, 5000);
+    }
+  }
 }

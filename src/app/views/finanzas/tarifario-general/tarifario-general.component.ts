@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Form, NgForm } from '@angular/forms';
 import {TarifarioGeneralService} from '../../../service/tarifario-general.service'
 import { ChangeDetectorRef } from '@angular/core';
 import { catchError } from 'rxjs/operators';
@@ -16,6 +16,10 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class TarifarioGeneralComponent implements OnInit {
    private tarifaSubject = new Subject<void>();
+  selectedCentroOperacion: any;
+selectedOperacionModal: any;
+Selectedtipovehiculo: any;
+selectedunidadMedida: any;
   constructor(
     private http: HttpClient,
     private Tg : TarifarioGeneralService,
@@ -65,7 +69,7 @@ export class TarifarioGeneralComponent implements OnInit {
           });
       }});
     });}
-  @ViewChild("formulario") formulario: NgForm | undefined;
+  @ViewChild("tarifaForm") tarifaForm: NgForm | undefined;
   showUpdateButton: boolean | undefined;
   isLoadingFull: boolean = true;
   isModalOpen: boolean = false;
@@ -91,6 +95,14 @@ export class TarifarioGeneralComponent implements OnInit {
   tarifaMonto: number | null = null;
   idCambioFecha: number | null = null;
   fechaSeleccionada: string | null = null;
+
+  handleModalVisibility(isVisible: boolean): void {
+    if (!isVisible) {
+      // Reinicia los datos al cerrar el modal
+      this.tipovehiculo = [];
+      this.getTipoVehiculo(); // Recarga los datos
+    }
+  }
   
   toggleLiveDemo() {
     this.visible = !this.visible;
@@ -109,11 +121,25 @@ export class TarifarioGeneralComponent implements OnInit {
       }
 
   openModal() {
-    this.isModalOpen = true;
+  }
+
+
+  resetForm() {
+    this.nombreOperacion = 0;
+    this.selectedCentroOperacion = null;
+    this.tipo_vehiculo = 0;
+    this.unidad_Medida = 0;
+    this.selectedPeriodo = null;
+    this.tarifaMonto = null;
+  
+    this.tarifaForm?.resetForm(); // Reinicia el formulario
   }
 
   closeModal() {
-    this.isModalOpen = false;
+    // Reinicia el formulario si existe
+
+    this.tarifaForm?.resetForm(); // Restablece los valores del formulario
+
   }
 
 
@@ -140,7 +166,7 @@ export class TarifarioGeneralComponent implements OnInit {
   nombreOperacion: number = 0;
   centro_operacion: number = 0;
   tipo_vehiculo: number = 0;
-  unidadMedida: number = 0;
+  unidad_Medida: number = 0;
   periodo: number = 0;
 
   solicitarInfoNuevaTarifa() {
@@ -152,7 +178,7 @@ export class TarifarioGeneralComponent implements OnInit {
     const nombreOperacion = parseInt((<HTMLSelectElement>document.getElementById('Nombre')).value, 10);
     const centro_operacion = parseInt((<HTMLSelectElement>document.getElementById('nombreCop')).value, 10);
     const tipo_vehiculo = parseInt((<HTMLSelectElement>document.getElementById('vehiculo')).value, 10);
-    const unidadMedida = parseInt((<HTMLSelectElement>document.getElementById('UnidadMedida')).value, 10);
+    const unidad_Medida = parseInt((<HTMLSelectElement>document.getElementById('UnidadMedida')).value, 10);
     const periodo = parseInt((<HTMLSelectElement>document.getElementById('Periodicidad')).value, 10);
   
     // Filtrar los datos que coinciden con los valores ingresados
@@ -167,8 +193,8 @@ export class TarifarioGeneralComponent implements OnInit {
     if (tipo_vehiculo) {
       resultadosFiltrados = resultadosFiltrados.filter(item => item.tipo_vehiculo === tipo_vehiculo);
     }
-    if (unidadMedida) {
-      resultadosFiltrados = resultadosFiltrados.filter(item => item.capacidad === unidadMedida);
+    if (unidad_Medida) {
+      resultadosFiltrados = resultadosFiltrados.filter(item => item.capacidad === unidad_Medida);
     }
     if (periodo) {
       resultadosFiltrados = resultadosFiltrados.filter(item => item.periodicidad === periodo);
@@ -225,26 +251,28 @@ export class TarifarioGeneralComponent implements OnInit {
   getOperacion(){
     this.Tg.getOperacion().subscribe((data)=>{
       this.OperacionSelect = data
-      this.getCentroOperacion();
+      this.fetchCentroOperacion();
     })
   }
-  getCentroOperacion() {
+  fetchCentroOperacion() {
     // Verifica si el valor seleccionado se refleja en la consola
-    const id_op = parseInt((<HTMLSelectElement>document.getElementById('Nombre')).value);
-    
+    const id_op = parseInt(
+      (<HTMLSelectElement>document.getElementById('Nombre')).value
+    );
+  
     // Llama al servicio solo si se ha seleccionado un valor
-    if (id_op !== null) {
+    if (!isNaN(id_op)) {
       this.Tg.getCentroOperacion(id_op).subscribe(
         (data) => {
           this.CopSelect = data;
-          console.log("Datos recibidos:", data); // Verifica la respuesta
+          console.log('Datos recibidos:', data); // Verifica la respuesta
         },
         (error) => {
-          console.error("Error al obtener los datos:", error);
+          console.error('Error al obtener los datos:', error);
         }
       );
     } else {
-      console.warn("No se ha seleccionado ningún valor.");
+      console.warn('No se ha seleccionado ningún valor.');
     }
   }
 
@@ -345,14 +373,64 @@ export class TarifarioGeneralComponent implements OnInit {
   operacion: number = 0;
   fechaCaducidad: string = '';
 
+  mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
+    // Crear un div para la alerta
+    const alerta: HTMLDivElement = document.createElement('div');
+    alerta.classList.add('alerta', tipo); // Añadir clase para tipo (success, error, warning)
+  
+    // Elegir icono basado en el tipo
+    const icono: HTMLElement = document.createElement('i');
+    switch (tipo) {
+      case 'success':
+        icono.classList.add('fas', 'fa-check-circle'); // Icono de éxito
+        alerta.style.backgroundColor = 'rgba(40, 167, 69, 0.9)'; // Verde
+        alerta.style.borderRadius = '10px';
+        alerta.style.padding = '7px'; // Aumentar el padding
+        break;
+      case 'error':
+        icono.classList.add('fas', 'fa-times-circle'); // Icono de error
+        alerta.style.backgroundColor = '#dc3545'; // Rojo
+        alerta.style.borderRadius = '10px';
+        alerta.style.padding = '7px'; // Aumentar el padding
+        break;
+      case 'warning':
+        icono.classList.add('fas', 'fa-exclamation-triangle'); // Icono de advertencia
+        alerta.style.backgroundColor = '#ffc107'; // Amarillo
+        alerta.style.borderRadius = '10px';
+        alerta.style.padding = '7px'; // Aumentar el padding
+        break;
+    }
+  
+    // Añadir el icono y el mensaje al div de la alerta
+    alerta.appendChild(icono);
+    alerta.appendChild(document.createTextNode(mensaje));
+  
+    // Añadir la alerta al contenedor de alertas
+    const alertaContainer: HTMLElement | null = document.getElementById('alertaContainer');
+    if (alertaContainer) {
+      alertaContainer.appendChild(alerta);
+  
+      // Mostrar la alerta con una animación de opacidad
+      setTimeout(() => {
+        alerta.style.opacity = '1';
+      }, 100);
+  
+      // Ocultar la alerta después de 5 segundos y eliminarla del DOM
+      setTimeout(() => {
+        alerta.style.opacity = '0';
+        setTimeout(() => {
+          alerta.remove();
+        }, 500);
+      }, 5000);
+    }
+  }
 
-  
-  
   // Propiedad para almacenar el valor seleccionado en el select
   selectedPeriodo: number | null = null;
   limpiarSeleccion() {
     this.selectedPeriodo = null; // Limpia el valor seleccionado del select
   }
+
   ingresoFormNuevaTarifa(tarifaForm: NgForm) {
     // Obtener los valores de los inputs
     const id_user = sessionStorage.getItem('id')?.toString() + '';
@@ -374,21 +452,18 @@ export class TarifarioGeneralComponent implements OnInit {
   
     this.Tg.NuevaTarifa(id_user, ids_user,latitud,longitud, operacion, centro_operacion, tipo_vehiculo, Tarifa,periodo,monto,).subscribe(
       (response) => {
-        console.log('Estado actualizado correctamente:', response);
-
+        this.mostrarAlerta('Se ha ingresado correctamente la nueva tarifa', 'success');
         //vuelvo a cargar la tabla principal post ingreso de una nueva tarifa
-        
         this.getinfoTableSearch();
         this.getinfoTable();
         this.verificarExistencia();  
-        
         tarifaForm.resetForm();
         this.limpiarInput();
         this.limpiarSeleccion();
         
       },
       (error) => {
-        console.error('Error al actualizar el estado', error);
+        this.mostrarAlerta('Error al ingresar la nueva tarifa.', 'error');
         // Puedes manejar el error aquí
       }
     );

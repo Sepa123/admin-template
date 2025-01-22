@@ -102,3 +102,28 @@ h4 {
     background-color: #e7ffe0;
 }
 
+/* Clase para recortar automáticamente */
+.truncate {
+    max-width: 150px; /* Ancho máximo para recortar contenido */
+    overflow: hidden; /* Oculta el texto que desborda */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos */
+    white-space: nowrap; /* Mantiene el texto en una sola línea */
+    cursor: pointer; /* Indica interactividad */
+  }
+  
+  /* Tooltip dinámico al pasar el mouse */
+  .truncate:hover::before {
+    content: attr(data-full-text); /* Muestra el texto completo */
+    position: absolute;
+    top: -40px; /* Ajusta la posición encima de la celda */
+    left: 0;
+    z-index: 9999; /* Asegura que el tooltip esté sobre todo */
+    background: #333;
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    white-space: normal; /* Permite texto en varias líneas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 300px; /* Define el ancho máximo del tooltip */
+    overflow-wrap: break-word; /* Ajusta el texto largo */
+  }

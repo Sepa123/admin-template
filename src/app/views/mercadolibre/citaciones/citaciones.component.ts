@@ -293,7 +293,7 @@ buscarPatenteDetalle(event: Event) {
         this.OperacionesFiltradas = data
       },
       (error) => {
-        console.error('Error al obtener modalidades de operación', error);
+        this.mostrarAlerta(' No se han encontrado patentes', 'error');
       }
     );
   }
@@ -355,7 +355,7 @@ buscarPatenteDetalle(event: Event) {
         this.estados = data;
       },
       (error) => {
-        console.error('Error al obtener modalidades de operación', error);
+        this.mostrarAlerta(' Error al obtener los estados', 'error');
       }
     );
   }
@@ -366,7 +366,7 @@ buscarPatenteDetalle(event: Event) {
         this.conductores = data;
       },
       (error) => {
-        console.error('Error al obtener modalidades de operación', error);
+        this.mostrarAlerta(' Error al obtener conductores', 'error');
       }
     );
   }
@@ -378,7 +378,7 @@ buscarPatenteDetalle(event: Event) {
         this.peonetas = data;
       },
       (error) => {
-        console.error('Error al obtener modalidades de operación', error);
+        this.mostrarAlerta(' Error al obtener peonetas', 'error');  
       }
     );
   }
@@ -463,11 +463,10 @@ buscarPatenteDetalle(event: Event) {
           this.getModalidades();
           this.getPatentesFiltradasPorOpyCop(this.opRecuperada, this.CopRecuperada)
           this.bitacoraUpdate('Se elimino la patente ' + ppu, 'citacion-Mercadolibre')
-          console.log('Se ha eliminado correctamente', response);
-          alert('Eliminado correctamente ${ppu}');
+          this.mostrarAlerta(' La patente '+ ppu + ' se ha eliminado correctamente ', 'success');
         },
         (error) => {
-          console.error('Error al eliminar la razón social:', error);
+          this.mostrarAlerta(' Error al eliminar la patente', 'error');
         }
       );
   }
@@ -490,14 +489,12 @@ buscarPatenteDetalle(event: Event) {
         (Response) => {
           this.getModalidades();
           this.bitacoraUpdate('Se cambio el estado de la patente '+ id + ' a ' + selectedValue, 'citacion-Mercadolibre')
-          console.log('Estado actualizado', Response);
-          alert('El estado se ha actualizado correctamente.');
+          this.mostrarAlerta(' El cambio de estado se ha realizado correctamente', 'success');
           
 
         },
         (error) => {
-          console.error('Error al actualizar el estado', error);
-          alert('Ha ocurrido un error al actualizar el estado.');
+          this.mostrarAlerta(' Error al actualizar el estado', 'error');
         }
       );
     }
@@ -517,9 +514,11 @@ buscarPatenteDetalle(event: Event) {
             console.log('Estado actualizado', Response);
             this.getModalidades();
             this.bitacoraUpdate(`Se ha cambiado la ruta de ${rutaMeliAntiguo} a ${rutaMeli} para la patente con id: ${id}`, 'citacion-Mercadolibre');
+            this.mostrarAlerta(' El cambio de ruta se ha realizado correctamente', 'success');
           },
           (error) => {
             console.error('Error al actualizar el estado', error);
+            this.mostrarAlerta(' Error al actualizar la ruta', 'error');
           }
         );
   }
@@ -561,7 +560,7 @@ buscarPatenteDetalle(event: Event) {
         
       },
       (error) => {
-        console.error('Error al obtener modalidades de operación', error);
+        this.mostrarAlerta(' No hay patentes registradas.', 'error');
       }
     );
   }
@@ -598,7 +597,7 @@ buscarPatenteDetalle(event: Event) {
     this.getCentroOperacion = id_centro;
   }
 
-  submitForm(id_ppu: any) {
+  submitForm(id_ppu: any, ppu: any) {
     // Obtener Valores de sessionStorage
     const id_user = sessionStorage.getItem('id')?.toString() + '';
     const ids_user =
@@ -643,16 +642,17 @@ buscarPatenteDetalle(event: Event) {
           this.getModalidades();
           this.getRecargarPatentesCitaciones();
           this.bitacoraUpdate('Se ha agregado la patente ' + id_ppu, 'citacion-Mercadolibre')
+          this.mostrarAlerta(' La patente ' + ppu +' se ha ingresado correctamente ' , 'success');
           // alert('El ingreso se ha realizado Correctamente');
         },
 
         (error) => {
           //MAnejar errores
-          console.error('Error al enviar la solicitud', error.error.detail);
+          this.mostrarAlerta(' Error al ingresar la patente', 'error');
           if (error.error.detail.includes('duplicate key')) {
-            alert('El nombre de la patente ya existe para el dia de hoy');
+            this.mostrarAlerta(' La patente ya se encuentra registrada.', 'error');
           } else {
-            alert('Hubo un error al ingresar el dato');
+            this.mostrarAlerta(' Error al ingresar la patente', 'error');
           }
         }
       );
@@ -686,14 +686,14 @@ buscarPatenteDetalle(event: Event) {
         if (data && data.length > 0){
         this.patentesFiltradas = data;
       }else{
-        console.warn('No se encontraron patentes citadas.');
+        this.mostrarAlerta(' No se encontraron patentes citadas', 'warning');
         this.patentesFiltradas = []; // Limpiar la lista si no hay datos
       }
         this.isLoadingFull = false;
 
       },
       (error) => {
-        console.error('Error al obtener modalidades de operación', error);
+        this.mostrarAlerta(' Error al obtener las patentes citadas', 'error');
       }
     );
   }
@@ -704,7 +704,7 @@ buscarPatenteDetalle(event: Event) {
     
     if (id_operacion && id_cop) {
     } else {
-      console.error('no se ha encontrado uno o ambos elementos');
+      this.mostrarAlerta(' Error al obtener las patentes citadas', 'error');
     }
     this.Ct.getPatenteCitacion(id_operacion, id_cop, fecha).subscribe(
       (data) => {
@@ -713,13 +713,13 @@ buscarPatenteDetalle(event: Event) {
           this.patentesFiltradas = data;
           this.TipoRutaImagen = data[1].tipo_ruta
         }else{
-          console.warn('No se encontraron patentes citadas.');
+          this.mostrarAlerta(' No se encontraron patentes citadas', 'warning');
           this.patentesFiltradas = []; // Limpiar la lista si no hay datos
         }
           this.isLoadingFull = false
       },
       (error) => {
-        console.error('Error al obtener modalidades de operación', error);
+        this.mostrarAlerta(' Error al obtener las patentes citadas', 'error');
         this.isLoadingFull = false
       }
     );
@@ -813,7 +813,7 @@ buscarPatenteDetalle(event: Event) {
         this.getPeonetas() 
       },
       (error) => {
-        console.error('error al actualizar el estado', error);
+        this.mostrarAlerta(' Error al ingresar los datos', 'error');
       }
     );
   }
@@ -877,10 +877,10 @@ ingresarDatosAmbulancia(){
 
     this.Ct.postData(ruta_amb_interna, id_ppu, fecha,id_ppu_amb,id_ruta_meli).subscribe(
         (responde)=>{
-          alert('se han ingresado correctamente la ambulancia');
+          this.mostrarAlerta (' Se ha ingresado correctamente la ambulancia', 'success')
         },
         (error) => {
-            console.error('error al actualizar el estado', error);
+          this.mostrarAlerta(' Error al ingresar la ambulancia', 'error');
           }
       )
   }
@@ -929,9 +929,58 @@ bitacoraUpdate(modificacion: string, origen: string){
     (responde)=>{
     },
     (error) => {
-        console.error('error al actualizar el estado', error);
+        // console.error('error al actualizar el estado', error);
       }
   )
 
 }
+
+
+mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
+  // Crear un div para la alerta
+  const alerta: HTMLDivElement = document.createElement('div');
+  alerta.classList.add('alerta', tipo); // Añadir clase para tipo (success, error, warning)
+  // Elegir icono basado en el tipo
+  const icono: HTMLElement = document.createElement('i');
+  switch (tipo) {
+    case 'success':
+      icono.classList.add('fas', 'fa-check-circle'); // Icono de éxito
+      alerta.style.backgroundColor = 'rgba(40, 167, 69, 0.9)'; // Verde
+      alerta.style.borderRadius = '10px';
+      alerta.style.padding = '7px'; // Aumentar el padding
+      break;
+    case 'error':
+      icono.classList.add('fas', 'fa-times-circle'); // Icono de error
+      alerta.style.backgroundColor = '#dc3545'; // Rojo
+      alerta.style.borderRadius = '10px';
+      alerta.style.padding = '7px'; // Aumentar el padding
+      break;
+    case 'warning':
+      icono.classList.add('fas', 'fa-exclamation-triangle'); // Icono de advertencia
+      alerta.style.backgroundColor = '#ffc107'; // Amarillo
+      alerta.style.borderRadius = '10px';
+      alerta.style.padding = '7px'; // Aumentar el padding
+      break;
+  }
+  // Añadir el icono y el mensaje al div de la alerta
+  alerta.appendChild(icono);
+  alerta.appendChild(document.createTextNode(mensaje));
+  // Añadir la alerta al contenedor de alertas
+  const alertaContainer: HTMLElement | null = document.getElementById('alertaContainer');
+  if (alertaContainer) {
+    alertaContainer.appendChild(alerta);
+    // Mostrar la alerta con una animación de opacidad
+    setTimeout(() => {
+      alerta.style.opacity = '1';
+    }, 100);
+    // Ocultar la alerta después de 5 segundos y eliminarla del DOM
+    setTimeout(() => {
+      alerta.style.opacity = '0';
+      setTimeout(() => {
+        alerta.remove();
+      }, 500);
+    }, 5000);
+    }
+  }
+
 }

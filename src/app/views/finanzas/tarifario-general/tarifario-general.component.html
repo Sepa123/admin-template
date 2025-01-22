@@ -1,3 +1,4 @@
+
 <div class="TitleContainer">
   <H3> Tarifario General</H3>
 
@@ -121,7 +122,9 @@
 
 </div>
 
+<div id="alertaContainer"></div>
 
+<button class="btn" (click)="mostrarAlerta('Vehículo Ingresado Correctamente', 'success')">Simular Ingreso Vehículo</button>
 
 <c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
   <c-modal-header>
@@ -136,8 +139,8 @@
     <form #tarifaForm="ngForm">
       <div class="form-group">
         <label for="Nombre">Nombre *</label>
-        <select id="Nombre" class="form-control" [(ngModel)]="nombreOperacion" name="nombre"
-          (change)="getCentroOperacion()" (change)="verificarExistencia()">
+        <select id="Nombre" class="form-control" [(ngModel)]="selectedOperacionModal" name="nombre"
+          (change)="fetchCentroOperacion()" (change)="verificarExistencia()">
           <ng-container *ngFor="let Tg of OperacionSelect">
             <option [value]="Tg.id">{{Tg.nombre}}</option>
           </ng-container>
@@ -145,7 +148,7 @@
       </div>
       <div class="form-group">
         <label for="Valor_Inf">Centro de operacion *</label>
-        <select id="nombreCop" class="form-control" [(ngModel)]="getCentroOperacion" name="cetro_operacion"(change)="verificarExistencia()">
+        <select id="nombreCop" class="form-control" [(ngModel)]="selectedCentroOperacion" name="cetro_operacion"(click)="verificarExistencia()">
           <ng-container *ngFor="let Tg of CopSelect">
             <option [value]="Tg.id">{{Tg.centro}}</option>
           </ng-container>
@@ -154,16 +157,16 @@
       </div>
       <div class="form-group">
         <label for="valor_s"> Tipo de vehiculo*</label>
-        <select id="vehiculo" class="form-control" [(ngModel)]="tipo_vehiculo" name="tipoVehiculo" (change)="verificarExistencia()">
+        <select id="vehiculo" class="form-control" [(ngModel)]="Selectedtipovehiculo" name="tipoVehiculo" (click)="verificarExistencia()">
+          <option [value]="null" disabled selected>Seleccione un tipo de vehículo</option>
           <ng-container *ngFor="let Tp of tipovehiculo">
             <option [value]="Tp.id">{{Tp.tipo}}</option>
           </ng-container>
         </select>
-
       </div>
       <div class="form-group">
         <label for="unidad">Unidad de medida*</label>
-        <select id="UnidadMedida" class="form-control" [(ngModel)]="unidadMedida" name="Medida" (change)="verificarExistencia()">
+        <select id="UnidadMedida" class="form-control" [(ngModel)]="selectedunidadMedida" name="Medida" (click)="verificarExistencia()">
           <ng-container *ngFor="let Tm of CarTarifa">
             <option [value]="Tm.id">{{Tm.nombre}}</option>
           </ng-container>
@@ -171,7 +174,7 @@
       </div>
       <div>
         <label for="Periodicidad"> Periodo</label>
-        <select id="Periodicidad" class="form-control" [(ngModel)]="selectedPeriodo" name="Periodo" (change)="verificarExistencia()">
+        <select id="Periodicidad" class="form-control" [(ngModel)]="selectedPeriodo" name="Periodo" (click)="verificarExistencia()">
           <ng-container *ngFor="let Pd of Periodicidad">
             <option [value]="Pd.id">{{Pd.periodo}}</option>
           </ng-container>
