@@ -504,6 +504,7 @@ buscarPatenteDetalle(event: Event) {
       },
       (error) => {
         this.mostrarAlerta(' No hay patentes registradas.', 'error');
+        this.toggleLive3()
       }
     );
   }
