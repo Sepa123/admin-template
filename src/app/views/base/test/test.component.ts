@@ -7,146 +7,38 @@ import { RegistrarUsuarioService } from 'src/app/service/registrar-usuario.servi
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.scss']
 })
-export class TestComponent{
+export class TestComponent {
+  p: number = 1;  // Página actual
+  itemsPerPage: number = 10;   // Registros por página
+  totalItems: number = 1000;   // Total de registros
+  items: any[] = [];           // Todos los registros (pueden ser más de 1000)
+  pagedItems: any[] = [];      // Registros filtrados según la página actual
 
-  constructor(private service: RegistrarUsuarioService, public builder: FormBuilder) { }
-  
-    private selectedImagenPerfil: File | null = null
-    rol =   sessionStorage.getItem('rol_id')+''
-    id =   sessionStorage.getItem('id')+''
-    server = sessionStorage.getItem('server')+''
-    nombre_usuario = sessionStorage.getItem('usuario')+''
-    mail = sessionStorage.getItem('mail')+''
-  
-  
-    public op: any [] = [
-  
-    ]
-  
-    eliminarUsuarioCO(id_co : number){
-  
-    const usuarioEliminado = this.server + '-' + this.id
-  
-    const body = {
-      Ids_coordinador : usuarioEliminado,
-      Id_coordinador : this.id,
-      Id_co : id_co
-    }
-      console.log('eliminado ', body)
-    }
-  
+  constructor() {
+    // Generamos 1000 registros de ejemplo
+    this.items = this.generateFakeData(1000);
+    this.updatePagedItems(); // Inicializamos los registros a mostrar
+  }
 
-    
-  
-    isErrorView : boolean = false
-    isModalOpen: boolean = false
-    public visible = false;
-  
-    toggleLiveDemo() {
-      this.visible = !this.visible;
+  // Generar datos de ejemplo
+  generateFakeData(count: number): any[] {
+    let data = [];
+    for (let i = 1; i <= count; i++) {
+      data.push({ nombre: `Nombre ${i}`, edad: 20 + (i % 40), ciudad: `Ciudad ${i}` });
     }
-  
-    handleLiveDemoChange(event: any) {
-      this.visible = event;
-    }
-    
-    openModal(){
-      this.isModalOpen = true
-    }
-  
-    closeModal(){
-      this.isModalOpen = false
-    }
-  
-    profilePicture: string | ArrayBuffer | null = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
-  
-    ngOnInit(){
-      
+    return data;
+  }
 
-    }
-  
-    editarDatos() {
+  // Actualizar los registros visibles según la página actual
+  updatePagedItems() {
+    const startIndex = (this.p - 1) * this.itemsPerPage;  // Índice inicial
+    const endIndex = this.p * this.itemsPerPage;           // Índice final
+    this.pagedItems = this.items.slice(startIndex, endIndex); // Filtrar los registros
+  }
 
-    }
-  
-    subirImagen(){
-      const fileInput = document.getElementById('fileInput');
-  
-      if(fileInput) fileInput.click();
-    }
-    
-    onFileSelected(event: Event): void {
-      const input = event.target as HTMLInputElement;
-      const file = input.files?.[0];
-  
-      if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        // reader.onload = (e: any) => {
-        //   this.profilePicture = e.target.result;
-        // };
-        const formData = new FormData();
-        formData.append('file', file, file.name);
-        // reader.readAsDataURL(file);
-        console.log('HORA')
-  
-        this.service.subirTest(formData,this.id,this.server).subscribe((data : any) => {
-  
-          
-          // this.profilePicture = 'https://hela.transyanez.cl/api/panel/image/foto_perfil/'+data.filename
-          // this.service.getFotoPerfil(data.filename).subscribe(blob => {
-          //   const reader = new FileReader();
-          //   reader.readAsDataURL(blob);
-          //   reader.onloadend = () => {
-          //     this.profilePicture = reader.result;
-          //   };
-          // });
-        })
-      } else {
-        alert('Por favor, seleccione un archivo de imagen.');
-      }
-    }
-  
-    isPasswordHidden: boolean = true;
-    isPassNuevaHidden: boolean = true;
-    isPassRepetHidden: boolean = true;
-    togglePassword() {
-      this.isPasswordHidden = !this.isPasswordHidden;
-      const passwordField = document.getElementById('pass_antigua') as HTMLInputElement;
-      
-      if (this.isPasswordHidden) {
-        passwordField.type = 'password';
-      } else {
-        passwordField.type = 'text';
-      }
-    }
-  
-    togglePass_nueva() {
-      this.isPassNuevaHidden = !this.isPassNuevaHidden;
-      const passwordField = document.getElementById('pass_nueva') as HTMLInputElement;
-      
-      if (this.isPassNuevaHidden) {
-        passwordField.type = 'password';
-      } else {
-        passwordField.type = 'text';
-      }
-    }
-  
-    togglePass_repetida() {
-      this.isPassRepetHidden = !this.isPassRepetHidden;
-      const passwordField = document.getElementById('pass_repetida') as HTMLInputElement;
-      
-      if (this.isPassRepetHidden) {
-        passwordField.type = 'password';
-      } else {
-        passwordField.type = 'text';
-      }
-    }
-  
-  
-    actualizarPassword(){
-
-      
-    }
-
+  // Método para manejar el cambio de página
+  onPageChange(page: number) {
+    this.p = page; // Actualizamos la página
+    this.updatePagedItems(); // Actualizamos los registros a mostrar
+  }
 }
-

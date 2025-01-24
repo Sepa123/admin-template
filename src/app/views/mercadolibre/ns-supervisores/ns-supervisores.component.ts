@@ -56,6 +56,8 @@ export class NsSupervisoresComponent {
   Imagenes : string [] = []
   Titulo : string [] =['Patente', 'Imagen 1', 'Imagen 2', 'Imagen 3']
 
+  isLoading : boolean = false
+
   infoPatentes(ppu : string){
     
     // this.el.nativeElement.querySelector('#map').remove()
@@ -251,10 +253,13 @@ export class NsSupervisoresComponent {
   buscadorResumenNS(fecha_i: string,fecha_f: string){
 
 
-    this.service.getResumenRutaSupervisores(fecha_i,fecha_f,this.id_usuario).subscribe((data) => {
-      console.log(data)
-      this.resumenSupervisores = data
+    this.isLoading = true
 
+    this.service.getResumenRutaSupervisores(fecha_i,fecha_f,this.id_usuario).subscribe((data) => {
+      // console.log(data)
+      this.resumenSupervisores = data
+      this.totalItems = this.resumenSupervisores.length;
+      console.log(this.totalItems)
       
 
       this.service.getListasPatentesFotos().subscribe((data : any ) => {
@@ -267,6 +272,14 @@ export class NsSupervisoresComponent {
         })
 
         this.resumenSupervisoresFull = this.resumenSupervisores
+
+        this.resumenSupervisoresFM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'FM')
+        this.resumenSupervisoresLM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LM')
+        this.resumenSupervisoresLH = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LH') 
+        
+        this.isLoading = false
+        
+        this.onKeyUp()
       })
 
     })
@@ -316,28 +329,6 @@ export class NsSupervisoresComponent {
   }
 
   DescargarNS(){
-    const idRuta = this.textoIdRuta.toLowerCase();
-    const patente = this.textoPatente.toLowerCase();
-    const conductor = this.textoConductor.toLowerCase();
-
-    const resultado: any[] = [];
-
-    // for (let i = 0; i < this.ListaPrefacturaFull.length; i++) {
-    //     const lista = this.ListaPrefacturaFull[i];
-    //     if (
-    //         lista.Id_de_ruta.toString().toLowerCase().startsWith(idRuta) &&
-    //         lista.Patente.toString().toLowerCase().startsWith(patente) &&
-    //         lista.Conductor.toString().toLowerCase().startsWith(conductor)
-    //     ) {
-    //         resultado.push(lista);
-    //     }
-    // }
-
-    // this.ListaPrefactura = resultado;
-    
-    
-    
-    
     const datos: any[][] = [[]];
 
     datos.push([
@@ -368,7 +359,7 @@ export class NsSupervisoresComponent {
       'Ruta cerrada'
     ])
 
-    this.resumenSupervisores.forEach((pedido) => {
+    this.resumenSupervisoresFull.forEach((pedido) => {
         const fila: any[] = [];
         fila.push(pedido.Modalidad, pedido.Operacion, pedido.Centro_operacion, pedido.Region, pedido.Fecha, pedido.Id_ruta, pedido.Ppu, pedido.Driver,
                   pedido.Kilometros,pedido.P_avance,pedido.Avance,
@@ -407,15 +398,15 @@ export class NsSupervisoresComponent {
 
 
   filtrarTabla(campo: string) {
-    const idRuta = this.textoIdRuta.toLowerCase();
-    const patente = this.textoPatente.toLowerCase();
-    const conductor = this.textoConductor.toLowerCase();
-    const filtro = this.textoFiltro.toLowerCase();
 
-    const resultado: any[] = [];
-    const maxResults = 100; // Ejemplo: limitar los resultados a los primeros 100
+    const filtro = this.textoFiltro.toLowerCase().trim();
 
-    for (let i = 0; i < this.resumenSupervisoresFull.length; i++) {
+    const rFM: any[] = [];
+    const rLM: any[] = [];
+    const rLH: any[] = [];
+    const maxResults = 200; // Ejemplo: limitar los resultados a los primeros 200
+
+    for (let i = 0; i < this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'FM').length; i++) {
         const lista = this.resumenSupervisoresFull[i];
         if (
             lista.Operacion.toString().toLowerCase().startsWith(filtro) ||
@@ -424,14 +415,50 @@ export class NsSupervisoresComponent {
             lista.Driver.toString().toLowerCase().startsWith(filtro) ||
             lista.Id_ruta.toString().toLowerCase().startsWith(filtro) 
         ) {
-            resultado.push(lista);
-            if (resultado.length >= maxResults) {
+          rFM.push(lista);
+            if (rFM.length >= maxResults && campo == 'campo') {
                 break; // Terminar el bucle si se alcanza el máximo de resultados
             }
         }
     }
 
-    this.resumenSupervisores = resultado;
+    for (let i = 0; i < this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'LM').length; i++) {
+      const lista = this.resumenSupervisoresFull[i];
+      if (
+          lista.Operacion.toString().toLowerCase().startsWith(filtro) ||
+          lista.Ppu.toString().toLowerCase().startsWith(filtro) ||
+          lista.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||
+          lista.Driver.toString().toLowerCase().startsWith(filtro) ||
+          lista.Id_ruta.toString().toLowerCase().startsWith(filtro) 
+      ) {
+        rLM.push(lista);
+          if (rLM.length >= maxResults && campo == 'campo') {
+              break; // Terminar el bucle si se alcanza el máximo de resultados
+          }
+      }
+  }
+
+  for (let i = 0; i < this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'LH').length; i++) {
+    const lista = this.resumenSupervisoresFull[i];
+    if (
+        lista.Operacion.toString().toLowerCase().startsWith(filtro) ||
+        lista.Ppu.toString().toLowerCase().startsWith(filtro) ||
+        lista.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||
+        lista.Driver.toString().toLowerCase().startsWith(filtro) ||
+        lista.Id_ruta.toString().toLowerCase().startsWith(filtro) 
+    ) {
+      rLH.push(lista);
+        if (rLH.length >= maxResults && campo == 'campo') {
+            break; // Terminar el bucle si se alcanza el máximo de resultados
+        }
+    }
+}
+
+    // this.resumenSupervisores = resultado;
+
+    this.resumenSupervisoresFM = rFM;
+    this.resumenSupervisoresLM = rLM
+    this.resumenSupervisoresLH = rLH
     // console.log(this.ListaPrefactura);
 }
 
@@ -448,8 +475,14 @@ sortOrderPpu : boolean = true
   sortTablePpu(orden : boolean){
     if(orden){
       this.resumenSupervisores.sort((a,b) => a.Ppu.localeCompare(b.Ppu))
+      this.resumenSupervisoresFM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'FM')
+      this.resumenSupervisoresLM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LM')
+      this.resumenSupervisoresLH = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LH') 
     }else{
       this.resumenSupervisores.sort((a,b) => b.Ppu.localeCompare(a.Ppu))
+      this.resumenSupervisoresFM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'FM')
+      this.resumenSupervisoresLM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LM')
+      this.resumenSupervisoresLH = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LH') 
     }
     this.sortOrderPpu = !this.sortOrderPpu
     
@@ -460,8 +493,14 @@ sortOrderPpu : boolean = true
   sortTableDriver(orden : boolean){
     if(orden){
       this.resumenSupervisores.sort((a,b) => a.Driver.localeCompare(b.Driver))
+      this.resumenSupervisoresFM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'FM')
+      this.resumenSupervisoresLM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LM')
+      this.resumenSupervisoresLH = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LH')
     }else{
       this.resumenSupervisores.sort((a,b) => b.Driver.localeCompare(a.Driver))
+      this.resumenSupervisoresFM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'FM')
+      this.resumenSupervisoresLM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LM')
+      this.resumenSupervisoresLH = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LH')
     }
     this.sortOrderDriver = !this.sortOrderDriver
     
@@ -471,15 +510,21 @@ sortOrderPpu : boolean = true
   sortTableRegion(orden : boolean){
     if(orden){
       this.resumenSupervisores.sort((a,b) => a.Region.localeCompare(b.Region))
+      this.resumenSupervisoresFM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'FM')
+      this.resumenSupervisoresLM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LM')
+      this.resumenSupervisoresLH = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LH')
     }else{
       this.resumenSupervisores.sort((a,b) => b.Region.localeCompare(a.Region))
+      this.resumenSupervisoresFM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'FM')
+      this.resumenSupervisoresLM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LM')
+      this.resumenSupervisoresLH = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LH')
     }
     this.sortOrderRegion = !this.sortOrderRegion
     
   }
 
 
-  mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
+  mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning' | 'gray'): void {
     // Crear un div para la alerta
     const alerta: HTMLDivElement = document.createElement('div');
     alerta.classList.add('alerta', tipo); // Añadir clase para tipo (success, error, warning)
@@ -533,68 +578,13 @@ sortOrderPpu : boolean = true
 
 
 
-@ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
-
-
-  public pieChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: true,
-        position: 'right',
-      // },
-      // datalabels: {
-      //   formatter: (value: any, ctx: any) => {
-      //     if (ctx.chart.data.labels) {
-      //       return ctx.chart.data.labels[ctx.dataIndex];
-      //     }
-      //   },
-      },
-    },
-  };
-
-  public pieChartData: ChartData<'pie', number[], string | string[]> = {
-    
-    labels: ["nada"],
-    datasets: [
-      {
-        data: [1],
-      },
-    ],
-  };
-
-  public pieChartType: ChartType = 'pie';
-
-  
-
-  options = {
-    plugins : {
-      legend: {
-        display: true,
-        // position : 'right'
-      },
-    },
-  }
-
-  data = {
-    labels: [
-      'Red',
-      'Blue',
-      'Yellow'
-    ],
-    datasets: [{
-      label: 'My First Dataset',
-      data: [300, 50, 100],
-      backgroundColor: ['#FF6384', '#4BC0C0', '#FFCE56', '#E7E9ED', '#36A2EB'],
-      hoverOffset: 4
-    }],
-  };
-
-
 ///// tabla editada
 
 inputText: string = '';
 resumenSupervisores: ResumenSupervisores [] = [];
+resumenSupervisoresLM: ResumenSupervisores [] = [];
+resumenSupervisoresFM: ResumenSupervisores [] = [];
+resumenSupervisoresLH: ResumenSupervisores [] = [];
 resumenSupervisoresFull: ResumenSupervisores [] = []
 patentes : string [] = []
 
@@ -602,6 +592,52 @@ idUsuario = sessionStorage.getItem('id')+""
 idsUsuario = sessionStorage.getItem('server')+'-'+this.idUsuario
 
 
+copiarPortapapeles(texto: string): void {
+  const textarea = document.createElement('textarea');
+
+  textarea.style.position = 'fixed';  // Evita el desplazamiento de la página
+  textarea.style.opacity = '0';    
+  textarea.value = texto;
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
+  if (texto == null){
+    this.mostrarAlerta('Error', 'error');
+  } else{
+    this.mostrarAlerta('Texto copiado: '+texto, 'gray');
+  }
+
+  
+  // alert('Texto copiado: '+texto)
+
+}
+
+
+////Filtro de tabla
+
+
+p: number = 1;  // Página actual
+itemsPerPage: number = 200;   // Registros por página
+totalItems: number = 0;   // Total de registros
+items: any[] = [];           // Todos los registros (pueden ser más de 1000)
+pagedItems: any[] = [];  
+
+// Actualiza los registros que deben mostrarse en la página actual
+updatePagedItems() {
+  const startIndex = (this.p - 1) * this.itemsPerPage;
+  const endIndex = this.p * this.itemsPerPage;
+  this.pagedItems = this.resumenSupervisoresFull.slice(startIndex, endIndex);
+  console.log(this.resumenSupervisoresFull)
+}
+
+// Cuando cambia la página, actualizamos los elementos a mostrar
+onPageChange(page: number) {
+  console.log('Página cambiada a:', page);
+  console.log('Total de páginas:', Math.ceil(this.totalItems / this.itemsPerPage));
+  this.p = page; // Actualizamos la página actual
+  this.updatePagedItems(); // Actualizamos los registros mostrados
+}
 
 
 

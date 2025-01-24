@@ -19,6 +19,7 @@ export interface MainCitacionA {
     ruta_cerrada:         boolean;
     observacion:          string;
     kilometro:            number;
+    tipo_ruta:            number;
 }
 
 

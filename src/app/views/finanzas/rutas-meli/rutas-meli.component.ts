@@ -375,28 +375,30 @@ isLoadingFull :boolean = false
       'Driver',
       'Tipo',
       'Ruta Auxiliada',
-      'Avance',
-      'Total_pedidos',
+      'Id Ambulancia',
+      'Entregas',
       'Fallido',
-      'Pendiente',
+      'Total Pedidos',
       'Kilometros',
       'Peoneta',
       'Valor Ruta',
       'Observación',
-      'Ns',
+      'NS',
       'Razón Id',
       'Razón Social',
       'Rut Empresa',
-      'Patente Proforma',
+      'En Proforma',
+      'Pago',
+      'Patente Proforma'
     ])
 
     this.reporteMeliFinanza.forEach((reporte) => {
         const fila: any[] = [];
 
         fila.push(reporte.Fecha,reporte.Modalidad,reporte.Id_ruta, reporte.Centro_operacion,reporte.Ppu, reporte.Tipo_vehiculo,
-          reporte.Estado_ruta,reporte.Driver,reporte.Tipo,reporte.Ruta_auxiliada,
-          reporte.Avance, reporte.Total_pedidos,reporte.Lm_fallido,reporte.Lm_entregas,reporte.Km,reporte.Peoneta, reporte.Valor_ruta,
-          reporte.Observacion, reporte.Ns, reporte.Razon_id,reporte.Razon_social,reporte.Rut_empresa, reporte.Patente_proforma
+          reporte.Estado_ruta,reporte.Driver,reporte.Tipo,reporte.Ruta_auxiliada,reporte.Id_ambulacia,reporte.Lm_entregas,reporte.Lm_fallido,
+          reporte.Total_pedidos,reporte.Km,reporte.Peoneta, reporte.Valor_ruta,reporte.Observacion, reporte.Ns, reporte.Razon_id,
+          reporte.Razon_social,reporte.Rut_empresa, reporte.En_proforma,  reporte.P_a_pago, reporte.Patente_proforma
         );
 
         datos.push(fila);

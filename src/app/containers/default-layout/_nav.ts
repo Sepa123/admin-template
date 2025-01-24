@@ -691,10 +691,10 @@ export const navItems: INavDataBar[] = [
         name: "Resumen Supervisores",
         url:  '/mercadolibre/ns-supervisores'
       },
-      {
-        name: "Test PPU",
-        url:  '/mercadolibre/test-ppu'
-      },
+      // {
+      //   name: "Test PPU",
+      //   url:  '/mercadolibre/test-ppu'
+      // },
       
     ]
   },
@@ -749,10 +749,10 @@ export const navItems: INavDataBar[] = [
         name: "Resumen Supervisores",
         url:  '/mercadolibre/ns-supervisores'
       },
-      {
-        name: "Test PPU",
-        url:  '/mercadolibre/test-ppu'
-      },
+      // {
+      //   name: "Test PPU",
+      //   url:  '/mercadolibre/test-ppu'
+      // },
       
     ]
   },

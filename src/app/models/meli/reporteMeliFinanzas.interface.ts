@@ -12,6 +12,7 @@ export interface ReporteMeliFinanza {
     Avance:           number;
     Lm_fallido:       number;
     P_avance:         number;
+    Id_ambulacia:       null | string;
     Lm_entregas:      number;
     Total_pedidos:      number;
     Km:               number;

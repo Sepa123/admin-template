@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+<div id="alertaContainer"></div>
+
 <h2> Resumen Ruta Supervisores</h2>
 <c-row>
   <c-col [xs]>
@@ -15,6 +17,8 @@
   <c-col [xs]> 
     <p></p>
     <button  (click)="buscarNsFechaSupervisor()" cButton  color="secondary" >Buscar</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img *ngIf="isLoading" width="55" height="50" src="../../../assets/images/loading-gif.gif" />
 
   </c-col>
 </c-row>
@@ -71,25 +75,25 @@
       </tr>
     </thead>
     <tbody >
-    <tr *ngFor="let driver of this.resumenSupervisores;let i = index ">
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Operacion}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Centro_operacion}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Region}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Fecha}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Id_ruta}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Ppu}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Driver}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Kilometros}}</td> 
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.P_avance}}</td> 
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Avance}}</td> 
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_fallido}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_pendiente}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_spr}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_entregas}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_tiempo_ruta}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Campos_por_operacion[0].lm_estado}}</td>
-        <td *ngIf="driver.Modalidad == 'LM'">{{driver.Valor_ruta}}</td> 
-        <td *ngIf="driver.Modalidad == 'LM'">
+    <tr *ngFor="let driver of this.resumenSupervisoresLM;let i = index ">
+        <td >{{driver.Operacion}}</td>
+        <td >{{driver.Centro_operacion}}</td>
+        <td class="truncate" >{{driver.Region}}</td>
+        <td>{{driver.Fecha}}</td>
+        <td (click)="copiarPortapapeles(driver.Id_ruta+'')" style="cursor: pointer">{{driver.Id_ruta}}</td>
+        <td (click)="copiarPortapapeles(driver.Ppu)" style="cursor: pointer">{{driver.Ppu}}</td>
+        <td class="truncate" >{{driver.Driver}}</td>
+        <td>{{driver.Kilometros}}</td> 
+        <td >{{driver.P_avance}}</td> 
+        <td >{{driver.Avance}}</td> 
+        <td >{{driver.Campos_por_operacion[0].lm_fallido}}</td>
+        <td >{{driver.Campos_por_operacion[0].lm_pendiente}}</td>
+        <td >{{driver.Campos_por_operacion[0].lm_spr}}</td>
+        <td >{{driver.Campos_por_operacion[0].lm_entregas}}</td>
+        <td >{{driver.Campos_por_operacion[0].lm_tiempo_ruta}}</td>
+        <td >{{driver.Campos_por_operacion[0].lm_estado}}</td>
+        <td >{{driver.Valor_ruta}}</td> 
+        <td>
             <!-- lock -->
             <span title="Ruta Cerrada ">
               <svg *ngIf="driver.Ruta_cerrada" xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
@@ -106,11 +110,11 @@
           </span>
         </td>
     </tr>
-    <!-- <tr *ngIf="contadorNS === 0">
-     <td colspan="11">
+    <tr *ngIf="resumenSupervisoresLM.length === 0">
+     <td colspan="19">
       no hay registros
      </td> 
-    </tr> -->
+    </tr>
     
     </tbody>
     </table>
@@ -145,25 +149,25 @@
       </tr>
     </thead>
     <tbody >
-    <tr *ngFor="let driver of resumenSupervisores;let i = index ">
-        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Operacion}}</td>
-        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Centro_operacion}}</td>
-        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Region}}</td>
-        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Fecha}}</td>
-        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Id_ruta}}</td>
-        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Ppu}}</td>
-        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Driver}}</td>
-        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Kilometros}}</td> 
-        <td *ngIf="driver.Modalidad == 'FM'">{{driver.P_avance}}</td> 
-        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Avance}}</td> 
-        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_total_paradas}}</th>
-        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_paqueteria_colectada}}</th>
-        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_estimados}}</th>
-        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_preparados}}</th>
-        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_p_colectas_a_tiempo}}</th>
-        <th *ngIf="driver.Modalidad == 'FM'">{{driver.Campos_por_operacion[0].fm_p_no_colectadas}}</th>
-        <td *ngIf="driver.Modalidad == 'FM'">{{driver.Valor_ruta}}</td> 
-        <td *ngIf="driver.Modalidad == 'FM'">
+    <tr *ngFor="let driver of resumenSupervisoresFM;let i = index ">
+        <td >{{driver.Operacion}}</td>
+        <td >{{driver.Centro_operacion}}</td>
+        <td class="truncate" >{{driver.Region}}</td>
+        <td >{{driver.Fecha}}</td>
+        <td (click)="copiarPortapapeles(driver.Id_ruta+'')"  style="cursor: pointer">{{driver.Id_ruta}}</td>
+        <td (click)="copiarPortapapeles(driver.Ppu)"  style="cursor: pointer">{{driver.Ppu}}</td>
+        <td class="truncate">{{driver.Driver}}</td>
+        <td >{{driver.Kilometros}}</td> 
+        <td >{{driver.P_avance}}</td> 
+        <td >{{driver.Avance}}</td> 
+        <th >{{driver.Campos_por_operacion[0].fm_total_paradas}}</th>
+        <th >{{driver.Campos_por_operacion[0].fm_paqueteria_colectada}}</th>
+        <th >{{driver.Campos_por_operacion[0].fm_estimados}}</th>
+        <th >{{driver.Campos_por_operacion[0].fm_preparados}}</th>
+        <th >{{driver.Campos_por_operacion[0].fm_p_colectas_a_tiempo}}</th>
+        <th >{{driver.Campos_por_operacion[0].fm_p_no_colectadas}}</th>
+        <td>{{driver.Valor_ruta}}</td> 
+        <td >
             <!-- lock -->
             <span title="Ruta Cerrada ">
               <svg *ngIf="driver.Ruta_cerrada" xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
@@ -179,7 +183,7 @@
               </svg>
           </span>
         </td>
-        <th *ngIf="driver.Modalidad == 'FM'">
+        <th >
 
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 640 512" *ngIf="!driver.Mostrar_foto">
             <path fill="gray" d="M320 400c-75.85 0-137.25-58.71-142.9-133.11L72.2 185.82c-13.79 17.3-26.48 35.59-36.72 55.59a32.35 32.35 0 0 0 0 29.19C89.71 376.41 197.07 448 320 448c26.91 0 52.87-4 77.89-10.46L346 397.39a144 144 0 0 1-26 2.61m313.82 58.1l-110.55-85.44a331.3 331.3 0 0 0 81.25-102.07a32.35 32.35 0 0 0 0-29.19C550.29 135.59 442.93 64 320 64a308.15 308.15 0 0 0-147.32 37.7L45.46 3.37A16 16 0 0 0 23 6.18L3.37 31.45A16 16 0 0 0 6.18 53.9l588.36 454.73a16 16 0 0 0 22.46-2.81l19.64-25.27a16 16 0 0 0-2.82-22.45m-183.72-142l-39.3-30.38A94.8 94.8 0 0 0 416 256a94.76 94.76 0 0 0-121.31-92.21A47.65 47.65 0 0 1 304 192a46.6 46.6 0 0 1-1.54 10l-73.61-56.89A142.3 142.3 0 0 1 320 112a143.92 143.92 0 0 1 144 144c0 21.63-5.29 41.79-13.9 60.11z" />
@@ -193,6 +197,11 @@
           </button> -->
         </th>
     </tr>
+    <tr *ngIf="resumenSupervisoresLM.length === 0">
+      <td colspan="19">
+       no hay registros
+      </td> 
+     </tr>
     </tbody>
     </table>
   </div>
@@ -271,3 +280,6 @@
 <button *ngIf="rol == '5'" (click)=" infoPatentes('PTHJ10')">Abrete sesamo</button>
 
 <!-- <div class="map-section" id="map"></div> -->
+
+
+<!-- <div id="alertaContainer"></div> -->

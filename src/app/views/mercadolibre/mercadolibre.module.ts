@@ -2,7 +2,9 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA} from '@angular/core'
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
+
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ButtonGroupModule,
@@ -83,7 +85,8 @@ import { WebcamModule } from 'ngx-webcam';
     TableModule,
     CollapseModule,
     NgChartsModule,
-    WebcamModule
+    WebcamModule,
+    NgxPaginationModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

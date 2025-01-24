@@ -1,101 +1,18 @@
-<body>
-  <div class="container-fluid text-center p-3">
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Edad</th>
+      <th>Ciudad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of items | paginate: { itemsPerPage: 10, currentPage: p }">
+      <td>{{ item.nombre }}</td>
+      <td>{{ item.edad }}</td>
+      <td>{{ item.ciudad }}</td>
+    </tr>
+  </tbody>
+</table>
 
-    <!-- Sección de la cámara -->
-    <div class="camera-preview-container mb-4">
-      <div class="camera-preview">
-        <!-- Cámara -->
-        <webcam [trigger]="triggerObservable" [width]="290" [height]="290" (imageCapture)="handleImage($event)" class="webcam" ></webcam>
-      </div>
-    </div>
-    <!-- Botón para capturar imágenes -->
-    <div class="photo-container">
-      <button class="btn btn-success mb-3" (click)="captureImage()">
-        Tomar Foto
-      </button>
-      <label *ngIf="confirmacion == true" class="photo-label">>Tome las ultimas 3 fotos a su patente para finalizar el proceso.</label>
-    </div>
-    <!-- Botón para capturar imágenes -->
-
-    <!-- Galería de imágenes capturadas -->
-    <div class="captured-images-container" *ngFor="let image of capturedImages; let i = index">
-        <div class="captured-image" *ngIf="image && i != 0">
-          <img [src]="image" alt="Imagen {{i + 1}}"/>
-          <button class="close-button" (click)="deleteImage(i)">
-            ✖
-          </button>
-        </div>
-    </div>
-    
-    <div *ngIf="apiInfo && apiInfo.length > 0">
-      <div *ngFor="let i of apiInfo" class="info-box">
-        <p class="info-title">
-          Patente: 
-          <span class="info-value">
-            {{ i.patente_result ? i.patente_result : ''}}
-          </span>
-        </p>
-        <p class="info-subtitle">
-          Ruta: 
-          <span class="info-value">
-            {{ i.ruta_meli_result ? i.ruta_meli_result : 'Esta patente no posee ruta en estos momentos.' }}
-          </span>
-        </p>
-      </div>
-    </div>
-    <!-- Input editable con el texto reconocido -->
-
-
-
-
-    <!-- Botón para llamar a la API -->
-
-    <button type="button" (click)="onSubmit()"
-      [disabled]="confirmacion == false || confirmar_Ruta == false || capturedImages.length < 4"
-      class="btn btn-success mb-3">
-      Enviar
-    </button>
-
-    <!-- Modal -->
-    <div id="infoModal" class="modal custom-alert-modal" *ngIf="isModalOpen">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header alert-header">
-            <h5  [hidden]="!confirmar_patente" class="modal-title">¿La patente esta Correcta?</h5>
-            <h5 [hidden]="confirmar_patente" class="modal-title"> Patente no encontrada.</h5>
-          </div>
-          <div class="modal-body alert-body">
-            <p [hidden]="!confirmar_patente">Confirmar si la patente es correcta</p>
-            
-            <div *ngFor="let i of apiInfo" class="alert alert-info">
-              <label for="" class="ModalPatenteLabel">
-                <input [hidden]="!confirmar_patente"
-                  type="checkbox" 
-                  id="miCheckbox" 
-                  [(ngModel)]="confirmacion" 
-                  [disabled]="confirmar_patente == false" 
-                  name="miCheckbox" 
-                  class="large-checkbox"
-                />
-                La pantente 
-                {{ i.patente_result ? i.patente_result : 'no tiene ruta asociada. Intente escaneando la patente nuevamente o póngase en contacto con el supervisor de su Operación.' }}
-              </label>
-            </div>
-            
-
-            <button type="button" (click)="onSubmit()" [disabled]="confirmacion == false" (click)="closeModal()"
-              class="btn btn-success">
-              Confirmar
-            </button>
-            <button type="button" (click)="onSubmit()" [disabled]="confirmacion == true " (click)="LimpiarImagenes()"
-              (click)="closeModal()" class="btn btn-success">
-              Reintentar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Modal para mostrar la información -->
-
-  </div>
-</body>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
