@@ -1,0 +1,21 @@
+// .locationInfo, .error {
+//     margin-top: 20px;
+//     padding: 15px;
+//     border-radius: 5px;
+//     display: none;
+//     max-width: 400px;
+//     text-align: center;
+// }
+.locationInfo {
+    background-color: #e0ffe0;
+    color: #006600;
+}
+.error {
+    background-color: #ffe0e0;
+    color: #990000;
+}
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}

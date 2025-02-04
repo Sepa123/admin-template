@@ -1,7 +1,14 @@
+
+
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <div id="alertaContainer"></div>
+
+
+
+
 
 <h2> Resumen Ruta Supervisores</h2>
 <c-row>
@@ -42,7 +49,6 @@
 </c-row>
 <p></p>
 
- 
 
   <h4>LM</h4>
   <p></p>
@@ -79,7 +85,7 @@
         <td >{{driver.Operacion}}</td>
         <td >{{driver.Centro_operacion}}</td>
         <td class="truncate" >{{driver.Region}}</td>
-        <td>{{driver.Fecha}}</td>
+        <td class="fecha">{{driver.Fecha}}</td>
         <td (click)="copiarPortapapeles(driver.Id_ruta+'')" style="cursor: pointer">{{driver.Id_ruta}}</td>
         <td (click)="copiarPortapapeles(driver.Ppu)" style="cursor: pointer">{{driver.Ppu}}</td>
         <td class="truncate" >{{driver.Driver}}</td>
@@ -153,7 +159,7 @@
         <td >{{driver.Operacion}}</td>
         <td >{{driver.Centro_operacion}}</td>
         <td class="truncate" >{{driver.Region}}</td>
-        <td >{{driver.Fecha}}</td>
+        <td class="fecha">{{driver.Fecha}}</td>
         <td (click)="copiarPortapapeles(driver.Id_ruta+'')"  style="cursor: pointer">{{driver.Id_ruta}}</td>
         <td (click)="copiarPortapapeles(driver.Ppu)"  style="cursor: pointer">{{driver.Ppu}}</td>
         <td class="truncate">{{driver.Driver}}</td>
@@ -208,6 +214,92 @@
   
   <p></p>
 
+
+
+
+  <p></p>
+  <h4>LH</h4>
+  <p></p>
+  <div class="greenTable">
+    <table id="tablaProductosPicking" >
+    <thead>
+      <tr>
+        <th>Operación</th>
+        <th>Centro Operación</th>
+        <th>Región</th>
+        <th>Fecha</th>
+        <th>Id Ruta</th>
+        <th>Patente</th>
+        <th>Driver</th>
+        <th>Kilometros</th>
+        <th>% Avance</th>
+        <th>Avance</th>
+        <!-- <th>Total paradas</th>
+        <th>Paqueteria colectada</th>
+        <th>Estimados</th>
+        <th>Preparado</th>
+        <th>% Colectas</th>
+        <th>% No colectadas</th> -->
+        <th>Valor ruta</th>
+        <th>Ruta cerrada</th>
+        <!-- <th>Acciones</th> -->
+      </tr>
+    </thead>
+    <tbody >
+    <tr *ngFor="let driver of resumenSupervisoresLH;let i = index ">
+        <td >{{driver.Operacion}}</td>
+        <td >{{driver.Centro_operacion}}</td>
+        <td class="truncate" >{{driver.Region}}</td>
+        <td class="fecha">{{driver.Fecha}}</td>
+        <td (click)="copiarPortapapeles(driver.Id_ruta+'')"  style="cursor: pointer">{{driver.Id_ruta}}</td>
+        <td (click)="copiarPortapapeles(driver.Ppu)"  style="cursor: pointer">{{driver.Ppu}}</td>
+        <td class="truncate">{{driver.Driver}}</td>
+        <td >{{driver.Kilometros}}</td> 
+        <td >{{driver.P_avance}}</td> 
+        <td >{{driver.Avance}}</td> 
+        <!-- <th >{{driver.Campos_por_operacion[0].fm_total_paradas}}</th>
+        <th >{{driver.Campos_por_operacion[0].fm_paqueteria_colectada}}</th>
+        <th >{{driver.Campos_por_operacion[0].fm_estimados}}</th>
+        <th >{{driver.Campos_por_operacion[0].fm_preparados}}</th>
+        <th >{{driver.Campos_por_operacion[0].fm_p_colectas_a_tiempo}}</th>
+        <th >{{driver.Campos_por_operacion[0].fm_p_no_colectadas}}</th> -->
+        <td>{{driver.Valor_ruta}}</td> 
+        <td >
+            <!-- lock -->
+            <span title="Ruta Cerrada ">
+              <svg *ngIf="driver.Ruta_cerrada" xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
+                <path fill="red" d="M320 640h512V448q0-106-75-181t-181-75t-181 75t-75 181zm832 96v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h32V448q0-184 132-316T576 0t316 132t132 316v192h32q40 0 68 28t28 68" />
+              </svg>
+
+          </span>
+            <!-- lock-open -->
+
+            <span title="Ruta Abierta ">
+              <svg *ngIf="!driver.Ruta_cerrada" xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 1664 1408">
+                <path fill="black" d="M1664 448v256q0 26-19 45t-45 19h-64q-26 0-45-19t-19-45V448q0-106-75-181t-181-75t-181 75t-75 181v192h96q40 0 68 28t28 68v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h672V448q0-185 131.5-316.5T1216 0t316.5 131.5T1664 448" />
+              </svg>
+          </span>
+        </td>
+        <!-- <th >
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 640 512" *ngIf="!driver.Mostrar_foto">
+            <path fill="gray" d="M320 400c-75.85 0-137.25-58.71-142.9-133.11L72.2 185.82c-13.79 17.3-26.48 35.59-36.72 55.59a32.35 32.35 0 0 0 0 29.19C89.71 376.41 197.07 448 320 448c26.91 0 52.87-4 77.89-10.46L346 397.39a144 144 0 0 1-26 2.61m313.82 58.1l-110.55-85.44a331.3 331.3 0 0 0 81.25-102.07a32.35 32.35 0 0 0 0-29.19C550.29 135.59 442.93 64 320 64a308.15 308.15 0 0 0-147.32 37.7L45.46 3.37A16 16 0 0 0 23 6.18L3.37 31.45A16 16 0 0 0 6.18 53.9l588.36 454.73a16 16 0 0 0 22.46-2.81l19.64-25.27a16 16 0 0 0-2.82-22.45m-183.72-142l-39.3-30.38A94.8 94.8 0 0 0 416 256a94.76 94.76 0 0 0-121.31-92.21A47.65 47.65 0 0 1 304 192a46.6 46.6 0 0 1-1.54 10l-73.61-56.89A142.3 142.3 0 0 1 320 112a143.92 143.92 0 0 1 144 144c0 21.63-5.29 41.79-13.9 60.11z" />
+          </svg>
+
+          <svg (click)="infoPatentes(driver.Ppu)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 576 512"  *ngIf="driver.Mostrar_foto">
+            <path fill="#000" d="M160 32c-35.3 0-64 28.7-64 64v224c0 35.3 28.7 64 64 64h352c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm236 106.7l96 144c4.9 7.4 5.4 16.8 1.2 24.6S480.9 320 472 320H200c-9.2 0-17.6-5.3-21.6-13.6s-2.9-18.2 2.9-25.4l64-80c4.6-5.7 11.4-9 18.7-9s14.2 3.3 18.7 9l17.3 21.6l56-84c4.5-6.6 12-10.6 20-10.6s15.5 4 20 10.7M192 128a32 32 0 1 1 64 0a32 32 0 1 1-64 0m-144-8c0-13.3-10.7-24-24-24S0 106.7 0 120v224c0 75.1 60.9 136 136 136h320c13.3 0 24-10.7 24-24s-10.7-24-24-24H136c-48.6 0-88-39.4-88-88z" />
+          </svg>
+        </th> -->
+    </tr>
+    <tr *ngIf="resumenSupervisoresLH.length === 0">
+      <td colspan="19">
+       no hay registros
+      </td> 
+     </tr>
+    </tbody>
+    </table>
+  </div>
+
 <c-row>
   <c-col [xs]>
     <button (click)="DescargarNS()" cButton  color="success" size="sm">Descargar
@@ -231,6 +323,8 @@
   </c-modal-header>
 
   <c-modal-body >
+
+    <!-- <app-activo-gps></app-activo-gps> -->
       <!-- *ngFor="let pu of patentesList2 -->
 
       <c-row>

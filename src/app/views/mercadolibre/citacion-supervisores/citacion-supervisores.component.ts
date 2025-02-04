@@ -255,6 +255,14 @@ export class CitacionSupervisoresComponent {
   }
 
   uploadFile() {
+
+    console.log(this.latStr,this.longStr)
+
+    // if(this.latStr,this.longStr == null){
+    //   this.visibleLocalizacion = true
+    // } else {
+
+    
     if (this.selectedFile) {
 
       this.termino = false
@@ -638,6 +646,21 @@ filtrarTablaDebounced = this.debounce(this.filtrarTabla, 200);
 
 onKeyUp() {
   this.filtrarTablaDebounced('campo');
+}
+
+
+
+//// modal activa localización 
+
+
+visibleLocalizacion : boolean = false
+
+toggleLiveLocalizacion() {
+  this.visibleLocalizacion = !this.visibleLocalizacion;
+}
+
+handleLiveLocalizacion(event: any) {
+  this.visibleLocalizacion = event;
 }
 
 

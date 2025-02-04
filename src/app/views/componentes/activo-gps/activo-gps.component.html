@@ -1,0 +1,24 @@
+<!-- <p>activo-gps!</p>
+
+
+<img src="https://i.makeagif.com/media/4-15-2017/PH244j.gif" alt=""> -->
+
+<div>
+  <button (click)="checkGeolocation()">Obtener Geolocalización</button>
+
+  <div *ngIf="locationInfoVisible" class="locationInfo">
+    <p>Geolocalización habilitada.</p>
+    <p>Latitud: {{ latitude }}</p>
+    <p>Longitud: {{ longitude }}</p>
+  </div>
+
+
+  <!-- <div *ngIf="errorVisible == false">
+    <p>{{ errorMessage }}</p>
+  </div> -->
+
+  <div *ngIf="errorVisible" class="error">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+</div>

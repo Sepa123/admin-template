@@ -41,6 +41,9 @@ import { NsSupervisoresComponent } from './ns-supervisores/ns-supervisores.compo
 
 import { TestPPUComponent } from './test-ppu/test-ppu.component';
 import { WebcamModule } from 'ngx-webcam';
+import { ComponentesModule } from '../componentes/componentes.module';
+
+
 
 @NgModule({
   declarations: [
@@ -59,6 +62,7 @@ import { WebcamModule } from 'ngx-webcam';
     
   ],
   imports: [
+    ComponentesModule,
     ProgressComponent,
     PaginationModule,
     ProgressBarComponent,

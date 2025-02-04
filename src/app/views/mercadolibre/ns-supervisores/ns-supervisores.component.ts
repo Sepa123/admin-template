@@ -163,6 +163,9 @@ export class NsSupervisoresComponent {
 
     
   }
+
+
+
   
   ngOnInit() {
     this.getLocation()
@@ -250,6 +253,11 @@ export class NsSupervisoresComponent {
     return paresDeFechas;
 }
 
+
+  cant_FM : number = 0
+  cant_LM : number = 0
+  cant_LH : number = 0
+
   buscadorResumenNS(fecha_i: string,fecha_f: string){
 
 
@@ -276,6 +284,12 @@ export class NsSupervisoresComponent {
         this.resumenSupervisoresFM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'FM')
         this.resumenSupervisoresLM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LM')
         this.resumenSupervisoresLH = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LH') 
+
+
+        this.cant_FM = this.resumenSupervisoresFM.length
+        this.cant_LM = this.resumenSupervisoresLM.length
+        this.cant_LH = this.resumenSupervisoresLH.length
+
         
         this.isLoading = false
         
@@ -459,6 +473,13 @@ export class NsSupervisoresComponent {
     this.resumenSupervisoresFM = rFM;
     this.resumenSupervisoresLM = rLM
     this.resumenSupervisoresLH = rLH
+
+
+
+
+    this.cant_FM = this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'FM').length
+    this.cant_LM = this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'LM').length
+    this.cant_LH = this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'LH').length
     // console.log(this.ListaPrefactura);
 }
 

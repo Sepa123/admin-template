@@ -1,18 +1,1 @@
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Edad</th>
-      <th>Ciudad</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of items | paginate: { itemsPerPage: 10, currentPage: p }">
-      <td>{{ item.nombre }}</td>
-      <td>{{ item.edad }}</td>
-      <td>{{ item.ciudad }}</td>
-    </tr>
-  </tbody>
-</table>
-
-<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<app-activo-gps></app-activo-gps>

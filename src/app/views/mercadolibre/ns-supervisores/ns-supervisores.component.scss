@@ -165,7 +165,7 @@
   overflow: hidden; /* Oculta el texto que desborda */
   text-overflow: ellipsis; /* Agrega puntos suspensivos */
   white-space: nowrap; /* Mantiene el texto en una sola línea */
-  cursor: pointer; /* Indica interactividad */
+  // cursor: pointer; /* Indica interactividad */
 }
 
 /* Tooltip dinámico al pasar el mouse */
@@ -183,4 +183,9 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   max-width: 300px; /* Define el ancho máximo del tooltip */
   overflow-wrap: break-word; /* Ajusta el texto largo */
+}
+
+.fecha {
+  font-size: 12px;
+  white-space: nowrap;
 }
