@@ -9,6 +9,7 @@ import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'cha
 import { BaseChartDirective } from 'ng2-charts';
 import { TIService } from '../../../service/ti.service';
 import { Pedidos } from '../../../models/pedido.interface';
+import { LocalizacionService } from '../../../service/localizacion.service';
 
 @Component({
   selector: 'app-citacion-supervisores',
@@ -17,7 +18,7 @@ import { Pedidos } from '../../../models/pedido.interface';
 })
 export class CitacionSupervisoresComponent {
   
-  constructor(private service: MeliService, private TIservice: TIService) {
+  constructor(private service: MeliService, private TIservice: TIService, private localizacionService: LocalizacionService) {
 
   }
   
@@ -246,6 +247,7 @@ export class CitacionSupervisoresComponent {
         this.longitud= position.coords.longitude 
        this.latStr = this.latitude.toString()
         this.longStr = this.longitud.toString()
+        
 
     console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
   }
@@ -258,9 +260,9 @@ export class CitacionSupervisoresComponent {
 
     console.log(this.latStr,this.longStr)
 
-    // if(this.latStr,this.longStr == null){
-    //   this.visibleLocalizacion = true
-    // } else {
+    if(this.latStr,this.longStr == null){
+      this.visibleLocalizacion = true
+    } else {
 
     
     if (this.selectedFile) {
@@ -304,8 +306,11 @@ export class CitacionSupervisoresComponent {
       
     } else {
       console.warn('Ningún archivo seleccionado');
+
+      alert('No se ha seleccionado ningún archivo seleccionado')
       // Lógica adicional en caso de que el usuario no seleccione ningún archivo.
     }
+  }
   }
 
 
@@ -414,6 +419,10 @@ idsUsuario = sessionStorage.getItem('server')+'-'+this.idUsuario
 
 guardarDatos() {
 
+  if(this.latStr,this.longStr == null){
+    this.visibleLocalizacion = true
+  } else {
+
   this.datosCitacionActiva.map((data)=>{
     data['fm_total_paradas'] = data.campos_por_operacion[0].fm_total_paradas    
     data['fm_estimados'] = data.campos_por_operacion[0].fm_estimados 
@@ -481,6 +490,8 @@ guardarDatos() {
     
   }
 )
+
+  }
   
 }
 
@@ -657,6 +668,10 @@ visibleLocalizacion : boolean = false
 
 toggleLiveLocalizacion() {
   this.visibleLocalizacion = !this.visibleLocalizacion;
+  if(this.latStr,this.longStr == null || this.latStr,this.longStr == undefined){
+    this.latStr = this.localizacionService.getLocalizacion().latitud
+    this.longStr = this.localizacionService.getLocalizacion().patente
+  }
 }
 
 handleLiveLocalizacion(event: any) {

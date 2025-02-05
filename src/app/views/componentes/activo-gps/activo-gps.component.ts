@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-
+import { LocalizacionService } from '../../../service/localizacion.service';
 @Component({
   selector: 'app-activo-gps',
   templateUrl: './activo-gps.component.html',
   styleUrls: ['./activo-gps.component.scss']
 })
 export class ActivoGpsComponent {
+
+
+  constructor(private localizacionService: LocalizacionService) { }
+
   latitude: number | null = null;
   longitude: number | null = null;
   errorMessage: string | null = null;
@@ -21,6 +25,8 @@ export class ActivoGpsComponent {
           // Ubicación obtenida correctamente
           this.latitude = position.coords.latitude;
           this.longitude = position.coords.longitude;
+
+          this.localizacionService.setLocalizacion(this.latitude.toString(), this.longitude.toString());
           this.locationInfoVisible = true;
           this.errorVisible = false;
         },
@@ -48,7 +54,7 @@ export class ActivoGpsComponent {
   getErrorMessage(errorCode: number): string {
     switch (errorCode) {
       case 1:
-        return 'El usuario denegó la solicitud de geolocalización.';
+        return 'No se puede continuar sin habilitar la geolocalización.';
       case 2:
         return 'No se puede obtener la ubicación debido a un problema de red o falta de GPS.';
       case 3:
@@ -56,5 +62,9 @@ export class ActivoGpsComponent {
       default:
         return 'Ha ocurrido un error desconocido.';
     }
+  }
+
+  ngOnInit(): void {
+    this.checkGeolocation();
   }
 }
