@@ -264,17 +264,15 @@ export class NsSupervisoresComponent {
     this.isLoading = true
 
     this.service.getResumenRutaSupervisores(fecha_i,fecha_f,this.id_usuario).subscribe((data) => {
-      // console.log(data)
+
       this.resumenSupervisores = data
       this.totalItems = this.resumenSupervisores.length;
-      console.log(this.totalItems)
-      
 
-      this.service.getListasPatentesFotos().subscribe((data : any ) => {
+      this.service.getListasPatentesFotos(fecha_i,fecha_f).subscribe((data : any ) => {
         this.patentes = data
 
         this.resumenSupervisores.map( resumen => {
-          if (this.patentes.includes(resumen.Ppu)){
+          if (this.patentes.some(item => item.Ppu === resumen.Ppu && item.Id_ruta === resumen.Id_ruta )){
             resumen.Mostrar_foto = true
           }
         })
@@ -285,12 +283,10 @@ export class NsSupervisoresComponent {
         this.resumenSupervisoresLM = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LM')
         this.resumenSupervisoresLH = this.resumenSupervisores.filter( resumen => resumen.Modalidad == 'LH') 
 
-
         this.cant_FM = this.resumenSupervisoresFM.length
         this.cant_LM = this.resumenSupervisoresLM.length
         this.cant_LH = this.resumenSupervisoresLH.length
 
-        
         this.isLoading = false
         
         this.onKeyUp()
@@ -411,17 +407,26 @@ export class NsSupervisoresComponent {
 }
 
 
+
+
   filtrarTabla(campo: string) {
 
     const filtro = this.textoFiltro.toLowerCase().trim();
-
+    
     const rFM: any[] = [];
     const rLM: any[] = [];
     const rLH: any[] = [];
-    const maxResults = 200; // Ejemplo: limitar los resultados a los primeros 200
+    const maxResults = 300; // Ejemplo: limitar los resultados a los primeros 200
+
+    // this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'FM' && (resumen.Operacion.toString().toLowerCase().startsWith(filtro) || resumen.Ppu.toString().toLowerCase().startsWith(filtro) ||
+    // resumen.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||resumen.Driver.toString().toLowerCase().startsWith(filtro) ||
+    // resumen.Id_ruta.toString().toLowerCase().startsWith(filtro))).map( resumen => { 
+    //   rFM.push(resumen);
+    // })
+
 
     for (let i = 0; i < this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'FM').length; i++) {
-        const lista = this.resumenSupervisoresFull[i];
+        const lista = this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'FM')[i];
         if (
             lista.Operacion.toString().toLowerCase().startsWith(filtro) ||
             lista.Ppu.toString().toLowerCase().startsWith(filtro) ||
@@ -430,6 +435,8 @@ export class NsSupervisoresComponent {
             lista.Id_ruta.toString().toLowerCase().startsWith(filtro) 
         ) {
           rFM.push(lista);
+
+          console.log(i, lista.Ppu)
             if (rFM.length >= maxResults && campo == 'campo') {
                 break; // Terminar el bucle si se alcanza el máximo de resultados
             }
@@ -437,7 +444,7 @@ export class NsSupervisoresComponent {
     }
 
     for (let i = 0; i < this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'LM').length; i++) {
-      const lista = this.resumenSupervisoresFull[i];
+      const lista = this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'LM')[i];
       if (
           lista.Operacion.toString().toLowerCase().startsWith(filtro) ||
           lista.Ppu.toString().toLowerCase().startsWith(filtro) ||
@@ -453,10 +460,9 @@ export class NsSupervisoresComponent {
   }
 
   for (let i = 0; i < this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'LH').length; i++) {
-    const lista = this.resumenSupervisoresFull[i];
-    if (
+    const lista = this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'Lh')[i];
+    if (lista.Ppu.toString().toLowerCase().startsWith(filtro) ||
         lista.Operacion.toString().toLowerCase().startsWith(filtro) ||
-        lista.Ppu.toString().toLowerCase().startsWith(filtro) ||
         lista.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||
         lista.Driver.toString().toLowerCase().startsWith(filtro) ||
         lista.Id_ruta.toString().toLowerCase().startsWith(filtro) 
@@ -466,16 +472,11 @@ export class NsSupervisoresComponent {
             break; // Terminar el bucle si se alcanza el máximo de resultados
         }
     }
-}
-
-    // this.resumenSupervisores = resultado;
+}   
 
     this.resumenSupervisoresFM = rFM;
     this.resumenSupervisoresLM = rLM
     this.resumenSupervisoresLH = rLH
-
-
-
 
     this.cant_FM = this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'FM').length
     this.cant_LM = this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'LM').length
@@ -607,7 +608,7 @@ resumenSupervisoresLM: ResumenSupervisores [] = [];
 resumenSupervisoresFM: ResumenSupervisores [] = [];
 resumenSupervisoresLH: ResumenSupervisores [] = [];
 resumenSupervisoresFull: ResumenSupervisores [] = []
-patentes : string [] = []
+patentes : any [] = []
 
 idUsuario = sessionStorage.getItem('id')+""
 idsUsuario = sessionStorage.getItem('server')+'-'+this.idUsuario

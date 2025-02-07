@@ -73,8 +73,8 @@ export class MeliService {
     return this.http.get<ResumenSupervisores []>(this.apiurl+`/resumen/rutas/supervisor?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}&usuario=${id}`)
   }
 
-  getListasPatentesFotos(){
-    return this.http.get(this.apiurl+`/lista_ppu/fotos`)
+  getListasPatentesFotos(fecha_ini : string,fecha_fin : string){
+    return this.http.get(this.apiurl+`/lista_ppu/fotos?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}`)
   }
 
   getReporteMeliFinanza(fecha_ini : string,fecha_fin : string){
