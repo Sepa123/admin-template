@@ -84,6 +84,7 @@ export interface Reclutamiento {
     Metros_cubicos:             number;
     Rango_fecha:                number;
     Capacidad:                  number;
+    Pestana:                    number;
 }
 
 

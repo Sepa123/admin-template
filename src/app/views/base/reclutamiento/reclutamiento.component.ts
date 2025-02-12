@@ -1,18 +1,18 @@
 import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RutasService } from 'src/app/service/rutas.service';
-import { PortalTransyanezService } from "src/app/service/portal-transyanez.service";
-import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromisoObligatorios.interface'
+import { RutasService } from '../../../service/rutas.service';
+import { PortalTransyanezService } from "../../../service/portal-transyanez.service";
+import {PedidoCompromisoObligatorio } from '../../../models/rutas/pedidoCompromisoObligatorios.interface'
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
 import { ComunasService } from '../../../service/comunas/comunas.service'
-import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
-import { Colaborador } from 'src/app/models/transporte/colaborador.interface' 
-import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
-import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
-import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
-import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
-import { PanelVehiculos } from 'src/app/models/transporte/paneles.interface'
+import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from '../../../models/enum/bancos.json'
+import { Colaborador } from '../../../models/transporte/colaborador.interface' 
+import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from '../../../models/transporte/vehiculo.interface' 
+import { RazonSocial } from '../../../models/modalidad-de-operaciones.interface';
+import { ModalidadDeOperacionesService } from '../../../service/modalidad-de-operaciones.service';
+import { CentroOperacion } from '../../../models/operacion/centroOperacion.interface';
+import { PanelVehiculos } from '../../../models/transporte/paneles.interface'
 import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, Operacion, Origen, Reclutamiento, Region,TipoVehiculo,Comuna } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
 import { RecursiveAstVisitor } from '@angular/compiler';
 
@@ -471,7 +471,22 @@ export class ReclutamientoComponent {
         })
         
       }, error => {
-        alert(error.error.detail)
+
+        if(error.status == 422){
+
+
+          error.error.detail.map((err : any) => {
+            alert( 'Error con el campo '+err.loc[1] + ': '+ err.msg)
+
+          })
+
+          // console.log(error.error.detail.length)
+          // alert( 'Error con el campo '+error.error.detail[0].loc[1] + ': '+ error.error.detail[0].msg)
+        } else {
+          alert(error.error.detail)
+        }
+        
+       
       }
     
     )
@@ -640,6 +655,11 @@ filtrarEjecutivo(){
     this.reclutas = this.reclutasFull.filter(ruta => ruta.Nombre_contacto == this.ejecutivoSeleccionada)
   }
   
+}
+
+
+filtroPestana(pestana : number){
+  this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana)
 }
 
  ngOnDestroy(): void {
