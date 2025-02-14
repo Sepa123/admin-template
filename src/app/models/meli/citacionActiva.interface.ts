@@ -41,6 +41,7 @@ export interface ResumenSupervisores {
     Valor_ruta:           number;
     Ruta_cerrada:         boolean;
     Mostrar_foto:         boolean;
+    Observacion:          string;
 }
 
 

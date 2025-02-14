@@ -366,7 +366,8 @@ export class NsSupervisoresComponent {
       '% Colectas',
       '% No colectadas',
       'Valor ruta',
-      'Ruta cerrada'
+      'Ruta cerrada',
+      'Observación'
     ])
 
     this.resumenSupervisoresFull.forEach((pedido) => {
@@ -375,7 +376,7 @@ export class NsSupervisoresComponent {
                   pedido.Kilometros,pedido.P_avance,pedido.Avance,
                   pedido.Campos_por_operacion[0].lm_fallido,pedido.Campos_por_operacion[0].lm_pendiente,pedido.Campos_por_operacion[0].lm_spr,pedido.Campos_por_operacion[0].lm_entregas,pedido.Campos_por_operacion[0].lm_tiempo_ruta,pedido.Campos_por_operacion[0].lm_estado,
                   pedido.Campos_por_operacion[0].fm_total_paradas,pedido.Campos_por_operacion[0].fm_paqueteria_colectada,pedido.Campos_por_operacion[0].fm_estimados,pedido.Campos_por_operacion[0].fm_preparados,pedido.Campos_por_operacion[0].fm_p_colectas_a_tiempo,pedido.Campos_por_operacion[0].fm_p_no_colectadas,
-                  pedido.Valor_ruta,pedido.Ruta_cerrada); 
+                  pedido.Valor_ruta,pedido.Ruta_cerrada, pedido.Observacion); 
         datos.push(fila);
       });
 

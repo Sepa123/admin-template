@@ -104,9 +104,6 @@ export class ReclutamientoComponent {
       Operacion_postula : this.listaOperacion[0].Id+"",
       Tipo_vehiculo : "1",
       Origen_contacto : "1",
-      Estado_contacto : "1",
-      Motivo_subestado : "1",
-      Contacto_ejecutivo : this.listaContactoEjecutivo[0].Id+"",
       Comuna : "1"
     })
     this.rutValido = true
@@ -237,9 +234,6 @@ export class ReclutamientoComponent {
       Operacion_postula : this.listaOperacion[0].Id+"",
       Tipo_vehiculo : "1",
       Origen_contacto : "1",
-      Estado_contacto : "1",
-      Motivo_subestado : "1",
-      Contacto_ejecutivo : this.listaContactoEjecutivo[0].Id+"",
       Inicio_actividades_factura: true,
       Giro: "1"
     })
@@ -336,9 +330,6 @@ export class ReclutamientoComponent {
         Operacion_postula : data.Operacion[0].Id+"",
         Tipo_vehiculo : "1",
         Origen_contacto : "1",
-        Estado_contacto : "1",
-        Motivo_subestado : "1",
-        Contacto_ejecutivo : data.Contacto_ejecutivo[0].Id+"",
         Inicio_actividades_factura: true,
         Giro: "1",
         Comuna : "1"
@@ -347,6 +338,8 @@ export class ReclutamientoComponent {
       this.service.getDatosReclutas().subscribe((data) => {
         this.reclutas = data
         this.reclutasFull = data
+
+        this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
       })
 
 
@@ -467,6 +460,7 @@ export class ReclutamientoComponent {
         this.service.getDatosReclutas().subscribe((data) => {
           this.reclutas = data
           this.reclutasFull = data
+          this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
           this.toggleLiveAgregar()
         })
         
@@ -546,6 +540,7 @@ export class ReclutamientoComponent {
         this.service.getDatosReclutas().subscribe((data) => {
           this.reclutas = data
           this.reclutasFull = data
+          this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
           this.toggleLiveDemo()
         })
       }, error => {

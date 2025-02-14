@@ -85,6 +85,7 @@ export interface Reclutamiento {
     Rango_fecha:                number;
     Capacidad:                  number;
     Pestana:                    number;
+    Comentario:                 string;
 }
 
 
