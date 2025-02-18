@@ -19,7 +19,7 @@ import { getStyle } from '@coreui/utils';
 export class CitacionesComponent implements OnInit  {
   
   @ViewChild('ambulanceForm') ambulanceForm: NgForm | undefined;
-
+  ppuSeleccionada!: string;
   operacionValue: number = 0;
   centroOperacionValue: number = 0;
   dateForm: FormGroup;
@@ -44,6 +44,11 @@ export class CitacionesComponent implements OnInit  {
   CopRecuperada: number = 0;
   infoAmbulancia: any;
   visible4: any;
+
+  numeroTelefono!: string;
+  driverSeleccionado!: string;
+  peonetaSeleccionada!: string;
+
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -101,7 +106,8 @@ export class CitacionesComponent implements OnInit  {
   longitud! :number
   latStr!: string
   longStr!: string
-
+  tooltipVisible: boolean = false; // Estado del tooltip
+  
   resetForm() {
     if (this.ambulanceForm) {
       this.ambulanceForm.reset();
@@ -114,6 +120,28 @@ export class CitacionesComponent implements OnInit  {
       this.resetModalContent();
     }
       
+  }
+
+  onConductorChange(event: Event): void {
+    const selectedConductorId = (event.target as HTMLSelectElement).value;
+    console.log('ID del conductor seleccionado:', selectedConductorId); // Registro de depuración
+
+    // Asegúrate de que el id del conductor y el id seleccionado sean del mismo tipo
+    const selectedConductor = this.conductores.find(conductor => conductor.id.toString() === selectedConductorId);
+    if (selectedConductor) {
+      this.numeroTelefono = selectedConductor.telefono;
+      console.log('Número de teléfono:', this.numeroTelefono); // Registro de depuración
+    } else {
+      console.log('Conductor no encontrado'); // Registro de depuración
+    }
+  }
+  copyToClipboard(text: string): void {
+    console.log('Copiando al portapapeles:', text); // Registro de depuración
+    navigator.clipboard.writeText(text).then(() => {
+      this.mostrarAlerta('Se ha copiado el numero de Telefono', 'success');
+    }).catch(err => {
+      this.mostrarAlerta('Error al copiar al portapapeles', 'error');
+    });
   }
 
   toggleAmbulance() {
@@ -133,7 +161,9 @@ export class CitacionesComponent implements OnInit  {
   }
   toggleLiveTP() {
     this.visible2 = !this.visible2;
-    
+    if (!this.visible2) {
+      this.resetSelectValues();
+    }
   }
   toggleLive3() {
     // Cambia la visibilidad del modal
@@ -145,6 +175,14 @@ export class CitacionesComponent implements OnInit  {
     }
   }
 
+  resetSelectValues(): void {
+    this.conductores2 = '';
+    this.peonetas2 = '';
+  }
+
+  resetPpuSelected(){
+    this.ppuSeleccionada = '';
+  }
   resetModalContent() {
     this.patentesList = []; // Reiniciar la lista de patentes
   }
@@ -160,6 +198,14 @@ export class CitacionesComponent implements OnInit  {
     
   }
 
+  
+  recuperarPpu(ppu: string, driver:string, peoneta:string): void {
+    this.ppuSeleccionada = ppu;
+    this.driverSeleccionado = driver;
+    this.peonetaSeleccionada = peoneta;
+     // Para verificar que el valor se almacena correctamente
+    console.log(this.driverSeleccionado,  this.peonetaSeleccionada);
+  }
   handleLiveDemoChange3(event: boolean) {
     this.visible3 = event;
   
@@ -930,4 +976,15 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
     }, 5000);
     }
   }
+
+makePhoneCall(phoneNumber: string): void {
+  const fullPhoneNumber = `+56${phoneNumber}`;
+  console.log('Intentando llamar al número:', fullPhoneNumber); // Registro de depuración
+  const isWindows = navigator.platform.indexOf('Win') > -1;
+  if (isWindows) {
+    alert('Esta opción no está disponible en Windows.');
+  } else {
+    window.location.href = `tel:${fullPhoneNumber}`;
+  }
+}
 }
