@@ -321,7 +321,7 @@ export class ReclutamientoComponent {
       this.listaEstadoContacto = data.Estado_contacto
       this.options = data.Comentarios
 
-      console.log(this.options)
+
 
       this.form.patchValue({
         Id_user : sessionStorage.getItem("id")?.toString()+"",
@@ -451,7 +451,7 @@ export class ReclutamientoComponent {
     this.verificaRut('Rut_empresa')
 
 
-    console.log(this.form.value)
+
     this.isErrorView = false
 
     if(this.form.valid && (this.form.value.Correo !== null || this.form.value.Telefono !== null)){
@@ -530,7 +530,6 @@ export class ReclutamientoComponent {
 
     this.verificaRut('Rut_empresa')
 
-    console.log(this.form.value)
 
     this.isErrorView = false
 
@@ -641,10 +640,10 @@ this.service.registrarComentario(this.selectedOption).subscribe((data : any) => 
 ejecutivoSeleccionada : any 
 
 filtrarEjecutivo(){
-  console.log(this.ejecutivoSeleccionada )
+
   if( this.ejecutivoSeleccionada == 'Seleccione Ejecutivo') return alert("Seleccione un ejectutivo por favor")
   if( this.ejecutivoSeleccionada == 'Todas'){
-    console.log("sos")
+  
     this.reclutas = this.reclutasFull
   }else {
     this.reclutas = this.reclutasFull.filter(ruta => ruta.Nombre_contacto == this.ejecutivoSeleccionada)
@@ -653,8 +652,19 @@ filtrarEjecutivo(){
 }
 
 
+pestana : number = 1
+
 filtroPestana(pestana : number){
-  this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana)
+  
+
+  this.pestana = pestana
+  if( this.ejecutivoSeleccionada == 'Seleccione Ejecutivo') return alert("Seleccione un ejectutivo por favor")
+  if(this.ejecutivoSeleccionada == 'Todas' || this.ejecutivoSeleccionada == undefined){
+    this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana)
+  } else {
+    this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana && ruta.Nombre_contacto == this.ejecutivoSeleccionada)
+  }
+  
 }
 
  ngOnDestroy(): void {

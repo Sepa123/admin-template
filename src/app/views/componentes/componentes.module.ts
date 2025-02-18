@@ -3,16 +3,18 @@ import { CommonModule } from '@angular/common';
 
 import { ComponentesRoutingModule } from './componentes-routing.module';
 import { ActivoGpsComponent } from './activo-gps/activo-gps.component';
+import { WorkingComponent } from './working/working.component';
 
 
 @NgModule({
   declarations: [
-    ActivoGpsComponent
+    ActivoGpsComponent,
+    WorkingComponent
   ],
   imports: [
     CommonModule,
     ComponentesRoutingModule
   ],
-  exports :[ActivoGpsComponent]
+  exports :[ActivoGpsComponent,WorkingComponent]
 })
 export class ComponentesModule { }

@@ -594,7 +594,7 @@
           </c-col>
           <c-col [xs]>
 
-            <select id="Ruta" cSelect  size="1" (change)="filtrarEjecutivo()" [(ngModel)]="ejecutivoSeleccionada"  style="width:auto;  display: inline-block;">
+            <select id="Ruta" cSelect  size="1" [(ngModel)]="ejecutivoSeleccionada"  style="width:auto;  display: inline-block;">
               <option>Seleccione Ejecutivo</option>
               <option>Todas</option>
               <option *ngFor="let ej of listaContactoEjecutivo">{{ej.Ejecutivo}}</option>
@@ -749,10 +749,11 @@
                 </div>
                 </td>
 
-                <td >
+                <td style="text-align: left;" >
                   <div class="text-content">
               
                     <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ingresado</h3>
+             
 
                 </div>
                 </td>
@@ -763,6 +764,7 @@
         </c-col>
       
       </c-row>
+      <div class="divider" [style.background-color]="pestana == 1 ? '#ffcc00': pestana == 2 ? '#3399ff' : pestana == 3 ? '#d9534f' : pestana == 4 ? '#5cb85c' : '#6c757d' " ></div>
   
 
         <p></p>
