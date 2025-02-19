@@ -497,14 +497,14 @@ export class ReclutamientoComponent {
     this.form.patchValue({
       Id_reclutamiento : recluta.Id_reclutamiento + '',
       Region : recluta.Region+"",
-      Operacion_postula: recluta.Operacion_postula+"",
+      Operacion_postula: recluta.Operacion_postula,
       Nombre_contacto : recluta.Nombre,
       Telefono:recluta.Telefono,
       Tipo_vehiculo: recluta.Tipo_vehiculo+"",
       Origen_contacto: recluta.Origen_contacto+"",
       Estado_contacto : recluta.Estado_contacto+"",
       Motivo_subestado : recluta.Motivo_subestado+"",
-      Contacto_ejecutivo : recluta.Contacto_ejecutivo+"",
+      Contacto_ejecutivo : recluta.Contacto_ejecutivo,
       Razon_social : recluta.Razon_social,
       Rut_empresa : recluta.Rut_empresa,
       Pais: recluta.Pais+"",
@@ -543,7 +543,19 @@ export class ReclutamientoComponent {
           this.toggleLiveDemo()
         })
       }, error => {
-        alert(error.error.detail)
+        if(error.status == 422){
+
+
+          error.error.detail.map((err : any) => {
+            alert( 'Error con el campo '+err.loc[1] + ': '+ err.msg)
+
+          })
+
+          // console.log(error.error.detail.length)
+          // alert( 'Error con el campo '+error.error.detail[0].loc[1] + ': '+ error.error.detail[0].msg)
+        } else {
+          alert(error.error.detail)
+        }
       }
     
     )

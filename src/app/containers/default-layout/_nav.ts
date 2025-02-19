@@ -170,7 +170,7 @@ export const navItems: INavDataBar[] = [
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
-    roles : [ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA,ROLES_ENUM.JEFE_SEGURIDAD],
+    roles : [ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA,ROLES_ENUM.JEFE_SEGURIDAD,ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       {
         name: 'Reclutamiento',
@@ -335,7 +335,7 @@ export const navItems: INavDataBar[] = [
     name: 'EXO',
     url: '/exo',
     iconComponent: { name: 'cil-bar-chart' },
-    roles : [ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA],
+    roles : [ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA,ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       {
         name: 'NS Beetrack',
@@ -522,7 +522,7 @@ export const navItems: INavDataBar[] = [
     name: 'Operaciones',
     url: '/operaciones',
     iconComponent: { name: 'cil-clipboard' },
-    roles : [ROLES_ENUM.PICKEADOR_TIENDA,ROLES_ENUM.TRANSPORTE_OPERARIO],
+    roles : [ROLES_ENUM.PICKEADOR_TIENDA,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       {
         name: 'Estados',
@@ -669,7 +669,7 @@ export const navItems: INavDataBar[] = [
     name: 'Mercado Libre',
     url: '/mercadolibre',
     iconComponent : {name : 'cil-handshake'},
-    roles :  [ROLES_ENUM.SUPERVISOR_MERCADO_LIBRE,ROLES_ENUM.JEFE_OPERACION_MERCADO_LIBRE],
+    roles :  [ROLES_ENUM.SUPERVISOR_MERCADO_LIBRE,ROLES_ENUM.JEFE_OPERACION_MERCADO_LIBRE, ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       // {
       //   name: "Información",
@@ -924,7 +924,7 @@ export const navItems: INavDataBar[] = [
     name: 'Rutas',
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
-    roles : [ROLES_ENUM.JEFE_TRANSPORTE, ROLES_ENUM.TRANSPORTE_OPERARIO],
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE, ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       {
         name: 'Rutas Activas',
@@ -932,11 +932,11 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
-  { /// Pantalla Informacion Para Jefe transporte
+  { /// Pantalla Informacion Para Jefe transporte,
     name: 'Información',
     url: '/informacion',
     iconComponent : {name : 'cil-magnifying-glass'},
-    roles : [ROLES_ENUM.JEFE_TRANSPORTE,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA],
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA,ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       {
         name: "Tracking Producto",
