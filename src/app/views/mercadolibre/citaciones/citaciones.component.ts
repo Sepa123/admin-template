@@ -980,7 +980,7 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
   }
 
 makePhoneCall(phoneNumber: string): void {
-  const fullPhoneNumber = `+56${phoneNumber}`;
+  const fullPhoneNumber = `${phoneNumber}`;
   console.log('Intentando llamar al número:', fullPhoneNumber); // Registro de depuración
   const isWindows = navigator.platform.indexOf('Win') > -1;
   if (isWindows) {
