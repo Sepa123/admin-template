@@ -306,7 +306,7 @@
           <div class="patenteTP" id="patenteTP">{{ppuSeleccionada}}</div>
         </div>
       </div>
-      <button (click)="toggleLiveTP()" (click)="resetPpuSelected()" cButtonClose type="button" class="close" data-dismiss="modal"
+      <button (click)="toggleLiveTP()" cButtonClose type="button" class="close" data-dismiss="modal"
           aria-label="Close">
       </button>
       <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
@@ -322,7 +322,7 @@
             <select class="DriverSelect" id="conductores2" [(ngModel)]="conductores2" (change)="onConductorChange($event)">
               <option value="" disabled selected>Seleccione Conductor</option>
               <ng-container *ngFor="let pu of conductores">
-                <option [value]="pu.id">{{pu.nombre_completo}}</option>
+                <option [value]="pu.nombre_completo">{{pu.nombre_completo}}</option>
               </ng-container>
             </select>
           </div>
@@ -339,14 +339,14 @@
         </div>
   
         <div class="Iconos-Contacto" *ngIf="conductores2">
-          <a [href]="'https://wa.me/56' + numeroTelefono" target="_blank">
+          <a [href]="'https://wa.me/' + numeroTelefono" target="_blank">
             <i class="fa-brands fa-whatsapp btn-wsp"></i>
           </a>
           <i class="fa-solid fa-phone btn-phone" (click)="makePhoneCall(numeroTelefono)"></i>
         </div>
         <div class="driver-phone" id="driver-phone" *ngIf="conductores2">
           <i class="fa-solid fa-phone phoneNumber"></i>
-          <label class="phoneTP" (click)="copyToClipboard('+56 ' + numeroTelefono)">+56 {{numeroTelefono}}</label>
+          <label class="phoneTP" (click)="copyToClipboard(numeroTelefono)">{{numeroTelefono}}</label>
         </div>
       </div>
     </div>
@@ -403,7 +403,7 @@
               <div [ngStyle]="colorPunto(selectedEstados[pu.id], selectedTipoRuta[pu.id])" class="punto_rojo"></div>
               <ul class="nav-list">
                 <li class="nav-item">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" (click)="recuperarIdPpu(pu.id_ppu)" (click)="recuperarPpu(pu.ppu,pu.nombre_driver,pu.nombre_peoneta)" (click)="getLocation()" (click)="toggleLiveTP()" (click)="toggleLive3()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" (click)="recuperarIdPpu(pu.id_ppu)" (click)="recuperarPpu(pu.ppu,pu.id_ppu)" (click)="getLocation()" (click)="toggleLiveTP()" (click)="toggleLive3()">
                     <g fill="none">
                       <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-linecap="round" />
                       <path stroke="currentColor" d="M11.768 8.5a2 2 0 1 1 3.464 2a2 2 0 0 1-3.464-2z" />

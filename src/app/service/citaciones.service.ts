@@ -18,14 +18,14 @@ export class CitacionesService {
   }
 
 
-  getConductoresList(fecha:string): Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/conductoresList?fecha=${fecha}`);
+  getConductoresList(id_ppu:string): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/conductoresList?id_ppu=${id_ppu}`);
   }
 
   
-  getPeonetaList(fecha:string): Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/peonetaList?fecha=${fecha}`);
-  }
+  // getPeonetaList(fecha:string): Observable<any>{
+  //   return this.http.get<any>(`${this.apiUrl}/peonetaList?fecha=${fecha}`);
+  // }
 
   getEstadoList(): Observable<any>{
     return this.http.get<any>(this.apiUrl + '/estadoList');
