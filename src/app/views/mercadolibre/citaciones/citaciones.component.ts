@@ -48,6 +48,7 @@ export class CitacionesComponent implements OnInit  {
   numeroTelefono!: string;
   driverSeleccionado!: string;
   peonetaSeleccionada!: string;
+  id_p!: string;
 
   constructor(
     private http: HttpClient,
@@ -123,13 +124,13 @@ export class CitacionesComponent implements OnInit  {
   }
 
   onConductorChange(event: Event): void {
-    const selectedConductorId = (event.target as HTMLSelectElement).value;
-    console.log('ID del conductor seleccionado:', selectedConductorId); // Registro de depuración
-
-    // Asegúrate de que el id del conductor y el id seleccionado sean del mismo tipo
-    const selectedConductor = this.conductores.find(conductor => conductor.id.toString() === selectedConductorId);
+    const selectedConductorName = (event.target as HTMLSelectElement).value;
+    console.log('Nombre del conductor seleccionado:', selectedConductorName); // Registro de depuración
+  
+    // Busca el conductor seleccionado por su nombre completo
+    const selectedConductor = this.conductores.find(conductor => conductor.nombre_completo === selectedConductorName);
     if (selectedConductor) {
-      this.numeroTelefono = selectedConductor.telefono;
+      this.numeroTelefono = selectedConductor.celular_formateado;
       console.log('Número de teléfono:', this.numeroTelefono); // Registro de depuración
     } else {
       console.log('Conductor no encontrado'); // Registro de depuración
@@ -161,9 +162,12 @@ export class CitacionesComponent implements OnInit  {
   }
   toggleLiveTP() {
     this.visible2 = !this.visible2;
-    if (!this.visible2) {
-      this.resetSelectValues();
-    }
+
+    console.log(this.visible2);
+
+    if(this.visible2 == true){
+      this.resetPpuSelected();
+  }
   }
   toggleLive3() {
     // Cambia la visibilidad del modal
@@ -181,7 +185,7 @@ export class CitacionesComponent implements OnInit  {
   }
 
   resetPpuSelected(){
-    this.ppuSeleccionada = '';
+    this.conductores = [];
   }
   resetModalContent() {
     this.patentesList = []; // Reiniciar la lista de patentes
@@ -199,11 +203,11 @@ export class CitacionesComponent implements OnInit  {
   }
 
   
-  recuperarPpu(ppu: string, driver:string, peoneta:string): void {
+  recuperarPpu(ppu: string, id:string): void {
     this.ppuSeleccionada = ppu;
-    this.driverSeleccionado = driver;
-    this.peonetaSeleccionada = peoneta;
+    this.id_p = id
      // Para verificar que el valor se almacena correctamente
+    this.getConductores();
     console.log(this.driverSeleccionado,  this.peonetaSeleccionada);
   }
   handleLiveDemoChange3(event: boolean) {
@@ -228,8 +232,8 @@ export class CitacionesComponent implements OnInit  {
   ngOnInit() {
     this.obtenerFechaFormateada();
     this.getModalidades();
-    this.getConductores();
-    this.getPeonetas();
+    // this.getConductores();
+    // this.getPeonetas();
     this.getEstados();
     this.getTipoRuta();
     this.initializeAmbulancia();
@@ -352,28 +356,29 @@ buscarPatenteDetalle(event: Event) {
     );
   }
   getConductores() {
-    const fecha = this.formattedDate
-    this.Ct.getConductoresList(fecha).subscribe(
+    const id_ppuC = this.id_p
+    this.Ct.getConductoresList(id_ppuC).subscribe(
       (data) => {
-        this.conductores = data;
+        this.conductores = data.filter((item: any) => item.tipo_usuario === 1);
+        this.peonetas = data.filter((item: any) => item.tipo_usuario === 2);
       },
       (error) => {
-        this.mostrarAlerta(' Error al obtener conductores', 'error');
+        this.mostrarAlerta('No hay Conductor designado para esta patente', 'error');
       }
     );
   }
 
-  getPeonetas() {
-    const fecha = this.formattedDate
-    this.Ct.getPeonetaList(fecha).subscribe(
-      (data) => {
-        this.peonetas = data;
-      },
-      (error) => {
-        this.mostrarAlerta(' Error al obtener peonetas', 'error');        
-      }
-    );
-  }
+  // getPeonetas() {
+  //   const fecha = this.formattedDate
+  //   this.Ct.getPeonetaList(fecha).subscribe(
+  //     (data) => {
+  //       this.peonetas = data;
+  //     },
+  //     (error) => {
+  //       this.mostrarAlerta(' Error al obtener peonetas', 'error');        
+  //     }
+  //   );
+  // }
   
   colorPunto(tipoRuta: any, estado:any) {
     // Aquí debes implementar la lógica para determinar el color
@@ -799,7 +804,7 @@ buscarPatenteDetalle(event: Event) {
         this.peonetas2 = ""
         this.IdPpuRecuperada = 0
         this.getConductores()
-        this.getPeonetas() 
+        // this.getPeonetas() 
       },
       (error) => {
         this.mostrarAlerta(' Error al ingresar los datos', 'error');
