@@ -162,12 +162,9 @@ export class CitacionesComponent implements OnInit  {
   }
   toggleLiveTP() {
     this.visible2 = !this.visible2;
-
-    console.log(this.visible2);
-
-    if(this.visible2 == true){
+    if (!this.visible2) {
       this.resetPpuSelected();
-  }
+    }
   }
   toggleLive3() {
     // Cambia la visibilidad del modal
@@ -179,13 +176,13 @@ export class CitacionesComponent implements OnInit  {
     }
   }
 
-  resetSelectValues(): void {
-    this.conductores2 = '';
-    this.peonetas2 = '';
-  }
+  
 
   resetPpuSelected(){
     this.conductores = [];
+    this.peonetas = [];
+    this.conductores2 = '';
+    this.peonetas2 = '';
   }
   resetModalContent() {
     this.patentesList = []; // Reiniciar la lista de patentes
