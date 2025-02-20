@@ -38,7 +38,6 @@ import { NgChartsModule } from 'ng2-charts';
 import { NsSupervisoresComponent } from './ns-supervisores/ns-supervisores.component';
 import { TestPPUComponent } from './test-ppu/test-ppu.component';
 import { WebcamModule } from 'ngx-webcam';
-
 @NgModule({
   declarations: [
     
