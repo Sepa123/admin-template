@@ -274,7 +274,7 @@
         <div class="HeaderTP">
           <h2>Agregar Transportista</h2>
           <div class="patenteContainerTp">
-            <div class="patenteTP" id="patenteTP">{{ppuSeleccionada}}</div>
+            <div class="patenteTP" (click)="copyToClipboard(ppuSeleccionada)" id="patenteTP">{{ppuSeleccionada}}</div>
           </div>
         </div>
         <button (click)="toggleLiveTP()" cButtonClose type="button" class="close" data-dismiss="modal"

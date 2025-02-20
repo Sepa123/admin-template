@@ -139,9 +139,9 @@ export class CitacionesComponent implements OnInit  {
   copyToClipboard(text: string): void {
     console.log('Copiando al portapapeles:', text); // Registro de depuración
     navigator.clipboard.writeText(text).then(() => {
-      this.mostrarAlerta('Se ha copiado el numero de Telefono', 'success');
+      this.mostrarAlerta(' Se ha extraido el texto correctamente', 'success');
     }).catch(err => {
-      this.mostrarAlerta('Error al copiar al portapapeles', 'error');
+      this.mostrarAlerta('Error al copiar', 'error');
     });
   }
 
