@@ -50,26 +50,28 @@
   }
   
   .greenTable  table {
-    border-collapse: separate;
-    border-spacing: 0;
-    margin: 20px 0;
-    border-radius: 10px;
-    // overflow: hidden;
-    box-shadow: 0 4px 8px #ebedef;
-    font-size: 12px;
+    width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            table-layout: fixed; /* Para que las celdas tengan un ancho fijo */
   }
   .greenTable  table td, table th {
-    border: 0px solid #ebedef;
-    padding: 3px 2px;
+    padding: 15px; /* Espaciado grande */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 13px; /* Letra más pequeña */
   }
   .greenTable  table tbody td {
-    font-size: 10px;
-    padding: 8px;
-    text-align: center;
+    white-space: nowrap; /* Evita el salto de línea en las celdas */
+            overflow: hidden; /* Oculta el contenido que desborda */
+            text-overflow: ellipsis; /* Añade "..." si el texto es demasiado largo */
   }
   
   .greenTable  table td {
-    font-size: 12px;
+    padding: 15px; /* Espaciado grande */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 13px; /* Letra más pequeña */
   }
 
   .greenTable th.sortable:hover {
@@ -78,10 +80,12 @@
   }
   
   .greenTable  table tbody th {
-    font-size: 12px;
-    font-weight: bold;
-    background: #28A745;
-    color: #FFFFFF;
+    // font-size: 12px;
+    // font-weight: bold;
+    // background: #28A745;
+    // color: #FFFFFF;
+    white-space: nowrap; /* Asegura que los iconos no se corten */
+  overflow: visible; /* Los iconos siempre serán visibles */
   }
   .greenTable  table tr:nth-child(even) {
     background: #FFFEF3;
@@ -94,28 +98,29 @@
     background: #28A745;
   }
   .greenTable  table thead th {
-    font-size: 10px;
-    font-weight: bold;
-    color: #FFFFFF;
-    text-align: center;
-    border-left: 2px solid #28A745;
+    background-color: #4CAF50; /* Verde para la cabecera */
+    color: white;
+    font-size: 12px; /* Tamaño de letra un poco más grande para la cabecera */
+    white-space: normal; /* Permite el salto de línea en la cabecera */
+    overflow: visible; /* Asegura que el texto no se recorte */
+    word-wrap: break-word; /* Permite que las palabras largas se dividan */
   }
 
-  .greenTable  table thead th:first-child {
-    border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
-}
+//   .greenTable  table thead th:first-child {
+//     border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+// }
 
-.greenTable table th:last-child {
-  border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
-}
+// .greenTable table th:last-child {
+//   border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+// }
 
-.greenTable table tr:last-child td:first-child {
-  border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
-}
+// .greenTable table tr:last-child td:first-child {
+//   border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+// }
 
-.greenTable table tr:last-child td:last-child {
-  border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
-}
+// .greenTable table tr:last-child td:last-child {
+//   border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
+// }
   .inline-container {
     margin: 1px;
     display: flex;

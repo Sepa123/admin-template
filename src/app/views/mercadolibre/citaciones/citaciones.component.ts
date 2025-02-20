@@ -5,9 +5,11 @@ import { Observable, Subject, Subscription, skipUntil, startWith, switchMap } fr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CitacionesService} from '../../../service/citaciones.service'
 import { NgForm } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
 // import { id } from 'date-fns/locale';
 import { getStyle } from '@coreui/utils';
 import { PanelCitacion } from '../../../models/meli/citacion.interface'
+import { FormModule } from '@coreui/angular';
 
 
 
@@ -51,6 +53,9 @@ export class CitacionesComponent implements OnInit  {
   driverSeleccionado!: string;
   peonetaSeleccionada!: string;
   id_p!: string;
+  id_u: any;
+  digitoConductor!: number;
+  digitoPeoneta!: number;
 
   constructor(
     private http: HttpClient,
@@ -150,9 +155,7 @@ export class CitacionesComponent implements OnInit  {
   toggleLiveTP() {
     this.visible2 = !this.visible2;
 
-    console.log(this.visible2);
-
-    if(this.visible2 == true){
+    if (!this.visible2) {
       this.resetPpuSelected();
   }
     
@@ -199,6 +202,25 @@ export class CitacionesComponent implements OnInit  {
 
   closeModal() {
     this.isModalOpen = false;
+  }
+
+
+  recuperarDatosConductor(id: number, id_peoneta: number): void {
+    // Buscar conductor
+    const conductorEncontrado = this.conductores.find(c => c.id === id);
+    if (conductorEncontrado) {
+      this.conductores2 = id;  // asignas el valor numérico
+    } else {
+      this.conductores2 = null; 
+    }
+  
+    // Buscar peoneta
+    const peonetaEncontrada = this.peonetas.find(p => p.id === id_peoneta);
+    if (peonetaEncontrada) {
+      this.peonetas2 = id_peoneta; // asignas el valor numérico
+    } else {
+      this.peonetas2 = null;
+    }
   }
 
   
@@ -1009,7 +1031,7 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
     console.log('Nombre del conductor seleccionado:', selectedConductorName); // Registro de depuración
   
     // Busca el conductor seleccionado por su nombre completo
-    const selectedConductor = this.conductores.find(conductor => conductor.nombre_completo === selectedConductorName);
+    const selectedConductor = this.conductores.find(conductor => conductor.id.toString() === selectedConductorName);
     if (selectedConductor) {
       this.numeroTelefono = selectedConductor.celular_formateado;
       console.log('Número de teléfono:', this.numeroTelefono); // Registro de depuración
@@ -1020,33 +1042,37 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
   copyToClipboard(text: string): void {
     console.log('Copiando al portapapeles:', text); // Registro de depuración
     navigator.clipboard.writeText(text).then(() => {
-      this.mostrarAlerta('Se ha copiado el numero de Telefono', 'success');
+      this.mostrarAlerta('Se ha extraido el texto correctamente', 'success');
     }).catch(err => {
-      this.mostrarAlerta('Error al copiar al portapapeles', 'error');
+      this.mostrarAlerta('Error al copiar', 'error');
     });
   }
 
-  resetSelectValues(): void {
+  // resetSelectValues(): void {
+  //   this.conductores2 = '';
+  //   this.peonetas2 = '';
+  // }
+  resetPpuSelected(){
+    this.conductores = [];
+    this.peonetas = [];
     this.conductores2 = '';
     this.peonetas2 = '';
   }
-  resetPpuSelected(){
-    this.conductores = [];
-  }
 
 
-  recuperarPpu(ppu: string, id:string): void {
+  recuperarPpu(ppu: string, id:string,Id_d: any): void {
     this.ppuSeleccionada = ppu;
     this.id_p = id
+    this.id_u = Id_d
     
      // Para verificar que el valor se almacena correctamente
      this.getConductores();
-    console.log(this.driverSeleccionado,  this.peonetaSeleccionada);
+     console.log(this.id_u);
   }
 
 
   makePhoneCall(phoneNumber: string): void {
-  const fullPhoneNumber = `+56${phoneNumber}`;
+  const fullPhoneNumber = `${phoneNumber}`;
   // +56${phoneNumber};
   console.log('Intentando llamar al número:', fullPhoneNumber); // Registro de depuración
   const isWindows = navigator.platform.indexOf('Win') > -1;

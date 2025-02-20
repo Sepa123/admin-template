@@ -294,7 +294,17 @@ export class ReclutamientoComponent {
 
   time!: Date;
 
-  cantVehiculo : number = 0
+  cantNuevos : number = 0
+  cantProces : number = 0
+  cantRechazado: number = 0
+  cantParaIngreso : number = 0
+  cantIngresado : number = 0
+  
+
+
+
+
+
 
   ngOnInit() : void {
     this.getLocation()
@@ -340,6 +350,11 @@ export class ReclutamientoComponent {
         this.reclutasFull = data
 
         this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
+        this.cantNuevos = this.reclutasFull.filter(ruta => ruta.Pestana == 1).length
+        this.cantProces = this.reclutasFull.filter(ruta => ruta.Pestana == 2).length
+        this.cantRechazado = this.reclutasFull.filter(ruta => ruta.Pestana == 3).length
+        this.cantParaIngreso = this.reclutasFull.filter(ruta => ruta.Pestana == 4).length
+        this.cantIngresado = this.reclutasFull.filter(ruta => ruta.Pestana == 5).length
       })
 
 
@@ -461,6 +476,11 @@ export class ReclutamientoComponent {
           this.reclutas = data
           this.reclutasFull = data
           this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
+          this.cantNuevos = this.reclutasFull.filter(ruta => ruta.Pestana == 1).length
+          this.cantProces = this.reclutasFull.filter(ruta => ruta.Pestana == 2).length
+          this.cantRechazado = this.reclutasFull.filter(ruta => ruta.Pestana == 3).length
+          this.cantParaIngreso = this.reclutasFull.filter(ruta => ruta.Pestana == 4).length
+          this.cantIngresado = this.reclutasFull.filter(ruta => ruta.Pestana == 5).length
           this.toggleLiveAgregar()
         })
         
@@ -540,6 +560,14 @@ export class ReclutamientoComponent {
           this.reclutas = data
           this.reclutasFull = data
           this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
+
+          this.cantNuevos = this.reclutasFull.filter(ruta => ruta.Pestana == 1).length
+          this.cantProces = this.reclutasFull.filter(ruta => ruta.Pestana == 2).length
+          this.cantRechazado = this.reclutasFull.filter(ruta => ruta.Pestana == 3).length
+          this.cantParaIngreso = this.reclutasFull.filter(ruta => ruta.Pestana == 4).length
+          this.cantIngresado = this.reclutasFull.filter(ruta => ruta.Pestana == 5).length
+
+          
           this.toggleLiveDemo()
         })
       }, error => {

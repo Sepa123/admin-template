@@ -1076,7 +1076,7 @@ export const navItems: INavDataBar[] = [
     roles : [ROLES_ENUM.ADMIN],
     children: [
       {
-        name: "Test",
+        name: "Descuento",
         url : '/finanzas/test'
       },
       {
@@ -1087,6 +1087,40 @@ export const navItems: INavDataBar[] = [
         name: "Tarifario General",
         url : '/finanzas/tarifarioGeneral'
       },
+      {
+        name: "Tarifario Especifico",
+        url: '/finanzas/carTarifarioEspecifico'
+      },
+      {
+        name: "Rutas Mercado Libre",
+        url : '/finanzas/rutas-meli'
+      },
+    ]
+  },
+  //// Pantalla de finanzas para transporte admin????
+
+  { /// Pantalla Informacion Para ADMIN TI
+    name: 'Finanzas',
+    url: '/finanzas',
+    iconComponent : {name : 'cilMoney'},
+    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO],
+    children: [
+      {
+        name: "Descuento",
+        url : '/finanzas/test'
+      },
+      {
+        name: "Car. Tarifario General",
+        url : '/finanzas/tarifario'
+      },
+      {
+        name: "Tarifario General",
+        url : '/finanzas/tarifarioGeneral'
+      },
+      // {
+      //   name: "Car. Vehículo",
+      //   url: '/finanzas/carVehiculo'
+      // },
       {
         name: "Tarifario Especifico",
         url: '/finanzas/carTarifarioEspecifico'

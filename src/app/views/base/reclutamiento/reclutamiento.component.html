@@ -637,7 +637,7 @@
                 <td>
                   <div class="text-content">
                     <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nuevos</h3>
-
+                    <h3>{{cantNuevos}}</h3> 
                 </div>
                 </td>
               </tr>
@@ -665,7 +665,7 @@
               <td>
                 <div class="text-content">
                   <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;En Proceso</h3>
-
+                  <h3>{{cantProces}}</h3> 
               </div>
               </td>
             </tr>
@@ -694,6 +694,7 @@
                 <td>
                   <div class="text-content">
                     <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rechazados</h3>
+                    <h3>{{cantRechazado}}</h3>
 
                 </div>
                 </td>
@@ -721,7 +722,8 @@
               <td>
                 <div class="text-content">
                   <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Para ingreso</h3>
- 
+                   
+                   <h3>{{cantParaIngreso}}</h3>
               </div>
               </td>
             </tr>
@@ -753,7 +755,8 @@
                   <div class="text-content">
               
                     <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ingresado</h3>
-             
+                    <h3>{{cantIngresado}}</h3>
+                   
 
                 </div>
                 </td>
@@ -768,7 +771,7 @@
   
 
         <p></p>
-        <div class="greenTable" style="width: 100%;">
+        <div class="greenTable" style="width: 100%;" [style.background-color]="pestana == 1 ? '#fff7e0': pestana == 2 ? '#e0f7ff' : pestana == 3 ? '#ffeded' : pestana == 4 ? '#e7ffe0' : '#f5f5f5' ">
           
           <table id="tablaProductosPicking" style="width: 100%;"  >
           <thead>
@@ -782,8 +785,8 @@
               <th>Estado contacto</th>
               <th>Motivo</th>
               <!-- <th>Contacto ejecutivo</th> -->
-              <th>Razón social</th>
-              <th>Rut empresas</th>
+              <!-- <th>Razón social</th>
+              <th>Rut empresas</th> -->
               <th>Fecha creación</th>
               <th>Contacto ejecutivo</th>
               
@@ -792,18 +795,18 @@
           </thead>
           <tbody *ngFor="let recluta of reclutas">
             <tr  [class]="recluta.Rango_fecha == 3 ? 'alerta-rojo': recluta.Rango_fecha == 2 ? 'alerta_amarillo' : '' ">
-              <td>{{recluta.Region_nombre}}</td>
-              <td style="text-align: center;">{{recluta.Operacion_nombre}} </td>
-              <td >{{recluta.Nombre}}</td>
-              <td style="text-align: center;">{{recluta.Telefono}}</td>
+              <td class="truncate" [title]="recluta.Region_nombre">{{recluta.Region_nombre}}</td>
+              <td style="text-align: center;" [title]="recluta.Operacion_nombre == null ? '' : recluta.Operacion_nombre">{{recluta.Operacion_nombre}} </td>
+              <td [title]="recluta.Nombre">{{recluta.Nombre}}</td>
+              <td style="text-align: center;" [title]="recluta.Telefono">{{recluta.Telefono}}</td>
               <!-- <td>{{recluta.Tipo_vehiculo}}</td> -->
-              <td style="text-align: center;">{{recluta.Nombre_origen}}</td>
-              <td style="text-align: center;">{{recluta.Nombre_estados}}</td>
-              <td style="text-align: center;">{{recluta.Nombre_motivo}}</td>
+              <td style="text-align: center;" [title]="recluta.Nombre_origen">{{recluta.Nombre_origen}}</td>
+              <td style="text-align: center;" [title]="recluta.Nombre_estados">{{recluta.Nombre_estados}}</td>
+              <td style="text-align: center;" [title]="recluta.Nombre_motivo">{{recluta.Nombre_motivo}}</td>
               <!-- <td>{{recluta.Contacto_ejecutivo}}</td> -->
-              <td>{{recluta.Razon_social}}</td>
-              <td style="text-align: center;">{{recluta.Rut_empresa}}</td>
-              <td>{{recluta.Fecha_creacion}}</td>
+              <!-- <td [title]="recluta.Razon_social == null ? '' : recluta.Razon_social">{{recluta.Razon_social}}</td>
+              <td style="text-align: center;" [title]="recluta.Rut_empresa == null ? '' : recluta.Rut_empresa">{{recluta.Rut_empresa}}</td> -->
+              <td [title]="recluta.Fecha_creacion">{{recluta.Fecha_creacion}}</td>
               <td >
                 <span *ngIf="recluta.Contacto_ejecutivo">
                   {{recluta.Nombre_contacto}}
@@ -815,24 +818,39 @@
                   No asignado
                 </span>
               </td>
-              <td>
+              <th class="actions">
+                
                 <span title="Editar datos"  *ngIf="rol_no_permitido.includes(rol+'') == false">
-                  <svg xmlns="http://www.w3.org/2000/svg" (click)="verDatosReclutas(recluta)" width="17" height="17" viewBox="0 0 512 512">
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" (click)="verDatosReclutas(recluta)" width="15" height="15" viewBox="0 0 512 512">
                     <path  fill="#f5b041" d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0l-30.1 30l97.9 97.9l30.1-30.1c21.9-21.9 21.9-57.3 0-79.2zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5l167.3-167.4l-98-98zM96 64c-53 0-96 43-96 96v256c0 53 43 96 96 96h256c53 0 96-43 96-96v-96c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32z" />
+                  </svg> -->
+
+                  <svg xmlns="http://www.w3.org/2000/svg" (click)="verDatosReclutas(recluta)" width="16.88px" height="15px" viewBox="0 0 576 512">
+                    <path fill="#28a745" d="m402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0m162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2M384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5" />
                   </svg>
                 </span> 
                 &nbsp;
                 <span title="Agregar Comentarios" *ngIf="rol_no_permitido.includes(rol+'') == false">
-                  <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalComentario(recluta.Id_reclutamiento)" width="17" height="17" viewBox="0 0 576 512">
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalComentario(recluta.Id_reclutamiento)" width="15" height="15" viewBox="0 0 576 512">
                     <path fill="#2ecc71" d="M0 64C0 28.7 28.7 0 64 0h160v128c0 17.7 14.3 32 32 32h128v38.6c-73.9 20.9-128 88.8-128 169.4c0 59.1 29.1 111.3 73.7 143.3c-3.2.5-6.4.7-9.7.7H64c-35.3 0-64-28.7-64-64zm384 64H256V0zm48 96a144 144 0 1 1 0 288a144 144 0 1 1 0-288m16 80c0-8.8-7.2-16-16-16s-16 7.2-16 16v48h-48c-8.8 0-16 7.2-16 16s7.2 16 16 16h48v48c0 8.8 7.2 16 16 16s16-7.2 16-16v-48h48c8.8 0 16-7.2 16-16s-7.2-16-16-16h-48z" />
+                  </svg> -->
+
+                  <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalComentario(recluta.Id_reclutamiento)" width="15px" height="15px" viewBox="0 0 512 512">
+                    <path fill="#ffc107" d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4c32.7 12.3 69 19.4 107.4 19.4c141.4 0 256-93.1 256-208S397.4 32 256 32" />
                   </svg>
                 </span> 
                 &nbsp;
                 <span title="Listar Comentarios" *ngIf="recluta.Comentario">
-                  <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalListaComentario(recluta.Id_reclutamiento)" width="17" height="17" viewBox="0 0 512 512">
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalListaComentario(recluta.Id_reclutamiento)" width="15" height="15" viewBox="0 0 512 512">
                     <path fill="#2e86c1" d="M152.1 38.2c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 113c-9.3-9.4-9.3-24.6 0-34s24.6-9.4 33.9 0L63 101.1l55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zm0 160c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 273c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L63 261.2l55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zM224 96c0-17.7 14.3-32 32-32h224c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32m0 160c0-17.7 14.3-32 32-32h224c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32m-64 160c0-17.7 14.3-32 32-32h288c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-17.7 0-32-14.3-32-32M48 368a48 48 0 1 1 0 96a48 48 0 1 1 0-96" />
+                  </svg> -->
+
+                  <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalListaComentario(recluta.Id_reclutamiento)" width="15px" height="15px" viewBox="0 0 512 512">
+                    <path fill="#dc3545" d="M48 48a48 48 0 1 0 48 48a48 48 0 0 0-48-48m0 160a48 48 0 1 0 48 48a48 48 0 0 0-48-48m0 160a48 48 0 1 0 48 48a48 48 0 0 0-48-48m448 16H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16m0-320H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16m0 160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16" />
                   </svg>
                 </span> 
+
+              </th>
                 <!-- <button (click)="verDatosReclutas(recluta)">revisar</button></td> -->
             </tr>
 
