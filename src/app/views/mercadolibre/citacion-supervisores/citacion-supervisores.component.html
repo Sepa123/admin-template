@@ -308,7 +308,7 @@
 
 
 
-<c-modal id="modalXl" size="xl" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+<c-modal id="modalXl" size="xl" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" backdrop="static">
     <c-modal-header>
         <h5 cModalTitle>{{operacion}} - {{centroOperacion}} </h5>
         <button (click)="toggleLiveDemo()" cButtonClose></button>
@@ -516,7 +516,7 @@
 
 
 
-<c-modal id="liveObservacionModal" [visible]="visibleObservacion" (visibleChange)="handleLiveObservacionChange($event)">
+<c-modal id="liveObservacionModal" [visible]="visibleObservacion" (visibleChange)="handleLiveObservacionChange($event)" backdrop="static">
 <c-modal-header>
   <h5 cModalTitle>Observación</h5>
   <button (click)="toggleLiveObservacion()" cButtonClose></button>
@@ -536,7 +536,7 @@
 </c-modal>
 
 
-<c-modal id="liveObservacionModal" [visible]="visibleLocalizacion" (visibleChange)="handleLiveLocalizacion($event)">
+<c-modal id="liveObservacionModal" [visible]="visibleLocalizacion" (visibleChange)="handleLiveLocalizacion($event)" backdrop="static">
   <c-modal-header>
     <h5 cModalTitle>Verificación de Geolocalización</h5>
     <button (click)="toggleLiveLocalizacion()" cButtonClose></button>

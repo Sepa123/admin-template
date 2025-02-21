@@ -296,7 +296,7 @@ export class CitacionSupervisoresComponent {
           // Lógica adicional en caso de éxito.
         },
         (error) => {
-          console.error('Error al subir el archivo:', error);
+          console.error('Error al subir el archivo:', error.error.detail);
           this.subidoOk = false
           alert('Error al subir el archivo')
           this.termino = true

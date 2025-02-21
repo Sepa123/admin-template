@@ -188,7 +188,7 @@
   </table>
 </div>
 
-<c-modal  [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" >
+<c-modal  [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" [backdrop]="'static'">
   <c-modal-header class ="Modal_patentes_ingresadas">
       <h5 class="modal-title" id="modalNuevaCitacionLabel">Selección de Patentes</h5>
       <button (click)="toggleLiveDemo()" type="button" cButtonClose class="close" data-dismiss="modal" aria-label="Close" >
@@ -298,9 +298,9 @@
   </c-modal-footer>
 </c-modal>
 
-<c-modal [visible]="visible2" (visibleChange)="handleLiveDemoChange2($event)">
+<c-modal [visible]="visible2" (visibleChange)="handleLiveDemoChange2($event)"  [backdrop]="'static'">
   <c-modal-header>
-      <div class="HeaderTP">
+      <div class="HeaderTP" >
         <h2>Agregar Transportista</h2>
         <div class="patenteContainerTp">
           <div class="patenteTP" id="patenteTP" (click)="copyToClipboard(ppuSeleccionada)">{{ppuSeleccionada}}</div>
@@ -319,8 +319,8 @@
   
           <div class="select-container">
             <i class="fa-regular fa-id-card DriverPhoto"></i>
-            <select class="DriverSelect" id="conductores2" [(ngModel)]="conductores2" (change)="onConductorChange($event)">
-              <option [value]="" disabled >Seleccione Conductor</option>
+            <select class="DriverSelect" id="conductores2" [(ngModel)]="conductores2" (change)="onConductorChange()">
+              <option [value]="null" disabled  >Seleccione Conductor</option>
               <ng-container *ngFor="let pu of conductores">
                 <option [value]="pu.id">{{pu.nombre_completo}}</option>
               </ng-container>
@@ -358,7 +358,7 @@
   </c-modal-footer>
 </c-modal>
 
-<c-modal class="modal-patente-ojo" [visible]="visible3" (visibleChange)="handleLiveDemoChange3($event)">
+<c-modal class="modal-patente-ojo" [visible]="visible3" (visibleChange)="handleLiveDemoChange3($event)"  [backdrop]="'static'">
   <c-modal-header>
     <h5 id="modalNuevaCitacionLabel">Patentes</h5>
     <td colspan="2" *ngIf="isLoadingFull">
@@ -403,7 +403,7 @@
               <div [ngStyle]="colorPunto(selectedEstados[pu.id], selectedTipoRuta[pu.id])" class="punto_rojo"></div>
               <ul class="nav-list">
                 <li class="nav-item">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" (click)="recuperarDatosConductor(pu.id_driver, pu.id_peoneta)" (click)="recuperarIdPpu(pu.id_ppu)" (click)="recuperarPpu(pu.ppu,pu.id_ppu, pu.id)"  (click)="getLocation()" (click)="toggleLiveTP()" (click)="toggleLive3()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" (click)="recuperarDatosConductor(pu.id_driver, pu.id_peoneta)" (click)="recuperarIdPpu(pu.id_ppu)" (click)="recuperarPpu(pu.ppu,pu.id_ppu, pu.id)"  (click)="getLocation()"  (click)="toggleLiveTP()" (click)="toggleLive3()">
                     <g fill="none">
                       <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-linecap="round" />
                       <path stroke="currentColor" d="M11.768 8.5a2 2 0 1 1 3.464 2a2 2 0 0 1-3.464-2z" />
@@ -446,7 +446,7 @@
   </c-modal-footer>
 </c-modal>
 
-<c-modal [visible]="visibleAmbulance" (visibleChange)="handleLiveDemoChange4($event)" [disableClose]="true">
+<c-modal [visible]="visibleAmbulance" (visibleChange)="handleLiveDemoChange4($event)"  [backdrop]="'static'">
   <c-modal-header class="code-font">
       <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
           <path fill="currentColor" 

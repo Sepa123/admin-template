@@ -8,8 +8,8 @@ import { NgForm } from '@angular/forms'
 import { FormsModule } from '@angular/forms';
 // import { id } from 'date-fns/locale';
 import { getStyle } from '@coreui/utils';
-import { PanelCitacion } from '../../../models/meli/citacion.interface'
 import { FormModule } from '@coreui/angular';
+import { PanelCitacion } from '../../../models/meli/citacion.interface'
 
 
 
@@ -21,8 +21,6 @@ import { FormModule } from '@coreui/angular';
 export class CitacionesComponent implements OnInit  {
   
   @ViewChild('ambulanceForm') ambulanceForm: NgForm | undefined;
-
-
   ppuSeleccionada!: string;
   operacionValue: number = 0;
   centroOperacionValue: number = 0;
@@ -31,7 +29,7 @@ export class CitacionesComponent implements OnInit  {
   conteoConfirmadas: any;
   id_count: any;
   estado_count: any;
-  conductores2: any = '';
+  public conductores2: string | null = null;
   peonetas2: any = '';
   patentesEncontradas: any = '';
   input1: any;
@@ -56,6 +54,15 @@ export class CitacionesComponent implements OnInit  {
   id_u: any;
   digitoConductor!: number;
   digitoPeoneta!: number;
+  id_driver!: number;
+  id_peoneta!: number;
+
+  panelCitacion : PanelCitacion = {
+    "Total": 0,
+    "Confirmado": 0,
+    "Pendiente": 0,
+    "No_Confirma": 0
+}
 
   constructor(
     private http: HttpClient,
@@ -114,15 +121,8 @@ export class CitacionesComponent implements OnInit  {
   longitud! :number
   latStr!: string
   longStr!: string
-  panelCitacion : PanelCitacion = {
-    "Total": 0,
-    "Confirmado": 0,
-    "Pendiente": 0,
-    "No_Confirma": 0
-}
-
   tooltipVisible: boolean = false; // Estado del tooltip
-
+  
   resetForm() {
     if (this.ambulanceForm) {
       this.ambulanceForm.reset();
@@ -135,6 +135,94 @@ export class CitacionesComponent implements OnInit  {
       this.resetModalContent();
     }
       
+  }
+  public selectedConductores: { [key: string]: string } = {}; // Mapeo de id -> nombre
+  public selectedPeonetas: { [key: string]: string } = {};
+  recuperarDatosConductor(id: number, id_p: number): void {
+  
+    this.id_driver = id;
+    this.id_peoneta = id_p;
+    
+
+  }
+  cargadedatos(): void {
+    // Procesar conductores
+    // console.log('Contenido de conductores:', this.conductores);
+    const valorId = this.id_driver;
+    // console.log('id que recupera función (conductor):', valorId);
+    
+    // Reinicializamos el objeto de mapeo para conductores
+    this.selectedConductores = {};
+    this.conductores.forEach((c) => {
+      this.selectedConductores[c.id.toString()] = c.nombre_completo;
+      // console.log('Conductor:', c.nombre_completo);
+    });
+    // console.log('Claves en selectedConductores:', Object.keys(this.selectedConductores));
+    
+    if (this.selectedConductores[valorId.toString()]) {
+      // Asigna el valor recibido (convertido a string)
+      this.conductores2 = valorId.toString();
+      // console.log('Selected conductor ID:', valorId);
+    } else {
+      // Asigna el valor por defecto para que se muestre "Seleccione Conductor"
+      this.conductores2 = null;
+    }
+    // console.log('Selected conductor ID final:', this.conductores2);
+  
+    // Procesar peonetas
+    // console.log('Contenido de peonetas:', this.peonetas);
+    const valorIdPeoneta = this.id_peoneta;
+    // console.log('id que recupera función (peoneta):', valorIdPeoneta);
+    
+    // Reinicializamos el objeto de mapeo para peonetas
+    this.selectedPeonetas = {};
+    this.peonetas.forEach((p) => {
+      this.selectedPeonetas[p.id.toString()] = p.nombre_completo;
+      // console.log('Peoneta:', p.nombre_completo);
+    });
+    // console.log('Claves en selectedPeonetas:', Object.keys(this.selectedPeonetas));
+    
+    if (this.selectedPeonetas[valorIdPeoneta.toString()]) {
+      // Asigna el valor recibido
+      this.peonetas2 = valorIdPeoneta.toString();
+      // console.log('Selected peoneta ID:', valorIdPeoneta);
+    } else {
+      // Asigna el valor por defecto para que se muestre "Seleccione Peoneta"
+      this.peonetas2 = "";
+    }
+    // console.log('Selected peoneta ID final:', this.peonetas2);
+  }
+  
+  
+  
+    
+
+
+  onConductorChange(): void {
+    // Suponiendo que conductores2 ya contiene el id seleccionado (como número o string)
+    this.numeroTelefono = ''; // Reiniciar el número de teléfono
+    const selectedId = this.conductores2 ? this.conductores2.toString() : '';
+    // console.log('ID del conductor seleccionado (ngModel):', selectedId);
+  
+    const selectedConductor = this.conductores.find(
+      conductor => conductor.id.toString() === selectedId
+    );
+    
+    if (selectedConductor) {
+      this.numeroTelefono = selectedConductor.celular_formateado;
+      // console.log('Número de teléfono:', this.numeroTelefono);
+    } else {
+      // console.log('Conductor no encontrado');
+    }
+  }
+  
+  copyToClipboard(text: string): void {
+    // console.log('Copiando al portapapeles:', text); // Registro de depuración
+    navigator.clipboard.writeText(text).then(() => {
+      this.mostrarAlerta(' Se ha extraido el texto correctamente', 'success');
+    }).catch(err => {
+      this.mostrarAlerta('Error al copiar', 'error');
+    });
   }
 
   toggleAmbulance() {
@@ -154,11 +242,9 @@ export class CitacionesComponent implements OnInit  {
   }
   toggleLiveTP() {
     this.visible2 = !this.visible2;
-
     if (!this.visible2) {
       this.resetPpuSelected();
-  }
-    
+    }
   }
   toggleLive3() {
     // Cambia la visibilidad del modal
@@ -170,6 +256,14 @@ export class CitacionesComponent implements OnInit  {
     }
   }
 
+  
+
+  resetPpuSelected(){
+    this.conductores = [];
+    this.peonetas = [];
+    this.conductores2 = null;
+    this.peonetas2 = '';
+  }
   resetModalContent() {
     this.patentesList = []; // Reiniciar la lista de patentes
   }
@@ -185,6 +279,15 @@ export class CitacionesComponent implements OnInit  {
     
   }
 
+  
+  recuperarPpu(ppu: string, id:string, Id_d: any): void {
+    this.ppuSeleccionada = ppu;
+    this.id_p = id
+    this.id_u = Id_d
+     // Para verificar que el valor se almacena correctamente
+    this.getConductores();
+    // console.log(this.id_u);
+  }
   handleLiveDemoChange3(event: boolean) {
     this.visible3 = event;
   
@@ -204,27 +307,6 @@ export class CitacionesComponent implements OnInit  {
     this.isModalOpen = false;
   }
 
-
-  recuperarDatosConductor(id: number, id_peoneta: number): void {
-    // Buscar conductor
-    const conductorEncontrado = this.conductores.find(c => c.id === id);
-    if (conductorEncontrado) {
-      this.conductores2 = id;  // asignas el valor numérico
-    } else {
-      this.conductores2 = null; 
-    }
-  
-    // Buscar peoneta
-    const peonetaEncontrada = this.peonetas.find(p => p.id === id_peoneta);
-    if (peonetaEncontrada) {
-      this.peonetas2 = id_peoneta; // asignas el valor numérico
-    } else {
-      this.peonetas2 = null;
-    }
-  }
-
-  
-
   ngOnInit() {
     this.obtenerFechaFormateada();
     this.getModalidades();
@@ -239,8 +321,7 @@ export class CitacionesComponent implements OnInit  {
         this.panelCitacion = data
       })
     }, 500);
-    
-    
+  
   }
 
   patentesFiltradas = [...this.patentesList2]; // Inicialmente todas las patentes
@@ -260,7 +341,7 @@ export class CitacionesComponent implements OnInit  {
     );
     
   });
-  console.log(this.patentesFiltradas);
+  // console.log(this.patentesFiltradas);
 }
 
 patentesFiltradasDetalle = [...this.patentesList];
@@ -341,7 +422,7 @@ buscarPatenteDetalle(event: Event) {
   buscarOperaciones(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const valorBusqueda = inputElement.value.trim().toLowerCase();
-    console.log("Valor de búsqueda:", valorBusqueda); // Verifica el valor
+    // console.log("Valor de búsqueda:", valorBusqueda); // Verifica el valor
 
     this.OperacionesFiltradas = this.modalidades.filter(operacion => {
         return (
@@ -350,6 +431,7 @@ buscarPatenteDetalle(event: Event) {
             
         );
     });
+
 
     if (this.OperacionesFiltradas.length == 0) {
       this.panelCitacion = {
@@ -382,8 +464,7 @@ buscarPatenteDetalle(event: Event) {
       //   return ant + act
       // }))
     }
-    
-    console.log("Operaciones filtradas:", this.OperacionesFiltradas); // Verifica el resultado
+    // console.log("Operaciones filtradas:", this.OperacionesFiltradas); // Verifica el resultado
 }
 
 
@@ -401,9 +482,10 @@ buscarPatenteDetalle(event: Event) {
     const id_ppuC = this.id_p
     this.Ct.getConductoresList(id_ppuC).subscribe(
       (data) => {
-        this.conductores = data;
         this.conductores = data.filter((item: any) => item.tipo_usuario === 1);
         this.peonetas = data.filter((item: any) => item.tipo_usuario === 2);
+        this.cargadedatos();
+        this.onConductorChange();
       },
       (error) => {
         this.mostrarAlerta('No hay Conductor designado para esta patente', 'error');
@@ -418,7 +500,7 @@ buscarPatenteDetalle(event: Event) {
   //       this.peonetas = data;
   //     },
   //     (error) => {
-  //       this.mostrarAlerta(' Error al obtener peonetas', 'error');  
+  //       this.mostrarAlerta(' Error al obtener peonetas', 'error');        
   //     }
   //   );
   // }
@@ -530,7 +612,6 @@ buscarPatenteDetalle(event: Event) {
           this.getModalidades();
           this.bitacoraUpdate('Se cambio el estado de la patente '+ id + ' a ' + selectedValue, 'citacion-Mercadolibre')
           this.mostrarAlerta(' El cambio de estado se ha realizado correctamente', 'success');
-          
 
         },
         (error) => {
@@ -551,13 +632,11 @@ buscarPatenteDetalle(event: Event) {
     // Llama a validacionRutaMeli y realiza la validación dentro de su callback
         this.Ct.actualizarRutaMeli(rutaMeli, id, fecha).subscribe(
           (Response) => {
-            console.log('Estado actualizado', Response);
             this.getModalidades();
             this.bitacoraUpdate(`Se ha cambiado la ruta de ${rutaMeliAntiguo} a ${rutaMeli} para la patente con id: ${id}`, 'citacion-Mercadolibre');
             this.mostrarAlerta(' El cambio de ruta se ha realizado correctamente', 'success');
           },
           (error) => {
-            console.error('Error al actualizar el estado', error);
             this.mostrarAlerta(' Error al actualizar la ruta', 'error');
           }
         );
@@ -684,11 +763,10 @@ buscarPatenteDetalle(event: Event) {
           this.getRecargarPatentesCitaciones();
           this.bitacoraUpdate('Se ha agregado la patente ' + id_ppu, 'citacion-Mercadolibre')
           this.mostrarAlerta(' La patente ' + ppu +' se ha ingresado correctamente ' , 'success');
-          // alert('El ingreso se ha realizado Correctamente');
-        },
+          },
 
         (error) => {
-          //MAnejar errores
+          //MAnejar erroress
           this.mostrarAlerta(' Error al ingresar la patente', 'error');
           if (error.error.detail.includes('duplicate key')) {
             this.mostrarAlerta(' La patente ya se encuentra registrada.', 'error');
@@ -847,7 +925,7 @@ buscarPatenteDetalle(event: Event) {
 
     this.Ct.ingresarDriversPeoneta(id_conductor,id_peoneta,fecha,id_ppu_ingreso).subscribe(
       (response) => {
-        this.conductores2 = ""
+        this.conductores2 = null
         this.peonetas2 = ""
         this.IdPpuRecuperada = 0
         this.getConductores()
@@ -882,7 +960,7 @@ buscarPatenteDetalle(event: Event) {
         this.showPosition(position);
       });
     } else {
-      console.log("Localización no disponible");
+      // console.log("Localización no disponible");
     }
   }
 
@@ -893,7 +971,7 @@ buscarPatenteDetalle(event: Event) {
     this.latStr = this.latitude.toString()
     this.longStr = this.longitud.toString()
 
-    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
+    // console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
 }
 getLocationAsync(): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -922,7 +1000,7 @@ ingresarDatosAmbulancia(){
         },
         (error) => {
           this.mostrarAlerta(' Error al ingresar la ambulancia', 'error');
-          }
+        }
       )
   }
 
@@ -968,19 +1046,20 @@ bitacoraUpdate(modificacion: string, origen: string){
 
   this.Ct.Bitacora(id_user, ids_user,modificacion,latitud,longitud,origen ).subscribe(
     (responde)=>{
+      // console.log('Se ha ingresado correctamente la bitacora', responde)
     },
     (error) => {
-        // console.error('error al actualizar el estado', error);
-      }
+      // this.mostrarAlerta('Error al ingresar la bitacora', 'error');
+    }
   )
 
 }
-
 
 mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
   // Crear un div para la alerta
   const alerta: HTMLDivElement = document.createElement('div');
   alerta.classList.add('alerta', tipo); // Añadir clase para tipo (success, error, warning)
+
   // Elegir icono basado en el tipo
   const icono: HTMLElement = document.createElement('i');
   switch (tipo) {
@@ -1003,17 +1082,21 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
       alerta.style.padding = '7px'; // Aumentar el padding
       break;
   }
+
   // Añadir el icono y el mensaje al div de la alerta
   alerta.appendChild(icono);
   alerta.appendChild(document.createTextNode(mensaje));
+
   // Añadir la alerta al contenedor de alertas
   const alertaContainer: HTMLElement | null = document.getElementById('alertaContainer');
   if (alertaContainer) {
     alertaContainer.appendChild(alerta);
+
     // Mostrar la alerta con una animación de opacidad
     setTimeout(() => {
       alerta.style.opacity = '1';
     }, 100);
+
     // Ocultar la alerta después de 5 segundos y eliminarla del DOM
     setTimeout(() => {
       alerta.style.opacity = '0';
@@ -1021,60 +1104,12 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
         alerta.remove();
       }, 500);
     }, 5000);
-    }
-  }
+    }
+  }
 
-
-
-  onConductorChange(event: Event): void {
-    const selectedConductorName = (event.target as HTMLSelectElement).value;
-    console.log('Nombre del conductor seleccionado:', selectedConductorName); // Registro de depuración
-  
-    // Busca el conductor seleccionado por su nombre completo
-    const selectedConductor = this.conductores.find(conductor => conductor.id.toString() === selectedConductorName);
-    if (selectedConductor) {
-      this.numeroTelefono = selectedConductor.celular_formateado;
-      console.log('Número de teléfono:', this.numeroTelefono); // Registro de depuración
-    } else {
-      console.log('Conductor no encontrado'); // Registro de depuración
-    }
-  }
-  copyToClipboard(text: string): void {
-    console.log('Copiando al portapapeles:', text); // Registro de depuración
-    navigator.clipboard.writeText(text).then(() => {
-      this.mostrarAlerta('Se ha extraido el texto correctamente', 'success');
-    }).catch(err => {
-      this.mostrarAlerta('Error al copiar', 'error');
-    });
-  }
-
-  // resetSelectValues(): void {
-  //   this.conductores2 = '';
-  //   this.peonetas2 = '';
-  // }
-  resetPpuSelected(){
-    this.conductores = [];
-    this.peonetas = [];
-    this.conductores2 = '';
-    this.peonetas2 = '';
-  }
-
-
-  recuperarPpu(ppu: string, id:string,Id_d: any): void {
-    this.ppuSeleccionada = ppu;
-    this.id_p = id
-    this.id_u = Id_d
-    
-     // Para verificar que el valor se almacena correctamente
-     this.getConductores();
-     console.log(this.id_u);
-  }
-
-
-  makePhoneCall(phoneNumber: string): void {
+makePhoneCall(phoneNumber: string): void {
   const fullPhoneNumber = `${phoneNumber}`;
-  // +56${phoneNumber};
-  console.log('Intentando llamar al número:', fullPhoneNumber); // Registro de depuración
+  // console.log('Intentando llamar al número:', fullPhoneNumber); // Registro de depuración
   const isWindows = navigator.platform.indexOf('Win') > -1;
   if (isWindows) {
     alert('Esta opción no está disponible en Windows.');
@@ -1082,5 +1117,4 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
     window.location.href = `tel:${fullPhoneNumber}`;
   }
 }
-
 }
