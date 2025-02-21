@@ -29,7 +29,7 @@ export class CitacionesComponent implements OnInit  {
   conteoConfirmadas: any;
   id_count: any;
   estado_count: any;
-  conductores2: any = '';
+  public conductores2: string | null = null;
   peonetas2: any = '';
   patentesEncontradas: any = '';
   input1: any;
@@ -54,6 +54,8 @@ export class CitacionesComponent implements OnInit  {
   id_u: any;
   digitoConductor!: number;
   digitoPeoneta!: number;
+  id_driver!: number;
+  id_peoneta!: number;
 
   constructor(
     private http: HttpClient,
@@ -127,43 +129,88 @@ export class CitacionesComponent implements OnInit  {
     }
       
   }
+  public selectedConductores: { [key: string]: string } = {}; // Mapeo de id -> nombre
+  public selectedPeonetas: { [key: string]: string } = {};
+  recuperarDatosConductor(id: number, id_p: number): void {
   
-  recuperarDatosConductor(id: number, id_peoneta: number): void {
-    // Buscar conductor
-    const conductorEncontrado = this.conductores.find(c => c.id === id);
-    if (conductorEncontrado) {
-      this.conductores2 = id;  // asignas el valor numérico
-    } else {
-      this.conductores2 = null; 
-    }
-  
-    // Buscar peoneta
-    const peonetaEncontrada = this.peonetas.find(p => p.id === id_peoneta);
-    if (peonetaEncontrada) {
-      this.peonetas2 = id_peoneta; // asignas el valor numérico
-    } else {
-      this.peonetas2 = null;
-    }
-  }
+    this.id_driver = id;
+    this.id_peoneta = id_p;
+    
 
+  }
+  cargadedatos(): void {
+    // Procesar conductores
+    // console.log('Contenido de conductores:', this.conductores);
+    const valorId = this.id_driver;
+    // console.log('id que recupera función (conductor):', valorId);
+    
+    // Reinicializamos el objeto de mapeo para conductores
+    this.selectedConductores = {};
+    this.conductores.forEach((c) => {
+      this.selectedConductores[c.id.toString()] = c.nombre_completo;
+      // console.log('Conductor:', c.nombre_completo);
+    });
+    // console.log('Claves en selectedConductores:', Object.keys(this.selectedConductores));
+    
+    if (this.selectedConductores[valorId.toString()]) {
+      // Asigna el valor recibido (convertido a string)
+      this.conductores2 = valorId.toString();
+      // console.log('Selected conductor ID:', valorId);
+    } else {
+      // Asigna el valor por defecto para que se muestre "Seleccione Conductor"
+      this.conductores2 = null;
+    }
+    // console.log('Selected conductor ID final:', this.conductores2);
+  
+    // Procesar peonetas
+    // console.log('Contenido de peonetas:', this.peonetas);
+    const valorIdPeoneta = this.id_peoneta;
+    // console.log('id que recupera función (peoneta):', valorIdPeoneta);
+    
+    // Reinicializamos el objeto de mapeo para peonetas
+    this.selectedPeonetas = {};
+    this.peonetas.forEach((p) => {
+      this.selectedPeonetas[p.id.toString()] = p.nombre_completo;
+      // console.log('Peoneta:', p.nombre_completo);
+    });
+    // console.log('Claves en selectedPeonetas:', Object.keys(this.selectedPeonetas));
+    
+    if (this.selectedPeonetas[valorIdPeoneta.toString()]) {
+      // Asigna el valor recibido
+      this.peonetas2 = valorIdPeoneta.toString();
+      // console.log('Selected peoneta ID:', valorIdPeoneta);
+    } else {
+      // Asigna el valor por defecto para que se muestre "Seleccione Peoneta"
+      this.peonetas2 = "";
+    }
+    // console.log('Selected peoneta ID final:', this.peonetas2);
+  }
+  
+  
+  
     
 
 
-  onConductorChange(event: Event): void {
-    const selectedConductorName = (event.target as HTMLSelectElement).value;
-    console.log('Nombre del conductor seleccionado:', selectedConductorName); // Registro de depuración
+  onConductorChange(): void {
+    // Suponiendo que conductores2 ya contiene el id seleccionado (como número o string)
+    this.numeroTelefono = ''; // Reiniciar el número de teléfono
+    const selectedId = this.conductores2 ? this.conductores2.toString() : '';
+    // console.log('ID del conductor seleccionado (ngModel):', selectedId);
   
-    // Busca el conductor seleccionado por su nombre completo
-    const selectedConductor = this.conductores.find(conductor => conductor.id.toString() === selectedConductorName);
+    const selectedConductor = this.conductores.find(
+      conductor => conductor.id.toString() === selectedId
+    );
+    
     if (selectedConductor) {
       this.numeroTelefono = selectedConductor.celular_formateado;
-      console.log('Número de teléfono:', this.numeroTelefono); // Registro de depuración
+      // console.log('Número de teléfono:', this.numeroTelefono);
     } else {
-      console.log('Conductor no encontrado'); // Registro de depuración
+      // console.log('Conductor no encontrado');
     }
   }
+  
   copyToClipboard(text: string): void {
-    console.log('Copiando al portapapeles:', text); // Registro de depuración
+    // console.log('Copiando al portapapeles:', text); // Registro de depuración
     navigator.clipboard.writeText(text).then(() => {
       this.mostrarAlerta(' Se ha extraido el texto correctamente', 'success');
     }).catch(err => {
@@ -207,7 +254,7 @@ export class CitacionesComponent implements OnInit  {
   resetPpuSelected(){
     this.conductores = [];
     this.peonetas = [];
-    this.conductores2 = '';
+    this.conductores2 = null;
     this.peonetas2 = '';
   }
   resetModalContent() {
@@ -232,7 +279,7 @@ export class CitacionesComponent implements OnInit  {
     this.id_u = Id_d
      // Para verificar que el valor se almacena correctamente
     this.getConductores();
-    console.log(this.id_u);
+    // console.log(this.id_u);
   }
   handleLiveDemoChange3(event: boolean) {
     this.visible3 = event;
@@ -281,7 +328,7 @@ export class CitacionesComponent implements OnInit  {
     );
     
   });
-  console.log(this.patentesFiltradas);
+  // console.log(this.patentesFiltradas);
 }
 
 patentesFiltradasDetalle = [...this.patentesList];
@@ -356,7 +403,7 @@ buscarPatenteDetalle(event: Event) {
   buscarOperaciones(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const valorBusqueda = inputElement.value.trim().toLowerCase();
-    console.log("Valor de búsqueda:", valorBusqueda); // Verifica el valor
+    // console.log("Valor de búsqueda:", valorBusqueda); // Verifica el valor
 
     this.OperacionesFiltradas = this.modalidades.filter(operacion => {
         return (
@@ -365,7 +412,7 @@ buscarPatenteDetalle(event: Event) {
             
         );
     });
-    console.log("Operaciones filtradas:", this.OperacionesFiltradas); // Verifica el resultado
+    // console.log("Operaciones filtradas:", this.OperacionesFiltradas); // Verifica el resultado
 }
 
 
@@ -385,6 +432,8 @@ buscarPatenteDetalle(event: Event) {
       (data) => {
         this.conductores = data.filter((item: any) => item.tipo_usuario === 1);
         this.peonetas = data.filter((item: any) => item.tipo_usuario === 2);
+        this.cargadedatos();
+        this.onConductorChange();
       },
       (error) => {
         this.mostrarAlerta('No hay Conductor designado para esta patente', 'error');
@@ -824,7 +873,7 @@ buscarPatenteDetalle(event: Event) {
 
     this.Ct.ingresarDriversPeoneta(id_conductor,id_peoneta,fecha,id_ppu_ingreso).subscribe(
       (response) => {
-        this.conductores2 = ""
+        this.conductores2 = null
         this.peonetas2 = ""
         this.IdPpuRecuperada = 0
         this.getConductores()
@@ -859,7 +908,7 @@ buscarPatenteDetalle(event: Event) {
         this.showPosition(position);
       });
     } else {
-      console.log("Localización no disponible");
+      // console.log("Localización no disponible");
     }
   }
 
@@ -870,7 +919,7 @@ buscarPatenteDetalle(event: Event) {
     this.latStr = this.latitude.toString()
     this.longStr = this.longitud.toString()
 
-    console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
+    // console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
 }
 getLocationAsync(): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -1008,7 +1057,7 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
 
 makePhoneCall(phoneNumber: string): void {
   const fullPhoneNumber = `${phoneNumber}`;
-  console.log('Intentando llamar al número:', fullPhoneNumber); // Registro de depuración
+  // console.log('Intentando llamar al número:', fullPhoneNumber); // Registro de depuración
   const isWindows = navigator.platform.indexOf('Win') > -1;
   if (isWindows) {
     alert('Esta opción no está disponible en Windows.');
