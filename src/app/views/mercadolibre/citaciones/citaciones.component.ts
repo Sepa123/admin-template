@@ -237,6 +237,7 @@ export class CitacionesComponent implements OnInit  {
     this.visible2 = !this.visible2;
     if (!this.visible2) {
       this.resetPpuSelected();
+      this.getPpu(this.opRecuperada, this.CopRecuperada);
     }
   }
   toggleLive3() {
@@ -660,9 +661,10 @@ buscarPatenteDetalle(event: Event) {
   recuperarId(id_op: any, id_cop: any) {
     const id_operacion = id_op;
     const id_centro = id_cop;
-
+    console.log(id_operacion, id_centro);
     this.getOperacion = id_operacion;
     this.getCentroOperacion = id_centro;
+
   }
 
   submitForm(id_ppu: any, ppu: any) {
@@ -881,6 +883,7 @@ buscarPatenteDetalle(event: Event) {
       },
       (error) => {
         this.mostrarAlerta(' Error al ingresar los datos', 'error');
+        
       }
     );
   }
@@ -1065,4 +1068,5 @@ makePhoneCall(phoneNumber: string): void {
     window.location.href = `tel:${fullPhoneNumber}`;
   }
 }
+
 }

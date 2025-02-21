@@ -134,7 +134,7 @@
         </thead>
         <tbody *ngFor="let Ct of OperacionesFiltradas">
             <td class="Content-Principal" >
-                <svg (click)="getLocation()" (click)="toggleLiveDemo()" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"  (click)="getRecuperarPatentesCitaciones(Ct.Id_operacion,Ct.id_cop)" (click)="recuperarId(Ct.Id_operacion, Ct.id_cop)">
+                <svg (click)="getLocation()" (click)="recuperarId(Ct.Id_operacion, Ct.id_cop)" (click)="toggleLiveDemo()" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"  (click)="getRecuperarPatentesCitaciones(Ct.Id_operacion,Ct.id_cop)" >
                     <path fill="currentColor" d="M7 1h10v2h4v9h-2V5h-2v2H7V5H5v16h7v2H3V3h4zm2 4h6V3H9zm11 9v4h4v2h-4v4h-2v-4h-4v-2h4v-4z" />
                 </svg>
                 {{Ct.operacion}}
@@ -151,7 +151,7 @@
                 </div>
             </td>
             <td class="Content-Principal" >
-                <svg  xmlns="http://www.w3.org/2000/svg" width="2.2em" height="2.2em" viewBox="0 0 24 24" (click)="getLocation()" (click)="toggleLive3()" (click)="recuperarOpCopAMB(Ct.Id_operacion, Ct.id_cop)"(click)="getPatentesFiltradasPorOpyCop(Ct.Id_operacion, Ct.id_cop)" >
+                <svg  xmlns="http://www.w3.org/2000/svg" width="2.2em" height="2.2em" viewBox="0 0 24 24" (click)="getLocation()" (click)="recuperarId(Ct.Id_operacion, Ct.id_cop)" (click)="toggleLive3()" (click)="recuperarOpCopAMB(Ct.Id_operacion, Ct.id_cop)"(click)="getPatentesFiltradasPorOpyCop(Ct.Id_operacion, Ct.id_cop)" >
                     <path fill="currentColor" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5" />
                 </svg>
             </td>
@@ -299,7 +299,7 @@
             </div>
             <div class="select-container">
               <i class="fa-solid fa-user DriverPhoto"></i>
-              <select class="PeonetaSelect" id="peonetas2" [(ngModel)]="peonetas2">
+              <select class="PeonetaSelect" id="peonetas2" [(ngModel)]="peonetas2" >
                 <option value="" disabled >Seleccione Peoneta</option>
                 <ng-container *ngFor="let pu of peonetas">
                   <option [value]="pu.id">{{pu.nombre_completo}}</option>
@@ -324,7 +324,7 @@
     </c-modal-body>
 
     <c-modal-footer>
-        <button type="submit" class="btn-guardar" (click)="ingresoDriversPeonetas()" (click)="toggleLiveTP()" (click)="toggleLive3()">Guardar</button>
+        <button type="submit" class="btn-guardar"  (click)="ingresoDriversPeonetas()" (click)="toggleLiveTP()" (click)="toggleLive3()">Guardar</button>
 
     </c-modal-footer>
 </c-modal>
