@@ -384,39 +384,6 @@ datosCitacionActiva: MainCitacionA [] = [];
 idUsuario = sessionStorage.getItem('id')+""
 idsUsuario = sessionStorage.getItem('server')+'-'+this.idUsuario
 
-// procesarDatos() {
-//   const filas = this.inputText.trim().split('\n');
-//   const mapaRuta: { [key: string]: MainCitacionA } = {};
-
-//   this.datos.forEach(ruta => {
-//     mapaRuta[ruta.ppu] = ruta;
-//   });
-
-//   filas.forEach(fila => {
-//     const valores = fila.split('\t');
-//     const ruta: MainCitacionA = {
-//       estado: valores[0],
-//       IdRuta: valores[1],
-//       FechaInicio: valores[2],
-//       FechaFin: valores[3],
-//       Patente: valores[4],
-//       Conductor: valores[5],
-//       Cantidad: valores[6],
-//       PrecioUnitario: valores[7],
-//     };
-
-//     if (mapaRuta[ruta.ppu]) {
-//       Object.assign(mapaRuta[ruta.ppu], ruta);
-//     } else {
-//       this.datos.push(ruta);
-//     }
-//   });
-
-//   console.log(this.datos)
-
-//   this.inputText = ''; // Limpiar el área de texto
-// }
-
 guardarDatos() {
 
   if(this.latStr,this.longStr == null){
@@ -439,9 +406,6 @@ guardarDatos() {
     data['fecha'] = this.currentDate
   }
   )
-
-  // this.idCentroOperacion = id_cop
-  // this.idOperacion = id_op
 
   const body = {
     id_usuario : sessionStorage.getItem('id')+"",
@@ -649,7 +613,7 @@ filtrarTabla() {
     this.pedidos.Total_vehiculo = this.pedidos.Total_vehiculo + citacion.Detalles.length
 
   })
-  // console.log(this.ListaPrefactura);
+
 }
 
 // Aplica debouncing a la función filtrarTabla

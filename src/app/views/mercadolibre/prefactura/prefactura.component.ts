@@ -1,11 +1,11 @@
 import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
-import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
-import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
-import { RegistrarUsuarioService } from 'src/app/service/registrar-usuario.service'
-import { MeliService } from 'src/app/service/meli.service'
-import { Prefactura,ResumenPrefactura } from "src/app/models/meli/prefactura.interface"
+import { RazonSocial } from '../../../models/modalidad-de-operaciones.interface';
+import { CentroOperacion } from '../../../models/operacion/centroOperacion.interface';
+import { ModalidadDeOperacionesService } from '../../../service/modalidad-de-operaciones.service';
+import { RegistrarUsuarioService } from '../../../service/registrar-usuario.service'
+import { MeliService } from '../../../service/meli.service'
+import { Prefactura,ResumenPrefactura } from "../../../models/meli/prefactura.interface"
 import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-prefactura',
