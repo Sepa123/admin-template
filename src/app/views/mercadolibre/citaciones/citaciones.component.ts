@@ -175,7 +175,7 @@ export class CitacionesComponent implements OnInit  {
     });
     // console.log('Claves en selectedPeonetas:', Object.keys(this.selectedPeonetas));
     
-    if (this.selectedPeonetas[valorIdPeoneta.toString()]) {
+    if (this.selectedPeonetas[valorIdPeoneta]) {
       // Asigna el valor recibido
       this.peonetas2 = valorIdPeoneta.toString();
       // console.log('Selected peoneta ID:', valorIdPeoneta);
@@ -194,6 +194,7 @@ export class CitacionesComponent implements OnInit  {
   onConductorChange(): void {
     // Suponiendo que conductores2 ya contiene el id seleccionado (como número o string)
     this.numeroTelefono = ''; // Reiniciar el número de teléfono
+
     const selectedId = this.conductores2 ? this.conductores2.toString() : '';
     // console.log('ID del conductor seleccionado (ngModel):', selectedId);
   
@@ -237,6 +238,7 @@ export class CitacionesComponent implements OnInit  {
     this.visible2 = !this.visible2;
     if (!this.visible2) {
       this.resetPpuSelected();
+      this.numeroTelefono = '';
       this.getPpu(this.opRecuperada, this.CopRecuperada);
     }
   }
@@ -431,6 +433,7 @@ buscarPatenteDetalle(event: Event) {
     const id_ppuC = this.id_p
     this.Ct.getConductoresList(id_ppuC).subscribe(
       (data) => {
+
         this.conductores = data.filter((item: any) => item.tipo_usuario === 1);
         this.peonetas = data.filter((item: any) => item.tipo_usuario === 2);
         this.cargadedatos();
