@@ -182,7 +182,7 @@ export class CitacionesComponent implements OnInit  {
     });
     // console.log('Claves en selectedPeonetas:', Object.keys(this.selectedPeonetas));
     
-    if (this.selectedPeonetas[valorIdPeoneta.toString()]) {
+    if (this.selectedPeonetas[valorIdPeoneta]) {
       // Asigna el valor recibido
       this.peonetas2 = valorIdPeoneta.toString();
       // console.log('Selected peoneta ID:', valorIdPeoneta);
@@ -244,6 +244,7 @@ export class CitacionesComponent implements OnInit  {
     this.visible2 = !this.visible2;
     if (!this.visible2) {
       this.resetPpuSelected();
+      this.numeroTelefono = '';
       this.getPpu(this.opRecuperada, this.CopRecuperada);
     }
   }
