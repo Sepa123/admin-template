@@ -9,8 +9,8 @@ import { S } from '@fullcalendar/core/internal-common';
 })
 export class CitacionesService {
 
-  // private apiUrl = 'http://localhost:8000/api/meli';
-  apiUrl = "https://hela.transyanez.cl/api/meli"
+  private apiUrl = 'http://localhost:8000/api';
+  //apiUrl = "https://hela.transyanez.cl/api/meli"
   constructor(private http: HttpClient) { }
 
   getModalidadOperacion(): Observable<any> {
@@ -80,8 +80,13 @@ export class CitacionesService {
       })
     });
   }
-  ingresarDriversPeoneta(id_driver: any, id_peoneta: any, fecha:string, id_ppu: any): Observable<any> {
-    const url = `${this.apiUrl}/ingresarDriversPeoneta?id_driver=${id_driver}&id_peoneta=${id_peoneta}&fecha=${fecha}&id_ppu=${id_ppu}`; 
+  ingresarDriversPeoneta(id_driver: any, fecha: string, id_ppu: any, id_peoneta?: any): Observable<any> {
+    let url = `${this.apiUrl}/ingresarDriversPeoneta?id_driver=${id_driver}&fecha=${fecha}&id_ppu=${id_ppu}`;
+  
+    if (id_peoneta !== undefined && id_peoneta !== null) {
+      url += `&id_peoneta=${id_peoneta}`;
+    }
+  
     return this.http.post<any>(url, {}, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

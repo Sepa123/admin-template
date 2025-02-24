@@ -867,26 +867,32 @@ buscarPatenteDetalle(event: Event) {
   }
 
   
-  ingresoDriversPeonetas(){
-    const fecha = this.formattedDate
-    const id_conductor = this.conductores2
-    const id_peoneta = this.peonetas2
-    const id_ppu_ingreso = this.IdPpuRecuperada
+  ingresoDriversPeonetas() {
+    const fecha = this.formattedDate;
+    const id_conductor = this.conductores2;
+    const id_peoneta = this.peonetas2 ? this.peonetas2 : undefined; // ✅ Si está vacío, lo envía como undefined
+    const id_ppu_ingreso = this.IdPpuRecuperada;
 
-    this.Ct.ingresarDriversPeoneta(id_conductor,id_peoneta,fecha,id_ppu_ingreso).subscribe(
+     // 🚨 Verifica si id_peoneta está vacío o es null
+     if (id_peoneta === undefined || id_peoneta === null) {
+      this.mostrarAlerta(' Esta patente no lleva Peoneta registrado.', 'warning');
+      }
+    // console.log("Enviando:", { id_conductor, fecha, id_ppu_ingreso, id_peoneta }); // 🛠️ Verifica los valores antes de enviar
+
+    this.Ct.ingresarDriversPeoneta(id_conductor, fecha, id_ppu_ingreso, id_peoneta).subscribe(
       (response) => {
-        this.conductores2 = null
-        this.peonetas2 = ""
-        this.IdPpuRecuperada = 0
-        this.getConductores()
-        // this.getPeonetas() 
+        this.conductores2 = null;
+        this.peonetas2 = "";  
+        this.IdPpuRecuperada = 0;
+        this.getConductores();
+        // this.getPeonetas();
       },
       (error) => {
-        this.mostrarAlerta(' Error al ingresar los datos', 'error');
-        
+        this.mostrarAlerta('Error al ingresar los datos', 'error');
       }
     );
-  }
+}
+
   getColor(id_ppu: number): string { 
     const fecha = this.formattedDate
     this.Ct.getTipoRutaColor(id_ppu,fecha).subscribe((data) => {
