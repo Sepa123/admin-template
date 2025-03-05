@@ -60,6 +60,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { InfoMercadoLibreComponent } from './views/mercadolibre/info-mercado-libre/info-mercado-libre.component';
 
 
+
 // import { RutaManulaComponent } from './views/ruta-manula/ruta-manula.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {

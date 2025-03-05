@@ -1,0 +1,188 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<header>
+    <h1>Gestor de Activos</h1>
+    <button id="abrirModal" (click)="toggleLiveDemo()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17px" height="17px" viewBox="0 0 448 512">
+        <path fill="#fff" d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256z" />
+      </svg> Nuevo Activo
+    </button>
+</header>
+
+<main>
+    <!-- Filtro por categoría -->
+    <div class="filtro">
+        <label for="filtroCategoria">Filtrar por categoría:</label>
+        <select id="filtroCategoria" (change)="seleccionarCategoria($event)" >
+            <option value="todas">Todas</option>
+            <option *ngFor="let lista of listaCategoria" [value]="lista.Id">{{lista.Categoria}}</option>
+            <!-- Las opciones se cargarán dinámicamente -->
+        </select>
+    </div>
+
+    <!-- Tabla de activos -->
+    <table id="tablaActivos">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los activos se cargarán aquí dinámicamente -->
+        </tbody>
+    </table>
+</main>
+
+
+
+<c-modal [visible]="visible" size="xl" (visibleChange)="handleLiveDemoChange($event)" backdrop="static">
+    <c-modal-header>
+             <!-- <h2>Información cargada por transportista</h2> -->
+             <h4 cModalTitle>Ingresar Activo</h4>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+  
+
+
+    <c-modal-body >
+
+        <form cForm  > 
+          <!-- Fila 1 -->
+          <c-row>
+            <c-col [xs]>
+                <div class="noEditar">
+                  Área 
+                  <select name="" id=""  cSelect  class="form-control">
+                    <option value="">Seleccione</option>
+                    <option value="">Seleccione</option>
+                    <option value="">Seleccione</option>
+                    <option value="">Seleccione</option>
+                  </select>
+                </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                Categoría 
+                <select name="" id=""  cSelect  class="form-control" >
+                  <option value="">Seleccione</option>
+                  <option *ngFor="let categoria of listaCategoria" [value]="categoria.Id" >{{ categoria.Categoria }}</option>
+                </select>
+              </div>
+          </c-col>
+          <c-col [xs]>
+            <div class="">
+              Región 
+              <select name="" id=""  cSelect  class="form-control"> 
+                <option *ngFor="let region of listaRegion" [value]="region.Id_region" >{{ region.Nombre_region }}</option>
+              </select>
+          </div>
+        </c-col>
+
+        </c-row>
+
+
+        <!-- Fila 2 -->
+        <c-row>
+          <c-col [xs]>
+              <div class="noEditar">
+                Nombre  
+                <input type="text" cInput class="form-control">
+              </div>
+          </c-col>
+          <c-col [xs]>
+            <div class="">
+              Modelo  
+              <input type="text" cInput class="form-control">
+            </div>
+        </c-col>
+        <c-col [xs]>
+          <div class="">
+            Comuna  
+            <select name="" id=""  cSelect  class="form-control">
+              <option *ngFor="let comuna of listaComuna" [value]="comuna.Id_comuna" >{{ comuna.Nombre_comuna }}</option>
+            </select>
+        </div>
+      </c-col>
+
+      </c-row>
+
+
+      <!-- Fila 3 -->
+      <c-row>
+        <c-col [xs]>
+            <div class="noEditar">
+              Marca  
+              <input type="text" cInput class="form-control">
+            </div>
+        </c-col>
+        <c-col [xs]>
+          <div class="">
+            Descripción  
+            <textarea name="" id="" class="form-control">
+
+            </textarea>
+            <!-- <input type="textarea" cInput class="form-control"> -->
+          </div>
+      </c-col>
+      <c-col [xs]>
+        <div class="">
+          Dirección  
+          <input type="text" cInput class="form-control">
+      </div>
+    </c-col>
+
+    </c-row>
+
+
+    <!-- Fila 4 -->
+    <c-row>
+      <c-col [xs]>
+          <div class="noEditar">
+            
+            
+            <div class="form-group image-upload">
+              <label for="image1">+</label>
+              <input id="image1" type="file">
+              <label for="image2">+</label>
+              <input id="image2" type="file">
+              <label for="image3">+</label>
+              <input id="image3" type="file">
+          </div>
+            <!-- <input type="file" name="" id="">
+            <input type="file" name="" id="">
+            <input type="file" name="" id=""> -->
+          </div>
+      </c-col>
+      <c-col [xs]>
+        <div class="">
+          Responsable   
+          <select name="" id=""  cSelect  class="form-control">
+            <option value="">Seleccione</option>
+            <option value="">Seleccione</option>
+            <option value="">Seleccione</option>
+            <option value="">Seleccione</option>
+          </select>
+        </div>
+    </c-col>
+    <c-col [xs]>
+      <div class="">
+       
+
+       <div class="map-section" id="map"></div>
+    </div>
+  </c-col>
+
+  </c-row>
+  
+          </form>
+
+
+    </c-modal-body>
+    <c-modal-footer >
+        <br>
+    </c-modal-footer>
+  </c-modal>

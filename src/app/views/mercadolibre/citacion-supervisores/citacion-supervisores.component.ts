@@ -391,19 +391,23 @@ guardarDatos() {
   } else {
 
   this.datosCitacionActiva.map((data)=>{
-    data['fm_total_paradas'] = data.campos_por_operacion[0].fm_total_paradas    
-    data['fm_estimados'] = data.campos_por_operacion[0].fm_estimados 
-    data['fm_preparados'] = data.campos_por_operacion[0].fm_preparados 
-    data['fm_p_colectas_a_tiempo'] = data.campos_por_operacion[0].fm_p_colectas_a_tiempo 
-    data['fm_p_no_colectadas'] = data.campos_por_operacion[0].fm_p_no_colectadas 
-    data['fm_paqueteria_colectada'] = data.campos_por_operacion[0].fm_paqueteria_colectada 
-    data['lm_fallido'] = data.campos_por_operacion[0].lm_fallido 
-    data['lm_pendiente'] = data.campos_por_operacion[0].lm_pendiente 
-    data['lm_spr'] = data.campos_por_operacion[0].lm_spr 
-    data['lm_entregas'] = data.campos_por_operacion[0].lm_entregas 
-    data['lm_tiempo_ruta'] = data.campos_por_operacion[0].lm_tiempo_ruta 
-    data['lm_estado'] = data.campos_por_operacion[0].lm_estado 
-    data['fecha'] = this.currentDate
+
+
+    if(data.campos_por_operacion){
+      data['fm_total_paradas'] = data.campos_por_operacion[0].fm_total_paradas    
+      data['fm_estimados'] = data.campos_por_operacion[0].fm_estimados 
+      data['fm_preparados'] = data.campos_por_operacion[0].fm_preparados 
+      data['fm_p_colectas_a_tiempo'] = data.campos_por_operacion[0].fm_p_colectas_a_tiempo 
+      data['fm_p_no_colectadas'] = data.campos_por_operacion[0].fm_p_no_colectadas 
+      data['fm_paqueteria_colectada'] = data.campos_por_operacion[0].fm_paqueteria_colectada 
+      data['lm_fallido'] = data.campos_por_operacion[0].lm_fallido 
+      data['lm_pendiente'] = data.campos_por_operacion[0].lm_pendiente 
+      data['lm_spr'] = data.campos_por_operacion[0].lm_spr 
+      data['lm_entregas'] = data.campos_por_operacion[0].lm_entregas 
+      data['lm_tiempo_ruta'] = data.campos_por_operacion[0].lm_tiempo_ruta 
+      data['lm_estado'] = data.campos_por_operacion[0].lm_estado 
+      data['fecha'] = this.currentDate
+    }
   }
   )
 
@@ -461,7 +465,7 @@ guardarDatos() {
 
 updateCell(event: any, index: number, field: string) {
   const value = event.target.innerText;
-  if(field )
+  if(field && this.datosCitacionActiva[index].campos_por_operacion )
   this.datosCitacionActiva[index].campos_por_operacion[0][field] = value+'';
   this.datosCitacionActiva[index][field] = value+'';
 }

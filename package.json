@@ -48,6 +48,7 @@
     "bootstrap": "^5.2.3",
     "chart.js": "^3.9.1",
     "chartjs-plugin-datalabels": "^2.2.0",
+    "cross-crypto-ts": "^1.0.3",
     "crypto-js": "^4.1.1",
     "fastest-levenshtein": "^1.0.16",
     "jquery": "^3.7.0",

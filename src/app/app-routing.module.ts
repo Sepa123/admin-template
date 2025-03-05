@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserGuard } from "src/app/guard/user.guard";
-import { PermissionGuard } from 'src/app/guard/permission.guard'
+import { UserGuard } from "../app/guard/user.guard";
+import { PermissionGuard } from '../app/guard/permission.guard'
 import { DefaultLayoutComponent } from './containers';
 import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 import { PermisoDenegadoComponent } from './views/pages/permiso-denegado/permiso-denegado.component'
-import { ROLES_PERMITIDOS } from 'src/app/rolesPermitidos.const'
-import { ROLES_ENUM } from 'src/app/models/enum/roles.enum'
+import { ROLES_PERMITIDOS } from '../app/rolesPermitidos.const'
+import { ROLES_ENUM } from '../app/models/enum/roles.enum'
 
-import { RecepcionModule } from 'src/app/views/recepcion/recepcion.module'
+import { RecepcionModule } from '../app/views/recepcion/recepcion.module'
 
 const routes: Routes = [
   {
@@ -231,6 +231,15 @@ const routes: Routes = [
         canActivate :[PermissionGuard],
         loadChildren: () =>
           import('./views/finanzas/finanzas.module').then((m) => m.FinanzasModule )
+      },
+      {
+        path: 'task-master',
+        data:{
+          roles : ROLES_PERMITIDOS.INVENTARIO_TI
+        },
+        canActivate:[PermissionGuard],
+        loadChildren:()=>
+          import('./views/task-master/task-master.module').then((m)=> m.TaskMasterModule)
       },
     ],
     canActivate: [UserGuard]

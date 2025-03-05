@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { RegistrarUsuarioService } from 'src/app/service/registrar-usuario.service'
+import { CryptoService } from 'src/app/service/crypto.service';
+
+import { encryptHybrid } from "cross-crypto-ts";
 
 @Component({
   selector: 'app-test',
@@ -8,37 +11,46 @@ import { RegistrarUsuarioService } from 'src/app/service/registrar-usuario.servi
   styleUrls: ['./test.component.scss']
 })
 export class TestComponent {
-  p: number = 1;  // Página actual
-  itemsPerPage: number = 10;   // Registros por página
-  totalItems: number = 1000;   // Total de registros
-  items: any[] = [];           // Todos los registros (pueden ser más de 1000)
-  pagedItems: any[] = [];      // Registros filtrados según la página actual
+  public publicKey: string = '';
+  public encryptedData: string = '';  // Aquí pondrás tus datos cifrados.
+  public decryptedResponse: string = '';
 
-  constructor() {
-    // Generamos 1000 registros de ejemplo
-    this.items = this.generateFakeData(1000);
-    this.updatePagedItems(); // Inicializamos los registros a mostrar
+  constructor(private cryptoService: CryptoService) {}
+
+  ngOnInit(): void {
+    this.getPublicKey();
   }
 
-  // Generar datos de ejemplo
-  generateFakeData(count: number): any[] {
-    let data = [];
-    for (let i = 1; i <= count; i++) {
-      data.push({ nombre: `Nombre ${i}`, edad: 20 + (i % 40), ciudad: `Ciudad ${i}` });
-    }
-    return data;
+  // Obtener la clave pública desde el backend
+  getPublicKey(): void {
+    this.cryptoService.getPublicKey().subscribe(
+      (response) => {
+        this.publicKey = response.publicKey;
+        console.log('Clave pública recibida:', this.publicKey);
+      },
+      (error) => {
+        console.error('Error al obtener la clave pública:', error);
+      }
+    );
   }
 
-  // Actualizar los registros visibles según la página actual
-  updatePagedItems() {
-    const startIndex = (this.p - 1) * this.itemsPerPage;  // Índice inicial
-    const endIndex = this.p * this.itemsPerPage;           // Índice final
-    this.pagedItems = this.items.slice(startIndex, endIndex); // Filtrar los registros
-  }
+  // Enviar los datos cifrados al backend para descifrarlos
+  decryptData(): void {
+    const dataToSend = {
+      datos_enviados: this.encryptedData, // Asegúrate de que este dato esté cifrado
+    };
 
-  // Método para manejar el cambio de página
-  onPageChange(page: number) {
-    this.p = page; // Actualizamos la página
-    this.updatePagedItems(); // Actualizamos los registros a mostrar
+    const encrypted = encryptHybrid(dataToSend, this.publicKey);
+
+    this.cryptoService.decryptData(encrypted).subscribe(
+      (response) => {
+        this.decryptedResponse = response.decrypted;
+        console.log(response.decrypted.datos)
+        console.log('Datos descifrados:', this.decryptedResponse);
+      },
+      (error) => {
+        console.error('Error al descifrar los datos:', error);
+      }
+    );
   }
 }
