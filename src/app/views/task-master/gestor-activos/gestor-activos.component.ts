@@ -13,25 +13,26 @@ import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angu
 export class GestorActivosComponent {
 
   form: FormGroup;
+  cargarMapa : boolean = false
 
   constructor(private el: ElementRef,private taskMasterService: TaskMasterService,public builder: FormBuilder) { 
     this.form = this.builder.group({
       Id_user : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
       Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-      Id_area : this.builder.control("" , [Validators.required]),
-      Categoria : this.builder.control("7" ),
-      Region : this.builder.control("" , [Validators.required]),
-      Modelo : this.builder.control("" , [Validators.required, Validators.email]),
-      Nombre_equipo : this.builder.control("" ),
-      Comuna : this.builder.control("" ),
+      Id_area : this.builder.control("1" , [Validators.required]),
+      Categoria : this.builder.control("1", [Validators.required] ),
+      Region : this.builder.control("1" ),
+      Modelo : this.builder.control("" , [Validators.required]),
+      Nombre_equipo : this.builder.control("", [Validators.required]),
+      Comuna : this.builder.control("1" ),
       Marca : this.builder.control("" ),
-      Descripcion : this.builder.control("" , [Validators.required]),
+      Descripcion : this.builder.control(""),
       Direccion :this.builder.control("" ),
       Responsable :this.builder.control("" ),
       Latitud: this.builder.control("" ),
       Longitud: this.builder.control("" ),
       Fecha_adquisicion: this.builder.control("" ),
-      Id_estado: this.builder.control("" ),
+      Id_estado: this.builder.control("1" ),
       Garantia: this.builder.control("" ),
       Proveedor: this.builder.control("" ),
       Valor_adquisicion: this.builder.control("" ),
@@ -98,6 +99,7 @@ export class GestorActivosComponent {
       if (map) {
         setTimeout(() => {
           map.invalidateSize();
+          
         }, 500); // Espera un tiempo para que el modal se haya abierto completamente
       }
       
@@ -134,13 +136,113 @@ export class GestorActivosComponent {
 
   toggleLiveDemo() {
     this.visible = !this.visible;
+    this.cargarMapa = !this.cargarMapa
+
+    console.log(this.cargarMapa)
     
   }
 
   handleLiveDemoChange(event: any) {
     this.visible = event;
+    this.cargarMapa = !this.cargarMapa
   }
 
+
+  //Registrar Datos
+
+  isErrorView : boolean = false
+
+
+  GuardarDatos(){
+
+    this.form.patchValue({
+      Id_user : sessionStorage.getItem("id")?.toString()+"",
+      Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+      Latitud : this.latStr,
+      Longitud : this.longStr
+    })
+
+
+    console.log(this.form.value)
+
+
+    if(this.form.valid){
+      console.log('Formulario Valido')
+
+      this.taskMasterService.registrar_activos(this.form.value).subscribe((data) => {
+        data
+
+
+        alert('Activo Registrado con Exito')
+        this.form.reset()
+        this.visible = false
+        this.cargarMapa = false
+      }, error => {
+
+        if(error.status == 422){
+
+
+          error.error.detail.map((err : any) => {
+            alert( 'Error con el campo '+err.loc[1] + ': '+ err.msg)
+
+          })
+
+          // console.log(error.error.detail.length)
+          // alert( 'Error con el campo '+error.error.detail[0].loc[1] + ': '+ error.error.detail[0].msg)
+        } else {
+          alert(error.error.detail)
+        }
+        
+       
+      })
+    }
+
+  }
+
+
+  //Subir imagenes
+
+  imageUrl1: string | ArrayBuffer | null = null;
+  imageUrl2: string | ArrayBuffer | null = null;
+  imageUrl3: string | ArrayBuffer | null = null;
+
+  onFileSelected(event: any, n_imagen : number): void {
+    const file = event.target.files[0];
+
+    if(n_imagen == 1){
+      if (file) {
+        const reader = new FileReader();
+  
+        reader.onload = () => {
+          this.imageUrl1 = reader.result; // Almacenamos la URL de la imagen
+        };
+  
+        reader.readAsDataURL(file); // Leemos el archivo como una URL de datos
+      }
+
+    } if(n_imagen == 2){
+      if (file) {
+        const reader = new FileReader();
+  
+        reader.onload = () => {
+          this.imageUrl2 = reader.result; // Almacenamos la URL de la imagen
+        };
+  
+        reader.readAsDataURL(file); // Leemos el archivo como una URL de datos
+      }
+    }if(n_imagen == 3){
+      if (file) {
+        const reader = new FileReader();
+  
+        reader.onload = () => {
+          this.imageUrl3 = reader.result; // Almacenamos la URL de la imagen
+        };
+  
+        reader.readAsDataURL(file); // Leemos el archivo como una URL de datos
+        }
+      }
+    
+  }
 
 
 

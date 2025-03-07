@@ -50,13 +50,13 @@
 
     <c-modal-body >
 
-        <form cForm [formGroup]="form" > 
+        <form cForm [formGroup]="form" (ngSubmit)="GuardarDatos()" > 
           <!-- Fila 1 -->
           <c-row>
             <c-col [xs]>
                 <div class="noEditar">
                   Área 
-                  <select name="" id=""  cSelect  class="form-control">
+                  <select name="" id=""  cSelect  class="form-control" formControlName="Id_area" >
                     <option *ngFor="let area of listaArea" [value]="area.Id" >{{ area.Area }}</option>
                   </select>
                 </div>
@@ -64,7 +64,7 @@
             <c-col [xs]>
               <div class="">
                 Categoría 
-                <select name="" id=""  cSelect  class="form-control" >
+                <select name="" id=""  cSelect  class="form-control" formControlName="Categoria">
                   <option value="">Seleccione</option>
                   <option *ngFor="let categoria of listaCategoria" [value]="categoria.Id" >{{ categoria.Categoria }}</option>
                 </select>
@@ -73,7 +73,7 @@
           <c-col [xs]>
             <div class="">
               Región 
-              <select name="" id=""  cSelect  class="form-control"> 
+              <select name="" id=""  cSelect  class="form-control" formControlName="Region"> 
                 <option *ngFor="let region of listaRegion" [value]="region.Id_region" >{{ region.Nombre_region }}</option>
               </select>
           </div>
@@ -87,19 +87,19 @@
           <c-col [xs]>
               <div class="noEditar">
                 Nombre equipo 
-                <input type="text" cInput class="form-control">
+                <input type="text" cInput class="form-control" formControlName="Nombre_equipo">
               </div>
           </c-col>
           <c-col [xs]>
             <div class="">
               Modelo  
-              <input type="text" cInput class="form-control">
+              <input type="text" cInput class="form-control" formControlName="Modelo">
             </div>
         </c-col>
         <c-col [xs]>
           <div class="">
             Comuna  
-            <select name="" id=""  cSelect  class="form-control">
+            <select name="" id=""  cSelect  class="form-control" formControlName="Comuna">
               <option *ngFor="let comuna of listaComuna" [value]="comuna.Id_comuna" >{{ comuna.Nombre_comuna }}</option>
             </select>
         </div>
@@ -113,13 +113,13 @@
         <c-col [xs]>
             <div class="noEditar">
               Marca  
-              <input type="text" cInput class="form-control">
+              <input type="text" cInput class="form-control" formControlName="Marca">
             </div>
         </c-col>
         <c-col [xs]>
           <div class="">
             Descripción  
-            <textarea name="" id="" class="form-control">
+            <textarea name="" id="" class="form-control" formControlName="Descripcion">
 
             </textarea>
             <!-- <input type="textarea" cInput class="form-control"> -->
@@ -128,7 +128,7 @@
       <c-col [xs]>
         <div class="">
           Dirección  
-          <input type="text" cInput class="form-control">
+          <input type="text" cInput class="form-control" formControlName="Direccion">
       </div>
     </c-col>
 
@@ -141,34 +141,37 @@
           <div class="noEditar">
           
             <div class="form-group image-upload">
-              <label for="image1">+</label>
-              <input id="image1" type="file">
-              <label for="image2">+</label>
-              <input id="image2" type="file">
-              <label for="image3">+</label>
-              <input id="image3" type="file">
+              <label for="image1" *ngIf="!imageUrl1">+</label>
+              <input id="image1" type="file" accept="image/*" style="display: none;" (change)="onFileSelected($event, 1)" > 
+              <img src="" alt=""  *ngIf="imageUrl1" [src]="imageUrl1" width="86px" height="86px">
+              <label for="image2" *ngIf="!imageUrl2">+</label>
+              <input id="image2" type="file" accept="image/*" style="display: none;" (change)="onFileSelected($event,2)">
+              <img src="" alt="" *ngIf="imageUrl2"  [src]="imageUrl2" width="86px" height="86px">
+              <label for="image3" *ngIf="!imageUrl3">+</label>
+              <input id="image3" type="file" accept="image/*" style="display: none;" (change)="onFileSelected($event,3)">
+              <img src="" alt="" *ngIf="imageUrl3"  [src]="imageUrl3" width="86px" height="86px">
           </div>
           </div>
         <!-- primera columna -->
         Fecha adquisición
   
-        <input type="text" cInput class="form-control">
+        <input type="date" cInput class="form-control"  formControlName="Fecha_adquisicion">
 
         Garantia
   
-        <input type="text" cInput class="form-control">
+        <input type="text" cInput class="form-control"  formControlName="Garantia">
 
         Proveedor
   
-        <input type="text" cInput class="form-control">
+        <input type="text" cInput class="form-control"  formControlName="Proveedor">
 
         Valor Adquisición
   
-        <input type="text" cInput class="form-control">
+        <input type="text" cInput class="form-control"  formControlName="Valor_adquisicion">
 
         Vida util
 
-        <input type="text" cInput class="form-control">
+        <input type="text" cInput class="form-control"  formControlName="Vida_util">
 
         
 
@@ -177,7 +180,7 @@
       <c-col [xs]>
         <div class="">
           Responsable   
-          <select name="" id=""  cSelect  class="form-control">
+          <select name="" id=""  cSelect  class="form-control"  formControlName="Responsable">
             <option value="">Seleccione</option>
 
           </select>
@@ -187,23 +190,23 @@
         <div class="">
           Estado
    
-          <select name="" id=""  cSelect  class="form-control">
+          <select name="" id=""  cSelect  class="form-control"  formControlName="Id_estado">
             <option *ngFor="let estado of listaEstado" [value]="estado.Id" >{{ estado.Estado }}</option>
 
           </select>
         </div>
         
         Observaciones
-        <textarea name="" id="" class="form-control">
+        <textarea name="" id="" class="form-control" formControlName="Observaciones">
 
         </textarea>
 
         Activo
   
-        <input type="text" cInput class="form-control">
+        <input type="text" cInput class="form-control " formControlName="Activo">
 
         Fecha baja
-        <input type="text" cInput class="form-control">
+        <input type="date" cInput class="form-control"  formControlName="Fecha_baja">
 
 
     </c-col>
@@ -211,7 +214,7 @@
       <div class="">
        
 
-       <div class="map-section" id="map"></div>
+       <div class="map-section" id="map" *ngIf="cargarMapa" ></div>
     </div>
   </c-col>
 
@@ -225,5 +228,11 @@
     </c-modal-body>
     <c-modal-footer >
         <br>
+        <button class="btn btn-success" type="submit" style="color: white;" (click)="GuardarDatos()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+            <path fill="#fff" d="m173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69L432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001" stroke-width="13" stroke="#fff" />
+          </svg>
+          Guardar 
+        </button>
     </c-modal-footer>
   </c-modal>

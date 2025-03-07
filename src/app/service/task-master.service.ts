@@ -17,7 +17,7 @@ export class TaskMasterService {
       return this.http.get<MainGestorActivos>(this.apiurl + "/datos/gestor-activos")
     }
   
-    registrar_externos(body : any) {
-      return this.http.post(this.apiurl + "/registar/candidato",body)
+    registrar_activos(body : any) {
+      return this.http.post(this.apiurl + "/activos",body)
     }
 }
