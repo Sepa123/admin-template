@@ -372,11 +372,19 @@ export class NsSupervisoresComponent {
 
     this.resumenSupervisoresFull.forEach((pedido) => {
         const fila: any[] = [];
+        if (pedido.Modalidad == 'FM' || pedido.Modalidad == 'LM'){
         fila.push(pedido.Modalidad, pedido.Operacion, pedido.Centro_operacion, pedido.Region, pedido.Fecha, pedido.Id_ruta, pedido.Ppu, pedido.Driver,
                   pedido.Kilometros,pedido.P_avance,pedido.Avance,
                   pedido.Campos_por_operacion[0].lm_fallido,pedido.Campos_por_operacion[0].lm_pendiente,pedido.Campos_por_operacion[0].lm_spr,pedido.Campos_por_operacion[0].lm_entregas,pedido.Campos_por_operacion[0].lm_tiempo_ruta,pedido.Campos_por_operacion[0].lm_estado,
                   pedido.Campos_por_operacion[0].fm_total_paradas,pedido.Campos_por_operacion[0].fm_paqueteria_colectada,pedido.Campos_por_operacion[0].fm_estimados,pedido.Campos_por_operacion[0].fm_preparados,pedido.Campos_por_operacion[0].fm_p_colectas_a_tiempo,pedido.Campos_por_operacion[0].fm_p_no_colectadas,
                   pedido.Valor_ruta,pedido.Ruta_cerrada, pedido.Observacion); 
+        } else {
+          fila.push(pedido.Modalidad, pedido.Operacion, pedido.Centro_operacion, pedido.Region, pedido.Fecha, pedido.Id_ruta, pedido.Ppu, pedido.Driver,
+            pedido.Kilometros,pedido.P_avance,pedido.Avance,
+            "","","","","","",
+            "","","","","","",
+            pedido.Valor_ruta,pedido.Ruta_cerrada, pedido.Observacion); 
+        }
         datos.push(fila);
       });
 
@@ -461,7 +469,7 @@ export class NsSupervisoresComponent {
   }
 
   for (let i = 0; i < this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'LH').length; i++) {
-    const lista = this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'Lh')[i];
+    const lista = this.resumenSupervisoresFull.filter( resumen => resumen.Modalidad == 'LH')[i];
     if (lista.Ppu.toString().toLowerCase().startsWith(filtro) ||
         lista.Operacion.toString().toLowerCase().startsWith(filtro) ||
         lista.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||

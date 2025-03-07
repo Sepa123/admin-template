@@ -768,6 +768,23 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
+
+  { /// Pantalla de Mercadolibre para GB
+    name: 'Mercado Libre',
+    url: '/mercadolibre',
+    iconComponent : {name : 'cil-handshake'},
+    roles :  [ROLES_ENUM.JEFE_TRANSPORTE_BENA],
+    children: [
+      {
+        name: "Seguimiento Diario",
+        url:  '/mercadolibre/citacion-supervisores'
+      },
+      {
+        name: "Resumen Supervisores",
+        url:  '/mercadolibre/ns-supervisores'
+      },
+    ]
+  },
   {
     // Pantalla completa TOC
     name: 'TOC',

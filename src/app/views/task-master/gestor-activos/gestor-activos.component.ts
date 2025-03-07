@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { TaskMasterService } from '../../../service/task-master.service';
-import { MainGestorActivos,Categoria,TaskStatus,Region,Comuna  } from '../../../models/taskmaster/taskmaster.interface';
+import { MainGestorActivos,Categoria,TaskStatus,Region,Comuna , Area, Estado  } from '../../../models/taskmaster/taskmaster.interface';
 import * as L from 'leaflet';
 
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
@@ -12,17 +12,51 @@ import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angu
 })
 export class GestorActivosComponent {
 
-  constructor(private el: ElementRef,private taskMasterService: TaskMasterService,public builder: FormBuilder) { }
+  form: FormGroup;
+
+  constructor(private el: ElementRef,private taskMasterService: TaskMasterService,public builder: FormBuilder) { 
+    this.form = this.builder.group({
+      Id_user : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
+      Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
+      Id_area : this.builder.control("" , [Validators.required]),
+      Categoria : this.builder.control("7" ),
+      Region : this.builder.control("" , [Validators.required]),
+      Modelo : this.builder.control("" , [Validators.required, Validators.email]),
+      Nombre_equipo : this.builder.control("" ),
+      Comuna : this.builder.control("" ),
+      Marca : this.builder.control("" ),
+      Descripcion : this.builder.control("" , [Validators.required]),
+      Direccion :this.builder.control("" ),
+      Responsable :this.builder.control("" ),
+      Latitud: this.builder.control("" ),
+      Longitud: this.builder.control("" ),
+      Fecha_adquisicion: this.builder.control("" ),
+      Id_estado: this.builder.control("" ),
+      Garantia: this.builder.control("" ),
+      Proveedor: this.builder.control("" ),
+      Valor_adquisicion: this.builder.control("" ),
+      Vida_util: this.builder.control("" ),
+      Id_responsable: this.builder.control("" ),
+      Observaciones: this.builder.control("" ),
+      Activo: this.builder.control("" ),
+      Fecha_baja: this.builder.control("" )
+    
+    })
+  }
 
   listaCategoria : Categoria[] = []
   listaTaskStatus : TaskStatus[] = []
   listaRegion : Region[] = []
   listaComuna : Comuna[] = []
+  listaArea : Area[] = []
+  listaEstado : Estado[] = []
 
   latitude!: number
   longitud! :number
   latStr!: string
   longStr!: string
+
+  
 
 
   getLocation(): any {
@@ -69,8 +103,6 @@ export class GestorActivosComponent {
       
     }, 1000);
 
-    
-
 
     this.taskMasterService.datos_seleccionables_gestor_activos().subscribe((data) => {
       
@@ -78,12 +110,12 @@ export class GestorActivosComponent {
       this.listaTaskStatus = data.Task_status
       this.listaComuna = data.Comuna
       this.listaRegion = data.Region
+      this.listaArea = data.Areas
+      this.listaEstado = data.Estados
 
 
     }
     )
-
-
 
   }
 

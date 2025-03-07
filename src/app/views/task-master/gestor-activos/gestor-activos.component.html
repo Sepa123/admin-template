@@ -50,17 +50,14 @@
 
     <c-modal-body >
 
-        <form cForm  > 
+        <form cForm [formGroup]="form" > 
           <!-- Fila 1 -->
           <c-row>
             <c-col [xs]>
                 <div class="noEditar">
                   Área 
                   <select name="" id=""  cSelect  class="form-control">
-                    <option value="">Seleccione</option>
-                    <option value="">Seleccione</option>
-                    <option value="">Seleccione</option>
-                    <option value="">Seleccione</option>
+                    <option *ngFor="let area of listaArea" [value]="area.Id" >{{ area.Area }}</option>
                   </select>
                 </div>
             </c-col>
@@ -89,7 +86,7 @@
         <c-row>
           <c-col [xs]>
               <div class="noEditar">
-                Nombre  
+                Nombre equipo 
                 <input type="text" cInput class="form-control">
               </div>
           </c-col>
@@ -142,8 +139,7 @@
     <c-row>
       <c-col [xs]>
           <div class="noEditar">
-            
-            
+          
             <div class="form-group image-upload">
               <label for="image1">+</label>
               <input id="image1" type="file">
@@ -152,21 +148,64 @@
               <label for="image3">+</label>
               <input id="image3" type="file">
           </div>
-            <!-- <input type="file" name="" id="">
-            <input type="file" name="" id="">
-            <input type="file" name="" id=""> -->
           </div>
+        <!-- primera columna -->
+        Fecha adquisición
+  
+        <input type="text" cInput class="form-control">
+
+        Garantia
+  
+        <input type="text" cInput class="form-control">
+
+        Proveedor
+  
+        <input type="text" cInput class="form-control">
+
+        Valor Adquisición
+  
+        <input type="text" cInput class="form-control">
+
+        Vida util
+
+        <input type="text" cInput class="form-control">
+
+        
+
+          
       </c-col>
       <c-col [xs]>
         <div class="">
           Responsable   
           <select name="" id=""  cSelect  class="form-control">
             <option value="">Seleccione</option>
-            <option value="">Seleccione</option>
-            <option value="">Seleccione</option>
-            <option value="">Seleccione</option>
+
           </select>
         </div>
+        <br>
+         <!-- segunda columna -->
+        <div class="">
+          Estado
+   
+          <select name="" id=""  cSelect  class="form-control">
+            <option *ngFor="let estado of listaEstado" [value]="estado.Id" >{{ estado.Estado }}</option>
+
+          </select>
+        </div>
+        
+        Observaciones
+        <textarea name="" id="" class="form-control">
+
+        </textarea>
+
+        Activo
+  
+        <input type="text" cInput class="form-control">
+
+        Fecha baja
+        <input type="text" cInput class="form-control">
+
+
     </c-col>
     <c-col [xs]>
       <div class="">
@@ -177,6 +216,8 @@
   </c-col>
 
   </c-row>
+
+
   
           </form>
 
