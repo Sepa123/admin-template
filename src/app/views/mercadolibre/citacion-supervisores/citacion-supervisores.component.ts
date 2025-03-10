@@ -384,7 +384,11 @@ datosCitacionActiva: MainCitacionA [] = [];
 idUsuario = sessionStorage.getItem('id')+""
 idsUsuario = sessionStorage.getItem('server')+'-'+this.idUsuario
 
+isGuardarDisabled: boolean = false;
+
 guardarDatos() {
+
+  this.isGuardarDisabled = true;
 
   if(this.latStr,this.longStr == null){
     this.visibleLocalizacion = true
@@ -443,9 +447,14 @@ guardarDatos() {
     console.log(this.citacionSupervisores[0].chart_data)
     this.chartVisible = true
     this.graficoVisible = true
-    
+    this.isGuardarDisabled = false;
+
   })
   }), (error) => {
+
+    this.isGuardarDisabled = false;
+
+
     const listaCampos = error.error.detail.map((data : any) => {
       return data.loc[3]
     })
