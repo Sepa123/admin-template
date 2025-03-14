@@ -1499,6 +1499,10 @@ export const navItems: INavDataBar[] = [
         name: 'Registro usuarios',
         url: '/panel/registro-usuario'
       },
+      {
+        name: 'Gestión de usuario',
+        url: '/panel/gestion-de-usuario-y-mantencion'
+      },
     ]
   },
   

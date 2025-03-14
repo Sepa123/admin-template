@@ -82,8 +82,8 @@ export class MeliService {
   }
 
 
-  getInfoFotosPatente(ppu : string){
-    return this.http.get<InfoFotos>(this.apiurl+`/image/fotos/${ppu}`)
+  getInfoFotosPatente(ppu : string, id_ruta : number){
+    return this.http.get<InfoFotos>(this.apiurl+`/image/fotos/${ppu}/${id_ruta}`)
   }
 
 }

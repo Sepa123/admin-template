@@ -58,10 +58,10 @@ export class NsSupervisoresComponent {
 
   isLoading : boolean = false
 
-  infoPatentes(ppu : string){
+  infoPatentes(ppu : string, id_ruta : number){
     
     // this.el.nativeElement.querySelector('#map').remove()
-    this.service.getInfoFotosPatente(ppu).subscribe((data) => {
+    this.service.getInfoFotosPatente(ppu,id_ruta).subscribe((data) => {
       this.toggleLiveDemo()
       this.Imagenes = data.Imagenes
       const latitud = parseFloat(data.Latitud)

@@ -1,0 +1,85 @@
+  <c-modal class="modal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" [backdrop]="'static'">
+    <c-modal-header>
+      <h5 id="modalNuevaCitacionLabel">Patentes</h5>
+      <td colspan="2">
+        <img width="15rem" height="15rem" src="../../../assets/images/loading-gif.gif" />
+      </td>
+      <button (click)="toggleLive()" cButtonClose type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+    </c-modal-header>
+    <c-modal-body>
+      
+      
+        
+      
+    </c-modal-body>
+    <c-modal-footer>
+      <br>
+    </c-modal-footer>
+  </c-modal>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div class="title-container">
+  <i class="fa-solid fa-users"></i>
+  <h2>
+    Gestión de Usuarios</h2>
+  <div class="title-line"></div>
+</div>
+  <div class="panel">
+    <!-- Barra de búsqueda y filtros -->
+    <div class="filtros">
+        <input type="text" id="buscarNombre" placeholder="Buscar por nombre..." [(ngModel)]="Busqueda" (input)="filtrarUsuarios()"/>
+        <select id="filtroArea" [(ngModel)]="Area" (change)="filtrarUsuarios()">
+            <option value="">Todas las áreas</option>
+            <option *ngFor="let a of area" [value]="a.id">{{a.nombre}}</option>
+        </select>
+        <select  id="filtroPerfil" [(ngModel)]="Rol" (change)="filtrarUsuarios()"> 
+            <option value="">Todos los perfiles</option>
+            <option *ngFor="let r of rol" [value]="r.id">{{r.nombre}}</option>
+        </select>
+        <button id="abrirModal">Crear Usuario</button>
+    </div>
+    <div>
+        <!-- Filtro con switch -->
+        <div class="filtro">
+            <label>Mostrar solo activos</label>
+            <label class="switch">
+              <input type="checkbox" id="toggleFiltro" [(ngModel)]="Estado" (change)="filtrarUsuarios()">
+              <span class="slider"></span>
+            </label>
+          </div>
+    </div>
+    
+    <div>
+        <body>
+            <!-- El *ngFor debe estar en las tarjetas, NO en el contenedor -->
+            <div class="user-pool">
+                <!-- Repetir por cada usuario -->
+                <div *ngFor="let us of UsuariosFiltrados" style="border-color: {{us.area_color || 'grey'}}" class="user-card">
+                    <!-- Añadir condición para inactivos -->
+                    <h3>{{ us.nombre }}</h3>
+                    <div style="border-color: {{us.area_color || 'grey'}}" class="profile-img">
+                        <img class="imagen-perfil" [src]="us.imagenPerfilUrl" alt="Foto de perfil">
+                    </div>
+                    <!-- Cambiar src por [src] -->
+            
+                    <div class="user-info"> <!-- Contenedor nuevo para textos -->
+                        <div class="name">{{us.usuario_nombre}}</div>
+                        <div class="email">{{us.usuario_mail}}</div>
+                        <div class="phone">{{us.usuario_telefono}}</div>
+                        <div class="role">
+                          <i [ngClass]="us.area_icono || 'fas fa-user'" [style.color]="us.area_color || 'grey'"></i>
+                        </div>
+                    </div>
+        
+                    <!-- Estado debe estar fuera del user-info -->
+                    <div class="status">
+                        <i *ngIf="us.activate" style="color: green;" class="fas fa-check-circle"></i>
+                        <i *ngIf="!us.activate" style="color: red;" class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </div>
+</div>
+  
