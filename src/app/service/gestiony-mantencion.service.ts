@@ -9,7 +9,8 @@ export class GestionyMantencionService {
 
   constructor(private http: HttpClient) { }
 
-  apiUrl = "http://localhost:8000/api";
+  // apiUrl = "http://localhost:8000/api";
+  apiUrl = "https://hela.transyanez.cl/api/panel";
   images = "https://hela.transyanez.cl/api/panel/image";
   
     getUsuarios(): Observable<any> {
