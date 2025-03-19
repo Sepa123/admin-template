@@ -43,6 +43,7 @@ import { NsSupervisoresComponent } from './ns-supervisores/ns-supervisores.compo
 import { TestPPUComponent } from './test-ppu/test-ppu.component';
 import { WebcamModule } from 'ngx-webcam';
 import { ComponentesModule } from '../componentes/componentes.module';
+import { PosiblesRutasComponent } from './posibles-rutas/posibles-rutas.component';
 
 
 
@@ -59,7 +60,8 @@ import { ComponentesModule } from '../componentes/componentes.module';
     CitacionesActivasComponent,
     CitacionSupervisoresComponent,
     NsSupervisoresComponent,
-    TestPPUComponent
+    TestPPUComponent,
+    PosiblesRutasComponent
     
   ],
   imports: [

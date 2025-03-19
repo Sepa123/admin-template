@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { TaskMasterService } from '../../../service/task-master.service';
-import { MainGestorActivos,Categoria,TaskStatus,Region,Comuna , Area, Estado  } from '../../../models/taskmaster/taskmaster.interface';
+import { MainGestorActivos,Categoria,TaskStatus,Region,Comuna , Area, Estado,Responsable ,ListaActivos } from '../../../models/taskmaster/taskmaster.interface';
 import * as L from 'leaflet';
 
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
@@ -37,9 +37,9 @@ export class GestorActivosComponent {
       Proveedor: this.builder.control("" ),
       Valor_adquisicion: this.builder.control("" ),
       Vida_util: this.builder.control("" ),
-      Id_responsable: this.builder.control("" ),
+      Id_responsable: this.builder.control(null ),
       Observaciones: this.builder.control("" ),
-      Activo: this.builder.control("" ),
+      Activo: this.builder.control(true),
       Fecha_baja: this.builder.control("" )
     
     })
@@ -49,8 +49,13 @@ export class GestorActivosComponent {
   listaTaskStatus : TaskStatus[] = []
   listaRegion : Region[] = []
   listaComuna : Comuna[] = []
+  listaComunasFull : Comuna[] = []
   listaArea : Area[] = []
   listaEstado : Estado[] = []
+  listaResponsable : Responsable[] = []
+
+  listaActivos : ListaActivos[] = []
+  listaActivosFull : ListaActivos[] = []
 
   latitude!: number
   longitud! :number
@@ -111,19 +116,36 @@ export class GestorActivosComponent {
       this.listaCategoria = data.Categorias
       this.listaTaskStatus = data.Task_status
       this.listaComuna = data.Comuna
+      this.listaComunasFull = this.listaComuna
       this.listaRegion = data.Region
       this.listaArea = data.Areas
       this.listaEstado = data.Estados
+      this.listaResponsable = data.Responsables
 
 
     }
     )
+
+
+    this.taskMasterService.obtener_lista_activos().subscribe((data : any) => {
+      // console.log(data)
+      this.listaActivos = data
+      this.listaActivosFull = data
+    })
 
   }
 
   seleccionarCategoria(event : any){
 
     console.log("seleccionarCategoria")
+
+    if (event.target.value !== "todas") {
+     this.listaActivos = this.listaActivosFull.filter((activo) => activo.Categoria == event.target.value)
+    }
+    else { 
+      this.listaActivos = this.listaActivosFull
+    }
+    
     // console.log(event)
     console.log(event.target.value) // id de la categoria seleccionada
   }
@@ -152,6 +174,12 @@ export class GestorActivosComponent {
 
   isErrorView : boolean = false
 
+  imagenes: { [key: string]: File } = {};
+
+
+  ///
+  // idActivo: number = 0;
+
 
   GuardarDatos(){
 
@@ -163,20 +191,52 @@ export class GestorActivosComponent {
     })
 
 
+    if (this.form.value.Id_responsable == "null") {
+      this.form.patchValue({
+        Id_responsable : null
+      })
+    }
+
     console.log(this.form.value)
 
 
     if(this.form.valid){
       console.log('Formulario Valido')
 
-      this.taskMasterService.registrar_activos(this.form.value).subscribe((data) => {
-        data
+      this.taskMasterService.registrar_activos(this.form.value).subscribe((data : any) => {
+        
+
+        
+
+        const formData = new FormData();
+
+        const bodi = {
+          id_activo : data['id_activo'],
+          imagen1_png : this.imagenes['imagen1'],
+          imagen2_png : this.imagenes['imagen2'],
+          imagen3_png : this.imagenes['imagen3']
+        }
+
+        if(this.imagenes['imagen1'] !== undefined ) formData.append('imagen1_png', this.imagenes['imagen1']);
+        if(this.imagenes['imagen2'] !== undefined )formData.append('imagen2_png', this.imagenes['imagen2']);
+        if(this.imagenes['imagen3'] !== undefined )formData.append('imagen3_png', this.imagenes['imagen3']);
+        formData.append('id_activo', data['id_activo']); 
+
+        this.uploadFilePdf(data['id_activo'])
+
+        this.taskMasterService.subir_imagen_activos(formData).subscribe((data : any) => {
+
+          
+
+          // this.form.reset()
+          this.visible = false
+          this.cargarMapa = false
+
+          alert('Activo Registrado con Exito')
+        })
 
 
-        alert('Activo Registrado con Exito')
-        this.form.reset()
-        this.visible = false
-        this.cargarMapa = false
+        
       }, error => {
 
         if(error.status == 422){
@@ -200,6 +260,50 @@ export class GestorActivosComponent {
   }
 
 
+  //// subir achivos 
+
+  private selectedFile: File | null = null;
+
+  onFilePdfSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+
+  buscarComunas(event: any){
+    const selectedRegionId = event.target.value;
+    this.listaComuna = this.listaComunasFull.filter( comuna => comuna.Id_region == selectedRegionId )
+    this.form.patchValue({
+      Comuna : this.listaComuna[0].Id_comuna
+    })
+  }
+
+
+  uploadFilePdf(id_desc : any) {
+    if (this.selectedFile) {
+
+      // this.termino = false
+      const formData = new FormData();
+      formData.append('file', this.selectedFile, this.selectedFile.name);
+
+      this.taskMasterService.subirArchivoAdjunto(formData, id_desc).subscribe(
+        (data : any) => {
+
+          // Lógica adicional en caso de éxito.
+        },
+        (error) => {
+          console.error('Error al subir el archivo:', error);
+          alert('Error al subir el archivo')
+      
+          // Lógica de manejo de errores.
+        }
+      );
+      
+    } else {
+      console.warn('Ningún archivo seleccionado');
+      // Lógica adicional en caso de que el usuario no seleccione ningún archivo.
+    }
+  }
+
   //Subir imagenes
 
   imageUrl1: string | ArrayBuffer | null = null;
@@ -216,6 +320,8 @@ export class GestorActivosComponent {
         reader.onload = () => {
           this.imageUrl1 = reader.result; // Almacenamos la URL de la imagen
         };
+
+        this.imagenes['imagen1'] = event.target.files[0];
   
         reader.readAsDataURL(file); // Leemos el archivo como una URL de datos
       }
@@ -227,6 +333,8 @@ export class GestorActivosComponent {
         reader.onload = () => {
           this.imageUrl2 = reader.result; // Almacenamos la URL de la imagen
         };
+
+        this.imagenes['imagen2'] = event.target.files[0];
   
         reader.readAsDataURL(file); // Leemos el archivo como una URL de datos
       }
@@ -237,6 +345,8 @@ export class GestorActivosComponent {
         reader.onload = () => {
           this.imageUrl3 = reader.result; // Almacenamos la URL de la imagen
         };
+
+        this.imagenes['imagen3'] = event.target.files[0];
   
         reader.readAsDataURL(file); // Leemos el archivo como una URL de datos
         }
@@ -244,6 +354,27 @@ export class GestorActivosComponent {
     
   }
 
+
+  /// Acciones
+
+
+  cambiarEstadoActivo(id_activo : number){
+
+    let body = {
+      id: id_activo,
+    }
+
+    this.taskMasterService.cambiar_estado_activo(body).subscribe((data) => {
+      console.log(data)
+
+      this.listaActivos.map((activo) => { 
+        if(activo.Id == id_activo){
+          activo.Activo = !activo.Activo
+        }
+      })
+    })
+
+  }
 
 
 }

@@ -117,6 +117,19 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
+    name: 'Taskmaster',
+    url: '/taskmaster',
+    // iconComponent: { name: 'cil-car-alt' },
+    roles : [ROLES_ENUM.ADMIN],
+    children: [
+      
+      {
+        name: 'Gestor de Activos',
+        url : '/task-master/gestor-activos'
+      },
+    ]
+  },
+  {
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
@@ -691,6 +704,10 @@ export const navItems: INavDataBar[] = [
         name: "Resumen Supervisores",
         url:  '/mercadolibre/ns-supervisores'
       },
+      {
+        name: "Posibles Rutas",
+        url:  '/mercadolibre/posibles-rutas'
+      },
       // {
       //   name: "Test PPU",
       //   url:  '/mercadolibre/test-ppu'
@@ -749,6 +766,10 @@ export const navItems: INavDataBar[] = [
         name: "Resumen Supervisores",
         url:  '/mercadolibre/ns-supervisores'
       },
+      {
+        name: "Posibles Rutas",
+        url:  '/mercadolibre/posibles-rutas'
+      },
       // {
       //   name: "Test PPU",
       //   url:  '/mercadolibre/test-ppu'
@@ -765,7 +786,11 @@ export const navItems: INavDataBar[] = [
       {
         name: "Prefactura",
         url:  '/mercadolibre/prefactura'
-      }
+      },
+      {
+        name: "Posibles Rutas",
+        url:  '/mercadolibre/posibles-rutas'
+      },
     ]
   },
 

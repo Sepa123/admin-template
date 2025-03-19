@@ -1,0 +1,149 @@
+<div class="container mt-4">
+    <h2>Posibles Rutas Mercado Libre</h2>
+
+    <!-- Filtros de fecha -->
+    <div class="row my-3">
+        <div class="col-md-4">
+            <label for="fechaInicio" class="form-label">Fecha Inicio:</label>
+            <input *ngIf="roles_no_permitidos.includes(rol) " type="date" id="fechaInicio" class="form-control" [(ngModel)]="fecha_ini" [min]="minDate">
+            <input *ngIf="!roles_no_permitidos.includes(rol)  " type="date" id="fechaInicio" class="form-control" [(ngModel)]="fecha_ini">
+        </div>
+        <div class="col-md-4">
+            <label for="fechaFin" class="form-label">Fecha Fin:</label>
+            <input *ngIf="roles_no_permitidos.includes(rol) " type="date" id="fechaFin" class="form-control" [(ngModel)]="fecha_fin" [min]="minDate">
+            <input *ngIf="!roles_no_permitidos.includes(rol)  " type="date" id="fechaFin" class="form-control" [(ngModel)]="fecha_fin">
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button class="btn btn-primary w-100" (click)="getPosiblesRutas()">Buscar</button>
+        </div>
+    </div>
+
+    <!-- Tabla Principal -->
+    <div class="table-container">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Fecha/Hora</th>
+                    <th>Ruta</th>
+                    <th>Conductor</th>
+                    <th>PPU</th>
+                    <th class="text-center">Citación</th>
+                    <th class="text-center">Seguimiento</th>
+                    <th class="text-center">Proforma</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaDatos">
+                <tr *ngFor="let ruta of listaPosiblesRutas">
+                    <td>{{ruta.Created_at}}</td>
+                    <td>{{ruta.Ruta}}</td>
+                    <td>{{ruta.Driver}}</td>
+                    <td>{{ruta.Ppu}}</td>
+                    <td class="text-center">
+                        <svg *ngIf="ruta.Existe_citacion" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+                            <path fill="green" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="green" />
+                        </svg>
+                        <svg *ngIf="!ruta.Existe_citacion" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+                            <path fill="red" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" stroke-width="13" stroke="red" />
+                        </svg>
+                    </td>
+                    <td class="text-center">
+                        <svg *ngIf="ruta.Existe_en_mae_ds" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+                            <path fill="green" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="green" />
+                        </svg>
+                        <svg *ngIf="!ruta.Existe_en_mae_ds" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+                            <path fill="red" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" stroke-width="13" stroke="red" />
+                        </svg>
+                    </td>
+                    <td class="text-center">
+                        <svg *ngIf="ruta.En_proforma" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+                            <path fill="green" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="green" />
+                        </svg>
+                        <svg *ngIf="!ruta.En_proforma" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+                            <path fill="red" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" stroke-width="13" stroke="red" />
+                        </svg>
+                    </td>
+                    <td class="text-center">
+                        <!-- <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#modalUsuarios">Ver Usuarios</button> -->
+                        <svg (click)="mostrarUsuarios(ruta.Usuarios)" xmlns="http://www.w3.org/2000/svg" width="12.25px" height="14px" viewBox="0 0 448 512">
+                            <path fill="green" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128m89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4" stroke-width="13" stroke="green" />
+                        </svg>
+                    </td>
+
+                </tr>
+                <tr *ngIf="listaPosiblesRutas.length == 0 && !isLoading">
+                    <td colspan="8" class="text-center">No hay datos</td>
+
+                </tr>
+                <tr *ngIf="listaPosiblesRutas.length == 0 && isLoading">
+                    <td colspan="8" class="text-center">
+                        <img width="25" height="25" src="../../../assets/images/loading-gif.gif" />
+                    </td>
+                </tr>
+                <!-- Aquí se insertan las filas dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal para ver Usuarios -->
+<div class="modal fade" id="modalUsuarios" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Usuarios Asociados</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID Usuario</th>
+                            <th>Nombre</th>
+                            <th>Repeticiones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaUsuarios">
+                        <!-- Se llena dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<c-modal id="modalXl" size="lg" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" backdrop="static">
+    <c-modal-header>
+        <h5 cModalTitle>Usuarios Asociados</h5>
+        <button (click)="toggleLiveDemo()" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID Usuario</th>
+                    <th>Nombre</th>
+                    <th>Repeticiones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaUsuarios">
+                <tr *ngFor="let Usuario of listaUsuarios">
+                    <td>{{Usuario.id_usuario}}</td>
+                    <td>{{Usuario.nombre}}</td>
+                    <td>{{Usuario.cantidad_repeticiones}}</td>
+                </tr>
+                <!-- Se llena dinámicamente -->
+            </tbody>
+        </table>
+
+
+      </c-modal-body>
+      <c-modal-footer>
+        <button (click)="toggleLiveDemo()" cButton color="secondary">
+          Cerrar
+        </button>
+      </c-modal-footer>
+    </c-modal>

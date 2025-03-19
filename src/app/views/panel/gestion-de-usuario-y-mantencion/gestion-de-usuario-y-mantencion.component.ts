@@ -20,7 +20,7 @@ interface Usuario {
 @Component({
   selector: 'app-registrar-usuarios',
   templateUrl: './gestion-de-usuario-y-mantencion.component.html',
-  styleUrls: ['./gestion-de-usuario-y-mantencion.component.scss'],
+  styleUrls: ['./gestion-de-usuario-y-mantencion.component.scss','./css2.component.scss'],
 })
 export class GestionDeUsuarioYMantencionComponent implements OnInit {
   @ViewChild('toggleFiltro') toggleFiltro!: ElementRef<HTMLInputElement>;

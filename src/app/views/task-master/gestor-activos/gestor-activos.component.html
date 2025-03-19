@@ -32,6 +32,18 @@
             </tr>
         </thead>
         <tbody>
+          <tr *ngFor="let activo of listaActivos; let i = index">
+
+            <td>{{activo.Nombre_equipo}}</td>
+            <td>{{activo.Nombre_categoria}}</td>
+            <td>
+              {{activo.Activo === false ? "inactivo" : "activo"}}
+            </td>
+            <td>
+                <button *ngIf="!activo.Activo" (click)="cambiarEstadoActivo(activo.Id)" class="btn btn-primary">Activar</button>
+                <button *ngIf="activo.Activo"  (click)="cambiarEstadoActivo(activo.Id)" class="btn btn-danger">Desactivar</button>
+            </td>
+          </tr>
             <!-- Los activos se cargarán aquí dinámicamente -->
         </tbody>
     </table>
@@ -73,7 +85,7 @@
           <c-col [xs]>
             <div class="">
               Región 
-              <select name="" id=""  cSelect  class="form-control" formControlName="Region"> 
+              <select name="" id=""  cSelect  class="form-control" formControlName="Region" (change)="buscarComunas($event)"> 
                 <option *ngFor="let region of listaRegion" [value]="region.Id_region" >{{ region.Nombre_region }}</option>
               </select>
           </div>
@@ -153,6 +165,10 @@
           </div>
           </div>
         <!-- primera columna -->
+        Archivo Adjunto
+  
+        <input type="file" cInput class="form-control"  accept=".pdf" (change)="onFilePdfSelected($event)" >
+
         Fecha adquisición
   
         <input type="date" cInput class="form-control"  formControlName="Fecha_adquisicion">
@@ -180,8 +196,9 @@
       <c-col [xs]>
         <div class="">
           Responsable   
-          <select name="" id=""  cSelect  class="form-control"  formControlName="Responsable">
-            <option value="">Seleccione</option>
+          <select name="" id=""  cSelect  class="form-control"  formControlName="Id_responsable">
+            <option value="null">Seleccione</option>
+            <option *ngFor="let responsable of listaResponsable" [value]="responsable.Id" >{{ responsable.Responsable }}</option>
 
           </select>
         </div>
@@ -203,7 +220,17 @@
 
         Activo
   
-        <input type="text" cInput class="form-control " formControlName="Activo">
+        <!-- <input type="text" cInput class="form-control " > -->
+
+        <div>
+          <label for="">
+            <input type="radio" name="actividades-facturar" formControlName="Activo" [value]="true" /> Sí
+          </label>
+          &nbsp;
+          <label for="">
+            <input type="radio" name="actividades-facturar" formControlName="Activo" [value]="false" /> No
+          </label>
+        </div>
 
         Fecha baja
         <input type="date" cInput class="form-control"  formControlName="Fecha_baja">

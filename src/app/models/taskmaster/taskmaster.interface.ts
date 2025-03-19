@@ -1,4 +1,5 @@
 export interface MainGestorActivos {
+    Responsables: Responsable[];
     Estados:     Estado[];
     Areas:       Area[];
     Categorias:  Categoria[];
@@ -36,4 +37,19 @@ export interface Region {
 export interface TaskStatus {
     Id:     number;
     Status: string;
+}
+
+export interface Responsable {
+    Id:          number;
+    Responsable: string;
+}
+
+
+
+export interface ListaActivos {
+    Id:               number;
+    Nombre_equipo:    string;
+    Categoria:        number;
+    Nombre_categoria: string;
+    Activo:           boolean;
 }
