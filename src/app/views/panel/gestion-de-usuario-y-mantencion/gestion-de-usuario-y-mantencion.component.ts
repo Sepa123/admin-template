@@ -1,21 +1,9 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { GestionyMantencionService } from 'src/app/service/gestiony-mantencion.service';
+import { GestionyMantencionService, UsuarioUpdate, Usuario} from 'src/app/service/gestiony-mantencion.service';
+import { take } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
-interface Usuario {
-  usuario_id: string;
-  usuario_nombre: string;
-  usuario_mail: string;
-  usuario_telefono: string;
-  area_id: string;
-  area_nombre: string;
-  rol_id: string;
-  rol_nombre: string;
-  imagen_perfil: string;
-  activate: boolean;
-  area_icono: string;
-  area_color: string;
-}
 
 @Component({
   selector: 'app-registrar-usuarios',
@@ -25,7 +13,22 @@ interface Usuario {
 export class GestionDeUsuarioYMantencionComponent implements OnInit {
   @ViewChild('toggleFiltro') toggleFiltro!: ElementRef<HTMLInputElement>;
 
-  public visible = false;
+  // Datos de ejemplo en el componente
+
+  nuevoUsuario = {
+    nombre: '',
+    mail: '',
+    telefono: '',
+    fecha_nacimiento: '',
+    direccion: '',
+    cargo: '',
+    activate: true,
+    area_id: 0, // Cambiar null por 0
+    rol_id: 0,  // Cambiar null por 0
+    password: ''
+  };
+
+
   Usuarios: any[] = [];
   UsuariosFiltrados: any[] = []; // Asegúrate de que esté declarada aquí
   Imagen: any; // Propiedad para almacenar la imagen
@@ -33,61 +36,73 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
 
   imagenPerfil?: string;
 
-  toggleLive() {
-    this.visible = !this.visible;
-  }
-  handleLiveDemoChange(event: any) {
-    this.visible = event;
-  }
-  onFileSelected($event: Event) {
-    throw new Error('Method not implemented.');
-  }
   mostrarModal = false;
   usuarios: Usuario[] = [];
 
-  formUsuario: FormGroup;
   mostrarContrasena = false;
   nivelSeguridad: 'baja' | 'media' | 'alta' = 'baja';
   private imageUrls: string[] = [];
+  userId: any;
 
-  constructor(private fb: FormBuilder, private gm: GestionyMantencionService) {
-    this.formUsuario = this.fb.group({
-      nombre: ['', Validators.required],
-      correo: ['', [Validators.required, Validators.email]],
-      area: ['Ventas', Validators.required],
-      perfil: ['Admin', Validators.required],
-      contrasena: ['', [Validators.required, Validators.minLength(8)]],
-      telefono: [''],
-      fechaNacimiento: [''],
-      direccion: [''],
-      imagenPerfil: [''],
-    });
+  
+
+  constructor(private fb: FormBuilder, private gm: GestionyMantencionService,  private http: HttpClient) {
+    
   }
+  
 
   ngOnInit(): void {
-    this.formUsuario.get('contrasena')?.valueChanges.subscribe((value) => {
-      this.verificarSeguridadContrasena(value);
-    });
+    
+
+    
     this.Users();
     this.getAreas();
     this.getRoles();
   }
 
-  abrirModal() {
-    this.mostrarModal = true;
+
+  visible: boolean = false; // Inicialización
+  visible2: boolean = false;
+  toggleLive() {
+    this.visible = !this.visible;
+    // console.log("Estado del modal:", this.visible); // Verificación del estado
   }
-
-
-  cerrarModal() {
-    this.mostrarModal = false;
-    this.formUsuario.reset({
-      area: 'Ventas',
-      perfil: 'Admin',
-    });
+  
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
   }
 
   toggleMostrarContrasena() {
-    this.mostrarContrasena = !this.mostrarContrasena;
+    this.mostrarContrasena = !this.mostrarContrasena; // Alternar entre true y false
+  }
+
+  copiarContrasena() {
+    const contrasena = this.nuevoUsuario.password; // Obtén la contraseña del modelo
+    if (contrasena) {
+      navigator.clipboard.writeText(contrasena).then(() => {
+        console.log('Contraseña copiada al portapapeles:', contrasena);
+        this.mostrarAlerta('Contraseña copiada al portapapeles', 'success'); // Opcional: mostrar alerta
+      }).catch((err) => {
+        console.error('Error al copiar la contraseña:', err);
+        this.mostrarAlerta('Error al copiar la contraseña', 'error'); // Opcional: mostrar alerta
+      });
+    } else {
+      this.mostrarAlerta('No hay contraseña para copiar', 'warning'); // Opcional: mostrar alerta
+    }
+  }
+  
+  toggleLive2() {
+    this.visible2 = !this.visible2;
+    // console.log("Estado del modal:", this.visible); // Verificación del estado
+  }
+  
+  handleLiveDemoChange2(event: any) {
+    this.visible2 = event;
+  }
+
+
+  onFileSelected($event: Event) {
+    throw new Error('Method not implemented.');
   }
 
   generarContrasena() {
@@ -99,14 +114,22 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
         Math.floor(Math.random() * caracteres.length)
       );
     }
-    this.formUsuario.patchValue({ contrasena });
+    this.nuevoUsuario.password = contrasena; // Asignar la contraseña generada
+    // console.log('Contraseña generada:', contrasena); // Para depuración
   }
 
-  copiarContrasena() {
-    const contrasena = this.formUsuario.get('contrasena')?.value;
-    navigator.clipboard.writeText(contrasena);
-  }
 
+  nombreUser: string = ''
+  idUser: string = ''
+  recuperarUserdata(nombre : string, Png: string, idUser: string) {
+    this.imagenPerfil = Png
+    this.nombreUser = nombre
+    this.idUser = idUser
+    this.getUsersEdit(this.idUser)
+    // console.log(this.idUser);
+    
+  }
+  
   verificarSeguridadContrasena(contrasena: string) {
     if (
       contrasena.length >= 12 &&
@@ -124,13 +147,36 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
     } else {
       this.nivelSeguridad = 'baja';
     }
+    // console.log('Nivel de seguridad de la contraseña:', this.nivelSeguridad); // Para depuración
+  }
+  
+  onSubmit() {
+    // console.log('Datos antes de enviar:', this.nuevoUsuario);
+  
+    this.gm.agregarUsuario(this.nuevoUsuario).subscribe({
+      next: (response) => {
+        // console.log('Usuario creado:', response.message);
+        this.resetFormulario();
+      },
+      error: (err) => {
+        console.error('Error al crear usuario:', err);
+      }
+    });
   }
 
-  onSubmit() {
-    if (this.formUsuario.valid) {
-      this.usuarios.push(this.formUsuario.value);
-      this.cerrarModal();
-    }
+  resetFormulario() {
+    this.nuevoUsuario = {
+      nombre: '',
+      mail: '',
+      telefono: '',
+      fecha_nacimiento: '',
+      direccion: '',
+      cargo: '',
+      activate: false,
+      area_id: 0,
+      rol_id: 0,
+      password: ''
+    };
   }
 
   Area: string = '';
@@ -184,6 +230,11 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
     );
   }
 
+
+
+  
+  
+  
   area: any []= [];
 
   getAreas():void {
@@ -195,6 +246,17 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
         this.mostrarAlerta('No se han encontrado áreas', 'error');
       }
     );
+  }
+
+  base64ToBlob(base64: string): Blob {
+    const byteString = atob(base64.split(',')[1]);
+    const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
   }
 
   rol : any [] = [];
@@ -209,6 +271,76 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
       }
     );
   }
+
+  userData: any;
+  
+getUsersEdit(id: string): void {
+  if (!id) {
+    this.mostrarAlerta('ID no válido', 'error');
+    return;
+  }
+
+  this.gm.getUsuariosTablaEdit(id).pipe(take(1)).subscribe(
+    (data) => {
+      // Accede al primer elemento del array
+      this.userData = data[0];
+      this.setFormValues();
+    },
+    (error) => {
+      console.error('Error:', error);
+      this.mostrarAlerta('Error al cargar datos', 'error');
+    }
+  );
+}
+
+usuarioId!: number;  // Debes obtener este ID de alguna forma (ej: ruta, input)
+updateData: UsuarioUpdate = {};
+
+actualizarUsuario() {
+  this.usuarioId = parseInt(this.idUser); 
+  this.gm.actualizarUsuario(this.usuarioId, this.updateData)
+    .subscribe({
+      next: (response) => {
+        // console.log('Actualización exitosa:', response.message);
+        // Resetear formulario
+        this.mostrarAlerta('Usuario actualizado correctamente', 'success');
+        this.updateData = {};
+        this.getUsersEdit(this.idUser)
+      },
+      error: (err) => {
+        // console.error('Error en actualización:', err);
+        this.mostrarAlerta('Error al actualizar usuario', 'error');
+      }
+    });
+}
+
+
+
+// Función para asignar valores a los inputs
+private setFormValues(): void {
+  // Mapeo de nombres diferentes entre la API y el HTML
+  const fieldMappings = {
+    nombre: 'nombre',
+    correo: 'mail',
+    telefono: 'telefono',
+    fechaNacimiento: 'fecha_nacimiento',
+    direccion: 'direccion'
+  };
+
+  // Asignación de valores
+  Object.entries(fieldMappings).forEach(([htmlId, apiKey]) => {
+    const element = document.getElementById(htmlId) as HTMLInputElement;
+    if (element && this.userData[apiKey] !== null) {
+      element.value = this.userData[apiKey];
+    }
+  });
+
+  // Caso especial para fecha (formato ISO -> yyyy-mm-dd)
+  const fechaInput = document.getElementById('fechaNacimiento') as HTMLInputElement;
+  if (fechaInput && this.userData.fecha_nacimiento) {
+    fechaInput.value = new Date(this.userData.fecha_nacimiento).toISOString().split('T')[0];
+  }
+}
   ngOnDestroy(): void {
     // Limpiar URLs para evitar fugas de memoria
     this.imageUrls.forEach((url) => URL.revokeObjectURL(url));
