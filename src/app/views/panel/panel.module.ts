@@ -6,7 +6,8 @@ import { ButtonModule, CardModule, FormModule, GridModule } from '@coreui/angula
 import { IconModule } from '@coreui/icons-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GestionDeUsuarioYMantencionComponent } from './gestion-de-usuario-y-mantencion/gestion-de-usuario-y-mantencion.component';
-
+import { ModalModule } from '@coreui/angular';  // Importación de CoreUI Modal
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [RegistrarUsuariosComponent, GestionDeUsuarioYMantencionComponent],
@@ -14,7 +15,7 @@ import { GestionDeUsuarioYMantencionComponent } from './gestion-de-usuario-y-man
     CommonModule,
     PanelRoutingModule,
     ButtonModule, CardModule, FormModule, GridModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, ReactiveFormsModule,ModalModule,IconModule,NgSelectModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
