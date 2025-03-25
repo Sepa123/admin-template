@@ -93,4 +93,11 @@ export class GestionyMantencionService {
       return throwError(() => new Error(errorMessage));
     }
 
+    subirImagen(id_user: string, imagen: File) {
+      const formData = new FormData();
+      formData.append('id_user', id_user); // Agrega el ID del usuario
+      formData.append('imagen1_png', imagen); // Agrega la imagen
+  
+      return this.http.post(`${this.apiUrl}/subir-archivo/fotoPerfil/`, formData); // Realiza la solicitud POST
+    }
 }

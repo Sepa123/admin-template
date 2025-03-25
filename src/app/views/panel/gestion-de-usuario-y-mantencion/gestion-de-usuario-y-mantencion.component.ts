@@ -4,7 +4,6 @@ import { GestionyMantencionService, UsuarioUpdate, Usuario} from 'src/app/servic
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
-
 @Component({
   selector: 'app-registrar-usuarios',
   templateUrl: './gestion-de-usuario-y-mantencion.component.html',
@@ -43,7 +42,7 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
   nivelSeguridad: 'baja' | 'media' | 'alta' = 'baja';
   private imageUrls: string[] = [];
   userId: any;
-
+  imagenSeleccionada: File | null = null;
   
 
   constructor(private fb: FormBuilder, private gm: GestionyMantencionService,  private http: HttpClient) {
@@ -65,7 +64,9 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
   visible2: boolean = false;
   toggleLive() {
     this.visible = !this.visible;
-    // console.log("Estado del modal:", this.visible); // Verificación del estado
+    if (!this.visible) {
+      this.resetFormValues(); // Restablecer valores al cerrar el modal
+    }
   }
   
   handleLiveDemoChange(event: any) {
@@ -91,18 +92,48 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
     }
   }
   
-  toggleLive2() {
+  toggleLive2(): void {
     this.visible2 = !this.visible2;
-    // console.log("Estado del modal:", this.visible); // Verificación del estado
+    if (!this.visible2) {
+      this.resetFormValues(); // Restablecer valores al cerrar el modal
+    }
   }
   
   handleLiveDemoChange2(event: any) {
     this.visible2 = event;
   }
 
+  nombreArchivo: string | null = null;
 
-  onFileSelected($event: Event) {
-    throw new Error('Method not implemented.');
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.imagenSeleccionada = input.files[0];
+      this.nombreArchivo = input.files[0].name; // Almacena el nombre del archivo
+    } else {
+      this.nombreArchivo = null; // Si no se selecciona archivo, limpia el nombre
+    }
+  }
+  
+  guardarImagen(): void {
+
+    const id_user = this.id_User
+
+    if (!this.imagenSeleccionada) {
+      alert('Por favor, selecciona una imagen antes de guardar.');
+      return;
+    }
+
+    this.gm.subirImagen(id_user, this.imagenSeleccionada).subscribe({
+      next: (response) => {
+        console.log('Imagen subida exitosamente:', response);
+        this.mostrarAlerta('Imagen subida exitosamente.', 'success');
+      },
+      error: (error) => {
+        console.error('Error al subir la imagen:', error);
+        this.mostrarAlerta('Error al subir la imagen.', 'error');
+      },
+    });
   }
 
   generarContrasena() {
@@ -117,37 +148,51 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
     this.nuevoUsuario.password = contrasena; // Asignar la contraseña generada
     // console.log('Contraseña generada:', contrasena); // Para depuración
   }
+  generarContrasenaEdicion() {
+    const caracteres =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+    let contrasena = '';
+    for (let i = 0; i < 12; i++) {
+      contrasena += caracteres.charAt(
+        Math.floor(Math.random() * caracteres.length)
+      );
+    }
+    this.updateData.password = contrasena; // Asignar la contraseña generada
+    // console.log('Contraseña generada:', contrasena); // Para depuración
+  }
 
 
   nombreUser: string = ''
-  idUser: string = ''
+  id_User: string = ''
   recuperarUserdata(nombre : string, Png: string, idUser: string) {
+    
+    
     this.imagenPerfil = Png
     this.nombreUser = nombre
-    this.idUser = idUser
-    this.getUsersEdit(this.idUser)
-    // console.log(this.idUser);
+    this.id_User = idUser
+    this.getUsersEdit(this.id_User)
+    console.log(this.id_User);
     
   }
   
-  verificarSeguridadContrasena(contrasena: string) {
+  verificarSeguridadContrasena(contrasena: string | undefined): void {
+    const password = contrasena || ''; // Si es undefined, usa una cadena vacía
     if (
-      contrasena.length >= 12 &&
-      /[A-Z]/.test(contrasena) &&
-      /[0-9]/.test(contrasena) &&
-      /[!@#$%^&*()]/.test(contrasena)
+      password.length >= 12 &&
+      /[A-Z]/.test(password) &&
+      /[0-9]/.test(password) &&
+      /[!@#$%^&*()]/.test(password)
     ) {
       this.nivelSeguridad = 'alta';
     } else if (
-      contrasena.length >= 8 &&
-      /[A-Z]/.test(contrasena) &&
-      /[0-9]/.test(contrasena)
+      password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[0-9]/.test(password)
     ) {
       this.nivelSeguridad = 'media';
     } else {
       this.nivelSeguridad = 'baja';
     }
-    // console.log('Nivel de seguridad de la contraseña:', this.nivelSeguridad); // Para depuración
   }
   
   onSubmit() {
@@ -273,22 +318,25 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
   }
 
   userData: any;
-  
+  cargando: boolean = true; // Por defecto, está cargando
+
 getUsersEdit(id: string): void {
   if (!id) {
     this.mostrarAlerta('ID no válido', 'error');
     return;
   }
 
+  this.cargando = true; // Inicia la carga
   this.gm.getUsuariosTablaEdit(id).pipe(take(1)).subscribe(
     (data) => {
-      // Accede al primer elemento del array
-      this.userData = data[0];
-      this.setFormValues();
+      this.userData = data[0]; // Asigna los datos del usuario
+      this.updateData = { ...this.userData }; // Copia los valores directamente a updateData
+      this.cargando = false; // Finaliza la carga
     },
     (error) => {
       console.error('Error:', error);
       this.mostrarAlerta('Error al cargar datos', 'error');
+      this.cargando = false; // Finaliza la carga incluso si hay error
     }
   );
 }
@@ -297,15 +345,16 @@ usuarioId!: number;  // Debes obtener este ID de alguna forma (ej: ruta, input)
 updateData: UsuarioUpdate = {};
 
 actualizarUsuario() {
-  this.usuarioId = parseInt(this.idUser); 
+  this.usuarioId = parseInt(this.id_User); 
   this.gm.actualizarUsuario(this.usuarioId, this.updateData)
     .subscribe({
       next: (response) => {
         // console.log('Actualización exitosa:', response.message);
         // Resetear formulario
-        this.mostrarAlerta('Usuario actualizado correctamente', 'success');
         this.updateData = {};
-        this.getUsersEdit(this.idUser)
+        this.getUsersEdit(this.id_User)
+        this.mostrarAlerta('Usuario actualizado correctamente', 'success');
+        this.toggleLive2(); // Cerrar el modal
       },
       error: (err) => {
         // console.error('Error en actualización:', err);
@@ -314,7 +363,37 @@ actualizarUsuario() {
     });
 }
 
+private resetFormValues(): void {
+  // Restablecer valores del formulario de ingreso de usuario
+  this.nuevoUsuario = {
+    nombre: '',
+    mail: '',
+    telefono: '',
+    fecha_nacimiento: '',
+    direccion: '',
+    cargo: '',
+    area_id: 0,
+    rol_id: 0,
+    password: '',
+    activate: true,
+  };
 
+  // Restablecer valores del formulario de edición de usuario
+  this.updateData = {
+    nombre: '',
+    mail: '',
+    telefono: '',
+    fecha_nacimiento: '',
+    direccion: '',
+    area_id: 0,
+    activate: true,
+    password: '',
+  };
+
+  // Opcional: Restablecer otras variables relacionadas
+  this.nombreArchivo = null;
+  this.imagenPerfil = 'assets/images/default-profile.png';
+}
 
 // Función para asignar valores a los inputs
 private setFormValues(): void {
@@ -324,7 +403,8 @@ private setFormValues(): void {
     correo: 'mail',
     telefono: 'telefono',
     fechaNacimiento: 'fecha_nacimiento',
-    direccion: 'direccion'
+    direccion: 'direccion',
+    activate: 'activate'
   };
 
   // Asignación de valores
@@ -345,6 +425,7 @@ private setFormValues(): void {
     // Limpiar URLs para evitar fugas de memoria
     this.imageUrls.forEach((url) => URL.revokeObjectURL(url));
   }
+  
   mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
     // Crear un div para la alerta
     const alerta: HTMLDivElement = document.createElement('div');
