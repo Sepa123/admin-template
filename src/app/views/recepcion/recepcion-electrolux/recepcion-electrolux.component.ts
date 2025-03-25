@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { RecepcionService } from 'src/app/service/recepcion.service';
+import { RecepcionService } from '../../../service/recepcion.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
-import { ProductoPicking } from 'src/app/models/productoPicking.interface';
-import { ProductoOPL } from "src/app/models/productoOPL.interface"
+import { ProductoPicking } from '../../../models/productoPicking.interface';
+import { ProductoOPL } from "../../../models/productoOPL.interface"
 import { Subscription } from 'rxjs';
-import { TIService } from "src/app/service/ti.service";
+import { TIService } from "../../../service/ti.service";
 
 @Component({
   selector: 'app-recepcion-electrolux',
@@ -33,11 +33,11 @@ export class RecepcionElectroluxComponent{
 
   idPortal!: string 
 
-//datos geo
-latitude!: number
-longitud! :number
-latStr!: string
-longStr!: string
+  //datos geo
+  latitude!: number
+  longitud! :number
+  latStr!: string
+  longStr!: string
 
 getLocation(): any {
   if (navigator.geolocation) {
@@ -49,6 +49,7 @@ getLocation(): any {
     console.log("Localización no disponible");
   }
 }
+
 showPosition(position: any): any{
       this.latitude = position.coords.latitude
       this.longitud= position.coords.longitude 
@@ -57,6 +58,7 @@ showPosition(position: any): any{
 
   console.log("Longitud : " , this.longStr, "latitud :", this.latStr)
 }
+
 getLocationAsync(): Promise<any> {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
@@ -150,6 +152,8 @@ getLocationAsync(): Promise<any> {
 
       nro_carga = event.target.value
     }
+
+    console.log("Carga actual ",nro_carga)
     
 
     // console.log("Carga actual ",nro_carga)
@@ -162,7 +166,7 @@ getLocationAsync(): Promise<any> {
     } else {
     this.subRecepcion.unsubscribe();
     this.service.getRecepcionEasyCD().subscribe((data) => {
-      console.log("Este esd del filterByCarga init ")
+      // console.log("Este esd del filterByCarga init ")
       
       this.productosPorVerificar = data.filter(producto => producto.Carga === nro_carga)
       this.productosVerificados = data.filter(producto => producto.Carga === nro_carga)
@@ -175,7 +179,7 @@ getLocationAsync(): Promise<any> {
       console.log(this.cantNoRecepcionados)
       if(data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
       && data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
-        console.log("esta data se repite")
+        // console.log("esta data se repite")
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga)
         this.productosVerificados = data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga)
@@ -183,7 +187,7 @@ getLocationAsync(): Promise<any> {
     })
 
     this.subRecepcion =  this.service.updateRecepcionEasyCD().subscribe((data) => {
-      console.log("Este esd del filterByCarga")
+      // console.log("Este esd del filterByCarga")
       this.productosPorVerificar = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga)
       this.productosVerificados = this.productosVerificados.filter(producto => producto.Carga === nro_carga)
 
@@ -192,7 +196,7 @@ getLocationAsync(): Promise<any> {
       
       if(data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga).length === this.productosPorVerificar.length
       && data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga).length === this.productosVerificados.length){
-        console.log("esta data se repite")
+        // console.log("esta data se repite")
       }else{
         this.productosPorVerificar = data.filter(producto => producto.Recepcion == false && producto.Carga === nro_carga)
         this.productosVerificados = data.filter(producto => producto.Recepcion == true && producto.Carga === nro_carga)
@@ -201,6 +205,7 @@ getLocationAsync(): Promise<any> {
    }
     // alert("cantidad cargas : "+ n)}
   }
+
   cambiarTicketByInput(cod_producto: string){
 
     var codigo_producto = cod_producto.replace(/'/g, "-").trim().toUpperCase()

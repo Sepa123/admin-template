@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { GestionyMantencionService, UsuarioUpdate, Usuario} from 'src/app/service/gestiony-mantencion.service';
+import { GestionyMantencionService, UsuarioUpdate, Usuario} from '../../../service/gestiony-mantencion.service';
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 

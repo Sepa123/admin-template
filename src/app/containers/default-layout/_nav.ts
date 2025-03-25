@@ -119,7 +119,7 @@ export const navItems: INavDataBar[] = [
   {
     name: 'Taskmaster',
     url: '/taskmaster',
-    // iconComponent: { name: 'cil-car-alt' },
+    iconComponent: { name: 'cil-list' },
     roles : [ROLES_ENUM.ADMIN],
     children: [
       

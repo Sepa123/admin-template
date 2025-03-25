@@ -19,8 +19,14 @@
       <option>Juan Pérez</option>
       <option>María López</option>
     </select> -->
+    <select  class="input" >
+      <option>Seleccionar Cliente</option>
+      <option value="Easy CD">Easy CD</option>
+      <option value="Easy OPL"> Easy OPL</option>
+    </select>
+
     <select  class="input" (click)="filterByCarga($event)">
-      <option >Seleccionar Carga</option>
+      <option value="Todas" >Seleccionar Carga</option>
       <option *ngFor="let carga of cargas">{{ carga }}</option>
     </select>
   </div>
