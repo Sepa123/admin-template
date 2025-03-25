@@ -1,203 +1,240 @@
 /* Estilos generales */
+
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f4f4f9;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f9;
 }
 
 .panel {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .filtros {
-    margin-bottom: 20px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .filtros input, .filtros select, .filtros button {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
-    flex: 1 1 200px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  flex: 1 1 200px;
 }
 
 .filtros button {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .filtros button:hover {
-    background-color: #218838;
+  background-color: #218838;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
 th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
 }
 
 th {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
 }
 
 /* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-contenido {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 600px;
-    position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
+// Estilos generales del modal
 .modal-cabecera {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #ddd;
+font-weight: bold;
+font-size: 1.25rem;
 }
 
-.cerrar {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+c-modal-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 1rem;
+
+.btn-close {
+  font-size: 1.25rem;
+  padding: 0.5rem;
+}
 }
 
-.cerrar:hover {
-    color: #000;
+// Selectores superiores
+.selectores-superiores {
+display: flex;
+gap: 1rem;
+margin-bottom: 1.5rem;
+
+select {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 0.9rem;
+  
+  &:focus {
+    outline: none;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+}
 }
 
-.form-columnas {
-    display: flex;
-    gap: 20px;
-}
+// Formulario en columnas
+.form-columnas.campos-angostos {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1.5rem;
+margin-bottom: 1rem;
 
 .form-columna {
-    flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+    select {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      background-color: white;
+      font-size: 0.9rem;
+    
+      &:focus {
+        outline: none;
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+  }
 }
 
-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #333;
 }
 
-form input, form select, form button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
+// Estilos generales de los inputs
+label {
+font-weight: bold;
+margin-bottom: 0.25rem;
+display: block;
 }
 
-/* Selectores de Área y Perfil en la parte superior */
-.selectores-superiores {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+input:not([type="file"]) {
+width: 100%;
+padding: 0.375rem 0.75rem;
+border: 1px solid #ced4da;
+border-radius: 4px;
+font-size: 0.9rem;
+
+&:focus {
+  outline: none;
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
 }
 
-.selectores-superiores select {
-    flex: 1;
-}
-
-/* Campos más angostos */
-.campos-angostos input, .campos-angostos select {
-    width: 80%;
-}
-
-/* Botones de contraseña cuadrados y pequeños */
+// Sección de contraseña
 .contrasena-container {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+position: relative;
+display: flex;
+gap: 0.5rem;
+margin-bottom: 1rem;
+
+input {
+  flex: 1;
 }
 
-.contrasena-container input {
-    flex: 1;
-}
+button {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: #6c757d;
+  
+  &:hover {
+    color: #0d6efd;
+  }
 
-.contrasena-container button {
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: #f8f9fa;
-    transition: background-color 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  i {
+    font-size: 0.9rem;
+  }
 }
-
-.contrasena-container button:hover {
-    background-color: #e2e6ea;
 }
 
 .seguridad-contrasena {
-    display: flex;
-    gap: 4px;
-    margin-top: 10px;
+display: flex;
+gap: 4px;
+margin-top: 10px;
 }
 
 .seguridad-barra {
-    height: 8px;
-    flex: 1;
-    background-color: #ddd;
-    border-radius: 4px;
+height: 8px;
+flex: 1;
+background-color: #ddd;
+border-radius: 4px;
 }
 
-.seguridad-baja .seguridad-barra:nth-child(1) {
-    background-color: #dc3545;
+.seguridad-barra.activo {
+background-color: red; /* Color para barras activas */
 }
 
-.seguridad-media .seguridad-barra:nth-child(-n+2) {
-    background-color: #ffc107;
+.seguridad-barra:nth-child(2).activo {
+background-color: orange; /* Color para nivel medio */
 }
 
-.seguridad-alta .seguridad-barra {
-    background-color: #28a745;
+.seguridad-barra:nth-child(3).activo {
+background-color:  green /* Color para barras activas */
+; /* Color para nivel alto */
 }
 
+// Botones del formulario
 .botones-formulario {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
+display: flex;
+justify-content: flex-end;
+gap: 0.5rem;
+margin-top: 1rem;
+
+button {
+  padding: 0.375rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &[type="submit"] {
+    background-color: #198754;
+    color: white;
+    border: 1px solid #198754;
+
+    &:hover {
+      background-color: #157347;
+    }
+  }
+
+  &[type="button"] {
+    background-color: #e9ecef;
+    color: #212529;
+    border: 1px solid #dee2e6;
+
+    &:hover {
+      background-color: #dee2e6;
+    }
+  }
+}
 }
 

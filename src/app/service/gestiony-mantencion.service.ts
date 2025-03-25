@@ -1,6 +1,33 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
+
+export interface Usuario {
+  nombre: string;
+  mail: string;
+  telefono: string;
+  fecha_nacimiento: string;
+  direccion: string;
+  cargo: string;
+  activate: boolean;
+  area_id: number; // Debe ser number
+  rol_id: number;  // Debe ser number
+  password: string;
+}
+
+// Interface que coincide con tu modelo Pydantic UsuarioUpdate
+export interface UsuarioUpdate {
+  nombre?: string;
+  mail?: string;
+  password?: string;
+  activate?: boolean;
+  rol_id?: number;
+  telefono?: string;
+  fecha_nacimiento?: string;
+  direccion?: string;
+  area_id?: number;  // Nota: Se usa area_id que será mapeado a id_area
+  cargo?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +56,41 @@ export class GestionyMantencionService {
 
     getRoles(): Observable<any> {
       return this.http.get<any>(this.apiUrl + '/Rol');
+    }
+
+    getUsuariosTablaEdit(id: string): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/usuarios/?id=${id}`);
+    }
+
+
+    actualizarUsuario(usuarioId: number, updateData: UsuarioUpdate) {
+      return this.http.patch<{ message: string }>(
+        `${this.apiUrl}/Actualizar/Usuario/${usuarioId}`,
+        updateData
+      ).pipe(
+        catchError(this.handleError)
+      );
+    }
+
+    agregarUsuario(usuario: Usuario) {
+      return this.http.post<{ message: string }>(
+        `${this.apiUrl}/Agregar/Usuario/`,
+        usuario
+      ).pipe(
+        catchError(this.handleError)
+      );
+    }
+  
+    private handleError(error: HttpErrorResponse) {
+      let errorMessage = 'Error desconocido';
+      if (error.error instanceof ErrorEvent) {
+        // Error del cliente
+        errorMessage = `Error: ${error.error.message}`;
+      } else {
+        // Error del servidor
+        errorMessage = `Código: ${error.status}\nMensaje: ${error.error.detail || error.message}`;
+      }
+      console.error(errorMessage);
+      return throwError(() => new Error(errorMessage));
     }
 }

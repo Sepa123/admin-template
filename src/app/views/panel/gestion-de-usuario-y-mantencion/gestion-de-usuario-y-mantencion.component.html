@@ -1,21 +1,174 @@
-  <c-modal class="modal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" [backdrop]="'static'">
-    <c-modal-header>
-      <h5 id="modalNuevaCitacionLabel">Patentes</h5>
-      <td colspan="2">
-        <img width="15rem" height="15rem" src="../../../assets/images/loading-gif.gif" />
-      </td>
-      <button (click)="toggleLive()" cButtonClose type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-    </c-modal-header>
-    <c-modal-body>
+<c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" [backdrop]="'static'" class="modal-lg modal-fullscreen-md-down">
+  <c-modal-header>
+    <div class="modal-cabecera">Ingreso de Usuario</div>
+    <td colspan="2">
+      <img width="15rem" height="15rem" src="../../../assets/images/loading-gif.gif" />
+    </td>
+    <!-- Botón de cierre del modal -->
+    <button (click)="toggleLive()" cButtonClose type="button" aria-label="Close">
       
-      
+    </button>
+  </c-modal-header>
+  <c-modal-body>
+    <!-- Contenido del formulario -->
+    <form id="formUsuario">
+      <!-- En el template del modal -->
+      <div class="select-group">
+        <!-- Select Área -->
+        <select name="SelectArea" id="Area" class="SelectArea" [(ngModel)]="nuevoUsuario.area_id" required>
+          <option value="0" disabled selected>Seleccione una opción</option>
+          <option *ngFor="let a of area" [value]="a.id">{{a.nombre}}</option>
+        </select>
         
-      
-    </c-modal-body>
-    <c-modal-footer>
-      <br>
-    </c-modal-footer>
-  </c-modal>
+        <select name="SelectRol" id="Rol" class="SelectRol" [(ngModel)]="nuevoUsuario.rol_id" required>
+          <option value="0" disabled selected>Seleccione una opción</option>
+          <option *ngFor="let r of rol" [value]="r.id">{{r.nombre}}</option>
+        </select>
+  
+      </div>
+
+      <div class="form-columnas campos-angostos">
+        <div class="form-columna">
+          <label for="nombre">Nombre:</label>
+            <input [(ngModel)]="nuevoUsuario.nombre" name="nombre" type="text" id="nombre" required>
+
+            <label for="correo">Correo Electrónico:</label>
+            <input [(ngModel)]="nuevoUsuario.mail" name="mail" type="email" id="mail" required>
+
+            <label for="telefono">Teléfono:</label>
+            <input [(ngModel)]="nuevoUsuario.telefono" name="telefono" type="text" id="telefono" required><!-- Fecha de Nacimiento (usar input tipo date) -->
+          <div>
+            <label>Fecha de Nacimiento:</label>
+            <input 
+              type="date" 
+              [(ngModel)]="nuevoUsuario.fecha_nacimiento" 
+              name="fecha_nacimiento" 
+              required
+            >
+          </div>
+        </div>
+        <div class="form-columna">
+           <!-- Contraseña -->
+        <div>
+          <label>Dirección:</label>
+          <input [(ngModel)]="nuevoUsuario.direccion" name="direccion" required>
+        </div>
+
+          <label for="direccion">cargo:</label>
+          <input  [(ngModel)]="nuevoUsuario.cargo" type="text" id="cargo">
+
+          <label for="direccion">activate:</label>
+          <input [(ngModel)]="nuevoUsuario.activate" type="checkbox" id="activate">
+
+        </div>
+      </div>
+
+      <label for="contrasena">Contraseña:</label>
+      <div class="contrasena-container">
+        <input [type]="mostrarContrasena ? 'text' : 'password'" id="contrasena"[(ngModel)]="nuevoUsuario.password" 
+        type="password" 
+        name="password" 
+        (input)="verificarSeguridadContrasena(nuevoUsuario.password)"
+        required>
+        <button type="button" (click)="toggleMostrarContrasena()" title="Mostrar contraseña">
+          <i [class]="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+        </button>
+        <button type="button" (click)="generarContrasena(); verificarSeguridadContrasena(nuevoUsuario.password)" title="Generar contraseña">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+        <button type="button" (click)="copiarContrasena()" title="Copiar contraseña">
+          <i class="fas fa-copy"></i> Copiar
+        </button>
+      </div>
+      <div id="nivelSeguridad" class="seguridad-contrasena">
+        <div 
+          class="seguridad-barra" 
+          [ngClass]="{'activo': nivelSeguridad === 'alta' || nivelSeguridad === 'media' || nivelSeguridad === 'baja'}">
+        </div>
+        <div 
+          class="seguridad-barra" 
+          [ngClass]="{'activo': nivelSeguridad === 'alta' || nivelSeguridad === 'media'}">
+        </div>
+        <div 
+          class="seguridad-barra" 
+          [ngClass]="{'activo': nivelSeguridad === 'alta'}">
+        </div>
+      </div>
+
+      <div class="botones-formulario">
+        <button type="submit" (click)="onSubmit()">
+          <i class="fas fa-save"></i> Guardar
+        </button>
+        <button type="button" (click)="toggleLive()">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+      </div>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <br>
+  </c-modal-footer>
+</c-modal>
+
+
+<c-modal [visible]="visible2" (visibleChange)="handleLiveDemoChange2($event)" [backdrop]="'static'" class="modal-lg modal-fullscreen-md-down">
+  <c-modal-header>
+    <div class="modal-cabecera2">Edición de Usuario <b>{{nombreUser}}</b></div>
+    <td colspan="2">
+      <img width="15rem" height="15rem" src="../../../assets/images/loading-gif.gif" />
+    </td>
+    <button (click)="toggleLive2()" cButtonClose type="button" aria-label="Close"></button>
+  </c-modal-header>
+  <c-modal-body>
+    <!-- Contenedor principal flex -->
+    <div class="form-container">
+      <div class="form-columnas campos-angostos">
+      </div>
+        <div class="form-columna">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" [(ngModel)]="updateData.nombre" required [value]="userData?.nombre">
+    
+          <label for="correo">Correo Electrónico:</label>
+          <input type="email" id="correo" [(ngModel)]="updateData.mail" required [value]="userData?.mail">
+    
+          <label for="telefono">Teléfono:</label>
+          <input type="text" id="telefono" [(ngModel)]="updateData.telefono" [value]="userData?.telefono || ''">
+    
+          <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+          <input type="date" id="fechaNacimiento" [(ngModel)]="updateData.fecha_nacimiento" [value]="userData?.fecha_nacimiento | date:'yyyy-MM-dd'">
+        </div>
+        <div class="form-columna">
+          <label for="direccion">Dirección:</label>
+          <input type="text" id="direccion" [(ngModel)]="updateData.direccion" [value]="userData?.direccion || ''">
+          
+
+          <select name="SelectArea" id="Area"  class="SelectArea" [(ngModel)]="updateData.area_id">
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option *ngFor="let a of area" [value]="a.id">{{a.nombre}}</option>
+          </select>
+          <label>Considere estándares esenciales de contraseña</label>
+          <input type="password" placeholder="Nueva Contraseña" class="password-input">
+          <input type="password" placeholder="Repetir Contraseña" class="password-input">
+        </div>
+      </div>
+    
+      <!-- Columna izquierda para contraseñas -->
+
+      <!-- Columna derecha para foto -->
+      <div class="form-columna">
+        <div class="photo-section">
+          <div class="photo-preview">
+            <img class="ImgPerfilModal" src="{{imagenPerfil}}" alt="Foto de perfil">
+          </div>
+          <input class="btn-upload" type="file">
+        </div>
+      </div>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="actualizarUsuario()" >Guardar</button>
+    <button>Cerrar</button>
+  </c-modal-footer>
+</c-modal>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -37,7 +190,7 @@
             <option value="">Todos los perfiles</option>
             <option *ngFor="let r of rol" [value]="r.id">{{r.nombre}}</option>
         </select>
-        <button id="abrirModal">Crear Usuario</button>
+        <button id="abrirModal" (click)="toggleLive()" >Crear Usuario</button>
     </div>
     <div>
         <!-- Filtro con switch -->
@@ -53,9 +206,9 @@
     <div>
         <body>
             <!-- El *ngFor debe estar en las tarjetas, NO en el contenedor -->
-            <div class="user-pool">
+            <div class="user-pool" > 
                 <!-- Repetir por cada usuario -->
-                <div *ngFor="let us of UsuariosFiltrados" style="border-color: {{us.area_color || 'grey'}}" class="user-card">
+                <div *ngFor="let us of UsuariosFiltrados" style="border-color: {{us.area_color || 'grey'}}" class="user-card" (click)="toggleLive2()" (click)="recuperarUserdata(us.usuario_nombre, us.imagenPerfilUrl, us.usuario_id)">
                     <!-- Añadir condición para inactivos -->
                     <h3>{{ us.nombre }}</h3>
                     <div style="border-color: {{us.area_color || 'grey'}}" class="profile-img">
@@ -82,4 +235,7 @@
         </body>
     </div>
 </div>
-  
+
+
+
+

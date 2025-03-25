@@ -557,9 +557,21 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning' | 'gray'): 
   }
 } 
 
-CerrarRuta( index: number) {
+CerrarRuta( index: number,abrir : boolean) {
+  // Mostrar un mensaje de confirmación
 
-  let respuesta = confirm("¿Estás seguro de que deseas cerrar la ruta?");
+
+  if( !(this.rol != '80'  && this.rol != '81' &&  this.rol != '90' && this.rol != '72') && abrir == true){
+    return console.log('No tiene permisos para abrir rutas')
+  }
+
+  let respuesta
+
+  if(abrir){
+    respuesta = confirm('¿Está seguro que desea abrir la ruta?');
+  } else {
+    respuesta = confirm('¿Está seguro que desea cerrar la ruta?');
+  }
 
   // Verificar la respuesta
   if (respuesta) {

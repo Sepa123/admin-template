@@ -465,15 +465,22 @@
                 <td>
                   <!-- lock -->
                   <span title="Ruta Cerrada ">
-                    <svg *ngIf="detalle.ruta_cerrada " xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
+                    <svg *ngIf="detalle.ruta_cerrada " xmlns="http://www.w3.org/2000/svg" (click)="CerrarRuta(i,true)" xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
                       <path fill="red" d="M320 640h512V448q0-106-75-181t-181-75t-181 75t-75 181zm832 96v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h32V448q0-184 132-316T576 0t316 132t132 316v192h32q40 0 68 28t28 68" />
                     </svg>
 
                 </span>
+
+                 <!-- <span title="Ruta Cerrada ">
+                  <svg *ngIf="detalle.ruta_cerrada && rol == '90' "  xmlns="http://www.w3.org/2000/svg"  width="14" height="18" viewBox="0 0 1152 1408">
+                    <path fill="red" d="M320 640h512V448q0-106-75-181t-181-75t-181 75t-75 181zm832 96v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h32V448q0-184 132-316T576 0t316 132t132 316v192h32q40 0 68 28t28 68" />
+                  </svg> 
+
+                </span> -->
                   <!-- lock-open -->
 
                   <span title="Ruta Abierta ">
-                    <svg *ngIf="!detalle.ruta_cerrada && (rol != '90' && rol != '72' )" xmlns="http://www.w3.org/2000/svg" (click)="CerrarRuta(i)" width="20" height="14" viewBox="0 0 1664 1408">
+                    <svg *ngIf="!detalle.ruta_cerrada && (rol != '90' && rol != '72' )" xmlns="http://www.w3.org/2000/svg" (click)="CerrarRuta(i,false)" width="20" height="14" viewBox="0 0 1664 1408">
                       <path fill="black" d="M1664 448v256q0 26-19 45t-45 19h-64q-26 0-45-19t-19-45V448q0-106-75-181t-181-75t-181 75t-75 181v192h96q40 0 68 28t28 68v576q0 40-28 68t-68 28H96q-40 0-68-28t-28-68V736q0-40 28-68t68-28h672V448q0-185 131.5-316.5T1216 0t316.5 131.5T1664 448" />
                     </svg>
                 </span>
