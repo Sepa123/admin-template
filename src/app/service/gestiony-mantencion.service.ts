@@ -10,6 +10,7 @@ export interface Usuario {
   fecha_nacimiento: string;
   direccion: string;
   cargo: string;
+  id_supervisor: number;
   activate: boolean;
   area_id: number; // Debe ser number
   rol_id: number;  // Debe ser number
@@ -24,6 +25,7 @@ export interface UsuarioUpdate {
   activate?: boolean;
   rol_id?: number;
   telefono?: string;
+  id_supervisor?: number;
   fecha_nacimiento?: string;
   direccion?: string;
   area_id?: number;  // Nota: Se usa area_id que será mapeado a id_area
@@ -61,6 +63,9 @@ export class GestionyMantencionService {
       return this.http.get<any>(`${this.apiUrl}/usuarios/?id=${id}`);
     }
 
+    getSupervisor(): Observable<any>{
+      return this.http.get(`${this.apiUrl}/Supervisor/`);
+    }
 
     actualizarUsuario(usuarioId: number, updateData: UsuarioUpdate) {
       return this.http.patch<{ message: string }>(

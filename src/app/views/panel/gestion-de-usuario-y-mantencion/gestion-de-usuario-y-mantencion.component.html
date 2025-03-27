@@ -13,16 +13,27 @@
       <!-- En el template del modal -->
       <div class="select-group">
         <!-- Select Área -->
-        <select name="SelectArea" id="Area" class="form-select" [(ngModel)]="nuevoUsuario.area_id" required>
-          <option value="0" disabled selected>Seleccione una opción</option>
-          <option *ngFor="let a of area" [value]="a.id">{{a.nombre}}</option>
-        </select>
-        
-        <select name="SelectRol" id="Rol" class="form-select" [(ngModel)]="nuevoUsuario.rol_id" required>
-          <option value="0" disabled selected>Seleccione una opción</option>
-          <option *ngFor="let r of rol" [value]="r.id">{{r.nombre}}</option>
-        </select>
-  
+        <div>
+          <Label for="Area">Area</Label>
+          <select name="SelectArea" id="Area" class="form-select" [(ngModel)]="nuevoUsuario.area_id" required>
+            <option value="0" disabled selected>Seleccione una opción</option>
+            <option *ngFor="let a of area" [value]="a.id">{{a.nombre}}</option>
+          </select>
+        </div>
+        <div>
+          <Label for="Rol">Rol</Label>
+          <select name="SelectRol" id="Rol" class="form-select" [(ngModel)]="nuevoUsuario.rol_id" required>
+            <option value="0" disabled selected>Seleccione una opción</option>
+            <option *ngFor="let r of rol" [value]="r.id">{{r.nombre}}</option>
+          </select>
+        </div>
+        <div>
+          <Label for="Sup">Supervisor</Label>
+          <select name="SelectSup" id="Sup" class="form-select" [(ngModel)]="nuevoUsuario.id_supervisor" required>
+            <option value="0" disabled selected>Seleccione una opción</option>
+            <option *ngFor="let s of sup" [value]="s.id">{{s.nombre}}</option>
+          </select>
+        </div>
       </div>
 
       <div class="form-columnas campos-angostos">
@@ -134,8 +145,6 @@
 
     <!-- Contenedor principal flex -->
     <div class="form-container">
-      <div class="form-columnas campos-angostos">
-      </div>
       <div class="form-columna">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" [(ngModel)]="updateData.nombre" class="form-input" required [value]="userData?.nombre">
@@ -148,22 +157,36 @@
       
         <label for="fechaNacimiento">Fecha de Nacimiento:</label>
         <input type="date" id="fechaNacimiento" [(ngModel)]="updateData.fecha_nacimiento" class="form-input" [value]="userData?.fecha_nacimiento | date:'yyyy-MM-dd'">
+        
+        <label for="activate">Activo</label>
+          <label class="switch">
+            <input [(ngModel)]="updateData.activate" type="checkbox" id="activate">
+            <span class="slider"></span>
+          </label>
+          
       </div>
         <div class="form-columna">
+
           <label for="direccion">Dirección:</label>
-          <input type="text" id="direccion" [(ngModel)]="updateData.direccion" [value]="userData?.direccion || ''">
+          <input type="text" id="direccion" class="form-input" [(ngModel)]="updateData.direccion" [value]="userData?.direccion || ''">
           
           <label for="Area">Area</label>
           <select name="SelectArea" id="Area" class="form-select" [(ngModel)]="updateData.area_id" [value]="userData?.area_id">
             <option value="" disabled selected>Seleccione una opción</option>
             <option *ngFor="let a of area" [value]="a.id">{{a.nombre}}</option>
           </select>
-          
-          <label for="activate">Activo</label>
-          <label class="switch">
-            <input [(ngModel)]="updateData.activate" type="checkbox" id="activate">
-            <span class="slider"></span>
-          </label>
+
+          <label for="Rol">Rol</label>
+          <select name="SelectRol" id="Rol" class="form-select" [(ngModel)]="updateData.rol_id" [value]="userData?.rol_id" required>
+            <option value="0" disabled selected>Seleccione una opción</option>
+            <option *ngFor="let r of rol" [value]="r.id">{{r.nombre}}</option>
+          </select>
+
+          <label for="Supervisor">Supervisor</label>
+          <select name="SelectSup" id="Sup" class="form-select" [(ngModel)]="updateData.id_supervisor" [value]="userData?.id_supervisor" required>
+            <option value="0" disabled selected>Seleccione una opción</option>
+            <option *ngFor="let s of sup" [value]="s.id">{{s.nombre}}</option>
+          </select>
           
           <div class="contrasena-container">
             <input [type]="mostrarContrasena ? 'text' : 'password'" id="contrasena"

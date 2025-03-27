@@ -21,6 +21,7 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
     fecha_nacimiento: '',
     direccion: '',
     cargo: '',
+    id_supervisor: 0, // Cambiar null
     activate: true,
     area_id: 0, // Cambiar null por 0
     rol_id: 0,  // Cambiar null por 0
@@ -57,6 +58,7 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
     this.Users();
     this.getAreas();
     this.getRoles();
+    this.getSupervisor();
   }
 
 
@@ -201,6 +203,18 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
     this.gm.agregarUsuario(this.nuevoUsuario).subscribe({
       next: (response) => {
         // console.log('Usuario creado:', response.message);
+        this.agregarBitacora({
+          id_user: sessionStorage.getItem('id')?.toString() + '',
+          ids_user:
+            sessionStorage.getItem('server') +
+            '-' +
+            sessionStorage.getItem('id') +
+            '',
+          origen: 'edicion y matencion de Usuario',
+          dato_actual: 'Nuevo Usuario', // Datos actuales antes del cambio
+          dato_resultado: JSON.stringify(this.updateData), // Datos después del cambio
+          tabla_impactada: 'hela.usuarios',
+        });
         this.resetFormulario();
       },
       error: (err) => {
@@ -217,6 +231,7 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
       fecha_nacimiento: '',
       direccion: '',
       cargo: '',
+      id_supervisor: 0,
       activate: false,
       area_id: 0,
       rol_id: 0,
@@ -293,6 +308,19 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
     );
   }
 
+  sup: any []= [];
+
+  getSupervisor():void {
+    this.gm.getSupervisor().subscribe(
+      (data) => {
+        this.sup = data
+      },
+      (error) => {
+        this.mostrarAlerta('No se han encontrado áreas', 'error');
+      }
+    );
+  }
+
   base64ToBlob(base64: string): Blob {
     const byteString = atob(base64.split(',')[1]);
     const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
@@ -351,9 +379,22 @@ actualizarUsuario() {
       next: (response) => {
         // console.log('Actualización exitosa:', response.message);
         // Resetear formulario
+        this.agregarBitacora({
+          id_user: sessionStorage.getItem('id')?.toString() + '',
+          ids_user:
+            sessionStorage.getItem('server') +
+            '-' +
+            sessionStorage.getItem('id') +
+            '',
+          origen: 'edicion y matencion de Usuario',
+          dato_actual: JSON.stringify(this.userData), // Datos actuales antes del cambio
+          dato_resultado: JSON.stringify(this.updateData), // Datos después del cambio
+          tabla_impactada: 'hela.usuarios',
+        });
         this.updateData = {};
         this.getUsersEdit(this.id_User)
         this.mostrarAlerta('Usuario actualizado correctamente', 'success');
+        
         this.toggleLive2(); // Cerrar el modal
       },
       error: (err) => {
@@ -372,6 +413,7 @@ private resetFormValues(): void {
     fecha_nacimiento: '',
     direccion: '',
     cargo: '',
+    id_supervisor: 0,
     area_id: 0,
     rol_id: 0,
     password: '',
@@ -385,9 +427,12 @@ private resetFormValues(): void {
     telefono: '',
     fecha_nacimiento: '',
     direccion: '',
+    cargo: '',
+    id_supervisor: 0,
     area_id: 0,
-    activate: true,
+    rol_id: 0,
     password: '',
+    activate: true,
   };
 
   // Opcional: Restablecer otras variables relacionadas
@@ -477,5 +522,24 @@ private setFormValues(): void {
         }, 500);
       }, 5000);
     }
+  }
+
+  agregarBitacora(bitacoraData: {
+    id_user: string;
+    ids_user?: string;
+    origen: string;
+    dato_actual?: string;
+    dato_resultado?: string;
+    tabla_impactada: string;
+  }): void {
+    //https://hela.transyanez.cl/api
+    this.http.post('http://localhost:8000/api/Agregar/Bitacora/', bitacoraData).subscribe({
+      next: (response: any) => {
+        console.log('Registro agregado a la bitácora:', response.message);
+      },
+      error: (err) => {
+        console.error('Error al agregar registro a la bitácora:', err);
+      },
+    });
   }
 }
