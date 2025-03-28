@@ -110,7 +110,7 @@
         <div class="input-container">
             <label for="fechaCitaciones">Seleccionar Fecha:</label>
             <input type="date" class="from-control" id="fechaCitaciones" [min]="minDate" (keydown)="preventTyping($event)"
-                formControlName="date" (change)="onDateChange($event)">
+              [(ngModel)]="minDate" (change)="onDateChange($event)">
         </div>
         <div class="input-container">
             <label for="OperacionInput">Filtrar por Operación/Centro</label>
