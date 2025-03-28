@@ -84,6 +84,8 @@ export class CitacionSupervisoresComponent {
     let minMes = ("0" + (hoy.getMonth() + 1)).slice(-2); // Los meses comienzan en 0
     let MinDía = ("0" + hoy.getDate()).slice(-2);
     this.minDate = `${minAño}-${minMes}-${MinDía}`;
+
+    console.log('fecha_seleccionada',this.currentDate)
   }
   
 
@@ -117,6 +119,8 @@ export class CitacionSupervisoresComponent {
       // this.getModalidades();
 
       this.currentDate = fecha
+
+      console.log('fecha-entrega',this.currentDate)
 
       this.service.getDatosCitacionSupervisor(this.id_usuario,fecha).subscribe((data) => {
         this.citacionSupervisores = data
@@ -396,7 +400,7 @@ guardarDatos() {
 
   this.datosCitacionActiva.map((data)=>{
 
-
+    data['fecha'] = this.currentDate
     if(data.campos_por_operacion){
       data['fm_total_paradas'] = data.campos_por_operacion[0].fm_total_paradas    
       data['fm_estimados'] = data.campos_por_operacion[0].fm_estimados 
@@ -410,7 +414,7 @@ guardarDatos() {
       data['lm_entregas'] = data.campos_por_operacion[0].lm_entregas 
       data['lm_tiempo_ruta'] = data.campos_por_operacion[0].lm_tiempo_ruta 
       data['lm_estado'] = data.campos_por_operacion[0].lm_estado 
-      data['fecha'] = this.currentDate
+      
     }
   }
   )

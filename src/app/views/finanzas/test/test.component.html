@@ -1,54 +1,215 @@
-<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="lg">
-    <c-modal-header>
-      <h5 cModalTitle>Agregar eventos</h5>
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="xl" backdrop="static">
+    <!-- <c-modal-header>
+      <h5 cModalTitle>Agregar Descuentos</h5>
       <button (click)="toggleLiveDemo()" cButtonClose></button>
-    </c-modal-header>
+    </c-modal-header> -->
     <c-modal-body>
-      <div class="cuotas-section">
-       
-        <form cForm [formGroup]="formDescuentos" >
-        <c-row>
+
+
+
+
+
+      <c-row>
+        <c-col>
+          <h2> Descuentos</h2>
+        </c-col>
+        <c-col>
+          
+        </c-col>
+        <c-col>
+          
+        </c-col>
+        <c-col>
+          
+        </c-col>
+        <c-col>
+          <button  cButton class="form-control" color="success" style="color: white;"  (click)="guardar()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.05em" height="1.2em" viewBox="0 0 448 512">
+              <path fill="#fff" d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64s28.654-64 64-64s64 28.654 64 64s-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A12 12 0 0 1 320 111.48" />
+            </svg>
+            &nbsp;
+            Guardar</button>
+        </c-col>
+      </c-row>
+      
+      <div class="divider"></div>
+      <!-- <div > -->
+      
+          <p></p>
+      
+          <form cForm [formGroup]="formDescuentos" (ngSubmit)="guardar()" >
+          <c-row>
+            
+      
+            <c-col [xs]>
+              <div class="">
+                Fecha evento
+                <input type="date" placeholder="Nombre Contacto" class="form-control" formControlName="Fecha_evento" >
+            </div>
+          </c-col>
+          <c-col [xs]>
+            Patente
+              <select name="" id="" class="form-control"  formControlName="Pantente">
+                <option value="" disabled>Seleccione</option>
+                <option *ngFor="let razon of seleccionPantente" [value]="razon.Id">{{razon.Patente}}</option>
+              </select>
+      
+      
+            
+          </c-col>
+          <c-col [xs]>
+            Razón Social 
+            <select name="" id="" class="form-control"  formControlName="Razon_social">
+              <option value="" disabled>Seleccione</option>
+              <option *ngFor="let razon of seleccionRazonSocial; let i = index " [value]="razon.Id">{{razon.Nombre_razon}}</option>
+            </select>
+              <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span> -->
+      
+            
+          </c-col>
+            <c-col [xs]>
+                <div class="noEditar">
+                    Ruta 
+                    <input type="text" placeholder="Ruta" class="form-control"  formControlName="Ruta">
+      
+                </div>
+            </c-col>
+           
+          
             <p></p>
-            <c-col>
-                Monto
-                <input class="form-control" formControlName="Monto" type="number" name="" id="">
-            </c-col>
-            <c-col>
-                Cuotas
-                <select name="" id=""  class="form-control" formControlName="Cant_cuotas" (change)="agregarCuotas()">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+        </c-row>
+        <c-row>
+          <c-col [xs]>
+            <div class="noEditar">
+                Etiqueta
+      
+                <select name="" id="" class="form-control"  formControlName="Etiqueta">
+                  <option value="" disabled>Seleccione</option>
+                  <option *ngFor="let etiqueta of seleccionEtiqueta" [value]="etiqueta.Id">{{etiqueta.Etiqueta}}</option>
                 </select>
-            </c-col>
-            <c-col></c-col>
+      
+            </div>
+        </c-col>
+      
+        <c-col [xs]>
+          Descripción
+          <input type="text" placeholder="Cantidad" class="form-control"  formControlName="Descripcion">
+      </c-col>
+      
+      <c-col [xs]>
+        Adjunto
+        <input type="file" name="" id="doc_bancario"  class="form-control" accept=".pdf" (change)="onFileSelected($event)"> 
+          <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+            Numero de Teléfono no es valido
+        </span> -->
+      
+        
+      </c-col>
         </c-row>
         <p></p>
-        <div formArrayName="Cuotas" >
-
-        
-        <c-row *ngFor="let carga of Cuotas.controls; let i = index">
-            <!-- <p></p> -->
-            <c-row [formGroupName]="i">
+        <c-row>
+          <c-col [xs]>
+            Operación
+            <select name="" id="" class="form-control" (change)="seleccionaCentro($event)" formControlName="Id_operacion">
+              <option value="" disabled>Seleccione</option>
+              <option *ngFor="let op of seleccionOperaciones; let i = index " [value]="op.Id_op">{{op.Operacion}}</option>
+            </select>
+              <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span> -->
+      
             
+          </c-col>
+          <c-col [xs]>
+            Centro Operación
+      
+            <select name="" id="" class="form-control" formControlName="Id_cop" >
+              <option value="" disabled>Seleccione</option>
+              <option *ngFor="let centro of seleccionCentro; let i = index " [value]="centro.Id_cop">{{centro.Nombre}}</option>
+            </select>
+              <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span> -->
+      
             
-            <c-col>Cuota {{i+1}}
-                
-            </c-col>
-            <c-col>
-                <input class="form-control" formControlName="Fecha_comp" type="date" name="" id="">
-            </c-col>
-            <c-col>
-                <input class="form-control" type="number" [disabled]="true" formControlName="Valor_cuota" >
-            </c-col>
+          </c-col>
+          <c-col>
+            
+          </c-col>
+          <c-col>
+            
+          </c-col>
         </c-row>
+      </form>
+      
+      <p></p>
+      
+      <c-row>
+        <c-col>
+          <div class="cuotas-section">
+            <h2> Detalle de Cuotas</h2>
+            <form cForm [formGroup]="formDescuentos" >
+            <c-row>
+                <p></p>
+                <c-col>
+                    Monto
+                    <input class="form-control" formControlName="Monto" type="number" name="" id="">
+                </c-col>
+                <c-col>
+                    Cuotas
+                    <select name="" id=""  class="form-control" formControlName="Cant_cuotas" (change)="agregarCuotas()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </c-col>
+                <c-col></c-col>
+            </c-row>
             <p></p>
-        </c-row>
-    </div>
-    </form>
-  </div>
+            <div formArrayName="Cuotas" >
+      
+            
+            <c-row *ngFor="let carga of Cuotas.controls; let i = index">
+                <!-- <p></p> -->
+                <c-row [formGroupName]="i">
+                
+                
+                <c-col>Cuota {{i+1}}
+                    
+                </c-col>
+                <c-col>
+                    <input class="form-control" formControlName="Fecha_comp" type="date" name="" id="">
+                </c-col>
+                <c-col>
+                    <input class="form-control" type="text" [disabled]="true" formControlName="Valor_cuota_formato" >
+                </c-col>
+            </c-row>
+                <p></p>
+            </c-row>
+        </div>
+        </form>
+      </div>
+        </c-col>
+      </c-row>
+      
+      
+      <p></p>
+
+
+
+
+
+
+
+
+
+
+
+
     </c-modal-body>
     <c-modal-footer>
         <button (click)="toggleLiveDemo()" cButton color="secondary">
@@ -62,204 +223,199 @@
 </c-modal>
 
 
-<c-row>
-  <c-col>
-    <h2> Descuentos</h2>
-  </c-col>
-  <c-col>
-    
-  </c-col>
-  <c-col>
-    
-  </c-col>
-  <c-col>
-    
-  </c-col>
-  <c-col>
-    <button  cButton class="form-control" color="success" style="color: white;"  (click)="guardar()">
+
+
+<div class="container mt-4">
+  <c-row>
+    <c-col>
+      <h2>Descuentos</h2>
+    </c-col>
+    <c-col>
+      
+    </c-col>
+    <c-col>
+      <button class="btn btn-primary w-100" (click)="toggleLiveDemo()">Agregar descuento</button>
+    </c-col>
+  </c-row>
+  
+
+  <!-- Filtros de fecha -->
+  <div class="row my-3">
+      <div class="col-md-4">
+          <label for="fechaInicio" class="form-label">Fecha Inicio:</label>
+          <input type="date" id="fechaInicio" class="form-control" [(ngModel)]="fecha_ini" >
+      </div>
+      <div class="col-md-4">
+          <label for="fechaFin" class="form-label">Fecha Fin:</label>
+          <input  type="date" id="fechaFin" class="form-control" [(ngModel)]="fecha_fin">
+          
+      </div>
+      <div class="col-md-4 d-flex align-items-end">
+          <button class="btn btn-primary w-100" (click)="obtenerListaDescuentos(fecha_ini,fecha_fin)">Buscar</button>
+      </div>
+  </div>
+
+<!-- Tabla Principal -->
+<div class="table-container">
+  <table class="table table-bordered table-striped">
+      <thead>
+          <tr>
+              <th>Fecha cobro</th>
+              <!-- <th>Ingresado por</th> -->
+              <th>Operación</th>
+              <th>Centro Operación</th>
+              <th class="text-center">PPU</th>
+              <th class="text-center">Razón Social</th>
+              <th class="text-center">Cuota</th>
+              <th class="text-center">Valor</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Cobrada</th>
+              <th class="text-center">OC Cobro</th>
+              <th class="text-center">Acciones</th>
+          </tr>
+      </thead>
+      <tbody id="tablaDatos">
+        <tr *ngFor="let dcto of listaDescuentos">
+          <td>{{dcto.Fecha_cobro}}</td>
+          <!-- <td>{{dcto.Ingresado_por}}</td> -->
+          <td>{{dcto.Operacion}}</td>
+          <td>{{dcto.Centro_operacion}}</td>
+          <td>{{dcto.Ppu}}</td>
+          <td >{{dcto.Razon_social}}</td>
+          <td>{{dcto.Cuota}}</td>
+          <td>{{dcto.Valor_cuenta}}</td>
+          <td>{{dcto.Total}}</td>
+          <td class="text-center">
+          <svg *ngIf="dcto.Cobrada" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+            <path fill="green" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="green" />
+        </svg>
+        <svg *ngIf="!dcto.Cobrada" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+            <path fill="red" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" stroke-width="13" stroke="red" />
+        </svg>
+        </td>
+          <td>{{dcto.Oc_cobro}}</td>
+          <td class="text-center">
+            <svg (click)="mostrarActualizacion(dcto.Id,dcto.Cobrada,dcto.Oc_cobro)" xmlns="http://www.w3.org/2000/svg" width="12.25px" height="14px" viewBox="0 0 448 512">
+              <path fill="green" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128m89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4" stroke-width="13" stroke="green" />
+          </svg>
+
+          </td>
+
+        </tr>
+        <tr *ngIf="listaDescuentos.length == 0 ">
+          <td colspan="11" class="text-center">No hay datos</td>
+
+        </tr>
+
+
+          <!-- Aquí se insertan las filas dinámicamente -->
+      </tbody>
+  </table>
+</div>
+
+</div>
+
+
+<c-modal id="liveDemoModal" [visible]="visibleActualizacion" (visibleChange)="handleActualizacion($event)" size="lg" >
+  <!-- <c-modal-header>
+    <h5 cModalTitle>Actualizar detalle</h5>
+    <button  cButton  color="success" style="color: white;"  >
       <svg xmlns="http://www.w3.org/2000/svg" width="1.05em" height="1.2em" viewBox="0 0 448 512">
         <path fill="#fff" d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64s28.654-64 64-64s64 28.654 64 64s-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A12 12 0 0 1 320 111.48" />
       </svg>
       &nbsp;
       Guardar</button>
-  </c-col>
-</c-row>
+  </c-modal-header> -->
 
-<div class="divider"></div>
-<div >
-    <!-- <p></p>
-    <h5>Vehículo</h5> -->
-    <p></p>
 
-    <form cForm [formGroup]="formDescuentos" (ngSubmit)="guardar()" >
+
+
+
+
+  <c-modal-body>
+
     <c-row>
-      
+      <c-col>
+        <h2> Actualizar </h2>
+      </c-col>
+      <c-col>
+        
+      </c-col>
+      <c-col>
+        
+      </c-col>
+      <c-col>
+        
+      </c-col>
+      <c-col>
+        <button  cButton  color="success" style="color: white;"  >
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.05em" height="1.2em" viewBox="0 0 448 512">
+            <path fill="#fff" d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64s28.654-64 64-64s64 28.654 64 64s-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A12 12 0 0 1 320 111.48" />
+          </svg>
+          &nbsp;
+          Guardar</button>
+      </c-col>
+    </c-row>
 
+    <!-- <c-row>
+      <c-col>
+        <h2> Actualizar detalle</h2>
+      </c-col>
+      <c-col>
+        
+      </c-col>
+
+      <c-col>
+        
+        <button  cButton  color="success" style="color: white;"  >
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.05em" height="1.2em" viewBox="0 0 448 512">
+            <path fill="#fff" d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64s28.654-64 64-64s64 28.654 64 64s-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A12 12 0 0 1 320 111.48" />
+          </svg>
+          &nbsp;
+          Guardar</button>
+      </c-col>
+    </c-row>
+     -->
+    <div class="divider"></div>
+
+
+
+    <c-row>
       <c-col [xs]>
         <div class="">
-          Fecha evento
+          OC Cobro
 
-          <input type="date" placeholder="Nombre Contacto" class="form-control" formControlName="Fecha_evento" >
+          <input type="text" placeholder="Nombre Contacto" class="form-control" formControlName="Fecha_evento" >
             <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
 
       </div>
     </c-col>
     <c-col [xs]>
-      Patente
-      <!-- <input type="text" placeholder="Teléfono" class="form-control"  formControlName="Pantente"> -->
-        <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
-        <select name="" id="" class="form-control"  formControlName="Pantente">
-          <option value="" disabled>Seleccione</option>
-          <option *ngFor="let razon of seleccionPantente" [value]="razon.Id">{{razon.Patente}}</option>
-        </select>
+      <div class="">
+        Cobrado <br>
+        <svg *ngIf="cobrado" (click)="cambiarEstadoCobro()" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 512 512">
+          <path fill="green" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="green" />
+      </svg>
+      <svg *ngIf="!cobrado" (click)="cambiarEstadoCobro()" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 512 512">
+          <path fill="red" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" stroke-width="13" stroke="red" />
+      </svg>
+          <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
 
-
-      
-    </c-col>
-    <c-col [xs]>
-      Razón Social 
-      <!-- <input type="text" placeholder="name@example.com" class="form-control"  formControlName="Razon_social"> -->
-
-      <select name="" id="" class="form-control"  formControlName="Razon_social">
-        <option value="" disabled>Seleccione</option>
-        <option *ngFor="let razon of seleccionRazonSocial; let i = index " [value]="razon.Id">{{razon.Nombre_razon}}</option>
-      </select>
-        <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
-          Numero de Teléfono no es valido
-      </span> -->
-
-      
-    </c-col>
-      <c-col [xs]>
-          <div class="noEditar">
-              Ruta 
-              <input type="text" placeholder="Ruta" class="form-control"  formControlName="Ruta">
-
-          </div>
-      </c-col>
-     
-    
-      <p></p>
-  </c-row>
-  <c-row>
-    <c-col [xs]>
-      <div class="noEditar">
-          Etiqueta
-
-          <select name="" id="" class="form-control"  formControlName="Etiqueta">
-            <option value="" disabled>Seleccione</option>
-            <option *ngFor="let etiqueta of seleccionEtiqueta" [value]="etiqueta.Id">{{etiqueta.Etiqueta}}</option>
-          </select>
-
-      </div>
+    </div>
   </c-col>
+    </c-row>
 
-  <c-col [xs]>
-    Descripción
-    <input type="text" placeholder="Cantidad" class="form-control"  formControlName="Descripcion">
-</c-col>
+  </c-modal-body>
+  <c-modal-footer>
+      <button (click)="toggleActualizacion()" cButton color="secondary">
+          Cerrar
+        </button>
+    <!-- <button (click)="guardar()" cButton color="secondary">
+      Guardar
+    </button> -->
+  </c-modal-footer>
 
-<c-col [xs]>
-  Adjunto
-  <input type="file" name="" id="doc_bancario"  class="form-control" accept=".pdf" (change)="onFileSelected($event)"> 
-  <!-- <input type="text" placeholder="Cantidad" class="form-control"  formControlName=""> -->
-
-    <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
-      Numero de Teléfono no es valido
-  </span> -->
-
-  
-</c-col>
-  </c-row>
-</form>
-  <!-- <c-row>
-    <c-col [xs]>
-      <p></p>
-      Cuotas <p></p>
-      <button class="form-control" (click)="toggleLiveDemo()">Añadir</button>
-  </c-col>
-  <c-col>
-  </c-col>
-  <c-col>
-    
-  </c-col>
-  <c-col>
-    
-  </c-col>
-  
-  </c-row> -->
-<p></p>
-    <!-- <c-row>
-      <c-col>
-        <button  cButton class="form-control" color="success" (click)="guardar()">Guardar</button>
-      </c-col>
-      <c-col>
-
-      </c-col>
-      <c-col>
-        
-      </c-col>
-      <c-col>
-        
-      </c-col>
-    </c-row> -->
-    
-
-<p></p>
-
-
-
-<c-row>
-  <c-col>
-    <div class="cuotas-section">
-      <h2> Detalle de Cuotas</h2>
-      <form cForm [formGroup]="formDescuentos" >
-      <c-row>
-          <p></p>
-          <c-col>
-              Monto
-              <input class="form-control" formControlName="Monto" type="number" name="" id="">
-          </c-col>
-          <c-col>
-              Cuotas
-              <select name="" id=""  class="form-control" formControlName="Cant_cuotas" (change)="agregarCuotas()">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-              </select>
-          </c-col>
-          <c-col></c-col>
-      </c-row>
-      <p></p>
-      <div formArrayName="Cuotas" >
-
-      
-      <c-row *ngFor="let carga of Cuotas.controls; let i = index">
-          <!-- <p></p> -->
-          <c-row [formGroupName]="i">
-          
-          
-          <c-col>Cuota {{i+1}}
-              
-          </c-col>
-          <c-col>
-              <input class="form-control" formControlName="Fecha_comp" type="date" name="" id="">
-          </c-col>
-          <c-col>
-              <input class="form-control" type="text" [disabled]="true" formControlName="Valor_cuota" >
-          </c-col>
-      </c-row>
-          <p></p>
-      </c-row>
-  </div>
-  </form>
-</div>
-  </c-col>
-</c-row>
-
-</div>
+</c-modal>
 
 
 

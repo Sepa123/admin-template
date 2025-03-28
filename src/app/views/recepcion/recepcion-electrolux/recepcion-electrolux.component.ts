@@ -31,6 +31,8 @@ export class RecepcionElectroluxComponent{
   // cargas! : CargasComparacion []
   cargas : string [] = []
 
+  clienteSeleccionado : string = "easy_cd"
+
   idPortal!: string 
 
   //datos geo
@@ -86,8 +88,8 @@ getLocationAsync(): Promise<any> {
     return year + month + day;
   }
 
-  subRecepcionEasyCd(){
-    this.subRecepcion = this.service.updateRecepcionEasyCD().subscribe((data) => {
+  subRecepcionEasyCd(tienda : string){
+    this.subRecepcion = this.service.updateRecepcionTiendas(tienda).subscribe((data) => {
 
       this.productos = data
       this.cantRecepcionados = data.filter(producto => producto.Recepcion == true ).length
@@ -103,9 +105,9 @@ getLocationAsync(): Promise<any> {
     })
   }
 
-  initRecepionEasyCD(){
+  initRecepionEasyCD(tienda : string){
     
-    this.service.getRecepcionEasyCD().subscribe((data) => {
+    this.service.getRecepcionTiendas(tienda).subscribe((data) => {
       
       this.cantRecepcionados = data.filter(producto => producto.Recepcion == true).length
       this.cantNoRecepcionados = data.filter(producto => producto.Recepcion == false).length
@@ -130,12 +132,22 @@ getLocationAsync(): Promise<any> {
     this.idPortal = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
     console.log(this.idPortal)
     console.log("Carga actual ",this.cargaActual)
-    this.subRecepcionEasyCd()
+    this.subRecepcionEasyCd('easy_cd')
     
     // this.tiService.get_cargas_easy_api().subscribe((data) => {
     //     this.cargas = data
     // })
-    this.initRecepionEasyCD()
+    this.initRecepionEasyCD('easy_cd')
+  }
+
+
+  seleccionarCliente(){
+
+    // Cancelar la suscripción al destruir el componente
+  this.subRecepcion.unsubscribe();
+
+  this.initRecepionEasyCD(this.clienteSeleccionado)
+  this.subRecepcionEasyCd(this.clienteSeleccionado)
   }
 
 
@@ -160,12 +172,12 @@ getLocationAsync(): Promise<any> {
     this.cargaActual = nro_carga
     this.subRecepcion.unsubscribe();
     if(nro_carga === "Todas"){
-      this.initRecepionEasyCD()
-      this.subRecepcionEasyCd()
+      this.initRecepionEasyCD(this.clienteSeleccionado)
+      this.subRecepcionEasyCd(this.clienteSeleccionado)
 
     } else {
     this.subRecepcion.unsubscribe();
-    this.service.getRecepcionEasyCD().subscribe((data) => {
+    this.service.getRecepcionTiendas(this.clienteSeleccionado).subscribe((data) => {
       // console.log("Este esd del filterByCarga init ")
       
       this.productosPorVerificar = data.filter(producto => producto.Carga === nro_carga)
@@ -186,7 +198,7 @@ getLocationAsync(): Promise<any> {
       }      
     })
 
-    this.subRecepcion =  this.service.updateRecepcionEasyCD().subscribe((data) => {
+    this.subRecepcion =  this.service.updateRecepcionTiendas(this.clienteSeleccionado).subscribe((data) => {
       // console.log("Este esd del filterByCarga")
       this.productosPorVerificar = this.productosPorVerificar.filter(producto => producto.Carga === nro_carga)
       this.productosVerificados = this.productosVerificados.filter(producto => producto.Carga === nro_carga)
@@ -216,14 +228,14 @@ getLocationAsync(): Promise<any> {
     
     const body = {
       "id_usuario" : sessionStorage.getItem('id')+"",
-      "cliente" : "Easy CD",
+      "cliente" : this.clienteSeleccionado,
       "n_guia" : codigo_producto,
       "cod_pedido" : codigo_producto,
       "cod_producto" : codigo_producto,
       "ids_usuario" : this.idPortal,
       "latitud": this.latStr,
       "longitud": this.longStr,
-      "observacion" : "Actualización recepcion por pickeo en Recepción Easy CD"
+      "observacion" : "Actualización recepcion por pickeo " + this.clienteSeleccionado
       // "cod_sku" : sku
     }
 
@@ -243,7 +255,7 @@ getLocationAsync(): Promise<any> {
       this.codigoProducto = ""
       
 
-       this.initRecepionEasyCD()
+       this.initRecepionEasyCD(this.clienteSeleccionado)
 
       this.filterByCarga(this.cargaActual)
 
@@ -264,14 +276,14 @@ getLocationAsync(): Promise<any> {
     
     const body = {
       "id_usuario" : sessionStorage.getItem('id')+"",
-      "cliente" : "Easy CD",
+      "cliente" : this.clienteSeleccionado,
       "n_guia" : cod_pedido,
       "cod_pedido" : cod_pedido,
       "cod_producto" : cod_producto,
       "ids_usuario" : this.idPortal,
       "latitud": lat,
       "longitud": long,
-      "observacion" : "Actualización recepcion por click en Recepción Easy CD"
+      "observacion" : "Actualización recepcion por click en Recepción " + this.clienteSeleccionado
       // "cod_sku" : sku
     }
 

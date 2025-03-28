@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
 import { FinanzasService } from '../../../service/finanzas.service';
 
-import { SeleccionesDescuentos, RazonSocial,Patente,Etiqueta } from '../../../models/finanzas/descuentos.interface'
+import { SeleccionesDescuentos, RazonSocial,Patente,Etiqueta, SeleccionOperaciones, Centro ,Descuentos } from '../../../models/finanzas/descuentos.interface'
 
 
 @Component({
@@ -15,6 +15,8 @@ export class TestComponent {
   private selectedFile: File | null = null;
 
   visible : boolean =false 
+
+  listaDescuentos : Descuentos [] =[]
 
   toggleLiveDemo() {
     this.visible = !this.visible;
@@ -61,8 +63,20 @@ export class TestComponent {
   seleccionPantente : Patente [] = []
   seleccionEtiqueta : Etiqueta [] = []
 
+  seleccionOperaciones : SeleccionOperaciones [] = []
+  seleccionCentro : Centro [] = []
+
   // formDescuentos: FormGroup;
   formDescuentos: FormGroup;
+
+  seleccionaCentro(event : any){
+    const id = event.target.value
+
+    console.log(id)
+
+    this.seleccionCentro = this.seleccionOperaciones.filter((data) => data.Id_op == id )[0].Centros
+
+  }
 
 
   constructor(private fb:FormBuilder, private service : FinanzasService){
@@ -89,6 +103,8 @@ export class TestComponent {
       Adjunto : this.fb.control(""),
       Monto : this.fb.control(0, [Validators.required] ),
       Cant_cuotas : this.fb.control("", [Validators.required] ),
+      Id_operacion : this.fb.control(""),
+      Id_cop : this.fb.control(""),
       Cuotas : this.fb.array([]),
       // etiqueta : this.fb.control("")
     })
@@ -109,6 +125,7 @@ export class TestComponent {
       Cobrada: this.fb.control(false),
       Fecha_comp: this.fb.control("", [Validators.required] ),
       Valor_cuota:'',
+      Valor_cuota_formato: ''
     })
   }
 
@@ -117,6 +134,13 @@ export class TestComponent {
   removeCarga() {
     // this.arrayCodigosProductos.splice(5,1)
     this.Cuotas.clear()
+  }
+
+  obtenerListaDescuentos(fecha_ini:string, fecha_fin:string){
+    this.service.obtenerDescuentos(fecha_ini,fecha_fin).subscribe((data) => {
+      // console.log(data)
+      this.listaDescuentos = data
+    })
   }
 
   agregarCuotas(){
@@ -136,17 +160,85 @@ export class TestComponent {
       this.Cuotas.push(this.newCuotas());
 
       this.Cuotas.at(index).patchValue({
-        Valor_cuota :  new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(Math.round(monto / this.formDescuentos.value.Cant_cuotas)),
+        Valor_cuota_formato :  new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(Math.round(monto / this.formDescuentos.value.Cant_cuotas)),
+        Valor_cuota: Math.round(monto / this.formDescuentos.value.Cant_cuotas) ,
         Numero_cuota : index + 1
       })
     }
     
   }
 
- 
 
+  visibleActualizacion : boolean =false 
+
+
+  toggleActualizacion() {
+    this.visibleActualizacion = !this.visibleActualizacion;
+  }
+
+  handleActualizacion(event: any) {
+    this.visibleActualizacion = event;
+  }
+
+
+
+  cobrado : boolean = false
+  oc_cobro : string = ''
+
+  cambiarEstadoCobro(){
+    this.cobrado = !this.cobrado
+  }
+
+  mostrarActualizacion(id_desc : number, cobrado : boolean, oc_cobro : string){
+
+
+    this.cobrado = cobrado
+    this.oc_cobro = oc_cobro
+
+    // oc_cobrod
+
+
+    this.toggleActualizacion()
+
+  }
+
+
+  actualizarDetalle(){
+    
+  }
+
+ 
+  fecha_ini : string = ""
+  fecha_fin : string = ""
+
+
+  currentDate : string = ''
+  minDate : string = ''
+  maxDate : string = ''
+
+  rol =   sessionStorage.getItem("rol_id")+''
+
+
+  obtenerFechas(){
+    let hoy = new Date();
+
+    let año = hoy.getFullYear();
+    let mes = ("0" + (hoy.getMonth() + 1)).slice(-2); // Los meses comienzan en 0
+    let día = ("0" + hoy.getDate()).slice(-2);
+
+    this.currentDate = `${año}-${mes}-${día}`;
+
+    hoy.setDate(hoy.getDate() - 4);
+
+    let minAño = hoy.getFullYear();
+    let minMes = ("0" + (hoy.getMonth() + 1)).slice(-2); // Los meses comienzan en 0
+    let MinDía = ("0" + hoy.getDate()).slice(-2);
+    this.minDate = `${minAño}-${minMes}-${MinDía}`;
+  }
 
   ngOnInit(){
+
+    this.obtenerFechas()
 
     this.service.seleccionesDescuentos().subscribe((data) => {
       this.seleccionRazonSocial = data.Razon_social
@@ -154,12 +246,21 @@ export class TestComponent {
       this.seleccionEtiqueta = data.Etiquetas
     })
 
+    this.service.seleccionesOperaciones().subscribe((data) => {
+      console.log(data)
+      this.seleccionOperaciones = data
+    })
+
+    // this.obtenerListaDescuentos('20240301','20250326')
+
   }
 
   guardarCuotas(){
 
 
     if (this.formDescuentos.valid){
+
+      
 
 
       this.service.guardarDescuento(this.formDescuentos.value).subscribe((data) => {

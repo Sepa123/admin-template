@@ -19,10 +19,10 @@
       <option>Juan Pérez</option>
       <option>María López</option>
     </select> -->
-    <select  class="input" >
-      <option>Seleccionar Cliente</option>
-      <option value="Easy CD">Easy CD</option>
-      <option value="Easy OPL"> Easy OPL</option>
+    <select  class="input" [(ngModel)]="clienteSeleccionado" (change)="seleccionarCliente()">
+      <option disabled>Seleccionar Cliente</option>
+      <option value="easy_cd">Easy CD</option>
+      <option value="easy_opl"> Easy OPL</option>
     </select>
 
     <select  class="input" (click)="filterByCarga($event)">

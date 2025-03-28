@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 
-import { SeleccionesDescuentos } from '../models/finanzas/descuentos.interface'
+import { SeleccionesDescuentos, SeleccionOperaciones , Descuentos} from '../models/finanzas/descuentos.interface'
 
 
 @Injectable({
@@ -20,6 +20,15 @@ export class FinanzasService {
     return this.http.get< SeleccionesDescuentos>(`${this.apiUrl}/selecciones/descuentos`);
   }
 
+  seleccionesOperaciones(){
+    return this.http.get< SeleccionOperaciones []>(`${this.apiUrl}/selecciones/operaciones`);
+  }
+
+
+ obtenerDescuentos(fecha_ini : string, fecha_fin : string){
+    return this.http.get<Descuentos []>(`${this.apiUrl}/obtener/descuentos?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}`);
+  }
+
 
   subirArchivoAdjunto(formData : any, id : string){
     return this.http.post(`${this.apiUrl}/subir/archivo?id=${id}`, formData)
@@ -31,5 +40,9 @@ export class FinanzasService {
     return this.http.post(`${this.apiUrl}/guardar/descuento`, formData)
   }
 
+
+  actualizar(){
+    
+  }
 
 }
