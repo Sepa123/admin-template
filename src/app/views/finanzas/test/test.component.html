@@ -223,36 +223,51 @@
 </c-modal>
 
 
+<h2>Descuentos</h2>
 
+<div class="divider"></div>
 
 <div class="container mt-4">
   <c-row>
     <c-col>
-      <h2>Descuentos</h2>
+      
     </c-col>
     <c-col>
       
     </c-col>
-    <c-col>
-      <button class="btn btn-primary w-100" (click)="toggleLiveDemo()">Agregar descuento</button>
-    </c-col>
+    
   </c-row>
   
 
   <!-- Filtros de fecha -->
   <div class="row my-3">
-      <div class="col-md-4">
+      <div class="col-md-3">
           <label for="fechaInicio" class="form-label">Fecha Inicio:</label>
           <input type="date" id="fechaInicio" class="form-control" [(ngModel)]="fecha_ini" >
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
           <label for="fechaFin" class="form-label">Fecha Fin:</label>
           <input  type="date" id="fechaFin" class="form-control" [(ngModel)]="fecha_fin">
           
       </div>
-      <div class="col-md-4 d-flex align-items-end">
-          <button class="btn btn-primary w-100" (click)="obtenerListaDescuentos(fecha_ini,fecha_fin)">Buscar</button>
+
+
+      <div class="col-md-3 d-flex align-items-end">
+       
+          <button class="btn btn-primary w-100" (click)="obtenerListaDescuentos(fecha_ini,fecha_fin)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" viewBox="0 0 512 512"><path fill="#fff" d="M416 208c0 45.9-14.9 88.3-40 122.7l126.6 126.7c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0s208 93.1 208 208M208 352a144 144 0 1 0 0-288a144 144 0 1 0 0 288" stroke-width="13" stroke="#fff"/></svg>
+            
+            Buscar</button>
       </div>
+
+
+      <div class="col-md-3 d-flex align-items-end">
+        <button class="btn btn-agregar w-100" color="primary" (click)="toggleLiveDemo()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12.25px" height="14px" viewBox="0 0 448 512"><path fill="#fff" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32" stroke-width="13" stroke="#fff"/></svg>
+  
+          Agregar descuento</button>
+      </div>
+
   </div>
 
 <!-- Tabla Principal -->
@@ -283,8 +298,8 @@
           <td>{{dcto.Ppu}}</td>
           <td >{{dcto.Razon_social}}</td>
           <td>{{dcto.Cuota}}</td>
-          <td>{{dcto.Valor_cuenta}}</td>
-          <td>{{dcto.Total}}</td>
+          <td>${{  dcto.Valor_cuenta | currency:'CLP':'':'1.0-0'}}</td>
+          <td>${{dcto.Total | currency:'CLP':'':'1.0-0'}}</td>
           <td class="text-center">
           <svg *ngIf="dcto.Cobrada" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
             <path fill="green" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="green" />
@@ -295,7 +310,7 @@
         </td>
           <td>{{dcto.Oc_cobro}}</td>
           <td class="text-center">
-            <svg (click)="mostrarActualizacion(dcto.Id,dcto.Cobrada,dcto.Oc_cobro)" xmlns="http://www.w3.org/2000/svg" width="12.25px" height="14px" viewBox="0 0 448 512">
+            <svg (click)="mostrarActualizacion(dcto.Id,dcto.Cobrada,dcto.Oc_cobro, dcto)" xmlns="http://www.w3.org/2000/svg" width="12.25px" height="14px" viewBox="0 0 448 512">
               <path fill="green" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128m89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4" stroke-width="13" stroke="green" />
           </svg>
 
@@ -348,7 +363,7 @@
         
       </c-col>
       <c-col>
-        <button  cButton  color="success" style="color: white;"  >
+        <button  cButton  color="success" style="color: white;"  (click)="actualizarDetalle()" >
           <svg xmlns="http://www.w3.org/2000/svg" width="1.05em" height="1.2em" viewBox="0 0 448 512">
             <path fill="#fff" d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64s28.654-64 64-64s64 28.654 64 64s-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A12 12 0 0 1 320 111.48" />
           </svg>
@@ -385,7 +400,7 @@
         <div class="">
           OC Cobro
 
-          <input type="text" placeholder="Nombre Contacto" class="form-control" formControlName="Fecha_evento" >
+          <input type="text" placeholder="Nombre Contacto" class="form-control" [(ngModel)]="oc_cobro">
             <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
 
       </div>
@@ -404,6 +419,68 @@
     </div>
   </c-col>
     </c-row>
+<p></p>
+
+<div *ngFor="let dcto of DescuentoSeleccionado" >
+
+
+    <c-row>
+      <c-col>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12.25px" height="14px" viewBox="0 0 448 512"><path fill="green" d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12m108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12m96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12m-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12m-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12m192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12m96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48m-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6" stroke-width="13" stroke="green"/></svg>
+        &nbsp;
+        <label style="font-weight: bold">Fecha Evento: </label>
+        
+        {{dcto.Fecha_evento}}
+      </c-col>
+      <c-col>
+        <svg xmlns="http://www.w3.org/2000/svg" width="17.5px" height="14px" viewBox="0 0 640 512">
+          <path fill="green" d="M352 288h-16v-88c0-4.42-3.58-8-8-8h-13.58c-4.74 0-9.37 1.4-13.31 4.03l-15.33 10.22a7.994 7.994 0 0 0-2.22 11.09l8.88 13.31a7.994 7.994 0 0 0 11.09 2.22l.47-.31V288h-16c-4.42 0-8 3.58-8 8v16c0 4.42 3.58 8 8 8h64c4.42 0 8-3.58 8-8v-16c0-4.42-3.58-8-8-8M608 64H32C14.33 64 0 78.33 0 96v320c0 17.67 14.33 32 32 32h576c17.67 0 32-14.33 32-32V96c0-17.67-14.33-32-32-32M48 400v-64c35.35 0 64 28.65 64 64zm0-224v-64h64c0 35.35-28.65 64-64 64m272 192c-53.02 0-96-50.15-96-112c0-61.86 42.98-112 96-112s96 50.14 96 112c0 61.87-43 112-96 112m272 32h-64c0-35.35 28.65-64 64-64zm0-224c-35.35 0-64-28.65-64-64h64z" stroke-width="13" stroke="green" />
+        </svg>
+        &nbsp;
+        <label style="font-weight: bold">Valor Cuota: </label>
+        
+        ${{dcto.Valor_cuenta | currency:'CLP':'':'1.0-0'}} 
+      </c-col>
+    </c-row>
+    <p></p>
+    <c-row>
+      <c-col>
+        <svg xmlns="http://www.w3.org/2000/svg" width="7.88px" height="14px" viewBox="0 0 288 512">
+          <path fill="green" d="m209.2 233.4l-108-31.6C88.7 198.2 80 186.5 80 173.5c0-16.3 13.2-29.5 29.5-29.5h66.3c12.2 0 24.2 3.7 34.2 10.5c6.1 4.1 14.3 3.1 19.5-2l34.8-34c7.1-6.9 6.1-18.4-1.8-24.5C238 74.8 207.4 64.1 176 64V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48h-2.5C45.8 64-5.4 118.7.5 183.6c4.2 46.1 39.4 83.6 83.8 96.6l102.5 30c12.5 3.7 21.2 15.3 21.2 28.3c0 16.3-13.2 29.5-29.5 29.5h-66.3C100 368 88 364.3 78 357.5c-6.1-4.1-14.3-3.1-19.5 2l-34.8 34c-7.1 6.9-6.1 18.4 1.8 24.5c24.5 19.2 55.1 29.9 86.5 30v48c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-48.2c46.6-.9 90.3-28.6 105.7-72.7c21.5-61.6-14.6-124.8-72.5-141.7" stroke-width="13" stroke="green" />
+        </svg>
+        &nbsp;
+        <label style="font-weight: bold">Total: </label>
+        
+        ${{dcto.Total | currency:'CLP':'':'1.0-0'}}
+      </c-col>
+      <c-col>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12.25px" height="14px" viewBox="0 0 448 512">
+          <path fill="green" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128m89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4" stroke-width="13" stroke="green" />
+        </svg>
+        &nbsp;
+        <label style="font-weight: bold">Ingresado Por: </label>
+        {{dcto.Ingresado_por}}
+      </c-col>
+    </c-row>
+
+    <p></p>
+    <c-row>
+      <c-col>
+        <svg xmlns="http://www.w3.org/2000/svg" width="17.5px" height="14px" viewBox="0 0 640 512">
+          <path fill="green" d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v320c0 26.5 21.5 48 48 48h16c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16M160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48m320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48m80-208H416V144h44.1l99.9 99.9z" stroke-width="13" stroke="green" />
+        </svg>
+        &nbsp;
+        <label style="font-weight: bold">PPU: </label>
+        
+        {{dcto.Ppu}}
+      </c-col>
+      <c-col>
+        
+      </c-col>
+    </c-row>
+
+
+  </div>
 
   </c-modal-body>
   <c-modal-footer>

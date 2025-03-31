@@ -1,113 +1,5 @@
- // Nuevo contenedor para textos
- .user-info {
-    flex-grow: 1;
-    text-align: left; // Alineación de texto a la izquierda (opcional)
-    
-    // Asegurar que el contenido no desborde
-    overflow: hidden;
-    width: 100%; // Ocupar todo el espacio disponible
-  
-    .name, .email, .phone, .role {
-        white-space: nowrap; // Evitar saltos de línea
-        overflow: hidden;
-        text-overflow: ellipsis; // Añadir puntos suspensivos si el texto es muy largo
-        max-width: 200px; // Ajustar según necesidades
-    }
-  }
-  
-  .user-card.area-marketing .profile-img { border-color: #ff6b6b; }
-  .user-card.area-sales .profile-img { border-color: #64b5f6; }
-  .user-card.area-dev .profile-img { border-color: #81c784; }
-  .user-card.inactive .profile-img { border-color: #ccc; }
-  .user-card .name {
-    font-size: 16px; /* Reducimos el tamaño del nombre */
-    font-weight: bold;
-    margin: 0;
-    margin-left: 50px; /* Ajustamos el margen para la imagen */
-  }
-  .user-card .email {
-    font-size: 12px; /* Letra más pequeña */
-    color: #333; /* Gris oscuro */
-    margin: 2px 0 0 50px; /* Ajustamos el margen para la imagen */
-  }
-  .user-card .phone {
-    font-size: 12px; /* Letra más pequeña */
-    color: #555; /* Gris medio */
-    margin: 2px 0 0 50px; /* Ajustamos el margen para la imagen */
-  }
-  .user-card .role {
-    font-size: 12px; /* Letra más pequeña */
-    color: #777;
-    margin: 10px 0 0 0; /* Reducimos el margen superior */
-    display: flex;
-    align-items: center;
-  }
-  .user-card .role i {
-    margin-right: 37px; /* Espacio entre ícono y texto */
-    font-size: 14px;
-  }
-  .status {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 14px;
-    
-    &.active { color: #4caf50; }
-    &.inactive { color: #888; }
-  }
-  // Ajustes para tarjetas inactivas
-  .user-card.inactive {
-    background-color: #f5f5f5;
-    border-left-color: #ccc !important;
-    
-    .profile-img {
-        filter: grayscale(100%);
-        border-color: #ccc !important;
-    }
-  }
-  .user-card .status.active {
-    color: #4caf50;
-  }
-  /* Colores por área */
-  .area-marketing { border-left-color: #ff6b6b; }
-  .area-sales { border-left-color: #64b5f6; }
-  .area-dev { border-left-color: #81c784; }
-  
-  
-  //titulo
-  .title-container {
-    display: flex;
-    align-items: center;
-    margin: 20px 0;
-  }
-  .title-container h2 {
-    font-size: 20px;
-    margin: 0 10px;
-    color: #333;
-  }
-  .title-container i {
-    color: #4CAF50;
-  }
-  .title-line {
-    flex-grow: 1;
-    height: 2px;
-    background-color: #4CAF50;
-    margin-left: 10px;
-  }
-  
-  
-  //ng select tEXT  
-  
-  /* Estilos para el grupo de selects */
-  .select-group {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  }
-  
-  /* Ajustes responsive */
-  @media (max-width: 768px) {
+/* Ajustes responsive */
+@media (max-width: 768px) {
   .select-group {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -167,6 +59,7 @@
   display: flex;
   gap: 2rem;
   align-items: flex-start;
+  justify-content: center;
   }
   
   .password-section {
@@ -216,4 +109,172 @@
   .photo-section {
     width: 100%;
   }
+  }
+  
+  /* Estilo general para el select */
+  .form-select {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #fff;
+  box-sizing: border-box;
+  appearance: none; /* Elimina el estilo predeterminado del navegador */
+  -webkit-appearance: none; /* Compatibilidad con navegadores WebKit */
+  -moz-appearance: none; /* Compatibilidad con Firefox */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23999' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  }
+  
+  /* Cambiar el borde al enfocar */
+  .form-select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Ajuste para el contenedor del select */
+  .SelectArea {
+  margin-bottom: 15px;
+  }
+  
+  //Photo Desing
+  .photo-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  }
+  
+  .photo-preview {
+  width: 150px;
+  height: 150px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  }
+  
+  .photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  }
+  
+  .upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  }
+  
+  .button-group {
+  display: flex; /* Alinea los elementos en una fila */
+  justify-content: center; /* Centra los botones horizontalmente */
+  gap: 10px; /* Espaciado entre los botones */
+  }
+  
+  .btn-upload,
+  .btn-save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+  }
+  
+  .btn-upload:hover {
+  background-color: #0056b3;
+  }
+  
+  .btn-save {
+  background-color: #28a745;
+  }
+  
+  .btn-save:hover {
+  background-color: #218838;
+  }
+  
+  input[type="file"] {
+  display: none; /* Oculta el input de archivo */
+  }
+  
+  .btn-close-modal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Espaciado entre el ícono y el texto */
+  padding: 10px 15px;
+  background-color: #dc3545; /* Rojo para indicar cierre */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn-close-modal:hover {
+  background-color: #c82333; /* Rojo más oscuro al pasar el cursor */
+  transform: scale(1.05); /* Efecto de agrandamiento */
+  }
+  
+  .btn-close-modal:active {
+  background-color: #bd2130; /* Rojo más oscuro al hacer clic */
+  transform: scale(0.95); /* Efecto de reducción */
+  }
+  
+  .btn-close-modal i {
+  font-size: 16px; /* Tamaño del ícono */
+  }
+  
+  .btn-save-modal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Espaciado entre el ícono y el texto */
+  padding: 10px 15px;
+  background-color: #28a745; /* Verde para indicar acción de guardar */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn-save-modal:hover {
+  background-color: #218838; /* Verde más oscuro al pasar el cursor */
+  transform: scale(1.05); /* Efecto de agrandamiento */
+  }
+  
+  .btn-save-modal:active {
+  background-color: #1e7e34; /* Verde más oscuro al hacer clic */
+  transform: scale(0.95); /* Efecto de reducción */
+  }
+  
+  .btn-save-modal i {
+  font-size: 16px; /* Tamaño del ícono */
+  }
+  
+  .file-name {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
   }

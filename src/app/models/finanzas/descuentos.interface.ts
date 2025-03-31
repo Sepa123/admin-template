@@ -34,6 +34,7 @@ export interface Centro {
 
 export interface Descuentos {
     Id:               number;
+    Fecha_evento:      Date;
     Fecha_cobro:      Date;
     Ingresado_por:    string;
     Operacion:        string;

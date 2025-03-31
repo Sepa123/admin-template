@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
 import { FinanzasService } from '../../../service/finanzas.service';
-
+import { CurrencyPipe } from '@angular/common';
 import { SeleccionesDescuentos, RazonSocial,Patente,Etiqueta, SeleccionOperaciones, Centro ,Descuentos } from '../../../models/finanzas/descuentos.interface'
 
 
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
-  styleUrls: ['./test.component.scss']
+  styleUrls: ['./test.component.scss'],
+  providers: [CurrencyPipe]
 })
 export class TestComponent {
 
@@ -184,18 +185,25 @@ export class TestComponent {
 
   cobrado : boolean = false
   oc_cobro : string = ''
+  id_detalle : number = 0
 
   cambiarEstadoCobro(){
     this.cobrado = !this.cobrado
   }
 
-  mostrarActualizacion(id_desc : number, cobrado : boolean, oc_cobro : string){
+  DescuentoSeleccionado : Descuentos [] = []
 
+  mostrarActualizacion(id_desc : number, cobrado : boolean, oc_cobro : string, dcto : Descuentos){
 
+    this.DescuentoSeleccionado = [dcto]
+
+    this.id_detalle = id_desc
     this.cobrado = cobrado
     this.oc_cobro = oc_cobro
 
     // oc_cobrod
+
+
 
 
     this.toggleActualizacion()
@@ -204,7 +212,28 @@ export class TestComponent {
 
 
   actualizarDetalle(){
-    
+
+    const data = {
+      Id_detalle : this.id_detalle,
+      Cobrado : this.cobrado,
+      Oc_cobro : this.oc_cobro
+    }
+
+    this.service.actualizarDescuento(data).subscribe((data) => {
+
+      this.listaDescuentos.map((data => {
+        if (data.Id == this.id_detalle){
+          data.Cobrada = this.cobrado
+          data.Oc_cobro = this.oc_cobro
+        }
+      }))
+
+      this.toggleActualizacion()
+    })
+
+    console.log(data)
+
+
   }
 
  
@@ -283,7 +312,14 @@ export class TestComponent {
 
 
       this.service.guardarDescuento(this.formDescuentos.value).subscribe((data : any) => {
-        
+
+        this.formDescuentos.reset()
+
+        this.formDescuentos.patchValue({
+          Id_user : sessionStorage.getItem("id")?.toString()+"",
+          Ids_user : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+        })
+
         this.uploadFile(data.id)
 
 

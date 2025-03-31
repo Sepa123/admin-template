@@ -41,8 +41,8 @@ export class FinanzasService {
   }
 
 
-  actualizar(){
-    
+  actualizarDescuento(form :any){
+    return this.http.put(`${this.apiUrl}/actualizar/descuento`, form)
   }
 
 }
