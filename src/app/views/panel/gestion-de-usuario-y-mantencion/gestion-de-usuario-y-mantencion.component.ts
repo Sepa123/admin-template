@@ -112,6 +112,7 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
     if (input.files && input.files[0]) {
       this.imagenSeleccionada = input.files[0];
       this.nombreArchivo = input.files[0].name; // Almacena el nombre del archivo
+      console.log('Archivo seleccionado:', this.nombreArchivo);
     } else {
       this.nombreArchivo = null; // Si no se selecciona archivo, limpia el nombre
     }
@@ -129,8 +130,13 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
     this.gm.subirImagen(id_user, this.imagenSeleccionada).subscribe({
       next: (response) => {
         console.log('Imagen subida exitosamente:', response);
+        // Actualiza la variable nombreArchivo con el nombre del archivo devuelto por el backend
+
+      // Construye la URL de la imagen y actualiza la imagen del usuario actual
+        this.imagenPerfil = `https://hela.transyanez.cl/api/panel/image/foto_perfil/${this.nombreArchivo}`;
+
         this.mostrarAlerta('Imagen subida exitosamente.', 'success');
-      },
+        },
       error: (error) => {
         console.error('Error al subir la imagen:', error);
         this.mostrarAlerta('Error al subir la imagen.', 'error');
@@ -300,7 +306,7 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
   getAreas():void {
     this.gm.getAreas().subscribe(
       (data) => {
-        this.area = data
+        this.area = data.sort((a: any, b: any) => a.nombre.localeCompare(b.nombre));
       },
       (error) => {
         this.mostrarAlerta('No se han encontrado áreas', 'error');
@@ -313,7 +319,7 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
   getSupervisor():void {
     this.gm.getSupervisor().subscribe(
       (data) => {
-        this.sup = data
+        this.sup = data.sort((a: any, b: any) => a.nombre.localeCompare(b.nombre));
       },
       (error) => {
         this.mostrarAlerta('No se han encontrado áreas', 'error');
@@ -336,7 +342,7 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
   getRoles(): void {
     this.gm.getRoles().subscribe(
       (data) => {
-        this.rol = data;
+        this.rol = data.sort((a: any, b: any) => a.nombre.localeCompare(b.nombre));;
         // console.log(data);
       },
       (error) => {

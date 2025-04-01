@@ -3,9 +3,6 @@
     <div class="modal-cabecera">Ingreso de Usuario</div>
     
     <!-- Botón de cierre del modal -->
-    <button (click)="toggleLive()" cButtonClose type="button" aria-label="Close">
-      
-    </button>
   </c-modal-header>
   <c-modal-body>
     <!-- Contenido del formulario -->
@@ -120,7 +117,6 @@
     <td colspan="2" *ngIf="cargando">
       <img width="15rem" height="15rem" src="../../../assets/images/loading-gif.gif" />
     </td>
-    <button (click)="toggleLive2()" cButtonClose type="button" aria-label="Close"></button>
   </c-modal-header>
   <c-modal-body>
 
@@ -133,7 +129,7 @@
         <label for="fileUpload" class="btn-upload">
           <i class="fas fa-upload"></i>
         </label>
-        <input id="fileUpload" type="file" (change)="onFileSelected($event)" accept="image/png" hidden>
+        <input id="fileUpload" type="file" (change)="onFileSelected($event)" accept="image/*" hidden>
         <button type="button" class="btn-save" (click)="guardarImagen()">
           <i class="fas fa-save"></i>
         </button>
@@ -229,8 +225,8 @@
     <button class="btn-save-modal" (click)="actualizarUsuario()">
       <i class="fas fa-save"></i> Guardar
     </button>
-    <button class="btn-close-modal">
-      <i class="fas fa-times"></i> Cerrar
+    <button class="btn-close-modal" (click)="toggleLive2()">
+      <i class="fas fa-times" ></i> Cerrar
     </button>
   </c-modal-footer>
 </c-modal>
