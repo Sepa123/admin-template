@@ -443,7 +443,7 @@ private resetFormValues(): void {
 
   // Opcional: Restablecer otras variables relacionadas
   this.nombreArchivo = null;
-  this.imagenPerfil = 'assets/images/default-profile.png';
+  this.imagenPerfil = '/panel/image/default-profile.png';
 }
 
 // Función para asignar valores a los inputs

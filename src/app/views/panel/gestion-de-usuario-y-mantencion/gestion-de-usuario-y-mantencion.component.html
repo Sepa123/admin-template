@@ -123,7 +123,7 @@
     <!-- Columna derecha para foto -->
     <div class="upload-container">
       <div class="photo-preview">
-        <img class="ImgPerfilModal" [src]="imagenPerfil || 'assets/images/default-profile.png'" alt="Foto de perfil">
+        <img class="ImgPerfilModal" [src]="imagenPerfil || 'assets/images/Default-User.png'" (error)="imagenPerfil = 'assets/images/Default-User.png'" alt="Foto de perfil">
       </div>
       <div class="button-group">
         <label for="fileUpload" class="btn-upload">
@@ -282,7 +282,7 @@
                         <div class="email">{{us.usuario_mail}}</div>
                         <div class="phone">{{us.usuario_telefono}}</div>
                         <div class="role">
-                          <i [ngClass]="us.area_icono || 'fas fa-user'" [style.color]="us.area_color || 'grey'"></i>
+                          <i [ngClass]="us.area_icono || 'fa-solid fa-circle-question'" [style.color]="us.area_color || 'grey'"></i>
                         </div>
                     </div>
         
