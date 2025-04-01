@@ -3,7 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angu
 import { FinanzasService } from '../../../service/finanzas.service';
 import { CurrencyPipe } from '@angular/common';
 import { SeleccionesDescuentos, RazonSocial,Patente,Etiqueta, SeleccionOperaciones, Centro ,Descuentos } from '../../../models/finanzas/descuentos.interface'
-
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-test',
@@ -17,10 +17,16 @@ export class TestComponent {
 
   visible : boolean =false 
 
+  pendiente : boolean =false
+
   listaDescuentos : Descuentos [] =[]
+  listaDescuentosFull : Descuentos [] =[]
 
   toggleLiveDemo() {
     this.visible = !this.visible;
+
+    this.selectedFile = null; // Reiniciar el archivo seleccionado al cerrar el modal
+    if (document.getElementById('archivo_pdf')) (document.getElementById('archivo_pdf') as HTMLInputElement).value = '';
   }
 
   handleLiveDemoChange(event: any) {
@@ -58,6 +64,12 @@ export class TestComponent {
       console.warn('Ningún archivo seleccionado');
       // Lógica adicional en caso de que el usuario no seleccione ningún archivo.
     }
+  }
+
+  cambiarPendiente(){
+    // this.pendiente = !this.pendiente
+
+    this.listaDescuentos = this.listaDescuentosFull.filter((data) => data.Cobrada == this.pendiente )
   }
 
   seleccionRazonSocial : RazonSocial [] = []
@@ -140,6 +152,7 @@ export class TestComponent {
   obtenerListaDescuentos(fecha_ini:string, fecha_fin:string){
     this.service.obtenerDescuentos(fecha_ini,fecha_fin).subscribe((data) => {
       // console.log(data)
+      this.listaDescuentosFull = data
       this.listaDescuentos = data
     })
   }
@@ -221,12 +234,21 @@ export class TestComponent {
 
     this.service.actualizarDescuento(data).subscribe((data) => {
 
-      this.listaDescuentos.map((data => {
+      this.listaDescuentosFull.map((data => {
         if (data.Id == this.id_detalle){
           data.Cobrada = this.cobrado
           data.Oc_cobro = this.oc_cobro
         }
       }))
+
+      this.listaDescuentos = this.listaDescuentosFull
+
+      // this.listaDescuentos.map((data => {
+      //   if (data.Id == this.id_detalle){
+      //     data.Cobrada = this.cobrado
+      //     data.Oc_cobro = this.oc_cobro
+      //   }
+      // }))
 
       this.toggleActualizacion()
     })
@@ -330,6 +352,67 @@ export class TestComponent {
     }else{
       alert('Falta ingresar datos')
     }
+  }
+
+
+
+DescargarNS(){
+    const datos: any[][] = [[]];
+
+    datos.push([
+      'Fecha Cobro',
+      'Ingresado Por',
+       'Operación',
+      'Centro Operación',
+      'Ppu',
+      'Razón Social',
+      'Cuota',
+      'Valor Cuota',
+      'Total',
+      'Etiqueta',
+      'Descripción',
+      'Cobrada',
+      'Oc cobro',
+      'Fecha evento',
+
+    ])
+
+    this.listaDescuentosFull.forEach((desc) => {
+        const fila: any[] = [];
+
+        fila.push(desc.Fecha_cobro,desc.Ingresado_por,desc.Operacion,desc.Centro_operacion,desc.Ppu,desc.Razon_social,desc.Cuota,desc.Valor_cuenta,desc.Total,
+          desc.Etiqueta,desc.Descripcion,desc.Cobrada,desc.Oc_cobro,desc.Fecha_evento); 
+
+        datos.push(fila);
+      });
+
+    let date = new Date();
+    const fechaActual = date.toISOString().split('T')[0];
+    // Crea un libro de Excel a partir de los datos
+    const libroExcel: XLSX.WorkBook = XLSX.utils.book_new();
+    const hoja: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(datos);
+    XLSX.utils.book_append_sheet(libroExcel, hoja, 'Hoja1');
+
+    // Descarga el archivo Excel `Quadminds_Manual_${fechaActual}.xlsx` 
+    
+    const nombreArchivo = `Lista-descuentos-${fechaActual}.xlsx`;
+    // Nombre del archivo Excel a descargar 
+    XLSX.writeFile(libroExcel, nombreArchivo);
+  }
+
+
+  descargarArchivoAdjunto(name_file : string){
+    this.service.descargarArchivoAdjunto(name_file).subscribe((data : any) => {
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+
+      name_file = name_file.split('/')[name_file.split('/').length - 1]
+      a.download = name_file;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    })
   }
   
 }

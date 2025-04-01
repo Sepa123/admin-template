@@ -45,4 +45,8 @@ export class FinanzasService {
     return this.http.put(`${this.apiUrl}/actualizar/descuento`, form)
   }
 
+  descargarArchivoAdjunto(name_file : string){
+    return this.http.get(`${this.apiUrl}/descargar/archivo?name_file=${name_file}`, { responseType: 'blob' });
+  }
+
 }

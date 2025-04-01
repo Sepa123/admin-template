@@ -48,4 +48,5 @@ export interface Descuentos {
     Descripcion:      null | string;
     Cobrada:          boolean;
     Oc_cobro:         string;
+    Adjunto:         string ;
 }
