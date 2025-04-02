@@ -69,7 +69,8 @@
         type="password" 
         name="password" 
         (input)="verificarSeguridadContrasena(nuevoUsuario.password)"
-        required>
+        required
+        autocomplete="off">
         <button type="button" (click)="toggleMostrarContrasena()" title="Mostrar contraseña">
           <i [class]="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
         </button>
@@ -123,7 +124,7 @@
     <!-- Columna derecha para foto -->
     <div class="upload-container">
       <div class="photo-preview">
-        <img class="ImgPerfilModal" [src]="imagenPerfil || 'assets/images/default-profile.png'" alt="Foto de perfil">
+        <img class="ImgPerfilModal" [src]="imagenPerfil || 'assets/images/Default-User.png'" (error)="imagenPerfil = 'assets/images/Default-User.png'" alt="Foto de perfil">
       </div>
       <div class="button-group">
         <label for="fileUpload" class="btn-upload">
@@ -187,10 +188,12 @@
           <div class="contrasena-container">
             <input [type]="mostrarContrasena ? 'text' : 'password'" id="contrasena"
             type="password" 
-            name="password" 
+            name="password"
             [(ngModel)]="updateData.password"
             (input)="verificarSeguridadContrasena(updateData.password || '')"
-            required>
+            required
+            autocomplete="off"
+            >
             <button type="button" (click)="toggleMostrarContrasena()" title="Mostrar contraseña">
               <i [class]="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
             </button>
@@ -282,7 +285,7 @@
                         <div class="email">{{us.usuario_mail}}</div>
                         <div class="phone">{{us.usuario_telefono}}</div>
                         <div class="role">
-                          <i [ngClass]="us.area_icono || 'fas fa-user'" [style.color]="us.area_color || 'grey'"></i>
+                          <i [ngClass]="us.area_icono || 'fa-solid fa-circle-question'" [style.color]="us.area_color || 'grey'"></i>
                         </div>
                     </div>
         
@@ -296,6 +299,8 @@
         </body>
     </div>
 </div>
+
+
 
 
 
