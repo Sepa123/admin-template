@@ -69,7 +69,8 @@
         type="password" 
         name="password" 
         (input)="verificarSeguridadContrasena(nuevoUsuario.password)"
-        required>
+        required
+        autocomplete="off">
         <button type="button" (click)="toggleMostrarContrasena()" title="Mostrar contraseña">
           <i [class]="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
         </button>
@@ -187,10 +188,12 @@
           <div class="contrasena-container">
             <input [type]="mostrarContrasena ? 'text' : 'password'" id="contrasena"
             type="password" 
-            name="password" 
+            name="password"
             [(ngModel)]="updateData.password"
             (input)="verificarSeguridadContrasena(updateData.password || '')"
-            required>
+            required
+            autocomplete="off"
+            >
             <button type="button" (click)="toggleMostrarContrasena()" title="Mostrar contraseña">
               <i [class]="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
             </button>
