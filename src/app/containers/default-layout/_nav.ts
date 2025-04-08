@@ -445,6 +445,10 @@ export const navItems: INavDataBar[] = [
         name: 'Productos Ingresados',
         url: '/operaciones/productos-ingresados-easy'
       },
+      {
+        name: 'Editar Ruta',
+        url: '/operaciones/editar-ruta'
+      }
     ]
   },
   {
