@@ -6,64 +6,47 @@
     </c-modal-header>
     <c-modal-body>
       <!-- Contenido del formulario -->
-      <form id="formUsuario">
-        <!-- En el template del modal -->
-        <div class="form-columnas campos-angostos">
+      <form id="formCrearUsuario" class="form-minimalista">
+        <div class="form-columnas">
           <div class="form-columna">
             <label for="nombre">Nombre *</label>
-              <input [(ngModel)]="nuevoCliente.nombre" name="nombre" type="text" id="nombre" required>
-
-              <label for="Rut">Rut *</label>
-              <input [(ngModel)]="nuevoCliente.rut" name="rut" type="text" id="rut" required>
-              
-              <label for="Direccion">Direccion *</label>
-              <input [(ngModel)]="nuevoCliente.direccion" name="direccion" type="email" id="direccion" required>
-  
-              
-              <label>Teléfono</label>
-              <input 
-                type="text" 
-                [(ngModel)]="nuevoCliente.telefono" 
-                name="telefono" 
-                required
-              >
-          </div>
-          <div class="form-columna">
-             <!-- Contraseña -->
-            <label>Correo:</label>
-            <input [(ngModel)]="nuevoCliente.correo" name="correo" required>
-  
-            <label for="direccion">Representante:</label>
-            <input  [(ngModel)]="nuevoCliente.representante" type="text" id="representante">
-
-
-            <!-- Select Área -->
-          <div>
+            <input [(ngModel)]="nuevoCliente.nombre" name="nombre" class="form-input" type="text" id="nombre" placeholder="Ingrese el nombre" required>
+      
+            <label for="rut">Rut *</label>
+            <input [(ngModel)]="nuevoCliente.rut" name="rut" class="form-input" type="text" id="rut" placeholder="Ingrese el RUT" required>
+      
+            <label for="direccion">Dirección *</label>
+            <input [(ngModel)]="nuevoCliente.direccion" name="direccion" class="form-input" type="text" id="direccion" placeholder="Ingrese la dirección" required>
+      
             <label for="region">Región</label>
             <select id="region" class="form-select" [(ngModel)]="nuevoCliente.region" (change)="onRegionChange($event)">
               <option value="" disabled selected>Seleccione una región</option>
               <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
             </select>
           </div>
-          
-          <div>
+      
+          <div class="form-columna">
+            <label for="correo">Correo *</label>
+            <input [(ngModel)]="nuevoCliente.correo" name="correo" class="form-input" type="email" id="correo" placeholder="Ingrese el correo" required>
+      
+            <label for="representante">Representante</label>
+            <input [(ngModel)]="nuevoCliente.representante" name="representante" class="form-input" type="text" id="representante" placeholder="Ingrese el representante">
+            
+            <label for="telefono">Teléfono</label>
+            <input [(ngModel)]="nuevoCliente.telefono" name="telefono" class="form-input" type="text" id="telefono" placeholder="Ingrese el teléfono">
+        
+      
             <label for="comuna">Comuna</label>
             <select id="comuna" class="form-select" [(ngModel)]="nuevoCliente.ciudad">
               <option value="" disabled selected>Seleccione una comuna</option>
-              <option *ngFor="let co of ComunasFiltradas"  [value]="co.id_comuna">{{ co.Comuna_name }}</option>
+              <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
             </select>
           </div>
-          </div>
         </div>
-  
-        
+      
         <div class="botones-formulario">
-          <button type="submit" class="btn-save-modal" (click)="onSubmit()">
-            <i class="fas fa-save"></i> Guardar
-          </button>
-          <button type="button" class="btn-close-modal" (click)="toggleLive()">
-            <i class="fas fa-times"></i> Cancelar
-          </button>
+          <button type="submit" class="btn-save-modal" (click)="onSubmit()">Guardar</button>
+          <button type="button" class="btn-close-modal" (click)="toggleLive()">Cancelar</button>
         </div>
       </form>
     </c-modal-body>
@@ -168,7 +151,7 @@
   <div class="title-container">
     <i class="fa-solid fa-users"></i>
     <h2>
-      Gestión de Usuarios</h2>
+      Edicion de Cliente</h2>
     <div class="title-line"></div>
   </div>
     <div class="panel">

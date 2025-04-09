@@ -158,18 +158,18 @@ export class EditarRutaComponent {
       next: (response: any) => {
         this.Clients();
         // console.log('Usuario creado:', response.message);
-        // this.agregarBitacora({
-        //   id_user: sessionStorage.getItem('id')?.toString() + '',
-        //   ids_user:
-        //     sessionStorage.getItem('server') +
-        //     '-' +
-        //     sessionStorage.getItem('id') +
-        //     '',
-        //   origen: 'edicion y matencion de Usuario',
-        //   dato_actual: 'Nuevo Usuario', // Datos actuales antes del cambio
-        //   dato_resultado: JSON.stringify(this.updateData), // Datos después del cambio
-        //   tabla_impactada: 'hela.usuarios',
-        // });
+        this.agregarBitacora({
+          id_user: sessionStorage.getItem('id')?.toString() + '',
+          ids_user:
+            sessionStorage.getItem('server') +
+            '-' +
+            sessionStorage.getItem('id') +
+            '',
+          origen: 'edicion y matencion de Usuario',
+          dato_actual: 'Nuevo Usuario', // Datos actuales antes del cambio
+          dato_resultado: JSON.stringify(this.updateData), // Datos después del cambio
+          tabla_impactada: 'ruta.clientes',
+        });
         this.resetFormulario();
       },
       error: (err: any) => {

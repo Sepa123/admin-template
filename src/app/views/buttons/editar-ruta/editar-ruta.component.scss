@@ -267,7 +267,89 @@ c-modal-header td {
     }
 }
 
+
+/* Estilos específicos para el modal de creación de usuarios */
+/* Estilos minimalistas para el formulario */
+.form-minimalista {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+
+  .form-columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    .form-columna {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      label {
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #555;
+      }
+
+      .form-input,
+      .form-select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+          border-color: #007bff;
+          outline: none;
+          box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+      }
+    }
+  }
+
+  .botones-formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    .btn-save-modal {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #218838;
+      }
+    }
+
+    .btn-close-modal {
+      background-color: #e9ecef;
+      color: #212529;
+      border: 1px solid #dee2e6;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #dee2e6;
+      }
+    }
+  }
+}
+
 //seccion tarjetas
+
 
 body {
     font-family: Arial, sans-serif;
