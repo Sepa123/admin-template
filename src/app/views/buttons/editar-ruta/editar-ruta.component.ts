@@ -30,8 +30,8 @@ export class EditarRutaComponent {
     correo: '',
     representante: '',
     activo: true, // Valor predeterminado para boolean
-    esquema_destino: 'null',
-    tabla_destino: 'null'
+    esquema_destino: null,
+    tabla_destino: null
   };
 
 
@@ -58,11 +58,19 @@ export class EditarRutaComponent {
   
 
   ngOnInit(): void {
+    this.AccountUserid();
     this.Clients();
     this.getRegiones();
     this.getComunas();
+    
   }
 
+  LoginId: string = '';
+
+  AccountUserid(){
+    this.LoginId = sessionStorage.getItem('rol_id')?.toString() + '';
+    console.log(this.LoginId);
+  }
 
   visible: boolean = false; // Inicialización
   visible2: boolean = false;
@@ -202,8 +210,8 @@ export class EditarRutaComponent {
       correo: '',
       representante: '',
       activo: true, // Valor predeterminado para boolean
-      esquema_destino: 'null',
-      tabla_destino: 'null'
+      esquema_destino: null,
+      tabla_destino: null
     };
   }
 
@@ -403,8 +411,8 @@ private resetFormValues(): void {
     correo: '',
     representante: '',
     activo: true, // Valor predeterminado para boolean
-    esquema_destino: 'null',
-    tabla_destino: 'null'
+    esquema_destino: null,
+    tabla_destino: null
   };
 
 // Restablecer valores del formulario de edición de usuario
@@ -530,4 +538,59 @@ private setFormValues(): void {
       },
     });
   }
+
+  formatRut(rut: string): string {
+    // Eliminar puntos, guiones y espacios
+    const cleanRut = rut.replace(/[^0-9kK]/g, '').toUpperCase();
+  
+    // Validar que tenga al menos 2 caracteres (número + dígito verificador)
+    if (cleanRut.length < 2) {
+      return cleanRut; // Retornar sin formato si no es válido
+    }
+  
+    // Separar el cuerpo del dígito verificador
+    const body = cleanRut.slice(0, -1);
+    const dv = cleanRut.slice(-1);
+  
+    // Formatear el cuerpo con puntos
+    const formattedBody = body.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  
+    // Retornar el RUT formateado
+    return `${formattedBody}-${dv}`;
+  }
+  
+  validateRut(rut: string): boolean {
+    // Eliminar puntos, guiones y espacios
+    const cleanRut = rut.replace(/[^0-9kK]/g, '').toUpperCase();
+  
+    // Validar que tenga al menos 2 caracteres (número + dígito verificador)
+    if (cleanRut.length < 2) {
+      return false;
+    }
+  
+    // Separar el cuerpo del dígito verificador
+    const body = cleanRut.slice(0, -1);
+    const dv = cleanRut.slice(-1);
+  
+    // Calcular el dígito verificador esperado
+    let sum = 0;
+    let multiplier = 2;
+  
+    for (let i = body.length - 1; i >= 0; i--) {
+      sum += parseInt(body[i], 10) * multiplier;
+      multiplier = multiplier === 7 ? 2 : multiplier + 1;
+    }
+  
+    const expectedDv = 11 - (sum % 11);
+    const calculatedDv = expectedDv === 11 ? '0' : expectedDv === 10 ? 'K' : expectedDv.toString();
+  
+    // Comparar el dígito verificador calculado con el ingresado
+    return calculatedDv === dv;
+  }
+
+  rutValido: boolean = true;
+
+validarRut(): void {
+  this.rutValido = this.validateRut(this.nuevoCliente.rut);
+}
 }

@@ -12,8 +12,8 @@ export interface Cliente {
   correo: string;
   representante: string;
   activo: boolean; 
-  esquema_destino: string;
-  tabla_destino: string;
+  esquema_destino: null | string;
+  tabla_destino: null |string;
 }
 
 
@@ -29,8 +29,8 @@ export interface UpdateCliente {
   representante?: string;
   activo?: boolean; 
   logo_img?: string;  
-  esquema_destino?: string;
-  tabla_destino?: string;
+  esquema_destino?: null | string; // Cambiado a null | string
+  tabla_destino?: null | string;
 }
 
 @Injectable({

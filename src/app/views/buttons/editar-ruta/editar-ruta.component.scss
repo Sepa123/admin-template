@@ -7,6 +7,11 @@ body {
     background-color: #f4f4f9;
 }
 
+.input-error {
+  border: 2px solid red !important; /* Asegúrate de que el estilo tenga prioridad */
+  border-radius: 4px;
+}
+
 .panel {
     background-color: #fff;
     padding: 20px;
@@ -27,6 +32,7 @@ body {
     border-radius: 8px;
     font-size: 14px;
     flex: 1 1 200px;
+    max-width: 25vh; 
 }
 
 .filtros button {
@@ -522,12 +528,31 @@ body {
     overflow: hidden;
     width: 100%; // Ocupar todo el espacio disponible
 
-    .name, .email, .phone, .role {
+    .name, .email, .phone, .role, .Representante {
         white-space: nowrap; // Evitar saltos de línea
         overflow: hidden;
         text-overflow: ellipsis; // Añadir puntos suspensivos si el texto es muy largo
         max-width: 200px; // Ajustar según necesidades
     }
+
+    i {
+      margin-right: 5px;
+      font-size: 1.2rem;
+      color: #007bff; /* Color del ícono */
+    }
+}
+
+.representante-container {
+  display: flex;
+  align-items: center; /* Alinea verticalmente la imagen y el texto */
+  font-size: 12px;
+  margin: 2px 0 0 50px; /* Ajustamos el margen para la imagen */
+  color: #333;
+
+  .representante-icon {
+    font-size: 1.2rem; /* Tamaño del ícono */
+    color: #333; /* Color del ícono */
+  }
 }
 
   .user-card.area-marketing .profile-img { border-color: #ff6b6b; }
@@ -545,6 +570,7 @@ body {
     color: #333; /* Gris oscuro */
     margin: 2px 0 0 50px; /* Ajustamos el margen para la imagen */
   }
+  
   .user-card .phone {
     font-size: 12px; /* Letra más pequeña */
     color: #555; /* Gris medio */
@@ -557,10 +583,7 @@ body {
     display: flex;
     align-items: center;
   }
-  .user-card .role i {
-    margin-right: 37px; /* Espacio entre ícono y texto */
-    font-size: 14px;
-  }
+  
   .status {
     position: absolute;
     bottom: 10px;

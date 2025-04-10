@@ -83,7 +83,7 @@ const routes: Routes = [
         path: 'editar-ruta',
         component: EditarRutaComponent,
         data: {
-          title: 'Editar Ruta'
+          title: 'Clientes'
         }
       }
     ]
