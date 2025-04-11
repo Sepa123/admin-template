@@ -217,7 +217,9 @@
         <!-- Columna izquierda para contraseñas -->
     </c-modal-body>
     <c-modal-footer>
-      <button class="btn-save-modal" (click)="actualizarCliente()">
+      
+
+      <button class="btn-save-modal" (click)="actualizarCliente()" [disabled]="LoginId !== '5'" >
         <i class="fas fa-save"></i> Guardar
       </button>
       <button class="btn-close-modal" (click)="toggleLive2()">
