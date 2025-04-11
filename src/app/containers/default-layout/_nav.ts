@@ -409,7 +409,7 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/productos-ingresados-easy'
       },
       {
-        name: 'Clientes',
+        name: 'Gestion Clientes',
         url: '/operaciones/editar-ruta'
       }
     ]
@@ -450,7 +450,7 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/productos-ingresados-easy'
       },
       {
-        name: 'Clientes',
+        name: 'Gestion Clientes',
         url: '/operaciones/editar-ruta'
       }
     ]
@@ -541,7 +541,7 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/productos-ingresados-easy'
       },
       {
-        name: 'Clientes',
+        name: 'Gestion Clientes',
         url: '/operaciones/editar-ruta'
       }
     ]
@@ -570,7 +570,7 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/edicion-pendientes'
       },
       {
-        name: 'Clientes',
+        name: 'Gestion Clientes',
         url: '/operaciones/editar-ruta'
       }
     ]

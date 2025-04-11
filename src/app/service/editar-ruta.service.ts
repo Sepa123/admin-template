@@ -8,7 +8,7 @@ export interface Cliente {
   direccion: string;
   ciudad: number;
   region: number;
-  telefono: string;
+  telefono: any;
   correo: string;
   representante: string;
   activo: boolean; 
@@ -24,7 +24,7 @@ export interface UpdateCliente {
   direccion?: string;
   ciudad?: number | string; // Aceptar número o cadena
   region?: number | string; // Aceptar número o cadena
-  telefono?: string;
+  telefono?: any;
   correo?: string;
   representante?: string;
   activo?: boolean; 

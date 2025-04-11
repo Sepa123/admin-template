@@ -41,7 +41,11 @@
             
             <label for="telefono">Teléfono</label>
             <input [(ngModel)]="nuevoCliente.telefono" name="telefono" class="form-input" 
-              type="text" id="telefono" placeholder="Ingrese el teléfono" >
+              type="text" id="telefono" placeholder="Ingrese el teléfono" 
+              (keypress)="allowOnlyNumbers($event)"
+              (input)="nuevoCliente.telefono = cleanPhoneInput(nuevoCliente.telefono)"
+              (blur)="nuevoCliente.telefono = formatPhoneNumber(nuevoCliente.telefono)"
+              >
         
       
             <label for="comuna">Comuna</label>
@@ -107,7 +111,10 @@
         
           <div class="form-columna">
             <label for="telefono">Teléfono:</label>
-            <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.telefono" [value]="userData?.telefono || ''" readonly>
+            <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.telefono" [value]="userData?.telefono || ''" readonly
+            (blur)="updateData.telefono = formatPhoneNumber(updateData.telefono)"
+            (input)="nuevoCliente.telefono = cleanPhoneInput(nuevoCliente.telefono)"
+            >
         
             <label for="Representante">Representante:</label>
             <input type="text" id="representante" class="form-input" [(ngModel)]="updateData.representante" [value]="userData?.representante || ''" readonly>
@@ -160,7 +167,7 @@
               [value]="userData?.nombre">
       
             <label for="rut">Rut</label>
-            <input type="text" id="rut" [(ngModel)]="updateData.rut" class="form-input" required [value]="userData?.rut">
+            <input type="text" id="rut" [(ngModel)]="updateData.rut" class="form-input" required [value]="userData?.rut" (blur)="nuevoCliente.rut = formatRut(nuevoCliente.rut); validarRut()" [ngClass]="{'input-error': !nuevoCliente.rut || !rutValido}">
       
             <label for="direccion">direccion:</label>
             <input type="text" id="direccion" [(ngModel)]="updateData.direccion" class="form-input"
