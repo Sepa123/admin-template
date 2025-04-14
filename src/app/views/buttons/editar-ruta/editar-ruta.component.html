@@ -266,7 +266,7 @@
               <!-- El *ngFor debe estar en las tarjetas, NO en el contenedor -->
               <div class="user-pool" > 
                   <!-- Repetir por cada usuario -->
-                  <div *ngFor="let cf of ClienteFiltrado" style="border-color: {{cf.area_color || 'grey'}}" class="user-card" (click)="toggleLive2()" (click)="recuperarUserdata(cf.nombre, cf.logo_img, cf.id)">
+                  <div *ngFor="let cf of ClienteFiltrado" class="user-card" (click)="toggleLive2()" (click)="recuperarUserdata(cf.nombre, cf.logo_img, cf.id)">
                       <!-- Añadir condición para inactivos -->
                       <div style="border-color:'grey'" class="profile-img">
                           <img class="imagen-perfil" [src]="cf.logo_img" alt="Foto de perfil">

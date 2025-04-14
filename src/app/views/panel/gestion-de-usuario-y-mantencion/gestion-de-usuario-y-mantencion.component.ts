@@ -209,6 +209,7 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
     this.gm.agregarUsuario(this.nuevoUsuario).subscribe({
       next: (response) => {
         // console.log('Usuario creado:', response.message);
+        this.mostrarAlerta('Usuario creado correctamente', 'success');
         this.agregarBitacora({
           id_user: sessionStorage.getItem('id')?.toString() + '',
           ids_user:
@@ -224,7 +225,8 @@ export class GestionDeUsuarioYMantencionComponent implements OnInit {
         this.resetFormulario();
       },
       error: (err) => {
-        console.error('Error al crear usuario:', err);
+        this.mostrarAlerta('Error al crear usuario', 'error');
+        // console.error('Error al crear usuario:', err);
       }
     });
   }
@@ -481,7 +483,7 @@ private setFormValues(): void {
     // Crear un div para la alerta
     const alerta: HTMLDivElement = document.createElement('div');
     alerta.classList.add('alerta', tipo); // Añadir clase para tipo (success, error, warning)
-
+  
     // Elegir icono basado en el tipo
     const icono: HTMLElement = document.createElement('i');
     switch (tipo) {
@@ -504,22 +506,21 @@ private setFormValues(): void {
         alerta.style.padding = '7px'; // Aumentar el padding
         break;
     }
-
+  
     // Añadir el icono y el mensaje al div de la alerta
     alerta.appendChild(icono);
     alerta.appendChild(document.createTextNode(mensaje));
-
+  
     // Añadir la alerta al contenedor de alertas
-    const alertaContainer: HTMLElement | null =
-      document.getElementById('alertaContainer');
+    const alertaContainer: HTMLElement | null = document.getElementById('alertaContainer');
     if (alertaContainer) {
       alertaContainer.appendChild(alerta);
-
+  
       // Mostrar la alerta con una animación de opacidad
       setTimeout(() => {
         alerta.style.opacity = '1';
       }, 100);
-
+  
       // Ocultar la alerta después de 5 segundos y eliminarla del DOM
       setTimeout(() => {
         alerta.style.opacity = '0';
@@ -527,8 +528,8 @@ private setFormValues(): void {
           alerta.remove();
         }, 500);
       }, 5000);
-    }
-  }
+      }
+    }
 
   agregarBitacora(bitacoraData: {
     id_user: string;

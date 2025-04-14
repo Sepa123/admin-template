@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
@@ -127,6 +127,9 @@ const APP_CONTAINERS = [
     Title
   ],
   bootstrap: [AppComponent],
+  schemas: [
+      CUSTOM_ELEMENTS_SCHEMA
+      ],
   
 })
 export class AppModule {
