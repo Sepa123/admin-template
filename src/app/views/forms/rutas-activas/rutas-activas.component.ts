@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { RutasService } from 'src/app/service/rutas.service';
-import { NombreRutaService } from 'src/app/service/nombre-ruta.service';
+import { RutasService } from '../../../service/rutas.service';
+import { NombreRutaService } from '../../../service/nombre-ruta.service';
 import { HttpClient } from '@angular/common/http';
 // import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
-import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
+import { RutaEnActivo } from "../../../models/rutaEnActivo.interface"
+import { NombresRutasActivas } from "../../../models/nombresRutasActivas.interface"
 import { Nominatim } from '../../../models/nominatim.interface'
 
-import { CantidadUnidadesRutaActiva } from 'src/app/models/cantidadUnidadesRutaActiva.interface';
-import { ComunaRutas } from 'src/app/models/comunaRutas.interface';
+import { CantidadUnidadesRutaActiva } from '../../../models/cantidadUnidadesRutaActiva.interface';
+import { ComunaRutas } from '../../../models/comunaRutas.interface';
 
+ 
 @Component({
   selector: 'app-rutas-activas',
   templateUrl: './rutas-activas.component.html',
@@ -60,6 +61,19 @@ export class RutasActivasComponent {
 
   regionSeleccionada : string = "Regiones"
   loadingComunaRuta : boolean = true
+
+  visibleQuad : boolean = false
+
+  toggleQuadminds() {
+    this.visibleQuad = !this.visibleQuad;
+  }
+
+  handleQuadmindsChange(event: any) {
+    this.visibleQuad = event;
+  }
+
+  
+
 
   toggleDescarga() {
     this.visibleDescarga = !this.visibleDescarga;
@@ -266,6 +280,8 @@ export class RutasActivasComponent {
     
   }
 
+  fechaMinima : string = ''
+
   ngOnInit() {
 
     const fecha = new Date();
@@ -276,6 +292,9 @@ export class RutasActivasComponent {
       day:  fecha.getDate()
     }
     fecha.setHours(fecha.getHours() - 4);
+
+
+    
 
     let fechaFormateada = fecha.toISOString().split('T')[0];
 
@@ -291,6 +310,9 @@ export class RutasActivasComponent {
     })
 
     this.fechaActual = fechaFormateada
+
+    this.fechaMinima = fechaFormateada
+    this.fechaRuta = this.fechaActual
     // this.getNombreByFecha(ObjcurrentDate)
     this.getNombreByFecha(this.fechaActual)
     this.comunasPorRuta = []
@@ -303,6 +325,8 @@ export class RutasActivasComponent {
 
     this.service.delete_ruta(this.nombreRutaActual).subscribe( (data : any) => {
       alert(data.message)
+
+      this.getNombreByFecha(this.fechaActual)
     })
   }
   
@@ -454,6 +478,123 @@ export class RutasActivasComponent {
     })
 
     
+  }
+
+
+
+
+  //// subir archivo quadminds
+
+
+  private selectedFile: File | null = null;
+
+  termino : boolean = true
+  error! : number  
+  codigosErroneos : string [] = []
+  message : string = ""
+
+  contador : number = 1
+  // tablaQuadmind : CargaQuadmind[] = []
+  // tablaQuadmindFull! : CargaQuadmind[];
+  // tablaQuadmindPreview! : CargaQuadmind[];
+
+  
+  nombreArchivo! : string
+
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    console.log(event.target.files[0].name)
+    this.nombreArchivo = event.target.files[0].name
+  }
+
+  uploadFile() {
+    if (this.selectedFile) {
+
+      this.termino = false
+      let id_usuario = sessionStorage.getItem('id')+""
+      const formData = new FormData();
+      formData.append('file', this.selectedFile, this.selectedFile.name);
+
+      this.service.upload_quadmind_manual(formData, id_usuario).subscribe(
+        (data : any) => {
+          this.termino = data.termino
+          this.error = data.error
+          if ( this.error == 1){
+            this.codigosErroneos = data.codigos.split(',')
+          }
+          this.message = data.message
+          console.log('Archivo subido exitosamente');
+          this.toggleQuadminds()
+          this.toggleEstadoCarga()
+          // Lógica adicional en caso de éxito.
+        },
+        (error) => {
+          console.error('Error al subir el archivo:', error);
+          alert('Error al subir el archivo')
+          this.termino = true
+          // Lógica de manejo de errores.
+        }
+      );
+      
+    } else {
+      console.warn('Ningún archivo seleccionado');
+      // Lógica adicional en caso de que el usuario no seleccione ningún archivo.
+    }
+  }
+
+
+  public visibleEstadoCarga = false;
+
+  toggleEstadoCarga() {
+    this.visibleEstadoCarga = !this.visibleEstadoCarga;
+  }
+
+  handleLiveEstadoCarga(event: any) {
+    this.visibleEstadoCarga = event;
+  }
+
+
+
+  //// nav content
+
+  pv : boolean = true
+
+  activate( activo : boolean){
+    this.pv = activo
+  }
+
+
+
+  cargaMasiva : string = ''
+  fechaRuta : string = ''
+
+
+  subirCargaMasiva(){
+
+    const body = {
+      Codigos : this.cargaMasiva,
+      Fecha_ruta : this.fechaRuta.replaceAll('-', ''),
+      Id_user : sessionStorage.getItem('id')+""
+    }
+
+    console.log(body)
+    
+
+    this.service.armar_ruta_codigos(body).subscribe((data : any) => {
+
+
+      alert(data.message)
+
+      this.cargaMasiva = ''
+
+      this.getNombreByFecha(this.fechaActual)
+    })
+
+  }
+
+  descargarEjemploArchivo(){
+    this.service.download_excel_ejemplo()
   }
 
 

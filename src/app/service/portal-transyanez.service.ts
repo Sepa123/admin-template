@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
-import { Vehiculo,AsignarOperacion, VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
-import { Usuario, ObservacionDriver } from 'src/app/models/transporte/tripulacion.interface' 
-import { MainPanelVehiculos, PanelColaboradore, PanelVehiculos, PanelTripulacion } from 'src/app/models/transporte/paneles.interface' 
-import { ComentarioReclutamiento, listaComentarios, MainSeleccionReclutamiento, Reclutamiento } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
-import { SeleccionesVehiculo } from 'src/app/models/transporte/seleccionesVehiculos.interface'
-import { SeleccionRazonSocial } from 'src/app/models/transporte/seleccionesRazonSocial.interface'
+import { Colaborador,DetallePago } from '../models/transporte/colaborador.interface' 
+import { Vehiculo,AsignarOperacion, VehiculoObservaciones } from '../models/transporte/vehiculo.interface' 
+import { Usuario, ObservacionDriver } from '../models/transporte/tripulacion.interface' 
+import { MainPanelVehiculos, PanelColaboradore, PanelVehiculos, PanelTripulacion } from '../models/transporte/paneles.interface' 
+import { ComentarioReclutamiento, listaComentarios, MainSeleccionReclutamiento, Reclutamiento } from '../models/transporte/seleccionesReclutamiento.interface' 
+import { SeleccionesVehiculo } from '../models/transporte/seleccionesVehiculos.interface'
+import { SeleccionRazonSocial } from '../models/transporte/seleccionesRazonSocial.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -118,8 +118,9 @@ export class PortalTransyanezService {
     return this.http.get<Colaborador []>(this.apiurl+`/buscar/colaboradores?nombre=${nombre}`)
   }
 
-  activarColaborador(rut:string, activo : boolean){
-    return this.http.get(this.apiurl+`/activar/colaborador?rut=${rut}&activar=${activo}`)
+  activarColaborador(rut:string, activo : boolean, data : any){
+    // return this.http.get(this.apiurl+`/activar/colaborador?rut=${rut}&activar=${activo}`)
+    return this.http.post(this.apiurl+"/activar/colaborador",data)
   }
 
   obtenerDetallePago(id : string){

@@ -50,8 +50,14 @@ export class SeguimientoRutaComponent {
     this.service.get_seguimiento_ruta().subscribe((data) => {
       this.segRuta = data
       this.segRutaFull = data
-      this.listaPatentes = [...new Set(this.listaPatentes)];
+      this.listaPatentes = this.segRutaFull.map( (p) => {
+        return  p.Ppu
+      }
+     )
 
+     console.log(this.listaPatentes)
+      this.listaPatentes = [...new Set(this.listaPatentes)];
+      console.log(this.listaPatentes)
       
     })
 

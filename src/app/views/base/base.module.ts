@@ -45,12 +45,13 @@ import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
 import {NgbRating} from '@ng-bootstrap/ng-bootstrap';
 import { ReclutamientoComponent } from './reclutamiento/reclutamiento.component'
 import { VentaOTraspasoDeVehiculoComponent } from './venta-o-traspaso-de-vehiculo/venta-o-traspaso-de-vehiculo.component'
-
+import { WebcamModule } from 'ngx-webcam';
 @NgModule({
   imports: [
     FormsModule, ReactiveFormsModule,
     ModalModule,
     CommonModule,
+    WebcamModule,
     BaseRoutingModule,
     AccordionModule,
     BadgeModule,

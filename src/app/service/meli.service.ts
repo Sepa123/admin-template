@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Prefactura,ResumenPrefactura } from "../models/meli/prefactura.interface"
-import { MainCitacionS } from "../models/meli/citacionSupervisor.interface"
-import { MainCitacionA, ResumenSupervisores } from "../models/meli/citacionActiva.interface"
+import { InfoFotos, MainCitacionS } from "../models/meli/citacionSupervisor.interface"
+import { MainCitacionA, Patente, ResumenSupervisores } from "../models/meli/citacionActiva.interface"
 import { ReporteMeliFinanza } from "../models/meli/reporteMeliFinanzas.interface"
+import { PosiblesRutas } from '../models/meli/rutas.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -73,8 +74,22 @@ export class MeliService {
     return this.http.get<ResumenSupervisores []>(this.apiurl+`/resumen/rutas/supervisor?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}&usuario=${id}`)
   }
 
+  getListasPatentesFotos(fecha_ini : string,fecha_fin : string){
+    return this.http.get(this.apiurl+`/lista_ppu/fotos?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}`)
+  }
+
   getReporteMeliFinanza(fecha_ini : string,fecha_fin : string){
     return this.http.get<ReporteMeliFinanza []>(this.apiurl+`/listar/rutas?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}`)
+  }
+
+
+  getInfoFotosPatente(ppu : string, id_ruta : number){
+    return this.http.get<InfoFotos>(this.apiurl+`/image/fotos/${ppu}/${id_ruta}`)
+  }
+
+
+  getPosiblesRutas(fecha_ini : string,fecha_fin : string){
+    return this.http.get<PosiblesRutas []>(this.apiurl+`/lista/posibles/rutas?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}`)
   }
 
 }

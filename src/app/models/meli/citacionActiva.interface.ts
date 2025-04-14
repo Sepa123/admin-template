@@ -19,7 +19,11 @@ export interface MainCitacionA {
     ruta_cerrada:         boolean;
     observacion:          string;
     kilometro:            number;
+    tipo_ruta:            number;
 }
+
+
+
 
 export interface ResumenSupervisores {
     Modalidad:            string;
@@ -36,7 +40,10 @@ export interface ResumenSupervisores {
     Campos_por_operacion: CamposPorOperacion[];
     Valor_ruta:           number;
     Ruta_cerrada:         boolean;
+    Mostrar_foto:         boolean;
+    Observacion:          string;
 }
+
 
 export interface CamposPorOperacion {
     [key: string]:        string|null|boolean|number;
@@ -55,4 +62,28 @@ export interface CamposPorOperacion {
     lm_estado:               string;
 
 
+}
+
+export interface PanelSeguimientoDiario {
+    Total_vehiculo:       number;
+    Total_entrega:  number;
+    Pendientes:   number;
+    Fallidos: number;
+}
+
+export interface PanelResumenMelis {
+    Total:       number;
+    En_proforma:  number;
+    Sin_proforma:   number;
+    Descuentos: number;
+}
+
+
+export interface MainResumenRutasSupervisores {
+    Rutas:    ResumenSupervisores[];
+    Patentes: Patente[];
+}
+
+export interface Patente {
+    Pantente: string;
 }

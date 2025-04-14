@@ -1,18 +1,18 @@
 import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RutasService } from 'src/app/service/rutas.service';
-import { PortalTransyanezService } from "src/app/service/portal-transyanez.service";
-import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromisoObligatorios.interface'
+import { RutasService } from '../../../service/rutas.service';
+import { PortalTransyanezService } from "../../../service/portal-transyanez.service";
+import {PedidoCompromisoObligatorio } from '../../../models/rutas/pedidoCompromisoObligatorios.interface'
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
 import { ComunasService } from '../../../service/comunas/comunas.service'
-import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
-import { Colaborador } from 'src/app/models/transporte/colaborador.interface' 
-import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
-import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
-import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
-import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
-import { PanelVehiculos } from 'src/app/models/transporte/paneles.interface'
+import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from '../../../models/enum/bancos.json'
+import { Colaborador } from '../../../models/transporte/colaborador.interface' 
+import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from '../../../models/transporte/vehiculo.interface' 
+import { RazonSocial } from '../../../models/modalidad-de-operaciones.interface';
+import { ModalidadDeOperacionesService } from '../../../service/modalidad-de-operaciones.service';
+import { CentroOperacion } from '../../../models/operacion/centroOperacion.interface';
+import { PanelVehiculos } from '../../../models/transporte/paneles.interface'
 import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, Operacion, Origen, Reclutamiento, Region,TipoVehiculo,Comuna } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
 import { RecursiveAstVisitor } from '@angular/compiler';
 
@@ -45,6 +45,7 @@ export class ReclutamientoComponent {
   listaMotivo: MotivoSubestado [] = []
   listaEstadoContacto: EstadoContacto [] = []
   reclutas : Reclutamiento [] = []
+  reclutasFull : Reclutamiento [] = []
 
 
   buscadorVehiculo : string = ''
@@ -103,9 +104,6 @@ export class ReclutamientoComponent {
       Operacion_postula : this.listaOperacion[0].Id+"",
       Tipo_vehiculo : "1",
       Origen_contacto : "1",
-      Estado_contacto : "1",
-      Motivo_subestado : "1",
-      Contacto_ejecutivo : this.listaContactoEjecutivo[0].Id+"",
       Comuna : "1"
     })
     this.rutValido = true
@@ -236,9 +234,6 @@ export class ReclutamientoComponent {
       Operacion_postula : this.listaOperacion[0].Id+"",
       Tipo_vehiculo : "1",
       Origen_contacto : "1",
-      Estado_contacto : "1",
-      Motivo_subestado : "1",
-      Contacto_ejecutivo : this.listaContactoEjecutivo[0].Id+"",
       Inicio_actividades_factura: true,
       Giro: "1"
     })
@@ -272,14 +267,14 @@ export class ReclutamientoComponent {
     Id_reclutamiento : this.builder.control("" ),
     Id_user : this.builder.control(sessionStorage.getItem("id")?.toString()+"", [Validators.required]),
     Ids_user : this.builder.control(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"", [Validators.required]),
-    Region: this.builder.control("" , [Validators.required]),
-    Comuna: this.builder.control("1" , [Validators.required]),
-    Operacion_postula : this.builder.control("" , [Validators.required]),
+    Region: this.builder.control("" ),
+    Comuna: this.builder.control("1" ),
+    Operacion_postula : this.builder.control("" ),
     Nombre_contacto : this.builder.control("" , [Validators.required]),
     Telefono : this.builder.control("",[Validators.pattern(/^\+?\d{7,15}$/)]),
-    Tipo_vehiculo : this.builder.control("", [Validators.required] ),
-    Origen_contacto : this.builder.control("", [Validators.required] ),
-    Estado_contacto : this.builder.control("", [Validators.required] ),
+    Tipo_vehiculo : this.builder.control("" ),
+    Origen_contacto : this.builder.control(""),
+    Estado_contacto : this.builder.control("" ),
     Motivo_subestado : this.builder.control("" ),
     Contacto_ejecutivo : this.builder.control("" ),
     Razon_social : this.builder.control("" ),
@@ -289,9 +284,9 @@ export class ReclutamientoComponent {
     Longitud: this.builder.control("" ),
     Capacidad: this.builder.control("" ),
     Pais: this.builder.control("" ),
-    Correo: this.builder.control("",[Validators.required, Validators.email] ),
+    Correo: this.builder.control("",[ Validators.email] ),
     Ppu: this.builder.control("",[Validators.maxLength(6)]),
-    Metros_cubicos: this.builder.control("",[Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
+    Metros_cubicos: this.builder.control("",[Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
     Cant_vehiculos: this.builder.control("" ),
     Inicio_actividades_factura: this.builder.control(true),
     Giro: this.builder.control("1")
@@ -299,7 +294,17 @@ export class ReclutamientoComponent {
 
   time!: Date;
 
-  cantVehiculo : number = 0
+  cantNuevos : number = 0
+  cantProces : number = 0
+  cantRechazado: number = 0
+  cantParaIngreso : number = 0
+  cantIngresado : number = 0
+  
+
+
+
+
+
 
   ngOnInit() : void {
     this.getLocation()
@@ -326,7 +331,7 @@ export class ReclutamientoComponent {
       this.listaEstadoContacto = data.Estado_contacto
       this.options = data.Comentarios
 
-      console.log(this.options)
+
 
       this.form.patchValue({
         Id_user : sessionStorage.getItem("id")?.toString()+"",
@@ -335,9 +340,6 @@ export class ReclutamientoComponent {
         Operacion_postula : data.Operacion[0].Id+"",
         Tipo_vehiculo : "1",
         Origen_contacto : "1",
-        Estado_contacto : "1",
-        Motivo_subestado : "1",
-        Contacto_ejecutivo : data.Contacto_ejecutivo[0].Id+"",
         Inicio_actividades_factura: true,
         Giro: "1",
         Comuna : "1"
@@ -345,6 +347,14 @@ export class ReclutamientoComponent {
 
       this.service.getDatosReclutas().subscribe((data) => {
         this.reclutas = data
+        this.reclutasFull = data
+
+        this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
+        this.cantNuevos = this.reclutasFull.filter(ruta => ruta.Pestana == 1).length
+        this.cantProces = this.reclutasFull.filter(ruta => ruta.Pestana == 2).length
+        this.cantRechazado = this.reclutasFull.filter(ruta => ruta.Pestana == 3).length
+        this.cantParaIngreso = this.reclutasFull.filter(ruta => ruta.Pestana == 4).length
+        this.cantIngresado = this.reclutasFull.filter(ruta => ruta.Pestana == 5).length
       })
 
 
@@ -455,14 +465,42 @@ export class ReclutamientoComponent {
 
     this.verificaRut('Rut_empresa')
 
+
+
     this.isErrorView = false
 
-    if(this.form.valid){
+    if(this.form.valid && (this.form.value.Correo !== null || this.form.value.Telefono !== null)){
       this.service.registrarCandidiato(this.form.value).subscribe((data : any) => {
-        console.log(data.message)
-        this.toggleLiveAgregar()
+        alert(data.message)
+        this.service.getDatosReclutas().subscribe((data) => {
+          this.reclutas = data
+          this.reclutasFull = data
+          this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
+          this.cantNuevos = this.reclutasFull.filter(ruta => ruta.Pestana == 1).length
+          this.cantProces = this.reclutasFull.filter(ruta => ruta.Pestana == 2).length
+          this.cantRechazado = this.reclutasFull.filter(ruta => ruta.Pestana == 3).length
+          this.cantParaIngreso = this.reclutasFull.filter(ruta => ruta.Pestana == 4).length
+          this.cantIngresado = this.reclutasFull.filter(ruta => ruta.Pestana == 5).length
+          this.toggleLiveAgregar()
+        })
+        
       }, error => {
-        alert(error.error.detail)
+
+        if(error.status == 422){
+
+
+          error.error.detail.map((err : any) => {
+            alert( 'Error con el campo '+err.loc[1] + ': '+ err.msg)
+
+          })
+
+          // console.log(error.error.detail.length)
+          // alert( 'Error con el campo '+error.error.detail[0].loc[1] + ': '+ error.error.detail[0].msg)
+        } else {
+          alert(error.error.detail)
+        }
+        
+       
       }
     
     )
@@ -479,14 +517,14 @@ export class ReclutamientoComponent {
     this.form.patchValue({
       Id_reclutamiento : recluta.Id_reclutamiento + '',
       Region : recluta.Region+"",
-      Operacion_postula: recluta.Operacion_postula+"",
+      Operacion_postula: recluta.Operacion_postula,
       Nombre_contacto : recluta.Nombre,
       Telefono:recluta.Telefono,
       Tipo_vehiculo: recluta.Tipo_vehiculo+"",
       Origen_contacto: recluta.Origen_contacto+"",
       Estado_contacto : recluta.Estado_contacto+"",
       Motivo_subestado : recluta.Motivo_subestado+"",
-      Contacto_ejecutivo : recluta.Contacto_ejecutivo+"",
+      Contacto_ejecutivo : recluta.Contacto_ejecutivo,
       Razon_social : recluta.Razon_social,
       Rut_empresa : recluta.Rut_empresa,
       Pais: recluta.Pais+"",
@@ -496,7 +534,8 @@ export class ReclutamientoComponent {
       Correo : recluta.Correo,
       Ppu : recluta.Ppu,
       Metros_cubicos: recluta.Metros_cubicos+'',
-      Comuna: recluta.Comuna+''
+      Comuna: recluta.Comuna+'',
+      Capacidad :recluta.Capacidad+''
     })
     
   }
@@ -511,7 +550,6 @@ export class ReclutamientoComponent {
 
     this.verificaRut('Rut_empresa')
 
-    console.log(this.form.value)
 
     this.isErrorView = false
 
@@ -520,10 +558,32 @@ export class ReclutamientoComponent {
         alert(data.message)
         this.service.getDatosReclutas().subscribe((data) => {
           this.reclutas = data
+          this.reclutasFull = data
+          this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
+
+          this.cantNuevos = this.reclutasFull.filter(ruta => ruta.Pestana == 1).length
+          this.cantProces = this.reclutasFull.filter(ruta => ruta.Pestana == 2).length
+          this.cantRechazado = this.reclutasFull.filter(ruta => ruta.Pestana == 3).length
+          this.cantParaIngreso = this.reclutasFull.filter(ruta => ruta.Pestana == 4).length
+          this.cantIngresado = this.reclutasFull.filter(ruta => ruta.Pestana == 5).length
+
+          
           this.toggleLiveDemo()
         })
       }, error => {
-        alert(error.error.detail)
+        if(error.status == 422){
+
+
+          error.error.detail.map((err : any) => {
+            alert( 'Error con el campo '+err.loc[1] + ': '+ err.msg)
+
+          })
+
+          // console.log(error.error.detail.length)
+          // alert( 'Error con el campo '+error.error.detail[0].loc[1] + ': '+ error.error.detail[0].msg)
+        } else {
+          alert(error.error.detail)
+        }
       }
     
     )
@@ -616,6 +676,36 @@ this.service.registrarComentario(this.selectedOption).subscribe((data : any) => 
 
 }
 
+
+ejecutivoSeleccionada : any 
+
+filtrarEjecutivo(){
+
+  if( this.ejecutivoSeleccionada == 'Seleccione Ejecutivo') return alert("Seleccione un ejectutivo por favor")
+  if( this.ejecutivoSeleccionada == 'Todas'){
+  
+    this.reclutas = this.reclutasFull
+  }else {
+    this.reclutas = this.reclutasFull.filter(ruta => ruta.Nombre_contacto == this.ejecutivoSeleccionada)
+  }
+  
+}
+
+
+pestana : number = 1
+
+filtroPestana(pestana : number){
+  
+
+  this.pestana = pestana
+  if( this.ejecutivoSeleccionada == 'Seleccione Ejecutivo') return alert("Seleccione un ejectutivo por favor")
+  if(this.ejecutivoSeleccionada == 'Todas' || this.ejecutivoSeleccionada == undefined){
+    this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana)
+  } else {
+    this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana && ruta.Nombre_contacto == this.ejecutivoSeleccionada)
+  }
+  
+}
 
  ngOnDestroy(): void {
 

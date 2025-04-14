@@ -1,76 +1,78 @@
-<c-container>
-  <h2>Electrolux</h2>
 
-  <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
-    <c-modal-header>
-      <h5 cModalTitle>Productos pedido {{codigoProducto}}</h5>
-      <button (click)="toggleLiveDemo()" cButtonClose></button>
-    </c-modal-header>
-    <c-modal-body>
-      <div class="greenTable">
-      <table id="tablaProductosPicking" >
-        <thead>
-          <tr>
-              <th>Descripcion</th>
-              <th>Código Producto</th>
-              <th>Cantidad</th>
-              <th>SKU</th>
-              <th>Verificado</th>
-          </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let producto of productosPorVerificarByCP ;let i = index ">
-          <td>{{producto.Descripcion_producto}}</td>
-          <td>{{producto.Codigo_producto}}</td>
-          <td>{{producto.Cantidad_producto}}</td>
-          <td>{{producto.SKU}}</td>
-          <td *ngIf="producto.Pistoleado === true" >
-            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-          </td>
-          <td *ngIf="producto.Pistoleado === false " >
-            <svg (click)="cambiarTicket(i,producto.Codigo_pedido,producto.Codigo_producto)" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
-          </td>
+<!-- pistoleo.component.html -->
+<div class="container">
+  <div class="stats">
+    <div class="stat-card to-do">
+      <h3 class="stat-title">Pedidos Pickeados</h3>
+      <p class="stat-value">{{cantRecepcionados}}</p>
+    </div>
+    <div class="stat-card pending">
+      <h3 class="stat-title">Pedidos Pendientes</h3>
+      <p class="stat-value">{{cantNoRecepcionados}}</p>
+    </div>
+  </div>
+
+  <div class="controls">
+    <input type="text" [(ngModel)]="codigoProducto" placeholder="Escanea o ingresa el código..."  class="input"  (change)="cambiarTicketByInput(codigoProducto)" (click)="getLocation()" />
+    <!-- <select class="input">
+      <option>Seleccionar Cliente</option>
+      <option>Juan Pérez</option>
+      <option>María López</option>
+    </select> -->
+    <select  class="input" [(ngModel)]="clienteSeleccionado" (change)="seleccionarCliente()">
+      <option disabled>Seleccionar Cliente</option>
+      <option value="easy_cd">Easy CD</option>
+      <option value="easy_opl"> Easy OPL</option>
+    </select>
+
+    <select  class="input" (click)="filterByCarga($event)">
+      <option value="Todas" >Seleccionar Carga</option>
+      <option *ngFor="let carga of cargas">{{ carga }}</option>
+    </select>
+  </div>
+
+  <div class="order-details" *ngIf="productosUltimo.length > 0">
+
+    <p> <svg xmlns="http://www.w3.org/2000/svg" width="19.1px" height="15px" viewBox="0 0 1792 1408"><path fill="blue" d="M63 1408H0V0h63zm63-1H94V0h32zm94 0h-31V0h31zm157 0h-31V0h31zm157 0h-62V0h62zm126 0h-31V0h31zm63 0h-31V0h31zm63 0h-31V0h31zm157 0h-63V0h63zm157 0h-63V0h63zm126 0h-63V0h63zm126 0h-63V0h63zm94 0h-63V0h63zm189 0h-94V0h94zm63 0h-32V0h32zm94 1h-63V0h63z" stroke-width="35" stroke="blue" /></svg>
+       <strong> Código:</strong> {{ this.productosUltimo[0].Codigo_pedido }}</p>
+    <p> <svg xmlns="http://www.w3.org/2000/svg" width="10px" height="15px" viewBox="0 0 1024 1536"><path fill="red" d="M768 512q0-106-75-181t-181-75t-181 75t-75 181t75 181t181 75t181-75t75-181m256 0q0 109-33 179l-364 774q-16 33-47.5 52t-67.5 19t-67.5-19t-46.5-52L33 691Q0 621 0 512q0-212 150-362T512 0t362 150t150 362" stroke-width="38.5" stroke="red" /></svg>
+    <strong> Comuna:</strong> {{ this.productosUltimo[0].Ciudad }}</p>
+    <p><svg xmlns="http://www.w3.org/2000/svg" width="13.13px" height="15px" viewBox="0 0 448 512"><path fill="green" d="M224 256a128 128 0 1 0 0-256a128 128 0 1 0 0 256m-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512h388.6c16.4 0 29.7-13.3 29.7-29.7c0-98.5-79.8-178.3-178.3-178.3z" stroke-width="13" stroke="green" /></svg>
+      <strong> Cliente:</strong>{{ this.productosUltimo[0].Nombre }}</p>
+    <p> <svg xmlns="http://www.w3.org/2000/svg" width="13.13px" height="15px" viewBox="0 0 448 512"><path fill="purple" d="M0 80v149.5c0 17 6.7 33.3 18.7 45.3l176 176c25 25 65.5 25 90.5 0l133.5-133.5c25-25 25-65.5 0-90.5l-176-176c-12-12-28.3-18.7-45.3-18.7L48 32C21.5 32 0 53.5 0 80m112 32a32 32 0 1 1 0 64a32 32 0 1 1 0-64" stroke-width="13" stroke="purple"/></svg>
+      <strong> SKU:</strong> {{ this.productosUltimo[0].SKU }}</p>
+    <p> <svg xmlns="http://www.w3.org/2000/svg" width="18.75px" height="15px" viewBox="0 0 640 512"><path fill="yellow" d="M425.7 256c-16.9 0-32.8-9-41.4-23.4L320 126l-64.2 106.6c-8.7 14.5-24.6 23.5-41.5 23.5c-4.5 0-9-.6-13.3-1.9L64 215v178c0 14.7 10 27.5 24.2 31l216.2 54.1c10.2 2.5 20.9 2.5 31 0L551.8 424c14.2-3.6 24.2-16.4 24.2-31V215l-137 39.1c-4.3 1.3-8.8 1.9-13.3 1.9m212.6-112.2L586.8 41c-3.1-6.2-9.8-9.8-16.7-8.9L320 64l91.7 152.1c3.8 6.3 11.4 9.3 18.5 7.3l197.9-56.5c9.9-2.9 14.7-13.9 10.2-23.1M53.2 41L1.7 143.8c-4.6 9.2.3 20.2 10.1 23l197.9 56.5c7.1 2 14.7-1 18.5-7.3L320 64L69.8 32.1c-6.9-.8-13.5 2.7-16.6 8.9" stroke-width="13" stroke="yellow"/></svg>    
+      <strong> Descripción:</strong> {{ this.productosUltimo[0].Descripcion_producto }}</p>
+    <p> <svg xmlns="http://www.w3.org/2000/svg" width="13.13px" height="15px" viewBox="0 0 448 512"><path fill="orange" d="M50.7 58.5L0 160h208V32H93.7c-18.2 0-34.8 10.3-43 26.5M240 160h208L397.3 58.5c-8.2-16.2-24.8-26.5-43-26.5H240zm208 32H0v224c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64z" stroke-width="13" stroke="orange"/></svg>
+      <strong> Bultos:</strong> {{ this.productosUltimo[0].Cantidad_producto }}</p>
+    <p> <svg xmlns="http://www.w3.org/2000/svg" width="16.88px" height="15px" viewBox="0 0 576 512"><path fill="indigo" d="M288 0c-69.59 0-126 56.41-126 126c0 56.26 82.35 158.8 113.9 196.02c6.39 7.54 17.82 7.54 24.2 0C331.65 284.8 414 182.26 414 126C414 56.41 357.59 0 288 0m0 168c-23.2 0-42-18.8-42-42s18.8-42 42-42s42 18.8 42 42s-18.8 42-42 42M20.12 215.95A32.01 32.01 0 0 0 0 245.66v250.32c0 11.32 11.43 19.06 21.94 14.86L160 448V214.92c-8.84-15.98-16.07-31.54-21.25-46.42zM288 359.67c-14.07 0-27.38-6.18-36.51-16.96c-19.66-23.2-40.57-49.62-59.49-76.72v182l192 64V266c-18.92 27.09-39.82 53.52-59.49 76.72c-9.13 10.77-22.44 16.95-36.51 16.95m266.06-198.51L416 224v288l139.88-55.95A32 32 0 0 0 576 426.34V176.02c0-11.32-11.43-19.06-21.94-14.86" stroke-width="13" stroke="indigo"/></svg>
+      <strong> Dirección:</strong> {{ this.productosUltimo[0].Calle }}</p>
+    <p> <svg xmlns="http://www.w3.org/2000/svg" width="13.13px" height="15px" viewBox="0 0 448 512"><path fill="teal" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48" stroke-width="13" stroke="teal"/></svg>
+      <strong> Fecha Despacho:</strong> {{ this.productosUltimo[0].Fecha_pedido }}</p>
+
+    </div>
+
+  <div class="table-section">
+    <h2>Pedidos Pendientes</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Calle y Número</th>
+          <th>Ciudad</th>
+          <th>Código Pedido</th>
+          <th>Fecha Pedido</th>
+          <th>Código Producto</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>SKU</th>
+          <th><svg xmlns="http://www.w3.org/2000/svg" width="18.75px" height="15px" viewBox="0 0 640 512"><path fill="#fff" d="M0 488V171.3c0-26.2 15.9-49.7 40.2-59.4L308.1 4.8c7.6-3.1 16.1-3.1 23.8 0l267.9 107.1c24.3 9.7 40.2 33.3 40.2 59.4V488c0 13.3-10.7 24-24 24h-48c-13.3 0-24-10.7-24-24V224c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32v264c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24m488 24H152c-13.3 0-24-10.7-24-24v-56h384v56c0 13.3-10.7 24-24 24M128 400v-64h384v64zm0-96v-80h384v80z" stroke-width="13" stroke="#fff"/></svg></th>
+          <th><svg xmlns="http://www.w3.org/2000/svg" width="18.75px" height="15px" viewBox="0 0 640 512"><path fill="#fff" d="M50.2 375.6c2.3 8.5 11.1 13.6 19.6 11.3l216.4-58c8.5-2.3 13.6-11.1 11.3-19.6l-49.7-185.5c-2.3-8.5-11.1-13.6-19.6-11.3L151 133.3l24.8 92.7l-61.8 16.5l-24.8-92.7l-77.3 20.7C3.4 172.8-1.7 181.6.6 190.1zM384 0c-17.7 0-32 14.3-32 32v323.6L5.9 450c-4.3 1.2-6.8 5.6-5.6 9.8l12.6 46.3c1.2 4.3 5.6 6.8 9.8 5.6l393.7-107.4C418.8 464.1 467.6 512 528 512c61.9 0 112-50.1 112-112V0zm144 448c-26.5 0-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48" stroke-width="13" stroke="#fff"/></svg></th>
         </tr>
-        </tbody>
-        </table>
-      </div>
-    </c-modal-body>
-    <c-modal-footer>
-      <button (click)="toggleLiveDemo()" cButton color="secondary">
-        Cerrar
-      </button>
-    </c-modal-footer>
-  </c-modal>
-
-    <c-row [xs]="1"> 
-      <c-col>
-        <input type="text" name="" [(ngModel)]="codigoProducto" id="idRuta" (change)="cambiarTicketByInput(codigoProducto)" (click)="getLocation()">
-      </c-col>
-      <c-col>
-          <p></p>
-      </c-col>
-      <c-col>
-        Por Verificar {{cantNoVerificados}} <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
-       <div class="greenTable">
-        <table id="tablaProductosPicking" >
-        <thead>
-          <tr>
-              <!-- <th>Código de Cliente</th> -->
-              <th>Nombre</th>
-              <th>Calle y Número</th>
-              <th>Ciudad</th>
-              <th>Código de Pedido</th>
-              <th>Fecha de Pedido</th>
-              <th>Código de Producto</th>
-              <th>Descripción del Producto</th>
-              <th>Cantidad de Producto</th>
-              <th>SKU</th>
-              <th>Verificado</th>
-          </tr>
-        </thead>
-        <tbody>
+      </thead>
+      <tbody>
         <tr *ngFor="let producto of productosPorVerificar ;let i = index ">
-          <td> {{producto.Nombre}}</td>
+          <td>{{producto.Nombre}}</td>
           <td>{{producto.Calle}}</td>
           <td>{{producto.Provincia}}</td>
           <td>{{producto.Codigo_pedido}}</td>
@@ -80,68 +82,99 @@
           <td>{{producto.Cantidad_producto}}</td>
           <td>{{producto.SKU}}</td>
          <!-- <td>{{producto.Pistoleado}}</td>  -->
-         <td *ngIf="producto.Pistoleado === true" >
-          <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-        </td>
-        <td *ngIf="producto.Pistoleado === false " >
-          <svg (click)="cambiarTicket(i,producto.Codigo_pedido,producto.Codigo_producto)" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
-        </td>
+          <td *ngIf="producto.Pistoleado === true" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 1536 1536"><path fill="green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" stroke-width="38.5" stroke="green"/></svg>
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg> -->
+          </td>
+          <td *ngIf="producto.Pistoleado === false " >
+            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 1536 1536"><path fill="red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" stroke-width="38.5" stroke="red"/></svg>
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg> -->
+          </td>
+          <td *ngIf="producto.Recepcion === true" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 1536 1536"><path fill="green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" stroke-width="38.5" stroke="green"/></svg>
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg> -->
+          </td>
+          <td *ngIf="producto.Recepcion === false " >
+            <svg (click)="cambiarTicket(i,producto.Codigo_pedido,producto.Codigo_producto)" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 1536 1536"><path fill="red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" stroke-width="38.5" stroke="red"/></svg>
+            <!-- <svg (click)="cambiarTicket(i,producto.Codigo_pedido,producto.Codigo_producto)" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg> -->
+          </td>
         </tr>
-        </tbody>
-        </table>
-      </div>
-      </c-col>
-      <c-col>
-        <p></p>
-    </c-col>
-  
-    <c-col>
+        <!-- <tr *ngFor="let pedido of pedidosPendientes" (click)="marcarListo(pedido)">
+          <td>{{pedido.nombre}}</td>
+          <td>{{pedido.direccion}}</td>
+          <td>{{pedido.ciudad}}</td>
+          <td>{{pedido.codigoPedido}}</td>
+          <td>{{pedido.fechaPedido}}</td>
+          <td>{{pedido.codigoProducto}}</td>
+          <td>{{pedido.descripcion}}</td>
+          <td>{{pedido.cantidad}}</td>
+          <td>{{pedido.sku}}</td>
+          <td [class.green]="pedido.marcarHangar">✔️</td>
+          <td [class.green]="pedido.marcarRecepcion">✔️</td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
 
-        <c-col>
-            Verificados {{cantVerificados}} <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-            <div class="greenTable">
-            <table id="tablaProductosPicking" >
-            <thead>
-              <tr>
-                  <!-- <th>Código de Cliente</th> -->
-                  <th>Nombre</th>
-                  <th>Calle y Número</th>
-                  <th>Ciudad</th>
-                  <th>Código de Pedido</th>
-                  <th>Fecha de Pedido</th>
-                  <th>Código de Producto</th>
-                  <th>Descripción del Producto</th>
-                  <th>Cantidad de Producto</th>
-                  <th>SKU</th>
-                  <th>Verificado</th>
-              </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let producto of productosVerificados;let i = index ">
-              <td>{{producto.Nombre}}</td>
-              <td>{{producto.Calle}}</td>
-              <td>{{producto.Provincia}}</td>
-              <td>{{producto.Codigo_pedido}}</td>
-              <td>{{producto.Fecha_pedido}}</td>
-              <td>{{producto.Codigo_producto}}</td>
-              <td>{{producto.Descripcion_producto}}</td>
-              <td>{{producto.Cantidad_producto}}</td>
-              <td>{{producto.SKU}}</td>
-              <td *ngIf="producto.Pistoleado === true" >
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-              </td>
-              <td *ngIf="producto.Pistoleado === false " >
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
-              </td>
-            </tr>
-            </tbody>
-            </table>
-            </div>
-          </c-col>
-  
-    </c-col>
-  
-    </c-row>
-    <c-row>
-    </c-row>
-  </c-container>
+  <div class="table-section">
+    <h2>Pedidos Listos</h2>
+    <table class="tabla-verde">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Calle y Número</th>
+          <th>Ciudad</th>
+          <th>Código Pedido</th>
+          <th>Fecha Pedido</th>
+          <th>Código Producto</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>SKU</th>
+          <th><svg xmlns="http://www.w3.org/2000/svg" width="18.75px" height="15px" viewBox="0 0 640 512"><path fill="#fff" d="M0 488V171.3c0-26.2 15.9-49.7 40.2-59.4L308.1 4.8c7.6-3.1 16.1-3.1 23.8 0l267.9 107.1c24.3 9.7 40.2 33.3 40.2 59.4V488c0 13.3-10.7 24-24 24h-48c-13.3 0-24-10.7-24-24V224c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32v264c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24m488 24H152c-13.3 0-24-10.7-24-24v-56h384v56c0 13.3-10.7 24-24 24M128 400v-64h384v64zm0-96v-80h384v80z" stroke-width="13" stroke="#fff"/></svg></th>
+          <th><svg xmlns="http://www.w3.org/2000/svg" width="18.75px" height="15px" viewBox="0 0 640 512"><path fill="#fff" d="M50.2 375.6c2.3 8.5 11.1 13.6 19.6 11.3l216.4-58c8.5-2.3 13.6-11.1 11.3-19.6l-49.7-185.5c-2.3-8.5-11.1-13.6-19.6-11.3L151 133.3l24.8 92.7l-61.8 16.5l-24.8-92.7l-77.3 20.7C3.4 172.8-1.7 181.6.6 190.1zM384 0c-17.7 0-32 14.3-32 32v323.6L5.9 450c-4.3 1.2-6.8 5.6-5.6 9.8l12.6 46.3c1.2 4.3 5.6 6.8 9.8 5.6l393.7-107.4C418.8 464.1 467.6 512 528 512c61.9 0 112-50.1 112-112V0zm144 448c-26.5 0-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48" stroke-width="13" stroke="#fff"/></svg></th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productosVerificados;let i = index ">
+          <td>{{producto.Nombre}}</td>
+          <td>{{producto.Calle}}</td>
+          <td>{{producto.Provincia}}</td>
+          <td>{{producto.Codigo_pedido}}</td>
+          <td>{{producto.Fecha_pedido}}</td>
+          <td>{{producto.Codigo_producto}}</td>
+          <td>{{producto.Descripcion_producto}}</td>
+          <td>{{producto.Cantidad_producto}}</td>
+          <td>{{producto.SKU}}</td>
+          <td *ngIf="producto.Pistoleado === true" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 1536 1536"><path fill="green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" stroke-width="38.5" stroke="green"/></svg>
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg> -->
+          </td>
+          <td *ngIf="producto.Pistoleado === false " >
+            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 1536 1536"><path fill="red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" stroke-width="38.5" stroke="red"/></svg>
+          </td>
+          <td *ngIf="producto.Recepcion === true" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 1536 1536"><path fill="green" d="M1284 606q0-28-18-46l-91-90q-19-19-45-19t-45 19L677 877L451 651q-19-19-45-19t-45 19l-91 90q-18 18-18 46q0 27 18 45l362 362q19 19 45 19q27 0 46-19l543-543q18-18 18-45m252 162q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" stroke-width="38.5" stroke="green"/></svg>
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg> -->
+          </td>
+          <td *ngIf="producto.Recepcion === false " >
+            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 1536 1536"><path fill="red" d="M1149 994q0-26-19-45L949 768l181-181q19-19 19-45q0-27-19-46l-90-90q-19-19-46-19q-26 0-45 19L768 587L587 406q-19-19-45-19q-27 0-46 19l-90 90q-19 19-19 46q0 26 19 45l181 181l-181 181q-19 19-19 45q0 27 19 46l90 90q19 19 46 19q26 0 45-19l181-181l181 181q19 19 45 19q27 0 46-19l90-90q19-19 19-46m387-226q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768" stroke-width="38.5" stroke="red"/></svg>
+          </td>
+        </tr>
+        <!-- <tr *ngFor="let pedido of pedidosListos">
+          <td>{{pedido.nombre}}</td>
+          <td>{{pedido.direccion}}</td>
+          <td>{{pedido.ciudad}}</td>
+          <td>{{pedido.codigoPedido}}</td>
+          <td>{{pedido.fechaPedido}}</td>
+          <td>{{pedido.codigoProducto}}</td>
+          <td>{{pedido.descripcion}}</td>
+          <td>{{pedido.cantidad}}</td>
+          <td>{{pedido.sku}}</td>
+          <td>{{pedido.marcarHangar ? '✔️' : '❌'}}</td>
+          <td>{{pedido.marcarRecepcion ? '✔️' : '❌'}}</td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
+</div>

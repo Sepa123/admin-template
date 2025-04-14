@@ -1,17 +1,17 @@
 import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { RutasService } from 'src/app/service/rutas.service';
-import { PortalTransyanezService } from "src/app/service/portal-transyanez.service";
-import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromisoObligatorios.interface'
+import { RutasService } from '../../../service/rutas.service';
+import { PortalTransyanezService } from "../../../service/portal-transyanez.service";
+import {PedidoCompromisoObligatorio } from '../../../models/rutas/pedidoCompromisoObligatorios.interface'
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
 import { ComunasService } from '../../../service/comunas/comunas.service'
-import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
-import { Colaborador } from 'src/app/models/transporte/colaborador.interface' 
-import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface' 
-import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
-import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
-import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
-import { MainPanelVehiculos, PanelVehiculos, PanelVehiculosObs } from 'src/app/models/transporte/paneles.interface'
+import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from '../../../models/enum/bancos.json'
+import { Colaborador } from '../../../models/transporte/colaborador.interface' 
+import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from '../../../models/transporte/vehiculo.interface' 
+import { RazonSocial } from '../../../models/modalidad-de-operaciones.interface';
+import { ModalidadDeOperacionesService } from '../../../service/modalidad-de-operaciones.service';
+import { CentroOperacion } from '../../../models/operacion/centroOperacion.interface';
+import { MainPanelVehiculos, PanelVehiculos, PanelVehiculosObs } from '../../../models/transporte/paneles.interface'
 
 @Component({
   selector: 'app-vehiculos',
@@ -885,7 +885,13 @@ convertirOperacion(id : number){
 cambiarEstadoVehiculo(id: number, ppu : string){
   const body ={
     "id" : id,
-    "ppu" : ppu
+    "ppu" : ppu,
+    "Id_user"  : sessionStorage.getItem("id")?.toString()+"",
+    "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
+    "Id_ppu" : this.IdVehiculo,
+    "Latitud" : this.latStr,
+    "Longitud" : this.longStr,
+    
   }
   this.service.actualizarEstadoVehiculo(body).subscribe((data) => {
     console.log("actualizado")

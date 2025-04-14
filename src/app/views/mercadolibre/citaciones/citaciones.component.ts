@@ -9,14 +9,14 @@ import { FormsModule } from '@angular/forms';
 // import { id } from 'date-fns/locale';
 import { getStyle } from '@coreui/utils';
 import { FormModule } from '@coreui/angular';
-
+import { PanelCitacion } from '../../../models/meli/citacion.interface'
 
 
 
 @Component({
   selector: 'app-citaciones',
   templateUrl: './citaciones.component.html',
-  styleUrls: ['./citaciones.component.scss','./citaciones2.component.scss','./citaciones3.component.scss'],
+  styleUrls: ['./citaciones.component.scss','./citaciones2.component.scss','./citaciones3.component.scss','./citaciones4.component.scss'],
 })
 export class CitacionesComponent implements OnInit  {
   
@@ -56,6 +56,13 @@ export class CitacionesComponent implements OnInit  {
   digitoPeoneta!: number;
   id_driver!: number;
   id_peoneta!: number;
+
+  panelCitacion : PanelCitacion = {
+    "Total": 0,
+    "Confirmado": 0,
+    "Pendiente": 0,
+    "No_Confirma": 0
+}
 
   constructor(
     private http: HttpClient,
@@ -194,7 +201,6 @@ export class CitacionesComponent implements OnInit  {
   onConductorChange(): void {
     // Suponiendo que conductores2 ya contiene el id seleccionado (como número o string)
     this.numeroTelefono = ''; // Reiniciar el número de teléfono
-
     const selectedId = this.conductores2 ? this.conductores2.toString() : '';
     // console.log('ID del conductor seleccionado (ngModel):', selectedId);
   
@@ -311,7 +317,13 @@ export class CitacionesComponent implements OnInit  {
     this.getEstados();
     this.getTipoRuta();
     this.initializeAmbulancia();
-    
+
+    setTimeout(() => {
+      this.Ct.getPanelCitaciones(this.formattedDate).subscribe((data) => {
+        this.panelCitacion = data
+      })
+    }, 500);
+  
   }
 
   patentesFiltradas = [...this.patentesList2]; // Inicialmente todas las patentes
@@ -375,10 +387,16 @@ buscarPatenteDetalle(event: Event) {
         // Si se selecciona una fecha anterior, restablece al valor mínimo permitido (fecha actual)
         this.formattedDate = rawDate
         this.getModalidades(); // Llama a getModalidades con la fecha actual
+        this.Ct.getPanelCitaciones(this.formattedDate).subscribe((data) => {
+          this.panelCitacion = data
+        })
       } else {
         // Actualiza this.formattedDate antes de llamar a getModalidades
         this.formattedDate = rawDate;
         this.getModalidades();
+        this.Ct.getPanelCitaciones(this.formattedDate).subscribe((data) => {
+          this.panelCitacion = data
+        })
       }
     }
   }
@@ -415,6 +433,39 @@ buscarPatenteDetalle(event: Event) {
             
         );
     });
+
+
+    if (this.OperacionesFiltradas.length == 0) {
+      this.panelCitacion = {
+          "Total": 0,
+          "Confirmado": 0,
+          "Pendiente": 0,
+          "No_Confirma": 0
+      }
+    } else {
+      this.panelCitacion.Total = this.OperacionesFiltradas.map(op => op.citacion).reduce((ant,act) => {
+        return ant + act
+      }) 
+
+      this.panelCitacion.Confirmado = this.OperacionesFiltradas.map(op => op.confirmados).reduce((ant,act) => {
+        return ant + act
+      })
+
+
+      this.panelCitacion.Pendiente = this.OperacionesFiltradas.map(op => op.pendientes).reduce((ant,act) => {
+        return ant + act
+      })
+
+
+      this.panelCitacion.No_Confirma = this.OperacionesFiltradas.map(op => op.rechazadas).reduce((ant,act) => {
+        return ant + act
+      })
+
+  
+      // console.log(this.OperacionesFiltradas.map(op => op.confirmados).reduce((ant,act) => {
+      //   return ant + act
+      // }))
+    }
     // console.log("Operaciones filtradas:", this.OperacionesFiltradas); // Verifica el resultado
 }
 
@@ -433,7 +484,6 @@ buscarPatenteDetalle(event: Event) {
     const id_ppuC = this.id_p
     this.Ct.getConductoresList(id_ppuC).subscribe(
       (data) => {
-
         this.conductores = data.filter((item: any) => item.tipo_usuario === 1);
         this.peonetas = data.filter((item: any) => item.tipo_usuario === 2);
         this.cargadedatos();
@@ -667,7 +717,6 @@ buscarPatenteDetalle(event: Event) {
     console.log(id_operacion, id_centro);
     this.getOperacion = id_operacion;
     this.getCentroOperacion = id_centro;
-
   }
 
   submitForm(id_ppu: any, ppu: any) {
@@ -1077,5 +1126,4 @@ makePhoneCall(phoneNumber: string): void {
     window.location.href = `tel:${fullPhoneNumber}`;
   }
 }
-
 }

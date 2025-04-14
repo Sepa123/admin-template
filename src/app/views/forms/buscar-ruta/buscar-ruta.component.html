@@ -147,7 +147,7 @@
 <table class="inputs">
     <tr>
       <td>
-        <input type="text" name="" id="idRuta" placeholder="Buscar Producto"  [(ngModel)]="idPedido" (change)="getRuta(idPedido)">
+        <input type="text" name="" id="idRuta" placeholder="Buscar Producto" class="form-control"  [(ngModel)]="idPedido" (change)="getRuta(idPedido)">
       </td>
       <td>
         <!-- <input type="text" name="" id="idRuta"  [(ngModel)]="idPedido" (change)="getRuta(idPedido)"> -->
@@ -156,7 +156,7 @@
       </svg>
       </td>
       <td>
-        <input type="text" name="" id="idRuta2" placeholder="Buscar por ultimo 4 digitos"  [(ngModel)]="idPedidoRuta4Digitos" (change)="getRutapor4Digitos(idPedidoRuta4Digitos)">
+        <input type="text" name="" id="idRuta2" class="form-control" class="form-control" placeholder="Buscar por ultimo 4 dígitos"  [(ngModel)]="idPedidoRuta4Digitos" (change)="getRutapor4Digitos(idPedidoRuta4Digitos)">
       </td>
       <td>
         <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 2048 2048">
@@ -164,7 +164,7 @@
         </svg>
       </td>
       <td>
-        <input type="text" name="" id="idRuta3" placeholder="Agregar nueva O.C. a ruta" [(ngModel)]="idPedidoRuta" (change)="agregarOCaRuta()" >
+        <input type="text" class="form-control" name="" id="idRuta3" placeholder="Agregar nueva O.C. a ruta" [(ngModel)]="idPedidoRuta" (change)="agregarOCaRuta()" >
       </td>
     </tr>
 

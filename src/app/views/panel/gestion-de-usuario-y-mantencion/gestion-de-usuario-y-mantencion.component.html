@@ -58,14 +58,8 @@
           <label>Dirección:</label>
           <input [(ngModel)]="nuevoUsuario.direccion" name="direccion" required>
 
-          <label for="cargo">Cargo:</label>
-          <input 
-            [(ngModel)]="nuevoUsuario.cargo" 
-            name="cargo" 
-            type="text" 
-            id="cargo" 
-            required>
-        
+          <label for="direccion">cargo:</label>
+          <input  [(ngModel)]="nuevoUsuario.cargo" type="text" id="cargo">
         </div>
       </div>
 
@@ -190,10 +184,7 @@
             <option value="0" disabled selected>Seleccione una opción</option>
             <option *ngFor="let s of sup" [value]="s.id">{{s.nombre}}</option>
           </select>
-          <label for="cargo"> Cargo </label>
-          <input type="text" id="cargo" class="form-input" [(ngModel)]="updateData.cargo" [value]="userData?.cargo || ''">
           
-          <label for="contrasena"> Contraseña </label>
           <div class="contrasena-container">
             <input [type]="mostrarContrasena ? 'text' : 'password'" id="contrasena"
             type="password" 
@@ -308,5 +299,8 @@
         </body>
     </div>
 </div>
+
+
+
 
 

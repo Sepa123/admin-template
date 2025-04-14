@@ -83,6 +83,9 @@ export interface Reclutamiento {
     Ppu:                        string;
     Metros_cubicos:             number;
     Rango_fecha:                number;
+    Capacidad:                  number;
+    Pestana:                    number;
+    Comentario:                 string;
 }
 
 

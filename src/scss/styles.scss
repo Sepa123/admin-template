@@ -182,3 +182,55 @@ a {
 
 // html, body { height: 100%; }
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+//diseño de alertas
+#alertaContainer {
+  position: fixed;
+  right: 20px;
+  bottom: 20px; /* Cambiado de 'top' a 'bottom' para que esté en la parte inferior */
+  display: flex;
+  flex-direction: column; /* Cambiado a 'column' para que las alertas se apilen hacia arriba */
+  gap: 10px;
+  align-items: flex-end; /* Alinea las alertas a la derecha */
+  max-height: 90%; /* Limita la altura para evitar que se desborden demasiado */
+  overflow-y: auto; /* Si hay muchas alertas, pueden hacer scroll */
+  color: white;
+}
+/* Estilo base para todas las alertas */
+#alertaContainer .alerta {
+  width: 300px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  font-size: 14px;
+  z-index: 9999;
+}
+/* Alertas de éxito (verde) */
+#alertaContainer .alerta.success {
+  background-color: #28a745; /* Verde */
+}
+
+#alertaContainer .alerta.gray {
+  background-color: gray; /* Verde */
+}
+
+/* Alertas de error (rojo) */
+#alertaContainer .alerta.error {
+  background-color: #dc3545; /* Rojo */
+}
+/* Alertas de advertencia (amarillo) */
+#alertaContainer .alerta.warning {
+  background-color: #ffc107; /* Amarillo */
+  color: black; /* Cambiar el texto a negro para mejor contraste */
+}
+/* Iconos de las alertas */
+.alerta i {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+

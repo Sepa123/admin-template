@@ -18,6 +18,10 @@ export class RecepcionService {
 
   //producto sin recepcion
 
+  getRecepcionTiendas(tienda : string){
+    return this.http.get<ProductoOPL[]>(this.apiurl + `/tiendas?tienda=${tienda}`)
+  }
+
   getProductoSinRecepcion(){
     return this.http.get<ProductoOPL[]>(this.apiurl+"/producto_sin_recepcion")
   }
@@ -56,6 +60,11 @@ export class RecepcionService {
 
   updateProductoSinRecepcion(){
     return interval(12000).pipe(switchMap(()=> this.http.get<ProductoOPL[]>(this.apiurl+"/producto_sin_recepcion")))
+  }
+
+
+  updateRecepcionTiendas(tienda : string){
+    return interval(12000).pipe(switchMap(() => this.http.get<ProductoOPL[]>(this.apiurl + `/tiendas?tienda=${tienda}`)))
   }
 
   updateRecepcionEasyOPL() {

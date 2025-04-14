@@ -596,7 +596,7 @@ export class EditarRutaComponent {
     return phone.replace(/\D/g, '');
   }
   
-  formatPhoneNumber(phone: string): string {
+  formatPhoneNumber(phone: string): any {
     const cleanPhone = this.cleanPhoneInput(phone);
   
     // Validar que tenga al menos 8 dígitos

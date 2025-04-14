@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 //  Modelos
-import { BitacoraLITracking } from "src/app/models/log_inversa/bitacoraLITracking.interface" 
-import { RutaEnActivo } from "src/app/models/rutaEnActivo.interface"
-import { ProductoPicking, FacturaElectrolux } from "src/app/models/productoPicking.interface"
-import { NombresRutasActivas } from "src/app/models/nombresRutasActivas.interface"
-import { TrackingBeetrack, LineaProducto } from 'src/app/models/trackingBeetrack.interface'
-import { TocTracking } from 'src/app/models/tocTracking.interface'
-import { AlertaConductor } from 'src/app/models/alertaConductor.interface'
+import { BitacoraLITracking } from "../models/log_inversa/bitacoraLITracking.interface" 
+import { RutaEnActivo } from "../models/rutaEnActivo.interface"
+import { ProductoPicking, FacturaElectrolux } from "../models/productoPicking.interface"
+import { NombresRutasActivas } from "../models/nombresRutasActivas.interface"
+import { TrackingBeetrack, LineaProducto } from '../models/trackingBeetrack.interface'
+import { TocTracking } from '../models/tocTracking.interface'
+import { AlertaConductor } from '../models/alertaConductor.interface'
 import { interval,Observable, switchMap  } from 'rxjs';
-import { CantidadUnidadesRutaActiva } from 'src/app/models/cantidadUnidadesRutaActiva.interface'
-import { ComunaRutas } from 'src/app/models/comunaRutas.interface'
-import { seguimientoRuta } from 'src/app/models/TOC/seguimientoRuta.interface'
-import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromisoObligatorios.interface'
-import { VehiculoDisponible,PatenteDisponible } from 'src/app/models/rutas/vehiculosDisponibles.interface'
+import { CantidadUnidadesRutaActiva } from '../models/cantidadUnidadesRutaActiva.interface'
+import { ComunaRutas } from '../models/comunaRutas.interface'
+import { seguimientoRuta } from '../models/TOC/seguimientoRuta.interface'
+import {PedidoCompromisoObligatorio } from '../models/rutas/pedidoCompromisoObligatorios.interface'
+import { VehiculoDisponible,PatenteDisponible } from '../models/rutas/vehiculosDisponibles.interface'
 @Injectable({
   providedIn: 'root'
 })
@@ -299,7 +299,25 @@ export class RutasService {
     return this.http.get<PatenteDisponible []>(this.apiurl + `/patentes/disponibles` )  
   }
 
+  upload_quadmind_manual(formData : any, id_usuario : string){
+    return this.http.post(this.apiurl+`/quadminds/subir-archivo?id_usuario=${id_usuario}`, formData)
+  }
 
 
+  armar_ruta_codigos(body : any){
+    return this.http.post(this.apiurl + "/armar/ruta_codigos", body)
+  }
+
+  download_excel_ejemplo() {
+    this.http.get(`${this.apiurl}/archivo_ejemplo/descargar`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`archivo_ejemplo.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
   
 }

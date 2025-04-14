@@ -11,11 +11,11 @@ import { LicenciaWindows } from '../models/mantenedores/licencia.interface';
 import {AsignadosById} from '../models/mantenedores/asignacionPorId.interface'
 import { DevolucionById } from '../models/mantenedores/devolucionPorID.interface';
 import { SubEstado } from '../models/mantenedores/subEstado.interface';
-import{Estado} from 'src/app/models/mantenedores/estados.interface'
-import{LicenciaYEquipo} from 'src/app/models/mantenedores/licenciaYEquipo.interface'
+import{Estado} from '../models/mantenedores/estados.interface'
+import{LicenciaYEquipo} from '../models/mantenedores/licenciaYEquipo.interface'
 import { Observable } from 'rxjs';
-import{ChipYEquipo} from 'src/app/models/mantenedores/chipYEquipo.interface'
-import{AsignadosPorPersona} from 'src/app/models/mantenedores/asignadoPorPersona.interface'
+import{ChipYEquipo} from '../models/mantenedores/chipYEquipo.interface'
+import{AsignadosPorPersona} from '../models/mantenedores/asignadoPorPersona.interface'
 import { ChipDevolucion } from '../models/mantenedores/chipDevolucion.interface';
 
 @Injectable({

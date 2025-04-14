@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 import { CentroOperacion } from '../models/operacion/centroOperacion.interface';
-import { MainSupervisor } from 'src/app/models/operacion/supervisor.interface'
+import { MainSupervisor } from '../models/operacion/supervisor.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -57,5 +57,9 @@ export class RegistrarUsuarioService {
   get_lista_supervisores (){
     return this.http.get<MainSupervisor []>(this.apiurl + `/ver/supervisores`)
   }
-  
+
+
+  subirTest(formData : any, id_user : string, ids_user : string){
+    return this.http.post(`http://127.0.0.1:8000/api/test?id_user=${id_user}&ids_user=${ids_user}`, formData)
+  }
 }

@@ -1,14 +1,14 @@
 import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PortalTransyanezService } from "src/app/service/portal-transyanez.service";
-import {PedidoCompromisoObligatorio } from 'src/app/models/rutas/pedidoCompromisoObligatorios.interface'
+import { PortalTransyanezService } from "../../../service/portal-transyanez.service";
+import {PedidoCompromisoObligatorio } from '../../../models/rutas/pedidoCompromisoObligatorios.interface'
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
 import { ComunasService } from '../../../service/comunas/comunas.service'
-import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from 'src/app/models/enum/bancos.json'
-import { Colaborador,DetallePago } from 'src/app/models/transporte/colaborador.interface' 
-import { Usuario,ObservacionDriver } from 'src/app/models/transporte/tripulacion.interface' 
-import { VehiculoObservaciones } from 'src/app/models/transporte/vehiculo.interface';
-import { PanelTripulacion } from 'src/app/models/transporte/paneles.interface';
+import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from '../../../models/enum/bancos.json'
+import { Colaborador,DetallePago } from '../../../models/transporte/colaborador.interface' 
+import { Usuario,ObservacionDriver } from '../../../models/transporte/tripulacion.interface' 
+import { VehiculoObservaciones } from '../../../models/transporte/vehiculo.interface';
+import { PanelTripulacion } from '../../../models/transporte/paneles.interface';
 
 @Component({
   selector: 'app-tripulacion',
@@ -409,18 +409,18 @@ export class TripulacionComponent {
   }
 
 
-  activarUsuario(activar : boolean){
-    const rut = this.form.value.Rut
+  // activarUsuario(activar : boolean){
+  //   const rut = this.form.value.Rut
     
-    this.service.activarColaborador(rut+'',activar).subscribe((mes : any) => {
-      this.service.getUsuariosTransporte().subscribe((data) => {
-        this.tripulacion = data
-        this.tripulacionFull = data
-        alert(mes.message)
-        this.toggleLiveDemo()
-      })
-    })
-  }
+  //   this.service.activarColaborador(rut+'',activar).subscribe((mes : any) => {
+  //     this.service.getUsuariosTransporte().subscribe((data) => {
+  //       this.tripulacion = data
+  //       this.tripulacionFull = data
+  //       alert(mes.message)
+  //       this.toggleLiveDemo()
+  //     })
+  //   })
+  // }
 
   buscarComunas(event: any){
     const selectedRegionId = event.target.value;

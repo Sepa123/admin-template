@@ -11,6 +11,7 @@ import { CitacionesActivasComponent } from './citaciones-activas/citaciones-acti
 import { CitacionSupervisoresComponent } from './citacion-supervisores/citacion-supervisores.component';
 import { NsSupervisoresComponent } from './ns-supervisores/ns-supervisores.component';
 import { TestPPUComponent } from './test-ppu/test-ppu.component';
+import { PosiblesRutasComponent } from './posibles-rutas/posibles-rutas.component';
 
 const routes: Routes = [
   {
@@ -87,6 +88,13 @@ const routes: Routes = [
             component: NsSupervisoresComponent,
             data:{
                 title: "Citaciones"
+            }
+        },
+        {
+            path:'posibles-rutas',
+            component: PosiblesRutasComponent,
+            data:{
+                title: "Test PPU"
             }
         },
         {

@@ -2,7 +2,9 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA} from '@angular/core'
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
+
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ButtonGroupModule,
@@ -23,6 +25,7 @@ import {
   ProgressComponent,
   ProgressBarComponent
 } from '@coreui/angular';
+import { NgChartsModule } from 'ng2-charts';
 import { InfoMercadoLibreComponent } from './info-mercado-libre/info-mercado-libre.component';
 import { MercadolibreRoutingModule } from './mercadolibre-routing.module';
 import { CitacionesComponent } from './citaciones/citaciones.component';
@@ -34,10 +37,16 @@ import { SeguimientoDiarioComponent } from './seguimiento-diario/seguimiento-dia
 import { PrefacturaDiariaComponent } from './prefactura-diaria/prefactura-diaria.component';
 import { CitacionesActivasComponent } from './citaciones-activas/citaciones-activas.component';
 import { CitacionSupervisoresComponent } from './citacion-supervisores/citacion-supervisores.component';
-import { NgChartsModule } from 'ng2-charts';
+
 import { NsSupervisoresComponent } from './ns-supervisores/ns-supervisores.component';
+
 import { TestPPUComponent } from './test-ppu/test-ppu.component';
 import { WebcamModule } from 'ngx-webcam';
+import { ComponentesModule } from '../componentes/componentes.module';
+import { PosiblesRutasComponent } from './posibles-rutas/posibles-rutas.component';
+
+
+
 @NgModule({
   declarations: [
     
@@ -51,10 +60,12 @@ import { WebcamModule } from 'ngx-webcam';
     CitacionesActivasComponent,
     CitacionSupervisoresComponent,
     NsSupervisoresComponent,
-    TestPPUComponent
+    TestPPUComponent,
+    PosiblesRutasComponent
     
   ],
   imports: [
+    ComponentesModule,
     ProgressComponent,
     PaginationModule,
     ProgressBarComponent,
@@ -81,7 +92,8 @@ import { WebcamModule } from 'ngx-webcam';
     TableModule,
     CollapseModule,
     NgChartsModule,
-    WebcamModule
+    WebcamModule,
+    NgxPaginationModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

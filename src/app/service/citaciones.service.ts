@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { S } from '@fullcalendar/core/internal-common';
-
+// import { S } from '@fullcalendar/core/internal-common';
+import { PanelCitacion } from '../models/meli/citacion.interface'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CitacionesService {
 
-  private apiUrl = 'http://localhost:8000/api';
-  //apiUrl = "https://hela.transyanez.cl/api/meli"
+  // private apiUrl = 'http://localhost:8000/api/meli';
+  apiUrl = "https://hela.transyanez.cl/api/meli"
   constructor(private http: HttpClient) { }
 
   getModalidadOperacion(): Observable<any> {
@@ -141,6 +141,11 @@ export class CitacionesService {
       })
     });
   }
+
+  getPanelCitaciones(fecha : string):Observable<any>{
+    return this.http.get<PanelCitacion>(`${this.apiUrl}/citaciones/panel?fecha=${fecha}`);
+  }
+
 
 
   }

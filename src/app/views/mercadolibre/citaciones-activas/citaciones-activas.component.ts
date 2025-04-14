@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit,Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MainCitacionS,Detalle } from "src/app/models/meli/citacionSupervisor.interface"
+import { MainCitacionS,Detalle } from "../../../models/meli/citacionSupervisor.interface"
 import {CitacionesService} from '../../../service/citaciones.service'
-import { MeliService } from 'src/app/service/meli.service'
+import { MeliService } from '../../../service/meli.service'
 
 @Component({
   selector: 'app-citaciones-activas',

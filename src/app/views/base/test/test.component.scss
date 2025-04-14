@@ -1,86 +1,54 @@
-// body {
-//     font-family: Arial, sans-serif;
-//     background-color: #f4f4f4;
-//     margin: 0;
-//     padding: 0;
-//     height: 100vh;
-// }
-// .container {
-//     max-width: 900px;
-//     margin: 0 auto;
-//     background-color: rgba(255, 255, 255, 0.9);
-//     padding: 20px;
-//     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-//     border-radius: 10px;
-//     margin-top: 30px;
-// }
-// h1, h2 {
-//     text-align: center;
-//     color: #008000;
-//     margin-bottom: 15px;
-// }
-// h2 {
-//     font-weight: normal;
-//     font-size: 16px;
-// }
-// form {
-//     display: grid;
-//     grid-template-columns: 1fr 1fr 1fr; /* 3 columnas */
-//     gap: 12px;
-// }
-// label {
-//     display: block;
-//     font-weight: bold;
-//     font-size: 13px;
-// }
-// .error {
-//     color: #E71B24;
-//     font-size: 13px;
-//   }
-
-// input[type="text"], input[type="email"],input[type="number"], select {
-//     width: 100%;
-//     padding: 8px;
-//     border: 1px solid #ccc;
-//     border-radius: 4px;
-//     margin-top: 5px;
-//     font-size: 13px;
-// }
-// .full-width {
-//     grid-column: 1 / 4;
-// }
-// .error-message {
-//     color: red;
-//     font-size: 11px;
-// }
-// .radio-group {
-//     display: flex;
-//     align-items: center;
-//     gap: 10px;
-// }
-// .radio-group label {
-//     font-weight: normal;
-// }
-// input[type="radio"] {
-//     margin-right: 5px;
-// }
-// .submit-btn {
-//     background-color: #008000;
-//     color: white;
-//     padding: 10px;
-//     border: none;
-//     border-radius: 4px;
-//     cursor: pointer;
-//     text-align: center;
-//     font-size: 14px;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     gap: 8px;
-// }
-// .submit-btn i {
-//     font-size: 16px;
-// }
-// .submit-btn:hover {
-//     background-color: #005700;
-// }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    max-width: 100%;
+    padding: 1rem;
+    margin: auto;
+    text-align: center;
+  }
+  
+  button {
+    width: 100%;
+    max-width: 300px;
+    padding: 1rem;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+  }
+  
+  img.preview {
+    border-radius: 10px;
+    margin: 1rem 0;
+    max-width: 90%;
+  }
+  
+  .modal-content {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+  }
+  .camera-preview-container {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .preview-container img {
+    max-height: 400px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  

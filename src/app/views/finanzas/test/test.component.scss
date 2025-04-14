@@ -1,0 +1,194 @@
+.divider {
+    flex-grow: 1;
+    height: 2px;
+    margin: 15px 0;
+    background-color: #4CAF50;
+    margin-left: 10px;
+  }
+
+
+  .cuotas-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.cuotas-section h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+
+/* Estilos de la tabla */
+.table-container {
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.table thead {
+  background: #2ABA59;
+  color: white;
+  
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.table thead th {
+  color: white;
+}
+
+.table tbody tr:hover {
+  background-color: #e8f7ed;
+  transition: 0.3s;
+  
+  
+}
+
+table tbody td {
+  white-space: nowrap; /* Evita el salto de línea en las celdas */
+          overflow: hidden; /* Oculta el contenido que desborda */
+          text-overflow: ellipsis; /* Añade "..." si el texto es demasiado largo */
+}
+
+
+
+
+
+
+
+
+/////////////////
+/// 
+/// 
+/// 
+//
+/// 
+/// 
+
+/* Estilo general */
+body {
+  background-color: #f5f7fa;
+  font-family: 'Poppins', sans-serif;
+}
+
+.container {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-weight: 700;
+  // color: #2ABA59;
+  // text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Estilos de la tabla */
+.table-container {
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.table thead {
+  background: #2ABA59;
+  color: white;
+  
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.table thead th {
+  color: white;
+}
+
+.table tbody tr:hover {
+  background-color: #e8f7ed;
+  transition: 0.3s;
+  
+  
+}
+
+/* Íconos de acciones */
+.icon-action {
+  cursor: pointer;
+  font-size: 18px;
+  color: #2ABA59;
+  transition: transform 0.2s;
+}
+
+.icon-action:hover {
+  transform: scale(1.2);
+  color: #1e9647;
+}
+
+// /* Estilos del modal */
+// .modal-content {
+//   border-radius: 15px;
+//   overflow: hidden;
+// }
+
+// .modal-header {
+//   background: #2ABA59;
+//   color: white;
+//   border-bottom: none;
+// }
+
+// .modal-title {
+//   font-weight: bold;
+// }
+
+// .modal-body {
+//   padding: 20px;
+// }
+
+// .modal-footer {
+//   border-top: none;
+//   background-color: #f5f7fa;
+// }
+
+// /* Tabla del modal */
+// .modal-body .table {
+//   border-radius: 10px;
+//   overflow: hidden;
+// }
+
+// .modal-body thead {
+//   background-color: #2ABA59;
+//   color: white;
+// }
+
+// .modal-body tbody tr:hover {
+//   background-color: #e8f7ed;
+//   transition: 0.3s;
+// }
+
+/* Botón Buscar */
+.btn-primary {
+  background-color: #2ABA59;
+  border-color: #2ABA59;
+}
+
+.btn-primary:hover {
+  background-color: #1e9647;
+  border-color: #1e9647;
+}
+
+
+.btn-agregar {
+  background-color: #007bff;
+  border-color: #007bff;
+  color:white
+}
+
+.btn-agregar:hover {
+  background-color: #007bff;
+  border-color: #007bff;
+  color:white
+}

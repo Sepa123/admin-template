@@ -1,5 +1,5 @@
-import { ROLES_ENUM } from 'src/app/models/enum/roles.enum';
-import { ROLES_PERMITIDOS } from 'src/app/rolesPermitidos.const'
+import { ROLES_ENUM } from '../../models/enum/roles.enum';
+import { ROLES_PERMITIDOS } from '../../rolesPermitidos.const'
 
 interface INavDataBar {
   name?: string;
@@ -117,6 +117,19 @@ export const navItems: INavDataBar[] = [
     ]
   },
   {
+    name: 'Taskmaster',
+    url: '/taskmaster',
+    iconComponent: { name: 'cil-list' },
+    roles : [ROLES_ENUM.ADMIN],
+    children: [
+      
+      {
+        name: 'Gestor de Activos',
+        url : '/task-master/gestor-activos'
+      },
+    ]
+  },
+  {
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
@@ -170,7 +183,7 @@ export const navItems: INavDataBar[] = [
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
-    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA,ROLES_ENUM.JEFE_SEGURIDAD],
+    roles : [ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA, ROLES_ENUM.JEFE_TRANSPORTE_BENA,ROLES_ENUM.JEFE_SEGURIDAD,ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       {
         name: 'Reclutamiento',
@@ -207,7 +220,7 @@ export const navItems: INavDataBar[] = [
     name: 'Transporte',
     url: '/transporte',
     iconComponent: { name: 'cil-car-alt' },
-    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO],
+    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO,ROLES_ENUM.JEFE_TRANSPORTE],
     children: [
       {
         name: 'Reclutamiento',
@@ -335,7 +348,7 @@ export const navItems: INavDataBar[] = [
     name: 'EXO',
     url: '/exo',
     iconComponent: { name: 'cil-bar-chart' },
-    roles : [ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA],
+    roles : [ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA,ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       {
         name: 'NS Beetrack',
@@ -344,6 +357,23 @@ export const navItems: INavDataBar[] = [
       {
         name: 'NS Easy',
         url : '/exo/ns-easy'
+      },
+      // {
+      //   name: 'NS Electrolux',
+      //   url : '/exo/ns-electrolux'
+      // }
+      
+    ]
+  },
+  {
+    name: 'EXO',
+    url: '/exo',
+    iconComponent: { name: 'cil-bar-chart' },
+    roles : [ROLES_ENUM.SUPERVISOR_EXO],
+    children: [
+      {
+        name: 'NS Beetrack',
+        url : '/exo/nivel-servicio'
       },
       // {
       //   name: 'NS Electrolux',
@@ -408,10 +438,6 @@ export const navItems: INavDataBar[] = [
         name: 'Productos Ingresados',
         url: '/operaciones/productos-ingresados-easy'
       },
-      {
-        name: 'Gestion Clientes',
-        url: '/operaciones/editar-ruta'
-      }
     ]
   },
   // fulll para admin
@@ -450,7 +476,7 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/productos-ingresados-easy'
       },
       {
-        name: 'Gestion Clientes',
+        name: 'Clientes',
         url: '/operaciones/editar-ruta'
       }
     ]
@@ -507,14 +533,13 @@ export const navItems: INavDataBar[] = [
         name: 'Productos Ingresados',
         url: '/operaciones/productos-ingresados-easy'
       },
-      
     ]
   },
   {
     name: 'Operaciones',
     url: '/operaciones',
     iconComponent: { name: 'cil-clipboard' },
-    roles : [ROLES_ENUM.PICKEADOR_TIENDA,ROLES_ENUM.TRANSPORTE_OPERARIO],
+    roles : [ROLES_ENUM.PICKEADOR_TIENDA,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       {
         name: 'Estados',
@@ -540,10 +565,6 @@ export const navItems: INavDataBar[] = [
         name: 'Productos Ingresados',
         url: '/operaciones/productos-ingresados-easy'
       },
-      {
-        name: 'Gestion Clientes',
-        url: '/operaciones/editar-ruta'
-      }
     ]
   }
   ,
@@ -569,10 +590,6 @@ export const navItems: INavDataBar[] = [
         name: 'Edicion Pendientes',
         url: '/operaciones/edicion-pendientes'
       },
-      {
-        name: 'Gestion Clientes',
-        url: '/operaciones/editar-ruta'
-      }
     ]
   }
   ,
@@ -669,7 +686,7 @@ export const navItems: INavDataBar[] = [
     name: 'Mercado Libre',
     url: '/mercadolibre',
     iconComponent : {name : 'cil-handshake'},
-    roles :  [ROLES_ENUM.SUPERVISOR_MERCADO_LIBRE,ROLES_ENUM.JEFE_OPERACION_MERCADO_LIBRE],
+    roles :  [ROLES_ENUM.SUPERVISOR_MERCADO_LIBRE,ROLES_ENUM.JEFE_OPERACION_MERCADO_LIBRE, ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       // {
       //   name: "Información",
@@ -692,13 +709,14 @@ export const navItems: INavDataBar[] = [
         url:  '/mercadolibre/ns-supervisores'
       },
       {
-        name: "Venta/Traspaso de vehiculo",
-        url:  '/mercadolibre/venta-o-traspaso-de-vehiculo'
+        name: "Posibles Rutas",
+        url:  '/mercadolibre/posibles-rutas'
       },
-      {
-        name: "Test PPU",
-        url:  '/mercadolibre/test-ppu'
-      },
+      // {
+      //   name: "Test PPU",
+      //   url:  '/mercadolibre/test-ppu'
+      // },
+      
     ]
   },
   { /// Pantalla de info para Mercadolibre
@@ -753,9 +771,13 @@ export const navItems: INavDataBar[] = [
         url:  '/mercadolibre/ns-supervisores'
       },
       {
-        name: "Test PPU",
-        url:  '/mercadolibre/test-ppu'
+        name: "Posibles Rutas",
+        url:  '/mercadolibre/posibles-rutas'
       },
+      // {
+      //   name: "Test PPU",
+      //   url:  '/mercadolibre/test-ppu'
+      // },
       
     ]
   },
@@ -768,7 +790,28 @@ export const navItems: INavDataBar[] = [
       {
         name: "Prefactura",
         url:  '/mercadolibre/prefactura'
-      }
+      },
+      {
+        name: "Posibles Rutas",
+        url:  '/mercadolibre/posibles-rutas'
+      },
+    ]
+  },
+
+  { /// Pantalla de Mercadolibre para GB
+    name: 'Mercado Libre',
+    url: '/mercadolibre',
+    iconComponent : {name : 'cil-handshake'},
+    roles :  [ROLES_ENUM.JEFE_TRANSPORTE_BENA],
+    children: [
+      {
+        name: "Seguimiento Diario",
+        url:  '/mercadolibre/citacion-supervisores'
+      },
+      {
+        name: "Resumen Supervisores",
+        url:  '/mercadolibre/ns-supervisores'
+      },
     ]
   },
   {
@@ -927,7 +970,7 @@ export const navItems: INavDataBar[] = [
     name: 'Rutas',
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
-    roles : [ROLES_ENUM.JEFE_TRANSPORTE, ROLES_ENUM.TRANSPORTE_OPERARIO],
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE, ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       {
         name: 'Rutas Activas',
@@ -935,11 +978,11 @@ export const navItems: INavDataBar[] = [
       }
     ]
   },
-  { /// Pantalla Informacion Para Jefe transporte
+  { /// Pantalla Informacion Para Jefe transporte,
     name: 'Información',
     url: '/informacion',
     iconComponent : {name : 'cil-magnifying-glass'},
-    roles : [ROLES_ENUM.JEFE_TRANSPORTE,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA],
+    roles : [ROLES_ENUM.JEFE_TRANSPORTE,ROLES_ENUM.TRANSPORTE_OPERARIO,ROLES_ENUM.TRANSPORTE_OPERARIO_PARA_LA_NIÑA,ROLES_ENUM.TRANSPORTE_MELI],
     children: [
       {
         name: "Tracking Producto",
@@ -1048,8 +1091,70 @@ export const navItems: INavDataBar[] = [
     name: 'Finanzas',
     url: '/finanzas',
     iconComponent : {name : 'cilMoney'},
-    roles : ROLES_PERMITIDOS.FINANZAS,
+    roles : ROLES_PERMITIDOS.FINANZAS_VIEW,
     children: [
+      {
+        name: "Car. Tarifario General",
+        url : '/finanzas/tarifario'
+      },
+      {
+        name: "Tarifario General",
+        url : '/finanzas/tarifarioGeneral'
+      },
+      // {
+      //   name: "Car. Vehículo",
+      //   url: '/finanzas/carVehiculo'
+      // },
+      {
+        name: "Tarifario Especifico",
+        url: '/finanzas/carTarifarioEspecifico'
+      },
+      {
+        name: "Rutas Mercado Libre",
+        url : '/finanzas/rutas-meli'
+      },
+    ]
+  },
+  { /// Pantalla Informacion Para ADMIN TI
+    name: 'Finanzas',
+    url: '/finanzas',
+    iconComponent : {name : 'cilMoney'},
+    roles : [ROLES_ENUM.ADMIN],
+    children: [
+      {
+        name: "Descuento",
+        url : '/finanzas/test'
+      },
+      {
+        name: "Car. Tarifario General",
+        url : '/finanzas/tarifario'
+      },
+      {
+        name: "Tarifario General",
+        url : '/finanzas/tarifarioGeneral'
+      },
+      {
+        name: "Tarifario Especifico",
+        url: '/finanzas/carTarifarioEspecifico'
+      },
+      {
+        name: "Rutas Mercado Libre",
+        url : '/finanzas/rutas-meli'
+      },
+    ]
+  },
+  //// Pantalla de finanzas para transporte admin????
+
+  { /// Pantalla Informacion Para ADMIN TI
+    name: 'Finanzas',
+    url: '/finanzas',
+    iconComponent : {name : 'cilMoney'},
+    roles : [ROLES_ENUM.TRANSPORTE_ADMINISTRATIVO],
+    children: [
+      {
+        name: "Descuento",
+        url : '/finanzas/test'
+      },
       {
         name: "Car. Tarifario General",
         url : '/finanzas/tarifario'

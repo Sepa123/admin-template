@@ -6,6 +6,8 @@ import { Title } from 'chart.js';
 import { CarTarifarioEspecificoComponent } from './car-tarifario-especifico/car-tarifario-especifico.component';
 import { TarifarioGeneralComponent } from './tarifario-general/tarifario-general.component';
 import { RutasMeliComponent } from './rutas-meli/rutas-meli.component';
+import { TestComponent } from './test/test.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -44,6 +46,13 @@ const routes: Routes = [
       {
         path: 'rutas-meli',
         component: RutasMeliComponent,
+        data : {
+          title: "Rutas Meli"
+        }
+      },
+      {
+        path: 'test',
+        component: TestComponent,
         data : {
           title: "Rutas Meli"
         }

@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { GestionyMantencionService, UsuarioUpdate, Usuario} from 'src/app/service/gestiony-mantencion.service';
+import { GestionyMantencionService, UsuarioUpdate, Usuario} from '../../../service/gestiony-mantencion.service';
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-registrar-usuarios',
   templateUrl: './gestion-de-usuario-y-mantencion.component.html',
-  styleUrls: ['./gestion-de-usuario-y-mantencion.component.scss'],
+  styleUrls: ['./gestion-de-usuario-y-mantencion.component.scss', './css2.component.scss', './css3.component.scss'],
 })
 export class GestionDeUsuarioYMantencionComponent implements OnInit {
   @ViewChild('toggleFiltro') toggleFiltro!: ElementRef<HTMLInputElement>;
@@ -443,7 +443,7 @@ private resetFormValues(): void {
 
   // Opcional: Restablecer otras variables relacionadas
   this.nombreArchivo = null;
-  this.imagenPerfil = '/panel/image/default-profile.png';
+  this.imagenPerfil = 'assets/images/default-profile.png';
 }
 
 // Función para asignar valores a los inputs

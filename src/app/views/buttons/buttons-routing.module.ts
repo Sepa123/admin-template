@@ -85,7 +85,7 @@ const routes: Routes = [
         data: {
           title: 'Clientes'
         }
-      }
+      },
     ]
   }
 ];

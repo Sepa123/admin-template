@@ -12,11 +12,14 @@ export interface ReporteMeliFinanza {
     Avance:           number;
     Lm_fallido:       number;
     P_avance:         number;
+    Id_ambulacia:       null | string;
     Lm_entregas:      number;
+    Total_pedidos:      number;
     Km:               number;
     Peoneta:          string;
     Valor_ruta:       number;
     Observacion:      null | string;
+    Ns:                 number;
     Razon_id:         number;
     Razon_social:     string;
     Rut_empresa:      string;
@@ -25,4 +28,6 @@ export interface ReporteMeliFinanza {
     Descuento_clp:    string;
     P_a_pago:           boolean;
     Adicional:          boolean
+    Patente_proforma:   string;
 }
+

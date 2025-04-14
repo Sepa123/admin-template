@@ -1,0 +1,546 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="xl" backdrop="static">
+    <!-- <c-modal-header>
+      <h5 cModalTitle>Agregar Descuentos</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header> -->
+    <c-modal-body>
+
+
+
+
+
+      <c-row>
+        <c-col>
+          <h2> Descuentos</h2>
+        </c-col>
+        <c-col>
+          
+        </c-col>
+        <c-col>
+          
+        </c-col>
+        <c-col>
+          
+        </c-col>
+        <c-col>
+          <button  cButton class="form-control" color="success" style="color: white;"  (click)="guardar()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.05em" height="1.2em" viewBox="0 0 448 512">
+              <path fill="#fff" d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64s28.654-64 64-64s64 28.654 64 64s-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A12 12 0 0 1 320 111.48" />
+            </svg>
+            &nbsp;
+            Guardar</button>
+        </c-col>
+      </c-row>
+      
+      <div class="divider"></div>
+      <!-- <div > -->
+      
+          <p></p>
+      
+          <form cForm [formGroup]="formDescuentos" (ngSubmit)="guardar()" >
+          <c-row>
+            
+      
+            <c-col [xs]>
+              <div class="">
+                Fecha evento
+                <input type="date" placeholder="Nombre Contacto" class="form-control" formControlName="Fecha_evento" >
+            </div>
+          </c-col>
+          <c-col [xs]>
+            Patente
+              <select name="" id="" class="form-control"  formControlName="Pantente">
+                <option value="" disabled>Seleccione</option>
+                <option *ngFor="let razon of seleccionPantente" [value]="razon.Id">{{razon.Patente}}</option>
+              </select>
+      
+      
+            
+          </c-col>
+          <c-col [xs]>
+            Razón Social 
+            <select name="" id="" class="form-control"  formControlName="Razon_social">
+              <option value="" disabled>Seleccione</option>
+              <option *ngFor="let razon of seleccionRazonSocial; let i = index " [value]="razon.Id">{{razon.Nombre_razon}}</option>
+            </select>
+              <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span> -->
+      
+            
+          </c-col>
+            <c-col [xs]>
+                <div class="noEditar">
+                    Ruta 
+                    <input type="text" placeholder="Ruta" class="form-control"  formControlName="Ruta">
+      
+                </div>
+            </c-col>
+           
+          
+            <p></p>
+        </c-row>
+        <c-row>
+          <c-col [xs]>
+            <div class="noEditar">
+                Etiqueta
+      
+                <select name="" id="" class="form-control"  formControlName="Etiqueta">
+                  <option value="" disabled>Seleccione</option>
+                  <option *ngFor="let etiqueta of seleccionEtiqueta" [value]="etiqueta.Id">{{etiqueta.Etiqueta}}</option>
+                </select>
+      
+            </div>
+        </c-col>
+      
+        <c-col [xs]>
+          Descripción
+          <input type="text" placeholder="Cantidad" class="form-control"  formControlName="Descripcion">
+      </c-col>
+      
+      <c-col [xs]>
+        Adjunto
+        <input type="file" name="" id="archivo_pdf"  class="form-control" accept=".pdf" (change)="onFileSelected($event)"> 
+          <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+            Numero de Teléfono no es valido
+        </span> -->
+      
+        
+      </c-col>
+        </c-row>
+        <p></p>
+        <c-row>
+          <c-col [xs]>
+            Operación
+            <select name="" id="" class="form-control" (change)="seleccionaCentro($event)" formControlName="Id_operacion">
+              <option value="" disabled>Seleccione</option>
+              <option *ngFor="let op of seleccionOperaciones; let i = index " [value]="op.Id_op">{{op.Operacion}}</option>
+            </select>
+              <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span> -->
+      
+            
+          </c-col>
+          <c-col [xs]>
+            Centro Operación
+      
+            <select name="" id="" class="form-control" formControlName="Id_cop" >
+              <option value="" disabled>Seleccione</option>
+              <option *ngFor="let centro of seleccionCentro; let i = index " [value]="centro.Id_cop">{{centro.Nombre}}</option>
+            </select>
+              <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span> -->
+      
+            
+          </c-col>
+          <c-col>
+            
+          </c-col>
+          <c-col>
+            
+          </c-col>
+        </c-row>
+      </form>
+      
+      <p></p>
+      
+      <c-row>
+        <c-col>
+          <div class="cuotas-section">
+            <h2> Detalle de Cuotas</h2>
+            <form cForm [formGroup]="formDescuentos" >
+            <c-row>
+                <p></p>
+                <c-col>
+                    Monto
+                    <input class="form-control" formControlName="Monto" type="number" name="" id="">
+                </c-col>
+                <c-col>
+                    Cuotas
+                    <select name="" id=""  class="form-control" formControlName="Cant_cuotas" (change)="agregarCuotas()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </c-col>
+                <c-col></c-col>
+            </c-row>
+            <p></p>
+            <div formArrayName="Cuotas" >
+      
+            
+            <c-row *ngFor="let carga of Cuotas.controls; let i = index">
+                <!-- <p></p> -->
+                <c-row [formGroupName]="i">
+                
+                
+                <c-col>Cuota {{i+1}}
+                    
+                </c-col>
+                <c-col>
+                    <input class="form-control" formControlName="Fecha_comp" type="date" name="" id="">
+                </c-col>
+                <c-col>
+                    <input class="form-control" type="text" [disabled]="true" formControlName="Valor_cuota_formato" >
+                </c-col>
+            </c-row>
+                <p></p>
+            </c-row>
+        </div>
+        </form>
+      </div>
+        </c-col>
+      </c-row>
+      
+      
+      <p></p>
+
+
+
+
+
+
+
+
+
+
+
+
+    </c-modal-body>
+    <c-modal-footer>
+        <button (click)="toggleLiveDemo()" cButton color="secondary">
+            Cerrar
+          </button>
+      <!-- <button (click)="guardar()" cButton color="secondary">
+        Guardar
+      </button> -->
+    </c-modal-footer>
+  
+</c-modal>
+
+
+<h2>Descuentos</h2>
+
+<div class="divider"></div>
+
+<div class="container mt-4">
+  <c-row>
+    <c-col>
+      
+    </c-col>
+    <c-col>
+      
+    </c-col>
+    
+  </c-row>
+  
+
+  <!-- Filtros de fecha -->
+  <div class="row my-3">
+      <div class="col-md-3">
+          <label for="fechaInicio" class="form-label" style="font-weight: bold">Fecha Inicio:</label>
+          <input type="date" id="fechaInicio" class="form-control" [(ngModel)]="fecha_ini" >
+      </div>
+      <div class="col-md-3">
+          <label for="fechaFin" class="form-label" style="font-weight: bold">Fecha Fin:</label>
+          <input  type="date" id="fechaFin" class="form-control" [(ngModel)]="fecha_fin">
+          
+      </div>
+
+
+      <div class="col-md-3 d-flex align-items-end">
+       
+          <button class="btn btn-primary w-100" (click)="obtenerListaDescuentos(fecha_ini,fecha_fin)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" viewBox="0 0 512 512"><path fill="#fff" d="M416 208c0 45.9-14.9 88.3-40 122.7l126.6 126.7c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0s208 93.1 208 208M208 352a144 144 0 1 0 0-288a144 144 0 1 0 0 288" stroke-width="13" stroke="#fff"/></svg>
+            
+            Buscar</button>
+      </div>
+
+
+      <div class="col-md-3 d-flex align-items-end">
+        <button class="btn btn-agregar w-100" color="primary" (click)="toggleLiveDemo()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12.25px" height="14px" viewBox="0 0 448 512"><path fill="#fff" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32" stroke-width="13" stroke="#fff"/></svg>
+  
+          Agregar descuento</button>
+      </div>
+
+  </div>
+
+  <label style="font-weight: bold">Descuentos Pendiente: &nbsp; </label>
+  
+
+  <c-row>
+    <c-col>
+      <mat-slide-toggle   class="green-slide-toggle" [(ngModel)]="pendiente" (change)="cambiarPendiente()">
+        <!-- {{ RazonSocial.estado ? 'Activado' : 'Desactivado' }}  -->
+     </mat-slide-toggle> 
+    
+    </c-col>
+    <c-col>
+      
+    </c-col>
+    <c-col>
+      
+    </c-col>
+    <c-col>
+      <button class="btn btn-primary w-100" type="button" (click)="DescargarNS()" >
+        <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 448 512">
+          <style>svg{fill:#ffffff}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/>
+        </svg>
+        &nbsp;
+        Descargar 
+      </button>
+    </c-col>
+  </c-row>
+
+
+<!-- Tabla Principal -->
+<div class="table-container">
+  <table class="table table-bordered table-striped">
+      <thead>
+          <tr>
+              <th>Fecha cobro</th>
+              <!-- <th>Ingresado por</th> -->
+              <th>Operación</th>
+              <th>Centro Operación</th>
+              <th class="text-center">PPU</th>
+              <th class="text-center">Razón Social</th>
+              <th class="text-center">Cuota</th>
+              <th class="text-center">Valor</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Cobrada</th>
+              <th class="text-center">OC Cobro</th>
+              <th class="text-center">Acciones</th>
+          </tr>
+      </thead>
+      <tbody id="tablaDatos">
+        <tr *ngFor="let dcto of listaDescuentos">
+          <td>{{dcto.Fecha_cobro}}</td>
+          <!-- <td>{{dcto.Ingresado_por}}</td> -->
+          <td>{{dcto.Operacion}}</td>
+          <td>{{dcto.Centro_operacion}}</td>
+          <td>{{dcto.Ppu}}</td>
+          <td >{{dcto.Razon_social}}</td>
+          <td>{{dcto.Cuota}}</td>
+          <td>${{  dcto.Valor_cuenta | currency:'CLP':'':'1.0-0'}}</td>
+          <td>${{dcto.Total | currency:'CLP':'':'1.0-0'}}</td>
+          <td class="text-center">
+          <svg *ngIf="dcto.Cobrada" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+            <path fill="green" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="green" />
+        </svg>
+        <svg *ngIf="!dcto.Cobrada" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+            <path fill="red" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" stroke-width="13" stroke="red" />
+        </svg>
+        </td>
+          <td>{{dcto.Oc_cobro}}</td>
+          <td class="text-center">
+            <svg (click)="mostrarActualizacion(dcto.Id,dcto.Cobrada,dcto.Oc_cobro, dcto)" xmlns="http://www.w3.org/2000/svg" width="12.25px" height="14px" viewBox="0 0 448 512">
+              <path fill="green" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128m89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4" stroke-width="13" stroke="green" />
+          </svg>
+
+          </td>
+
+        </tr>
+        <tr *ngIf="listaDescuentos.length == 0 ">
+          <td colspan="11" class="text-center">No hay datos</td>
+
+        </tr>
+
+
+          <!-- Aquí se insertan las filas dinámicamente -->
+      </tbody>
+  </table>
+</div>
+
+</div>
+
+
+<c-modal id="liveDemoModal" [visible]="visibleActualizacion" (visibleChange)="handleActualizacion($event)" size="lg" >
+  <!-- <c-modal-header>
+    <h5 cModalTitle>Actualizar detalle</h5>
+    <button  cButton  color="success" style="color: white;"  >
+      <svg xmlns="http://www.w3.org/2000/svg" width="1.05em" height="1.2em" viewBox="0 0 448 512">
+        <path fill="#fff" d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64s28.654-64 64-64s64 28.654 64 64s-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A12 12 0 0 1 320 111.48" />
+      </svg>
+      &nbsp;
+      Guardar</button>
+  </c-modal-header> -->
+
+
+
+
+
+
+  <c-modal-body>
+
+    <c-row>
+      <c-col>
+        <h2> Actualizar </h2>
+      </c-col>
+      <c-col>
+        
+      </c-col>
+      <c-col>
+        
+      </c-col>
+      <c-col>
+        
+      </c-col>
+      <c-col>
+        <button  cButton  color="success" style="color: white;"  (click)="actualizarDetalle()" >
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.05em" height="1.2em" viewBox="0 0 448 512">
+            <path fill="#fff" d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64s28.654-64 64-64s64 28.654 64 64s-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A12 12 0 0 1 320 111.48" />
+          </svg>
+          &nbsp;
+          Guardar</button>
+      </c-col>
+    </c-row>
+
+    <!-- <c-row>
+      <c-col>
+        <h2> Actualizar detalle</h2>
+      </c-col>
+      <c-col>
+        
+      </c-col>
+
+      <c-col>
+        
+        <button  cButton  color="success" style="color: white;"  >
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.05em" height="1.2em" viewBox="0 0 448 512">
+            <path fill="#fff" d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64s28.654-64 64-64s64 28.654 64 64s-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A12 12 0 0 1 320 111.48" />
+          </svg>
+          &nbsp;
+          Guardar</button>
+      </c-col>
+    </c-row>
+     -->
+    <div class="divider"></div>
+
+
+
+    <c-row>
+      <c-col [xs]>
+        <div class="">
+          OC Cobro
+
+          <input type="text" placeholder="Nombre Contacto" class="form-control" [(ngModel)]="oc_cobro">
+            <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+
+      </div>
+    </c-col>
+    <c-col [xs]>
+      <div class="">
+        Cobrado <br>
+        <svg *ngIf="cobrado" (click)="cambiarEstadoCobro()" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 512 512">
+          <path fill="green" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="green" />
+      </svg>
+      <svg *ngIf="!cobrado" (click)="cambiarEstadoCobro()" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 512 512">
+          <path fill="red" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" stroke-width="13" stroke="red" />
+      </svg>
+          <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+
+    </div>
+  </c-col>
+    </c-row>
+<p></p>
+
+<div *ngFor="let dcto of DescuentoSeleccionado" >
+
+
+    <c-row>
+      <c-col>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12.25px" height="14px" viewBox="0 0 448 512"><path fill="green" d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12m108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12m96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12m-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12m-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12m192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12m96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48m-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6" stroke-width="13" stroke="green"/></svg>
+        &nbsp;
+        <label style="font-weight: bold">Fecha Evento: </label>
+        
+        {{dcto.Fecha_evento}}
+      </c-col>
+      <c-col>
+        <svg xmlns="http://www.w3.org/2000/svg" width="17.5px" height="14px" viewBox="0 0 640 512">
+          <path fill="green" d="M352 288h-16v-88c0-4.42-3.58-8-8-8h-13.58c-4.74 0-9.37 1.4-13.31 4.03l-15.33 10.22a7.994 7.994 0 0 0-2.22 11.09l8.88 13.31a7.994 7.994 0 0 0 11.09 2.22l.47-.31V288h-16c-4.42 0-8 3.58-8 8v16c0 4.42 3.58 8 8 8h64c4.42 0 8-3.58 8-8v-16c0-4.42-3.58-8-8-8M608 64H32C14.33 64 0 78.33 0 96v320c0 17.67 14.33 32 32 32h576c17.67 0 32-14.33 32-32V96c0-17.67-14.33-32-32-32M48 400v-64c35.35 0 64 28.65 64 64zm0-224v-64h64c0 35.35-28.65 64-64 64m272 192c-53.02 0-96-50.15-96-112c0-61.86 42.98-112 96-112s96 50.14 96 112c0 61.87-43 112-96 112m272 32h-64c0-35.35 28.65-64 64-64zm0-224c-35.35 0-64-28.65-64-64h64z" stroke-width="13" stroke="green" />
+        </svg>
+        &nbsp;
+        <label style="font-weight: bold">Valor Cuota: </label>
+        
+        ${{dcto.Valor_cuenta | currency:'CLP':'':'1.0-0'}} 
+      </c-col>
+    </c-row>
+    <p></p>
+    <c-row>
+      <c-col>
+        <svg xmlns="http://www.w3.org/2000/svg" width="7.88px" height="14px" viewBox="0 0 288 512">
+          <path fill="green" d="m209.2 233.4l-108-31.6C88.7 198.2 80 186.5 80 173.5c0-16.3 13.2-29.5 29.5-29.5h66.3c12.2 0 24.2 3.7 34.2 10.5c6.1 4.1 14.3 3.1 19.5-2l34.8-34c7.1-6.9 6.1-18.4-1.8-24.5C238 74.8 207.4 64.1 176 64V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48h-2.5C45.8 64-5.4 118.7.5 183.6c4.2 46.1 39.4 83.6 83.8 96.6l102.5 30c12.5 3.7 21.2 15.3 21.2 28.3c0 16.3-13.2 29.5-29.5 29.5h-66.3C100 368 88 364.3 78 357.5c-6.1-4.1-14.3-3.1-19.5 2l-34.8 34c-7.1 6.9-6.1 18.4 1.8 24.5c24.5 19.2 55.1 29.9 86.5 30v48c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-48.2c46.6-.9 90.3-28.6 105.7-72.7c21.5-61.6-14.6-124.8-72.5-141.7" stroke-width="13" stroke="green" />
+        </svg>
+        &nbsp;
+        <label style="font-weight: bold">Total: </label>
+        
+        ${{dcto.Total | currency:'CLP':'':'1.0-0'}}
+      </c-col>
+      <c-col>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12.25px" height="14px" viewBox="0 0 448 512">
+          <path fill="green" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128m89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4" stroke-width="13" stroke="green" />
+        </svg>
+        &nbsp;
+        <label style="font-weight: bold">Ingresado Por: </label>
+        {{dcto.Ingresado_por}}
+      </c-col>
+    </c-row>
+
+    <p></p>
+    <c-row>
+      <c-col>
+        <svg xmlns="http://www.w3.org/2000/svg" width="17.5px" height="14px" viewBox="0 0 640 512">
+          <path fill="green" d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v320c0 26.5 21.5 48 48 48h16c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16M160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48m320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48m80-208H416V144h44.1l99.9 99.9z" stroke-width="13" stroke="green" />
+        </svg>
+        &nbsp;
+        <label style="font-weight: bold">PPU: </label>
+        
+        {{dcto.Ppu}}
+      </c-col>
+      <c-col>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" viewBox="0 0 512 512">
+          <path fill="green" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24m296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24m-124 88c0-11-9-20-20-20s-20 9-20 20s9 20 20 20s20-9 20-20m64 0c0-11-9-20-20-20s-20 9-20 20s9 20 20 20s20-9 20-20" stroke-width="13" stroke="green" />
+        </svg>
+        &nbsp;
+        <label style="font-weight: bold">Archivo adjunto: </label>
+        &nbsp;
+        <button (click)="descargarArchivoAdjunto(dcto.Adjunto)" *ngIf="dcto.Adjunto" cButton  color="success" style="color: white;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 512 512">
+            <path fill="#f3f3f3" d="M64 464h48v48H64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0h165.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V304h-48V160h-80c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16v384c0 8.8 7.2 16 16 16m112-112h32c30.9 0 56 25.1 56 56s-25.1 56-56 56h-16v32c0 8.8-7.2 16-16 16s-16-7.2-16-16V368c0-8.8 7.2-16 16-16m32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24h-16v48zm96-80h32c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48h-32c-8.8 0-16-7.2-16-16V368c0-8.8 7.2-16 16-16m32 128c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16h-16v96zm80-112c0-8.8 7.2-16 16-16h48c8.8 0 16 7.2 16 16s-7.2 16-16 16h-32v32h32c8.8 0 16 7.2 16 16s-7.2 16-16 16h-32v48c0 8.8-7.2 16-16 16s-16-7.2-16-16z" stroke-width="13" stroke="#f3f3f3" />
+          </svg>
+          &nbsp;
+          Descargar</button>
+        
+      </c-col>
+    </c-row>
+
+
+  </div>
+
+  </c-modal-body>
+  <c-modal-footer>
+      <button (click)="toggleActualizacion()" cButton color="secondary">
+          Cerrar
+        </button>
+    <!-- <button (click)="guardar()" cButton color="secondary">
+      Guardar
+    </button> -->
+  </c-modal-footer>
+
+</c-modal>
+
+
+
+  
