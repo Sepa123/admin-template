@@ -30,6 +30,7 @@ import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendien
 import { DifFechasEasyComponent } from './dif-fechas-easy/dif-fechas-easy.component';
 import { ProductosIngresadosEasyComponent } from './productos-ingresados-easy/productos-ingresados-easy.component';
 import { PendientesEnRutaComponent } from './pendientes-en-ruta/pendientes-en-ruta.component';
+import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PendientesEnRutaComponent } from './pendientes-en-ruta/pendientes-en-ru
     EdicionPendientesComponent,
     DifFechasEasyComponent,
     ProductosIngresadosEasyComponent,
-    PendientesEnRutaComponent
+    PendientesEnRutaComponent,
+    EditarRutaComponent
   ],
   imports: [
     FormsModule,
