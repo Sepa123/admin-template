@@ -224,3 +224,54 @@ tr:hover {
   flex-direction: column;
   gap: 10px; /* Espacio entre los elementos */
 }
+
+//sección de alertas
+// Estilos para el contenedor de alertas
+// Se asegura de que el contenedor esté fijo en la pantalla
+// y se apile verticalmente
+// con un espaciado entre cada alerta
+// y un fondo semi-transparente
+// para cada tipo de alerta
+// con colores específicos para cada tipo
+// de alerta (éxito, error, advertencia, información)
+// y un efecto de transición suave al mostrarse
+
+
+#alertaContainer {
+  position: fixed; /* Fija el contenedor en la pantalla */
+  top: 20px; /* Distancia desde la parte superior */
+  right: 20px; /* Distancia desde la parte derecha */
+  z-index: 1050; /* Asegura que esté por encima de otros elementos */
+  display: flex;
+  flex-direction: column; /* Las alertas se apilan verticalmente */
+  gap: 10px; /* Espaciado entre alertas */
+}
+
+.alerta {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaciado entre el icono y el texto */
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Ocultar inicialmente */
+  transition: opacity 0.5s ease-in-out; /* Transición suave para mostrar/ocultar */
+}
+
+.alerta.success {
+  background-color: rgba(40, 167, 69, 0.9); /* Verde */
+}
+
+.alerta.error {
+  background-color: #dc3545; /* Rojo */
+}
+
+.alerta.warning {
+  background-color: #ffc107; /* Amarillo */
+  color: black; /* Texto negro para mejor contraste */
+}
+
+.alerta.info {
+  background-color: #17a2b8; /* Azul */
+}

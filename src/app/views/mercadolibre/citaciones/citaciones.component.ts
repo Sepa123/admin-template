@@ -1064,10 +1064,10 @@ bitacoraUpdate(modificacion: string, origen: string){
 
 }
 
-mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
+mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning' | 'info'): void {
   // Crear un div para la alerta
   const alerta: HTMLDivElement = document.createElement('div');
-  alerta.classList.add('alerta', tipo); // Añadir clase para tipo (success, error, warning)
+  alerta.classList.add('alerta', tipo); // Añadir clase para tipo (success, error, warning, info)
 
   // Elegir icono basado en el tipo
   const icono: HTMLElement = document.createElement('i');
@@ -1075,20 +1075,18 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
     case 'success':
       icono.classList.add('fas', 'fa-check-circle'); // Icono de éxito
       alerta.style.backgroundColor = 'rgba(40, 167, 69, 0.9)'; // Verde
-      alerta.style.borderRadius = '10px';
-      alerta.style.padding = '7px'; // Aumentar el padding
       break;
     case 'error':
       icono.classList.add('fas', 'fa-times-circle'); // Icono de error
       alerta.style.backgroundColor = '#dc3545'; // Rojo
-      alerta.style.borderRadius = '10px';
-      alerta.style.padding = '7px'; // Aumentar el padding
       break;
     case 'warning':
       icono.classList.add('fas', 'fa-exclamation-triangle'); // Icono de advertencia
       alerta.style.backgroundColor = '#ffc107'; // Amarillo
-      alerta.style.borderRadius = '10px';
-      alerta.style.padding = '7px'; // Aumentar el padding
+      break;
+    case 'info':
+      icono.classList.add('fas', 'fa-info-circle'); // Icono de información
+      alerta.style.backgroundColor = '#17a2b8'; // Azul
       break;
   }
 
@@ -1113,8 +1111,8 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning'): void {
         alerta.remove();
       }, 500);
     }, 5000);
-    }
-  }
+  }
+}
 
 makePhoneCall(phoneNumber: string): void {
   const fullPhoneNumber = `${phoneNumber}`;
