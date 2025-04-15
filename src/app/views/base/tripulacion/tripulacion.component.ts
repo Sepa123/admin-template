@@ -49,6 +49,7 @@ export class TripulacionComponent {
   detallePago : DetallePago [] = []
 
   observacionDriver : ObservacionDriver [] =[]
+  public rol_no_permitido = ['91','50']
 
   isModalOpen: boolean = false
   public visible = false;
