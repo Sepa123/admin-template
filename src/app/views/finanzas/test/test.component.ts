@@ -5,6 +5,9 @@ import { CurrencyPipe } from '@angular/common';
 import { SeleccionesDescuentos, RazonSocial,Patente,Etiqueta, SeleccionOperaciones, Centro ,Descuentos } from '../../../models/finanzas/descuentos.interface'
 import * as XLSX from 'xlsx';
 
+import * as ExcelJS from 'exceljs';
+import FileSaver from 'file-saver';
+
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
@@ -21,6 +24,8 @@ export class TestComponent {
 
   listaDescuentos : Descuentos [] =[]
   listaDescuentosFull : Descuentos [] =[]
+  fechaRecharge: string = '';
+  fechaRecharge2: string = '';
 
   toggleLiveDemo() {
     this.visible = !this.visible;
@@ -150,6 +155,9 @@ export class TestComponent {
   }
 
   obtenerListaDescuentos(fecha_ini:string, fecha_fin:string){
+    this.fechaRecharge = fecha_ini
+    this.fechaRecharge2= fecha_fin
+    console.log(this.fechaRecharge, this.fechaRecharge2)
     this.service.obtenerDescuentos(fecha_ini,fecha_fin).subscribe((data) => {
       // console.log(data)
       this.listaDescuentosFull = data
@@ -199,6 +207,8 @@ export class TestComponent {
   cobrado : boolean = false
   oc_cobro : string = ''
   id_detalle : number = 0
+  id_origen: number = 0
+  aplicaEstado: boolean = false
 
   cambiarEstadoCobro(){
     this.cobrado = !this.cobrado
@@ -206,7 +216,7 @@ export class TestComponent {
 
   DescuentoSeleccionado : Descuentos [] = []
 
-  mostrarActualizacion(id_desc : number, cobrado : boolean, oc_cobro : string, dcto : Descuentos){
+  mostrarActualizacion(id_desc : number, cobrado : boolean, oc_cobro : string, dcto : Descuentos, Id_O: number, aplica: boolean){
 
     this.DescuentoSeleccionado = [dcto]
 
@@ -214,8 +224,10 @@ export class TestComponent {
     this.cobrado = cobrado
     this.oc_cobro = oc_cobro
 
+    this.id_origen = Id_O
+    this.aplicaEstado = aplica
     // oc_cobrod
-
+    console.log(this.id_origen)
 
 
 
@@ -356,48 +368,74 @@ export class TestComponent {
 
 
 
-DescargarNS(){
-    const datos: any[][] = [[]];
-
-    datos.push([
-      'Fecha Cobro',
-      'Ingresado Por',
-       'Operación',
-      'Centro Operación',
-      'Ppu',
-      'Razón Social',
-      'Cuota',
-      'Valor Cuota',
-      'Total',
-      'Etiqueta',
-      'Descripción',
-      'Cobrada',
-      'Oc cobro',
-      'Fecha evento',
-
-    ])
-
+  DescargarNS() {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Lista Descuentos');
+  
+    // Encabezados de la tabla
+    worksheet.columns = [
+      { header: 'Fecha Cobro', key: 'fechaCobro', width: 15 },
+      { header: 'Ingresado Por', key: 'ingresadoPor', width: 20 },
+      { header: 'Operación', key: 'operacion', width: 15 },
+      { header: 'Centro Operación', key: 'centroOperacion', width: 20 },
+      { header: 'Ppu', key: 'ppu', width: 10 },
+      { header: 'Razón Social', key: 'razonSocial', width: 20 },
+      { header: 'Cuota', key: 'cuota', width: 10 },
+      { header: 'Valor Cuota', key: 'valorCuota', width: 15 },
+      { header: 'Total', key: 'total', width: 15 },
+      { header: 'Etiqueta', key: 'etiqueta', width: 15 },
+      { header: 'Descripción', key: 'descripcion', width: 30 },
+      { header: 'Cobrada', key: 'cobrada', width: 10 },
+      { header: 'Oc cobro', key: 'ocCobro', width: 15 },
+      { header: 'Fecha evento', key: 'fechaEvento', width: 15 },
+    ];
+  
+    // Agregar filas con datos
     this.listaDescuentosFull.forEach((desc) => {
-        const fila: any[] = [];
-
-        fila.push(desc.Fecha_cobro,desc.Ingresado_por,desc.Operacion,desc.Centro_operacion,desc.Ppu,desc.Razon_social,desc.Cuota,desc.Valor_cuenta,desc.Total,
-          desc.Etiqueta,desc.Descripcion,desc.Cobrada,desc.Oc_cobro,desc.Fecha_evento); 
-
-        datos.push(fila);
+      worksheet.addRow({
+        fechaCobro: desc.Fecha_cobro,
+        ingresadoPor: desc.Ingresado_por,
+        operacion: desc.Operacion,
+        centroOperacion: desc.Centro_operacion,
+        ppu: desc.Ppu,
+        razonSocial: desc.Razon_social,
+        cuota: desc.Cuota,
+        valorCuota: desc.Valor_cuenta,
+        total: desc.Total,
+        etiqueta: desc.Etiqueta,
+        descripcion: desc.Descripcion,
+        cobrada: desc.Cobrada ? 'Sí' : 'No',
+        ocCobro: desc.Oc_cobro,
+        fechaEvento: desc.Fecha_evento,
       });
-
-    let date = new Date();
-    const fechaActual = date.toISOString().split('T')[0];
-    // Crea un libro de Excel a partir de los datos
-    const libroExcel: XLSX.WorkBook = XLSX.utils.book_new();
-    const hoja: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(datos);
-    XLSX.utils.book_append_sheet(libroExcel, hoja, 'Hoja1');
-
-    // Descarga el archivo Excel `Quadminds_Manual_${fechaActual}.xlsx` 
-    
-    const nombreArchivo = `Lista-descuentos-${fechaActual}.xlsx`;
-    // Nombre del archivo Excel a descargar 
-    XLSX.writeFile(libroExcel, nombreArchivo);
+    });
+  
+    // Aplicar estilos condicionales
+    worksheet.eachRow((row, rowNumber) => {
+      if (rowNumber === 1) {
+        // Estilo para encabezados
+        row.eachCell((cell) => {
+          cell.font = { bold: true, color: { argb: 'FFFFFF' } };
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '007bff' } };
+          cell.alignment = { horizontal: 'center', vertical: 'middle' };
+        });
+      } else {
+        // Estilo para filas con descripción
+        const descripcionCell = row.getCell(11); // Columna "Descripción"
+        if (descripcionCell.value) {
+          row.eachCell((cell) => {
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D4EDDA' } }; // Fondo verde claro
+            cell.font = { color: { argb: '155724' } }; // Texto verde oscuro
+          });
+        }
+      }
+    });
+  
+    // Descargar el archivo Excel
+    workbook.xlsx.writeBuffer().then((data) => {
+      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      FileSaver.saveAs(blob, `Lista-descuentos-${new Date().toISOString().split('T')[0]}.xlsx`);
+    });
   }
 
 
@@ -414,5 +452,89 @@ DescargarNS(){
       window.URL.revokeObjectURL(url);
     })
   }
+
+  actualizar(event: Event, dcto: any) {
+    event.preventDefault(); // Prevenir el comportamiento predeterminado del evento
+    event.stopPropagation(); // Detener la propagación del evento
   
+    const nuevoValor = !dcto.Aplica; // Cambia al valor contrario del estado actual
+  
+    // Mostrar alerta de confirmación
+    const confirmacion = window.confirm(
+      `¿Estás seguro de que deseas ${nuevoValor ? 'Activar' : 'Desactivar'} este cobro?
+      ten en cuenta qué esto afectará el `
+    );
+  
+    if (confirmacion) {
+      // Si el usuario acepta, procede con la actualización
+      this.service.actualizarAplica(dcto.Id, nuevoValor).subscribe({
+        next: (response) => {
+          console.log('Respuesta del servidor:', response);
+          dcto.Aplica = nuevoValor; // Actualiza el valor localmente
+          this.mostrarAlerta(
+            `El estado ha sido cambiado a ${nuevoValor ? 'Activado' : 'Desactivado'}.`,
+            'success'
+          );
+        },
+        error: (error) => {
+          console.error('Error al actualizar:', error);
+          this.mostrarAlerta('Error al actualizar el estado.', 'error');
+        },
+      });
+    } else {
+      // Si el usuario cancela, revertir el cambio en el input
+      (event.target as HTMLInputElement).checked = dcto.Aplica; // Revertir al estado anterior
+      this.mostrarAlerta('La acción ha sido cancelada.', 'warning');
+    }
+  }
+  
+  mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning' | 'info'): void {
+    // Crear un div para la alerta
+    const alerta: HTMLDivElement = document.createElement('div');
+    alerta.classList.add('alerta', tipo); // Añadir clase para tipo (success, error, warning, info)
+  
+    // Elegir icono basado en el tipo
+    const icono: HTMLElement = document.createElement('i');
+    switch (tipo) {
+      case 'success':
+        icono.classList.add('fas', 'fa-check-circle'); // Icono de éxito
+        alerta.style.backgroundColor = 'rgba(40, 167, 69, 0.9)'; // Verde
+        break;
+      case 'error':
+        icono.classList.add('fas', 'fa-times-circle'); // Icono de error
+        alerta.style.backgroundColor = '#dc3545'; // Rojo
+        break;
+      case 'warning':
+        icono.classList.add('fas', 'fa-exclamation-triangle'); // Icono de advertencia
+        alerta.style.backgroundColor = '#ffc107'; // Amarillo
+        break;
+      case 'info':
+        icono.classList.add('fas', 'fa-info-circle'); // Icono de información
+        alerta.style.backgroundColor = '#17a2b8'; // Azul
+        break;
+    }
+  
+    // Añadir el icono y el mensaje al div de la alerta
+    alerta.appendChild(icono);
+    alerta.appendChild(document.createTextNode(mensaje));
+  
+    // Añadir la alerta al contenedor de alertas
+    const alertaContainer: HTMLElement | null = document.getElementById('alertaContainer');
+    if (alertaContainer) {
+      alertaContainer.appendChild(alerta);
+  
+      // Mostrar la alerta con una animación de opacidad
+      setTimeout(() => {
+        alerta.style.opacity = '1';
+      }, 100);
+  
+      // Ocultar la alerta después de 5 segundos y eliminarla del DOM
+      setTimeout(() => {
+        alerta.style.opacity = '0';
+        setTimeout(() => {
+          alerta.remove();
+        }, 500);
+      }, 5000);
+    }
+  }
 }

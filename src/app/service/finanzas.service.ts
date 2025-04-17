@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 
 import { SeleccionesDescuentos, SeleccionOperaciones , Descuentos} from '../models/finanzas/descuentos.interface'
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -15,6 +16,7 @@ export class FinanzasService {
   // private apiUrl="http://localhost:8000/api/finanzas"
   private apiUrl="https://hela.transyanez.cl/api/finanzas"
 
+  private apiUrlTest="http://localhost:8000/api/"
 
   seleccionesDescuentos(){
     return this.http.get< SeleccionesDescuentos>(`${this.apiUrl}/selecciones/descuentos`);
@@ -49,4 +51,10 @@ export class FinanzasService {
     return this.http.get(`${this.apiUrl}/descargar/archivo?name_file=${name_file}`, { responseType: 'blob' });
   }
 
+  actualizarAplica(id: number, nuevoValor: boolean): Observable<any> {
+    const body = { id, nuevo_valor: nuevoValor };
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.patch(`${this.apiUrlTest}ActualizarAplica/`, body, { headers });
+  }
 }
