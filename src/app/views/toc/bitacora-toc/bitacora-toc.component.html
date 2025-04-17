@@ -200,6 +200,14 @@
       
     <form cForm [formGroup]="formCD" (ngSubmit)="registrarCD()">
         <c-row>
+
+            <c-col  [xs]>
+                <span style="font-weight: bold;">Clientes</span> 
+                    <select id="clientes" cSelect class="form-control"  formControlName="Cliente_id_ty">
+                        <option *ngFor="let cliente of clientes_ty" [value]="cliente.Id"  >{{cliente.Clientes}}</option>
+                    </select>
+            </c-col>
+            
             <c-col [xs]>
                 <div class="">
                     <span style="font-weight: bold;">Código pedido</span> 

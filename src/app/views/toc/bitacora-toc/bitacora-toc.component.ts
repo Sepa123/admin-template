@@ -21,6 +21,7 @@ export class BitacoraTocComponent {
 
   tipoCliente : string = "1"
   clientes : Cliente [] = []
+  clientes_ty : Cliente [] = []
   estados : Estado [] = []
   subestados : Subestado [] = []
   listaSubestados : Subestado [] = []
@@ -77,6 +78,7 @@ export class BitacoraTocComponent {
     Driver : this.builder.control(""),
     Guia : this.builder.control(""),
     Cliente : this.builder.control(""),
+   
     Estado: this.builder.control(0),
     Subestado : this.builder.control(0),  
     EstadoStr: this.builder.control(''),
@@ -115,6 +117,7 @@ export class BitacoraTocComponent {
       this.estados  = data.Estados
       this.subestados = data.Subestados
       this.clientes = data.Clientes
+      this.clientes_ty = data.Clientes_ty
     })
 
     this.comunaService.getListaRegiones().subscribe((data : any) => {
@@ -125,6 +128,10 @@ export class BitacoraTocComponent {
     this.comunaService.getListaComunas().subscribe((data : any) => {
       this.listaComunas = data
       this.listaComunasFull = this.listaComunas
+    })
+
+    this.formCD.patchValue({
+      Cliente_id_ty: "2"
     })
     
 
@@ -218,6 +225,7 @@ export class BitacoraTocComponent {
     PPU : this.builder.control(""),
     Guia: this.builder.control(""),
     Cliente : this.builder.control(""),
+    Cliente_id_ty : this.builder.control(""),
     Region : this.builder.control(""),
     Comuna : this.builder.control(""),
     Estado : this.builder.control(""),  
@@ -340,7 +348,7 @@ export class BitacoraTocComponent {
     this.formCD.patchValue({
       Guia : cod_producto
     })
-    this.service.buscar_producto_toc(cod_producto).subscribe((data) => {
+    this.service.buscar_producto_toc(cod_producto,this.formCD.value.Cliente_id_ty).subscribe((data) => {
       this.producto = data
       // const regionSeleccionada = this.listaComunasFull.filter(comuna => this.producto.Comuna == comuna.Nombre_comuna)[0].Id_region
       // console.log(regionSeleccionada)
@@ -375,7 +383,7 @@ export class BitacoraTocComponent {
     this.form.patchValue({
       Guia : cod_producto
     })
-    this.service.buscar_producto_toc(cod_producto).subscribe((data) => {
+    this.service.buscar_producto_toc(cod_producto,"3").subscribe((data) => {
       this.producto = data
       // const regionSeleccionada = this.listaComunasFull.filter(comuna => this.producto.Comuna == comuna.Nombre_comuna)[0].Id_region
       // console.log(regionSeleccionada)
@@ -419,7 +427,8 @@ export class BitacoraTocComponent {
       Ids_usuario : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
       Alerta : false,
       Codigo1 : 0,
-      Codigo1Str : ""
+      Codigo1Str : "",
+      Cliente_id_ty : "2"
     })
 
     this.isErrorView = false
@@ -475,7 +484,8 @@ export class BitacoraTocComponent {
           Id_usuario : sessionStorage.getItem("id")?.toString()+"",
           Ids_usuario : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
           Alerta : false,
-          Codigo1 : 0
+          Codigo1 : 0,
+          Cliente_id_ty : "2"
         })
 
         this.observacionesUsuario(sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"")
@@ -493,7 +503,8 @@ export class BitacoraTocComponent {
           Id_usuario : sessionStorage.getItem("id")?.toString()+"",
           Ids_usuario : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
           Alerta : false,
-          Codigo1 : 0
+          Codigo1 : 0,
+          Cliente_id_ty : "2"
         })
       }))
     }else{

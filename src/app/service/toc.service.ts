@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { ProductoToc } from '../models/productosToc.interface'
-import { Subestados } from 'src/app/models/subestados.interface';
-import { Codigo1 } from 'src/app/models/Codigos1.interface';
-import { ObservacionTOC } from 'src/app/models/ObservacionesTOC.interface'
-import { AlertasVigente, BitacoraRango } from 'src/app/models/alertasVigentes.interface'
-import { UsuarioTOC } from 'src/app/models/usuariosTOC.interface'
+import { Subestados } from '../models/subestados.interface';
+import { Codigo1 } from '../models/Codigos1.interface';
+import { ObservacionTOC } from '../models/ObservacionesTOC.interface'
+import { AlertasVigente, BitacoraRango } from '../models/alertasVigentes.interface'
+import { UsuarioTOC } from '../models/usuariosTOC.interface'
 import { interval,Observable, switchMap  } from 'rxjs';
-import { ActividadDiariaTOC } from 'src/app/models/actividadesDiariasTOC.interface'
-import { BackofficeUsuarioTOC } from 'src/app/models/backofficeUsuarioTOC.interface'
-import { TocTracking } from 'src/app/models/tocTracking.interface'
-import { EditarTOC, AlertaExistenteTOC } from 'src/app/models/editarTOC.interface'
-import { MainDifFechasEasy,Dato } from 'src/app/models/TOC/difFechasEasy.interface'
-import { MainProductoIngresado, DatoPI } from 'src/app/models/TOC/productosIngresadosEasy.interface'
-import {MainTelefonosTruncados, DatoTelefonos} from 'src/app/models/TOC/telefonosTruncados.interface'
-import { ProductoAdelanto } from 'src/app/models/TOC/productosAdelanto.interface'
-import {MainCamposBT, BitacoraTiendaTOC} from 'src/app/models/TOC/camposBitTienda.interface'
-import {PanelAlertasTOC, DatosAlertasVigentes} from 'src/app/models/TOC/alertaVigentes.interface'
+import { ActividadDiariaTOC } from '../models/actividadesDiariasTOC.interface'
+import { BackofficeUsuarioTOC } from '../models/backofficeUsuarioTOC.interface'
+import { TocTracking } from '../models/tocTracking.interface'
+import { EditarTOC, AlertaExistenteTOC } from '../models/editarTOC.interface'
+import { MainDifFechasEasy,Dato } from '../models/TOC/difFechasEasy.interface'
+import { MainProductoIngresado, DatoPI } from '../models/TOC/productosIngresadosEasy.interface'
+import {MainTelefonosTruncados, DatoTelefonos} from '../models/TOC/telefonosTruncados.interface'
+import { ProductoAdelanto } from '../models/TOC/productosAdelanto.interface'
+import {MainCamposBT, BitacoraTiendaTOC} from '../models/TOC/camposBitTienda.interface'
+import {PanelAlertasTOC, DatosAlertasVigentes} from '../models/TOC/alertaVigentes.interface'
+import { ClienteTOC } from '../models/TOC/bitacora.interface';
 
 
 @Injectable({
@@ -40,8 +41,13 @@ export class TocService {
   // apiurl = "http://127.0.0.1:8000/api/toc"
 
 
-  buscar_producto_toc(cod_producto : string){
-    return this.http.get<ProductoToc>(this.apiurl + `/buscar_producto/${cod_producto}`)
+  buscar_clientes_toc(){
+    return this.http.get<ClienteTOC>(this.apiurl + `/clientes`)
+  }
+
+
+  buscar_producto_toc(cod_producto : string,id_cliente : string | null | undefined){
+    return this.http.get<ProductoToc>(this.apiurl + `/buscar_producto?cod_producto=${cod_producto}&id_cliente=${id_cliente}`)
   }
 
   insert_bitacora_toc(body : any){

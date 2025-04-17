@@ -1,300 +1,306 @@
-<c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" [backdrop]="'static'" class="modal-lg modal-fullscreen-md-down">
-  <c-modal-header>
-    <div class="modal-cabecera">Ingreso de Cliente</div>
-    
-    <!-- Botón de cierre del modal -->
-  </c-modal-header>
-  <c-modal-body>
-    <!-- Contenido del formulario -->
-    <form id="formCrearUsuario" class="form-minimalista">
-      <div class="form-columnas">
-        <div class="form-columna">
-          <label for="nombre">Nombre *</label>
-          <input [(ngModel)]="nuevoCliente.nombre" name="nombre" class="form-input" type="text" id="nombre" placeholder="Ingrese el nombre" required [ngClass]="{'input-error': !nuevoCliente.nombre}" >
-    
-          <label for="rut">Rut *</label>
-          <input [(ngModel)]="nuevoCliente.rut" name="rut" class="form-input" type="text" id="rut" placeholder="Ingrese el RUT"  required (blur)="nuevoCliente.rut = formatRut(nuevoCliente.rut); validarRut()" [ngClass]="{'input-error': !nuevoCliente.rut || !rutValido}">
-        
 
-          <label for="direccion">Dirección *</label>
-          <input [(ngModel)]="nuevoCliente.direccion" name="direccion" class="form-input" type="text" id="direccion" placeholder="Ingrese la dirección" required 
-          [ngClass]="{'input-error': !nuevoCliente.direccion}">
-    
-          <label for="region">Región</label>
-          <select id="region" class="form-select" [(ngModel)]="nuevoCliente.region" (change)="onRegionChange($event)" >
-            <option value="" disabled selected>Seleccione una región</option>
-            <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
-          </select>
-        </div>
-    
-        <div class="form-columna">
-          <label for="correo">Correo *</label>
-          <input [(ngModel)]="nuevoCliente.correo" name="correo" class="form-input" type="email" id="correo" placeholder="Ingrese el correo" required
-          [ngClass]="{'input-error': !nuevoCliente.correo}"
-          >
-    
-          <label for="representante">Representante</label>
-          <input [(ngModel)]="nuevoCliente.representante" name="representante" class="form-input" type="text" 
-          id="representante" placeholder="Ingrese el representante"
-          [ngClass]="{'input-error': !nuevoCliente.representante}"
-          >
+<!-- div de alertas -->
+<div id="alertaContainer"></div>
+<!-- fin div de alertas -->
+
+<c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" [backdrop]="'static'" class="modal-lg modal-fullscreen-md-down">
+    <c-modal-header>
+      <div class="modal-cabecera">Ingreso de Cliente</div>
+      
+      <!-- Botón de cierre del modal -->
+    </c-modal-header>
+    <c-modal-body>
+      <!-- Contenido del formulario -->
+      <form id="formCrearUsuario" class="form-minimalista">
+        <div class="form-columnas">
+          <div class="form-columna">
+            <label for="nombre">Nombre *</label>
+            <input [(ngModel)]="nuevoCliente.nombre" name="nombre" class="form-input" type="text" id="nombre" placeholder="Ingrese el nombre" required [ngClass]="{'input-error': !nuevoCliente.nombre}" >
+      
+            <label for="rut">Rut *</label>
+            <input [(ngModel)]="nuevoCliente.rut" name="rut" class="form-input" type="text" id="rut" placeholder="Ingrese el RUT"  required (blur)="nuevoCliente.rut = formatRut(nuevoCliente.rut); validarRut()" [ngClass]="{'input-error': !nuevoCliente.rut || !rutValido}">
           
-          <label for="telefono">Teléfono</label>
-          <input [(ngModel)]="nuevoCliente.telefono" name="telefono" class="form-input" 
-            type="text" id="telefono" placeholder="Ingrese el teléfono" 
-            (keypress)="allowOnlyNumbers($event)"
-            (input)="nuevoCliente.telefono = cleanPhoneInput(nuevoCliente.telefono)"
-            (blur)="nuevoCliente.telefono = formatPhoneNumber(nuevoCliente.telefono)"
+
+            <label for="direccion">Dirección *</label>
+            <input [(ngModel)]="nuevoCliente.direccion" name="direccion" class="form-input" type="text" id="direccion" placeholder="Ingrese la dirección" required 
+            [ngClass]="{'input-error': !nuevoCliente.direccion}">
+      
+            <label for="region">Región</label>
+            <select id="region" class="form-select" [(ngModel)]="nuevoCliente.region" (change)="onRegionChange($event)" >
+              <option value="" disabled selected>Seleccione una región</option>
+              <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
+            </select>
+          </div>
+      
+          <div class="form-columna">
+            <label for="correo">Correo *</label>
+            <input [(ngModel)]="nuevoCliente.correo" name="correo" class="form-input" type="email" id="correo" placeholder="Ingrese el correo" required
+            [ngClass]="{'input-error': !nuevoCliente.correo}"
             >
       
-    
-          <label for="comuna">Comuna</label>
-          <select id="comuna" class="form-select" [(ngModel)]="nuevoCliente.ciudad" >
-            <option value="" disabled selected>Seleccione una comuna</option>
-            <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
-          </select>
-        </div>
-      </div>
-    
-      
-    </form>
-  </c-modal-body>
-  <c-modal-footer>  
-   <div class="botones-formulario">
-        <div *ngIf="!rutValido && nuevoCliente.rut" class="error-message">
-          Falta información que ingresar.
-        </div>
-
-        <button type="submit" class="btn-save-modal" (click)="onSubmit()" [disabled]="!rutValido || !nuevoCliente.nombre || !nuevoCliente.direccion || !nuevoCliente.representante || !nuevoCliente.region || !nuevoCliente.ciudad || !nuevoCliente.correo ">Guardar</button>
-        <button type="button" class="btn-close-modal" (click)="toggleLive()">Cancelar</button>
-      </div>
-  </c-modal-footer>
-</c-modal>
-
-
-<c-modal [visible]="visible2" (visibleChange)="handleLiveDemoChange2($event)" [backdrop]="'static'" class="modal-lg modal-fullscreen-md-down">
-  <c-modal-header>
-    <div class="modal-cabecera2">Edición de Usuario <b>{{nombreUser}}</b></div>
-    <td colspan="2" *ngIf="cargando">
-      <img width="15rem" height="15rem" src="../../../assets/images/loading-gif.gif" />
-    </td>
-  </c-modal-header>
-
-  <c-modal-body >
-    <!-- Columna derecha para foto -->
-    <div *ngIf="LoginId !== '5'">
-
-      <div class="upload-container">
-        <div class="photo-preview">
-          <img class="ImgPerfilModal" [src]="imagenPerfil || 'assets/images/Default-User.png'"
-            (error)="imagenPerfil = 'assets/images/Default-User.png'" alt="Foto de perfil">
-        </div>
-        <div class="button-group">
-         
-        </div>
+            <label for="representante">Representante</label>
+            <input [(ngModel)]="nuevoCliente.representante" name="representante" class="form-input" type="text" 
+            id="representante" placeholder="Ingrese el representante"
+            [ngClass]="{'input-error': !nuevoCliente.representante}"
+            >
+            
+            <label for="telefono">Teléfono</label>
+            <input [(ngModel)]="nuevoCliente.telefono" name="telefono" class="form-input" 
+              type="text" id="telefono" placeholder="Ingrese el teléfono" 
+              (keypress)="allowOnlyNumbers($event)"
+              (input)="nuevoCliente.telefono = cleanPhoneInput(nuevoCliente.telefono)"
+              (blur)="nuevoCliente.telefono = formatPhoneNumber(nuevoCliente.telefono)"
+              >
         
-      </div>
-      <div class="form-container">
-        <div class="form-columna">
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" [(ngModel)]="updateData.nombre" class="form-input" [value]="userData?.nombre" readonly>
       
-          <label for="rut">Rut</label>
-          <input type="text" id="rut" [(ngModel)]="updateData.rut" class="form-input" [value]="userData?.rut" readonly>
-      
-          <label for="direccion">Dirección:</label>
-          <input type="text" id="direccion" [(ngModel)]="updateData.direccion" class="form-input" [value]="userData?.direccion || ''" readonly>
-      
-          <label for="correo">Correo</label>
-          <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo" readonly>
-        </div>
-      
-        <div class="form-columna">
-          <label for="telefono">Teléfono:</label>
-          <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.telefono" [value]="userData?.telefono || ''" readonly
-          (blur)="updateData.telefono = formatPhoneNumber(updateData.telefono)"
-          (input)="nuevoCliente.telefono = cleanPhoneInput(nuevoCliente.telefono)"
-          >
-      
-          <label for="Representante">Representante:</label>
-          <input type="text" id="representante" class="form-input" [(ngModel)]="updateData.representante" [value]="userData?.representante || ''" readonly>
-      
-          <div>
-            <label for="region">Región</label>
-            <select id="region" class="form-select" [(ngModel)]="updateData.region" [value]="userData?.region" disabled>
-              <option value="" disabled selected>Seleccione una región</option>
-              <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
-            </select>
-          </div>
-      
-          <div>
             <label for="comuna">Comuna</label>
-            <select id="comuna" class="form-select" [(ngModel)]="updateData.ciudad" [value]="userData?.ciudad" disabled>
+            <select id="comuna" class="form-select" [(ngModel)]="nuevoCliente.ciudad" >
               <option value="" disabled selected>Seleccione una comuna</option>
               <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
             </select>
           </div>
         </div>
-      </div>
-    </div>
-
-
-    <div *ngIf="LoginId === '5'">
-      <div class="upload-container">
-        <div class="photo-preview">
-          <img class="ImgPerfilModal" [src]="imagenPerfil || 'assets/images/Default-User.png'"
-            (error)="imagenPerfil = 'assets/images/Default-User.png'" alt="Foto de perfil">
-        </div>
-        <div class="button-group">
-          <label for="fileUpload" class="btn-upload">
-            <i class="fas fa-upload"></i>
-          </label>
-          <input id="fileUpload" type="file" (change)="onFileSelected($event)" accept="image/*" hidden>
-          <button type="button" class="btn-save" (click)="guardarImagen()">
-            <i class="fas fa-save"></i>
-          </button>
-        </div>
-        <div class="file-name" *ngIf="nombreArchivo">
-          {{ nombreArchivo }}
-        </div>
-      </div>
-    
-      <!-- Contenedor principal flex -->
-      <div class="form-container">
-        <div class="form-columna">
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" [(ngModel)]="updateData.nombre" class="form-input" required
-            [value]="userData?.nombre">
-    
-          <label for="rut">Rut</label>
-          <input type="text" id="rut" [(ngModel)]="updateData.rut" class="form-input" required [value]="userData?.rut" (blur)="nuevoCliente.rut = formatRut(nuevoCliente.rut); validarRut()" [ngClass]="{'input-error': !nuevoCliente.rut || !rutValido}">
-    
-          <label for="direccion">direccion:</label>
-          <input type="text" id="direccion" [(ngModel)]="updateData.direccion" class="form-input"
-            [value]="userData?.direccion || ''">
-    
-          <label for="correo">Correo</label>
-          <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo">
-    
-          <label for="activate">Activo</label>
-          <label class="switch">
-            <input [(ngModel)]="updateData.activo" type="checkbox" id="activate">
-            <span class="slider"></span>
-          </label>
-    
-        </div>
-        <div class="form-columna">
-    
-          <label for="telefono">Telefono:</label>
-          <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.telefono"
-            [value]="userData?.telefono || ''">
-    
-          <label for="Representante">Representante:</label>
-          <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.representante"
-            [value]="userData?.representante || ''">
-    
-    
-          <div>
-            <label for="region">Región</label>
-            <select id="region" class="form-select" [(ngModel)]="updateData.region" [value]="userData?.region"
-              (change)="onRegionChange($event)">
-              <option value="" disabled selected>Seleccione una región</option>
-              <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
-            </select>
+      
+        
+      </form>
+    </c-modal-body>
+    <c-modal-footer>  
+     <div class="botones-formulario">
+          <div *ngIf="!rutValido && nuevoCliente.rut" class="error-message">
+            Falta información que ingresar.
           </div>
-    
-          <div>
-            <label for="comuna">Comuna</label>
-            <select id="comuna" class="form-select" [(ngModel)]="updateData.ciudad" [value]="userData?.ciudad">
-              <option value="" disabled selected>Seleccione una comuna</option>
-              <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
-            </select>
+
+          <button type="submit" class="btn-save-modal" (click)="onSubmit()" [disabled]="!rutValido || !nuevoCliente.nombre || !nuevoCliente.direccion || !nuevoCliente.representante || !nuevoCliente.region || !nuevoCliente.ciudad || !nuevoCliente.correo ">Guardar</button>
+          <button type="button" class="btn-close-modal" (click)="toggleLive()">Cancelar</button>
+        </div>
+    </c-modal-footer>
+  </c-modal>
+  
+  
+  <c-modal [visible]="visible2" (visibleChange)="handleLiveDemoChange2($event)" [backdrop]="'static'" class="modal-lg modal-fullscreen-md-down">
+    <c-modal-header>
+      <div class="modal-cabecera2">Edición de Usuario <b>{{nombreUser}}</b></div>
+      <td colspan="2" *ngIf="cargando">
+        <img width="15rem" height="15rem" src="../../../assets/images/loading-gif.gif" />
+      </td>
+    </c-modal-header>
+
+    <c-modal-body >
+      <!-- Columna derecha para foto -->
+      <div *ngIf="LoginId !== '5'">
+
+        <div class="upload-container">
+          <div class="photo-preview">
+            <img class="ImgPerfilModal" [src]="imagenPerfil || 'assets/images/Default-User.png'"
+              (error)="imagenPerfil = 'assets/images/Default-User.png'" alt="Foto de perfil">
+          </div>
+          <div class="button-group">
+           
+          </div>
+          
+        </div>
+        <div class="form-container">
+          <div class="form-columna">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" [(ngModel)]="updateData.nombre" class="form-input" [value]="userData?.nombre" readonly>
+        
+            <label for="rut">Rut</label>
+            <input type="text" id="rut" [(ngModel)]="updateData.rut" class="form-input" [value]="userData?.rut" readonly>
+        
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" [(ngModel)]="updateData.direccion" class="form-input" [value]="userData?.direccion || ''" readonly>
+        
+            <label for="correo">Correo</label>
+            <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo" readonly>
+          </div>
+        
+          <div class="form-columna">
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.telefono" [value]="userData?.telefono || ''" readonly
+            (blur)="updateData.telefono = formatPhoneNumber(updateData.telefono)"
+            (input)="nuevoCliente.telefono = cleanPhoneInput(nuevoCliente.telefono)"
+            >
+        
+            <label for="Representante">Representante:</label>
+            <input type="text" id="representante" class="form-input" [(ngModel)]="updateData.representante" [value]="userData?.representante || ''" readonly>
+        
+            <div>
+              <label for="region">Región</label>
+              <select id="region" class="form-select" [(ngModel)]="updateData.region" [value]="userData?.region" disabled>
+                <option value="" disabled selected>Seleccione una región</option>
+                <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
+              </select>
+            </div>
+        
+            <div>
+              <label for="comuna">Comuna</label>
+              <select id="comuna" class="form-select" [(ngModel)]="updateData.ciudad" [value]="userData?.ciudad" disabled>
+                <option value="" disabled selected>Seleccione una comuna</option>
+                <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
+              </select>
+            </div>
           </div>
         </div>
-    
       </div>
-    </div>
-      <!-- Columna izquierda para contraseñas -->
-  </c-modal-body>
-  <c-modal-footer>
-    
 
-    <button class="btn-save-modal" (click)="actualizarCliente()" [disabled]="LoginId !== '5'" >
-      <i class="fas fa-save"></i> Guardar
-    </button>
-    <button class="btn-close-modal" (click)="toggleLive2()">
-      <i class="fas fa-times" ></i> Cerrar
-    </button>
-  </c-modal-footer>
-</c-modal>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-<div class="title-container">
-  <i class="fa-solid fa-warehouse"></i>
-  <h2>
-    Edicion de Cliente</h2>
-  <div class="title-line"></div>
-</div>
-  <div class="panel">
-    <!-- Barra de búsqueda y filtros -->
-    <div class="filtros">
-        <input type="text" id="buscarNombre" placeholder="Buscar por nombre..." [(ngModel)]="Busqueda" (input)="filtrarUsuarios()"/>
-        <!-- <select id="filtroArea" [(ngModel)]="Area" (change)="filtrarUsuarios()">
-            <option value="">Todas las áreas</option>
-            <option *ngFor="let a of area" [value]="a.id">{{a.nombre}}</option>
-        </select>
-        <select  id="filtroPerfil" [(ngModel)]="Rol" (change)="filtrarUsuarios()"> 
-            <option value="">Todos los perfiles</option>
-            <option *ngFor="let r of rol" [value]="r.id">{{r.nombre}}</option>
-        </select> -->
-        <button id="abrirModal" (click)="toggleLive()" *ngIf="LoginId === '5' || LoginId === '3'"  >Crear Cliente</button>
-    </div>
-    <div>
-        <!-- Filtro con switch -->
-        <div class="filtro">
-            <label>Mostrar solo activos</label>
+      <div *ngIf="LoginId === '5'">
+        <div class="upload-container">
+          <div class="photo-preview">
+            <img class="ImgPerfilModal" [src]="imagenPerfil || 'assets/images/Default-User.png'"
+              (error)="imagenPerfil = 'assets/images/Default-User.png'" alt="Foto de perfil">
+          </div>
+          <div class="button-group">
+            <label for="fileUpload" class="btn-upload">
+              <i class="fas fa-upload"></i>
+            </label>
+            <input id="fileUpload" type="file" (change)="onFileSelected($event)" accept="image/*" hidden>
+            <button type="button" class="btn-save" (click)="guardarImagen()">
+              <i class="fas fa-save"></i>
+            </button>
+          </div>
+          <div class="file-name" *ngIf="nombreArchivo">
+            {{ nombreArchivo }}
+          </div>
+        </div>
+      
+        <!-- Contenedor principal flex -->
+        <div class="form-container">
+          <div class="form-columna">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" [(ngModel)]="updateData.nombre" class="form-input" required
+              [value]="userData?.nombre">
+      
+            <label for="rut">Rut</label>
+            <input type="text" id="rut" [(ngModel)]="updateData.rut" class="form-input" required [value]="userData?.rut" (blur)="nuevoCliente.rut = formatRut(nuevoCliente.rut); validarRut()" [ngClass]="{'input-error': !nuevoCliente.rut || !rutValido}">
+      
+            <label for="direccion">direccion:</label>
+            <input type="text" id="direccion" [(ngModel)]="updateData.direccion" class="form-input"
+              [value]="userData?.direccion || ''">
+      
+            <label for="correo">Correo</label>
+            <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo">
+      
+            <label for="activate">Activo</label>
             <label class="switch">
-              <input type="checkbox" id="toggleFiltro" [(ngModel)]="Estado" (change)="filtrarUsuarios()">
+              <input [(ngModel)]="updateData.activo" type="checkbox" id="activate">
               <span class="slider"></span>
             </label>
+      
           </div>
-    </div>
-    
-    <div>
-        <body>
-            <!-- El *ngFor debe estar en las tarjetas, NO en el contenedor -->
-            <div class="user-pool" > 
-                <!-- Repetir por cada usuario -->
-                <div *ngFor="let cf of ClienteFiltrado" style="border-color: {{cf.area_color || 'grey'}}" class="user-card" (click)="toggleLive2()" (click)="recuperarUserdata(cf.nombre, cf.logo_img, cf.id)">
-                    <!-- Añadir condición para inactivos -->
-                    <div style="border-color:'grey'" class="profile-img">
-                        <img class="imagen-perfil" [src]="cf.logo_img" alt="Foto de perfil">
-                    </div>
-                    <!-- Cambiar src por [src] -->
-            
-                    <div class="user-info"> <!-- Contenedor nuevo para textos -->
-                        <div class="name">{{cf.nombre}}</div>
-                        <div class="email">{{cf.correo}}</div>
-                        <div class="phone">{{cf.telefono}}</div>
-                        <div class="representante-container">
-                          <i class="fa-solid fa-circle-user representante-icon"></i>
-                          <div class="Representante">
-                          {{cf.representante}}
-                          </div>
-                        </div>
-                        
-                    </div>
-        
-                    <!-- Estado debe estar fuera del user-info -->
-                    <div class="status">
-                        <i *ngIf="cf.activo" style="color: green;" class="fas fa-check-circle"></i>
-                        <i *ngIf="!cf.activo" style="color: red;" class="fa-solid fa-circle-xmark"></i>
-                    </div>
-                </div>
+          <div class="form-columna">
+      
+            <label for="telefono">Telefono:</label>
+            <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.telefono"
+              [value]="userData?.telefono || ''">
+      
+            <label for="Representante">Representante:</label>
+            <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.representante"
+              [value]="userData?.representante || ''">
+      
+      
+            <div>
+              <label for="region">Región</label>
+              <select id="region" class="form-select" [(ngModel)]="updateData.region" [value]="userData?.region"
+                (change)="onRegionChange($event)">
+                <option value="" disabled selected>Seleccione una región</option>
+                <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
+              </select>
             </div>
-        </body>
-    </div>
-</div>
+      
+            <div>
+              <label for="comuna">Comuna</label>
+              <select id="comuna" class="form-select" [(ngModel)]="updateData.ciudad" [value]="userData?.ciudad">
+                <option value="" disabled selected>Seleccione una comuna</option>
+                <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
+              </select>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+        <!-- Columna izquierda para contraseñas -->
+    </c-modal-body>
+    <c-modal-footer>
+      
 
-
+      <button class="btn-save-modal" (click)="actualizarCliente()" [disabled]="LoginId !== '5'" >
+        <i class="fas fa-save"></i> Guardar
+      </button>
+      <button class="btn-close-modal" (click)="toggleLive2()">
+        <i class="fas fa-times" ></i> Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <div class="title-container">
+    <i class="fa-solid fa-warehouse"></i>
+    <h2>
+      Edicion de Cliente</h2>
+    <div class="title-line"></div>
+  </div>
+    <div class="panel">
+      <!-- Barra de búsqueda y filtros -->
+      <div class="filtros">
+          <input type="text" id="buscarNombre" placeholder="Buscar por nombre..." [(ngModel)]="Busqueda" (input)="filtrarUsuarios()"/>
+          <!-- <select id="filtroArea" [(ngModel)]="Area" (change)="filtrarUsuarios()">
+              <option value="">Todas las áreas</option>
+              <option *ngFor="let a of area" [value]="a.id">{{a.nombre}}</option>
+          </select>
+          <select  id="filtroPerfil" [(ngModel)]="Rol" (change)="filtrarUsuarios()"> 
+              <option value="">Todos los perfiles</option>
+              <option *ngFor="let r of rol" [value]="r.id">{{r.nombre}}</option>
+          </select> -->
+          <button id="abrirModal" (click)="toggleLive()" *ngIf="LoginId === '5' || LoginId === '3'"  >Crear Cliente</button>
+      </div>
+      <div>
+          <!-- Filtro con switch -->
+          <div class="filtro">
+              <label>Mostrar solo activos</label>
+              <label class="switch">
+                <input type="checkbox" id="toggleFiltro" [(ngModel)]="Estado" (change)="filtrarUsuarios()">
+                <span class="slider"></span>
+              </label>
+            </div>
+      </div>
+      
+      <div>
+          <body>
+              <!-- El *ngFor debe estar en las tarjetas, NO en el contenedor -->
+              <div class="user-pool" > 
+                  <!-- Repetir por cada usuario -->
+                  <div *ngFor="let cf of ClienteFiltrado" class="user-card" (click)="toggleLive2()" (click)="recuperarUserdata(cf.nombre, cf.logo_img, cf.id)">
+                      <!-- Añadir condición para inactivos -->
+                      <div style="border-color:'grey'" class="profile-img">
+                          <img class="imagen-perfil" [src]="cf.logo_img" alt="Foto de perfil">
+                      </div>
+                      <!-- Cambiar src por [src] -->
+              
+                      <div class="user-info"> <!-- Contenedor nuevo para textos -->
+                          <div class="name">{{cf.nombre}}</div>
+                          <div class="email">{{cf.correo}}</div>
+                          <div class="phone">{{cf.telefono}}</div>
+                          <div class="representante-container">
+                            <i class="fa-solid fa-circle-user representante-icon"></i>
+                            <div class="Representante">
+                            {{cf.representante}}
+                            </div>
+                          </div>
+                          
+                      </div>
+          
+                      <!-- Estado debe estar fuera del user-info -->
+                      <div class="status">
+                          <i *ngIf="cf.activo" style="color: green;" class="fas fa-check-circle"></i>
+                          <i *ngIf="!cf.activo" style="color: red;" class="fa-solid fa-circle-xmark"></i>
+                      </div>
+                  </div>
+              </div>
+          </body>
+      </div>
+  </div>
+  
+  
+  

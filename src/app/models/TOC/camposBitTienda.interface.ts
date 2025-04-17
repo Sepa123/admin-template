@@ -2,6 +2,7 @@ export interface MainCamposBT {
     Estados:    Estado[];
     Subestados: Subestado[];
     Codigo1:    Codigo1[];
+    Clientes_ty: Cliente[];
     Clientes:   Cliente[];
 }
 
