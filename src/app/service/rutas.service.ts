@@ -22,8 +22,8 @@ export class RutasService {
 
   constructor(private http: HttpClient) { }
 
-  // apiurl = "https://hela.transyanez.cl/api/rutas"
-  apiurl = "http://127.0.0.1:8000/api/rutas"
+  apiurl = "https://hela.transyanez.cl/api/rutas"
+  // apiurl = "http://127.0.0.1:8000/api/rutas"
 
 
   /// metodo get alv chido
