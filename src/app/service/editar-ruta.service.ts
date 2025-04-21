@@ -3,19 +3,23 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 
 export interface Cliente {
+  id_usuario: string;
+  ids_usuario: string;
   nombre: string;
   rut: string;
   direccion: string;
-  ciudad: number;
-  region: number;
-  telefono: any;
+  ciudad: number | null; // Permitir null
+  region: number | null; // Permitir null
+  telefono: string;
   correo: string;
   representante: string;
-  activo: boolean; 
-  esquema_destino: null | string;
-  tabla_destino: null |string;
+  activo: boolean;
+  esquema_destino: string | null;
+  tabla_destino: string | null;
+  carga_manual: boolean;
+  id_operacion: number | null; // Permitir null
+  id_centro_op: number | null; // Permitir null
 }
-
 
 // Interface que coincide con tu modelo Pydantic UsuarioUpdate
 export interface UpdateCliente {
@@ -31,6 +35,9 @@ export interface UpdateCliente {
   logo_img?: string;  
   esquema_destino?: null | string; // Cambiado a null | string
   tabla_destino?: null | string;
+  carga_manual?: boolean;
+  id_operacion?: number;
+  id_centro_op?: number;
 }
 
 @Injectable({
@@ -47,6 +54,13 @@ export class EditarRutaService {
 
       getClient(): Observable<any> {
         return this.http.get<any>(this.apiUrl + '/InfoRuta');
+      }
+
+      getOp(): Observable<any> {
+        return this.http.get<any>(this.apiUrl + '/Op/');
+      }
+      getCop(): Observable<any> {
+        return this.http.get<any>(this.apiUrl + '/Cop/');
       }
 
       getFotoPerfil(filename: string): Observable<Blob> {

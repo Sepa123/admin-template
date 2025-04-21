@@ -25,17 +25,20 @@ export class EditarRutaComponent {
       '-' +
       sessionStorage.getItem('id') +
       '',
-    nombre: '',
-    rut: '',
-    direccion: '',
-    ciudad: 0,
-    region: 0,
-    telefono: '',
-    correo: '',
-    representante: '',
-    activo: true, // Valor predeterminado para boolean
-    esquema_destino: null,
-    tabla_destino: null,
+      nombre: '',
+      rut: '',
+      direccion: '',
+      ciudad: null as number | null, // Permitir null o number
+      region: null as number | null, // Permitir null o number
+      telefono: '',
+      correo: '',
+      representante: '',
+      activo: true, // Valor predeterminado para boolean
+      esquema_destino: "null",
+      tabla_destino: "null",
+      carga_manual: false,
+      id_operacion: null as number | null, // Permitir null o number
+      id_centro_op: null as number | null, // Permitir null o number
   };
 
   Cliente: any[] = [];
@@ -61,6 +64,8 @@ export class EditarRutaComponent {
   ) {}
 
   ngOnInit(): void {
+    this.getOp();
+    this.getCop();
     this.AccountUserid();
     this.Clients();
     this.getRegiones();
@@ -153,10 +158,15 @@ export class EditarRutaComponent {
     console.log('Datos antes de enviar:', this.nuevoCliente);
     this.nuevoCliente.region = Number(this.nuevoCliente.region);
     this.nuevoCliente.ciudad = Number(this.nuevoCliente.ciudad);
+    this.nuevoCliente.id_operacion = this.nuevoCliente.id_operacion ?? 0; // Si es null, asignar 0
+    this.nuevoCliente.id_centro_op = this.nuevoCliente.id_centro_op ?? 0; // Si es null, asignar 0
+
 
     this.gm.agregarCliente(this.nuevoCliente).subscribe({
-      next: (response: any) => {
+      next: (response) => {
         this.Clients();
+        console.log('Usuario creado:', response);
+        console.log('Datos enviados:', this.nuevoCliente);
         // console.log('Usuario creado:', response.message);
         this.agregarBitacora({
           id_user: sessionStorage.getItem('id')?.toString() + '',
@@ -195,14 +205,17 @@ export class EditarRutaComponent {
       nombre: '',
       rut: '',
       direccion: '',
-      ciudad: 0,
-      region: 0,
+      ciudad: null,
+      region: null,
       telefono: '',
       correo: '',
       representante: '',
       activo: true, // Valor predeterminado para boolean
-      esquema_destino: null,
-      tabla_destino: null,
+      esquema_destino: "null",
+      tabla_destino: "null",
+      carga_manual: false,
+      id_operacion: null,
+      id_centro_op: null,
     };
   }
 
@@ -258,13 +271,16 @@ export class EditarRutaComponent {
   }
 
   ComunasFiltradas: any[] = []; // Lista de comunas filtradas según la región seleccionada
-  regionSeleccionada: number | null = null; // ID de la región seleccionada
+  regionSeleccionada: number | null = null; 
+  operacionSeleccionada: number | null = null; // ID de la región seleccionada
+  CentroOperacionSeleccionada: number | null = null;
   regiones: any[] = [];
   Comunas: any[] = [];
   getRegiones(): void {
     this.gm.getRegiones().subscribe(
       (data) => {
         this.regiones = data;
+        this.filtrarComunasPorRegion(); 
       },
       (error) => {
         this.mostrarAlerta('No se han encontrado áreas', 'error');
@@ -276,15 +292,74 @@ export class EditarRutaComponent {
     this.gm.getComunas().subscribe(
       (data) => {
         this.Comunas = data;
-        this.filtrarComunasPorRegion(); // Filtra las comunas según la región seleccionada
-        // console.log(data);
+        this.ComunasFiltradas = [...this.Comunas]; // Inicializa con todas las comunas
       },
       (error) => {
-        this.mostrarAlerta('No se han encontrado roles', 'error');
+        console.error('Error al cargar comunas:', error);
       }
     );
   }
 
+  Operaciones: any[] = []; // Lista completa de operaciones
+CentroOperaciones: any[] = []; // Lista completa de centros de operaciones
+OperacionesFiltradas: any[] = []; // Lista filtrada de operaciones
+CentroOperacionesFiltradas: any[] = []; // Lista filtrada de centros de operaciones
+
+// Método para obtener las operaciones
+getOp(): void {
+  this.gm.getOp().subscribe(
+    (data) => {
+      this.Operaciones = data;
+      this.OperacionesFiltradas = [...this.Operaciones]; // Inicialmente, todas las operaciones están disponibles
+    },
+    (error) => {
+      this.mostrarAlerta('No se han encontrado operaciones', 'error');
+    }
+  );
+}
+
+getCop(): void {
+  this.gm.getCop().subscribe(
+    (data) => {
+      this.CentroOperaciones = data;
+      this.CentroOperacionesFiltradas = [...this.CentroOperaciones]; // Inicialmente, todos los centros están disponibles
+    },
+    (error) => {
+      this.mostrarAlerta('No se han encontrado centros de operaciones', 'error');
+    }
+  );
+}
+
+// Método para filtrar los centros de operaciones según la operación seleccionada
+filtrarCentroOperacionesPorSeleccion(): void {
+  if (this.CentroOperacionesFiltradas !== null) {
+    this.CentroOperacionesFiltradas = this.CentroOperaciones.filter(
+      (cop) => Number(cop.id_op) === this.operacionSeleccionada
+    );
+    console.log('Centros filtrados:', this.CentroOperacionesFiltradas);
+  } else {
+    this.CentroOperacionesFiltradas = [...this.CentroOperaciones]; // Mostrar todos si no hay selección
+    console.log('Mostrando todos los centros:', this.CentroOperacionesFiltradas);
+  }
+}
+
+// Método para filtrar las operaciones según el centro de operaciones seleccionado
+filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
+  if (idCentroSeleccionado) {
+    const centroSeleccionado = this.CentroOperaciones.find(
+      (cop) => cop.id === idCentroSeleccionado
+    );
+    if (centroSeleccionado) {
+      this.OperacionesFiltradas = this.Operaciones.filter(
+        (op) => op.id === centroSeleccionado.id_op
+      );
+      console.log('Operaciones filtradas:', this.OperacionesFiltradas);
+    }
+  } else {
+    this.OperacionesFiltradas = [...this.Operaciones]; // Mostrar todos si no hay selección
+    console.log('Mostrando todas las operaciones:', this.OperacionesFiltradas);
+  }
+}
   filtrarComunasPorRegion(): void {
     if (this.regionSeleccionada !== null) {
       this.ComunasFiltradas = this.Comunas.filter(
@@ -296,10 +371,15 @@ export class EditarRutaComponent {
     }
   }
 
+  onOperacionChange(event: any): void {
+    this.operacionSeleccionada = Number(event.target.value);
+    this.filtrarCentroOperacionesPorSeleccion(); // Filtrar centros de operaciones según la operación seleccionada
+  }
+  
+
   onRegionChange(event: any): void {
-    this.regionSeleccionada = Number(event.target.value); // Convierte el valor a número
-    console.log('Región seleccionada:', this.regionSeleccionada);
-    this.filtrarComunasPorRegion(); // Filtra las comunas según la nueva región seleccionada
+    this.regionSeleccionada = Number(event.target.value);
+    this.filtrarComunasPorRegion();
   }
 
   sup: any[] = [];
@@ -387,14 +467,17 @@ export class EditarRutaComponent {
       nombre: '',
       rut: '',
       direccion: '',
-      ciudad: 0,
-      region: 0,
+      ciudad: null,
+      region: null,
       telefono: '',
       correo: '',
       representante: '',
       activo: true, // Valor predeterminado para boolean
-      esquema_destino: null,
-      tabla_destino: null,
+      esquema_destino: "null",
+      tabla_destino: "null",
+      carga_manual: false,
+      id_operacion: null,
+      id_centro_op: null,
     };
 
     // Restablecer valores del formulario de edición de usuario
@@ -411,6 +494,7 @@ export class EditarRutaComponent {
       logo_img: '',
       esquema_destino: '',
       tabla_destino: '',
+      carga_manual: false,
     };
 
     // Opcional: Restablecer otras variables relacionadas
@@ -524,7 +608,11 @@ export class EditarRutaComponent {
       });
   }
 
-  formatRut(rut: string): string {
+  formatRut(rut: string  | null): string {
+
+    if (!rut) {
+      return '';
+    }
     // Eliminar puntos, guiones y espacios
     const cleanRut = rut.replace(/[^0-9kK]/g, '').toUpperCase();
 
@@ -580,6 +668,8 @@ export class EditarRutaComponent {
     this.rutValido = this.validateRut(this.nuevoCliente.rut);
   }
 
+
+  
   allowOnlyNumbers(event: KeyboardEvent): void {
     const charCode = event.charCode || event.keyCode;
     // Permitir solo números (códigos de 48 a 57) y teclas especiales como backspace (8)
@@ -610,4 +700,6 @@ export class EditarRutaComponent {
       return cleanPhone.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
     }
   }
+
 }
+
