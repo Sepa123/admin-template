@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 //Accesos
-import { ROLES_PERMITIDOS } from 'src/app/rolesPermitidos.const'
-import { PermissionGuard } from 'src/app/guard/permission.guard'
+import { ROLES_PERMITIDOS } from '../../rolesPermitidos.const'
+import { PermissionGuard } from '../../guard/permission.guard'
 
 import { FormControlsComponent } from './form-controls/form-controls.component';
 import { RecepcionOplComponent } from './recepcion-opl/recepcion-opl.component';
@@ -18,6 +18,7 @@ import { PrearmadoRutaComponent } from './prearmado-ruta/prearmado-ruta.componen
 import { BuscarRutaComponent } from './buscar-ruta/buscar-ruta.component';
 import { ResumenRutasComponent } from './resumen-rutas/resumen-rutas.component';
 import { PendientesObligadosComponent } from './pendientes-obligados/pendientes-obligados.component';
+import { CargaRutasManualesComponent } from './carga-rutas-manuales/carga-rutas-manuales.component'
 
 const routes: Routes = [
   {
@@ -128,6 +129,13 @@ const routes: Routes = [
           title : 'pendientes-obligados'
         }
       },
+      {
+        path : 'rutas-manuales',
+        component : CargaRutasManualesComponent,
+        data : {
+          title : 'rutas-manuale'
+        }
+      }
     ]
   }
 ];

@@ -22,8 +22,8 @@ export class RutasService {
 
   constructor(private http: HttpClient) { }
 
-  apiurl = "https://hela.transyanez.cl/api/rutas"
-  // apiurl = "http://127.0.0.1:8000/api/rutas"
+  // apiurl = "https://hela.transyanez.cl/api/rutas"
+  apiurl = "http://127.0.0.1:8000/api/rutas"
 
 
   /// metodo get alv chido
@@ -318,6 +318,11 @@ export class RutasService {
         a.click();
         window.URL.revokeObjectURL(url);
     })
+  }
+
+
+  upload_clientes_rutas_manuales(formData : any, id_usuario : number, ids_usuario : string){
+    return this.http.post(this.apiurl+`/subir-archivo/rutas_manuales?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}`, formData)
   }
   
 }

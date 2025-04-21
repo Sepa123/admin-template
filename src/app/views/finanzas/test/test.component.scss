@@ -192,3 +192,138 @@ h2 {
   border-color: #007bff;
   color:white
 }
+
+ 
+//diseño Form Descuentos (Boton Agregar descuentos )
+
+.form-minimalista {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-actions {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.comentario-icono {
+  color: #007bff; /* Color azul */
+  font-size: 18px; /* Tamaño del ícono */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el ícono */
+  transition: color 0.3s ease; /* Transición suave para el color */
+}
+
+.comentario-icono:hover {
+  color: #0056b3; /* Cambia a un azul más oscuro al pasar el cursor */
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 25px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 19px;
+  width: 19px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4caf50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(25px);
+}
+
+// alertas
+
+#alertaContainer {
+  position: fixed; /* Fija el contenedor en la pantalla */
+  top: 20px; /* Distancia desde la parte superior */
+  right: 20px; /* Distancia desde la parte derecha */
+  z-index: 1052; /* Asegura que esté por encima de otros elementos */
+  display: flex;
+  flex-direction: column; /* Las alertas se apilan verticalmente */
+  gap: 10px; /* Espaciado entre alertas */
+}
+
+.alerta {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaciado entre el icono y el texto */
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Ocultar inicialmente */
+  transition: opacity 0.5s ease-in-out; /* Transición suave para mostrar/ocultar */
+}
+
+.alerta.success {
+  background-color: rgba(40, 167, 69, 0.9); /* Verde */
+}
+
+.alerta.error {
+  background-color: #dc3545; /* Rojo */
+}
+
+.alerta.warning {
+  background-color: #ffc107; /* Amarillo */
+  color: black; /* Texto negro para mejor contraste */
+}
+
+.alerta.info {
+  background-color: #17a2b8; /* Azul */
+}
+
+.modal-lg{
+  z-index: 1051;
+}

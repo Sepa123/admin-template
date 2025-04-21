@@ -26,10 +26,23 @@
             [ngClass]="{'input-error': !nuevoCliente.direccion}">
       
             <label for="region">Región</label>
-            <select id="region" class="form-select" [(ngModel)]="nuevoCliente.region" (change)="onRegionChange($event)" >
+            <select id="region" name="region" class="form-select" [(ngModel)]="nuevoCliente.region" (change)="onRegionChange($event)" >
               <option value="" disabled selected>Seleccione una región</option>
               <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
             </select>
+
+            <label for="Operacion">Operación</label>
+            <select id="id_operacion" name="id_operacion" class="form-select" [(ngModel)]="nuevoCliente.id_operacion"  (change)="onOperacionChange($event)">
+              <option value="" disabled selected>Seleccione una Operación</option>
+              <option *ngFor="let Op of OperacionesFiltradas" [value]="Op.id">{{ Op.centro }}</option>
+            </select>
+            
+              <label for="carga_manual">Carga manual</label>
+              <label class="switch">
+              <input [(ngModel)]="nuevoCliente.carga_manual" name="carga_manual" type="checkbox" id="carga_manual">
+              <span class="slider"></span>
+            </label>
+            
           </div>
       
           <div class="form-columna">
@@ -52,11 +65,16 @@
               (blur)="nuevoCliente.telefono = formatPhoneNumber(nuevoCliente.telefono)"
               >
         
-      
-            <label for="comuna">Comuna</label>
-            <select id="comuna" class="form-select" [(ngModel)]="nuevoCliente.ciudad" >
+            <label for="ciudad">Comuna</label>
+            <select id="ciudad" name="ciudad" class="form-select" [(ngModel)]="nuevoCliente.ciudad" >
               <option value="" disabled selected>Seleccione una comuna</option>
               <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
+            </select>
+
+            <label for="id_centro_op">Centro Operacion</label>
+            <select id="id_centro_op" name="id_centro_op" class="form-select" [(ngModel)]="nuevoCliente.id_centro_op" >
+              <option value="" disabled selected>Seleccione un Centro de Operacion</option>
+              <option *ngFor="let Cop of CentroOperacionesFiltradas" [value]="Cop.id">{{ Cop.centro }}</option>
             </select>
           </div>
         </div>
@@ -70,7 +88,7 @@
             Falta información que ingresar.
           </div>
 
-          <button type="submit" class="btn-save-modal" (click)="onSubmit()" [disabled]="!rutValido || !nuevoCliente.nombre || !nuevoCliente.direccion || !nuevoCliente.representante || !nuevoCliente.region || !nuevoCliente.ciudad || !nuevoCliente.correo ">Guardar</button>
+          <button type="submit" class="btn-save-modal" (click)="onSubmit()" [disabled]="!rutValido || !nuevoCliente.nombre || !nuevoCliente.direccion ">Guardar</button>
           <button type="button" class="btn-close-modal" (click)="toggleLive()">Cancelar</button>
         </div>
     </c-modal-footer>
@@ -112,6 +130,15 @@
         
             <label for="correo">Correo</label>
             <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo" readonly>
+
+            <div>
+              <label for="Operacion">Operación</label>
+              <select id="Operacion" class="form-select" [(ngModel)]="updateData.id_operacion" [value]="userData?.id_operacion" disabled>
+                <option value="" disabled selected>Seleccione una Operación</option>
+                <option *ngFor="let Op of OperacionesFiltradas" [value]="Op.id">{{ Op.nombre }}</option>
+              </select>
+            </div>
+          
           </div>
         
           <div class="form-columna">
@@ -137,6 +164,14 @@
               <select id="comuna" class="form-select" [(ngModel)]="updateData.ciudad" [value]="userData?.ciudad" disabled>
                 <option value="" disabled selected>Seleccione una comuna</option>
                 <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="id_centro_op">Centro Operacion</label>
+              <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" disabled>
+                <option value="" disabled selected>Seleccione un Centro de Operacion</option>
+                <option *ngFor="let Cop of CentroOperacionesFiltradas" [value]="Cop.id">{{ Cop.centro }}</option>
               </select>
             </div>
           </div>
@@ -171,21 +206,41 @@
             <input type="text" id="nombre" [(ngModel)]="updateData.nombre" class="form-input" required
               [value]="userData?.nombre">
       
-            <label for="rut">Rut</label>
-            <input type="text" id="rut" [(ngModel)]="updateData.rut" class="form-input" required [value]="userData?.rut" (blur)="nuevoCliente.rut = formatRut(nuevoCliente.rut); validarRut()" [ngClass]="{'input-error': !nuevoCliente.rut || !rutValido}">
-      
+           
+              <label for="rut">Rut</label>
+              <input
+                type="text"
+                id="rut"
+                [(ngModel)]="updateData.rut"
+                class="form-input"
+                required
+                [value]="userData?.rut"
+                (blur)="updateData.rut = formatRut(updateData.rut ?? ''); validarRut()"
+                [ngClass]="{'input-error': !updateData.rut || !rutValido}"
+              />
+
             <label for="direccion">direccion:</label>
             <input type="text" id="direccion" [(ngModel)]="updateData.direccion" class="form-input"
               [value]="userData?.direccion || ''">
       
             <label for="correo">Correo</label>
             <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo">
-      
+            <div>
+                    <label for="Operacion">Operación</label>
+                    <select id="Operacion" class="form-select" [(ngModel)]="updateData.id_operacion" [value]="userData?.id_operacion" (change)="onOperacionChange($event)">
+                      <option value="" disabled selected>Seleccione una Operación</option>
+                      <option *ngFor="let Op of OperacionesFiltradas" [value]="Op.id">{{ Op.centro }}</option>
+                    </select>
+                  </div>
+
+                  
             <label for="activate">Activo</label>
             <label class="switch">
               <input [(ngModel)]="updateData.activo" type="checkbox" id="activate">
               <span class="slider"></span>
             </label>
+
+            
       
           </div>
           <div class="form-columna">
@@ -194,26 +249,42 @@
             <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.telefono"
               [value]="userData?.telefono || ''">
       
-            <label for="Representante">Representante:</label>
-            <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.representante"
+            <label for="representante">Representante:</label>
+            <input type="text" id="representante" class="form-input" [(ngModel)]="updateData.representante"
               [value]="userData?.representante || ''">
       
       
             <div>
               <label for="region">Región</label>
-              <select id="region" class="form-select" [(ngModel)]="updateData.region" [value]="userData?.region"
-                (change)="onRegionChange($event)">
+              <select id="region" class="form-select" [(ngModel)]="updateData.region" [value]="userData?.region" (change)="onRegionChange($event)">
                 <option value="" disabled selected>Seleccione una región</option>
                 <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
               </select>
             </div>
       
             <div>
-              <label for="comuna">Comuna</label>
-              <select id="comuna" class="form-select" [(ngModel)]="updateData.ciudad" [value]="userData?.ciudad">
+              <label for="ciudad">Comuna</label>
+              <select id="ciudad" name="ciudad" class="form-select" [(ngModel)]="updateData.ciudad" [value]="userData?.ciudad">
                 <option value="" disabled selected>Seleccione una comuna</option>
                 <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
               </select>
+            </div>
+
+            <div>
+              <label for="id_centro_op">Centro Operacion</label>
+              <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" >
+                <option value="" disabled selected>Seleccione un Centro de Operacion</option>
+                <option *ngFor="let Cop of CentroOperacionesFiltradas" [value]="Cop.id">{{ Cop.centro }}</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="carga_manual">Carga manual</label>
+              <label class="switch">
+                <input [(ngModel)]="updateData.carga_manual" type="checkbox" id="carga_manual">
+                <span class="slider"></span>
+              </label>
+            
             </div>
           </div>
       

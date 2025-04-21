@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 
 import { SeleccionesDescuentos, SeleccionOperaciones , Descuentos} from '../models/finanzas/descuentos.interface'
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -47,6 +48,13 @@ export class FinanzasService {
 
   descargarArchivoAdjunto(name_file : string){
     return this.http.get(`${this.apiUrl}/descargar/archivo?name_file=${name_file}`, { responseType: 'blob' });
+  }
+
+  actualizarAplica(id: number, nuevoValor: boolean): Observable<any> {
+    const body = { id, nuevo_valor: nuevoValor };
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.patch(`${this.apiUrl}ActualizarAplica/`, body, { headers });
   }
 
 }

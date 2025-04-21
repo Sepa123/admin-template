@@ -43,7 +43,8 @@ import { BuscarRutaComponent } from './buscar-ruta/buscar-ruta.component';
 import { ResumenRutasComponent } from './resumen-rutas/resumen-rutas.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { PendientesObligadosComponent } from './pendientes-obligados/pendientes-obligados.component';
-import {NgbRating} from '@ng-bootstrap/ng-bootstrap'
+import {NgbRating} from '@ng-bootstrap/ng-bootstrap';
+import { CargaRutasManualesComponent } from './carga-rutas-manuales/carga-rutas-manuales.component'
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import {NgbRating} from '@ng-bootstrap/ng-bootstrap'
     PrearmadoRutaComponent,
     BuscarRutaComponent,
     ResumenRutasComponent,
-    PendientesObligadosComponent
+    PendientesObligadosComponent,
+    CargaRutasManualesComponent
   ],
   imports: [
     CommonModule,
