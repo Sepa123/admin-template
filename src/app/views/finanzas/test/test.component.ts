@@ -388,6 +388,7 @@ export class TestComponent {
       { header: 'Cobrada', key: 'cobrada', width: 10 },
       { header: 'Oc cobro', key: 'ocCobro', width: 15 },
       { header: 'Fecha evento', key: 'fechaEvento', width: 15 },
+      { header: 'Aplica', key: 'aplica', width: 10 },
     ];
   
     // Agregar filas con datos
@@ -407,6 +408,7 @@ export class TestComponent {
         cobrada: desc.Cobrada ? 'Sí' : 'No',
         ocCobro: desc.Oc_cobro,
         fechaEvento: desc.Fecha_evento,
+        aplica: desc.Aplica ? 'Sí' : 'No',
       });
     });
 
@@ -435,6 +437,15 @@ export class TestComponent {
       if (cobradaCell.value === 'Sí') {
         row.eachCell((cell) => {
           cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'AEF359' } }; // Fondo verde
+          cell.font = { color: { argb: '000000' } }; // Texto negro
+        });
+      }
+      
+      // Estilo para toda la fila si la columna "Cobrada" es "Sí"
+      const AplicaCell = row.getCell(15); // Columna "Cobrada"
+      if (AplicaCell.value === 'No') {
+        row.eachCell((cell) => {
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'BC544B' } }; // Fondo Rojo
           cell.font = { color: { argb: '000000' } }; // Texto negro
         });
       }
