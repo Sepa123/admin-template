@@ -388,6 +388,7 @@ export class TestComponent {
       { header: 'Cobrada', key: 'cobrada', width: 10 },
       { header: 'Oc cobro', key: 'ocCobro', width: 15 },
       { header: 'Fecha evento', key: 'fechaEvento', width: 15 },
+      { header: 'Aplica', key: 'aplica', width: 10 },
     ];
   
     // Agregar filas con datos
@@ -407,29 +408,56 @@ export class TestComponent {
         cobrada: desc.Cobrada ? 'Sí' : 'No',
         ocCobro: desc.Oc_cobro,
         fechaEvento: desc.Fecha_evento,
+        aplica: desc.Aplica ? 'Sí' : 'No',
       });
     });
+
   
-    // Aplicar estilos condicionales
-    worksheet.eachRow((row, rowNumber) => {
-      if (rowNumber === 1) {
-        // Estilo para encabezados
+  // Aplicar estilos condicionales
+  worksheet.eachRow((row, rowNumber) => {
+    if (rowNumber === 1) {
+      // Estilo para encabezados
+      row.eachCell((cell) => {
+        cell.font = { bold: true, color: { argb: 'FFFFFF' } };
+        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '007bff' } };
+        cell.alignment = { horizontal: 'center', vertical: 'middle' };
+      });
+    } else {
+      // Estilo para filas con descripción
+      const descripcionCell = row.getCell(11); // Columna "Descripción"
+      if (descripcionCell.value) {
         row.eachCell((cell) => {
-          cell.font = { bold: true, color: { argb: 'FFFFFF' } };
-          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '007bff' } };
-          cell.alignment = { horizontal: 'center', vertical: 'middle' };
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF380' } }; // Fondo amarillo
+          cell.font = { color: { argb: '000000' } }; // Texto NEGRO
         });
-      } else {
-        // Estilo para filas con descripción
-        const descripcionCell = row.getCell(11); // Columna "Descripción"
-        if (descripcionCell.value) {
-          row.eachCell((cell) => {
-            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D4EDDA' } }; // Fondo verde claro
-            cell.font = { color: { argb: '155724' } }; // Texto verde oscuro
-          });
-        }
       }
-    });
+
+      // Estilo para toda la fila si la columna "Cobrada" es "Sí"
+      const cobradaCell = row.getCell(12); // Columna "Cobrada"
+      if (cobradaCell.value === 'Sí') {
+        row.eachCell((cell) => {
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'AEF359' } }; // Fondo verde
+          cell.font = { color: { argb: '000000' } }; // Texto negro
+        });
+      }
+      
+      // Estilo para toda la fila si la columna "Cobrada" es "Sí"
+      const AplicaCell = row.getCell(15); // Columna "Cobrada"
+      if (AplicaCell.value === 'No') {
+        row.eachCell((cell) => {
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'BC544B' } }; // Fondo Rojo
+          cell.font = { color: { argb: '000000' } }; // Texto negro
+        });
+      }
+    }
+  });
+
+  // Descargar el archivo Excel
+  workbook.xlsx.writeBuffer().then((data) => {
+    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    FileSaver.saveAs(blob, `Lista-descuentos-${new Date().toISOString().split('T')[0]}.xlsx`);
+  });
+
   
     // Descargar el archivo Excel
     workbook.xlsx.writeBuffer().then((data) => {
@@ -461,8 +489,8 @@ export class TestComponent {
   
     // Mostrar alerta de confirmación
     const confirmacion = window.confirm(
-      `¿Estás seguro de que deseas ${nuevoValor ? 'Activar' : 'Desactivar'} este cobro?
-      ten en cuenta qué esto afectará el `
+      `¿Estás seguro de que deseas ${nuevoValor ? 'Activar' : 'Desactivar'} este cobro?` +
+      `Tenga en cuenta qué esto afectará a todas las cuotas correspondientes a este descuento`
     );
   
     if (confirmacion) {

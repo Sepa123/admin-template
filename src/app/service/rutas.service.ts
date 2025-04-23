@@ -14,6 +14,7 @@ import { ComunaRutas } from '../models/comunaRutas.interface'
 import { seguimientoRuta } from '../models/TOC/seguimientoRuta.interface'
 import {PedidoCompromisoObligatorio } from '../models/rutas/pedidoCompromisoObligatorios.interface'
 import { VehiculoDisponible,PatenteDisponible } from '../models/rutas/vehiculosDisponibles.interface'
+import { MainCamposClientes, RutasTy, RutasTyTemp } from '../models/rutas/rutas.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -321,8 +322,23 @@ export class RutasService {
   }
 
 
-  upload_clientes_rutas_manuales(formData : any, id_usuario : number, ids_usuario : string){
-    return this.http.post(this.apiurl+`/subir-archivo/rutas_manuales?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}`, formData)
+  upload_clientes_rutas_manuales(formData : any, id_usuario : string, ids_usuario : string, cliente : string, id_cliente : number){
+    return this.http.post(this.apiurl+`/subir-archivo/rutas_manuales?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}&cliente=${cliente}&id_cliente=${id_cliente}`, formData)
+  }
+
+  // camposs modulos cliente
+
+  get_campos_modulo_clientes(){
+    return this.http.get < MainCamposClientes >(this.apiurl + `/cargas/campos`)
+  }
+
+  get_lista_rutas_manuales_temp( id_usuario : string){
+    return this.http.get < RutasTyTemp []>(this.apiurl + `/lista/rutas_manuales/temp?id_usuario=${id_usuario}`)
+  }
+
+
+  get_lista_rutas_manuales( fecha_ini : string,fecha_fin : string,bloque: string){
+    return this.http.get < RutasTy []>(this.apiurl + `/lista/rutas_manuales?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}&bloque=${bloque}`)
   }
   
 }

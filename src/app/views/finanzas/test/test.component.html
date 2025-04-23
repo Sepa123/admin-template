@@ -384,10 +384,9 @@
         </c-col>
       </c-row>
     </div>
-  
-    <!-- Lista de Descuentos -->
+    <div class="divider" style="border-bottom: 1px solid #ddd; margin: 20px 0;"></div>
     <div *ngFor="let dcto of DescuentoSeleccionado" style="background-color: #fff; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-      <c-row>
+    <c-row>
         <c-col>
           <label style="font-weight: bold; color: #555;">Estado:</label>
           <label class="toggle-switch">
@@ -396,6 +395,12 @@
           </label>
         </c-col>
       </c-row>
+    </div>
+    <!-- Lista de Descuentos -->
+    <div class="divider" style="border-bottom: 1px solid #ddd; margin: 20px 0;"></div>
+    <div *ngFor="let dcto of DescuentoSeleccionado" style="background-color: #fff; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+      
+      
       <c-row>
         <c-col>
           <label style="font-weight: bold; color: #555;">Fecha Evento:</label>
@@ -429,6 +434,20 @@
         </c-col>
       </c-row>
     </div>
+    <div class="divider" style="border-bottom: 1px solid #ddd; margin: 20px 0;"></div>
+    <!-- Sección de Estado y Botones -->
+    <div *ngFor="let dcto of DescuentoSeleccionado" style="background-color: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+      <c-row>
+        <c-col [xs]>
+          <div>
+            <label style="font-weight: bold; color: #555;">Descripcion</label><br>
+            <div>
+              {{dcto.Descripcion}}
+            </div>
+          </div>
+        </c-col>
+      </c-row>
+    </div>
   </c-modal-body>
   <c-modal-footer>
       
@@ -448,7 +467,6 @@
   </c-modal-footer>
 
 </c-modal>
-
 
 
   
