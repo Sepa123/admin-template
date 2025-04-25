@@ -1094,6 +1094,10 @@ export const navItems: INavDataBar[] = [
     roles : ROLES_PERMITIDOS.FINANZAS_VIEW,
     children: [
       {
+        name: "Descuento",
+        url : '/finanzas/test'
+      },
+      {
         name: "Car. Tarifario General",
         url : '/finanzas/tarifario'
       },
@@ -1113,6 +1117,7 @@ export const navItems: INavDataBar[] = [
         name: "Rutas Mercado Libre",
         url : '/finanzas/rutas-meli'
       },
+
     ]
   },
   { /// Pantalla Informacion Para ADMIN TI
