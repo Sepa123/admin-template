@@ -340,5 +340,21 @@ export class RutasService {
   get_lista_rutas_manuales( fecha_ini : string,fecha_fin : string,bloque: string){
     return this.http.get < RutasTy []>(this.apiurl + `/lista/rutas_manuales?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}&bloque=${bloque}`)
   }
+
+
+
+  // ### archivo ejemplo para carga de rutas manuales
+
+  download_excel_ejemplo_rutas_manuales() {
+    this.http.get(`${this.apiurl}/archivo_ejemplo/rutas_manuales/descargar`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`excel_base_ruta_manual.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
   
 }

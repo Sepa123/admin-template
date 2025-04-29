@@ -1102,6 +1102,10 @@ export const navItems: INavDataBar[] = [
     roles : ROLES_PERMITIDOS.FINANZAS_VIEW,
     children: [
       {
+        name: "Descuento",
+        url : '/finanzas/test'
+      },
+      {
         name: "Car. Tarifario General",
         url : '/finanzas/tarifario'
       },

@@ -686,7 +686,9 @@ filtrarEjecutivo(){
   
     this.reclutas = this.reclutasFull
   }else {
+
     this.reclutas = this.reclutasFull.filter(ruta => ruta.Nombre_contacto == this.ejecutivoSeleccionada)
+
   }
   
 }
@@ -702,7 +704,10 @@ filtroPestana(pestana : number){
   if(this.ejecutivoSeleccionada == 'Todas' || this.ejecutivoSeleccionada == undefined){
     this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana)
   } else {
+    
+    
     this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana && ruta.Nombre_contacto == this.ejecutivoSeleccionada)
+
   }
   
 }
