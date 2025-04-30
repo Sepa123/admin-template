@@ -29,7 +29,7 @@ export class PosiblesRutasComponent {
 
   rol =   sessionStorage.getItem("rol_id")+''
 
-  roles_no_permitidos = ['81','80','91']
+  roles_no_permitidos = ['81','80']
 
 
   obtenerFechas(){

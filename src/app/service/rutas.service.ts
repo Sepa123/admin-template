@@ -342,6 +342,21 @@ export class RutasService {
   }
 
 
+  // ###### limpiar rutas manuales temporales
+
+  get_limpiar_rutas_manuales_temporales( id_usuario : string){
+    return this.http.get(this.apiurl + `/limpiar/rutas_manuales/temp?id_usuario=${id_usuario}`)
+  }
+
+
+  // ###### procesar rutas manuales temporales
+
+  get_procesar_rutas_manuales_temporales( id_usuario : string){
+    return this.http.get(this.apiurl + `/procesar/rutas_manuales/temp?id_usuario=${id_usuario}`)
+  }
+
+
+
 
   // ### archivo ejemplo para carga de rutas manuales
 

@@ -15,6 +15,8 @@ import { CentroOperacion } from '../../../models/operacion/centroOperacion.inter
 import { PanelVehiculos } from '../../../models/transporte/paneles.interface'
 import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, Operacion, Origen, Reclutamiento, Region,TipoVehiculo,Comuna } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
 import { RecursiveAstVisitor } from '@angular/compiler';
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-reclutamiento',
