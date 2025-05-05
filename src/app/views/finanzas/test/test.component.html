@@ -52,21 +52,61 @@
                 </div>
               </c-col>
               <c-col [xs]="4">
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="Pantente">Patente</label>
                   <select id="Pantente" class="form-control" formControlName="Pantente">
+                    <input type="text" id="Patente" class="form-control" formControlName="Patente">
                     <option value="" disabled>Seleccione</option>
                     <option *ngFor="let razon of seleccionPantente" [value]="razon.Id">{{razon.Patente}}</option>
                   </select>
+                </div> -->
+                <div class="form-group">
+                  <label for="Patente">Patente</label>
+                  <!-- Input para buscar -->
+                  <input
+                    type="text"
+                    id="Patente"
+                    class="form-control"
+                    [(ngModel)]="patenteSeleccionada"
+                    (change)="seleccionarPatente($event)"
+                    list="patentesFiltradas"
+                    placeholder="Buscar patente..."
+                    formControlName="Patente"
+                  />
+                
+                  <!-- Datalist con opciones filtradas -->
+                  <datalist id="patentesFiltradas">
+                    <option *ngFor="let razon of seleccionPantente" [value]="razon.Patente"></option>
+                  </datalist>
                 </div>
+
               </c-col>
               <c-col [xs]="4">
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="Razon_social">Razón Social</label>
                   <select id="Razon_social" class="form-control" formControlName="Razon_social">
                     <option value="" disabled>Seleccione</option>
                     <option *ngFor="let razon of seleccionRazonSocial" [value]="razon.Id">{{razon.Nombre_razon}}</option>
                   </select>
+                </div> -->
+
+                <div class="form-group">
+                  <label for="Razon_social">Razón Social</label>
+                  <!-- Input para buscar -->
+                  <input
+                    type="text"
+                    id="Razon_social"
+                    class="form-control"
+                    [(ngModel)]="razonSocialSeleccionada"
+                    (change)="seleccionarRazonSocial($event)"
+                    list="razonSocialFiltrada"
+                    placeholder="Buscar razón social..."
+                  />
+                
+                  <!-- Datalist con opciones filtradas -->
+                  <datalist id="razonSocialFiltrada">
+                    <option *ngFor="let razon of seleccionRazonSocial" [value]="razon.Nombre_razon"></option>
+                  </datalist>
                 </div>
               </c-col>
             </c-row>
@@ -289,7 +329,7 @@
   <table class="table table-bordered table-striped">
       <thead>
           <tr>
-              <th>Fecha cobro</th>
+              <th>Periodo (mes)</th>
               <!-- <th>Ingresado por</th> -->
               <th>Operación</th>
               <th>Centro Operación</th>
