@@ -371,5 +371,14 @@ export class RutasService {
         window.URL.revokeObjectURL(url);
     })
   }
+
+
+  update_valor_ruta_manual( data: any) {
+    return this.http.put(this.apiurl +`/actualizar/valor/ruta_manual`,data)
+  }
+
+  delete_ruta_manual(ruta: string, guia : string) {
+    return this.http.delete(this.apiurl + `/eliminar/ruta_manual?ruta=${ruta}` + `&guia=${guia}`)
+  }
   
 }

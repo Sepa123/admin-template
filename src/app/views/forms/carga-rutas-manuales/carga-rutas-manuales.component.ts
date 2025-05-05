@@ -104,44 +104,48 @@ export class CargaRutasManualesComponent {
       formData.append('file', this.selectedFile, this.selectedFile.name);
 
     
-    this.service.get_lista_rutas_manuales_temp(id_usuario).subscribe( data => {
-      this.listaRutasTyTemp = data
+    // this.service.get_lista_rutas_manuales_temp(id_usuario).subscribe( data => {
+    //   this.listaRutasTyTemp = data
 
-      console.log(this.listaRutasTyTemp)
+    //   console.log(this.listaRutasTyTemp)
 
       
-      this.cantRutas = this.listaRutasTyTemp.length
+    //   this.cantRutas = this.listaRutasTyTemp.length
 
-      this.procesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == true).length
-      this.noProcesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == false).length
+    //   this.procesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == true).length
+    //   this.noProcesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == false).length
 
-      this.toggleLiveDemo()
-    })
+    //   this.toggleLiveDemo()
+    // })
 
     // ### version final 
     
-    // this.service.upload_clientes_rutas_manuales(formData,id_usuario,ids_usuario,cliente,this.clienteSeleccionado).subscribe(
-    //   (data : any) => {
-    //     alert(data.message)
-    //     console.log('Archivo subido exitosamente');
+    this.service.upload_clientes_rutas_manuales(formData,id_usuario,ids_usuario,cliente,this.clienteSeleccionado).subscribe(
+      (data : any) => {
+        alert(data.message)
+        console.log('Archivo subido exitosamente');
 
-    //     this.service.get_lista_rutas_manuales_temp(id_usuario).subscribe( data => {
-    //       this.listaRutasTyTemp = data
+        this.service.get_lista_rutas_manuales_temp(id_usuario).subscribe( data => {
+          this.listaRutasTyTemp = data
     
-    //       console.log(this.listaRutasTyTemp)
+          console.log(this.listaRutasTyTemp)
     
           
-    //       this.cantRutas = this.listaRutasTyTemp.length
+          this.cantRutas = this.listaRutasTyTemp.length
     
-    //       this.procesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == true).length
-    //       this.noProcesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == false).length
+          this.procesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == true).length
+          this.noProcesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == false).length
     
-    //       this.toggleLiveDemo()
-    //     })
+          this.toggleLiveDemo()
+        })
         
-    //     // Lógica adicional en caso de éxito.
-    //   }
-    // )
+        // Lógica adicional en caso de éxito.
+      }, error => {
+        console.error('Error al subir el archivo:', error);
+        alert(error.error.detail);
+        // Lógica adicional en caso de error.
+      }
+    )
   }else{
     console.warn('Ningún archivo seleccionado');
     alert('Ningún archivo seleccionado');
@@ -280,4 +284,133 @@ export class CargaRutasManualesComponent {
       // this.listaRutas = this.listaRutasFull.filter(ruta => {})
     }
   
+
+
+    // ### descargar excel de rutas manuales 
+
+    descargar_excel_rutas_manuales() : void{
+      // Agrega una fila vacía al principio de los datos
+  
+      if (this.listaRutas.length === 0){
+        return alert("No se han ingresado rutas")
+      }
+      const datos: any[][] = [[]];
+  
+      datos.push(["Fecha","Ruta","PPU","Cliente","Estado","Comuna","Bultos","Observación","Valor Ruta"])
+  
+      this.listaRutas.forEach((ruta) => {
+        // arrays.forEach(producto => {
+          const fila: any[] = [];
+          fila.push(ruta.fecha, ruta.ruta, ruta.ppu,ruta.cliente, ruta.estado, ruta.comuna, ruta.bultos, ruta.observacion, ruta.valor_ruta); 
+          datos.push(fila);
+        // });
+        
+      });
+  
+      let date = new Date();
+      const fechaActual = date.toISOString().split('T')[0];
+      // Crea un libro de Excel a partir de los datos
+      const libroExcel: XLSX.WorkBook = XLSX.utils.book_new();
+      const hoja: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(datos);
+      XLSX.utils.book_append_sheet(libroExcel, hoja, 'Hoja1');
+  
+      // Descarga el archivo Excel `Quadminds_Manual_${fechaActual}.xlsx` 
+      
+      const nombreArchivo = `Carga-rutas-manuales-${fechaActual}.xlsx`;
+      // Nombre del archivo Excel a descargar 
+      XLSX.writeFile(libroExcel, nombreArchivo);
+
+    }
+
+
+
+    // #### Modal de ediitar rutas manuales
+
+    visibleEdicion: boolean = false;
+
+    rutaSeleccionada : string = ""
+    guiaSeleccionada : string = ""
+
+
+  editarRuta(ruta: string, guia : string) {
+    this.rutaSeleccionada = ruta
+    this.guiaSeleccionada = guia
+    this.valorRuta = this.listaRutas.filter(ruta => ruta.ruta == parseInt(this.rutaSeleccionada) && ruta.guia == guia)[0].valor_ruta
+
+    this.toggleEdicion()
+  }
+
+
+  toggleEdicion() {
+    this.visibleEdicion = !this.visibleEdicion;
+  }
+
+  handleEdicionChange(event: any) {
+    this.visibleEdicion = event;
+  }
+
+  valorRuta : number = 0
+
+  editarRutaManual(){
+    
+    if(!this.valorRuta){
+      return alert("Ingrese un valor para la ruta")
+    }
+
+    const body = {
+      "ruta": this.rutaSeleccionada,
+      "guia": this.guiaSeleccionada,
+      "valor_ruta": this.valorRuta
+    }
+    // ### actualizar valor ruta manual por api 
+    this.service.update_valor_ruta_manual(body).subscribe( (data : any) => {
+
+      this.listaRutas.map(ruta => {
+        if (ruta.ruta == parseInt(this.rutaSeleccionada) && ruta.guia == this.guiaSeleccionada){
+          console.log(this.valorRuta)
+          ruta.valor_ruta = this.valorRuta
+        }  
+      })
+    })
+
+    
+  }
+
+
+
+  // #### Modal de observación rutas manuales
+
+  visibleObservacion: boolean = false;
+
+
+  toggleObservacion() {
+    this.visibleObservacion = !this.visibleObservacion;
+  }
+
+  handleObservacionChange(event: any) {
+    this.visibleObservacion = event;
+  }
+
+
+  rutaObservacion : RutasTy [] = []
+
+  verObservacionRuta(ruta: RutasTy, id_ruta : string) {
+    this.rutaSeleccionada = id_ruta
+    this.rutaObservacion = [ruta]
+    // this.valorRuta = this.listaRutas.filter(ruta => ruta.ruta == parseInt(this.rutaSeleccionada) && ruta.guia == guia)[0].valor_ruta
+    this.toggleObservacion()
+  }
+
+
+  // #### eliminar ruta manual
+  eliminarRutaManual(ruta: string, guia : string){
+    this.service.delete_ruta_manual(ruta,guia).subscribe( (data : any) => {
+
+      alert(data.message)
+      
+    })
+  }
+
+  // rutaSeleccionada : string = ""
+  // guiaSeleccionada : string = ""
 }
