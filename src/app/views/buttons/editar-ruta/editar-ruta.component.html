@@ -171,7 +171,7 @@
               <label for="id_centro_op">Centro Operacion</label>
               <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" disabled>
                 <option value="" disabled selected>Seleccione un Centro de Operacion</option>
-                <option *ngFor="let Cop of CentroOperacionesFiltradas" [value]="Cop.id">{{ Cop.centro }}</option>
+                <option *ngFor="let Cop of CentroOperaciones" [value]="Cop.id">{{ Cop.centro }}</option>
               </select>
             </div>
           </div>
@@ -274,7 +274,7 @@
               <label for="id_centro_op">Centro Operacion</label>
               <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" >
                 <option value="" disabled selected>Seleccione un Centro de Operacion</option>
-                <option *ngFor="let Cop of CentroOperacionesFiltradas" [value]="Cop.id">{{ Cop.centro }}</option>
+                <option *ngFor="let Cop of CentroOperaciones" [value]="Cop.id">{{ Cop.centro }}</option>
               </select>
             </div>
 

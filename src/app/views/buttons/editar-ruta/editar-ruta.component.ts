@@ -318,6 +318,8 @@ getOp(): void {
   );
 }
 
+CentroOperacionUpdate: [] = [];
+
 getCop(): void {
   this.gm.getCop().subscribe(
     (data) => {
