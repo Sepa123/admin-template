@@ -43,6 +43,13 @@ export class TestComponent {
     this.selectedFile = event.target.files[0];
   }
 
+  LoginId: string = '';
+
+  AccountUserid() {
+    this.LoginId = sessionStorage.getItem('rol_id')?.toString() + '';
+    console.log(this.LoginId);
+  }
+
   uploadFile(id_desc : any) {
     if (this.selectedFile) {
 
@@ -301,8 +308,9 @@ export class TestComponent {
 
   ngOnInit(){
 
-    this.obtenerFechas()
+    this.obtenerFechas();
 
+    this.AccountUserid();
     this.service.seleccionesDescuentos().subscribe((data) => {
       this.seleccionRazonSocial = data.Razon_social
       this.seleccionPantente = data.Patentes
