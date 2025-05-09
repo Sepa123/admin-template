@@ -176,6 +176,8 @@ label {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }}
 
+
+
 .punto_rojo {
   width: 10px;
   height: 10px;
@@ -229,4 +231,27 @@ label {
   0% { opacity: 1.0; }
    50% { opacity: 0.0; }
   100% { opacity: 1.0; }
+}
+
+.text-success {
+  color: green; /* Color verde para el ticket */
+  font-size: 1.5em; /* Tamaño del ícono */
+}
+
+.text-danger {
+  color: red; /* Color rojo para la cruz */
+  font-size: 1.5em; /* Tamaño del ícono */
+}
+
+.input-container {
+  margin: 20px 0;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  resize: vertical; /* Permite cambiar el tamaño verticalmente */
 }

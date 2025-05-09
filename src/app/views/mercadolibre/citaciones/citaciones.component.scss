@@ -241,7 +241,7 @@ tr:hover {
   position: fixed; /* Fija el contenedor en la pantalla */
   top: 20px; /* Distancia desde la parte superior */
   right: 20px; /* Distancia desde la parte derecha */
-  z-index: 1050; /* Asegura que esté por encima de otros elementos */
+  z-index: 1060; /* Asegura que esté por encima de otros elementos */
   display: flex;
   flex-direction: column; /* Las alertas se apilan verticalmente */
   gap: 10px; /* Espaciado entre alertas */

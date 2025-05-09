@@ -10,13 +10,17 @@ import { FormsModule } from '@angular/forms';
 import { getStyle } from '@coreui/utils';
 import { FormModule } from '@coreui/angular';
 import { PanelCitacion } from '../../../models/meli/citacion.interface'
+import * as ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
+import { Patente } from '../../../models/finanzas/descuentos.interface';
+import { Console } from 'console';
 
 
 
 @Component({
   selector: 'app-citaciones',
   templateUrl: './citaciones.component.html',
-  styleUrls: ['./citaciones.component.scss','./citaciones2.component.scss','./citaciones3.component.scss','./citaciones4.component.scss'],
+  styleUrls: ['./citaciones.component.scss','./citaciones2.component.scss','./citaciones3.component.scss','./citaciones4.component.scss','./citaciones5.component.scss'],
 })
 export class CitacionesComponent implements OnInit  {
   
@@ -79,6 +83,7 @@ export class CitacionesComponent implements OnInit  {
   public visible = false;
   public visible2 = false;
   public visible3 = false;
+  public visible5 = false;
   public visibleAmbulance = false;
 
   isModalOpen: boolean = false;
@@ -122,7 +127,7 @@ export class CitacionesComponent implements OnInit  {
   latStr!: string
   longStr!: string
   tooltipVisible: boolean = false; // Estado del tooltip
-  
+  fechaActual: string = '';
   resetForm() {
     if (this.ambulanceForm) {
       this.ambulanceForm.reset();
@@ -136,6 +141,15 @@ export class CitacionesComponent implements OnInit  {
     }
       
   }
+
+  getFechaActual(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2); // Asegura que el mes tenga 2 dígitos
+    const day = ('0' + today.getDate()).slice(-2); // Asegura que el día tenga 2 dígitos
+    return `${day}-${month}-${year}`; // Devuelve la fecha en formato YYYY-MM-DD
+  }
+
   public selectedConductores: { [key: string]: string } = {}; // Mapeo de id -> nombre
   public selectedPeonetas: { [key: string]: string } = {};
   recuperarDatosConductor(id: number, id_p: number): void {
@@ -144,6 +158,27 @@ export class CitacionesComponent implements OnInit  {
     this.id_peoneta = id_p;
     
 
+  }
+
+  visibleModalPresentacionCarga: boolean = false;
+  visibleModalCreacion: boolean = false;
+  dataencontrada: any = []
+  informacionAdicional: string = '';
+  id_operacion: string = ''; // Add this property to avoid binding errors
+  id_centro_op: string = ''; // Add this property to avoid binding errors
+  // Other properties and methods
+
+  onOperacionChange(event: any): void {
+    this.operacionSeleccionadaFilter = Number(event.target.value);
+    this.filtrarCentroOperacionesPorSeleccion(); // Filtrar centros de operaciones según la operación seleccionada
+  }
+
+  toggleModalCitacionMasiva(): void {
+    this.visibleModalPresentacionCarga = !this.visibleModalPresentacionCarga;
+  }
+
+  toggleModalCreacion(): void {
+    this.visibleModalCreacion = !this.visibleModalCreacion;
   }
   cargadedatos(): void {
     // Procesar conductores
@@ -192,10 +227,87 @@ export class CitacionesComponent implements OnInit  {
     }
     // console.log('Selected peoneta ID final:', this.peonetas2);
   }
+
+  totalProcesados: number = 0;
+  validos: number = 0;
+  noValidos: number = 0;
   
+  crearCitacionMasiva(Ppu: string, op: number, cop: number, fecha: string): void {
+    const baseUrl = 'http://127.0.0.1:8000/api/crearCitacionMasiva';
   
+    // Construir la URL con los parámetros
+    const url = `${baseUrl}?patentes=${encodeURIComponent(Ppu)}&op=${op}&cop=${cop}&fecha=${fecha}`;
   
-    
+    // Llamada a la API
+    this.http.get(url).subscribe(
+      (response) => {
+        this.dataencontrada = (response as { resultados: any[] }).resultados;
+  
+        // Reiniciar los contadores
+        this.totalProcesados = 0;
+        this.validos = 0;
+        this.noValidos = 0;
+  
+        // Contar los elementos procesados
+        this.dataencontrada.forEach((item : any) => {
+          this.totalProcesados++;
+          if (item.valido) {
+            this.validos++;
+          } else {
+            this.noValidos++;
+          }
+        });
+  
+        console.log('Total procesados:', this.totalProcesados);
+        console.log('Válidos:', this.validos);
+        console.log('No válidos:', this.noValidos);
+        this.toggleModalCitacionMasiva();
+        this.mostrarAlerta('Citación masiva creada exitosamente.', 'success');
+      },
+      (error) => {
+        let mensajeError = 'Error desconocido al procesar la citación masiva.';
+        if (error.error?.detail?.includes('404')) {
+          mensajeError = 'No se encontraron datos validos en el información entregada.';
+        }
+        this.mostrarAlerta(mensajeError, 'error');
+      }
+    );
+  }
+
+  codigo : string = '';
+  glosa : string = '';
+  procesarCitacionMasiva(fecha: string, patentes: string, op: number, cop: number, id_user: number): void {
+  const baseUrl = 'http://127.0.0.1:8000/api/ProcesarCitacionMasiva';
+
+  // Construir el cuerpo de la solicitud
+  const body = {
+    fecha: fecha,
+    patentes: patentes,
+    op: op,
+    cop: cop,
+    id_user: id_user
+  };
+
+  // Llamada a la API
+  this.http.post(baseUrl, body).subscribe(
+    (response: any) => {
+      // Suponiendo que la respuesta tiene las propiedades "codigo" y "glosa"
+      console.log('Respuesta completa de la API:', response);
+
+      const codigo = response?.codigo ?? 'Sin código';
+      const glosa = response?.glosa ?? 'Sin glosa';
+
+      console.log(`Código: ${codigo}`);
+      console.log(`Glosa: ${glosa}`);
+
+      alert(`Código: ${codigo}\nGlosa: ${glosa}`);
+    },
+    (error) => {
+      console.error('Error al procesar la citación masiva:', error);
+      this.mostrarAlerta('Error al procesar la citación masiva.', 'error');
+    }
+  );
+}
 
 
   onConductorChange(): void {
@@ -301,6 +413,10 @@ export class CitacionesComponent implements OnInit  {
     this.visible4 = event;
     
   }
+  handleLiveDemoChange5(event: any) {
+    this.visible5 = event;
+    
+  }
   openModal() {
     this.isModalOpen = true;
   }
@@ -309,7 +425,15 @@ export class CitacionesComponent implements OnInit  {
     this.isModalOpen = false;
   }
 
+  
   ngOnInit() {
+
+    this.AccountUserid()
+    this.obtenerFechaActualDesdeApi();
+    this.fechaActual = this.getFechaActual();
+    console.log('Fecha actual:', this.fechaActual);
+    this.getOp();
+    this.getCop();
     this.obtenerFechaFormateada();
     this.getModalidades();
     // this.getConductores();
@@ -378,28 +502,43 @@ buscarPatenteDetalle(event: Event) {
     }
   }
 
-  onDateChange(event: any) {
-    const rawDate = event.target.value;
-    if (rawDate) {
-      const selectedDate = new Date(rawDate);
-      const today = new Date(this.formattedDate);
-      if (selectedDate < today) {
-        // Si se selecciona una fecha anterior, restablece al valor mínimo permitido (fecha actual)
-        this.formattedDate = rawDate
-        this.getModalidades(); // Llama a getModalidades con la fecha actual
-        this.Ct.getPanelCitaciones(this.formattedDate).subscribe((data) => {
-          this.panelCitacion = data
-        })
-      } else {
-        // Actualiza this.formattedDate antes de llamar a getModalidades
-        this.formattedDate = rawDate;
-        this.getModalidades();
-        this.Ct.getPanelCitaciones(this.formattedDate).subscribe((data) => {
-          this.panelCitacion = data
-        })
-      }
+  fechaActualApi: string = ''; // Variable para almacenar la fecha obtenida de la API
+
+obtenerFechaActualDesdeApi(): void {
+  const url = 'http://127.0.0.1:8000/api/fechaActual';
+
+  this.http.get<{ fecha: string }>(url).subscribe(
+    (response) => {
+      this.fechaActualApi = response.fecha; // Guarda la fecha en la variable
+      console.log('Fecha actual obtenida de la API:', this.fechaActualApi);
+    },
+    (error) => {
+      console.error('Error al obtener la fecha actual desde la API:', error);
+      this.mostrarAlerta('Error al obtener la fecha actual desde la API.', 'error');
     }
+  );
+}
+onDateChange(event: any): void {
+  const rawDate = event.target.value; // Fecha seleccionada por el usuario
+  if (rawDate) {
+    const selectedDate = new Date(rawDate); // Convertir la fecha seleccionada a un objeto Date
+    const apiDate = new Date(this.fechaActualApi); // Convertir la fecha almacenada en fechaActualApi a un objeto Date
+
+    // Validar si la fecha seleccionada es anterior a la fecha de la API
+    if (selectedDate < apiDate) {
+      // Mostrar alerta y detener la ejecución
+      this.mostrarAlerta('No se permiten fechas anteriores a la fecha actual.', 'warning');
+      return; // Detener la ejecución de la función
+    }
+
+    // Si la fecha es válida, actualizar formattedDate y ejecutar las funciones
+    this.formattedDate = rawDate;
+    this.getModalidades();
+    this.Ct.getPanelCitaciones(this.formattedDate).subscribe((data) => {
+      this.panelCitacion = data;
+    });
   }
+}
 
   getModalidades() {
     
@@ -1124,4 +1263,146 @@ makePhoneCall(phoneNumber: string): void {
     window.location.href = `tel:${fullPhoneNumber}`;
   }
 }
+
+getCop(): void {
+  this.Ct.getCop().subscribe(
+    (data) => {
+      this.CentroOperaciones = data;
+      this.CentroOperacionesFiltradas = [...this.CentroOperaciones]; // Inicialmente, todos los centros están disponibles
+    },
+    (error) => {
+      this.mostrarAlerta('No se han encontrado centros de operaciones', 'error');
+    }
+  );
 }
+// Método para obtener las operaciones
+getOp(): void {
+  this.Ct.getOp().subscribe(
+    (data) => {
+      this.Operaciones = data;
+      this.OperacionesFiltradasF2 = [...this.Operaciones]; // Inicialmente, todas las operaciones están disponibles
+    },
+    (error) => {
+      this.mostrarAlerta('No se han encontrado operaciones', 'error');
+    }
+  );
+}
+Operaciones: any[] = []; // Inicialmente, todas las operaciones están disponibles
+CentroOperacionesFiltradas: any[] = []; // Inicialmente, todos los centros están disponibles  
+CentroOperaciones: any[] = []; // Inicialmente, todos los centros están disponibles
+operacionSeleccionadaFilter: number | null = null; // ID de la región seleccionada
+OperacionesFiltradasF2: any[] = []; // Inicialmente, todas las operaciones están disponibles
+// Método para filtrar los centros de operaciones según la operación seleccionada
+filtrarCentroOperacionesPorSeleccion(): void {
+  if (this.CentroOperacionesFiltradas !== null) {
+    this.CentroOperacionesFiltradas = this.CentroOperaciones.filter(
+      (cop) => Number(cop.id_op) === this.operacionSeleccionadaFilter
+    );
+    console.log('Centros filtrados:', this.CentroOperacionesFiltradas);
+  } else {
+    this.CentroOperacionesFiltradas = [...this.CentroOperaciones]; // Mostrar todos si no hay selección
+    console.log('Mostrando todos los centros:', this.CentroOperacionesFiltradas);
+  }
+}
+
+NameCentroOperacion: string | undefined;
+
+recuperarNombreCentroOperacion(event: Event): void {
+  const selectElement = event.target as HTMLSelectElement; // Casting explícito
+  const id = Number(selectElement.value); // Obtén el valor seleccionado y conviértelo a número
+  const centroOperacion = this.CentroOperacionesFiltradas.find((Cop) => Cop.id === id);
+  const nombreCentro = centroOperacion ? centroOperacion.centro : undefined;
+  this.NameCentroOperacion = nombreCentro;
+  console.log('Centro de Operación seleccionado:', centroOperacion?.centro);
+  console.log('test', this.NameCentroOperacion);
+}
+
+enviarInformacion(): void {
+  if (!this.id_operacion || !this.id_centro_op || !this.informacionAdicional) {
+    this.mostrarAlerta('Por favor, complete todos los campos obligatorios.', 'warning');
+    return;
+  }
+  // Procesar el contenido del textarea
+  const textoProcesado = this.formatearTexto(this.informacionAdicional);
+  const op = Number(this.id_operacion);
+  const cop = Number(this.id_centro_op);
+  const fecha = this.formattedDate;
+  console.log('Texto procesado:', textoProcesado);
+  // Aquí puedes enviar el texto procesado al servidor
+  this.crearCitacionMasiva(textoProcesado,op, cop, fecha);
+}
+
+procesarInformacion(): void {
+  const patentes = this.informacionAdicional; // Procesar el contenido del textarea
+  const op = Number(this.id_operacion);
+  const cop = Number(this.id_centro_op);
+  const fecha = this.formattedDate;
+  const id_user = Number(sessionStorage.getItem('id')); // Obtener el ID del usuario desde la sesión
+
+  this.procesarCitacionMasiva(fecha,patentes, op, cop, id_user);
+
+}
+formatearTexto(texto: string): string {
+  return texto
+    .split('\n') // Divide el texto en líneas
+    .map(linea => linea.trim()) // Elimina espacios en blanco al inicio y al final de cada línea
+    .filter(linea => linea !== '') // Elimina líneas vacías
+    .join('\n'); // Une las líneas nuevamente con saltos de línea
+}
+
+LoginId: string = '';
+
+  AccountUserid() {
+    this.LoginId = sessionStorage.getItem('rol_id')?.toString() + '';
+    console.log(this.LoginId);
+  }
+
+
+DescuentoSeleccionado: any[] = []; // Asegúrate de que esta variable contenga los datos del modal
+
+descargarExcel(): void {
+  // Crear un nuevo libro de Excel
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('Descuentos');
+
+  // Agregar encabezados
+  worksheet.columns = [
+    { header: 'Fecha Evento', key: 'Fecha_evento', width: 20 },
+    { header: 'ruta', key: 'ruta', width: 15 },
+    { header: 'Patente', key: 'Patente', width: 15 },
+    { header: 'observacion_patente', key: 'observacion_patente', width: 40 },
+    { header: 'observacion_ruta', key: 'observacion_ruta', width: 40 },
+    { header: 'valido', key: 'valido', width: 15 },
+  ];
+
+  // Agregar datos
+  this.dataencontrada.forEach((dcto:any) => {
+    worksheet.addRow({
+      Fecha_evento: dcto.fecha,
+      ruta: dcto.id_ruta,
+      Patente: dcto.patente,
+      observacion_patente: dcto.observacion_patente,
+      observacion_ruta: dcto.observacion_ruta,
+      valido: dcto.valido,
+    });
+  });
+
+  // Estilizar encabezados
+  worksheet.getRow(1).eachCell((cell) => {
+    cell.font = { bold: true };
+    cell.alignment = { horizontal: 'center' };
+    cell.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FFCCCCCC' },
+    };
+  });
+
+  // Generar el archivo Excel
+  workbook.xlsx.writeBuffer().then((buffer) => {
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    saveAs(blob, 'Descuentos.xlsx');
+  });
+}
+}
+
