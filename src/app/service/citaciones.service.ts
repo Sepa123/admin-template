@@ -9,8 +9,8 @@ import { PanelCitacion } from '../models/meli/citacion.interface'
 })
 export class CitacionesService {
 
-  // private apiUrl = 'http://localhost:8000/api/meli';
-  apiUrl = "https://hela.transyanez.cl/api/meli"
+   private apiUrl = 'http://localhost:8000/api';
+  //apiUrl = "https://hela.transyanez.cl/api/meli"
   constructor(private http: HttpClient) { }
 
   getModalidadOperacion(): Observable<any> {
@@ -146,6 +146,13 @@ export class CitacionesService {
     return this.http.get<PanelCitacion>(`${this.apiUrl}/citaciones/panel?fecha=${fecha}`);
   }
 
+  getOp(): Observable<any> {
+          return this.http.get<any>(this.apiUrl + '/Op/');
+        }
+  getCop(): Observable<any> {
+          return this.http.get<any>(this.apiUrl + '/Cop/');
+        }
+  
 
 
   }
