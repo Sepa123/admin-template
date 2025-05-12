@@ -135,8 +135,15 @@
     <div class="input-group">
       <div class="input-container">
           <label for="fechaCitaciones">Seleccionar Fecha:</label>
-          <input type="date" class="from-control" id="fechaCitaciones" [min]="minDate" (keydown)="preventTyping($event)"
-              [(ngModel)]="minDate" (change)="onDateChange($event)">
+          <input 
+  type="date" 
+  class="from-control" 
+  id="fechaCitaciones" 
+  [min]="minDate" 
+  (keydown)="preventTyping($event)" 
+  [(ngModel)]="minDate" 
+  (change)="onDateChange($event)" ng-disabled="true">
+
       </div>
       <div class="input-container">
           <label for="OperacionInput">Filtrar por Operación/Centro</label>
@@ -225,14 +232,15 @@
       </div>
     
       <div class="form-group">
-        <label for="informacionAdicional">Información Adicional:</label>
+        <label for="informacionAdicional">Ingrese la información:</label>
         <textarea
           id="informacionAdicional"
           name="informacionAdicional"
           [(ngModel)]="informacionAdicional"
           rows="6"
           class="form-control"
-          placeholder="Escribe aquí la información adicional..."
+          placeholder="Formato Deseado:
+          AAAA23 23432423423"
         ></textarea>
       </div>
     

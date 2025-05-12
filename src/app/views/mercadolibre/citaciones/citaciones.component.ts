@@ -296,11 +296,8 @@ export class CitacionesComponent implements OnInit  {
 
       const codigo = response?.codigo ?? 'Sin código';
       const glosa = response?.glosa ?? 'Sin glosa';
-
-      console.log(`Código: ${codigo}`);
-      console.log(`Glosa: ${glosa}`);
-
-      alert(`Código: ${codigo}\nGlosa: ${glosa}`);
+      
+      this.mostrarAlerta(`${glosa}`, 'success');
     },
     (error) => {
       console.error('Error al procesar la citación masiva:', error);
@@ -495,10 +492,10 @@ buscarPatenteDetalle(event: Event) {
     this.minDate = this.formattedDate;
     
     // Inicializa el valor del campo de fecha y la fecha mínima permitida
-    this.dateForm.get('date')?.setValue(this.formattedDate);
+    this.dateForm.get('date')?.setValue(this.fechaActual);
     const dateInput = document.querySelector('input[type="date"]');
     if (dateInput) {
-      this.renderer.setProperty(dateInput, 'value', this.formattedDate);
+      this.renderer.setProperty(dateInput, 'value', this.minDate);
     }
   }
 
@@ -722,7 +719,7 @@ onDateChange(event: any): void {
       .delete(`https://hela.transyanez.cl/api/meli/borrar?id=${id}&fecha=${fecha}`)
       .subscribe(
         (response) => {
-          // Si la eliminación es exitosa 
+          // Si la eliminación es exitosa
           this.getModalidades();
           this.getPatentesFiltradasPorOpyCop(this.opRecuperada, this.CopRecuperada)
           this.bitacoraUpdate('Se elimino la patente ' + ppu, 'citacion-Mercadolibre')
@@ -1340,7 +1337,9 @@ procesarInformacion(): void {
   const id_user = Number(sessionStorage.getItem('id')); // Obtener el ID del usuario desde la sesión
 
   this.procesarCitacionMasiva(fecha,patentes, op, cop, id_user);
-
+  this.visibleModalPresentacionCarga = false; // Cerrar el modal después de enviar la información
+  this.visibleModalCreacion = false; // Cerrar el modal después de enviar la información
+  this.getModalidades();
 }
 formatearTexto(texto: string): string {
   return texto
