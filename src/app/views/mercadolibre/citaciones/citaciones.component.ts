@@ -713,16 +713,16 @@ onDateChange(event: any): void {
       return {};
     }
   }
-  eliminarPpu(ppu: any, ) {
+  eliminarPpu(id: any, ppu : any) {
     // Llamar a la API para eliminar la razón social por su ID
     // https://hela.transyanez.cl/api/meli/borrar?id_ppu
     const fecha = this.formattedDate
 
     this.http
-      .delete(`https://hela.transyanez.cl/api/meli/borrar?id_ppu=${ppu}&fecha=${fecha}`)
+      .delete(`https://hela.transyanez.cl/api/meli/borrar?id=${id}&fecha=${fecha}`)
       .subscribe(
         (response) => {
-          // Si la eliminación es exitosa
+          // Si la eliminación es exitosa 
           this.getModalidades();
           this.getPatentesFiltradasPorOpyCop(this.opRecuperada, this.CopRecuperada)
           this.bitacoraUpdate('Se elimino la patente ' + ppu, 'citacion-Mercadolibre')
