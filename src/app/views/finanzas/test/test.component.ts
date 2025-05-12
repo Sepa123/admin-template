@@ -14,7 +14,7 @@ import FileSaver from 'file-saver';
   styleUrls: ['./test.component.scss'],
   providers: [CurrencyPipe]
 })
-export class TestComponent {
+export class TestComponent  {
 
   private selectedFile: File | null = null;
 
@@ -41,6 +41,13 @@ export class TestComponent {
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
+  }
+
+  LoginId: string = '';
+
+  AccountUserid() {
+    this.LoginId = sessionStorage.getItem('rol_id')?.toString() + '';
+    console.log(this.LoginId);
   }
 
   uploadFile(id_desc : any) {
@@ -301,8 +308,9 @@ export class TestComponent {
 
   ngOnInit(){
 
-    this.obtenerFechas()
+    this.obtenerFechas();
 
+    this.AccountUserid();
     this.service.seleccionesDescuentos().subscribe((data) => {
       this.seleccionRazonSocial = data.Razon_social
       this.seleccionPantente = data.Patentes
@@ -342,6 +350,7 @@ export class TestComponent {
 
 
 
+
     if (this.formDescuentos.valid){
 
 
@@ -366,7 +375,67 @@ export class TestComponent {
     }
   }
 
+  filtroPatente: string = '';
+  patentesFiltradas: any[] = [...this.seleccionPantente];
+  patenteSeleccionada: string = ''; // Nombre de la patente seleccionada
+  idPatenteSeleccionada: number | null = null;
 
+  seleccionarPatente(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const patenteSeleccionada = inputElement.value;
+
+    // Buscar el ID correspondiente a la patente seleccionada  Pantente Razon_social
+
+    const patente = this.seleccionPantente.find(
+      (razon) => razon.Patente === patenteSeleccionada
+    );
+
+    if (patente) {
+      this.idPatenteSeleccionada = patente.Id;
+
+      // Actualizar el valor del control en el formulario
+    this.formDescuentos.patchValue({
+      Pantente: this.idPatenteSeleccionada,
+    });
+      console.log('ID de la patente seleccionada:', this.idPatenteSeleccionada);
+    } else {
+      this.idPatenteSeleccionada = null; // Si no coincide, reinicia el ID
+      console.log('Patente no encontrada');
+      // Reiniciar el valor del control en el formulario
+    this.formDescuentos.patchValue({
+      Pantente: null,
+    });
+    }
+  }
+
+  filtroRazonSocial: string = ''; // 
+  razonesFiltradas: any[] = [...this.seleccionRazonSocial]; // Lista filtrada
+  razonSocialSeleccionada: string = ''; // Nombre seleccionado en el input
+  idRazonSocialSeleccionada: number | null = null; 
+  seleccionarRazonSocial(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const nombreSeleccionado = inputElement.value;
+
+    // Buscar el ID correspondiente al nombre seleccionado
+    const razon = this.seleccionRazonSocial.find(
+      (razon) => razon.Nombre_razon === nombreSeleccionado
+    );
+
+    if (razon) {
+      this.idRazonSocialSeleccionada = razon.Id;
+      this.formDescuentos.patchValue({
+        Razon_social: this.idRazonSocialSeleccionada,
+      });
+      console.log('ID seleccionado:', this.idRazonSocialSeleccionada);
+    } else {
+      this.idRazonSocialSeleccionada = null; // Si no coincide, reinicia el ID
+      console.log('Razón social no encontrada');
+
+      this.formDescuentos.patchValue({
+        Razon_social: null,
+      });
+    }
+  }
 
   DescargarNS() {
     const workbook = new ExcelJS.Workbook();
@@ -374,7 +443,7 @@ export class TestComponent {
   
     // Encabezados de la tabla
     worksheet.columns = [
-      { header: 'Fecha Cobro', key: 'fechaCobro', width: 15 },
+      { header: 'Periodo (mes)', key: 'fechaCobro', width: 15 },
       { header: 'Ingresado Por', key: 'ingresadoPor', width: 20 },
       { header: 'Operación', key: 'operacion', width: 15 },
       { header: 'Centro Operación', key: 'centroOperacion', width: 20 },

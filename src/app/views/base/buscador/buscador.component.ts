@@ -230,13 +230,31 @@ seleccionarRut(){
   }
 
   ngOnInit() : void {
-    this.comunaService.getListaRegiones().subscribe((data : any) => {
-      this.listaRegiones = data
 
-      this.service.getMarcasVehiculos().subscribe((data : any) => {
-        this.marcaVehiculo = data
+    this.service.getSeleccionesVehiculos().subscribe((data) => {
+      this.listaRegiones = data.Region
+      this.marcaVehiculo = data.Marca_vehiculo
+      // this.ObservacionVehiculos = data.Vehiculos_observaciones
+      this.tipoVehiculos = data.Tipo_vehiculo
+      this.listaComunas = data.Comuna
+      this.listaComunasFull = this.listaComunas
+
+      this.formVehiculo.patchValue({
+        Region : '1',
+        Comuna : '1'
       })
+
     })
+
+
+
+    // this.comunaService.getListaRegiones().subscribe((data : any) => {
+    //   this.listaRegiones = data
+
+    //   this.service.getMarcasVehiculos().subscribe((data : any) => {
+    //     this.marcaVehiculo = data
+    //   })
+    // })
 
     this.MoService.getRazonesSocial().subscribe((data) => {
       data.map( op => {
@@ -288,14 +306,14 @@ seleccionarRut(){
 
     
 
-    this.comunaService.getListaComunas().subscribe((data : any) => {
-      this.listaComunas = data
-      this.listaComunasFull = this.listaComunas
-      this.formVehiculo.patchValue({
-        Region : '1',
-        Comuna : '1'
-      })
-    })
+    // this.comunaService.getListaComunas().subscribe((data : any) => {
+    //   this.listaComunas = data
+    //   this.listaComunasFull = this.listaComunas
+    //   this.formVehiculo.patchValue({
+    //     Region : '1',
+    //     Comuna : '1'
+    //   })
+    // })
 
    
   }

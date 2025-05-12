@@ -21,6 +21,12 @@ export class RutasMeliComponent {
 
   }
 
+  
+
+  private Total : number = 0
+  private En_proforma : number = 0
+  private Sin_proforma : number = 0
+  private Descuentos : number = 0
 
   panelRsumenMeli : PanelResumenMelis = {
       "Total": 0,
@@ -186,7 +192,7 @@ export class RutasMeliComponent {
 
   generarParesDeFechas(rangoInicio : string, rangoFin : string) {
     const milisegundosPorDia = 24 * 60 * 60 * 1000;
-    const diferenciaDiasMaxima = 8;
+    const diferenciaDiasMaxima = 5;
 
     // Convertir las fechas a objetos de tipo Date
     const fechaInicio = new Date(rangoInicio);
@@ -228,14 +234,25 @@ isLoadingFull :boolean = false
     this.service.getReporteMeliFinanza(fecha_i,fecha_f).subscribe((data) => {
 
       if(data == null){
-        this.panelRsumenMeli = {
-          "Total": 0,
-          "En_proforma": 0,
-          "Sin_proforma": 0,
-          "Descuentos": 0
-      }
 
-      this.isLoadingFull = false
+        if (this.reporteMeliFinanza.length !== 0) {
+
+          if(this.formatearFecha(this.fecha_fin) == fecha_f) {
+            this.isLoadingFull = false
+          }
+
+        }else {
+            this.panelRsumenMeli = {
+              "Total": 0,
+              "En_proforma": 0,
+              "Sin_proforma": 0,
+              "Descuentos": 0
+            }
+
+            this.isLoadingFull = false
+        }
+
+        
       }else {
 
       
@@ -266,11 +283,20 @@ isLoadingFull :boolean = false
 
         this.isLoadingFull = false
         } else {
-          this.panelRsumenMeli.Total = this.reporteMeliFinanza.length
-          this.panelRsumenMeli.En_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == true ).length
-    
-          this.panelRsumenMeli.Sin_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == false ).length
-          this.panelRsumenMeli.Descuentos = this.reporteMeliFinanza.filter(op => op.P_total_descuentos !== 0 ).length
+          const total = this.reporteMeliFinanza.length
+          const En_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == true ).length
+          const Sin_proforma =this.reporteMeliFinanza.filter(op => op.En_proforma  == false ).length
+          const Descuentos = this.reporteMeliFinanza.filter(op => op.P_total_descuentos !== 0 ).length
+
+          this.panelRsumenMeli.Total = total
+          this.panelRsumenMeli.En_proforma = En_proforma
+          this.panelRsumenMeli.Sin_proforma = Sin_proforma
+          this.panelRsumenMeli.Descuentos = Descuentos
+
+          this.Total = total
+          this.En_proforma = En_proforma
+          this.Sin_proforma = Sin_proforma
+          this.Descuentos = Descuentos
         
       }
       }
@@ -331,7 +357,7 @@ isLoadingFull :boolean = false
     myset.map( (fecha , i) => {
       setTimeout(() => {
         this.buscadorResumenNS(fecha[0],fecha[1]) 
-      }, 13500 * i)
+      }, 28500 * i)
       
     })
 
@@ -473,13 +499,63 @@ isLoadingFull :boolean = false
         }
     }
 
-    this.reporteMeliFinanza = resultado;
 
-    this.panelRsumenMeli.Total = this.reporteMeliFinanza.length
-    this.panelRsumenMeli.En_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == true ).length
+    console.log(this.textoFiltro)
 
-    this.panelRsumenMeli.Sin_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == false ).length
-    this.panelRsumenMeli.Descuentos = this.reporteMeliFinanza.filter(op => op.P_total_descuentos !== 0 ).length
+    if (this.textoFiltro == "") {
+      this.reporteMeliFinanza = resultado;
+
+
+
+      this.panelRsumenMeli.Total =this.Total
+      this.panelRsumenMeli.En_proforma = this.En_proforma
+      this.panelRsumenMeli.Sin_proforma = this.Sin_proforma
+      this.panelRsumenMeli.Descuentos = this.Descuentos
+      // this.panelRsumenMeli.Total = this.reporteMeliFinanzaFull.length
+      // this.panelRsumenMeli.En_proforma = this.reporteMeliFinanzaFull.filter(op => op.En_proforma  == true ).length
+
+      // this.panelRsumenMeli.Sin_proforma = this.reporteMeliFinanzaFull.filter(op => op.En_proforma  == false ).length
+      // this.panelRsumenMeli.Descuentos = this.reporteMeliFinanzaFull.filter(op => op.P_total_descuentos !== 0 ).length
+
+      console.log("SOLSO")
+    }else {
+      this.reporteMeliFinanza = resultado;
+      this.panelRsumenMeli.Total = this.reporteMeliFinanzaFull.filter(op => 
+        op.Ppu.toString().toLowerCase().startsWith(filtro) ||
+        op.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||
+        op.Driver.toString().toLowerCase().startsWith(filtro) ||
+        op.Razon_social.toString().toLowerCase().startsWith(filtro) 
+      ).length
+      this.panelRsumenMeli.En_proforma = this.reporteMeliFinanzaFull.filter(op => (op.Ppu.toString().toLowerCase().startsWith(filtro) ||
+        op.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||
+        op.Driver.toString().toLowerCase().startsWith(filtro) ||
+        op.Razon_social.toString().toLowerCase().startsWith(filtro) )  && op.En_proforma  == true ).length
+
+      this.panelRsumenMeli.Sin_proforma = this.reporteMeliFinanzaFull.filter(op => 
+        (op.Ppu.toString().toLowerCase().startsWith(filtro) ||
+        op.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||
+        op.Driver.toString().toLowerCase().startsWith(filtro) ||
+        op.Razon_social.toString().toLowerCase().startsWith(filtro) )  && 
+        op.En_proforma  == false ).length
+      this.panelRsumenMeli.Descuentos = this.reporteMeliFinanzaFull.filter(op =>
+        (op.Ppu.toString().toLowerCase().startsWith(filtro) ||
+        op.Centro_operacion.toString().toLowerCase().startsWith(filtro) ||
+        op.Driver.toString().toLowerCase().startsWith(filtro) ||
+        op.Razon_social.toString().toLowerCase().startsWith(filtro) )  && 
+        op.P_total_descuentos !== 0 ).length
+
+
+        console.log("S H I T")
+    }
+
+
+    // this.reporteMeliFinanza = resultado;
+
+    // this.panelRsumenMeli.Total = this.reporteMeliFinanza.length
+    // this.panelRsumenMeli.En_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == true ).length
+
+    // this.panelRsumenMeli.Sin_proforma = this.reporteMeliFinanza.filter(op => op.En_proforma  == false ).length
+    // this.panelRsumenMeli.Descuentos = this.reporteMeliFinanza.filter(op => op.P_total_descuentos !== 0 ).length
 }
 
   // Aplica debouncing a la función filtrarTabla

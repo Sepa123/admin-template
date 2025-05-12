@@ -184,6 +184,10 @@ export const tipoVehiculo = [
 	{
 		"id" : 10,
 		"name" : "Furgoneta"
+	},
+	{
+		"id": 11,
+		"name": "Moto"
 	}
 ]
 

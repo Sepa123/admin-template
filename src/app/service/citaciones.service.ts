@@ -147,5 +147,12 @@ export class CitacionesService {
   }
 
 
+   getOp(): Observable<any> {
+          return this.http.get<any>(this.apiUrl + '/Op/');
+        }
+  getCop(): Observable<any> {
+          return this.http.get<any>(this.apiUrl + '/Cop/');
+        }
+
 
   }

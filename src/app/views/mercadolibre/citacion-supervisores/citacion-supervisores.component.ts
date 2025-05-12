@@ -110,7 +110,21 @@ export class CitacionSupervisoresComponent {
 
   onDateChange(event: any) {
     const rawDate = event.target.value;
+
+    const fechaMinima = new Date(this.minDate);
+    const fechaEntrega = new Date(rawDate);
+
     if (rawDate) {
+      
+      if (fechaEntrega < fechaMinima) {
+
+        this.citacionSupervisores = []
+        this.pedidos = {"Total_vehiculo":0,"Total_entrega":0,"Pendientes":0,"Fallidos":0}
+      
+        return alert('No se puede cambiar la fecha, por favor seleccione una fecha valida')
+      }
+
+
       this.chartVisible = false
       this.graficoVisible = false
       const [year, month, day] = rawDate.split('-');

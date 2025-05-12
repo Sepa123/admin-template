@@ -130,9 +130,6 @@
     </div>
     <p></p>
 
-    
-    
-
 
     <!-- Selector de Fecha y Botón Nueva Citación -->
     <div class="input-group">
@@ -144,6 +141,12 @@
       <div class="input-container">
           <label for="OperacionInput">Filtrar por Operación/Centro</label>
           <input placeholder="🔍 Operacion" type="text" (input)="buscarOperaciones($event)">
+      </div>
+      <div class="input-container">
+        <label for=""><br></label>
+        <button  class="btn btn-primary" (click)="toggleModalCreacion()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M5 2h16v20H3V2zm14 18V4H5v16zM7 6h10v2H7zm10 4H7v2h10zM7 14h7v2H7z"/></svg>
+          Citación masiva</button>
       </div>
   </div>
   <!-- Tabla de Citaciones -->
@@ -187,6 +190,172 @@
       </tbody>
   </table>
 </div>
+
+<!-- Modal -->
+<div *ngIf="visibleModalCreacion" id="modalPresentacionCarga" class="modal">
+  <div class="modal-content">
+    <div class="titulo-carga">
+      <div class="titulo-izquierda">
+        <h2>Creación carga- <span>Masiva</span></h2>
+      </div>
+      <div class="titulo-derecha">
+        <i class="fas fa-calendar-alt"></i>
+        <span >{{ formattedDate }}</span>
+      </div>
+    </div>
+    <hr>
+    
+    <div class="modal-body-creacion minimalistic">
+      <div class="form-group-horizontal">
+        <div class="form-group">
+          <label for="Operacion">Operación</label>
+            <select id="id_operacion" name="id_operacion" class="form-select" [(ngModel)]="id_operacion"  (change)="onOperacionChange($event)" >
+              <option value="" disabled selected>Seleccione una Operación</option>
+              <option *ngFor="let Op of OperacionesFiltradasF2" [value]="Op.id">{{ Op.centro }}</option>
+            </select>
+        </div>
+      
+        <div class="form-group">
+          <label for="id_centro_op">Centro Operacion</label>
+            <select id="id_centro_op" name="id_centro_op" class="form-select" [(ngModel)]="id_centro_op" (change)="recuperarNombreCentroOperacion($event)">
+              <option value="" disabled selected>Seleccione un Centro de Operacion</option>
+              <option *ngFor="let Cop of CentroOperacionesFiltradas" [value]="Cop.id">{{ Cop.centro }}</option>
+            </select>
+        </div>
+      </div>
+    
+      <div class="form-group">
+        <label for="informacionAdicional">Información Adicional:</label>
+        <textarea
+          id="informacionAdicional"
+          name="informacionAdicional"
+          [(ngModel)]="informacionAdicional"
+          rows="6"
+          class="form-control"
+          placeholder="Escribe aquí la información adicional..."
+        ></textarea>
+      </div>
+    
+    </div>
+
+    <div class="modal-footer">
+      <button 
+        class="btn btn-primary " 
+        (click)="enviarInformacion()" 
+        [disabled]="!id_operacion || !id_centro_op || !informacionAdicional">
+        Enviar
+      </button>
+      <button class="btn cancel" (click)="toggleModalCreacion()">
+        <i class="fas fa-times"></i> Cancelar
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div *ngIf="visibleModalPresentacionCarga" id="modalPresentacionCarga" class="modal">
+  <div class="modal-content">
+    <div class="titulo-carga">
+      <div class="titulo-izquierda">
+        <h2>Carga - <span>{{NameCentroOperacion}}</span></h2>
+      </div>
+      <div class="titulo-derecha">
+        <i class="fas fa-calendar-alt"></i>
+        <span>{{formattedDate}}</span>
+      </div>
+    </div>
+    <hr>
+    <!-- Dashboard con colores identificativos -->
+    <div class="dashboard">
+      <div class="dashboard-box" style="background-color: #e3f2fd; border-left-color: #2196F3;">
+        <i class="fas fa-route" style="color: #2196F3;"></i>
+        <div class="dashboard-text">
+          <span class="number">{{totalProcesados}}</span>
+          <span class="label">Cantidad de Rutas</span>
+        </div>
+      </div>
+      <div class="dashboard-box" style="background-color: #e8f5e9; border-left-color: #4CAF50;">
+        <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
+        <div class="dashboard-text">
+          <span class="number">{{validos}}</span>
+          <span class="label">Procesables</span>
+        </div>
+      </div>
+      <div class="dashboard-box" style="background-color: #ffebee; border-left-color: #F44336;">
+        <i class="fas fa-times-circle" style="color: #F44336;"></i>
+        <div class="dashboard-text">
+          <span class="number">{{noValidos}}</span>
+          <span class="label">No Procesables</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <table class="result-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Ruta</th>
+            <th>PPU</th>
+            <th>Estado Patente</th>
+            <th><i class="fas fa-car"></i></th>
+            <th>Estado Ruta</th>
+            <th><i class="fas fa-road"></i></th>
+            <th>✔</th>
+          </tr>
+        </thead>
+        <tbody id="tablaResultados">
+          <tr *ngFor="let item of dataencontrada">
+            <td>{{ item.fecha }}</td>
+            <td>{{ item.id_ruta }}</td>
+            <td>{{ item.patente }}</td>
+            <td>{{ item.observacion_patente }}</td>
+            <td>
+              <i class="fas" [ngClass]="{
+                              'fa-check-circle text-success': item.patente_valida, 
+                              'fa-times-circle text-danger': !item.patente_valida
+                            }" aria-hidden="true">
+              </i>
+            </td>
+            <td>{{ item.observacion_ruta }}</td>
+            <td>
+              <i class="fas" [ngClass]="{
+                              'fa-check-circle text-success': item.id_ruta_valido, 
+                              'fa-times-circle text-danger': !item.id_ruta_valido
+                            }" aria-hidden="true">
+              </i>
+            </td> 
+            <!-- <i class="fas fa-check-circle" style="color: #4CAF50;"></i>  id_ruta_valido -->
+            <td>
+              <i 
+                class="fas" 
+                [ngClass]="{
+                  'fa-check-circle text-success': item.valido, 
+                  'fa-times-circle text-danger': !item.valido
+                }" 
+                aria-hidden="true">
+              </i>
+            </td>
+            
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="modal-footer">
+      <button (click)="descargarExcel()" class="btn success"><i class="fas fa-file-excel"></i> Descargar a Excel</button>
+      <button class="btn primary" (click)="procesarInformacion()"><i class="fas fa-play"></i> Procesar</button>
+      <button class="btn cancel" (click)="toggleModalCitacionMasiva()"><i class="fas fa-times"></i> Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+
+
 
 <c-modal  [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" [backdrop]="'static'">
   <c-modal-header class ="Modal_patentes_ingresadas">
@@ -484,7 +653,7 @@
         </div>
       </div>
     </c-modal-body>
-  <c-modal-footer class="code-font">
+  <c-modal-footer class="code-font" >
       <div class="modal-footer">
           <button class="btn btn-save" (click)="getLocation()" (click)="initializeAmbulanceCode()" (click)="ingresarDatosAmbulancia()"  
                >Guardar</button>
