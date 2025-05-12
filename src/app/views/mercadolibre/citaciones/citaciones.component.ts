@@ -296,11 +296,8 @@ export class CitacionesComponent implements OnInit  {
 
       const codigo = response?.codigo ?? 'Sin código';
       const glosa = response?.glosa ?? 'Sin glosa';
-
-      console.log(`Código: ${codigo}`);
-      console.log(`Glosa: ${glosa}`);
-
-      alert(`Código: ${codigo}\nGlosa: ${glosa}`);
+      
+      this.mostrarAlerta(`${glosa}`, 'success');
     },
     (error) => {
       console.error('Error al procesar la citación masiva:', error);
@@ -495,10 +492,10 @@ buscarPatenteDetalle(event: Event) {
     this.minDate = this.formattedDate;
     
     // Inicializa el valor del campo de fecha y la fecha mínima permitida
-    this.dateForm.get('date')?.setValue(this.formattedDate);
+    this.dateForm.get('date')?.setValue(this.fechaActual);
     const dateInput = document.querySelector('input[type="date"]');
     if (dateInput) {
-      this.renderer.setProperty(dateInput, 'value', this.formattedDate);
+      this.renderer.setProperty(dateInput, 'value', this.minDate);
     }
   }
 
@@ -713,13 +710,13 @@ onDateChange(event: any): void {
       return {};
     }
   }
-  eliminarPpu(ppu: any, ) {
+  eliminarPpu(id: any, ppu : any) {
     // Llamar a la API para eliminar la razón social por su ID
     // https://hela.transyanez.cl/api/meli/borrar?id_ppu
     const fecha = this.formattedDate
 
     this.http
-      .delete(`https://hela.transyanez.cl/api/meli/borrar?id_ppu=${ppu}&fecha=${fecha}`)
+      .delete(`https://hela.transyanez.cl/api/meli/borrar?id=${id}&fecha=${fecha}`)
       .subscribe(
         (response) => {
           // Si la eliminación es exitosa
@@ -1340,7 +1337,9 @@ procesarInformacion(): void {
   const id_user = Number(sessionStorage.getItem('id')); // Obtener el ID del usuario desde la sesión
 
   this.procesarCitacionMasiva(fecha,patentes, op, cop, id_user);
-
+  this.visibleModalPresentacionCarga = false; // Cerrar el modal después de enviar la información
+  this.visibleModalCreacion = false; // Cerrar el modal después de enviar la información
+  this.getModalidades();
 }
 formatearTexto(texto: string): string {
   return texto
