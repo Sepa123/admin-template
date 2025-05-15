@@ -508,6 +508,11 @@ export class TripulacionComponent {
 
     if(this.form.valid && this.form.value.Rut != 'Seleccione un colaborador'){
 
+      if(this.form.value.Birthday == ''){
+        alert("Debe ingresar una fecha de nacimiento")
+        return
+      }
+
       this.service.registrarUsuario(this.form.value).subscribe((data : any) => {
 
         alert(data.message)
@@ -585,6 +590,27 @@ export class TripulacionComponent {
 
   }
 
+
+  private formatoDDMMYYYY(fecha: string): string {
+    if (!fecha || !/^\d{4}-\d{2}-\d{2}$/.test(fecha)) return fecha;
+    const [y, m, d] = fecha.split('-');
+    return `${d}-${m}-${y}`;
+  }
+
+  corregirFecha(controlName: string, min: string, max: string, valorPorDefecto: string): void {
+  const control = this.form.get(controlName);
+  if (!control) return;
+
+  const valor = control.value;
+  // Solo actuar si el valor tiene el formato completo YYYY-MM-DD
+  if (!valor || !/^\d{4}-\d{2}-\d{2}$/.test(valor)) return;
+
+  if (valor < min || valor > max) {
+  control.setValue('');
+    alert(`La fecha debe estar entre ${this.formatoDDMMYYYY(min)} y ${this.formatoDDMMYYYY(max)}
+    Recuerde que el formato de la fecha es MM-DD-YYYY`);
+  }
+}
  
 
 

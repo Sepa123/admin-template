@@ -7,7 +7,8 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-pendientes',
   templateUrl: './pendientes.component.html',
-  styleUrls: ['./pendientes.component.scss']
+  styleUrls: ['./pendientes.component.scss','./card.component.scss']
+  // styleUrls: ['./pendientes.component.scss']
 })
 export class PendientesComponent implements OnInit{
 
@@ -55,17 +56,27 @@ export class PendientesComponent implements OnInit{
   fecha_min : string = ""
   fecha_max : string = ""
 
-  cantidad! : number  
+  cantidad : number = 0  
+  verificados : number = 0
+  atrasos : number = 0
+  alertaTOC :  number = 0
 
   loadPedidos : boolean = true
 
   origen: any[] = []
 
+  tipoCliente : string = ''
+
 
   fecha_inicio : string =""
   fecha_fin : string =""
 
-  tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","fin"]
+  fecha_inicio_prev: string =""
+  fecha_fin_prev : string =""
+
+  tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","consolidado_cliente","fin"]
+
+  // tienda : string [] = ["consolidado_cliente","fin"]
 
   ngOnInit():void {
     // this.getData()
@@ -76,6 +87,8 @@ export class PendientesComponent implements OnInit{
       this.fecha_inicio = data.Fecha_inicio
       this.fecha_fin = data.Fecha_fin
 
+      
+
       this.getPedidos()
 
 
@@ -84,6 +97,13 @@ export class PendientesComponent implements OnInit{
     // this.pendienteseOpl()
     })
   }
+
+  copiarTexto(codigo : string){
+      const texto = codigo
+      navigator.clipboard.writeText(texto).then(() => {
+        alert("¡Código copiado!");
+      });
+    }
 
   // getPedidos() {
 
@@ -128,7 +148,70 @@ export class PendientesComponent implements OnInit{
   // }
 
 
+ compararFechas(fecha1 : string, fecha2: string ) {
+  const f1 = new Date(fecha1);
+  const f2 = new Date(fecha2);
+  return f1 >= f2;
+}
+
+
+filtrarAtrasados(){
+  const fecha = new Date();
+  const fechaHoy = fecha.toISOString().split('T')[0];
+
+  console.log(fechaHoy)
+
+  this.pedidos = this.pedidosFull.filter((pedido) => this.compararFechas(fechaHoy,pedido.Fecha_compromiso))
+
+}
+
+
   getPedidos() {
+
+    const fecha = new Date();
+    const fechaHoy = fecha.toISOString().split('T')[0];
+
+    if (this.fecha_inicio_prev == this.fecha_inicio && this.fecha_fin_prev  == this.fecha_fin) {
+
+      if (this.tipoCliente == "" ){
+         this.pedidos = this.pedidosFull
+         // contadores originales
+        //  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+        //  this.verificados = [...new Set(this.pedidos.filter((pedido) => pedido.Verificado ))].length
+        //  this.alertaTOC = [...new Set(this.pedidos.filter((pedido) => pedido.Alerta == true ))].length
+        this.cantidad = this.pedidos.length;
+        this.verificados = this.pedidos.filter((pedido) => pedido.Verificado ).length
+        this.alertaTOC = this.pedidos.filter((pedido) => pedido.Alerta == true ).length
+        this.atrasos = this.pedidos.filter((pedido) => this.compararFechas(fechaHoy,pedido.Fecha_compromiso)).length
+      } else {
+
+          // contador nuevo
+          // this.pedidos = this.pedidosFull.filter( pedido => pedido.Origen == this.tipoCliente)
+          // this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+          // this.verificados = [...new Set(this.pedidos.filter((pedido) => pedido.Verificado ))].length
+          // this.alertaTOC = [...new Set(this.pedidos.filter((pedido) => pedido.Alerta == true ))].length
+          this.pedidos = this.pedidosFull.filter( pedido => pedido.Origen == this.tipoCliente)
+          this.cantidad = this.pedidos.length;
+          this.verificados = this.pedidos.filter((pedido) => pedido.Verificado ).length
+          this.alertaTOC = this.pedidos.filter((pedido) => pedido.Alerta == true ).length
+          this.atrasos = this.pedidos.filter((pedido) => this.compararFechas(fechaHoy,pedido.Fecha_compromiso)).length
+      }
+      
+
+      
+
+
+    }else{
+
+    this.fecha_inicio_prev = this.fecha_inicio
+    this.fecha_fin_prev  = this.fecha_fin
+
+    this.cantidad  = 0  
+    this.verificados  = 0
+    this.atrasos  = 0
+    this.alertaTOC  = 0
+
+    this.pedidos = []
 
     // Crear un arreglo para almacenar las referencias a los setTimeout
       let cantActual : number = 0
@@ -151,20 +234,31 @@ export class PendientesComponent implements OnInit{
                 this.pedidosFull = this.pedidos
                 this.origen = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Origen)
                   ).map(str => (JSON.parse(str))))]
-                this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
-                  ).map(str => (JSON.parse(str))))]
+                // this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
+                //   ).map(str => (JSON.parse(str))))]
       
-                this.regiones = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Region)
-                  ).map(str => (JSON.parse(str))))]
+                // this.regiones = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Region)
+                //   ).map(str => (JSON.parse(str))))]
+
+
+                /// contadores antiguos
+                // this.verificados = [...new Set(this.pedidos.filter((pedido) => pedido.Verificado ))].length
+                // this.alertaTOC = [...new Set(this.pedidos.filter((pedido) => pedido.Alerta == true ))].length
+
+                this.verificados = this.pedidos.filter((pedido) => pedido.Verificado ).length
+                this.alertaTOC = this.pedidos.filter((pedido) => pedido.Alerta == true ).length
+
                 this.loadPedidos = false
                 this.cantidad = this.pedidos.length
               }
               this.loadPedidos = false;
-              // this.cantidad = this.pedidos.length;
-              // this.cantidadBultos = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length
-              this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
-              // this.cantidadBultos = this.pedidos.length
-              // this.cantidadBultos = this.pedidos.reduce((acum, pedido) => acum + pedido.Bultos, 0)
+              
+              /// contadores antiguos
+              // this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+              this.cantidad = this.pedidos.length;
+
+              this.atrasos = this.pedidos.filter((pedido) => this.compararFechas(fechaHoy,pedido.Fecha_compromiso)).length
+
                this.pedidosFull = this.pedidos
             // }
           }, error => {
@@ -175,6 +269,9 @@ export class PendientesComponent implements OnInit{
         // Guardar la referencia al setTimeout en el arreglo
         this.timeouts.push(timeoutId);
         
+      }
+
+
       }
   }
 
