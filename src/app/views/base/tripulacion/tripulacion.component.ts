@@ -582,8 +582,22 @@ export class TripulacionComponent {
       alert("Hay datos incorrectos")
     }
 
+    
+
   }
 
+corregirFecha(controlName: string, min: string, max: string, valorPorDefecto: string): void {
+  const control = this.form.get(controlName);
+  if (!control) return;
+
+  const valor = control.value;
+  // Solo actuar si el valor tiene el formato completo YYYY-MM-DD
+  if (!valor || !/^\d{4}-\d{2}-\d{2}$/.test(valor)) return;
+
+  if (valor < min || valor > max) {
+    control.setValue(valorPorDefecto);
+  }
+}
  
 
 

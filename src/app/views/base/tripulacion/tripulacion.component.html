@@ -74,7 +74,11 @@
                 <c-col [xs]>
                     <div class="">
                       Fecha nacimiento
-                        <input type="date" placeholder="" class="form-control" formControlName="Birthday" >
+                        <input 
+                        type="date" 
+                        placeholder="" 
+                        class="form-control" 
+                        formControlName="Birthday" >
                         <span class="error" *ngIf="form.get('Birthday')?.errors?.['required'] && isErrorView">
                           Falta agregar la fecha
                       </span>
@@ -350,7 +354,15 @@
               <c-col [xs]>
                   <div class="">
                     Fecha nacimiento
-                      <input type="date" placeholder="" class="form-control" formControlName="Birthday" >
+                      <input 
+                      type="date"
+                      placeholder="" 
+                      class="form-control" 
+                      formControlName="Birthday" 
+                      min="1950-01-01" 
+                      max="2015-12-31" 
+                      ng-disabled="true"
+                      (blur)="corregirFecha('Birthday', '1950-01-01', '2015-12-31', '2000-01-01')" >
                       <span class="error" *ngIf="form.get('Birthday')?.errors?.['required'] && isErrorView">
                         Falta agregar la fecha
                     </span>
