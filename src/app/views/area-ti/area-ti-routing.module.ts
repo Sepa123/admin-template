@@ -4,6 +4,8 @@ import { FuncionesComponent } from './funciones/funciones.component';
 import { AgregarFuncionComponent } from './agregar-funcion/agregar-funcion.component';
 import { ScanTestComponent } from './scan-test/scan-test.component';
 import { CamaraTestComponent } from './camara-test/camara-test.component';
+import { EstadosOldComponent } from './estados-old/estados-old.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -37,6 +39,13 @@ const routes: Routes = [
         component : CamaraTestComponent,
         data : {
           title : "camara Scanner"
+        }
+      },
+      {
+        path : 'estados-old',
+        component : EstadosOldComponent,
+        data : {
+          title : "Estados Old"
         }
       },
     ]

@@ -52,6 +52,10 @@ export const navItems: INavDataBar[] = [
       {
         name: "Camara",
         url:  '/areati/camara-test'
+      },
+      {
+        name: "Estados Old",
+        url:  '/areati/estados-old'
       }
       // {
       //   name: 'Agregar funcion',

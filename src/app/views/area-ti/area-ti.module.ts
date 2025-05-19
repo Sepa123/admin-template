@@ -19,13 +19,15 @@ import { AgregarFuncionComponent } from './agregar-funcion/agregar-funcion.compo
 import { ScanTestComponent } from './scan-test/scan-test.component';
 import { CamaraTestComponent } from './camara-test/camara-test.component';
 import { WebcamModule } from 'ngx-webcam';
+import { EstadosOldComponent } from './estados-old/estados-old.component';
 
 @NgModule({
   declarations: [
     FuncionesComponent,
     AgregarFuncionComponent,
     ScanTestComponent,
-    CamaraTestComponent
+    CamaraTestComponent,
+    EstadosOldComponent
   ],
   imports: [
     CommonModule,
