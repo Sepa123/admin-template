@@ -116,6 +116,7 @@ export class EstadosComponent implements OnInit {
       this.getData();
       this.getClientesEntregas();
       this.resetCountdown();
+      this.getCount();
     }, 60000); // 60000 ms = 60 segundos
     // Configurar un intervalo para limpiar el caché cada 30 segundos
     
@@ -307,6 +308,8 @@ getData(): void {
 clientesEntregas: any[] = [];
 
 getClientesEntregas(): void {
+
+  
   const url = 'http://127.0.0.1:8000/api/Cliente-Png-entregas';
   const baseImageUrl = 'https://hela.transyanez.cl/api/panel/image/foto_perfil/';
 
