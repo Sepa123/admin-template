@@ -76,7 +76,7 @@ export class PendientesComponent implements OnInit{
 
   tienda : string [] = ["easy_cd","easy_opl","retiro_tienda","consolidado_cliente","fin"]
 
-  // tienda : string [] = ["consolidado_cliente","fin"]
+  // tienda : string [] = ["easy_opl","retiro_tienda","consolidado_cliente","fin"]
 
   ngOnInit():void {
     // this.getData()
@@ -87,7 +87,10 @@ export class PendientesComponent implements OnInit{
       this.fecha_inicio = data.Fecha_inicio
       this.fecha_fin = data.Fecha_fin
 
-      
+
+      const fechas_div = this.dividirRangoEnDos(data.Fecha_i_easy,data.Fecha_f_easy)
+
+      console.log(fechas_div)
 
       this.getPedidos()
 
@@ -98,10 +101,55 @@ export class PendientesComponent implements OnInit{
     })
   }
 
+
+  formatearFecha(fecha : Date) {
+    const year = fecha.getFullYear();
+    const month = String(fecha.getMonth() + 1).padStart(2, '0');
+    const day = String(fecha.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+
+  dividirRangoEnDos(fechaInicio : string, fechaFin : string) {
+    const inicio = new Date(fechaInicio);
+    const fin = new Date(fechaFin);
+
+    // Validar que fechaInicio sea anterior a fechaFin
+    if (inicio >= fin) {
+      throw new Error("La fecha de inicio debe ser anterior a la fecha de fin");
+    }
+
+    // Calcular el punto medio en milisegundos
+    const mitadTiempo = inicio.getTime() + (fin.getTime() - inicio.getTime()) / 2;
+
+    // Redondear la fecha de mitad al día más cercano (sin horas)
+    const mitad = new Date(mitadTiempo);
+    mitad.setHours(0, 0, 0, 0);
+
+    // Primer rango: desde inicio hasta mitad
+    const desde1 = new Date(inicio);
+    const hasta1 = new Date(mitad);
+
+    // Segundo rango: desde el día siguiente a mitad hasta fin
+    const desde2 = new Date(mitad);
+    desde2.setDate(desde2.getDate() + 1);
+    const hasta2 = new Date(fin);
+
+    // Asegurar que el segundo rango no empieza después de la fecha final
+    if (desde2 > hasta2) {
+      return [{ desde: desde1, hasta: hasta2 }]; // Solo un rango posible
+    }
+
+    return [
+      { desde: this.formatearFecha(desde1), hasta: this.formatearFecha(hasta1) },
+      { desde: this.formatearFecha(desde2), hasta: this.formatearFecha(hasta2) },
+    ];
+  }
+
   copiarTexto(codigo : string){
       const texto = codigo
       navigator.clipboard.writeText(texto).then(() => {
-        alert("¡Código copiado!");
+        this.mostrarAlerta("¡Código copiado!","info");
       });
     }
 
@@ -167,6 +215,8 @@ filtrarAtrasados(){
 
 
   getPedidos() {
+
+    this.isLoadingTable = true
 
     const fecha = new Date();
     const fechaHoy = fecha.toISOString().split('T')[0];
@@ -296,15 +346,6 @@ filtrarAtrasados(){
       this.comunas = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Comuna)
         ).map(str => (JSON.parse(str))))]
         this.loadPedidos = false
-      // this.fechaIngresoList = [...new Set(this.pedidos.map((pedido) => JSON.stringify(pedido.Fecha_ingreso)
-      //   ).map(str => (JSON.parse(str))))];   
-
-      // this.fechaIngresoList.sort((a: string, b: string) => {
-      //   const fechaA: Date = new Date(a);
-      //   const fechaB: Date = new Date(b);
-      //   return fechaA.getTime() - fechaB.getTime();
-      // });
- 
     })
 
     
@@ -351,7 +392,7 @@ filtrarAtrasados(){
        const fechaB: Date = new Date(b.Fecha_compromiso);
        return fechaB.getTime() - fechaA.getTime() ;
      });
-     this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
+    //  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
  }
 
  filtrarPorComuna (comuna : string){
@@ -400,5 +441,56 @@ filtrarAtrasados(){
   XLSX.writeFile(libroExcel, nombreArchivo);
 
 }
+
+mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning' | 'info'): void {
+  // Crear un div para la alerta
+  const alerta: HTMLDivElement = document.createElement('div');
+  alerta.classList.add('alerta', tipo); // Añadir clase para tipo (success, error, warning, info)
+
+  // Elegir icono basado en el tipo
+  const icono: HTMLElement = document.createElement('i');
+  switch (tipo) {
+    case 'success':
+      icono.classList.add('fas', 'fa-check-circle'); // Icono de éxito
+      alerta.style.backgroundColor = 'rgba(40, 167, 69, 0.9)'; // Verde
+      break;
+    case 'error':
+      icono.classList.add('fas', 'fa-times-circle'); // Icono de error
+      alerta.style.backgroundColor = '#dc3545'; // Rojo
+      break;
+    case 'warning':
+      icono.classList.add('fas', 'fa-exclamation-triangle'); // Icono de advertencia
+      alerta.style.backgroundColor = '#ffc107'; // Amarillo
+      break;
+    case 'info':
+      icono.classList.add('fas', 'fa-info-circle'); // Icono de información
+      alerta.style.backgroundColor = '#17a2b8'; // Azul
+      break;
+  }
+
+  // Añadir el icono y el mensaje al div de la alerta
+  alerta.appendChild(icono);
+  alerta.appendChild(document.createTextNode(mensaje));
+
+  // Añadir la alerta al contenedor de alertas
+  const alertaContainer: HTMLElement | null = document.getElementById('alertaContainer');
+  if (alertaContainer) {
+    alertaContainer.appendChild(alerta);
+
+    // Mostrar la alerta con una animación de opacidad
+    setTimeout(() => {
+      alerta.style.opacity = '1';
+    }, 100);
+
+    // Ocultar la alerta después de 5 segundos y eliminarla del DOM
+    setTimeout(() => {
+      alerta.style.opacity = '0';
+      setTimeout(() => {
+        alerta.remove();
+      }, 500);
+    }, 5000);
+  }
+}
+
 } 
 

@@ -202,11 +202,19 @@ body {
       font-size: 11px;
       color: #1f2937;
       table-layout: fixed; 
+      // border-collapse: collapse;
+      table-layout: fixed;
     }
     tbody, td {
       white-space: nowrap; /* Evita el salto de línea en las celdas */
             overflow: hidden; /* Oculta el contenido que desborda */
             text-overflow: ellipsis; /* Añade "..." si el texto es demasiado largo */
+    }
+
+    .td-wrap {
+       white-space: nowrap !important;
+        overflow: visible !important;
+        text-overflow: initial !important;
     }
 
     th, td {
@@ -218,8 +226,11 @@ body {
       padding: 0px;
     }
 
-    thead {
+    thead th {
+      position: sticky;
+      top: 0;
       background-color: #f3f4f6;
+      z-index: 2;
       text-transform: uppercase;
       color: #6b7280;
       font-size: 12px;
@@ -256,12 +267,11 @@ body {
 
     .greenTable{
 
-      // max-height: 400px; /* Altura de ejemplo */
-      // overflow: auto;
-
+      max-height: 400px;  /* Altura visible */
+      overflow-y: auto;
         width: auto;
-        height: 400px; /* Altura de ejemplo */
-        overflow: auto;
+        // height: 400px; /* Altura de ejemplo */
+
     }
 
     .divider {
