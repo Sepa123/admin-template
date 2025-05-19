@@ -114,11 +114,11 @@ export class EstadosComponent implements OnInit {
     this.getCount();
     setTimeout(() => {
       this.getData();
-    }, 4000);
+    }, 7000);
 
     setTimeout(() => {
       this.getClientesEntregas();
-    }, 8000);
+    }, 15000);
     
     
     this.intervalId = setInterval(() => {
@@ -127,11 +127,11 @@ export class EstadosComponent implements OnInit {
       this.getCount();
       setTimeout(() => {
         this.getData();
-      }, 4000);
+      }, 8000);
 
       setTimeout(() => {
         this.getClientesEntregas();
-      }, 8000);
+      }, 15000);
       this.resetCountdown();
     }, 60000); // 60000 ms = 60 segundos
     // Configurar un intervalo para limpiar el caché cada 30 segundos

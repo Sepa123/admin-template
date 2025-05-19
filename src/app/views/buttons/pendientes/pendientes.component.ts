@@ -216,7 +216,7 @@ filtrarAtrasados(){
 
   getPedidos() {
 
-    this.isLoadingTable = true
+    
 
     const fecha = new Date();
     const fechaHoy = fecha.toISOString().split('T')[0];
@@ -252,7 +252,7 @@ filtrarAtrasados(){
 
 
     }else{
-
+    this.isLoadingTable = true
     this.fecha_inicio_prev = this.fecha_inicio
     this.fecha_fin_prev  = this.fecha_fin
 
@@ -378,18 +378,27 @@ filtrarAtrasados(){
     this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
   }
 
+  parseFecha(fechaStr: string): Date {
+    const [dia, mes, anio] = fechaStr.split('-').map(Number);
+    return new Date(anio, mes - 1, dia); // mes va de 0 a 11
+  }
+
   OrdenFechaIngreso (){
      this.pedidos.sort((a: PedidoSinCompromiso, b: PedidoSinCompromiso) => {
-        const fechaA: Date = new Date(a.Fecha_ingreso);
-        const fechaB: Date = new Date(b.Fecha_ingreso);
+        // const fechaA: Date = new Date(a.Fecha_ingreso);
+        // const fechaB: Date = new Date(b.Fecha_ingreso);
+        const fechaA: Date = this.parseFecha(a.Fecha_ingreso);
+        const fechaB: Date = this.parseFecha(b.Fecha_ingreso);
         return fechaB.getTime() - fechaA.getTime() ;
       });
   }
 
   OrdenFechaCompromiso (){
     this.pedidos.sort((a: PedidoSinCompromiso, b: PedidoSinCompromiso) => {
-       const fechaA: Date = new Date(a.Fecha_compromiso);
-       const fechaB: Date = new Date(b.Fecha_compromiso);
+      //  const fechaA: Date = new Date(a.Fecha_compromiso);
+      //  const fechaB: Date = new Date(b.Fecha_compromiso);
+      const fechaA: Date = this.parseFecha(a.Fecha_compromiso);
+      const fechaB: Date = this.parseFecha(b.Fecha_compromiso);
        return fechaB.getTime() - fechaA.getTime() ;
      });
     //  this.cantidad = [...new Set(this.pedidos.map(seleccion => seleccion.Cod_entrega))].length;
@@ -464,7 +473,7 @@ mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning' | 'info'): 
       break;
     case 'info':
       icono.classList.add('fas', 'fa-info-circle'); // Icono de información
-      alerta.style.backgroundColor = '#17a2b8'; // Azul
+      alerta.style.backgroundColor = '#696969'; // Azul
       break;
   }
 

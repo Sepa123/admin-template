@@ -190,7 +190,8 @@ body {
     }
 
     .table-container {
-      overflow-x: auto;
+     overflow-y: auto;
+        width: auto;
       background: white;
       border-radius: 12px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -270,6 +271,9 @@ body {
       max-height: 400px;  /* Altura visible */
       overflow-y: auto;
         width: auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         // height: 400px; /* Altura de ejemplo */
 
     }

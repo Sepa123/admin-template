@@ -369,12 +369,12 @@
         <option [value]="origen" *ngFor="let origen of origen">{{origen}}</option>
       </select>
     </div>
-    <button class="btn btn-blue" (click)="getPedidos()">Buscar</button>
+    <button class="btn btn-blue" (click)="getPedidos()" [disabled]="isLoadingTable">Buscar</button>
 
 
     <img *ngIf="isLoadingTable" width="50" height="50" src="../../../assets/images/loading-gif.gif" />
        
-    <button (click)="downloadExcel()" class="btn btn-green">
+    <button (click)="downloadExcel()" class="btn btn-green" >
       <svg xmlns="http://www.w3.org/2000/svg" width="13.25px" height="13px" viewBox="0 0 384 512">
         <path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24m60.1 106.5L224 336l60.1 93.5c5.1 8-.6 18.5-10.1 18.5h-34.9c-4.4 0-8.5-2.4-10.6-6.3C208.9 405.5 192 373 192 373c-6.4 14.8-10 20-36.6 68.8c-2.1 3.9-6.1 6.3-10.5 6.3H110c-9.5 0-15.2-10.5-10.1-18.5l60.3-93.5l-60.3-93.5c-5.2-8 .6-18.5 10.1-18.5h34.8c4.4 0 8.5 2.4 10.6 6.3c26.1 48.8 20 33.6 36.6 68.5c0 0 6.1-11.7 36.6-68.5c2.1-3.9 6.2-6.3 10.6-6.3H274c9.5-.1 15.2 10.4 10.1 18.4M384 121.9v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9" stroke-width="13" stroke="currentColor" />
       </svg> Exportar a Excel
@@ -383,7 +383,7 @@
 
   <!-- TABLA -->
    <div class="greenTable">
-  <div class="table-container" id="tabla-container">
+  <!-- <div class="table-container" id="tabla-container"> -->
     <table>
       <thead>
         <tr>
@@ -429,32 +429,32 @@
                   <td style="text-align: center;">{{ pedido.Bultos }}</td>
                   <td>{{ pedido.Estado }}</td>
                   <td>{{ pedido.Subestado }}</td>
-                  <td *ngIf="pedido.Verificado" >
+                  <td *ngIf="pedido.Verificado" style="text-align: center;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" viewBox="0 0 512 512">
-                      <path fill="#12de20" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="#12de20" />
+                      <path fill="#5cb85c" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="#12de20" />
                     </svg>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" ><path fill="#12de20" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg> -->
                   </td>
-                  <td *ngIf="!pedido.Verificado" >
+                  <td *ngIf="!pedido.Verificado" style="text-align: center;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" viewBox="0 0 512 512">
                       <path fill="#d60a0a" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" stroke-width="13" stroke="#d60a0a" />
                     </svg>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512"><path fill="#d60a0a" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg> -->
                   </td>
 
-                  <td *ngIf="pedido.Recibido" >
+                  <td *ngIf="pedido.Recibido" style="text-align: center;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" viewBox="0 0 512 512">
-                      <path fill="#12de20" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="#12de20" />
+                      <path fill="#5cb85c" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="#12de20" />
                     </svg>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" ><path fill="#12de20" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg> -->
                   </td>
-                  <td *ngIf="!pedido.Recibido" >
+                  <td *ngIf="!pedido.Recibido" style="text-align: center;" >
                     <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" viewBox="0 0 512 512">
                       <path fill="#d60a0a" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" stroke-width="13" stroke="#d60a0a" />
                     </svg>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" ><path fill="#d60a0a" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg> -->
                   </td>
-                  <td>
+                  <td style="text-align: center;">
                     <svg *ngIf="pedido.Alerta" (click)="verObservacion(pedido.Observacion)" xmlns="http://www.w3.org/2000/svg" width="25.88px" height="23px" viewBox="0 0 576 512">
                       <path fill="currentColor" d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92c-13.4 30.2-35.5 54.2-35.8 54.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25c32.2 15.7 70.3 25 111.3 25c114.9 0 208-71.6 208-160m122 220c23.9-26 38-57.7 38-92c0-66.9-53.5-124.2-129.3-148.1c.9 6.6 1.3 13.3 1.3 20.1c0 105.9-107.7 192-240 192c-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25c21.8 12.7 52.1 25 88.7 25c3.2 0 6.1-1.9 7.3-4.8c1.3-2.9.7-6.3-1.5-8.7c-.3-.3-22.4-24.2-35.8-54.5" stroke-width="13" stroke="currentColor" />
                     </svg>
@@ -482,7 +482,7 @@
         </tr>
       </tbody> -->
     </table>
-  </div>
+  <!-- </div> -->
 </div>
 
 
