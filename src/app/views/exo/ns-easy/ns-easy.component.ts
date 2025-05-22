@@ -13,7 +13,7 @@ import { AfterViewInit, OnDestroy } from '@angular/core';
 @Component({
   selector: 'app-ns-easy',
   templateUrl: './ns-easy.component.html',
-  styleUrls: ['./ns-easy.component.scss']
+  styleUrls: ['./ns-easy.component.scss','./ns-easy.component2.scss']
 })
 export class NsEasyComponent implements AfterViewInit {
 
