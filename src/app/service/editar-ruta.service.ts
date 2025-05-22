@@ -19,6 +19,7 @@ export interface Cliente {
   carga_manual: boolean;
   id_operacion: number | null; // Permitir null
   id_centro_op: number | null; // Permitir null
+  id_seguimiento: number | null; // Permitir null
 }
 
 // Interface que coincide con tu modelo Pydantic UsuarioUpdate
@@ -38,6 +39,7 @@ export interface UpdateCliente {
   carga_manual?: boolean;
   id_operacion?: number;
   id_centro_op?: number;
+  id_seguimiento?: number | null;
 }
 
 @Injectable({
@@ -61,6 +63,10 @@ export class EditarRutaService {
       }
       getCop(): Observable<any> {
         return this.http.get<any>(this.apiUrl + '/Cop/');
+      }
+
+      getSC(): Observable<any> {
+        return this.http.get<any>(this.apiUrl + '/Sc/');
       }
 
       getFotoPerfil(filename: string): Observable<Blob> {
