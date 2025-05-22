@@ -37,11 +37,11 @@
               <option *ngFor="let Op of OperacionesFiltradas" [value]="Op.id">{{ Op.centro }}</option>
             </select>
             
-              <label for="carga_manual">Carga manual</label>
-              <label class="switch">
-              <input [(ngModel)]="nuevoCliente.carga_manual" name="carga_manual" type="checkbox" id="carga_manual">
-              <span class="slider"></span>
-            </label>
+              <label for="id_seguimiento">Seguimiento de Ruta</label>
+              <select id="id_seguimiento" name="id_seguimiento" class="form-select" [(ngModel)]="nuevoCliente.id_seguimiento"  >
+              <option value="" disabled selected>Seguimiento de ruta.</option>
+              <option *ngFor="let sC of SeguimientoClienteList" [value]="sC.id">{{ sC.glosa }}</option>
+            </select>
             
           </div>
       
@@ -171,7 +171,7 @@
               <label for="id_centro_op">Centro Operacion</label>
               <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" disabled>
                 <option value="" disabled selected>Seleccione un Centro de Operacion</option>
-                <option *ngFor="let Cop of CentroOperacionesFiltradas" [value]="Cop.id">{{ Cop.centro }}</option>
+                <option *ngFor="let Cop of CentroOperaciones" [value]="Cop.id">{{ Cop.centro }}</option>
               </select>
             </div>
           </div>
@@ -274,17 +274,18 @@
               <label for="id_centro_op">Centro Operacion</label>
               <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" >
                 <option value="" disabled selected>Seleccione un Centro de Operacion</option>
-                <option *ngFor="let Cop of CentroOperacionesFiltradas" [value]="Cop.id">{{ Cop.centro }}</option>
+                <option *ngFor="let Cop of CentroOperaciones" [value]="Cop.id">{{ Cop.centro }}</option>
               </select>
             </div>
 
             <div>
-              <label for="carga_manual">Carga manual</label>
-              <label class="switch">
-                <input [(ngModel)]="updateData.carga_manual" type="checkbox" id="carga_manual">
-                <span class="slider"></span>
-              </label>
-            
+
+              <label for="id_seguimiento">Seguimiento Cliente</label>
+              <select id="id_seguimiento" class="form-select" [(ngModel)]="updateData.id_seguimiento" [value]="userData?.id_seguimiento" >
+                <option value="" disabled selected>Seleccione un Seguimiento para Cliente</option>
+                <option *ngFor="let Sc of SeguimientoClienteList" [value]="Sc.id">{{ Sc.glosa }}</option>
+              </select>
+
             </div>
           </div>
       

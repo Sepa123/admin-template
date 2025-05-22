@@ -19,6 +19,7 @@ import { BuscarRutaComponent } from './buscar-ruta/buscar-ruta.component';
 import { ResumenRutasComponent } from './resumen-rutas/resumen-rutas.component';
 import { PendientesObligadosComponent } from './pendientes-obligados/pendientes-obligados.component';
 import { CargaRutasManualesComponent } from './carga-rutas-manuales/carga-rutas-manuales.component'
+import { CargaGuiasManualesComponent } from './carga-guias-manuales/carga-guias-manuales.component'
 
 const routes: Routes = [
   {
@@ -132,6 +133,13 @@ const routes: Routes = [
       {
         path : 'rutas-manuales',
         component : CargaRutasManualesComponent,
+        data : {
+          title : 'rutas-manuale'
+        }
+      },
+      {
+        path : 'guias-manuales',
+        component : CargaGuiasManualesComponent,
         data : {
           title : 'rutas-manuale'
         }

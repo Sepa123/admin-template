@@ -44,7 +44,8 @@ import { ResumenRutasComponent } from './resumen-rutas/resumen-rutas.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { PendientesObligadosComponent } from './pendientes-obligados/pendientes-obligados.component';
 import {NgbRating} from '@ng-bootstrap/ng-bootstrap';
-import { CargaRutasManualesComponent } from './carga-rutas-manuales/carga-rutas-manuales.component'
+import { CargaRutasManualesComponent } from './carga-rutas-manuales/carga-rutas-manuales.component';
+import { CargaGuiasManualesComponent } from './carga-guias-manuales/carga-guias-manuales.component'
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { CargaRutasManualesComponent } from './carga-rutas-manuales/carga-rutas-
     BuscarRutaComponent,
     ResumenRutasComponent,
     PendientesObligadosComponent,
-    CargaRutasManualesComponent
+    CargaRutasManualesComponent,
+    CargaGuiasManualesComponent
   ],
   imports: [
     CommonModule,

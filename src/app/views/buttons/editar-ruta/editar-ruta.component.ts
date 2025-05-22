@@ -39,6 +39,7 @@ export class EditarRutaComponent {
       carga_manual: false,
       id_operacion: null as number | null, // Permitir null o number
       id_centro_op: null as number | null, // Permitir null o number
+      id_seguimiento: null as number | null, // Permitir null o number
   };
 
   Cliente: any[] = [];
@@ -66,6 +67,8 @@ export class EditarRutaComponent {
   ngOnInit(): void {
     this.getOp();
     this.getCop();
+    this.getSc();
+
     this.AccountUserid();
     this.Clients();
     this.getRegiones();
@@ -160,7 +163,7 @@ export class EditarRutaComponent {
     this.nuevoCliente.ciudad = Number(this.nuevoCliente.ciudad);
     this.nuevoCliente.id_operacion = this.nuevoCliente.id_operacion ?? 0; // Si es null, asignar 0
     this.nuevoCliente.id_centro_op = this.nuevoCliente.id_centro_op ?? 0; // Si es null, asignar 0
-
+    this.nuevoCliente.id_seguimiento = this.nuevoCliente.id_seguimiento ?? 0; // Asegurarse de que sea booleano
 
     this.gm.agregarCliente(this.nuevoCliente).subscribe({
       next: (response) => {
@@ -216,6 +219,7 @@ export class EditarRutaComponent {
       carga_manual: false,
       id_operacion: null,
       id_centro_op: null,
+      id_seguimiento: null,
     };
   }
 
@@ -323,6 +327,20 @@ getCop(): void {
     (data) => {
       this.CentroOperaciones = data;
       this.CentroOperacionesFiltradas = [...this.CentroOperaciones]; // Inicialmente, todos los centros están disponibles
+    },
+    (error) => {
+      this.mostrarAlerta('No se han encontrado centros de operaciones', 'error');
+    }
+  );
+}
+
+SeguimientoClienteList: any [] = [];
+
+getSc(): void {
+  this.gm.getSC().subscribe(
+    (data) => {
+      this.SeguimientoClienteList = data;
+
     },
     (error) => {
       this.mostrarAlerta('No se han encontrado centros de operaciones', 'error');
@@ -478,6 +496,7 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
       carga_manual: false,
       id_operacion: null,
       id_centro_op: null,
+      id_seguimiento: null,
     };
 
     // Restablecer valores del formulario de edición de usuario
@@ -495,6 +514,7 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
       esquema_destino: '',
       tabla_destino: '',
       carga_manual: false,
+      id_seguimiento: null,
     };
 
     // Opcional: Restablecer otras variables relacionadas

@@ -1,104 +1,315 @@
-:host {
-    #exampleColorInput {
-      min-width: 2.5rem;
+body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: transparent;
+      padding: 20px,;
+      box-sizing: border-box;
     }
-    .color-box {
-      min-width: 2rem;
-      min-height: 2rem;
-    }
-  }
-  
-  .greenTable{
-    
-    max-height: 400px; /* Altura de ejemplo */
-    overflow: auto;
-  }
-  
-  .greenTable  table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin: 20px 0;
-    border-radius: 10px;
-    // overflow: hidden;
-    box-shadow: 0 4px 8px #ebedef;
-    font-size: 12px; 
-    text-align: center
-  }
-  .greenTable  table td, table th {
-    border: 0px solid #AAAAAA;
-    padding: 3px 2px;
-  }
-  .greenTable  table tbody td {
-    font-size: 12px;
-  }
-  
-  .greenTable  table td {
-    font-size: 12px;
+
+
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Centra horizontalmente
+  justify-content: center;
+  text-align: center; // Centra el texto del h1
+  margin-bottom: 24px;
+  background: transparent;
+  img {
+    max-width: 80px;
+    margin-bottom: 8px;
   }
 
-  
-  .greenTable  table tbody th {
-    font-size: 12px;
+  h1 {
+    margin: 0;
+    font-size: 1.5em;
     font-weight: bold;
-    background: #28A745;
-    color: #FFFFFF;
   }
-  .greenTable  table tr:nth-child(even) {
-    background: #FFFEF3;
-  }
-  .greenTable table thead {
-    position: sticky;
-    top: 0;
-    left: 0;
-    background: #28A745;
-  }
-  .greenTable  table thead th {
-    font-size: 10px;
-    font-weight: bold;
-    color: #FFFFFF;
-    text-align: center;
-    border-left: 2px solid #28A745;
-  }
-  .greenTable  table thead th:first-child {
-    border-left: none;
-  }
-  
-  .inline-container {
-    margin: 1px;
-    display: flex;
-    align-items: center; /* Alinea los elementos verticalmente si es necesario */
-  }  
+}
 
-  .inline-container input,
-  .inline-container c-dropdown,
-  .inline-container span {
-    margin-right: 5px; /* Espacio personalizado entre los elementos */
-  }
-  h2 {
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+ 
+.table-scroll {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  min-height: auto;
+  max-height: 400px; // Ajusta el alto según lo que necesites
+  overflow-y: auto;
+}
+
+.table-header-sticky thead th {
+
+  position: sticky;
+  top: 0;
+  background: #f0f0f0;
+  
+  z-index: 2;
+
+
+}
+.dashboard-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: stretch; /* ← ESTO permite igual altura */
+  gap: 20px;
+  padding: 20px 0px 0px 0px;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: auto;
+  min-height: 400px; /* puedes ajustar esto según necesidad */
+}
+
+.paneL-resumen {
+  background: transparent;
+}
+
+.panel {
+  flex: 1;
+  min-width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+    .panel h2 {
+      font-size: 18px;
+      color: #444;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      background: #fafafa;
+      border-radius: 10px;
+      padding: 10px 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .card .value {
+      font-size: 20px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    .card .percentage {
+      font-size: 13px;
+      color: #888;
+    }
+
+    .highlight {
+      background-color: #ffecec;
+      border-left: 4px solid #d32f2f;
+    }
+
+    .region-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .region-table th, .region-table td {
+      text-align: left;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .region-table th {
+      background-color: #f0f0f0;
+      color: #555;
+    }
+
+    .proyeccion {
+      font-size: 28px;
+      color: #2196f3;
+      font-weight: bold;
       text-align: center;
+      margin-top: 15px;
     }
-    
-  .svgT{
-    fill:#12de20
-  }
 
-  .svgF{
-    fill:#d60a0a
-  }
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 250px;
+    }
 
-  .greenTable  table thead th:first-child {
-    border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+    .chart-center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      font-weight: bold;
+      color: #4caf50;
+      pointer-events: none;
+    }
+	
+	.icon-title {
+	  display: flex;
+	  align-items: center;
+	  gap: 8px;
+	  font-size: 14px;
+	  color: #444;
+	  margin-bottom: 5px;
+	}
+
+	.icon-title i {
+	  background: #e0e0e0;
+	  border-radius: 50%;
+	  padding: 6px;
+	  font-size: 14px;
+	  color: #555;
+	}
+	
+	.card-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  justify-content: flex-end;
 }
 
-.greenTable table th:last-child {
-  border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+.icon {
+  font-size: 24px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  align-self: flex-start;
+  margin-right: auto;
 }
 
-.greenTable table tr:last-child td:first-child {
-  border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+/* Colores por categoría */
+.icon.primary { background-color: #ffecec; color: #d32f2f; }
+.icon.success { background-color: #fafafa; color: #28a745; }
+.icon.info    { background-color: #fafafa; color: #6c757d; }
+.icon.warning { background-color: #fafafa; color: #6c757d; }
+.icon.orange  { background-color: #fafafa; color: #6c757d; }
+.icon.gray    { background-color: #fafafa; color: #6c757d; }
+.icon.danger  { background-color: #fafafa; color: #d32f2f; }
+.icon.dark    { background-color: #fafafa; color: #343a40; }
+
+.text-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align:right;
 }
 
-.greenTable table tr:last-child td:last-child {
-  border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.value {
+  font-size: 20px;
+  font-weight: bold;
+  color: #111;
+}
+
+.percentage {
+  font-size: 13px;
+  color: #555;
+}
+
+.region-table-panel {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.region-summary {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.region-summary th,
+.region-summary td {
+  text-align: left;
+  padding: 12px;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+
+.progress-label {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 6px;
+  height: 10px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.progress-bar.thick {
+  height: 16px;
+}
+
+.progress {
+  height: 100%;
+  border-radius: 6px;
+}
+
+.progress.green {
+  background-color: #28a745;
+}
+
+.progress.red {
+  background-color: #e74c3c;
+}
+
+.progress.yellow {
+  background-color: #ffc107;
+}
+
+.projection-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.projection-container h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.progress-label.large {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
 }
