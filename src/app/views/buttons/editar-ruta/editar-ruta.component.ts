@@ -149,12 +149,14 @@ export class EditarRutaComponent {
 
   nombreUser: string = '';
   Id_cliente: string = '';
-  recuperarUserdata(nombre: string, Png: string, id_C: string) {
+  id_operacionRECUPERAR: string = '';
+  recuperarUserdata(nombre: string, Png: string, id_C: string, id_OPC: string) {
     this.imagenPerfil = Png;
     this.nombreUser = nombre;
     this.Id_cliente = id_C;
+    this.id_operacionRECUPERAR = id_OPC
     this.getUsersEdit(this.Id_cliente);
-    console.log(this.Id_cliente);
+    console.log(this.Id_cliente, this.nombreUser);
   }
 
   onSubmit() {
@@ -722,6 +724,83 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
       return cleanPhone.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
     }
   }
+
+
+  modalOperacionesAbierto = false;
+
+abrirModalOperaciones() {
+  if (this.LoginId === '5') {
+    this.cargarOperacionesModalidades();
+    this.modalOperacionesAbierto = true;
+  }
+}
+
+cerrarModalOperaciones() {
+  this.modalOperacionesAbierto = false;
+}
+
+
+operaciones: any[] = [];
+
+reiniciarOperaciones() {
+  this.operaciones = [];  // Reinicia la lista de operaciones
+}
+
+getOperacionTooltip(op: any): string {
+  // Usar salto de línea HTML (&#10;) para el tooltip
+  const centros = op.centro_operacion?.map((c: any) => c.centro).join('&#10;') || '';
+  return `${op.descripcion}${centros ? '&#10;' + centros : ''}`;
+}
+
+cargarOperacionesModalidades() {
+  this.http.get<any[]>('http://127.0.0.1:8000/api/CentrosXmodalidades/').subscribe({
+    next: (data) => {
+      // Filtra las operaciones según id_operacion
+      
+      this.operaciones = data
+    },
+    error: () => {
+      this.mostrarAlerta('No se pudieron cargar las operaciones', 'error');
+    }
+  });
+}
+
+// Por ejemplo, si quieres mostrar solo las operaciones cuyo nombre coincida con this.nombreUser:
+getOperacionesParaUsuario(): any[] {
+  // Ejemplo: si nombreUser está en algún centro
+  return this.operaciones.filter(op =>
+    op.centro_operacion.some((c: { centro: string; }) => c.centro === this.nombreUser)
+  );
+}
+
+guardarOperaciones() {
+  // Obtiene los IDs de las operaciones seleccionadas
+  const operacionesSeleccionadas = this.operaciones
+    .filter(op => op.checked)
+    .map(op => op.id);
+
+  // Llama a tu función para guardar
+  // this.guardarOperacionesPermitidas(this.Id_cliente.toString(), operacionesSeleccionadas);
+  this.cerrarModalOperaciones(); // Cierra el modal después de guardar
+}
+
+guardarOperacionesPermitidas(id: number, operaciones: number[]): void {
+  const formData = new FormData();
+  formData.append('id', id.toString());
+  operaciones.forEach(op => {
+    formData.append('operaciones_permitidas', op.toString());
+  });
+
+  this.http.post('http://localhost:8000/api/actualizar-operaciones-permitidas/', formData)
+    .subscribe({
+      next: (response) => {
+        this.mostrarAlerta('Operaciones permitidas actualizadas correctamente', 'success');
+      },
+      error: (error) => {
+        this.mostrarAlerta('Error al actualizar operaciones permitidas', 'error');
+      }
+    });
+}
 
 }
 

@@ -241,6 +241,7 @@
             </label>
 
             
+            
       
           </div>
           <div class="form-columna">
@@ -294,8 +295,9 @@
         <!-- Columna izquierda para contraseñas -->
     </c-modal-body>
     <c-modal-footer>
-      
-
+      <button class="btn-save-modal" [disabled]="LoginId !== '5'" (click)="abrirModalOperaciones()">
+        Operaciones
+      </button>
       <button class="btn-save-modal" (click)="actualizarCliente()" [disabled]="LoginId !== '5'" >
         <i class="fas fa-save"></i> Guardar
       </button>
@@ -343,7 +345,7 @@
               <!-- El *ngFor debe estar en las tarjetas, NO en el contenedor -->
               <div class="user-pool" > 
                   <!-- Repetir por cada usuario -->
-                  <div *ngFor="let cf of ClienteFiltrado" class="user-card" (click)="toggleLive2()" (click)="recuperarUserdata(cf.nombre, cf.logo_img, cf.id)">
+                  <div *ngFor="let cf of ClienteFiltrado" class="user-card" (click)="toggleLive2()" (click)="recuperarUserdata(cf.nombre, cf.logo_img, cf.id, cf.id_operacion)">
                       <!-- Añadir condición para inactivos -->
                       <div style="border-color:'grey'" class="profile-img">
                           <img class="imagen-perfil" [src]="cf.logo_img" alt="Foto de perfil">
@@ -375,4 +377,30 @@
   </div>
   
   
-  
+<!-- Modal de Operaciones -->
+<div class="custom-modal-backdrop" *ngIf="modalOperacionesAbierto">
+  <div class="custom-modal operaciones-modal">
+    <div class="operaciones-header">
+      <i class="fa-solid fa-layer-group operaciones-icon"></i>
+      <span class="operaciones-title">Operaciones Permitidas</span>
+      <button class="close-btn" (click)="cerrarModalOperaciones()">&times;</button>
+    </div>
+    <div class="operaciones-body">
+          <div class="operaciones-grid">
+            <div class="operacion-col" *ngFor="let op of operaciones; let i = index">
+              <div class="operacion-row">
+                <input type="checkbox" [id]="op.id" [(ngModel)]="op.checked" >
+                <label class="operacion-label" [for]="op.id">{{ op.operacion }}</label>
+                <i class="fa-solid fa-comments operaciones-chat" [attr.title]="getOperacionTooltip(op)"></i>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div class="operaciones-footer">
+      <button class="btn-cancelar" (click)="cerrarModalOperaciones()">Cancelar</button>
+      <button class="btn-guardar" >
+        <i class="fa fa-check"></i> Guardar
+      </button>
+    </div>
+  </div>
+</div>
