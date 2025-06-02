@@ -1,0 +1,225 @@
+
+
+
+.custom-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.custom-modal.operaciones-modal {
+  background: #fff;
+  border-radius: 16px;
+  min-width: 600px;
+  max-width: 95vw;
+  max-height: 90vh;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  animation: modalFadeIn 0.25s;
+}
+
+@keyframes modalFadeIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.operaciones-header {
+  display: flex;
+  align-items: center;
+  padding: 1.2em 1.5em 1em 1.5em;
+  border-bottom: 1px solid #eee;
+  font-size: 1.3em;
+  font-weight: bold;
+  background: #f8f9fa;
+  position: relative;
+}
+.operaciones-icon {
+  color: #2563eb;
+  font-size: 1.3em;
+  margin-right: 0.5em;
+}
+.operaciones-title {
+  flex: 1;
+}
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.6em;
+  cursor: pointer;
+  color: #888;
+  position: absolute;
+  right: 1.2em;
+  top: 1em;
+}
+
+.operaciones-body {
+  padding: 1.5em 1.5em 0.5em 1.5em;
+}
+.operaciones-grid {
+  display: flex;
+  gap: 2em;
+  justify-content: flex-start;
+}
+.operacion-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  min-width: 180px;
+}
+.operacion-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  font-size: 1.1em;
+  position: relative;
+}
+.operaciones-chat {
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+.operaciones-chat:hover + .operaciones-tooltip {
+  display: block;
+}
+.operaciones-tooltip {
+  display: none;
+  position: absolute;
+  top: -2.2em;
+  left: 2.5em;
+  background: #fff;
+  border: 1px solid #2563eb;
+  color: #2563eb;
+  padding: 0.4em 1em;
+  border-radius: 8px;
+  font-size: 0.95em;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.operaciones-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
+  padding: 1em 1.5em 1.5em 1.5em;
+  border-top: 1px solid #eee;
+  background: #f8f9fa;
+}
+.btn-cancelar {
+  background: #e5e7eb;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6em 1.4em;
+  font-size: 1em;
+  cursor: pointer;
+}
+.btn-guardar {
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6em 1.4em;
+  font-size: 1em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+
+
+
+
+.operaciones-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0; // Sin espacio entre columnas
+  margin-top: 1em;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  align-items: stretch;
+  min-width: 600px;
+
+}
+.operaciones-body {
+  padding: 1.5em 1.5em 0.5em 1.5em;
+  max-height: 350px; // Ajusta la altura máxima visible
+  overflow-y: auto;  // Habilita el scroll vertical
+}
+
+.operacion-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3em; // Menos espacio entre filas (antes 1em)
+  padding: 0.4em 1.2em; // Menos padding vertical (antes 0.8em 1.2em)
+  min-width: 0;
+  border-right: 1px solid #d1d5db;
+}
+
+
+.operacion-col:last-child {
+  border-right: none; // Quita la línea en la última columna
+}
+
+.operacion-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  font-size: 1.08em;
+  margin-bottom: 0.1em; // Menos espacio inferior (antes 0.5em)
+  min-height: 1.8em; // Opcional: reduce la altura mínima
+}
+
+.operaciones-chat {
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-left: auto;
+}
+.operacion-label {
+  font-size: 0.5em; // Ajusta el tamaño aquí (ejemplo: 1em, 1.2em, 16px, etc.)
+  font-weight: 500;  // Puedes ajustar el grosor si lo deseas
+  color: #222;       // Cambia el color si lo necesitas
+}
+.operacion-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-weight: 60px;
+  font-size: 1.08em;
+  margin-bottom: 0.5em;
+}
+
+.centros-operacion {
+  margin-bottom: 0.5em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+}
+
+.centro-chip {
+  background: #e0f2fe;
+  color: #2563eb;
+  border-radius: 6px;
+  padding: 0.2em 0.7em;
+  font-size: 0.95em;
+  margin-right: 0.2em;
+}
+
+.operacion-desc {
+  font-size: 0.97em;
+  color: #555;
+  margin-top: 0.3em;
+}

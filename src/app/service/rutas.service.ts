@@ -14,7 +14,7 @@ import { ComunaRutas } from '../models/comunaRutas.interface'
 import { seguimientoRuta } from '../models/TOC/seguimientoRuta.interface'
 import {PedidoCompromisoObligatorio } from '../models/rutas/pedidoCompromisoObligatorios.interface'
 import { VehiculoDisponible,PatenteDisponible } from '../models/rutas/vehiculosDisponibles.interface'
-import { MainCamposClientes, RutasTy, RutasTyTemp } from '../models/rutas/rutas.interface';
+import { GuiasExternasTemp, MainCamposClientes, RutasTy, RutasTyTemp,GuiasExternas } from '../models/rutas/rutas.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -380,5 +380,51 @@ export class RutasService {
   delete_ruta_manual(ruta: string, guia : string) {
     return this.http.delete(this.apiurl + `/eliminar/ruta_manual?ruta=${ruta}` + `&guia=${guia}`)
   }
+
+  //// guias manuales ext
+
+
+  upload_guias_ext(formData : any, id_usuario : string, ids_usuario : string, cliente : string, id_cliente : number){
+    return this.http.post(this.apiurl+`/subir-archivo/guias_ext?id_usuario=${id_usuario}&ids_usuario=${ids_usuario}&cliente=${cliente}&id_cliente=${id_cliente}`, formData)
+  }
+
+  get_lista_guias_externa_temp( id_usuario : string){
+    return this.http.get < GuiasExternasTemp []>(this.apiurl + `/lista/guias_externas/temp?id_usuario=${id_usuario}`)
+  }
+
+
+  // ### archivo ejemplo para carga de rutas manuales
+
+  download_excel_ejemplo_guias_ext() {
+    this.http.get(`${this.apiurl}/archivo_ejemplo/guias_externa/descargar`, {responseType:"blob"})
+    .subscribe((blob:Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url
+      a.download =`excel_base_guias_externa.xlsx`; 
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+  }
+
+
+
+  // ###### procesar rutas manuales temporales
+
+  get_procesar_guias_externas_temporales( id_usuario : string){
+    return this.http.get(this.apiurl + `/procesar/guias_externas/temp?id_usuario=${id_usuario}`)
+  }
+
+  ////## limpiar guias externas temporales
+  get_limpiar_guias_externas_temporales( id_usuario : string){
+    return this.http.get(this.apiurl + `/limpiar/guias_externas/temp?id_usuario=${id_usuario}`)
+  }
+
+
+  get_lista_guias_externa( fecha_ini : string,fecha_fin : string,bloque: string){
+    return this.http.get < GuiasExternas []>(this.apiurl + `/lista/guias_externas?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}&bloque=${bloque}`)
+  }
+
+  
   
 }

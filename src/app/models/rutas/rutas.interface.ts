@@ -1,5 +1,6 @@
 export interface MainCamposClientes {
     Clientes_ty: ClientesTy[];
+    Clientes_guias_ty: ClientesTy[];
 }
 
 export interface ClientesTy {
@@ -17,6 +18,20 @@ export interface RutasTyTemp {
     Proceder_ppu:  boolean;
     Mensaje_ruta:  string;
     Proceder_ruta: boolean;
+    Proceder:      boolean;
+}
+
+export interface GuiasExternasTemp {
+    Id:            number;
+    Ruta:          number;
+    Ppu:           string;
+    Guia:          string;
+    Mensaje_op:    string;
+    Proceder_op:   boolean;
+    Mensaje_guia:  string;
+    Proceder_guia: boolean;
+    Mensaje_ppu:   string;
+    Proceder_ppu:  boolean;
     Proceder:      boolean;
 }
 
@@ -52,4 +67,50 @@ export interface RutasTy {
     tienda:                     string;
     observacion:                string;
     valor_ruta:                 number;
+}
+
+
+export interface GuiasExternas {
+    id_user: number;
+    ids_user: string;
+    operacion: string;
+    id_operacion: number;
+    centro_op: string;
+    id_centro_op: number;
+    id_ruta: number;
+    fecha: string; // formato 'YYYY-MM-DD'
+    ppu: string;
+    id_ppu: number;
+    driver: string;
+    id_driver: number;
+    telefono_driver: string;
+    guia: string;
+    detalle: string;
+    cantidad: number;
+    bultos: number;
+    cliente: string;
+    id_cliente: number;
+    fecha_entrega: string; // formato 'YYYY-MM-DD'
+    modo: string;
+    region: string;
+    comuna: string;
+    direccion: string;
+    dnu_cliente: string;
+    nombre_cliente: string;
+    telefono_cliente: string;
+    correo_electronico_cliente: string;
+    origen: string;
+    fecha_estimada: string; // formato ISO 'YYYY-MM-DDTHH:mm:ss'
+    fecha_llegada: string; // formato ISO 'YYYY-MM-DDTHH:mm:ss'
+    estado: string;
+    subestado: string;
+    tiempo_en_destino: string;
+    n_intentos: number;
+    distancia_km: number;
+    peso: number;
+    volumen: number;
+    codigo: string;
+    observacion: string;
+    id_razon_social: number;
+    razon_social: string;
 }

@@ -651,9 +651,13 @@ export const navItems: INavDataBar[] = [
         name: 'Pedidos Comp. Obligatorio',
         url: '/picking/pendientes-obligados'
       },
+      // {
+      //   name :"Rutas Manuales",
+      //   url : '/picking/rutas-manuales'
+      // },
       {
-        name :"Rutas Manuales",
-        url : '/picking/rutas-manuales'
+        name :"Guias seguimiento",
+        url : '/picking/guias-manuales'
       }
     ]
   },

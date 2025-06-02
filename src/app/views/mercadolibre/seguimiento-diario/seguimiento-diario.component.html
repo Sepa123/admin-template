@@ -31,7 +31,7 @@
         <tr *ngFor="let row of datos; let i = index">
           <td>{{ i + 1 }}</td>
           <td contenteditable="true" (blur)="updateCell($event, i, 'Descripcion')">{{ row.Descripcion }}</td>
-          <td contenteditable="true" (blur)="updateCell($event, i, 'DdRuta')">{{ row.IdRuta }}</td>
+          <td contenteditable="true" (blur)="updateCell($event, i, 'IdRuta')">{{ row.IdRuta }}</td>
           <td contenteditable="true" (blur)="updateCell($event, i, 'FechaInicio')">{{ row.FechaInicio }}</td>
           <td contenteditable="true" (blur)="updateCell($event, i, 'FechaFin')">{{ row.FechaFin }}</td>
           <td contenteditable="true" (blur)="updateCell($event, i, 'Patente')">{{ row.Patente }}</td>

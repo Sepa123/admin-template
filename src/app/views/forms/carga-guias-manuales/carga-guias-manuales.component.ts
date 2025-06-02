@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RutasService } from '../../../service/rutas.service';
-import { ClientesTy,RutasTy,RutasTyTemp } from '../../../models/rutas/rutas.interface';
+import { ClientesTy,RutasTy,RutasTyTemp, GuiasExternasTemp, GuiasExternas} from '../../../models/rutas/rutas.interface';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -19,6 +19,7 @@ export class CargaGuiasManualesComponent {
   
   Clientes_ty: ClientesTy[] = [];
 
+  nombreClienteSeleccionado : string = ''
   clienteSeleccionado : number = 0
 
 
@@ -28,7 +29,7 @@ export class CargaGuiasManualesComponent {
   procesables: number = 0
   noProcesables: number = 0
 
-  listaRutasTyTemp: RutasTyTemp[] = [];
+  listaGuiasExternasTemp: GuiasExternasTemp[] = [];
 
   visible: boolean = false;
 
@@ -46,7 +47,7 @@ export class CargaGuiasManualesComponent {
     // Aquí puedes realizar cualquier inicialización necesaria
     this.service.get_campos_modulo_clientes().subscribe(
       (data) => {
-        this.Clientes_ty = data.Clientes_ty;
+        this.Clientes_ty = data.Clientes_guias_ty;
         // Lógica adicional en caso de éxito.
       }
     )
@@ -67,7 +68,7 @@ export class CargaGuiasManualesComponent {
     this.selectedFile = null
     this.nombreArchivo = "Ningún archivo seleccionado"
 
-    this.service.get_limpiar_rutas_manuales_temporales(id_usuario).subscribe( (data : any) => {
+    this.service.get_limpiar_guias_externas_temporales(id_usuario).subscribe( (data : any) => {
       alert(data.message)
       this.toggleLiveDemo()
     })
@@ -80,14 +81,22 @@ export class CargaGuiasManualesComponent {
     this.selectedFile = null
     this.nombreArchivo = "Ningún archivo seleccionado"
 
-    this.service.get_procesar_rutas_manuales_temporales(id_usuario).subscribe( (data : any) => {
+    this.service.get_procesar_guias_externas_temporales(id_usuario).subscribe( (data : any) => {
       alert(data.message)
-      this.toggleLiveDemo()
+
+      // ### limpiar tabla temporal porque no me la limpia la funcion del backend
+
+      this.service.get_limpiar_guias_externas_temporales(id_usuario).subscribe( (data : any) => {
+        // alert(data.message)
+        this.toggleLiveDemo()
+      })
+
+      // this.toggleLiveDemo()
     })
     // this.toggleLiveDemo()
   }
 
-  subirExcelruta() {
+  subirExcelGuias() {
 
     console.log(this.clienteSeleccionado);
 
@@ -97,6 +106,8 @@ export class CargaGuiasManualesComponent {
     }
     const cliente = this.Clientes_ty.filter(cliente => cliente.Id_cliente == this.clienteSeleccionado)[0].Cliente
 
+    this.nombreClienteSeleccionado = cliente
+
     if (this.selectedFile) {
       let id_usuario = sessionStorage.getItem('id')+""
       let ids_usuario = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
@@ -104,37 +115,38 @@ export class CargaGuiasManualesComponent {
       formData.append('file', this.selectedFile, this.selectedFile.name);
 
     
-    // this.service.get_lista_rutas_manuales_temp(id_usuario).subscribe( data => {
-    //   this.listaRutasTyTemp = data
+    // this.service.get_lista_guias_externa_temp(id_usuario).subscribe( data => {
+    //   this.listaGuiasExternasTemp = data
 
-    //   console.log(this.listaRutasTyTemp)
+    //   console.log(this.listaGuiasExternasTemp)
 
       
-    //   this.cantRutas = this.listaRutasTyTemp.length
+    //   this.cantRutas = this.listaGuiasExternasTemp.length
 
-    //   this.procesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == true).length
-    //   this.noProcesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == false).length
+    //   this.procesables = this.listaGuiasExternasTemp.filter(ruta => ruta.Proceder == true).length
+    //   this.noProcesables = this.listaGuiasExternasTemp.filter(ruta => ruta.Proceder == false).length
 
     //   this.toggleLiveDemo()
     // })
 
     // ### version final 
     
-    this.service.upload_clientes_rutas_manuales(formData,id_usuario,ids_usuario,cliente,this.clienteSeleccionado).subscribe(
+    this.service.upload_guias_ext(formData,id_usuario,ids_usuario,cliente,this.clienteSeleccionado).subscribe(
       (data : any) => {
-        alert(data.message)
+        // alert(data.message)
+
         console.log('Archivo subido exitosamente');
 
-        this.service.get_lista_rutas_manuales_temp(id_usuario).subscribe( data => {
-          this.listaRutasTyTemp = data
+        this.service.get_lista_guias_externa_temp(id_usuario).subscribe( data => {
+          this.listaGuiasExternasTemp = data
     
-          console.log(this.listaRutasTyTemp)
+          console.log(this.listaGuiasExternasTemp)
     
           
-          this.cantRutas = this.listaRutasTyTemp.length
+          this.cantRutas = this.listaGuiasExternasTemp.length
     
-          this.procesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == true).length
-          this.noProcesables = this.listaRutasTyTemp.filter(ruta => ruta.Proceder == false).length
+          this.procesables = this.listaGuiasExternasTemp.filter(ruta => ruta.Proceder == true).length
+          this.noProcesables = this.listaGuiasExternasTemp.filter(ruta => ruta.Proceder == false).length
     
           this.toggleLiveDemo()
         })
@@ -160,14 +172,14 @@ export class CargaGuiasManualesComponent {
   fecha_inicio : string = ""
   fecha_fin : string = ""
 
-  listaRutas : RutasTy[] = []
-  listaRutasFull : RutasTy[] = []
+  listaRutas : GuiasExternas[] = []
+  listaRutasFull : GuiasExternas[] = []
 
 
   buscarListaRutas(bloque: string){
 
     if(this.textoBuscar == ""){
-      this.service.get_lista_rutas_manuales(this.fecha_inicio,this.fecha_fin,bloque).subscribe( data => {
+      this.service.get_lista_guias_externa(this.fecha_inicio,this.fecha_fin,bloque).subscribe( data => {
         this.listaRutas = data
         this.listaRutasFull = data
   
@@ -186,7 +198,7 @@ export class CargaGuiasManualesComponent {
 
   // ##### descargar ejemplo de excel
   descargarEjemploExcel() {
-    this.service.download_excel_ejemplo_rutas_manuales()
+    this.service.download_excel_ejemplo_guias_ext()
   }
 
 
@@ -195,17 +207,17 @@ export class CargaGuiasManualesComponent {
   descargar_excel_rutas_temp() : void{
       // Agrega una fila vacía al principio de los datos
   
-      if (this.listaRutasTyTemp.length === 0){
+      if (this.listaGuiasExternasTemp.length === 0){
         return alert("No se han ingresado rutas")
       }
       const datos: any[][] = [[]];
   
-      datos.push(["ID","Ruta","PPU","Guía","Estado Patente","Estado Ruta"])
+      datos.push(["ID","Ruta","PPU","Guía","Estado Operación","Mensaje Guia","Mensaje PPU"])
   
-      this.listaRutasTyTemp.forEach((ruta) => {
+      this.listaGuiasExternasTemp.forEach((ruta) => {
         // arrays.forEach(producto => {
           const fila: any[] = [];
-          fila.push(ruta.Id, ruta.Ruta, ruta.Ppu,ruta.Guia, ruta.Mensaje_ppu, ruta.Mensaje_ruta); 
+          fila.push(ruta.Id, ruta.Ruta, ruta.Ppu,ruta.Guia, ruta.Mensaje_op, ruta.Mensaje_guia, ruta.Mensaje_ppu); 
           datos.push(fila);
         // });
         
@@ -257,7 +269,7 @@ export class CargaGuiasManualesComponent {
         const lista = this.listaRutasFull[i];
         if (
             lista.ppu.toString().toLowerCase().startsWith(filtro) ||
-            lista.ruta.toString().toLowerCase().startsWith(filtro) ||
+            // lista.ruta.toString().toLowerCase().startsWith(filtro) ||
             lista.cliente.toString().toLowerCase().startsWith(filtro)  
         ) {
             resultado.push(lista);
@@ -301,7 +313,7 @@ export class CargaGuiasManualesComponent {
       this.listaRutas.forEach((ruta) => {
         // arrays.forEach(producto => {
           const fila: any[] = [];
-          fila.push(ruta.fecha, ruta.ruta, ruta.ppu,ruta.cliente, ruta.estado, ruta.comuna, ruta.bultos, ruta.observacion, ruta.valor_ruta); 
+          // fila.push(ruta.fecha, ruta.ruta, ruta.ppu,ruta.cliente, ruta.estado, ruta.comuna, ruta.bultos, ruta.observacion, ruta.valor_ruta); 
           datos.push(fila);
         // });
         
@@ -335,7 +347,7 @@ export class CargaGuiasManualesComponent {
   editarRuta(ruta: string, guia : string) {
     this.rutaSeleccionada = ruta
     this.guiaSeleccionada = guia
-    this.valorRuta = this.listaRutas.filter(ruta => ruta.ruta == parseInt(this.rutaSeleccionada) && ruta.guia == guia)[0].valor_ruta
+    // this.valorRuta = this.listaRutas.filter(ruta => ruta.ruta == parseInt(this.rutaSeleccionada) && ruta.guia == guia)[0].valor_ruta
 
     this.toggleEdicion()
   }
@@ -363,15 +375,15 @@ export class CargaGuiasManualesComponent {
       "valor_ruta": this.valorRuta
     }
     // ### actualizar valor ruta manual por api 
-    this.service.update_valor_ruta_manual(body).subscribe( (data : any) => {
+    // this.service.update_valor_ruta_manual(body).subscribe( (data : any) => {
 
-      this.listaRutas.map(ruta => {
-        if (ruta.ruta == parseInt(this.rutaSeleccionada) && ruta.guia == this.guiaSeleccionada){
-          console.log(this.valorRuta)
-          ruta.valor_ruta = this.valorRuta
-        }  
-      })
-    })
+    //   this.listaRutas.map(ruta => {
+    //     if (ruta.ruta == parseInt(this.rutaSeleccionada) && ruta.guia == this.guiaSeleccionada){
+    //       console.log(this.valorRuta)
+    //       ruta.valor_ruta = this.valorRuta
+    //     }  
+    //   })
+    // })
 
     
   }
@@ -406,7 +418,7 @@ export class CargaGuiasManualesComponent {
   eliminarRutaManual(ruta: string, guia : string){
     this.service.delete_ruta_manual(ruta,guia).subscribe( (data : any) => {
 
-      alert(data.message)
+      // alert(data.message)
       
     })
   }
