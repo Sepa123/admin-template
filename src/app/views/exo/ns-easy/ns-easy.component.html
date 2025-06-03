@@ -117,7 +117,11 @@
         <td>
           <div class="progress-label">{{producto.Ns_region}} %</div>
           <div class="progress-bar">
-            <div class="progress red" [style.width]="producto.Ns_region + '%'"></div>
+            <div class="progress" [ngClass]="{
+              'green': producto.Ns_region >= 97,
+              'red': producto.Ns_region < 97
+            }"
+            [style.width]="producto.Ns_region + '%'"></div>
           </div>
         </td>
       </tr>
@@ -128,12 +132,15 @@
   <div class="projection-container" *ngFor="let producto of nsPanelPrincipal; let i = index">
     <h3>Proyección</h3>
     <div class="progress-label large">{{producto.Proyeccion}} %</div>
-    <div class="progress-bar thick centered" *ngIf="producto.Proyeccion > 97">
-      <div class="progress green" [style.width]="producto.Proyeccion + '%'"></div>
+    <div class="progress-bar thick centered">
+      <div class="progress"
+      [ngClass]="{
+        'green': producto.Proyeccion >= 97,
+        'red': producto.Proyeccion < 97
+      }"
+      [style.width]="producto.Proyeccion + '%'"></div>
     </div>
-    <div class="progress-bar thick centered" *ngIf="producto.Proyeccion < 97">
-      <div class="progress red"  [style.width]="producto.Proyeccion + '%'"></div>
-    </div>
+    
   </div>
   </div>
 </div>
