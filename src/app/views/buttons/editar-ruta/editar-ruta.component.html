@@ -386,19 +386,25 @@
       <button class="close-btn" (click)="cerrarModalOperaciones()">&times;</button>
     </div>
     <div class="operaciones-body">
-          <div class="operaciones-grid">
-            <div class="operacion-col" *ngFor="let op of operaciones; let i = index">
-              <div class="operacion-row">
-                <input type="checkbox" [id]="op.id" [(ngModel)]="op.checked" >
-                <label class="operacion-label" [for]="op.id">{{ op.operacion }}</label>
-                <i class="fa-solid fa-comments operaciones-chat" [attr.title]="getOperacionTooltip(op)"></i>
-              </div>
-            </div>
-          </div>
+            <table class="tabla-operaciones">
+              <tbody class="tablabody">
+                <tr *ngFor="let op of operaciones; let i = index">
+                  <td>
+                    <input class="checkboxInput" type="checkbox" [id]="op.id" [(ngModel)]="op.checked">
+                  </td>
+                  <td>
+                    <label class="operacion-label" [for]="op.id">{{ op.operacion }}</label>
+                  </td>
+                  <td>
+                    <i class="fas fa-comment-dots operaciones-chat" [attr.title]="getOperacionTooltip(op)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
     </div>
     <div class="operaciones-footer">
       <button class="btn-cancelar" (click)="cerrarModalOperaciones()">Cancelar</button>
-      <button class="btn-guardar" >
+      <button class="btn-guardar" (click)="guardarOperaciones()">
         <i class="fa fa-check"></i> Guardar
       </button>
     </div>

@@ -774,14 +774,14 @@ getOperacionesParaUsuario(): any[] {
 }
 
 guardarOperaciones() {
-  // Obtiene los IDs de las operaciones seleccionadas
   const operacionesSeleccionadas = this.operaciones
     .filter(op => op.checked)
     .map(op => op.id);
 
-  // Llama a tu función para guardar
-  // this.guardarOperacionesPermitidas(this.Id_cliente.toString(), operacionesSeleccionadas);
-  this.cerrarModalOperaciones(); // Cierra el modal después de guardar
+  const idCliente = Number(this.Id_cliente); // Asegúrate de que sea número
+
+  this.guardarOperacionesPermitidas(idCliente, operacionesSeleccionadas);
+  this.cerrarModalOperaciones();
 }
 
 guardarOperacionesPermitidas(id: number, operaciones: number[]): void {
