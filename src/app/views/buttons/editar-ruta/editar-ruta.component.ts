@@ -73,6 +73,7 @@ export class EditarRutaComponent {
     this.Clients();
     this.getRegiones();
     this.getComunas();
+    
   }
 
   LoginId: string = '';
@@ -755,9 +756,13 @@ getOperacionTooltip(op: any): string {
 cargarOperacionesModalidades() {
   this.http.get<any[]>('http://127.0.0.1:8000/api/CentrosXmodalidades/').subscribe({
     next: (data) => {
-      // Filtra las operaciones según id_operacion
-      
-      this.operaciones = data
+      this.operaciones = data;
+      // Solo aquí, cuando ya tienes userData y operaciones:
+      if (this.userData && this.userData.operaciones_permitidas) {
+        this.operaciones.forEach(op => {
+          op.checked = this.userData.operaciones_permitidas.includes(op.id);
+        });
+      }
     },
     error: () => {
       this.mostrarAlerta('No se pudieron cargar las operaciones', 'error');

@@ -225,13 +225,13 @@
       
             <label for="correo">Correo</label>
             <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo">
-            <div>
+            <!-- <div>
                     <label for="Operacion">Operación</label>
                     <select id="Operacion" class="form-select" [(ngModel)]="updateData.id_operacion" [value]="userData?.id_operacion" (change)="onOperacionChange($event)">
                       <option value="" disabled selected>Seleccione una Operación</option>
                       <option *ngFor="let Op of OperacionesFiltradas" [value]="Op.id">{{ Op.centro }}</option>
                     </select>
-                  </div>
+                  </div> -->
 
                   
             <label for="activate">Activo</label>
@@ -271,13 +271,13 @@
               </select>
             </div>
 
-            <div>
+            <!-- <div>
               <label for="id_centro_op">Centro Operacion</label>
               <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" >
                 <option value="" disabled selected>Seleccione un Centro de Operacion</option>
                 <option *ngFor="let Cop of CentroOperaciones" [value]="Cop.id">{{ Cop.centro }}</option>
               </select>
-            </div>
+            </div> -->
 
             <div>
 
