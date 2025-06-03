@@ -757,7 +757,13 @@ cargarOperacionesModalidades() {
     next: (data) => {
       // Filtra las operaciones según id_operacion
       
-      this.operaciones = data
+      this.operaciones = data;
+      // Solo aquí, cuando ya tienes userData y operaciones:
+      if (this.userData && this.userData.operaciones_permitidas) {
+        this.operaciones.forEach(op => {
+          op.checked = this.userData.operaciones_permitidas.includes(op.id);
+        });
+      }
     },
     error: () => {
       this.mostrarAlerta('No se pudieron cargar las operaciones', 'error');
@@ -779,9 +785,13 @@ guardarOperaciones() {
     .filter(op => op.checked)
     .map(op => op.id);
 
-  // Llama a tu función para guardar
-  // this.guardarOperacionesPermitidas(this.Id_cliente.toString(), operacionesSeleccionadas);
-  this.cerrarModalOperaciones(); // Cierra el modal después de guardar
+  // // Llama a tu función para guardar
+  // // this.guardarOperacionesPermitidas(this.Id_cliente.toString(), operacionesSeleccionadas);
+  // this.cerrarModalOperaciones(); // Cierra el modal después de guardar
+  const idCliente = Number(this.Id_cliente); // Asegúrate de que sea número
+
+  this.guardarOperacionesPermitidas(idCliente, operacionesSeleccionadas);
+  this.cerrarModalOperaciones();
 }
 
 guardarOperacionesPermitidas(id: number, operaciones: number[]): void {

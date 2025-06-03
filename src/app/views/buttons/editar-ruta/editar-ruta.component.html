@@ -225,13 +225,13 @@
       
             <label for="correo">Correo</label>
             <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo">
-            <div>
+            <!-- <div>
                     <label for="Operacion">Operación</label>
                     <select id="Operacion" class="form-select" [(ngModel)]="updateData.id_operacion" [value]="userData?.id_operacion" (change)="onOperacionChange($event)">
                       <option value="" disabled selected>Seleccione una Operación</option>
                       <option *ngFor="let Op of OperacionesFiltradas" [value]="Op.id">{{ Op.centro }}</option>
                     </select>
-                  </div>
+                  </div> -->
 
                   
             <label for="activate">Activo</label>
@@ -271,13 +271,13 @@
               </select>
             </div>
 
-            <div>
+            <!-- <div>
               <label for="id_centro_op">Centro Operacion</label>
               <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" >
                 <option value="" disabled selected>Seleccione un Centro de Operacion</option>
                 <option *ngFor="let Cop of CentroOperaciones" [value]="Cop.id">{{ Cop.centro }}</option>
               </select>
-            </div>
+            </div> -->
 
             <div>
 
@@ -386,19 +386,25 @@
       <button class="close-btn" (click)="cerrarModalOperaciones()">&times;</button>
     </div>
     <div class="operaciones-body">
-          <div class="operaciones-grid">
-            <div class="operacion-col" *ngFor="let op of operaciones; let i = index">
-              <div class="operacion-row">
-                <input type="checkbox" [id]="op.id" [(ngModel)]="op.checked" >
-                <label class="operacion-label" [for]="op.id">{{ op.operacion }}</label>
-                <i class="fa-solid fa-comments operaciones-chat" [attr.title]="getOperacionTooltip(op)"></i>
-              </div>
-            </div>
-          </div>
+            <table class="tabla-operaciones">
+              <tbody class="tablabody">
+                <tr *ngFor="let op of operaciones; let i = index">
+                  <td>
+                    <input class="checkboxInput" type="checkbox" [id]="op.id" [(ngModel)]="op.checked">
+                  </td>
+                  <td>
+                    <label class="operacion-label" [for]="op.id">{{ op.operacion }}</label>
+                  </td>
+                  <td>
+                    <i class="fas fa-comment-dots operaciones-chat" [attr.title]="getOperacionTooltip(op)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
     </div>
     <div class="operaciones-footer">
       <button class="btn-cancelar" (click)="cerrarModalOperaciones()">Cancelar</button>
-      <button class="btn-guardar" >
+      <button class="btn-guardar" (click)="guardarOperaciones()">
         <i class="fa fa-check"></i> Guardar
       </button>
     </div>

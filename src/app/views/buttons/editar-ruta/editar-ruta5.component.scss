@@ -6,7 +6,7 @@
   top: 0; left: 0; right: 0; bottom: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.20);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,34 +14,28 @@
 }
 
 .custom-modal.operaciones-modal {
+  margin: 0 auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  border: none;
+  max-width: 500px;
+  width: 95vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 12px;
   background: #fff;
-  border-radius: 16px;
-  min-width: 600px;
-  max-width: 95vw;
-  max-height: 90vh;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-  animation: modalFadeIn 0.25s;
 }
 
-@keyframes modalFadeIn {
-  from { transform: scale(0.95); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
 
 .operaciones-header {
   display: flex;
   align-items: center;
-  padding: 1.2em 1.5em 1em 1.5em;
-  border-bottom: 1px solid #eee;
-  font-size: 1.3em;
-  font-weight: bold;
-  background: #f8f9fa;
-  position: relative;
+  gap: 0.7em;
+  padding: 1em 1.5em 1em 1.5em;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  border-radius: 12px 12px 0 0;
 }
+
 .operaciones-icon {
   color: #2563eb;
   font-size: 1.3em;
@@ -61,59 +55,101 @@
   top: 1em;
 }
 
-.operaciones-body {
-  padding: 1.5em 1.5em 0.5em 1.5em;
+
+.tabla-operaciones {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
 }
-.operaciones-grid {
-  display: flex;
-  gap: 2em;
-  justify-content: flex-start;
+
+.tabla-operaciones tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s;
 }
-.operacion-col {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  min-width: 180px;
+
+.tabla-operaciones tr:last-child {
+  border-bottom: none;
 }
-.operacion-item {
+
+.tabla-operaciones td {
+  padding: 0.7em 0.5em;
+  vertical-align: middle;
+  border: none;
+}
+
+.checkboxInput {
+  accent-color: #2563eb;
+  width: 1.1em;
+  height: 1.1em;
+  margin-right: 0.5em;
+}
+
+.operacion-label {
+  font-size: 1em;
+  color: #374151;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  white-space: normal;
+}
+
+.operaciones-chat {
+  color: #2563eb;
+  font-size: 1.2em;
+  cursor: pointer;
+  margin-left: 0.5em;
+  transition: color 0.2s;
+}
+.operaciones-chat:hover {
+  color: #1d4ed8;
+}
+
+.operaciones-header {
   display: flex;
   align-items: center;
   gap: 0.7em;
-  font-size: 1.1em;
-  position: relative;
-}
-.operaciones-chat {
-  color: #2563eb;
-  cursor: pointer;
-  font-size: 1.1em;
-}
-.operaciones-chat:hover + .operaciones-tooltip {
-  display: block;
-}
-.operaciones-tooltip {
-  display: none;
-  position: absolute;
-  top: -2.2em;
-  left: 2.5em;
+  padding: 1.2em 2em 1em 2em;
+  border-bottom: 1px solid #e5e7eb;
   background: #fff;
-  border: 1px solid #2563eb;
+  border-radius: 10px 10px 0 0;
+}
+
+.operaciones-icon {
   color: #2563eb;
-  padding: 0.4em 1em;
-  border-radius: 8px;
-  font-size: 0.95em;
-  white-space: nowrap;
-  z-index: 10;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  font-size: 1.5em;
+}
+
+.operaciones-title {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: #374151;
+  flex: 1 1 auto;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-left: 1em;
+}
+.close-btn:hover {
+  color: #111827;
 }
 
 .operaciones-footer {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 1em;
-  padding: 1em 1.5em 1.5em 1.5em;
-  border-top: 1px solid #eee;
+  padding: 1.2em 2em 1.2em 2em;
+  border-top: 1px solid #e5e7eb;
   background: #f8f9fa;
+  border-radius: 0 0 10px 10px;
 }
+
 .btn-cancelar {
   background: #e5e7eb;
   color: #333;
@@ -122,9 +158,14 @@
   padding: 0.6em 1.4em;
   font-size: 1em;
   cursor: pointer;
+  transition: background 0.2s;
 }
+.btn-cancelar:hover {
+  background: #d1d5db;
+}
+
 .btn-guardar {
-  background: #22c55e;
+  background: #2563eb;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -134,92 +175,18 @@
   display: flex;
   align-items: center;
   gap: 0.5em;
+  transition: background 0.2s;
+}
+.btn-guardar:hover {
+  background: #1d4ed8;
 }
 
-
-
-
-
-.operaciones-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0; // Sin espacio entre columnas
-  margin-top: 1em;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #fff;
-  align-items: stretch;
-  min-width: 600px;
-
-}
 .operaciones-body {
-  padding: 1.5em 1.5em 0.5em 1.5em;
-  max-height: 350px; // Ajusta la altura máxima visible
-  overflow-y: auto;  // Habilita el scroll vertical
-}
-
-.operacion-col {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.3em; // Menos espacio entre filas (antes 1em)
-  padding: 0.4em 1.2em; // Menos padding vertical (antes 0.8em 1.2em)
-  min-width: 0;
-  border-right: 1px solid #d1d5db;
+  background: #fff;
+  max-height: 50vh;   // Ajusta la altura máxima visible del body
+  overflow-y: auto;   // Scroll solo aquí
+  padding: 0;         // Ajusta si necesitas
 }
 
 
-.operacion-col:last-child {
-  border-right: none; // Quita la línea en la última columna
-}
-
-.operacion-row {
-  display: flex;
-  align-items: center;
-  gap: 0.7em;
-  font-size: 1.08em;
-  margin-bottom: 0.1em; // Menos espacio inferior (antes 0.5em)
-  min-height: 1.8em; // Opcional: reduce la altura mínima
-}
-
-.operaciones-chat {
-  color: #2563eb;
-  cursor: pointer;
-  font-size: 1.2em;
-  margin-left: auto;
-}
-.operacion-label {
-  font-size: 0.5em; // Ajusta el tamaño aquí (ejemplo: 1em, 1.2em, 16px, etc.)
-  font-weight: 500;  // Puedes ajustar el grosor si lo deseas
-  color: #222;       // Cambia el color si lo necesitas
-}
-.operacion-header {
-  display: flex;
-  align-items: center;
-  gap: 0.6em;
-  font-weight: 60px;
-  font-size: 1.08em;
-  margin-bottom: 0.5em;
-}
-
-.centros-operacion {
-  margin-bottom: 0.5em;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4em;
-}
-
-.centro-chip {
-  background: #e0f2fe;
-  color: #2563eb;
-  border-radius: 6px;
-  padding: 0.2em 0.7em;
-  font-size: 0.95em;
-  margin-right: 0.2em;
-}
-
-.operacion-desc {
-  font-size: 0.97em;
-  color: #555;
-  margin-top: 0.3em;
-}
+//footer
