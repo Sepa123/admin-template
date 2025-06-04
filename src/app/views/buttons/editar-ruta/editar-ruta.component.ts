@@ -747,10 +747,12 @@ reiniciarOperaciones() {
   this.operaciones = [];  // Reinicia la lista de operaciones
 }
 
+tooltipIndex: number | null = null;
+
 getOperacionTooltip(op: any): string {
-  // Usar salto de línea HTML (&#10;) para el tooltip
-  const centros = op.centro_operacion?.map((c: any) => c.centro).join('&#10;') || '';
-  return `${op.descripcion}${centros ? '&#10;' + centros : ''}`;
+
+  const centros = op.centro_operacion?.map((c: any) => c.centro).join('\n') || '';
+  return `${op.descripcion}${centros ? '\n' + centros : ''}`;
 }
 
 cargarOperacionesModalidades() {
