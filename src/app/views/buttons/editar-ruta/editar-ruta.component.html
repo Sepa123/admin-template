@@ -396,7 +396,12 @@
                     <label class="operacion-label" [for]="op.id">{{ op.operacion }}</label>
                   </td>
                   <td>
-                    <i class="fas fa-comment-dots operaciones-chat" [attr.title]="getOperacionTooltip(op)"></i>
+                    <span class="tooltip-container"
+                        (mouseenter)="tooltipIndex = i"
+                        (mouseleave)="tooltipIndex = null">
+                    <i class="fas fa-comment-dots operaciones-chat"></i>
+                    <div class="custom-tooltip" *ngIf="tooltipIndex === i" [innerHTML]="getOperacionTooltip(op)"></div>
+                  </span>
                   </td>
                 </tr>
               </tbody>

@@ -263,7 +263,9 @@ ngOnDestroy(): void {
     const data = [
       { name: 'No Entregados', value: this.nsPanelPrincipal[0]?.Porcentaje_no_entrega ?? 0 },
       { name: 'Entregados', value: this.nsPanelPrincipal[0]?.Porcentaje_entrega ?? 0 },
-      { name: 'Pendientes en ruta', value: this.nsPanelPrincipal[0]?.Porcentaje_pend_en_ruta ?? 0 }
+      { name: 'Pendientes en ruta', value: this.nsPanelPrincipal[0]?.Porcentaje_pend_en_ruta ?? 0 },
+      { name: 'Pendientes Sin ruta beetrack', value: this.nsPanelPrincipal[0]?.Porcentaje_sin_ruta_beetrack ?? 0 }
+      // Porcentaje_sin_ruta_beetrack
     ];
 
     // Limpia el gráfico anterior si existe
@@ -275,7 +277,7 @@ ngOnDestroy(): void {
 
     const color = d3.scaleOrdinal()
       .domain(data.map(d => d.name))
-      .range(['#e74c3c', '#2ecc71', '#f0f0f0']);
+      .range(['#e74c3c', '#2ecc71', '#f0f0f0', '#3498db']);
 
     const arc = d3.arc()
       .innerRadius(radius * 0.6) // <-- Cambia de 0 a 0.6 para hacer la dona
@@ -351,7 +353,7 @@ const entregados = data.find(d => d.name === 'Entregados')?.value ?? 0;
 svg.append('text')
   .attr('text-anchor', 'middle')
   .attr('dy', '0.35em')
-  .style('font-size', '2.2em')
+  .style('font-size', '32px')
   .style('font-weight', 'bold')
   .style('fill', 'black') // mismo color que el segmento de entregados
   .text(`${entregados}%`);
@@ -377,7 +379,8 @@ legendItem.append('span')
   .style('border-radius', '3px');
 
 legendItem.append('span')
-  .text(d => `${d.name}`);
+  .text(d => `${d.name}`)
+  .style('font-size', '14px');
   }
 
 

@@ -188,5 +188,23 @@
   padding: 0;         // Ajusta si necesitas
 }
 
+.tooltip-container {
+  position: relative;
+}
 
-//footer
+.custom-tooltip {
+  position: absolute;
+  right: 100%;      // Muestra el tooltip a la izquierda del contenedor
+  top: 0;
+  font-size: 8px;
+  background: #fff;
+  color: #222;
+  border: 1px solid #ddd;
+  padding: 0.5em 1em;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  z-index: 2001;
+  min-width: 180px;
+  white-space: pre-line;
+  margin-right: 5px; // Espacio entre el tooltip y el ícono
+}

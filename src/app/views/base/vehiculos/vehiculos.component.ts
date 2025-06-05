@@ -911,7 +911,11 @@ asignarOpVehiculo(id_op : number, id_centro_operacion : number){
       "Id_ppu" : this.IdVehiculo,
       "Id_operacion" : id_op,
       "Id_centro": id_centro_operacion,
-      "Estado" : true
+      "Estado" : true,
+      "Latitud" : this.latStr,
+      "Longitud" : this.longStr,
+      "Modificacion" : `Asignacion de operacion ${id_op} al vehiculo ${this.Patente} por ${sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""}`,
+      "Origen" : '/transporte/vehiculos'
     }
 
 

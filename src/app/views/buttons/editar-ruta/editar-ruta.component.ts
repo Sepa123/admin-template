@@ -79,7 +79,7 @@ export class EditarRutaComponent {
 
   AccountUserid() {
     this.LoginId = sessionStorage.getItem('rol_id')?.toString() + '';
-    console.log(this.LoginId);
+    // console.log(this.LoginId);
   }
 
   visible: boolean = false; // Inicialización
@@ -117,7 +117,7 @@ export class EditarRutaComponent {
     if (input.files && input.files[0]) {
       this.imagenSeleccionada = input.files[0];
       this.nombreArchivo = input.files[0].name; // Almacena el nombre del archivo
-      console.log('Archivo seleccionado:', this.nombreArchivo);
+      // console.log('Archivo seleccionado:', this.nombreArchivo);
     } else {
       this.nombreArchivo = null; // Si no se selecciona archivo, limpia el nombre
     }
@@ -133,7 +133,7 @@ export class EditarRutaComponent {
 
     this.gm.subirImagen(id_user, this.imagenSeleccionada).subscribe({
       next: (response) => {
-        console.log('Imagen subida exitosamente:', response);
+        // console.log('Imagen subida exitosamente:', response);
         // Actualiza la variable nombreArchivo con el nombre del archivo devuelto por el backend
 
         // Construye la URL de la imagen y actualiza la imagen del usuario actual
@@ -156,11 +156,11 @@ export class EditarRutaComponent {
     this.Id_cliente = id_C;
     this.id_operacionRECUPERAR = id_OPC
     this.getUsersEdit(this.Id_cliente);
-    console.log(this.Id_cliente, this.nombreUser);
+    // console.log(this.Id_cliente, this.nombreUser);
   }
 
   onSubmit() {
-    console.log('Datos antes de enviar:', this.nuevoCliente);
+    // console.log('Datos antes de enviar:', this.nuevoCliente);
     this.nuevoCliente.region = Number(this.nuevoCliente.region);
     this.nuevoCliente.ciudad = Number(this.nuevoCliente.ciudad);
     this.nuevoCliente.id_operacion = this.nuevoCliente.id_operacion ?? 0; // Si es null, asignar 0
@@ -170,8 +170,8 @@ export class EditarRutaComponent {
     this.gm.agregarCliente(this.nuevoCliente).subscribe({
       next: (response) => {
         this.Clients();
-        console.log('Usuario creado:', response);
-        console.log('Datos enviados:', this.nuevoCliente);
+        // console.log('Usuario creado:', response);
+        // console.log('Datos enviados:', this.nuevoCliente);
         // console.log('Usuario creado:', response.message);
         this.agregarBitacora({
           id_user: sessionStorage.getItem('id')?.toString() + '',
@@ -268,7 +268,7 @@ export class EditarRutaComponent {
           usuario.logo_img =
             this.baseImageUrl + (usuario.logo_img || 'default.jpg');
         });
-        console.log(this.ClienteFiltrado);
+        // console.log(this.ClienteFiltrado);
       },
       (error) => {
         this.mostrarAlerta('No se han encontrado usuarios', 'error');
@@ -358,10 +358,10 @@ filtrarCentroOperacionesPorSeleccion(): void {
     this.CentroOperacionesFiltradas = this.CentroOperaciones.filter(
       (cop) => Number(cop.id_op) === this.operacionSeleccionada
     );
-    console.log('Centros filtrados:', this.CentroOperacionesFiltradas);
+    // console.log('Centros filtrados:', this.CentroOperacionesFiltradas);
   } else {
     this.CentroOperacionesFiltradas = [...this.CentroOperaciones]; // Mostrar todos si no hay selección
-    console.log('Mostrando todos los centros:', this.CentroOperacionesFiltradas);
+    // console.log('Mostrando todos los centros:', this.CentroOperacionesFiltradas);
   }
 }
 
@@ -375,11 +375,11 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
       this.OperacionesFiltradas = this.Operaciones.filter(
         (op) => op.id === centroSeleccionado.id_op
       );
-      console.log('Operaciones filtradas:', this.OperacionesFiltradas);
+      // console.log('Operaciones filtradas:', this.OperacionesFiltradas);
     }
   } else {
     this.OperacionesFiltradas = [...this.Operaciones]; // Mostrar todos si no hay selección
-    console.log('Mostrando todas las operaciones:', this.OperacionesFiltradas);
+    // console.log('Mostrando todas las operaciones:', this.OperacionesFiltradas);
   }
 }
   filtrarComunasPorRegion(): void {
@@ -387,7 +387,7 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
       this.ComunasFiltradas = this.Comunas.filter(
         (comuna) => Number(comuna.id_region) === this.regionSeleccionada // Asegúrate de que ambos sean números
       );
-      console.log('Comunas filtradas:', this.ComunasFiltradas);
+      // console.log('Comunas filtradas:', this.ComunasFiltradas);
     } else {
       this.ComunasFiltradas = []; // Si no hay región seleccionada, no mostrar comunas
     }
@@ -624,10 +624,10 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
       .post('http://localhost:8000/api/Agregar/Bitacora/', bitacoraData)
       .subscribe({
         next: (response: any) => {
-          console.log('Registro agregado a la bitácora:', response.message);
+          // console.log('Registro agregado a la bitácora:', response.message);
         },
         error: (err: any) => {
-          console.error('Error al agregar registro a la bitácora:', err);
+          // console.error('Error al agregar registro a la bitácora:', err);
         },
       });
   }
@@ -746,10 +746,11 @@ reiniciarOperaciones() {
   this.operaciones = [];  // Reinicia la lista de operaciones
 }
 
+tooltipIndex: number | null = null;
+
 getOperacionTooltip(op: any): string {
-  // Usar salto de línea HTML (&#10;) para el tooltip
-  const centros = op.centro_operacion?.map((c: any) => c.centro).join('&#10;') || '';
-  return `${op.descripcion}${centros ? '&#10;' + centros : ''}`;
+  const centros = op.centro_operacion?.map((c: any) => c.centro).join('\n') || '';
+  return `${op.descripcion}${centros ? '\n' + centros : ''}`;
 }
 
 cargarOperacionesModalidades() {

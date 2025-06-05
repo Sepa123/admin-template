@@ -23,6 +23,9 @@ export class CargaGuiasManualesComponent {
   clienteSeleccionado : number = 0
 
 
+  clienteBuscador : number = 0
+
+
   // ###### Variables para la tabla de rutas temporales
 
   cantRutas : number = 0
@@ -182,6 +185,12 @@ export class CargaGuiasManualesComponent {
       this.service.get_lista_guias_externa(this.fecha_inicio,this.fecha_fin,bloque).subscribe( data => {
         this.listaRutas = data
         this.listaRutasFull = data
+
+        if(this.clienteBuscador == 0){
+            this.listaRutas = data
+        }else {
+          this.listaRutas = data.filter(ruta => ruta.id_cliente == this.clienteBuscador)
+        }
   
         console.log(data)
       })
@@ -262,14 +271,17 @@ export class CargaGuiasManualesComponent {
 
     const filtro = this.textoBuscar.toLowerCase();
 
+    console.log("Filtro aplicado:", this.clienteBuscador);
+
     const resultado: any[] = [];
     const maxResults = 200; // Ejemplo: limitar los resultados a los primeros 100
 
-    for (let i = 0; i < this.listaRutasFull.length; i++) {
+    if (this.clienteBuscador == 0){
+      for (let i = 0; i < this.listaRutasFull.length; i++) {
         const lista = this.listaRutasFull[i];
         if (
             lista.ppu.toString().toLowerCase().startsWith(filtro) ||
-            // lista.ruta.toString().toLowerCase().startsWith(filtro) ||
+            lista.guia.toString().toLowerCase().startsWith(filtro) ||
             lista.cliente.toString().toLowerCase().startsWith(filtro)  
         ) {
             resultado.push(lista);
@@ -278,6 +290,24 @@ export class CargaGuiasManualesComponent {
             }
         }
     }
+  } else {
+      for (let i = 0; i < this.listaRutasFull.length; i++) {
+        const lista = this.listaRutasFull[i];
+        if (
+            (lista.ppu.toString().toLowerCase().startsWith(filtro) ||
+            lista.guia.toString().toLowerCase().startsWith(filtro) ||
+            lista.cliente.toString().toLowerCase().startsWith(filtro)  ) && lista.id_cliente == this.clienteBuscador
+        ) {
+            resultado.push(lista);
+            if (resultado.length >= maxResults) {
+                break; // Terminar el bucle si se alcanza el máximo de resultados
+            }
+        }
+    }
+
+  }
+
+    
 
     this.listaRutas = resultado;
 
@@ -298,7 +328,7 @@ export class CargaGuiasManualesComponent {
   
 
 
-    // ### descargar excel de rutas manuales 
+    // ### descargar excel de guias
 
     descargar_excel_rutas_manuales() : void{
       // Agrega una fila vacía al principio de los datos
@@ -308,12 +338,12 @@ export class CargaGuiasManualesComponent {
       }
       const datos: any[][] = [[]];
   
-      datos.push(["Fecha","Ruta","PPU","Cliente","Estado","Comuna","Bultos","Observación","Valor Ruta"])
+      datos.push(["Fecha","Cliente","Operación","Centro Operación","Patente","Guía","Comuna","Estado"])
   
       this.listaRutas.forEach((ruta) => {
         // arrays.forEach(producto => {
           const fila: any[] = [];
-          // fila.push(ruta.fecha, ruta.ruta, ruta.ppu,ruta.cliente, ruta.estado, ruta.comuna, ruta.bultos, ruta.observacion, ruta.valor_ruta); 
+          fila.push(ruta.fecha, ruta.cliente, ruta.operacion,ruta.centro_op, ruta.ppu, ruta.guia, ruta.comuna, ruta.estado); 
           datos.push(fila);
         // });
         
