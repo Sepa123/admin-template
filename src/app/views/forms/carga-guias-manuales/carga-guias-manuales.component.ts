@@ -36,6 +36,8 @@ export class CargaGuiasManualesComponent {
 
   visible: boolean = false;
 
+  rutas_generadas: number = 0;
+
 
   toggleLiveDemo() {
     this.visible = !this.visible;
@@ -141,7 +143,11 @@ export class CargaGuiasManualesComponent {
         console.log('Archivo subido exitosamente');
 
         this.service.get_lista_guias_externa_temp(id_usuario).subscribe( data => {
-          this.listaGuiasExternasTemp = data
+          this.listaGuiasExternasTemp = data.datos
+
+          this.rutas_generadas = data.rutas_generadas
+
+
     
           console.log(this.listaGuiasExternasTemp)
     
@@ -338,12 +344,24 @@ export class CargaGuiasManualesComponent {
       }
       const datos: any[][] = [[]];
   
-      datos.push(["Fecha","Cliente","Operación","Centro Operación","Patente","Guía","Comuna","Estado"])
+      datos.push(["Operación","Id Operación","Centro Op", "Id Centro Op","Id Ruta","Fecha","Ppu", "Id Ppu","Driver","Id Driver","Telefono Driver","Guía",
+                  "Detalle","Cantidad","Bultos","Cliente","Id Cliente","Fecha Entrega","Modo", "Región","Comuna",
+                  "Dirección","Dnu Cliente", "Nombre Cliente", "Teléfono Cliente", "Correo Electrónico Cliente", "Origen","Fecha Estimada","Fecha Llegada",
+                  "Estado", "Subestado","Tiempo En Destino","N Intentos", "Distancia Km","Peso",
+                  "Volumen","Código", "Observación","Id Razón Social","Razón Social"
+      ])
   
       this.listaRutas.forEach((ruta) => {
         // arrays.forEach(producto => {
           const fila: any[] = [];
-          fila.push(ruta.fecha, ruta.cliente, ruta.operacion,ruta.centro_op, ruta.ppu, ruta.guia, ruta.comuna, ruta.estado); 
+          fila.push(
+                    ruta.operacion,ruta.id_operacion,ruta.centro_op,ruta.id_centro_op,ruta.id_ruta,ruta.fecha,ruta.ppu,ruta.id_ppu,
+                    ruta.driver,ruta.id_driver,ruta.telefono_driver, ruta.guia, ruta.detalle,ruta.cantidad,ruta.bultos, ruta.cliente,ruta.id_cliente, ruta.fecha_entrega,
+                    ruta.modo,ruta.region,ruta.comuna,ruta.direccion, ruta.dnu_cliente,ruta.nombre_cliente,ruta.telefono_cliente,
+                    ruta.correo_electronico_cliente,ruta.origen, ruta.fecha_estimada,ruta.fecha_llegada,ruta.estado, ruta.subestado,ruta.tiempo_en_destino,
+                    ruta.n_intentos,ruta.distancia_km,ruta.peso,ruta.volumen,ruta.codigo,
+                    ruta.observacion,ruta.id_razon_social,ruta.razon_social
+                  );
           datos.push(fila);
         // });
         

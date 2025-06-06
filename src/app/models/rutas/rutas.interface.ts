@@ -21,6 +21,12 @@ export interface RutasTyTemp {
     Proceder:      boolean;
 }
 
+
+export interface MainGuiasExternas {
+    datos:           GuiasExternasTemp[];
+    rutas_generadas: number;
+}
+
 export interface GuiasExternasTemp {
     Id:            number;
     Ruta:          number;

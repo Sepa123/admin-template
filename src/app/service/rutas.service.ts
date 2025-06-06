@@ -14,7 +14,7 @@ import { ComunaRutas } from '../models/comunaRutas.interface'
 import { seguimientoRuta } from '../models/TOC/seguimientoRuta.interface'
 import {PedidoCompromisoObligatorio } from '../models/rutas/pedidoCompromisoObligatorios.interface'
 import { VehiculoDisponible,PatenteDisponible } from '../models/rutas/vehiculosDisponibles.interface'
-import { GuiasExternasTemp, MainCamposClientes, RutasTy, RutasTyTemp,GuiasExternas } from '../models/rutas/rutas.interface';
+import { GuiasExternasTemp, MainCamposClientes, RutasTy, RutasTyTemp,GuiasExternas, MainGuiasExternas } from '../models/rutas/rutas.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -389,7 +389,7 @@ export class RutasService {
   }
 
   get_lista_guias_externa_temp( id_usuario : string){
-    return this.http.get < GuiasExternasTemp []>(this.apiurl + `/lista/guias_externas/temp?id_usuario=${id_usuario}`)
+    return this.http.get < MainGuiasExternas>(this.apiurl + `/lista/guias_externas/temp?id_usuario=${id_usuario}`)
   }
 
 
