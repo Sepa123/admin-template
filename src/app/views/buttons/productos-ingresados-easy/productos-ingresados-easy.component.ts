@@ -3,6 +3,7 @@ import { TocService } from 'src/app/service/toc.service'
 import { BitacoraRango } from 'src/app/models/alertasVigentes.interface';
 import { UsuarioTOC } from 'src/app/models/usuariosTOC.interface';
 import { MainProductoIngresado, DatoPI } from 'src/app/models/TOC/productosIngresadosEasy.interface'
+import { ResumenRegion } from 'src/app/models/productosIngresados.interface';
 // import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 // import { BaseChartDirective } from 'ng2-charts';
 
@@ -34,6 +35,9 @@ export class ProductosIngresadosEasyComponent {
   observacionActual : string | null = ""
   rangoFechas : string [] [] = []
 
+  objectKeys = Object.keys;
+
+  resumenRegiones: { [region: string]: { [comuna: string]: number } } = {};
 
   constructor( private service : TocService, private elementRef: ElementRef){
 
@@ -145,10 +149,31 @@ export class ProductosIngresadosEasyComponent {
       // data.datos.map((dato) => {
       //   this.datosDif.push(dato)
       // })
+      this.resumenRegiones = this.generarResumenPorRegionYComuna(this.datosDif);
+      this.totalesPorRegion = this.getTotalPorRegion(this.resumenRegiones);
+      this.actualizarRegionesUnicas()
       this.contador= this.contador + data.items
     })
 
   }
+
+// Crear Select de regiones únicas basado en los datos obtenidos de la tabla
+// Facilita para evitar mayores llamados al la BD. 
+regionesUnicas: string[] = [];
+
+actualizarRegionesUnicas() {
+  this.regionesUnicas = Array.from(
+    new Set(this.datosDif.map(d => d.Region))
+  );
+}
+
+
+regionSeleccionada: string = '';
+
+get datosFiltrados(): any[] {
+  if (!this.regionSeleccionada) return this.datosDif;
+  return this.datosDif.filter(d => d.Region === this.regionSeleccionada);
+}
 
   buscar(){
     this.fusionFecha = ""
@@ -183,6 +208,7 @@ export class ProductosIngresadosEasyComponent {
     //   this.datosDif = data.datos
     //   this.contador= data.items
     // })
+  
 
     console.log(myset)
 
@@ -221,8 +247,41 @@ export class ProductosIngresadosEasyComponent {
     })
   }
 
+  
+// Función para agrupar y contar con regiones y comunas la cantidad de paquetes
+generarResumenPorRegionYComuna(paquetes: any[]): ResumenRegion {
+  const resumen: ResumenRegion = {};
+
+  paquetes.forEach(paquete => {
+    const region = paquete.Region;
+    const comuna = paquete.Comuna;
+
+    if (!resumen[region]) resumen[region] = {};
+    if (!resumen[region][comuna]) resumen[region][comuna] = 0; resumen[region][comuna] += 1;
+
+    
+  });
+
+  return resumen;
+}
+
+
+
+getTotalPorRegion(resumenRegiones: { [region: string]: { [comuna: string]: number } }): { region: string, total: number }[] {
+  return Object.keys(resumenRegiones).map(region => ({
+    region,
+    total: Object.values(resumenRegiones[region]).reduce((sum, cantidad) => sum + cantidad, 0)
+  }));
+}
+// totalesPorRegion = this.getTotalPorRegion(this.resumenRegiones);
+totalesPorRegion: { region: string, total: number }[] = [];
+
 
   descargarExcel(){ 
     this.service.download_productos_ingresados_easy(this.datosDif,this.rangoFechas,this.fusionFecha,this.fecha_inicio, this.fecha_fin)
   }
+
+
+
+
 }
