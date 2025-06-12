@@ -9,7 +9,8 @@ import { Estado } from '../../../models/estados.interface';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ComunasService } from 'src/app/service/comunas/comunas.service';
 import { CentroOperacion } from '../../../models/operacion/centroOperacion.interface';
-
+import * as ExcelJS from 'exceljs';
+import FileSaver from 'file-saver';
 // import { format } from 'date-fns';
 // import { Console, error } from 'console';
 // import { id } from 'date-fns/locale';
@@ -151,6 +152,9 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
     this.toggleLiveDemo();
   }
 
+
+  id_mod: number = 0; // ID de la operación seleccionada
+
   submitForm() {
     // Obtener Valores de sessionStorage
     const id_user = sessionStorage.getItem('id')?.toString() + '';
@@ -177,6 +181,11 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
       return; // Detener la ejecución si hay campos vacíos
     }
 
+    if(this.id_mod === 0){
+      alert('Debe seleccionar una operación');
+      return; // Detener la ejecución si no se selecciona una operación
+    }
+
     // Crear un objeto FormData y agregar los datos del formulario
     const estado = true;
     const creation_date = this.currentDateTime;
@@ -189,6 +198,7 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
       creation_date: creation_date,
       estado: estado,
       update_date: update_date,
+      id_mod: this.id_mod
     };
 
     // Configuracion para la solicitud
@@ -231,10 +241,11 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
   //
 
   cargarDatos() {
-    this.subReporte = this.RS.getRazonesSocial().subscribe((data) => {
-      console.log(this.subReporte);
+    this.RS.getRazonesSocial().subscribe((data) => {
       this.tableData = data;
-      console.log(this.tableData);
+      this.formCO.patchValue({
+            Id_op : 'Seleccione una operación'
+          })
     });
   }
 
@@ -289,6 +300,7 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
   listaRegiones : any [] = []
   listaComunas : any [] = []
   listaComunasFull : any [] = []
+  listaModOperacion : any [] =[]
   idOpSave : any = 0
 
   modalidadOperacion : RazonSocial []= []
@@ -322,24 +334,37 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
   }
 
 cargarDatosCO(){
-  this.comunaService.getListaRegiones().subscribe((data : any) => {
-    this.listaRegiones = data
-  })
+  // this.comunaService.getListaRegiones().subscribe((data : any) => {
+  //   this.listaRegiones = data
+  // })
 
-  this.comunaService.getListaComunas().subscribe((data : any) => {
-    this.listaComunas = data
-    this.listaComunasFull = this.listaComunas
+  // this.comunaService.getListaComunas().subscribe((data : any) => {
+  //   this.listaComunas = data
+  //   this.listaComunasFull = this.listaComunas
+  //   this.formCO.patchValue({
+  //     Region : '1'
+  //   })
+  // })
+
+  this.service.seleccionablesGrupoOperacion().subscribe((data : any ) => {
+    this.listaRegiones = data.Region
+    this.listaComunas = data.Comuna
+    this.listaComunasFull = data.Comuna
+    this.listaModOperacion = data.Definicion_operacion
     this.formCO.patchValue({
       Region : '1'
     })
+
+    this.id_mod = 0
   })
 
-  this.service.getRazonesSocial().subscribe((data) => {
-    this.modalidadOperacion = data
-    this.formCO.patchValue({
-      Id_op : 'Seleccione una operación'
-    })
-  })
+
+
+
+  // this.service.getRazonesSocial().subscribe((data) => {
+  //   this.modalidadOperacion = data
+    
+  // })
 }
 
 
@@ -417,4 +442,48 @@ registrarCO(){
     }, error => alert(error.error.detail))
   }
 }
+
+
+
+
+
+// ### descargar excel
+
+ DescargarListaOperaciones() {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Grupos operaciones');
+  
+    // Encabezados de la tabla
+    worksheet.columns = [
+      { header: 'Nombre', key: 'nombre', width: 15 },
+      { header: 'Descripción', key: 'descripcion', width: 20 },
+      { header: 'Estado', key: 'estado', width: 15 },
+      // { header: 'Nombre contacto', key: 'nombreContacto', width: 20 },
+      // { header: 'Teléfono', key: 'telefono', width: 10 },
+      // { header: 'Origen Contacto', key: 'origenContacto', width: 20 },
+      // { header: 'Estado contacto', key: 'estadoContacto', width: 10 },
+      // { header: 'Motivo', key: 'motivo', width: 15 },
+      // { header: 'Fecha creación', key: 'fechaCreacion', width: 15 },
+      // { header: 'Contacto ejecutivo', key: 'contactoEjecutivo', width: 15 },
+    ];
+  
+    // Agregar filas con datos
+    this.tableData.forEach((desc) => {
+      worksheet.addRow({
+        nombre: desc.nombre,
+        descripcion: desc.description,
+        estado: desc.estado ? 'Activo' : 'Inactivo'
+      });
+    });
+
+
+  // Descargar el archivo Excel
+  workbook.xlsx.writeBuffer().then((data) => {
+    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    FileSaver.saveAs(blob, `Lista-Grupo-Operaciones-${new Date().toISOString().split('T')[0]}.xlsx`);
+  });
+
+
+  }
+
 }

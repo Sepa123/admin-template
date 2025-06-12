@@ -35,6 +35,10 @@ export class ModalidadDeOperacionesService {
     return this.http.post(this.apiurl + '/agregar/centro_operacion',data)
   }
 
+  seleccionablesGrupoOperacion(){
+    return this.http.get(this.apiurl + '/grupo_operaciones/campos')
+  }
+
   centroOperacionAsigandoAVehiculo(id_op:number,id_ppu:number){
     return this.http.get<CentroOperacion []>(this.apiurl + `/ver/centro_operacion/asignado?id_op=${id_op}&id_ppu=${id_ppu}`)
   }

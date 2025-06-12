@@ -165,17 +165,17 @@ export class EstadosComponent implements OnInit {
 
   private createSvg(): void {
     this.svg = d3
-      .select('#lineChart')
-      .append('svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .append('g')
-      .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
-  }
+    .select('#barChart')
+    .append('svg')
+    .attr('width', this.width + this.margin.left + this.margin.right)
+    .attr('height', this.height + this.margin.top + this.margin.bottom)
+    .append('g')
+    .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
+}
 
 private drawChart(): void {
   // Limpiar el contenedor del gráfico antes de dibujar
-  d3.select('#lineChart').selectAll('*').remove();
+  d3.select('#barChart').selectAll('*').remove();
 
   // Crear el contenedor SVG
   this.createSvg();
@@ -188,9 +188,10 @@ private drawChart(): void {
 
   // Crear las escalas
   const x = d3
-    .scaleTime()
-    .domain(d3.extent(this.dataencontrada, (d: any) => d.Hora_Ingreso_Parsed) as [Date, Date])
-    .range([0, this.width]);
+    .scaleBand()
+    .domain(this.dataencontrada.map((d: any) => d.Hora_Ingreso))
+    .range([0, this.width])
+    .padding(0.2);
 
   const y = d3
     .scaleLinear()
@@ -201,47 +202,26 @@ private drawChart(): void {
   this.svg
     .append('g')
     .attr('transform', `translate(0,${this.height})`)
-    .call(
-      d3.axisBottom(x).tickFormat((domainValue: Date | d3.NumberValue) => {
-        if (domainValue instanceof Date) {
-          return d3.timeFormat('%H:%M')(domainValue); // Formatear si es una fecha
-        }
-        return ''; // Devolver una cadena vacía si no es una fecha
-      })
-    );
+    .call(d3.axisBottom(x));
 
   // Agregar el eje Y
   this.svg.append('g').call(d3.axisLeft(y));
 
-  // Agregar la línea
+  // Agregar las barras
   this.svg
-    .append('path')
-    .datum(this.dataencontrada)
-    .attr('fill', 'none')
-    .attr('stroke', 'steelblue')
-    .attr('stroke-width', 2)
-    .attr(
-      'd',
-      d3
-        .line()
-        .x((d: any) => x(d.Hora_Ingreso_Parsed))
-        .y((d: any) => y(d.Entregas))
-    );
-
-  // Agregar puntos
-  this.svg
-    .selectAll('circle')
+    .selectAll('rect')
     .data(this.dataencontrada)
     .enter()
-    .append('circle')
-    .attr('cx', (d: any) => x(d.Hora_Ingreso_Parsed))
-    .attr('cy', (d: any) => y(d.Entregas))
-    .attr('r', 4)
+    .append('rect')
+    .attr('x', (d: any) => x(d.Hora_Ingreso)!)
+    .attr('y', (d: any) => y(d.Entregas))
+    .attr('width', x.bandwidth())
+    .attr('height', (d: any) => this.height - y(d.Entregas))
     .attr('fill', 'steelblue');
 
-  // Agregar tooltips
+  // Agregar tooltips (opcional)
   const tooltip = d3
-    .select('#lineChart')
+    .select('#barChart')
     .append('div')
     .style('opacity', 0)
     .style('position', 'absolute')
@@ -251,7 +231,7 @@ private drawChart(): void {
     .style('border-radius', '5px');
 
   this.svg
-    .selectAll('circle')
+    .selectAll('rect')
     .on('mouseover', (event: any, d: any) => {
       tooltip
         .style('opacity', 1)

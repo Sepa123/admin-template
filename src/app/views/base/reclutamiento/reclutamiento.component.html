@@ -605,6 +605,11 @@
           </select> -->
           </c-col>
           <c-col [xs]>
+            <input list="Patentes" name="Patentes" class="form-control" placeholder="Seleccione una patente" [(ngModel)]="buscadorVehiculo" (change)="filtrarPatente()"/>
+                  <datalist id="Patentes" >
+
+                    <option *ngFor="let ppu of listaPatentes"  [value]="ppu"  >{{ppu}}</option>
+                  </datalist>
               <!-- <input type="text" placeholder="Buscador" class="form-control" [(ngModel)]="buscadorVehiculo"> -->
   
           </c-col>
@@ -777,6 +782,7 @@
           <thead>
             <tr>
               <th>Región</th>
+              <th>Patente</th>
               <th>Operación postula</th>
               <th>Nombre contacto</th>
               <th>Teléfono</th>
@@ -796,6 +802,7 @@
           <tbody *ngFor="let recluta of reclutas">
             <tr  [class]="recluta.Rango_fecha == 3 ? 'alerta-rojo': recluta.Rango_fecha == 2 ? 'alerta_amarillo' : '' ">
               <td class="truncate" [title]="recluta.Region_nombre">{{recluta.Region_nombre}}</td>
+              <td style="text-align: center;" [title]="recluta.Ppu == null ? '' : recluta.Ppu">{{recluta.Ppu}} </td>
               <td style="text-align: center;" [title]="recluta.Operacion_nombre == null ? '' : recluta.Operacion_nombre">{{recluta.Operacion_nombre}} </td>
               <td [title]="recluta.Nombre">{{recluta.Nombre}}</td>
               <td style="text-align: center;" [title]="recluta.Telefono">{{recluta.Telefono}}</td>
@@ -866,6 +873,16 @@
               <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
           </svg> Descarga AT
       </button> -->
+
+
+      <!-- <button (click)="DescargarListaReclutamiento()">Descargar </button> -->
+
+     &nbsp;&nbsp;
+      <button  class="btn btn-success" (click)="DescargarListaReclutamiento()">
+        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg"  height="1.5em" viewBox="0 0 384 512">
+            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+        </svg> Descargar
+    </button>
   
 <!-- Modificar -->
 <c-modal id="liveDemoModal" [visible]="visibleComentarios" (visibleChange)="handleLiveComentariosChange($event)" size="lg" backdrop="static">

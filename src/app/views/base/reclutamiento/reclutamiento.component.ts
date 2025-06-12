@@ -15,7 +15,9 @@ import { CentroOperacion } from '../../../models/operacion/centroOperacion.inter
 import { PanelVehiculos } from '../../../models/transporte/paneles.interface'
 import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, Operacion, Origen, Reclutamiento, Region,TipoVehiculo,Comuna } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
 import { RecursiveAstVisitor } from '@angular/compiler';
-import * as XLSX from 'xlsx';
+// import * as XLSX from 'xlsx';
+import * as ExcelJS from 'exceljs';
+import FileSaver from 'file-saver';
 
 
 @Component({
@@ -48,6 +50,7 @@ export class ReclutamientoComponent {
   listaEstadoContacto: EstadoContacto [] = []
   reclutas : Reclutamiento [] = []
   reclutasFull : Reclutamiento [] = []
+  listaPatentes : string [] = []
 
 
   buscadorVehiculo : string = ''
@@ -226,6 +229,17 @@ export class ReclutamientoComponent {
   isModalOpenAgregar: boolean = false
   public visibleAgregar = false;
 
+  
+  filtrarPatente() {
+    if (this.buscadorVehiculo.length > 0) {
+      this.reclutas = this.reclutasFull.filter(ruta => ruta.Ppu.toLowerCase().includes(this.buscadorVehiculo.toLowerCase()))
+      this.pestana  = this.reclutasFull.filter(ruta => ruta.Ppu.toLowerCase().includes(this.buscadorVehiculo.toLowerCase()))[0].Pestana
+    } else {
+      this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
+    }
+  }
+
+
   toggleLiveAgregar() {
     this.rutValido = true
     this.form.reset()
@@ -357,6 +371,9 @@ export class ReclutamientoComponent {
         this.cantRechazado = this.reclutasFull.filter(ruta => ruta.Pestana == 3).length
         this.cantParaIngreso = this.reclutasFull.filter(ruta => ruta.Pestana == 4).length
         this.cantIngresado = this.reclutasFull.filter(ruta => ruta.Pestana == 5).length
+
+        this.listaPatentes = this.reclutasFull.map(ruta => ruta.Ppu).filter((value, index, self) => self.indexOf(value) === index)
+        console.log(this.listaPatentes)
       })
 
 
@@ -713,6 +730,97 @@ filtroPestana(pestana : number){
   }
   
 }
+
+
+
+  DescargarListaReclutamiento() {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Lista Descuentos');
+  
+    // Encabezados de la tabla
+    worksheet.columns = [
+      { header: 'Región', key: 'region', width: 15 },
+      { header: 'Patente', key: 'ppu', width: 20 },
+      { header: 'Operación postula', key: 'operacion', width: 15 },
+      { header: 'Nombre contacto', key: 'nombreContacto', width: 20 },
+      { header: 'Teléfono', key: 'telefono', width: 10 },
+      { header: 'Origen Contacto', key: 'origenContacto', width: 20 },
+      { header: 'Estado contacto', key: 'estadoContacto', width: 10 },
+      { header: 'Motivo', key: 'motivo', width: 15 },
+      { header: 'Fecha creación', key: 'fechaCreacion', width: 15 },
+      { header: 'Contacto ejecutivo', key: 'contactoEjecutivo', width: 15 },
+    ];
+  
+    // Agregar filas con datos
+    this.reclutas.forEach((desc) => {
+      worksheet.addRow({
+        region: desc.Region,
+        ppu: desc.Ppu,
+        operacion: desc.Operacion_nombre,
+        nombreContacto: desc.Nombre,
+        telefono: desc.Telefono,
+        origenContacto: desc.Nombre_origen,
+        estadoContacto: desc.Nombre_estados,
+        motivo: desc.Nombre_motivo,
+        fechaCreacion: desc.Fecha_creacion,
+        contactoEjecutivo: desc.Nombre_contacto
+      });
+    });
+
+  
+  // Aplicar estilos condicionales
+  // worksheet.eachRow((row, rowNumber) => {
+  //   if (rowNumber === 1) {
+  //     // Estilo para encabezados
+  //     row.eachCell((cell) => {
+  //       cell.font = { bold: true, color: { argb: 'FFFFFF' } };
+  //       cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '007bff' } };
+  //       cell.alignment = { horizontal: 'center', vertical: 'middle' };
+  //     });
+  //   } else {
+  //     // Estilo para filas con descripción
+  //     const descripcionCell = row.getCell(11); // Columna "Descripción"
+  //     if (descripcionCell.value) {
+  //       row.eachCell((cell) => {
+  //         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF380' } }; // Fondo amarillo
+  //         cell.font = { color: { argb: '000000' } }; // Texto NEGRO
+  //       });
+  //     }
+
+  //     // Estilo para toda la fila si la columna "Cobrada" es "Sí"
+  //     const cobradaCell = row.getCell(12); // Columna "Cobrada"
+  //     if (cobradaCell.value === 'Sí') {
+  //       row.eachCell((cell) => {
+  //         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'AEF359' } }; // Fondo verde
+  //         cell.font = { color: { argb: '000000' } }; // Texto negro
+  //       });
+  //     }
+      
+  //     // Estilo para toda la fila si la columna "Cobrada" es "Sí"
+  //     const AplicaCell = row.getCell(15); // Columna "Cobrada"
+  //     if (AplicaCell.value === 'No') {
+  //       row.eachCell((cell) => {
+  //         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'BC544B' } }; // Fondo Rojo
+  //         cell.font = { color: { argb: '000000' } }; // Texto negro
+  //       });
+  //     }
+  //   }
+  // });
+
+  // Descargar el archivo Excel
+  workbook.xlsx.writeBuffer().then((data) => {
+    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    FileSaver.saveAs(blob, `Lista-reclutamiento-${new Date().toISOString().split('T')[0]}.xlsx`);
+  });
+
+  
+    // Descargar el archivo Excel
+    // workbook.xlsx.writeBuffer().then((data) => {
+    //   const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    //   FileSaver.saveAs(blob, `Lista-reclutamiento-${new Date().toISOString().split('T')[0]}.xlsx`);
+    // });
+  }
+
 
  ngOnDestroy(): void {
 
