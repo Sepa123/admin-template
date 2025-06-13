@@ -38,7 +38,7 @@ export const navItems: INavDataBar[] = [
   {
     name: 'Area TI',
     url : '/areati',
-    icon: "viking",
+    icon: "hela",
     roles : ROLES_PERMITIDOS.PANEL,
     children : [
       {
