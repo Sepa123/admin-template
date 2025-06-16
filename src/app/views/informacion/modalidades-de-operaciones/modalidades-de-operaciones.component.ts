@@ -168,9 +168,9 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
     const description = (<HTMLInputElement>(
       document.getElementById('description')
     )).value;
-
+    const operacion = (<HTMLInputElement>document.getElementById('operacion')).value;
     // Validar campos
-    if (!nombre || !description) {
+    if (!nombre || !description || !operacion) {
       // Mostrar alertas específicas para cada campo
       if (!nombre) {
         alert('El campo Nombre es requerido.');
@@ -178,13 +178,15 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
       if (!description) {
         alert('El campo Descripción es requerido.');
       }
+      if(!operacion){
+        alert('Debe seleccionar una operación');
+      
+    }
       return; // Detener la ejecución si hay campos vacíos
+      
     }
 
-    if(this.id_mod === 0){
-      alert('Debe seleccionar una operación');
-      return; // Detener la ejecución si no se selecciona una operación
-    }
+    
 
     // Crear un objeto FormData y agregar los datos del formulario
     const estado = true;
@@ -198,7 +200,7 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
       creation_date: creation_date,
       estado: estado,
       update_date: update_date,
-      id_mod: this.id_mod
+      id_mod: operacion
     };
 
     // Configuracion para la solicitud
@@ -214,12 +216,12 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
       .subscribe((data) => {
         //mostrar aletar exito
         alert('El ingreso se ha realizado Correctamente');
-        this.service.getRazonesSocial().subscribe((data) => {
-          this.modalidadOperacion = data
-          this.formCO.patchValue({
-            Id_op : 'Seleccione una operación'
-          })
-        })
+        // this.service.getRazonesSocial().subscribe((data) => {
+        //   this.modalidadOperacion = data
+        //   this.formCO.patchValue({
+        //     Id_op : 'Seleccione una operación'
+        //   })
+        // })
         this.cargarDatos();
         this.toggleLiveDemo()
       },
@@ -313,7 +315,8 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
     Centro : this.builder.control("" ,[Validators.required] ),
     Region: this.builder.control("" ,[Validators.required] ),
     Descripcion : this.builder.control("", [Validators.required]),
-    Id_op :this.builder.control("", )
+    Id_op :this.builder.control("", ),
+    Id_modo_seg : this.builder.control("", [Validators.required])
   })
 
   centroOperacion : CentroOperacion [] =[]
@@ -351,6 +354,7 @@ cargarDatosCO(){
     this.listaComunas = data.Comuna
     this.listaComunasFull = data.Comuna
     this.listaModOperacion = data.Definicion_operacion
+    this.modalidadOperacion = data.modo_seguimiento
     this.formCO.patchValue({
       Region : '1'
     })
@@ -426,7 +430,9 @@ registrarCO(){
       "Centro" : this.formCO.value.Centro,
       "Region": this.formCO.value.Region,
       "Descripcion" :this.formCO.value.Descripcion,
-      "Id_op" : this.idOpSave
+      "Id_op" : this.idOpSave,
+      "Id_modo_seg" : this.formCO.value.Id_modo_seg
+
     }
     this.service.agregarCentroOperacion(body).subscribe((data : any) => {
       alert(data.message)
@@ -452,11 +458,14 @@ registrarCO(){
  DescargarListaOperaciones() {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Grupos operaciones');
-  
+
+
+
     // Encabezados de la tabla
     worksheet.columns = [
       { header: 'Nombre', key: 'nombre', width: 15 },
       { header: 'Descripción', key: 'descripcion', width: 20 },
+      { header: 'Operación', key: 'operacion', width: 20 },
       { header: 'Estado', key: 'estado', width: 15 },
       // { header: 'Nombre contacto', key: 'nombreContacto', width: 20 },
       // { header: 'Teléfono', key: 'telefono', width: 10 },
@@ -466,12 +475,13 @@ registrarCO(){
       // { header: 'Fecha creación', key: 'fechaCreacion', width: 15 },
       // { header: 'Contacto ejecutivo', key: 'contactoEjecutivo', width: 15 },
     ];
-  
+
     // Agregar filas con datos
     this.tableData.forEach((desc) => {
       worksheet.addRow({
         nombre: desc.nombre,
         descripcion: desc.description,
+        operacion : desc.mod_operacion,
         estado: desc.estado ? 'Activo' : 'Inactivo'
       });
     });

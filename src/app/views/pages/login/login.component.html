@@ -1,4 +1,4 @@
-<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+<!-- <div class="bg-light min-vh-100 d-flex flex-row align-items-center">
   <c-container>
     <c-row class="justify-content-center">
       <c-col md="4">
@@ -14,11 +14,6 @@
                   </span>
                   <input autoComplete="Email" cFormControl placeholder="Email" formControlName="mail" />
                 </c-input-group>
-                <!-- <span *ngIf="this.formularioContacto.get('mail')?.errors?.['required']">
-                  (El mail no puede quedar vacío) -->
-                <!-- <span *ngIf=">
-                  (El mail no puede quedar vacío)
-                </span> -->
                 <span *ngIf="this.loginform.get('mail')?.errors?.['required']">
                   
                 </span>
@@ -38,7 +33,6 @@
                   />
                 </c-input-group>
                 <span *ngIf="this.loginform.get('password')?.errors?.['required']">
-                  <!-- la contraseña no ha sido ingresada -->
                 </span>
                 <c-row>
                   <c-col xs="6">
@@ -46,32 +40,127 @@
                       Login
                     </button>
                   </c-col>
-                  <!-- <c-col class="text-right" xs="6">
-                    <button cButton class="px-0" color="link">
-                      ¿Olvidaste tu Contraseña?
-                    </button>
-                  </c-col> -->
+
                 </c-row>
               </form>
               <div>{{resultado}}</div>
             </c-card-body>
           </c-card>
-          <!-- <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
-            <c-card-body class="text-center">
-              <div>
-                <h2>Sign up</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
-                  Register Now!
-                </button>
-              </div>
-            </c-card-body>
-          </c-card> -->
         </c-card-group>
       </c-col>
     </c-row>
   </c-container>
+</div> -->
+
+
+
+<div class="containers">
+  <!-- Lado izquierdo con login -->
+  <div class="left-side">
+    <!-- Logo superior izquierdo -->
+    <div class="logo-container">
+      <img src="../../../../assets/svg/logoty.svg" alt="Logo">
+    </div>
+
+    <!-- Cuadro de login -->
+    <div class="login-box">
+      <!-- SVG decorativo al fondo -->
+      <div class="floating-svg">
+        <img src="../../../../assets/svg/hela_icon5.svg" alt="Decorativo">
+      </div>
+
+
+      <h2>Login</h2>
+
+
+      
+    <form cForm [formGroup]="loginform" (ngSubmit)="proceedLogin()" novalidate >
+      <p>Ingresa con cuenta</p>
+      
+
+      <div class="input-group">
+        <!-- <i class="fas fa-user"></i> -->
+         <svg xmlns="http://www.w3.org/2000/svg" width="13.13px" height="15px" viewBox="0 0 448 512">
+          <path fill="#888" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128m89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4" stroke-width="13" stroke="#888" />
+        </svg>
+          <!-- <input type="text" placeholder="Correo electrónico"> -->
+           <input autoComplete="Email" cFormControl placeholder="Email" formControlName="mail" />
+
+           <span *ngIf="this.loginform.get('mail')?.errors?.['required']"></span>
+           
+        </div>
+
+        <div class="input-group">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15.75px" height="17px" viewBox="0 0 448 512">
+            <path fill="#888" d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48m-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72z" stroke-width="13" stroke="#888" />
+          </svg>
+          <input placeholder="Contraseña"
+            autoComplete="current-password"
+            cFormControl
+            type="password"
+            formControlName="password"
+          >
+
+          <span *ngIf="this.loginform.get('password')?.errors?.['required']">
+                </span>
+        </div>
+
+        <button type="submit">Login</button>
+
+
+      </form>
+
+      <!-- <span *ngIf="this.loginform.get('mail')?.errors?.['email']" ng-show="show">
+              El E-mail debe ser valido
+      </span> -->
+
+      <div>{{resultado}}</div>
+    </div>
+  </div>
+
+  <!-- Lado derecho con imagen de fondo -->
+  <div class="right-side">
+    <div class="image-footer">
+      Transportes Yañez 2025, versión 1.0.0000236
+    </div>
+  </div>
 </div>
+
+<!-- <form cForm [formGroup]="loginform" (ngSubmit)="proceedLogin()" novalidate >
+                <h1>Login</h1>
+                <p class="text-medium-emphasis">Ingresa con cuenta</p>
+                <c-input-group class="mb-3">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                  </span>
+                  <input autoComplete="Email" cFormControl placeholder="Email" formControlName="mail" />
+                </c-input-group>
+                <span *ngIf="this.loginform.get('mail')?.errors?.['required']">
+                  
+                </span>
+                <span *ngIf="this.loginform.get('mail')?.errors?.['email']" ng-show="show">
+                  El E-mail debe ser valido
+                </span>
+                <c-input-group class="mb-4">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilLockLocked"></svg>
+                  </span>
+                  <input
+                    autoComplete="current-password"
+                    cFormControl
+                    placeholder="Password"
+                    type="password"
+                    formControlName="password"
+                  />
+                </c-input-group>
+                <span *ngIf="this.loginform.get('password')?.errors?.['required']">
+                </span>
+                <c-row>
+                  <c-col xs="6">
+                    <button cButton color="success" class="px-4"s type="submit">
+                      Login
+                    </button>
+                  </c-col>
+
+                </c-row>
+              </form> -->

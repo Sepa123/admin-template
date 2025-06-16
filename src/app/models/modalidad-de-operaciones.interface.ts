@@ -10,5 +10,6 @@ export interface RazonSocial {
     update_date: string,
     estado : boolean,
     color : string,
-    cant_co : number
+    cant_co : number,
+    mod_operacion: string,
 }

@@ -1,0 +1,181 @@
+* {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f6fa;
+    }
+
+    .containers {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    //   background-image:  url('../../../../assets/images/fondo_login3.jpeg');
+    }
+
+    .left-side {
+      flex: 1;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .logo-container {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      width: 120px;
+      filter: brightness(0) saturate(100%) invert(50%) sepia(70%) saturate(500%) hue-rotate(80deg) brightness(95%) contrast(100%);
+    }
+
+    .logo-container img {
+      width: 100%;
+      height: auto;
+    }
+
+    .login-box {
+      position: relative;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: 60px;
+      border: 1px solid #ccc;
+      overflow: hidden;
+    }
+
+    .floating-svg {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 120px;
+      height: 120px;
+      transform: scale(2);
+      opacity: 0.15;
+      filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.3))
+              brightness(0) saturate(100%) invert(48%) sepia(62%) saturate(380%) hue-rotate(88deg) brightness(91%) contrast(92%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .floating-svg img {
+      width: 100%;
+      height: auto;
+    }
+
+    .login-box h2,
+    .login-box p,
+    .input-group,
+    .login-box button {
+      position: relative;
+      z-index: 2;
+    }
+
+    .login-box h2 {
+      font-size: 26px;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .login-box p {
+      margin-bottom: 1.5rem;
+      color: #666;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .input-group svg {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: #888;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.8rem 0.8rem 0.8rem 2.5rem;
+      border: 1px solid rgba(204, 204, 204, 0.5);
+      border-radius: 6px;
+      font-size: 1rem;
+      background-color: transparent;
+      color: #333;
+      outline: none;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    .login-box button:hover {
+      background-color: #218838;
+    }
+// src\assets\images\fondo_login3.jpeg
+    .right-side {
+      flex: 1;
+    //   background-image: url('fondo_login3.jpeg');
+
+
+      background-image:  url('../../../../assets/images/fondo_login3.jpeg');
+    //   background-image: url('../../assets/images/fondo_login3.jpeg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .image-footer {
+      position: absolute;
+      bottom: 20px;
+      right: 30px;
+      color: white;
+      font-size: 14px;
+      font-weight: 300;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+      z-index: 10;
+    }
+
+    @media (max-width: 768px) {
+      .containers {
+        flex-direction: column;
+      }
+
+      .right-side {
+        height: 40vh;
+      }
+
+      .left-side {
+        height: 60vh;
+        align-items: center;
+      }
+
+      .login-box {
+        margin: 2rem auto 0 auto;
+      }
+
+      .floating-svg {
+        right: 10px;
+        top: 10px;
+        transform: scale(1.5);
+      }
+    }

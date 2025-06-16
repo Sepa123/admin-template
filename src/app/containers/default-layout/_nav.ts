@@ -38,7 +38,7 @@ export const navItems: INavDataBar[] = [
   {
     name: 'Area TI',
     url : '/areati',
-    icon: "viking",
+    icon: "hela",
     roles : ROLES_PERMITIDOS.PANEL,
     children : [
       {
@@ -56,7 +56,11 @@ export const navItems: INavDataBar[] = [
       {
         name: "Estados Old",
         url:  '/areati/estados-old'
-      }
+      },
+      {
+        name: 'Pendientes en ruta',
+        url: '/operaciones/pendientes-en-ruta'
+      },
       // {
       //   name: 'Agregar funcion',
       //   url: '/areati/agregar-funcion'
@@ -418,10 +422,10 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       },
-      {
-        name: 'Pendientes en ruta',
-        url: '/operaciones/pendientes-en-ruta'
-      },
+      // {
+      //   name: 'Pendientes en ruta',
+      //   url: '/operaciones/pendientes-en-ruta'
+      // },
       {
         name: 'Estados',
         url: '/operaciones/estados'
@@ -459,10 +463,10 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       },
-      {
-        name: 'Pendientes en ruta',
-        url: '/operaciones/pendientes-en-ruta'
-      },
+      // {
+      //   name: 'Pendientes en ruta',
+      //   url: '/operaciones/pendientes-en-ruta'
+      // },
       {
         name: 'Estados',
         url: '/operaciones/estados'
@@ -521,10 +525,10 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       },
-      {
-        name: 'Pendientes en ruta',
-        url: '/operaciones/pendientes-en-ruta'
-      },
+      // {
+      //   name: 'Pendientes en ruta',
+      //   url: '/operaciones/pendientes-en-ruta'
+      // },
       {
         name: 'Estados',
         url: '/operaciones/estados'
@@ -586,10 +590,10 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       },
-      {
-        name: 'Pendientes en ruta',
-        url: '/operaciones/pendientes-en-ruta'
-      },
+      // {
+      //   name: 'Pendientes en ruta',
+      //   url: '/operaciones/pendientes-en-ruta'
+      // },
       {
         name: 'Estados',
         url: '/operaciones/estados'

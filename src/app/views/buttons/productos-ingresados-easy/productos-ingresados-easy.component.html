@@ -29,12 +29,10 @@
       </button>
   </div>
   <!-- PANEL RESUMEN REGIONES -->
-  <div class="tabla-scroll-ResumenRegion" >
-  <table>
+  <table class="tabla-scroll-ResumenRegion">
   <thead>
     <tr>
       <th>Comuna</th>
-      <th>Guias</th>
       <th>Paquetes</th>
       <!-- Más columnas si es necesario -->
     </tr>
@@ -42,17 +40,18 @@
   <tbody>
       <tr *ngFor="let item of getTotalPorRegion(resumenRegiones)">
         <td>{{ item.region }}</td>
-        <td>TBD</td>
         <td>{{ item.total }}</td>
       </tr>
       <tr *ngIf="noHayRegistro">
         <td colspan="14">
-          no hay registros
+          <div  class="loader-container">
+            <div class="spinner"></div>
+            <span>Esperando información</span>
+          </div>
         </td>
       </tr>
     </tbody>
 </table>
-</div>
     <!-- <div *ngFor="let region of objectKeys(resumenRegiones)">
       <h4>{{ region }}</h4>
       <ul>
@@ -76,13 +75,12 @@
     
     
   <div class="tabla-scroll" >
-    <table id="tablaProductosPicking" >
+    <table id="tablaProductosPicking" class="table-header-sticky">
       <thead>
         <tr>
           
           <th>Ingreso sistema</th>
           <th>Ciente</th>
-          <th>Anden</th>
           <th>Código Pedido</th>
           <th>Fecha compromiso</th>
           <th>Código Producto</th>
@@ -103,7 +101,6 @@
       <tr *ngFor="let dato of datosFiltrados;let i = index ">
           <td>{{dato.Ingreso_sistema}}</td>
           <td>{{dato.Cliente}}</td>
-          <td>{{dato.Anden}}</td>
           <td>{{dato.Cod_pedido}}</td>
           <td>{{dato.Fec_compromiso}}</td>
           <!-- <td>{{dato.Cod_pedido}}</td> -->
@@ -129,8 +126,12 @@
       </tr>
     <tr *ngIf="noHayRegistro">
      <td colspan="14">
-      no hay registros
+      <div  class="loader-container">
+        <div class="spinner"></div>
+        <span>Esperando información</span>
+      </div>
      </td> 
+     
     </tr>
     </tbody>
     </table>
@@ -142,4 +143,5 @@
   
   <p></p>
   <!-- <button (click)="descargarExcel()">descargar</button> -->
+    
     
