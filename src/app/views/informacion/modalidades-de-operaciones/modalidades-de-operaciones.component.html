@@ -100,6 +100,7 @@
                 <!-- <th>id</th> -->
                 <th>Centro</th>
                 <th>Descripción</th>
+                <th>Seguimiento</th>
                 <th>Region</th>
                 <th></th>
             </thead>
@@ -110,6 +111,7 @@
                 <!-- <td class="id">{{co.Id}}</td> -->
                 <td>{{co.Centro}}</td>
                 <td>{{co.Descripcion}}</td>
+                <td>{{co.Seguimiento_nombre}}</td>
                 <td>{{co.Region}}</td>
                 <td><svg xmlns="http://www.w3.org/2000/svg" (click)="eliminarCO(co.Id)" width="24" height="24" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
                 </td>
@@ -171,9 +173,9 @@
             <th>N°</th>
             <th (click)="sortTableNombre(sortOrder)" class="sortable">Nombre</th>
             <th>Descripción</th>
-            <th>Operación</th>
+            <th>Servicio</th>
             <th (click)="sortTableDetalle(sortOrder)" class="sortable">Detalles</th>
-            <th (click)="sortTableCO(sortOrder)" class="sortable">Centro Operación</th>
+            <th (click)="sortTableCO(sortOrder)" class="sortable">Operación</th>
         </thead>
         <tbody>
  
@@ -182,7 +184,18 @@
             <td class="id">{{i+1}}</td>
             <td class="sortable" (click)="sortTable(sortOrder)">{{RazonSocial.nombre}}</td>
             <td>{{RazonSocial.description}}</td>
-            <td>{{RazonSocial.mod_operacion}}</td>
+            <!-- <td>{{RazonSocial.mod_operacion}}</td> -->
+             <td>
+              <select id="ssss" *ngIf="RazonSocial.mod_operacion == ''"  cSelect class="form-control" (change)="actualizarServicio(RazonSocial.id, $event)" >
+                <option  [value]="0"  >Sin Servicio</option>
+                <option *ngFor="let op of listaModOperacion"  [value]="op.id"  >{{op.nombre}}</option>
+              </select>
+
+              <select id="ssss" *ngIf="RazonSocial.mod_operacion !== ''"  cSelect class="form-control" (change)="actualizarServicio(RazonSocial.id, $event)" >
+                <option  [value]="RazonSocial.id"  >{{RazonSocial.mod_operacion}}</option>
+                <option *ngFor="let op of listaModOperacion"  [value]="op.id"  >{{op.nombre}}</option>
+              </select>
+             </td>
             <td class="estado">
                 <mat-slide-toggle [(ngModel)]="RazonSocial.estado" (change)="toggleEstado(RazonSocial.id)" class="green-slide-toggle" >
                     {{ RazonSocial.estado ? 'Activado' : 'Desactivado' }} 

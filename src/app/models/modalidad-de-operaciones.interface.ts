@@ -12,4 +12,5 @@ export interface RazonSocial {
     color : string,
     cant_co : number,
     mod_operacion: string,
+    mod_id: number,
 }

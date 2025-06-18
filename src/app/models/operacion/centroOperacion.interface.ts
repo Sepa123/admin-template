@@ -9,4 +9,6 @@ export interface CentroOperacion {
     Region:      number;
     Estado:      boolean;
     Id_ppu_op:    number;
+    Seguimiento_id : number,
+    Seguimiento_nombre : string
 }

@@ -18,6 +18,11 @@ export class ModalidadDeOperacionesService {
   getRazonesSocial(){
     return this.http.get<RazonSocial[]>(this.apiurl + '/modalidad')
   }
+
+  updateServicioOperacion(body : any): Observable<any> {
+    return this.http.put(`${this.apiurl}/actualizar/servicio/operacion`, body);
+  }
+
   updateItemStatus(id: number, estado: boolean): Observable<any> {
     return this.http.post(`${this.apiurl}/actualizar_estado`, { id, estado });
   }

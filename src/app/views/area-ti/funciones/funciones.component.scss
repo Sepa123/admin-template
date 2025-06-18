@@ -60,3 +60,21 @@ h2 {
     border: 0
   }
   
+  .code-container {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      overflow: auto;
+      padding: 1em;
+      max-height: 600px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    pre, code {
+      font-size: 8px; /* ✅ Aseguramos que se aplique a ambos */
+      white-space: pre;
+      line-height: 1.4;
+    }
+
+
+    

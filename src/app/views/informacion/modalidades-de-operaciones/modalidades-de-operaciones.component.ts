@@ -251,6 +251,23 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
     });
   }
 
+  actualizarServicio(id: number, event: any) {
+
+    console.log('ID del elemento a actualizar:', id);
+    console.log('Nuevo estado:', event.target.value);
+
+    const body = {
+      id: id,
+      servicio: event.target.value, // Obtener el nuevo estado del checkbox
+    }
+
+    this.service.updateServicioOperacion(body).subscribe((data) => {
+      // this.cargarDatos();
+    }, error => {
+
+    });
+  }
+
   buscarDatos() {
     
       this.RS.buscarModalidadOperacion(this.searchTerm)

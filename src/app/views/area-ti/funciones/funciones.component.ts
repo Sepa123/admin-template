@@ -13,6 +13,8 @@ export class FuncionesComponent {
   constructor (private service : AreatiService) {
   }
 
+  
+
   buscador : string = ""
   listaFunciones : ListaFuncion [] = []
   listaFuncionesFull : ListaFuncion [] = []

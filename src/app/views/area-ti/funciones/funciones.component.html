@@ -1,27 +1,40 @@
+<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet" />
+
 <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="xl">
   <c-modal-header>
-    <h5 cModalTitle *ngIf="isParametro">Código Fuente</h5>
+    <h5 cModalTitle *ngIf="isParametro">Visor SQL - Código fuente de funciones</h5>
     <h5 cModalTitle *ngIf="!isParametro">Argumentos </h5>
     <button (click)="toggleLiveDemo()" cButtonClose></button>
   </c-modal-header>
-  <c-modal-body>
-    <div class="greenTable" *ngFor="let funcion of funcionSeleccionada" >
-         <table *ngIf="isParametro">
+  <c-modal-body *ngFor="let funcion of funcionSeleccionada" >
+    <!-- <div class="greenTable" > -->
+         <!-- <table *ngIf="isParametro">
           <thead>
             <tr>
-              <th>Parametro</th>
+              <th>Visor SQL - Código fuente de funciones</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
-                <pre>
-                {{funcion.Codigo_fuente}}
-              </pre>
+                <div class="code-container">
+                    <pre  class="language-sql"><code class="language-sql">
+                    {{funcion.Codigo_fuente}}
+                    </code> </pre>
+                </div>
               </td>
             </tr>
           </tbody>
-         </table>
+         </table> -->
+
+         <div class="code-container" *ngIf="isParametro">
+                    <pre class="language-sql"><code class="language-sql">
+                    {{funcion.Codigo_fuente}}
+                    </code> </pre>
+                </div>
+
+
+
 
          <table *ngIf="!isParametro">
           <thead>
@@ -39,7 +52,7 @@
             </tr>
           </tbody>
          </table>
-    </div>
+    <!-- </div> -->
   </c-modal-body>
   <c-modal-footer>
     <button (click)="toggleLiveDemo()" cButton color="secondary">
@@ -104,3 +117,6 @@
   </c-col>
 </c-row>
 
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
