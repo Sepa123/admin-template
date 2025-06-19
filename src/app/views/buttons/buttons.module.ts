@@ -2,22 +2,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { DocsComponentsModule } from '@docs-components/docs-components.module';
+// import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ButtonsRoutingModule } from './buttons-routing.module';
-import { ModalModule } from '@coreui/angular';
+// import { ModalModule } from '@coreui/angular';
 import {
-  ButtonGroupModule,
+  // ButtonGroupModule,
+  ModalModule,
   TableModule,
-  ButtonModule,
-  CardModule,
-  CollapseModule,
+  // ButtonModule,
+  // CardModule,
+  // CollapseModule,
   DropdownModule,
   FormModule,
   GridModule,
-  NavbarModule,
-  NavModule,
-  SharedModule,
+  // NavbarModule,
+  // NavModule,
+  // SharedModule,
   UtilitiesModule
 } from '@coreui/angular';
 
@@ -50,22 +51,21 @@ import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
     CommonModule,
     TableModule,
     ButtonsRoutingModule,
-    ButtonModule,
-    ButtonGroupModule,
+    // ButtonModule,
+    // ButtonGroupModule,
     GridModule,
     // IconModule,
     ModalModule,
-    CardModule,
+    // CardModule,
     UtilitiesModule,
     DropdownModule,
-    SharedModule,
+    // SharedModule,
     FormModule,
     ReactiveFormsModule,
-    DocsComponentsModule,
-    NavbarModule,
-    CollapseModule,
-    NavModule,
-    NavbarModule
+    // DocsComponentsModule,
+    // NavbarModule,
+    // CollapseModule,
+    // NavModule
   ]
 })
 export class ButtonsModule {

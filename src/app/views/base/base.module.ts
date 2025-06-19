@@ -2,32 +2,31 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { ModalModule } from '@coreui/angular';
 import { NgChartsModule } from 'ng2-charts';
 
 // import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 // CoreUI Modules
 import {
-  AccordionModule,
-  BadgeModule,
-  BreadcrumbModule,
+  ModalModule,
+  // AccordionModule,
+  // BadgeModule,
+  // BreadcrumbModule,
   ButtonModule,
   GridModule,
-  ListGroupModule,
+  // ListGroupModule,
   TableModule,
   UtilitiesModule,
-  CardModule,
+  // CardModule,
   DropdownModule,
   TabsModule,
   NavModule,
-  WidgetModule,
   FormModule,
 } from '@coreui/angular';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 // utils
-import { DocsComponentsModule } from '@docs-components/docs-components.module';
+// import { DocsComponentsModule } from '@docs-components/docs-components.module';
 
 // views
 
@@ -42,7 +41,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { TripulacionComponent } from './tripulacion/tripulacion.component';
 import { BuscadorComponent } from './buscador/buscador.component';
 import { GestionGpsComponent } from './gestion-gps/gestion-gps.component'
-import {NgbRating} from '@ng-bootstrap/ng-bootstrap';
+// import {NgbRating} from '@ng-bootstrap/ng-bootstrap';
 import { ReclutamientoComponent } from './reclutamiento/reclutamiento.component'
 import { VentaOTraspasoDeVehiculoComponent } from './venta-o-traspaso-de-vehiculo/venta-o-traspaso-de-vehiculo.component'
 import { WebcamModule } from 'ngx-webcam';
@@ -53,25 +52,27 @@ import { WebcamModule } from 'ngx-webcam';
     CommonModule,
     WebcamModule,
     BaseRoutingModule,
-    AccordionModule,
-    BadgeModule,
-    BreadcrumbModule,
+    // AccordionModule,
+    // BadgeModule,
+    // BreadcrumbModule,
+    // ListGroupModule,
+    // CardModule,
+    TabsModule,
     ButtonModule,
-    CardModule,
+    
     GridModule,
     UtilitiesModule,
-    ListGroupModule,
-    ListGroupModule,
+    
     TableModule,
-    DocsComponentsModule,
+    // DocsComponentsModule,
     DropdownModule,
     NgSelectModule,
     FullCalendarModule,
-    TabsModule,
+    
     NavModule,
     NgChartsModule,
     MatSlideToggleModule,
-    NgbRating,
+    // NgbRating,
     FormModule,
   ],
   declarations: [

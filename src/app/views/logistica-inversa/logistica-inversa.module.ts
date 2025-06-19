@@ -2,22 +2,22 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { DocsComponentsModule } from '@docs-components/docs-components.module';
+// import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalModule } from '@coreui/angular';
 import {
-  ButtonGroupModule,
+  // ButtonGroupModule,
   TableModule,
-  ButtonModule,
-  CardModule,
-  CollapseModule,
-  DropdownModule,
+  // ButtonModule,
+  // CardModule,
+  // CollapseModule,
+  // DropdownModule,
   FormModule,
   GridModule,
   NavbarModule,
   NavModule,
-  SharedModule,
-  UtilitiesModule
+  // SharedModule,
+  // UtilitiesModule
 } from '@coreui/angular';
 
 import { LogisticaInversaRoutingModule } from './logistica-inversa-routing.module';
@@ -38,20 +38,20 @@ import { BodegaVirtualComponent } from './bodega-virtual/bodega-virtual.componen
     ModalModule,
     NgSelectModule,
     ReactiveFormsModule,
-    DocsComponentsModule,
+    // DocsComponentsModule,
     FormsModule,
-    ButtonGroupModule,
+    // ButtonGroupModule,
     TableModule,
-    ButtonModule,
-    CardModule,
-    CollapseModule,
-    DropdownModule,
+    // ButtonModule,
+    // CardModule,
+    // CollapseModule,
+    // DropdownModule,
     FormModule,
     GridModule,
     NavbarModule,
     NavModule,
-    SharedModule,
-   UtilitiesModule
+  //   SharedModule,
+  //  UtilitiesModule
   ]
 })
 export class LogisticaInversaModule { }

@@ -9,9 +9,9 @@ import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 import { PermisoDenegadoComponent } from './views/pages/permiso-denegado/permiso-denegado.component'
 import { ROLES_PERMITIDOS } from '../app/rolesPermitidos.const'
-import { ROLES_ENUM } from '../app/models/enum/roles.enum'
+// import { ROLES_ENUM } from '../app/models/enum/roles.enum'
 
-import { RecepcionModule } from '../app/views/recepcion/recepcion.module'
+// import { RecepcionModule } from '../app/views/recepcion/recepcion.module'
 
 const routes: Routes = [
   {
@@ -72,11 +72,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/forms/forms.module').then((m) => m.CoreUIFormsModule)
       },
-      {
-        path: 'charts',
-        loadChildren: () =>
-          import('./views/charts/charts.module').then((m) => m.ChartsModule)
-      },
+      // {
+      //   path: 'charts',
+      //   loadChildren: () =>
+      //     import('./views/charts/charts.module').then((m) => m.ChartsModule)
+      // },
       // {
       //   path: 'icons',
       //   loadChildren: () =>

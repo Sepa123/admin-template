@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ROLES_PERMITIDOS } from '../../rolesPermitidos.const'
 import { PermissionGuard } from '../../guard/permission.guard'
 
-import { FormControlsComponent } from './form-controls/form-controls.component';
+// import { FormControlsComponent } from './form-controls/form-controls.component';
 import { RecepcionOplComponent } from './recepcion-opl/recepcion-opl.component';
 import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
@@ -32,13 +32,6 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: 'form-control'
-      },
-      {
-        path: 'form-control',
-        component: FormControlsComponent,
-        data: {
-          title: 'Form Control'
-        }
       },
       {
         path: 'ruta-manual',

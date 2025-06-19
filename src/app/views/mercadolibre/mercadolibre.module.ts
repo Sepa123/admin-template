@@ -1,25 +1,25 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA} from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { DocsComponentsModule } from '@docs-components/docs-components.module';
+// import { DocsComponentsModule } from '@docs-components/docs-components.module';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ButtonGroupModule,
   TableModule,
-  ButtonModule,
-  CardModule,
-  CollapseModule,
-  DropdownModule,
+  // ButtonModule,
+  // CardModule,
+  // CollapseModule,
+  // DropdownModule,
   FormModule,
   GridModule,
-  ListGroupModule,
-  NavbarModule,
-  NavModule,
-  SharedModule,
-  UtilitiesModule,
+  // ListGroupModule,
+  // NavbarModule,
+  // NavModule,
+  // SharedModule,
+  // UtilitiesModule,
   ModalModule,
   PaginationModule,
   ProgressComponent,
@@ -72,25 +72,25 @@ import { PosiblesRutasComponent } from './posibles-rutas/posibles-rutas.componen
     CommonModule,
     MercadolibreRoutingModule,
     ButtonGroupModule,
-    ButtonModule,
-    CardModule,
-    DropdownModule,
+    // ButtonModule,
+    // CardModule,
+    // DropdownModule,
     FormModule,
     GridModule,
-    ListGroupModule,
-    SharedModule,
+    // ListGroupModule,
+    // SharedModule,
     MatExpansionModule,
-    SharedModule,
-    UtilitiesModule,
+    // SharedModule,
+    // UtilitiesModule,
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    DocsComponentsModule,
-    NavbarModule,
-    NavModule,
+    // DocsComponentsModule,
+    // NavbarModule,
+    // NavModule,
     ModalModule,
     TableModule,
-    CollapseModule,
+    // CollapseModule,
     NgChartsModule,
     WebcamModule,
     NgxPaginationModule

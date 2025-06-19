@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  ButtonGroupModule,
-  ButtonModule,
+  // ButtonGroupModule,
+  // ButtonModule,
   CardModule,
   DropdownModule,
   FormModule,
   GridModule,
-  ListGroupModule,
-  SharedModule
+  // ListGroupModule,
+  // SharedModule
 } from '@coreui/angular';
 
 
@@ -35,14 +35,14 @@ import { ProductoSinRecepcionComponent } from './producto-sin-recepcion/producto
     FormsModule,
     ReactiveFormsModule,
     RecepcionRoutingModule,
-    ButtonGroupModule,
-    ButtonModule,
+    // ButtonGroupModule,
+    // ButtonModule,
     CardModule,
     DropdownModule,
     FormModule,
     GridModule,
-    ListGroupModule,
-    SharedModule,
+    // ListGroupModule,
+    // SharedModule,
     ModalModule
   ]
 })

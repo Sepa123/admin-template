@@ -20,16 +20,10 @@ import { ModalModule } from '@coreui/angular';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { DocsComponentsModule } from '@docs-components/docs-components.module';
+// import { DocsComponentsModule } from '@docs-components/docs-components.module';
 
 import { FormsRoutingModule } from './forms-routing.module';
-import { RangesComponent } from './ranges/ranges.component';
-import { FloatingLabelsComponent } from './floating-labels/floating-labels.component';
-import { FormControlsComponent } from './form-controls/form-controls.component';
-import { ChecksRadiosComponent } from './checks-radios/checks-radios.component';
-import { InputGroupsComponent } from './input-groups/input-groups.component';
-import { LayoutComponent } from './layout/layout.component';
-import { ValidationComponent } from './validation/validation.component';
+
 import { RecepcionOplComponent } from './recepcion-opl/recepcion-opl.component';
 import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
 import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
@@ -49,13 +43,13 @@ import { CargaGuiasManualesComponent } from './carga-guias-manuales/carga-guias-
 
 @NgModule({
   declarations: [
-    RangesComponent,
-    FloatingLabelsComponent,
-    FormControlsComponent,
-    ChecksRadiosComponent,
-    InputGroupsComponent,
-    LayoutComponent,
-    ValidationComponent,
+    // RangesComponent,
+    // FloatingLabelsComponent,
+    // FormControlsComponent,
+    // ChecksRadiosComponent,
+    // InputGroupsComponent,
+    // LayoutComponent,
+    // ValidationComponent,
     RecepcionOplComponent,
     BuscarSkuComponent,
     EditarRutaComponent,
@@ -76,7 +70,7 @@ import { CargaGuiasManualesComponent } from './carga-guias-manuales/carga-guias-
     ModalModule,
     DragDropModule,
     FormsRoutingModule,
-    DocsComponentsModule,
+    // DocsComponentsModule,
     CardModule,
     FormModule,
     GridModule,

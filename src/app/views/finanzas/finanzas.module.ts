@@ -4,11 +4,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FinanzasRoutingModule } from './finanzas-routing.module';
 import { TarifarioComponent } from './tarifario/tarifario.component';
 import {
-  ButtonGroupModule,
+  // ButtonGroupModule,
   TableModule,
   ButtonModule,
   CardModule,
-  CollapseModule,
+  // CollapseModule,
   DropdownModule,
   FormModule,
   GridModule,
@@ -41,11 +41,11 @@ import { TestComponent } from './test/test.component';
   imports: [
     CommonModule,
     FinanzasRoutingModule,
-    ButtonGroupModule,
+    // ButtonGroupModule,
   TableModule,
   ButtonModule,
   CardModule,
-  CollapseModule,
+  // CollapseModule,
   DropdownModule,
   FormModule,
   GridModule,

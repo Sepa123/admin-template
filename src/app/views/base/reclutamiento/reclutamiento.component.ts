@@ -1,20 +1,18 @@
-import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
-import { Subscription, interval } from 'rxjs';
+import { Component} from '@angular/core';
+import { interval } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RutasService } from '../../../service/rutas.service';
 import { PortalTransyanezService } from "../../../service/portal-transyanez.service";
 import {PedidoCompromisoObligatorio } from '../../../models/rutas/pedidoCompromisoObligatorios.interface'
-import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
+import { FormBuilder, Validators } from '@angular/forms'
 import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from '../../../models/enum/bancos.json'
 import { Colaborador } from '../../../models/transporte/colaborador.interface' 
 import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from '../../../models/transporte/vehiculo.interface' 
 import { RazonSocial } from '../../../models/modalidad-de-operaciones.interface';
 import { ModalidadDeOperacionesService } from '../../../service/modalidad-de-operaciones.service';
-import { CentroOperacion } from '../../../models/operacion/centroOperacion.interface';
 import { PanelVehiculos } from '../../../models/transporte/paneles.interface'
 import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, Operacion, Origen, Reclutamiento, Region,TipoVehiculo,Comuna } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
-import { RecursiveAstVisitor } from '@angular/compiler';
+// import { RecursiveAstVisitor } from '@angular/compiler';
 // import * as XLSX from 'xlsx';
 import * as ExcelJS from 'exceljs';
 import FileSaver from 'file-saver';

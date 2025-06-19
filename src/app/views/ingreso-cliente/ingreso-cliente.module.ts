@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  ButtonGroupModule,
-  ButtonModule,
-  CardModule,
+  // ButtonGroupModule,
+  // ButtonModule,
+  // CardModule,
   DropdownModule,
   FormModule,
   GridModule,
-  ListGroupModule,
-  SharedModule,
+  // ListGroupModule,
+  // SharedModule,
   TabsModule,
   NavModule
 } from '@coreui/angular';
@@ -29,14 +29,14 @@ import { EasyOplNewComponent } from './easy-opl-new/easy-opl-new.component';
   imports: [
     CommonModule,
     IngresoClienteRoutingModule,
-    ButtonGroupModule,
-    ButtonModule,
-    CardModule,
+    // ButtonGroupModule,
+    // ButtonModule,
+    // CardModule,
     DropdownModule,
     FormModule,
     GridModule,
-    ListGroupModule,
-    SharedModule,
+    // ListGroupModule,
+    // SharedModule,
     FormsModule, ReactiveFormsModule,
     ModalModule,
     TabsModule,

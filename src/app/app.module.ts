@@ -14,11 +14,11 @@ import {
 
 import {NgxPaginationModule} from 'ngx-pagination'
 
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+// import { FullCalendarModule } from '@fullcalendar/angular';
+// import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbAlertModule, NgbPaginationModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbAlertModule, NgbPaginationModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 // Import routing module
 import { AppRoutingModule } from './app-routing.module';
 
@@ -56,8 +56,8 @@ import {
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgChartsModule } from 'ng2-charts';
-import { InfoMercadoLibreComponent } from './views/mercadolibre/info-mercado-libre/info-mercado-libre.component';
+// import { NgChartsModule } from 'ng2-charts';
+// import { InfoMercadoLibreComponent } from './views/mercadolibre/info-mercado-libre/info-mercado-libre.component';
 
 
 
@@ -76,8 +76,8 @@ const APP_CONTAINERS = [
 @NgModule({
   declarations: [AppComponent, ...APP_CONTAINERS],
   imports: [
-    FullCalendarModule,
-    DragDropModule,
+    // FullCalendarModule,
+    // DragDropModule,
     NgSelectModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -105,9 +105,9 @@ const APP_CONTAINERS = [
     CardModule,
     HttpClientModule,
     NgbModule,
-    NgbPaginationModule, NgbAlertModule,
-    NgbDatepickerModule,
-    NgChartsModule,
+    // NgbPaginationModule, NgbAlertModule,
+    // NgbDatepickerModule,
+    // NgChartsModule,
     NgxPaginationModule,
     PaginationModule
   ],
