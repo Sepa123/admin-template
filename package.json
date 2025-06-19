@@ -61,7 +61,6 @@
     "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-webcam": "^0.4.1",
     "popper.js": "^1.16.1",
-    "prismjs": "^1.30.0",
     "rxjs": "~7.8.1",
     "sweetalert2": "^11.7.27",
     "tesseract.js": "^5.1.1",

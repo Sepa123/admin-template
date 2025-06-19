@@ -78,7 +78,6 @@ const APP_CONTAINERS = [
   imports: [
     FullCalendarModule,
     DragDropModule,
-    CommonModule,
     NgSelectModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -89,7 +88,6 @@ const APP_CONTAINERS = [
     DropdownModule,
     GridModule,
     HeaderModule,
-    SidebarModule,
     IconModule,
     PerfectScrollbarModule,
     NavModule,
@@ -104,7 +102,6 @@ const APP_CONTAINERS = [
     ListGroupModule,
     ProgressModule,
     BadgeModule,
-    ListGroupModule,
     CardModule,
     HttpClientModule,
     NgbModule,
