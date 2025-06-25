@@ -31,7 +31,7 @@
               <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
             </select>
 
-            <label for="Operacion">Operación</label>
+            <!-- <label for="Operacion">Operación</label>
             <select id="id_operacion" name="id_operacion" class="form-select" [(ngModel)]="nuevoCliente.id_operacion"  (change)="onOperacionChange($event)">
               <option value="" disabled selected>Seleccione una Operación</option>
               <option *ngFor="let Op of OperacionesFiltradas" [value]="Op.id">{{ Op.centro }}</option>
@@ -41,7 +41,7 @@
               <select id="id_seguimiento" name="id_seguimiento" class="form-select" [(ngModel)]="nuevoCliente.id_seguimiento"  >
               <option value="" disabled selected>Seguimiento de ruta.</option>
               <option *ngFor="let sC of SeguimientoClienteList" [value]="sC.id">{{ sC.glosa }}</option>
-            </select>
+            </select> -->
             
           </div>
       
@@ -71,11 +71,11 @@
               <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
             </select>
 
-            <label for="id_centro_op">Centro Operacion</label>
+            <!-- <label for="id_centro_op">Centro Operacion</label>
             <select id="id_centro_op" name="id_centro_op" class="form-select" [(ngModel)]="nuevoCliente.id_centro_op" >
               <option value="" disabled selected>Seleccione un Centro de Operacion</option>
               <option *ngFor="let Cop of CentroOperacionesFiltradas" [value]="Cop.id">{{ Cop.centro }}</option>
-            </select>
+            </select> -->
           </div>
         </div>
       
@@ -133,13 +133,13 @@
             <label for="correo">Correo</label>
             <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo" readonly>
 
-            <div>
+            <!-- <div>
               <label for="Operacion">Operación</label>
               <select id="Operacion" class="form-select" [(ngModel)]="updateData.id_operacion" [value]="userData?.id_operacion" disabled>
                 <option value="" disabled selected>Seleccione una Operación</option>
                 <option *ngFor="let Op of OperacionesFiltradas" [value]="Op.id">{{ Op.nombre }}</option>
               </select>
-            </div>
+            </div> -->
           
           </div>
         
@@ -169,13 +169,13 @@
               </select>
             </div>
 
-            <div>
+            <!-- <div>
               <label for="id_centro_op">Centro Operacion</label>
               <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" disabled>
                 <option value="" disabled selected>Seleccione un Centro de Operacion</option>
                 <option *ngFor="let Cop of CentroOperaciones" [value]="Cop.id">{{ Cop.centro }}</option>
               </select>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

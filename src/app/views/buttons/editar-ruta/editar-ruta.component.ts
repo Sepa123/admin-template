@@ -355,6 +355,7 @@ getCop(): void {
 
 gpOperaciones: GpOperacion[] = [];
  getGpOperaciones(): void {
+   // https://hela.transyanez.cl/api/editar_ruta/GpOperacion/
     const url = `http://127.0.0.1:8000/api/GpOperacion/`;
     this.http.get<GpOperacion[]>(url).subscribe({
       next: (data) => {
@@ -413,6 +414,7 @@ paresSeleccionados: { idGpO: number, idCentroSeleccionado: number }[] = [];
   }
 SlOperaciones: Operacion[] = [];
 getSLoperacionesbyid(id: number): void {
+  // https://hela.transyanez.cl/api/editar_ruta/SelectOperacion/?id=${id}
   const url = `http://127.0.0.1:8000/api/SelectOperacion/?id=${id}`;
   this.http.get<any>(url).subscribe({
     next: (data) => {
