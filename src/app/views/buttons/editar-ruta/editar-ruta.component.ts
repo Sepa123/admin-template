@@ -2,17 +2,31 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { take } from 'rxjs';
+import { Region } from '../../../models/taskmaster/taskmaster.interface';
 import {
   EditarRutaService,
   Cliente,
   UpdateCliente,
 } from 'src/app/service/editar-ruta.service';
 
+interface GpOperacion {
+  id: number;
+  grupo_operacion: string;
+  servicio : string;
+}
+interface Operacion {
+  id: number;
+  operacion: string;
+  region : number;
+  glosa: string;
+}
+
 @Component({
   selector: 'app-editar-ruta',
   templateUrl: './editar-ruta.component.html',
   styleUrls: ['./editar-ruta.component.scss'],
 })
+
 export class EditarRutaComponent {
   @ViewChild('toggleFiltro') toggleFiltro!: ElementRef<HTMLInputElement>;
 
@@ -36,7 +50,6 @@ export class EditarRutaComponent {
       activo: true, // Valor predeterminado para boolean
       esquema_destino: "null",
       tabla_destino: "null",
-      carga_manual: false,
       id_operacion: null as number | null, // Permitir null o number
       id_centro_op: null as number | null, // Permitir null o number
       id_seguimiento: null as number | null, // Permitir null o number
@@ -68,7 +81,7 @@ export class EditarRutaComponent {
     this.getOp();
     this.getCop();
     this.getSc();
-
+    this.getGpOperaciones()
     this.AccountUserid();
     this.Clients();
     this.getRegiones();
@@ -151,11 +164,11 @@ export class EditarRutaComponent {
   nombreUser: string = '';
   Id_cliente: string = '';
   id_operacionRECUPERAR: string = '';
-  recuperarUserdata(nombre: string, Png: string, id_C: string, id_OPC: string) {
+  recuperarUserdata(nombre: string, Png: string, id_C: string) {
     this.imagenPerfil = Png;
     this.nombreUser = nombre;
     this.Id_cliente = id_C;
-    this.id_operacionRECUPERAR = id_OPC
+    // this.id_operacionRECUPERAR = id_OPC
     this.getUsersEdit(this.Id_cliente);
     // console.log(this.Id_cliente, this.nombreUser);
   }
@@ -220,7 +233,6 @@ export class EditarRutaComponent {
       activo: true, // Valor predeterminado para boolean
       esquema_destino: "null",
       tabla_destino: "null",
-      carga_manual: false,
       id_operacion: null,
       id_centro_op: null,
       id_seguimiento: null,
@@ -341,6 +353,81 @@ getCop(): void {
   );
 }
 
+gpOperaciones: GpOperacion[] = [];
+ getGpOperaciones(): void {
+    const url = `http://127.0.0.1:8000/api/GpOperacion/`;
+    this.http.get<GpOperacion[]>(url).subscribe({
+      next: (data) => {
+        this.gpOperaciones = data;
+        console.log('Operación encontrada:', data);
+      },
+      error: (error) => {
+        this.mostrarAlerta('No se pudo obtener la operación', 'error');
+      }
+    });
+  }
+
+  selectedGpOperacion: number | null = null;
+  
+  id_GpO: any = '';
+
+  onGpSelectOperacion(event: Event): void {
+  const selectElement = event.target as HTMLSelectElement;
+  const id = Number(selectElement.value);
+
+  if (!isNaN(id)) {
+    this.getSLoperacionesbyid(id);
+    this.id_GpO = id; // Asigna el ID de la operación seleccionada
+  }
+}
+region: string = ''
+glosa: any = ''
+id_SO: number | null = null; // ID de la operación seleccionada
+
+selectedSO: any = null; // o mejor con tipo fuerte si tienes una interfaz
+onSelectOperacion(): void {
+  if (this.selectedSO) {
+    this.id_SO = this.selectedSO.id;
+    this.region = this.selectedSO.region;
+    this.glosa = this.selectedSO.glosa;
+  }
+}
+
+paresSeleccionados: { idGpO: number, idCentroSeleccionado: number }[] = [];
+
+  agregarPar(): void {
+    if (this.id_GpO != null && this.id_SO != null) {
+      this.paresSeleccionados.push({
+        idGpO: this.id_GpO,
+        idCentroSeleccionado: this.id_SO
+      });
+
+      // Limpiar después de agregar
+      console.log('Par agregado:', this.id_GpO, this.id_SO);
+      console.log('Pares seleccionados:', this.paresSeleccionados);
+      
+      this.id_SO = null;
+    } else {
+      alert("Debes seleccionar los tres valores.");
+    }
+  }
+SlOperaciones: Operacion[] = [];
+getSLoperacionesbyid(id: number): void {
+  const url = `http://127.0.0.1:8000/api/SelectOperacion/?id=${id}`;
+  this.http.get<any>(url).subscribe({
+    next: (data) => {
+      // Aquí puedes manejar la respuesta, por ejemplo:
+      this.SlOperaciones = data; // Asigna a una propiedad si lo necesitas
+      this.region = data[0].region; // Asigna la región de la primera operación
+      console.log('Operación encontrada:', data);
+      // this.operacionSeleccionada = data; // O asigna a una propiedad si lo necesitas
+    },
+    error: (error) => {
+      this.mostrarAlerta('No se pudo obtener la operación', 'error');
+    }
+  });
+}
+
 SeguimientoClienteList: any [] = [];
 
 getSc(): void {
@@ -452,12 +539,26 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
   ClienteId!: number; // Debes obtener este ID de alguna forma (ej: ruta, input)
   updateData: UpdateCliente = {};
 
+  guardarOperaciones() {
+  const operacionesPermitidas = this.paresSeleccionados.map(par => par.idCentroSeleccionado);
+
+  const idCliente = Number(this.Id_cliente); // Asegúrate de que sea número
+
+  this.guardarOperacionesPermitidas(idCliente, operacionesPermitidas);
+  this.mostrarAlerta('Operaciones guardadas correctamente', 'success');
+  console.log('Operaciones guardadas:', operacionesPermitidas);
+  this.cerrarModalOperaciones();
+}
+
   actualizarCliente() {
     this.ClienteId = parseInt(this.Id_cliente);
     this.gm.actualizarUsuario(this.ClienteId, this.updateData).subscribe({
       next: (response: any) => {
         this.Clients();
         this.mostrarAlerta('Usuario actualizado correctamente', 'success');
+        const idCliente = Number(this.Id_cliente); // Asegúrate de que sea número
+        // Mapear paresSeleccionados a un array de números (por ejemplo, usando idCentroSeleccionado)
+        this.guardarOperaciones();
         // Resetear formulario
         this.agregarBitacora({
           id_user: sessionStorage.getItem('id')?.toString() + '',
@@ -502,7 +603,6 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
       activo: true, // Valor predeterminado para boolean
       esquema_destino: "null",
       tabla_destino: "null",
-      carga_manual: false,
       id_operacion: null,
       id_centro_op: null,
       id_seguimiento: null,
@@ -522,7 +622,6 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
       logo_img: '',
       esquema_destino: '',
       tabla_destino: '',
-      carga_manual: false,
       id_seguimiento: null,
     };
 
@@ -785,16 +884,7 @@ getOperacionesParaUsuario(): any[] {
   );
 }
 
-guardarOperaciones() {
-  const operacionesSeleccionadas = this.operaciones
-    .filter(op => op.checked)
-    .map(op => op.id);
 
-  const idCliente = Number(this.Id_cliente); // Asegúrate de que sea número
-
-  this.guardarOperacionesPermitidas(idCliente, operacionesSeleccionadas);
-  this.cerrarModalOperaciones();
-}
 
 guardarOperacionesPermitidas(id: number, operaciones: number[]): void {
   const formData = new FormData();
