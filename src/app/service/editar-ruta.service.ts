@@ -16,7 +16,6 @@ export interface Cliente {
   activo: boolean;
   esquema_destino: string | null;
   tabla_destino: string | null;
-  carga_manual: boolean;
   id_operacion: number | null; // Permitir null
   id_centro_op: number | null; // Permitir null
   id_seguimiento: number | null; // Permitir null
@@ -36,11 +35,11 @@ export interface UpdateCliente {
   logo_img?: string;  
   esquema_destino?: null | string; // Cambiado a null | string
   tabla_destino?: null | string;
-  carga_manual?: boolean;
   id_operacion?: number;
   id_centro_op?: number;
   id_seguimiento?: number | null;
 }
+
 
 
 @Injectable({
