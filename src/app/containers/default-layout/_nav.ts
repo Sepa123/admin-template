@@ -660,7 +660,7 @@ export const navItems: INavDataBar[] = [
       //   url : '/picking/rutas-manuales'
       // },
       {
-        name :"Guias seguimiento",
+        name :"Guías seguimiento",
         url : '/picking/guias-manuales'
       }
     ]

@@ -9,7 +9,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ButtonGroupModule,
   TableModule,
-  // ButtonModule,
+  ButtonModule,
   // CardModule,
   // CollapseModule,
   // DropdownModule,
@@ -72,7 +72,7 @@ import { PosiblesRutasComponent } from './posibles-rutas/posibles-rutas.componen
     CommonModule,
     MercadolibreRoutingModule,
     ButtonGroupModule,
-    // ButtonModule,
+    ButtonModule,
     // CardModule,
     // DropdownModule,
     FormModule,
