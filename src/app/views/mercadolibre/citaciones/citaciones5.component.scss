@@ -83,3 +83,8 @@
   .btn-secondary:hover {
     background-color: #5a6268;
   }
+  .horizontal-align {
+  display: flex;
+  align-items: center; /* Alinea verticalmente */
+  gap: 8px; /* Espacio entre el texto e ícono */
+}

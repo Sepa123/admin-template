@@ -28,7 +28,7 @@ export class BuscadorComponent  {
   private selectedCertGases: File | null = null;
   public rol = sessionStorage.getItem("rol_id") 
 
-
+  isLoadingFull: boolean = true;
   rolesMeli : string [] = ['80', '81','50']
   descargarPermisoCirculacion : string | null = null
   descargarRevisionTecnica : string | null = null
@@ -269,6 +269,7 @@ seleccionarRut(){
             }
           })
           this.vehiculos = data
+          this.isLoadingFull = false
           this.vehiculosFull = this.vehiculos
 
           this.listaPatentes = this.vehiculosFull.map(v => v.Ppu)
@@ -685,7 +686,9 @@ generateLightRandomColor() {
  patenteSeleccionada : string = ''
 
  buscarVehiculoPorPatente(){
+  this.isLoadingFull = true
   this.vehiculos = this.vehiculosFull.filter(v => v.Ppu == this.patenteSeleccionada)
+  this.isLoadingFull = false
  }
 
 //  listaComunasFull

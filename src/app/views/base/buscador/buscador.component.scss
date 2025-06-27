@@ -130,9 +130,7 @@
   .inline-container span {
     margin-right: 5px; /* Espacio personalizado entre los elementos */
   }
-  h2 {
-      text-align: center;
-    }
+  
     
   .svgT{
     fill:#12de20
@@ -177,4 +175,12 @@
   --mdc-switch-disabled-selected-icon-color: #fff;
   --mdc-switch-disabled-unselected-icon-color: #fff;
   --mdc-switch-unselected-icon-color: #fff;
+}
+
+.titulo {
+  text-align: center;
+}
+.horizontal-align {
+  display: flex;
+  justify-content: center;
 }
