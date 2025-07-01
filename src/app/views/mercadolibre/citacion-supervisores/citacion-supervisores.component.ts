@@ -35,6 +35,8 @@ export class CitacionSupervisoresComponent {
   centroOperacion : string = ''
 
   subidoOk : boolean = false
+  isLoadingFull: boolean = true;
+  isLoadingFullTbPrincipal: boolean = true;
 
   tipoOperacion : string = ''
 
@@ -109,6 +111,7 @@ export class CitacionSupervisoresComponent {
   }
 
   onDateChange(event: any) {
+    this.isLoadingFullTbPrincipal = true;
     const rawDate = event.target.value;
 
     const fechaMinima = new Date(this.minDate);
@@ -151,6 +154,7 @@ export class CitacionSupervisoresComponent {
         console.log(this.citacionSupervisores[0].Id_operacion)
         this.chartVisible = true
         this.graficoVisible = true
+        this.isLoadingFullTbPrincipal = false;
         
       }, error => {
         this.citacionSupervisores = []
@@ -192,6 +196,9 @@ export class CitacionSupervisoresComponent {
         this.pedidos.Total_vehiculo = this.pedidos.Total_vehiculo + citacion.Detalles.length
       })
 
+
+      this.isLoadingFullTbPrincipal = false;
+
       // this.pedidos.Total_vehiculo = this.citacionSupervisores.length
       this.chartVisible = true
       this.graficoVisible = true
@@ -226,6 +233,7 @@ export class CitacionSupervisoresComponent {
       const operacion = this.datosCitacionActiva[0].operacion
 
       this.tipoOperacion = operacion
+      this.isLoadingFull = false;
 
     },
     error =>{
@@ -448,7 +456,7 @@ guardarDatos() {
   this.service.guardarDatosCitacionSupervisores(body).subscribe(((data : any) => {
     console.log(data)
     // console.log(body);
-  alert(data.message);
+   this.mostrarAlerta(data.message, 'success');
 
   this.service.getDatosCitacionSupervisor(this.id_usuario,this.currentDate).subscribe((data) => {
     this.citacionSupervisores = data
@@ -506,7 +514,7 @@ copiarPortapapeles(texto: string): void {
   document.execCommand('copy');
   document.body.removeChild(textarea);
   if (texto == null){
-    this.mostrarAlerta('Error', 'error');
+    this.mostrarAlerta('Error al copiar texto', 'error');
   } else{
     this.mostrarAlerta('Texto copiado: '+texto, 'gray');
   }

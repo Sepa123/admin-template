@@ -20,6 +20,7 @@ import { ResumenRutasComponent } from './resumen-rutas/resumen-rutas.component';
 import { PendientesObligadosComponent } from './pendientes-obligados/pendientes-obligados.component';
 import { CargaRutasManualesComponent } from './carga-rutas-manuales/carga-rutas-manuales.component'
 import { CargaGuiasManualesComponent } from './carga-guias-manuales/carga-guias-manuales.component'
+import { ConsolidadoRutasComponent } from './consolidado-rutas/consolidado-rutas.component'
 
 const routes: Routes = [
   {
@@ -135,6 +136,13 @@ const routes: Routes = [
         component : CargaGuiasManualesComponent,
         data : {
           title : 'rutas-manuale'
+        }
+      },
+      {
+        path : 'consolidado-rutas',
+        component : ConsolidadoRutasComponent,
+        data : {
+          title : 'Consolidado Rutas'
         }
       }
     ]

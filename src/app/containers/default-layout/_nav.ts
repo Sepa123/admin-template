@@ -314,6 +314,22 @@ export const navItems: INavDataBar[] = [
       // },
     ]
   },
+
+  // RUTAS PARA JEFE MANTENCION
+  {
+    name: 'Rutas',
+    url: '/picking',
+    iconComponent: { name: 'cil-truck' },
+    // roles : ROLES_PERMITIDOS.PICKING_ALL,
+    roles :  [ROLES_ENUM.JEFE_MANTENCION],
+    children: [
+      {
+        name :"Guías seguimiento",
+        url : '/picking/guias-manuales'
+      },
+
+    ]
+  },
   {
     name: 'EXO',
     url: '/exo',
@@ -435,7 +451,7 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/productos-sin-clasificacion'
       },
       {
-        name: 'Edicion Pendientes',
+        name: 'Edición Pendientes',
         url: '/operaciones/edicion-pendientes'
       },
       {
@@ -476,7 +492,7 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/productos-sin-clasificacion'
       },
       {
-        name: 'Edicion Pendientes',
+        name: 'Edición Pendientes',
         url: '/operaciones/edicion-pendientes'
       },
       {
@@ -599,7 +615,7 @@ export const navItems: INavDataBar[] = [
         url: '/operaciones/estados'
       },
       {
-        name: 'Edicion Pendientes',
+        name: 'Edición Pendientes',
         url: '/operaciones/edicion-pendientes'
       },
     ]
@@ -662,7 +678,11 @@ export const navItems: INavDataBar[] = [
       {
         name :"Guías seguimiento",
         url : '/picking/guias-manuales'
-      }
+      },
+      // {
+      //   name :"Consolidado Rutas",
+      //   url : '/picking/consolidado-rutas'
+      // }
     ]
   },
 // Pantalla casi todas

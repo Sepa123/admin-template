@@ -140,6 +140,9 @@
 
       <table class="tablaPrincipal">
         <tr>
+          <td colspan="2" *ngIf="isLoadingFullTbPrincipal">
+            <img width="45rem" height="45rem" src="../../../assets/images/loading-gif.gif" />
+          </td>
             <td>
               
                 <label for="fechaCitaciones" class="mr-3">Seleccionar Fecha:</label>
@@ -338,7 +341,10 @@
           </table>
           </div>
           <p></p>
-          <p>Procesos</p>
+          <div class="horizontal-align">
+            <span>Procesos</span>
+            <img *ngIf="isLoadingFull" width="15" height="15" src="../../../assets/images/loading-gif.gif" alt="Cargando..." />
+          </div>
 
         <table class="tablaPrincipal">
               <thead >
@@ -557,3 +563,5 @@
     </button>
   </c-modal-footer> -->
   </c-modal>
+
+   <div id="alertaContainer"></div>
