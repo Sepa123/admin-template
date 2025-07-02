@@ -290,13 +290,13 @@
 
           <div class="form-columna operaciones-container">
             <!-- Operaciones Permitidas -->
-            <h3><i class="fas fa-clipboard-check"></i> Operaciones Permitidas</h3>
+            <h3><i class="fas fa-clipboard-check"></i> Operaciones permitidas</h3>
           
             <div class="field">
               <label>Grupo de Operación:</label>
               <select id="grupoOperacion" class="form-select" (change)="onGpSelectOperacion($event)" [(ngModel)]="selectedGpOperacion" >
                 <option value="">Seleccione...</option>
-                <option *ngFor="let gpO of gpOperaciones" [value]="gpO.id">{{gpO.grupo_operacion}}</option>
+                <option *ngFor="let gpO of gpOperaciones" [value]="gpO.id">{{gpO.id}}.-{{gpO.grupo_operacion}}</option>
                 
               </select>
             </div>
@@ -319,26 +319,42 @@
               <input type="text" id="modelo" disabled [(ngModel)]="glosa">
             </div>
           
-            <button class="primary-btn" (click)="agregarPar()">
+            <button class="btn-save-modal" (click)="agregarPar()">
               <i class="fas fa-plus"></i> Agregar Operación
             </button>
+
+            <ng-container >
+              <button title="{{userData?.operaciones_permitidas}}" class="btn-save-modal" (click)="abrirModalOperaciones()" *ngIf="LoginId === '5'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5s1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5m0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5S5.5 6.83 5.5 6S4.83 4.5 4 4.5m0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5s1.5-.68 1.5-1.5s-.67-1.5-1.5-1.5M7 19h14v-2H7zm0-6h14v-2H7zm0-8v2h14V5z" />
+                </svg>
+              </button>
+            </ng-container>
           
             <!-- Tabla de operaciones agregadas -->
             <table id="tablaOperaciones">
               <thead>
                 <tr>
                   <th>Grupo</th>
-                  <th>Región</th>
-                  <th>Modelo</th>
-                  <th>Acción</th>
+                  <th>Operación</th>
+                  <th>Region</th>
+                  <th>Seguimiento</th>
                 </tr>
+                
               </thead>
               <tbody></tbody>
               <tr *ngFor="let ps of paresSeleccionados ; let i = index">
                 <td>{{ps.idGpO}}</td>
-                <td>{{ps.idCentroSeleccionado}}</td>
-                <td></td>
-                <td></td>
+                <td>{{ps.operacionName}}</td>
+                <td>{{ps.region}}</td>
+                <td>{{ps.modelo}}</td>
+                <td (click)="eliminarFila(i)" style="cursor: pointer;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                      d="m11.4 16l2.6-2.6l2.6 2.6l1.4-1.4l-2.6-2.6L18 9.4L16.6 8L14 10.6L11.4 8L10 9.4l2.6 2.6l-2.6 2.6zM8 20l-6-8l6-8h14v16z" />
+                  </svg>
+                </td>
               </tr>
             </table>
           </div>
@@ -435,36 +451,39 @@
   <div class="custom-modal operaciones-modal">
     <div class="operaciones-header">
       <i class="fa-solid fa-layer-group operaciones-icon"></i>
-      <span class="operaciones-title">Operaciones Permitidas</span>
+      <span class="operaciones-title">Operaciones permitidas activas</span>
       <button class="close-btn" (click)="cerrarModalOperaciones()">&times;</button>
     </div>
     <div class="operaciones-body">
             <table class="tabla-operaciones">
+              <thead>
+                <tr>
+                  <th>Centro de Operación</th>
+                  <th>Nombre Centro de Operación  (Id Grupo de operacion)</th>
+                  <th>Eliminar</th>
+                </tr>
+              </thead>
               <tbody class="tablabody">
-                <tr *ngFor="let op of operaciones; let i = index">
+                <tr *ngFor="let op of operacionesOrdenadas; let i = index">
+                  <td>{{ op }}</td>
+                  <td>{{ obtenerCentroPorId(op) }}</td>
                   <td>
-                    <input class="checkboxInput" type="checkbox" [id]="op.id" [(ngModel)]="op.checked">
-                  </td>
-                  <td>
-                    <label class="operacion-label" [for]="op.id">{{ op.operacion }}</label>
-                  </td>
-                  <td>
-                    <span class="tooltip-container"
-                        (mouseenter)="tooltipIndex = i"
-                        (mouseleave)="tooltipIndex = null">
-                    <i class="fas fa-comment-dots operaciones-chat"></i>
-                    <div class="custom-tooltip" *ngIf="tooltipIndex === i" [innerHTML]="getOperacionTooltip(op)"></div>
-                  </span>
+                    <svg (click)="eliminarOperacionPorIndice(i)" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                      viewBox="0 0 24 24">
+                      <path fill="currentColor"
+                        d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14zM6 7v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7zm8 7v4h-4v-4H8l4-4l4 4z" />
+                    </svg>
                   </td>
                 </tr>
               </tbody>
+
             </table>
     </div>
     <div class="operaciones-footer">
-      <button class="btn-cancelar" (click)="cerrarModalOperaciones()">Cancelar</button>
-      <button class="btn-guardar" (click)="guardarOperaciones()">
+      <button class="btn-cancelar" (click)="cerrarModalOperaciones()">Salir</button>
+      <!-- <button class="btn-guardar" (click)="guardarOperaciones()">
         <i class="fa fa-check"></i> Guardar
-      </button>
+      </button> -->
     </div>
   </div>
 </div>

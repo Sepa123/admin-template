@@ -87,6 +87,7 @@ export class EditarRutaComponent {
     this.getRegiones();
     this.getComunas();
     
+    
   }
 
   LoginId: string = '';
@@ -384,24 +385,38 @@ gpOperaciones: GpOperacion[] = [];
 region: string = ''
 glosa: any = ''
 id_SO: number | null = null; // ID de la operación seleccionada
-
+operacionName: string = ''
 selectedSO: any = null; // o mejor con tipo fuerte si tienes una interfaz
 onSelectOperacion(): void {
   if (this.selectedSO) {
     this.id_SO = this.selectedSO.id;
     this.region = this.selectedSO.region;
     this.glosa = this.selectedSO.glosa;
+    this.operacionName = this.selectedSO.operacion;
   }
 }
 
-paresSeleccionados: { idGpO: number, idCentroSeleccionado: number }[] = [];
+eliminarFila(index: number): void {
+  this.paresSeleccionados.splice(index, 1);
+}
+
+
+paresSeleccionados: { idGpO: number, idCentroSeleccionado: number, operacionName: string, modelo: string, region: string }[] = [];
 
   agregarPar(): void {
     if (this.id_GpO != null && this.id_SO != null) {
       this.paresSeleccionados.push({
         idGpO: this.id_GpO,
-        idCentroSeleccionado: this.id_SO
+        idCentroSeleccionado: this.id_SO,
+        operacionName: this.operacionName,
+        modelo: this.glosa,
+        region: this.region
       });
+
+    //   this.id_SO = this.selectedSO.id;
+    // this.region = this.selectedSO.region;
+    // this.glosa = this.selectedSO.glosa;
+    // this.operacionName = this.selectedSO.operacion;
 
       // Limpiar después de agregar
       console.log('Par agregado:', this.id_GpO, this.id_SO);
@@ -513,6 +528,7 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
 
   userData: any;
   cargando: boolean = true; // Por defecto, está cargando
+  operacionesOrdenadas: number[] = [];
 
   getUsersEdit(id: string): void {
     if (!id) {
@@ -529,6 +545,11 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
           this.userData = data[0]; // Asigna los datos del usuario
           this.updateData = { ...this.userData }; // Copia los valores directamente a updateData
           this.cargando = false; // Finaliza la carga
+
+          if (this.userData?.operaciones_permitidas) {
+              this.operacionesOrdenadas = [...this.userData.operaciones_permitidas].sort((a, b) => a - b);
+              
+  }
         },
         (error) => {
           console.error('Error:', error);
@@ -538,17 +559,25 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
       );
   }
 
+  obtenerCentroPorId(id: number): string {
+  const encontrado = this.CentroOperaciones.find(c => c.id === id);
+  return encontrado ? `${encontrado.centro} (${encontrado.id_op})` : 'Centro desconocido';
+}
+
+
   ClienteId!: number; // Debes obtener este ID de alguna forma (ej: ruta, input)
   updateData: UpdateCliente = {};
 
   guardarOperaciones() {
+
   const operacionesPermitidas = this.paresSeleccionados.map(par => par.idCentroSeleccionado);
+  const nuevaLista: number[] = Array.from(new Set([...this.operacionesOrdenadas, ...operacionesPermitidas]));
 
   const idCliente = Number(this.Id_cliente); // Asegúrate de que sea número
 
-  this.guardarOperacionesPermitidas(idCliente, operacionesPermitidas);
+  this.guardarOperacionesPermitidas(idCliente, nuevaLista);
   this.mostrarAlerta('Operaciones guardadas correctamente', 'success');
-  console.log('Operaciones guardadas:', operacionesPermitidas);
+  console.log('Operaciones guardadas:', nuevaLista);
   this.cerrarModalOperaciones();
 }
 
@@ -891,6 +920,7 @@ getOperacionesParaUsuario(): any[] {
 guardarOperacionesPermitidas(id: number, operaciones: number[]): void {
   const formData = new FormData();
   formData.append('id', id.toString());
+
   operaciones.forEach(op => {
     formData.append('operaciones_permitidas', op.toString());
   });
@@ -904,6 +934,15 @@ guardarOperacionesPermitidas(id: number, operaciones: number[]): void {
         this.mostrarAlerta('Error al actualizar operaciones permitidas', 'error');
       }
     });
+}
+
+eliminarOperacionPorIndice(indice: number): void {
+  if (indice >= 0 && indice < this.operacionesOrdenadas.length) {
+    this.operacionesOrdenadas.splice(indice, 1);
+    console.log('Elemento eliminado. Nueva lista:', this.operacionesOrdenadas);
+  } else {
+    console.warn('Índice fuera de rango');
+  }
 }
 
 }
