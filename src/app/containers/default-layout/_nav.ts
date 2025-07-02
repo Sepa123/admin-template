@@ -314,14 +314,37 @@ export const navItems: INavDataBar[] = [
       // },
     ]
   },
-
+  {
+      name: 'EXO',
+      url: '/exo',
+      iconComponent: { name: 'cil-bar-chart' },
+      roles : ROLES_PERMITIDOS.EXO_VIEW,
+      children: [
+        {
+          name: 'NS Beetrack',
+          url : '/exo/nivel-servicio'
+        },
+        {
+          name: 'NS Driver',
+          url : '/exo/ns-driver'
+        },
+        {
+          name: 'NS Easy',
+          url : '/exo/ns-easy'
+        },
+        // {
+        //   name: 'NS Electrolux',
+        //   url : '/exo/ns-electrolux'
+        // }
+      ]
+    },
   // RUTAS PARA JEFE MANTENCION
   {
     name: 'Rutas',
     url: '/picking',
     iconComponent: { name: 'cil-truck' },
     // roles : ROLES_PERMITIDOS.PICKING_ALL,
-    roles :  [ROLES_ENUM.JEFE_MANTENCION],
+    roles :  [ROLES_ENUM.JEFE_MANTENCION, ROLES_ENUM.SUPERVISOR_EXO,ROLES_ENUM.COORDINADOR_OPERADOR],
     children: [
       {
         name :"Guías seguimiento",
@@ -330,30 +353,7 @@ export const navItems: INavDataBar[] = [
 
     ]
   },
-  {
-    name: 'EXO',
-    url: '/exo',
-    iconComponent: { name: 'cil-bar-chart' },
-    roles : ROLES_PERMITIDOS.EXO_VIEW,
-    children: [
-      {
-        name: 'NS Beetrack',
-        url : '/exo/nivel-servicio'
-      },
-      {
-        name: 'NS Driver',
-        url : '/exo/ns-driver'
-      },
-      {
-        name: 'NS Easy',
-        url : '/exo/ns-easy'
-      },
-      // {
-      //   name: 'NS Electrolux',
-      //   url : '/exo/ns-electrolux'
-      // }
-    ]
-  },
+  
   /// exo para coordinador
   {
     name: 'EXO',
@@ -679,10 +679,10 @@ export const navItems: INavDataBar[] = [
         name :"Guías seguimiento",
         url : '/picking/guias-manuales'
       },
-      // {
-      //   name :"Consolidado Rutas",
-      //   url : '/picking/consolidado-rutas'
-      // }
+      {
+        name :"Consolidado Rutas",
+        url : '/picking/consolidado-rutas'
+      }
     ]
   },
 // Pantalla casi todas

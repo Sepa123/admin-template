@@ -20,6 +20,7 @@ export enum ROLES_ENUM {
     RUT_PICKEADOR = '21',
     JEFE_TOC = '22',
     RAUDDY = '23',
+    COORDINADOR_OPERADOR = '24',
     ANALISTA_EXO = '30',
     SUPERVISOR_EXO = '31',
     CLIENTE_RSV = '40',
