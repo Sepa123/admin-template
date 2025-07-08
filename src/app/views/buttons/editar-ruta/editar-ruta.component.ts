@@ -8,6 +8,7 @@ import {
   Cliente,
   UpdateCliente,
 } from 'src/app/service/editar-ruta.service';
+import { AnyComponent } from '@fullcalendar/core/preact';
 
 interface GpOperacion {
   id: number;
@@ -528,7 +529,7 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
 
   userData: any;
   cargando: boolean = true; // Por defecto, está cargando
-  operacionesOrdenadas: number[] = [];
+  operacionesOrdenadas: any[] = [];
 
   getUsersEdit(id: string): void {
     if (!id) {
@@ -546,8 +547,8 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
           this.updateData = { ...this.userData }; // Copia los valores directamente a updateData
           this.cargando = false; // Finaliza la carga
 
-          if (this.userData?.operaciones_permitidas) {
-              this.operacionesOrdenadas = [...this.userData.operaciones_permitidas].sort((a, b) => a - b);
+          if (this.userData?.operaciones) {
+              this.operacionesOrdenadas = [...this.userData.operaciones].sort((a, b) => a - b);
               
   }
         },
@@ -571,7 +572,10 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
   guardarOperaciones() {
 
   const operacionesPermitidas = this.paresSeleccionados.map(par => par.idCentroSeleccionado);
-  const nuevaLista: number[] = Array.from(new Set([...this.operacionesOrdenadas, ...operacionesPermitidas]));
+
+  const operacionesExistentes = this.operacionesOrdenadas.map(op => op);
+
+  const nuevaLista: number[] = Array.from(new Set([...operacionesExistentes, ...operacionesPermitidas]));
 
   const idCliente = Number(this.Id_cliente); // Asegúrate de que sea número
 
@@ -895,9 +899,9 @@ cargarOperacionesModalidades() {
     next: (data) => {
       this.operaciones = data;
       // Solo aquí, cuando ya tienes userData y operaciones:
-      if (this.userData && this.userData.operaciones_permitidas) {
+      if (this.userData && this.userData.operaciones) {
         this.operaciones.forEach(op => {
-          op.checked = this.userData.operaciones_permitidas.includes(op.id);
+          op.checked = this.userData.operaciones.includes(op.id);
         });
       }
     },
@@ -918,14 +922,15 @@ getOperacionesParaUsuario(): any[] {
 
 
 guardarOperacionesPermitidas(id: number, operaciones: number[]): void {
-  const formData = new FormData();
-  formData.append('id', id.toString());
+  const payload = {
+    id: id,
+    operaciones: operaciones.map((op) => ({
+      grupo_operacion_id: this.id_GpO,
+      operacion_id: op,
+    })),
+  };
 
-  operaciones.forEach(op => {
-    formData.append('operaciones_permitidas', op.toString());
-  });
-
-  this.http.post('http://localhost:8000/api/actualizar-operaciones-permitidas/', formData)
+  this.http.post('http://localhost:8000/api/actualizar-operaciones-permitidas/', payload)
     .subscribe({
       next: (response) => {
         this.mostrarAlerta('Operaciones permitidas actualizadas correctamente', 'success');
