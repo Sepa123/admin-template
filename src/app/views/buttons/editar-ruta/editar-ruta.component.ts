@@ -570,6 +570,12 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
   updateData: UpdateCliente = {};
 
 guardarOperaciones() {
+  // Validación: si id_GpO es 0, null o vacío, no continuar
+  if (!this.id_GpO || this.id_GpO === 0 || this.id_GpO === '') {
+    this.mostrarAlerta('Debe seleccionar un grupo de operación válido', 'warning');
+    return;
+  }
+
   const tuplas: [
     string,
     { grupo_operacion_id: number; operacion_id: number }
@@ -584,11 +590,9 @@ guardarOperaciones() {
     ]);
   });
 
-  // Agregar pares seleccionados
-   // 2. Agregar pares seleccionados SOLO si no existen ya en las operaciones previas
+  // Agregar pares seleccionados SOLO si no existen ya en las operaciones previas
   this.paresSeleccionados.forEach(par => {
     const key = `${this.id_GpO}-${par.idCentroSeleccionado}`;
-    // Verifica si ya existe en tuplas
     const yaExiste = tuplas.some(([k]) => k === key);
     if (!yaExiste) {
       tuplas.push([
@@ -622,7 +626,6 @@ guardarOperaciones() {
       }
     });
 }
-
 
 
   actualizarCliente() {
