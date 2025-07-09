@@ -569,21 +569,61 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
   ClienteId!: number; // Debes obtener este ID de alguna forma (ej: ruta, input)
   updateData: UpdateCliente = {};
 
-  guardarOperaciones() {
+guardarOperaciones() {
+  const tuplas: [
+    string,
+    { grupo_operacion_id: number; operacion_id: number }
+  ][] = [];
 
-  const operacionesPermitidas = this.paresSeleccionados.map(par => par.idCentroSeleccionado);
+  // Agregar operaciones existentes
+  this.operacionesOrdenadas.forEach(op => {
+    const operacionId = typeof op === 'object' && op !== null ? op.id || op.operacion_id : op;
+    tuplas.push([
+      `${this.id_GpO}-${operacionId}`,
+      { grupo_operacion_id: this.id_GpO, operacion_id: operacionId }
+    ]);
+  });
 
-  const operacionesExistentes = this.operacionesOrdenadas.map(op => op);
+  // Agregar pares seleccionados
+   // 2. Agregar pares seleccionados SOLO si no existen ya en las operaciones previas
+  this.paresSeleccionados.forEach(par => {
+    const key = `${this.id_GpO}-${par.idCentroSeleccionado}`;
+    // Verifica si ya existe en tuplas
+    const yaExiste = tuplas.some(([k]) => k === key);
+    if (!yaExiste) {
+      tuplas.push([
+        key,
+        { grupo_operacion_id: this.id_GpO, operacion_id: par.idCentroSeleccionado }
+      ]);
+    }
+  });
 
-  const nuevaLista: number[] = Array.from(new Set([...operacionesExistentes, ...operacionesPermitidas]));
+  // Unificar y reordenar propiedades
+  const operacionesUnicas = Array.from(new Map(tuplas).values()).map(op => ({
+    grupo_operacion_id: op.grupo_operacion_id,
+    operacion_id: op.operacion_id
+  }));
 
-  const idCliente = Number(this.Id_cliente); // Asegúrate de que sea número
+  const payload = {
+    id: Number(this.Id_cliente),
+    operaciones: operacionesUnicas
+  };
 
-  this.guardarOperacionesPermitidas(idCliente, nuevaLista);
-  this.mostrarAlerta('Operaciones guardadas correctamente', 'success');
-  console.log('Operaciones guardadas:', nuevaLista);
-  this.cerrarModalOperaciones();
+  this.http.post('http://localhost:8000/api/actualizar-operaciones-permitidas/', payload)
+    .subscribe({
+      next: () => {
+        this.mostrarAlerta('Operaciones permitidas actualizadas correctamente', 'success');
+        console.log('Operaciones guardadas:', operacionesUnicas);
+        this.cerrarModalOperaciones();
+      },
+      error: (error) => {
+        this.mostrarAlerta('Error al actualizar operaciones permitidas', 'error');
+        console.error('Error al guardar:', error);
+      }
+    });
 }
+
+
 
   actualizarCliente() {
     this.ClienteId = parseInt(this.Id_cliente);
@@ -921,25 +961,45 @@ getOperacionesParaUsuario(): any[] {
 
 
 
-guardarOperacionesPermitidas(id: number, operaciones: number[]): void {
-  const payload = {
-    id: id,
-    operaciones: operaciones.map((op) => ({
-      grupo_operacion_id: this.id_GpO,
-      operacion_id: op,
-    })),
-  };
+// guardarOperacionesPermitidas() {
+//   const operacionesNuevas = this.paresSeleccionados.map(par => ({
+//     grupo_operacion_id: this.id_GpO,
+//     operacion_id: par.idCentroSeleccionado
+//   }));
 
-  this.http.post('http://localhost:8000/api/actualizar-operaciones-permitidas/', payload)
-    .subscribe({
-      next: (response) => {
-        this.mostrarAlerta('Operaciones permitidas actualizadas correctamente', 'success');
-      },
-      error: (error) => {
-        this.mostrarAlerta('Error al actualizar operaciones permitidas', 'error');
-      }
-    });
-}
+//   const operacionesExistentes = this.operacionesOrdenadas.map(op => ({
+//     grupo_operacion_id: this.id_GpO,
+//     operacion_id: op
+//   }));
+
+//   const todasOperaciones = [...operacionesExistentes, ...operacionesNuevas];
+
+//   // Eliminar duplicados (por combinación de grupo y operación)
+//   const operacionesUnicas = Array.from(
+//     new Map(todasOperaciones.map(op => [`${op.grupo_operacion_id}-${op.operacion_id}`, op])).values()
+//   );
+
+//   const idCliente = Number(this.Id_cliente);
+
+//   const payload = {
+//     id: idCliente,
+//     operaciones: operacionesUnicas
+//   };
+
+//   this.http.post('http://localhost:8000/api/actualizar-operaciones-permitidas/', payload)
+//     .subscribe({
+//       next: () => {
+//         this.mostrarAlerta('Operaciones permitidas actualizadas correctamente', 'success');
+//         console.log('Operaciones guardadas:', operacionesUnicas);
+//         this.cerrarModalOperaciones();
+//       },
+//       error: (error) => {
+//         this.mostrarAlerta('Error al actualizar operaciones permitidas', 'error');
+//         console.error('Error al guardar:', error);
+//       }
+//     });
+// }
+
 
 eliminarOperacionPorIndice(indice: number): void {
   if (indice >= 0 && indice < this.operacionesOrdenadas.length) {
