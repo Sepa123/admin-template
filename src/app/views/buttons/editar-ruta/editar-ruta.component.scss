@@ -749,7 +749,7 @@ body {
 
 /* Estilo general para el select */
 .form-select {
-  width: 100%;
+  width: 250px;
   padding: 10px;
   margin: 5px 0;
   border: 1px solid #ccc;
@@ -876,6 +876,28 @@ input[type="file"] {
 
 .btn-close-modal i {
   font-size: 16px; /* Tamaño del ícono */
+}
+.botones-modal {
+  display: flex;
+  justify-content: space-between; // btn-open-modal a la izq, btn-save-modal a la der
+  align-items: center;
+  width: 100%;
+}
+
+.btn-open-modal{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Espaciado entre el ícono y el texto */
+  padding: 10px 15px;
+  background-color: #28a745; /* Verde para indicar acción de guardar */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-save-modal {
