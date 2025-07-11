@@ -427,11 +427,11 @@ filtrarAtrasados(){
 
   const datos: any[][] = [[]];
 
-  datos.push(["Origen","Cod. Entrega","Fecha Ingreso","Fecha Compromiso","Región","Comuna","Descripción","Bultos","Estado","Subestado","Verificado","Recibido","Alerta","Observación"])
+  datos.push(["Origen","Cod. Entrega","Fecha Ingreso","Fecha Compromiso","Fecha Reprogramado","Región","Comuna","Descripción","Bultos","Estado","Subestado","Verificado","Recibido","Alerta","Observación"])
 
   this.pedidosFull.forEach((pedido) => {
       const fila: any[] = [];
-      fila.push(pedido.Origen, pedido.Cod_entrega, pedido.Fecha_ingreso, pedido.Fecha_compromiso, pedido.Region, pedido.Comuna, pedido.Descripcion, pedido.Bultos,
+      fila.push(pedido.Origen, pedido.Cod_entrega, pedido.Fecha_ingreso, pedido.Fecha_compromiso,pedido.Fecha_reprogramado, pedido.Region, pedido.Comuna, pedido.Descripcion, pedido.Bultos,
                 pedido.Estado,pedido.Subestado,pedido.Verificado, pedido.Recibido,pedido.Alerta,pedido.Observacion); 
       datos.push(fila);
     });

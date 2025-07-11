@@ -14,7 +14,7 @@ import { ComunaRutas } from '../models/comunaRutas.interface'
 import { seguimientoRuta } from '../models/TOC/seguimientoRuta.interface'
 import {PedidoCompromisoObligatorio } from '../models/rutas/pedidoCompromisoObligatorios.interface'
 import { VehiculoDisponible,PatenteDisponible } from '../models/rutas/vehiculosDisponibles.interface'
-import { GuiasExternasTemp, MainCamposClientes, RutasTy, RutasTyTemp,GuiasExternas, MainGuiasExternas } from '../models/rutas/rutas.interface';
+import { GuiasExternasTemp, MainCamposClientes, RutasTy, RutasTyTemp,GuiasExternas, MainGuiasExternas, RutasConsolidadas } from '../models/rutas/rutas.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -425,6 +425,14 @@ export class RutasService {
     return this.http.get < GuiasExternas []>(this.apiurl + `/lista/guias_externas?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}&bloque=${bloque}`)
   }
 
+
+  get_lista_consolidado_ruta( fecha_ini : string,fecha_fin : string,bloque: string){
+    return this.http.get < RutasConsolidadas []>(this.apiurl + `/lista/consolidado_rutas?fecha_ini=${fecha_ini}&fecha_fin=${fecha_fin}&bloque=${bloque}`)
+  }
+
+  update_valor_ruta_consolidada(data: any) {
+    return this.http.put(this.apiurl +`/actualizar/valor/consolidado`,data)
+  }
   
   
 }

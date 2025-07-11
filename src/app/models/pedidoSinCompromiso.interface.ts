@@ -18,4 +18,5 @@ export interface PedidoSinCompromiso {
     Talla:            string;
     Observacion:      null | string;
     Alerta:           boolean;
+    Fecha_reprogramado: null | string;
 }

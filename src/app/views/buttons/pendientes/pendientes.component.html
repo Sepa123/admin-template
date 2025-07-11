@@ -388,9 +388,10 @@
       <thead>
         <tr>
           <th>Cliente</th>
-          <th>Código Entrega</th>
+          <th> Entrega</th>
           <th (click)="OrdenFechaIngreso()" style="cursor: pointer;">Fecha Ingreso</th>
           <th (click)="OrdenFechaCompromiso()" style="cursor: pointer;">Fecha Compromiso</th>
+          <th  style="cursor: pointer;">Fecha Reprogramada</th>
           <th>Región</th>
           <th>Comuna</th>
           <th>Descripción</th>
@@ -423,6 +424,7 @@
                   <th (click)="copiarTexto(pedido.Cod_entrega+'' )" class="text-blue-link">{{ pedido.Cod_entrega }}</th>
                   <td class="td-wrap">{{ pedido.Fecha_ingreso }}</td>
                   <td class="td-wrap" >{{ pedido.Fecha_compromiso }}</td>
+                  <td class="td-wrap" >{{ pedido.Fecha_reprogramado }}</td>
                   <td>{{ pedido.Region }}</td>
                   <td>{{ pedido.Comuna }}</td>
                   <td>{{ pedido.Descripcion }}</td>

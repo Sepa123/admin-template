@@ -120,3 +120,49 @@ export interface GuiasExternas {
     id_razon_social: number;
     razon_social: string;
 }
+
+
+
+// #### Consolidado de Rutas
+
+export interface RutasConsolidadas {
+    id:                 number;
+    created_at:         Date;
+    last_update:        Date;
+    nombre_ruta:        string;
+    fecha:              Date;
+    id_operacion:       number;
+    id_centro_op:       number;
+    tipo_ruta:          string;
+    estado:             string;
+    origen:             null;
+    destino:            null;
+    origen_seguimiento: null;
+    fecha_inicio:       Date;
+    fecha_fin:          Date;
+    distancia_km:       null;
+    tiempo_estimado:    string;
+    patente_vehiculo:   string;
+    tipo_vehiculo:      number;
+    id_razon_social:    number;
+    nombre_driver:      string;
+    pedido_total:       number;
+    entregados:         number;
+    no_entregados:      number;
+    kg:                 null;
+    id_tarifa:          number;
+    valor_ruta:         null;
+    cliente_info:       ClienteInfo;
+    notas:              null;
+    porcentaje_entregados: number;
+}
+
+export interface ClienteInfo {
+    comunas:  Cliente[];
+    clientes: Cliente[];
+}
+
+export interface Cliente {
+    nombre:           string;
+    cantidad_pedidos: number;
+}

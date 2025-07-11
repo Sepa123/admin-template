@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { RutasService } from '../../../service/rutas.service';
-import { ClientesTy,RutasTy,RutasTyTemp, GuiasExternasTemp, GuiasExternas} from '../../../models/rutas/rutas.interface';
+import { ClientesTy,RutasTy,RutasTyTemp, GuiasExternasTemp, GuiasExternas, RutasConsolidadas,ClienteInfo,Cliente} from '../../../models/rutas/rutas.interface';
 import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-consolidado-rutas',
   templateUrl: './consolidado-rutas.component.html',
-  styleUrls: ['./consolidado-rutas.component.scss']
+  styleUrls: ['./consolidado-rutas.component.scss','./consolidado-rutas2.component.scss']
 })
 export class ConsolidadoRutasComponent {
 
@@ -81,121 +81,35 @@ export class ConsolidadoRutasComponent {
   }
 
 
-  procesarTablaTemporal(){
-    let id_usuario = sessionStorage.getItem('id')+""
-    this.selectedFile = null
-    this.nombreArchivo = "Ningún archivo seleccionado"
-
-    this.service.get_procesar_guias_externas_temporales(id_usuario).subscribe( (data : any) => {
-      alert(data.message)
-
-      // ### limpiar tabla temporal porque no me la limpia la funcion del backend
-
-      this.service.get_limpiar_guias_externas_temporales(id_usuario).subscribe( (data : any) => {
-        // alert(data.message)
-        this.toggleLiveDemo()
-      })
-
-      // this.toggleLiveDemo()
-    })
-    // this.toggleLiveDemo()
-  }
-
-  subirExcelGuias() {
-
-    console.log(this.clienteSeleccionado);
-
-    if(this.clienteSeleccionado == 0){
-      
-      return alert("Seleccione un cliente")
-    }
-    const cliente = this.Clientes_ty.filter(cliente => cliente.Id_cliente == this.clienteSeleccionado)[0].Cliente
-
-    this.nombreClienteSeleccionado = cliente
-
-    if (this.selectedFile) {
-      let id_usuario = sessionStorage.getItem('id')+""
-      let ids_usuario = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""
-      const formData = new FormData();
-      formData.append('file', this.selectedFile, this.selectedFile.name);
-
-    
-    // this.service.get_lista_guias_externa_temp(id_usuario).subscribe( data => {
-    //   this.listaGuiasExternasTemp = data
-
-    //   console.log(this.listaGuiasExternasTemp)
-
-      
-    //   this.cantRutas = this.listaGuiasExternasTemp.length
-
-    //   this.procesables = this.listaGuiasExternasTemp.filter(ruta => ruta.Proceder == true).length
-    //   this.noProcesables = this.listaGuiasExternasTemp.filter(ruta => ruta.Proceder == false).length
-
-    //   this.toggleLiveDemo()
-    // })
-
-    // ### version final 
-    
-    this.service.upload_guias_ext(formData,id_usuario,ids_usuario,cliente,this.clienteSeleccionado).subscribe(
-      (data : any) => {
-        // alert(data.message)
-
-        console.log('Archivo subido exitosamente');
-
-        this.service.get_lista_guias_externa_temp(id_usuario).subscribe( data => {
-          this.listaGuiasExternasTemp = data.datos
-
-          this.rutas_generadas = data.rutas_generadas
-
-
-    
-          console.log(this.listaGuiasExternasTemp)
-    
-          
-          this.cantRutas = this.listaGuiasExternasTemp.length
-    
-          this.procesables = this.listaGuiasExternasTemp.filter(ruta => ruta.Proceder == true).length
-          this.noProcesables = this.listaGuiasExternasTemp.filter(ruta => ruta.Proceder == false).length
-    
-          this.toggleLiveDemo()
-        })
-        
-        // Lógica adicional en caso de éxito.
-      }, error => {
-        console.error('Error al subir el archivo:', error);
-        alert(error.error.detail);
-        // Lógica adicional en caso de error.
-      }
-    )
-  }else{
-    console.warn('Ningún archivo seleccionado');
-    alert('Ningún archivo seleccionado');
-    // Lógica adicional en caso de que el usuario no seleccione ningún archivo.
-  }
-}
-
-
 
   // ##### buscar la lista de rutas 
 
   fecha_inicio : string = ""
   fecha_fin : string = ""
 
-  listaRutas : GuiasExternas[] = []
-  listaRutasFull : GuiasExternas[] = []
+  listaRutas : RutasConsolidadas[] = []
+  listaRutasFull : RutasConsolidadas[] = []
 
 
   buscarListaRutas(bloque: string){
 
     if(this.textoBuscar == ""){
-      this.service.get_lista_guias_externa(this.fecha_inicio,this.fecha_fin,bloque).subscribe( data => {
-        this.listaRutas = data
-        this.listaRutasFull = data
+      this.service.get_lista_consolidado_ruta(this.fecha_inicio,this.fecha_fin,bloque).subscribe( data => {
+        this.listaRutas = data.map(ruta => {
+          ruta.porcentaje_entregados = Math.floor((ruta.entregados / ruta.pedido_total) * 100);
+          return ruta
+          
+        })
+        this.listaRutasFull = this.listaRutas
 
         if(this.clienteBuscador == 0){
-            this.listaRutas = data
+            this.listaRutas = data.map(ruta => {
+            ruta.porcentaje_entregados = Math.floor((ruta.entregados / ruta.pedido_total) * 100);
+            return ruta
+          
+        })
         }else {
-          this.listaRutas = data.filter(ruta => ruta.id_cliente == this.clienteBuscador)
+          // this.listaRutas = data.filter(ruta => ruta.id_cliente == this.clienteBuscador)
         }
   
         console.log(data)
@@ -286,9 +200,9 @@ export class ConsolidadoRutasComponent {
       for (let i = 0; i < this.listaRutasFull.length; i++) {
         const lista = this.listaRutasFull[i];
         if (
-            lista.ppu.toString().toLowerCase().startsWith(filtro) ||
-            lista.guia.toString().toLowerCase().startsWith(filtro) ||
-            lista.cliente.toString().toLowerCase().startsWith(filtro)  
+            lista.patente_vehiculo.toString().toLowerCase().startsWith(filtro) ||
+            lista.nombre_ruta.toString().toLowerCase().startsWith(filtro) 
+            // lista.cliente.toString().toLowerCase().startsWith(filtro)  
         ) {
             resultado.push(lista);
             if (resultado.length >= maxResults) {
@@ -299,10 +213,7 @@ export class ConsolidadoRutasComponent {
   } else {
       for (let i = 0; i < this.listaRutasFull.length; i++) {
         const lista = this.listaRutasFull[i];
-        if (
-            (lista.ppu.toString().toLowerCase().startsWith(filtro) ||
-            lista.guia.toString().toLowerCase().startsWith(filtro) ||
-            lista.cliente.toString().toLowerCase().startsWith(filtro)  ) && lista.id_cliente == this.clienteBuscador
+        if (lista.patente_vehiculo.toString().toLowerCase().startsWith(filtro) 
         ) {
             resultado.push(lista);
             if (resultado.length >= maxResults) {
@@ -355,12 +266,7 @@ export class ConsolidadoRutasComponent {
         // arrays.forEach(producto => {
           const fila: any[] = [];
           fila.push(
-                    ruta.operacion,ruta.id_operacion,ruta.centro_op,ruta.id_centro_op,ruta.id_ruta,ruta.fecha,ruta.ppu,ruta.id_ppu,
-                    ruta.driver,ruta.id_driver,ruta.telefono_driver, ruta.guia, ruta.detalle,ruta.cantidad,ruta.bultos, ruta.cliente,ruta.id_cliente, ruta.fecha_entrega,
-                    ruta.modo,ruta.region,ruta.comuna,ruta.direccion, ruta.dnu_cliente,ruta.nombre_cliente,ruta.telefono_cliente,
-                    ruta.correo_electronico_cliente,ruta.origen, ruta.fecha_estimada,ruta.fecha_llegada,ruta.estado, ruta.subestado,ruta.tiempo_en_destino,
-                    ruta.n_intentos,ruta.distancia_km,ruta.peso,ruta.volumen,ruta.codigo,
-                    ruta.observacion,ruta.id_razon_social,ruta.razon_social
+
                   );
           datos.push(fila);
         // });
@@ -408,6 +314,38 @@ export class ConsolidadoRutasComponent {
   handleEdicionChange(event: any) {
     this.visibleEdicion = event;
   }
+
+
+
+  /// modal de resumen de clientes 
+
+  visibleResumen: boolean = false;
+
+  // clienteSeleccionadoInfo : ClienteInfo []
+  datosCliente : Cliente [] = []
+  datosComuna : Cliente [] = []
+
+
+  verResumenCliente(cliente_info: ClienteInfo) {
+
+    this.datosCliente = cliente_info.clientes
+    this.datosComuna = cliente_info.comunas
+
+    // console.log(cliente_info)
+    // this.clienteSeleccionadoInfo = cliente_info
+    this.toggleResumen()
+
+  }
+
+
+  toggleResumen() {
+    this.visibleResumen = !this.visibleResumen;
+  }
+
+  handleResumenChange(event: any) {
+    this.visibleResumen = event;
+  }
+
 
   valorRuta : number = 0
 
@@ -470,6 +408,50 @@ export class ConsolidadoRutasComponent {
       
     })
   }
+
+
+
+  // ####  actualizar valor ruta consolidada
+
+  updateCell(event: any, index: number, id: number) {
+  const value = event.target.value;
+
+    this.listaRutas[index].valor_ruta = value;
+    const indexSelec = this.listaRutasFull.findIndex(p => p.id === id);
+
+    if (index !== -1) {
+      this.listaRutasFull[indexSelec].valor_ruta = value;
+    }
+    console.log(`Valor actualizado en la fila ${index}: ${value}`);
+  }
+
+  actualizarValorRutaConsolidada(ruta: string, guia : number, valor : number | null){
+
+    const body = {
+      "ruta": ruta,
+      "guia": guia,
+      "valor_ruta": valor
+    }
+
+    if (!valor){
+      return alert("Ingrese un valor para la ruta")
+    }
+
+    console.log(body)
+    this.service.update_valor_ruta_consolidada(body).subscribe( (data : any) => {
+
+       alert(data.message)
+      
+    }, error => {
+
+      if(error.status == 422){
+        return alert(error.error.detail[0].msg)
+      }
+      // console.error('Error al actualizar el valor de la ruta consolidada:', error.status, error.error.detail.msg);
+      alert(error.error.detail)
+    })
+  }
+
 
   // rutaSeleccionada : string = ""
   // guiaSeleccionada : string = ""

@@ -8,6 +8,7 @@ import {
   Cliente,
   UpdateCliente,
 } from 'src/app/service/editar-ruta.service';
+import { AnyComponent } from '@fullcalendar/core/preact';
 
 interface GpOperacion {
   id: number;
@@ -86,6 +87,7 @@ export class EditarRutaComponent {
     this.Clients();
     this.getRegiones();
     this.getComunas();
+    
     
   }
 
@@ -355,6 +357,7 @@ getCop(): void {
 
 gpOperaciones: GpOperacion[] = [];
  getGpOperaciones(): void {
+   // https://hela.transyanez.cl/api/editar_ruta/GpOperacion/
     const url = `https://hela.transyanez.cl/api/editar_ruta/GpOperacion/`;
     this.http.get<GpOperacion[]>(url).subscribe({
       next: (data) => {
@@ -383,8 +386,6 @@ gpOperaciones: GpOperacion[] = [];
 region: string = ''
 glosa: any = ''
 id_SO: number | null = null; // ID de la operación seleccionada
-
-
 operacionName: string = ''
 selectedSO: any = null; // o mejor con tipo fuerte si tienes una interfaz
 onSelectOperacion(): void {
@@ -403,7 +404,7 @@ eliminarFila(index: number): void {
 
 paresSeleccionados: { idGpO: number, idCentroSeleccionado: number, operacionName: string, modelo: string, region: string }[] = [];
 
-   agregarPar(): void {
+  agregarPar(): void {
     if (this.id_GpO != null && this.id_SO != null) {
       this.paresSeleccionados.push({
         idGpO: this.id_GpO,
@@ -429,6 +430,7 @@ paresSeleccionados: { idGpO: number, idCentroSeleccionado: number, operacionName
   }
 SlOperaciones: Operacion[] = [];
 getSLoperacionesbyid(id: number): void {
+  // https://hela.transyanez.cl/api/editar_ruta/SelectOperacion/?id=${id}
   const url = `https://hela.transyanez.cl/api/editar_ruta/SelectOperacion/?id=${id}`;
   this.http.get<any>(url).subscribe({
     next: (data) => {
@@ -527,7 +529,7 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
 
   userData: any;
   cargando: boolean = true; // Por defecto, está cargando
-  operacionesOrdenadas: number[] = [];
+  operacionesOrdenadas: any[] = [];
 
   getUsersEdit(id: string): void {
     if (!id) {
@@ -545,8 +547,8 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
           this.updateData = { ...this.userData }; // Copia los valores directamente a updateData
           this.cargando = false; // Finaliza la carga
 
-          if (this.userData?.operaciones_permitidas) {
-              this.operacionesOrdenadas = [...this.userData.operaciones_permitidas].sort((a, b) => a - b);
+          if (this.userData?.operaciones) {
+              this.operacionesOrdenadas = [...this.userData.operaciones].sort((a, b) => a - b);
               
   }
         },
@@ -563,21 +565,68 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
   return encontrado ? `${encontrado.centro} (${encontrado.id_op})` : 'Centro desconocido';
 }
 
+
   ClienteId!: number; // Debes obtener este ID de alguna forma (ej: ruta, input)
   updateData: UpdateCliente = {};
 
-  guardarOperaciones() {
+guardarOperaciones() {
+  // Validación: si id_GpO es 0, null o vacío, no continuar
+  if (!this.id_GpO || this.id_GpO === 0 || this.id_GpO === '') {
+    this.mostrarAlerta('Debe seleccionar un grupo de operación válido', 'warning');
+    return;
+  }
+  const tuplas: [
+    string,
+    { grupo_operacion_id: number; operacion_id: number }
+  ][] = [];
 
-  const operacionesPermitidas = this.paresSeleccionados.map(par => par.idCentroSeleccionado);
-  const nuevaLista: number[] = Array.from(new Set([...this.operacionesOrdenadas, ...operacionesPermitidas]));
+  // Agregar operaciones existentes
+  this.operacionesOrdenadas.forEach(op => {
+    const operacionId = typeof op === 'object' && op !== null ? op.id || op.operacion_id : op;
+    tuplas.push([
+      `${this.id_GpO}-${operacionId}`,
+      { grupo_operacion_id: this.id_GpO, operacion_id: operacionId }
+    ]);
+  });
 
-  const idCliente = Number(this.Id_cliente); // Asegúrate de que sea número
+  // Agregar pares seleccionados SOLO si no existen ya en las operaciones previas
+  this.paresSeleccionados.forEach(par => {
+    const key = `${this.id_GpO}-${par.idCentroSeleccionado}`;
+    const yaExiste = tuplas.some(([k]) => k === key);
+    if (!yaExiste) {
+      tuplas.push([
+        key,
+        { grupo_operacion_id: this.id_GpO, operacion_id: par.idCentroSeleccionado }
+      ]);
+    }
+  });
 
-  this.guardarOperacionesPermitidas(idCliente, nuevaLista);
-  this.mostrarAlerta('Operaciones guardadas correctamente', 'success');
-  console.log('Operaciones guardadas:', nuevaLista);
-  this.cerrarModalOperaciones();
+  // Unificar y reordenar propiedades
+  const operacionesUnicas = Array.from(new Map(tuplas).values()).map(op => ({
+    grupo_operacion_id: op.grupo_operacion_id,
+    operacion_id: op.operacion_id
+  }));
+
+  const payload = {
+    id: Number(this.Id_cliente),
+    operaciones: operacionesUnicas
+  };
+
+  this.http.post('https://hela.transyanez.cl/api/editar_ruta/actualizar-operaciones-permitidas/', payload)
+    .subscribe({
+      next: () => {
+        this.mostrarAlerta('Operaciones permitidas actualizadas correctamente', 'success');
+        console.log('Operaciones guardadas:', operacionesUnicas);
+        this.cerrarModalOperaciones();
+      },
+      error: (error) => {
+        this.mostrarAlerta('Error al actualizar operaciones permitidas', 'error');
+        console.error('Error al guardar:', error);
+      }
+    });
 }
+
+
 
   actualizarCliente() {
     this.ClienteId = parseInt(this.Id_cliente);
@@ -893,9 +942,9 @@ cargarOperacionesModalidades() {
     next: (data) => {
       this.operaciones = data;
       // Solo aquí, cuando ya tienes userData y operaciones:
-      if (this.userData && this.userData.operaciones_permitidas) {
+      if (this.userData && this.userData.operaciones) {
         this.operaciones.forEach(op => {
-          op.checked = this.userData.operaciones_permitidas.includes(op.id);
+          op.checked = this.userData.operaciones.includes(op.id);
         });
       }
     },
@@ -915,23 +964,45 @@ getOperacionesParaUsuario(): any[] {
 
 
 
-guardarOperacionesPermitidas(id: number, operaciones: number[]): void {
-  const formData = new FormData();
-  formData.append('id', id.toString());
-  operaciones.forEach(op => {
-    formData.append('operaciones_permitidas', op.toString());
-  });
+// guardarOperacionesPermitidas() {
+//   const operacionesNuevas = this.paresSeleccionados.map(par => ({
+//     grupo_operacion_id: this.id_GpO,
+//     operacion_id: par.idCentroSeleccionado
+//   }));
 
-  this.http.post('https://hela.transyanez.cl/api/editar_ruta/actualizar-operaciones-permitidas/', formData)
-    .subscribe({
-      next: (response) => {
-        this.mostrarAlerta('Operaciones permitidas actualizadas correctamente', 'success');
-      },
-      error: (error) => {
-        this.mostrarAlerta('Error al actualizar operaciones permitidas', 'error');
-      }
-    });
-}
+//   const operacionesExistentes = this.operacionesOrdenadas.map(op => ({
+//     grupo_operacion_id: this.id_GpO,
+//     operacion_id: op
+//   }));
+
+//   const todasOperaciones = [...operacionesExistentes, ...operacionesNuevas];
+
+//   // Eliminar duplicados (por combinación de grupo y operación)
+//   const operacionesUnicas = Array.from(
+//     new Map(todasOperaciones.map(op => [`${op.grupo_operacion_id}-${op.operacion_id}`, op])).values()
+//   );
+
+//   const idCliente = Number(this.Id_cliente);
+
+//   const payload = {
+//     id: idCliente,
+//     operaciones: operacionesUnicas
+//   };
+
+//   this.http.post('http://localhost:8000/api/actualizar-operaciones-permitidas/', payload)
+//     .subscribe({
+//       next: () => {
+//         this.mostrarAlerta('Operaciones permitidas actualizadas correctamente', 'success');
+//         console.log('Operaciones guardadas:', operacionesUnicas);
+//         this.cerrarModalOperaciones();
+//       },
+//       error: (error) => {
+//         this.mostrarAlerta('Error al actualizar operaciones permitidas', 'error');
+//         console.error('Error al guardar:', error);
+//       }
+//     });
+// }
+
 
 eliminarOperacionPorIndice(indice: number): void {
   if (indice >= 0 && indice < this.operacionesOrdenadas.length) {

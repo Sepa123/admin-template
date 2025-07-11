@@ -103,56 +103,56 @@
       </td>
     </c-modal-header>
 
-    <c-modal-body >
+    <c-modal-body>
       <!-- Columna derecha para foto -->
       <div *ngIf="LoginId !== '5'">
-
+    
         <div class="upload-container">
           <div class="photo-preview">
             <img class="ImgPerfilModal" [src]="imagenPerfil || 'assets/images/Default-User.png'"
               (error)="imagenPerfil = 'assets/images/Default-User.png'" alt="Foto de perfil">
           </div>
           <div class="button-group">
-           
           </div>
-          
         </div>
-
-        
         <div class="form-container">
           <div class="form-columna">
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" [(ngModel)]="updateData.nombre" class="form-input" [value]="userData?.nombre" readonly>
-        
+            <input type="text" id="nombre" [(ngModel)]="updateData.nombre" class="form-input" [value]="userData?.nombre"
+              readonly>
+    
             <label for="rut">Rut</label>
             <input type="text" id="rut" [(ngModel)]="updateData.rut" class="form-input" [value]="userData?.rut" readonly>
-        
+    
             <label for="direccion">Dirección:</label>
-            <input type="text" id="direccion" [(ngModel)]="updateData.direccion" class="form-input" [value]="userData?.direccion || ''" readonly>
-        
+            <input type="text" id="direccion" [(ngModel)]="updateData.direccion" class="form-input"
+              [value]="userData?.direccion || ''" readonly>
+    
             <label for="correo">Correo</label>
-            <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo" readonly>
-
+            <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo"
+              readonly>
+    
             <!-- <div>
-              <label for="Operacion">Operación</label>
-              <select id="Operacion" class="form-select" [(ngModel)]="updateData.id_operacion" [value]="userData?.id_operacion" disabled>
-                <option value="" disabled selected>Seleccione una Operación</option>
-                <option *ngFor="let Op of OperacionesFiltradas" [value]="Op.id">{{ Op.nombre }}</option>
-              </select>
-            </div> -->
-          
+                  <label for="Operacion">Operación</label>
+                  <select id="Operacion" class="form-select" [(ngModel)]="updateData.id_operacion" [value]="userData?.id_operacion" disabled>
+                    <option value="" disabled selected>Seleccione una Operación</option>
+                    <option *ngFor="let Op of OperacionesFiltradas" [value]="Op.id">{{ Op.nombre }}</option>
+                  </select>
+                </div> -->
+    
           </div>
-        
+    
           <div class="form-columna">
             <label for="telefono">Teléfono:</label>
-            <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.telefono" [value]="userData?.telefono || ''" readonly
-            (blur)="updateData.telefono = formatPhoneNumber(updateData.telefono)"
-            (input)="nuevoCliente.telefono = cleanPhoneInput(nuevoCliente.telefono)"
-            >
-        
+            <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.telefono"
+              [value]="userData?.telefono || ''" readonly
+              (blur)="updateData.telefono = formatPhoneNumber(updateData.telefono)"
+              (input)="nuevoCliente.telefono = cleanPhoneInput(nuevoCliente.telefono)">
+    
             <label for="Representante">Representante:</label>
-            <input type="text" id="representante" class="form-input" [(ngModel)]="updateData.representante" [value]="userData?.representante || ''" readonly>
-        
+            <input type="text" id="representante" class="form-input" [(ngModel)]="updateData.representante"
+              [value]="userData?.representante || ''" readonly>
+    
             <div>
               <label for="region">Región</label>
               <select id="region" class="form-select" [(ngModel)]="updateData.region" [value]="userData?.region" disabled>
@@ -160,7 +160,7 @@
                 <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
               </select>
             </div>
-        
+    
             <div>
               <label for="comuna">Comuna</label>
               <select id="comuna" class="form-select" [(ngModel)]="updateData.ciudad" [value]="userData?.ciudad" disabled>
@@ -168,19 +168,19 @@
                 <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
               </select>
             </div>
-
+    
             <!-- <div>
-              <label for="id_centro_op">Centro Operacion</label>
-              <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" disabled>
-                <option value="" disabled selected>Seleccione un Centro de Operacion</option>
-                <option *ngFor="let Cop of CentroOperaciones" [value]="Cop.id">{{ Cop.centro }}</option>
-              </select>
-            </div> -->
+                  <label for="id_centro_op">Centro Operacion</label>
+                  <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" disabled>
+                    <option value="" disabled selected>Seleccione un Centro de Operacion</option>
+                    <option *ngFor="let Cop of CentroOperaciones" [value]="Cop.id">{{ Cop.centro }}</option>
+                  </select>
+                </div> -->
           </div>
         </div>
       </div>
-
-
+    
+    
       <div *ngIf="LoginId === '5'">
         <div class="upload-container">
           <div class="photo-preview">
@@ -207,131 +207,120 @@
             </label>
           </div>
         </div>
-      
+    
         <!-- Contenedor principal flex -->
         <div class="form-container">
-          <div class="form-columna">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" readonly [(ngModel)]="updateData.nombre" class="form-input" required
-              [value]="userData?.nombre">
-      
-           
-              <label for="rut">Rut</label>
-              <input
-                type="text"
-                id="rut"
-                readonly
-                [(ngModel)]="updateData.rut"
-                class="form-input"
-                required
-                [value]="userData?.rut"
-                (blur)="updateData.rut = formatRut(updateData.rut ?? ''); validarRut()"
-                [ngClass]="{'input-error': !updateData.rut || !rutValido}"
-              />
-
-            <label for="direccion">direccion:</label>
-            <input type="text" id="direccion" [(ngModel)]="updateData.direccion" class="form-input"
-              [value]="userData?.direccion || ''">
-      
-            <label for="correo">Correo</label>
-            <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo">
-            <!-- <div>
-                    <label for="Operacion">Operación</label>
-                    <select id="Operacion" class="form-select" [(ngModel)]="updateData.id_operacion" [value]="userData?.id_operacion" (change)="onOperacionChange($event)">
-                      <option value="" disabled selected>Seleccione una Operación</option>
-                      <option *ngFor="let Op of OperacionesFiltradas" [value]="Op.id">{{ Op.centro }}</option>
-                    </select>
-                  </div> -->
-
-                  
-            
-
-            
-            
-      
-          </div>
-          <div class="form-columna">
-      
-            <label for="telefono">Telefono:</label>
-            <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.telefono"
-              [value]="userData?.telefono || ''">
-      
-            <label for="representante">Representante:</label>
-            <input type="text" id="representante" class="form-input" [(ngModel)]="updateData.representante"
-              [value]="userData?.representante || ''">
-      
-      
-            <div>
-              <label for="region">Región</label>
-              <select id="region" class="form-select" [(ngModel)]="updateData.region" [value]="userData?.region" (change)="onRegionChange($event)">
-                <option value="" disabled selected>Seleccione una región</option>
-                <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
-              </select>
+          <div class="formulario-dos-columnas">
+            <div class="form-columna">
+              <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" readonly [(ngModel)]="updateData.nombre" class="form-input" required
+                  [value]="userData?.nombre">
+              </div>
+          
+              <div class="form-group">
+                <label for="rut">Rut:</label>
+                <input type="text" id="rut" readonly [(ngModel)]="updateData.rut" class="form-input" required
+                  [value]="userData?.rut" (blur)="updateData.rut = formatRut(updateData.rut ?? '') ; validarRut()"
+                  [ngClass]="{'input-error': !updateData.rut || !rutValido}" />
+              </div>
+          
+              <div class="form-group">
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" [(ngModel)]="updateData.direccion" class="form-input"
+                  [value]="userData?.direccion || ''">
+              </div>
+          
+              <div class="form-group">
+                <label for="correo">Correo:</label>
+                <input type="text" id="correo" [(ngModel)]="updateData.correo" class="form-input" [value]="userData?.correo">
+              </div>
             </div>
-      
-            <div>
-              <label for="ciudad">Comuna</label>
-              <select id="ciudad" name="ciudad" class="form-select" [(ngModel)]="updateData.ciudad" [value]="userData?.ciudad">
-                <option value="" disabled selected>Seleccione una comuna</option>
-                <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
-              </select>
+          
+            <div class="form-columna">
+              <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" class="form-input" [(ngModel)]="updateData.telefono"
+                  [value]="userData?.telefono || ''">
+              </div>
+          
+              <div class="form-group">
+                <label for="representante">Representante:</label>
+                <input type="text" id="representante" class="form-input" [(ngModel)]="updateData.representante"
+                  [value]="userData?.representante || ''">
+              </div>
+          
+              <div class="form-group">
+                <label for="region">Región:</label>
+                <select id="region" class="form-select" [(ngModel)]="updateData.region" [value]="userData?.region"
+                  (change)="onRegionChange($event)">
+                  <option value="" disabled selected>Seleccione una región</option>
+                  <option *ngFor="let region of regiones" [value]="region.id_region">{{ region.region_name }}</option>
+                </select>
+              </div>
+          
+              <div class="form-group">
+                <label for="ciudad">Comuna:</label>
+                <select id="ciudad" name="ciudad" class="form-select" [(ngModel)]="updateData.ciudad" [value]="userData?.ciudad">
+                  <option value="" disabled selected>Seleccione una comuna</option>
+                  <option *ngFor="let co of ComunasFiltradas" [value]="co.id_comuna">{{ co.Comuna_name }}</option>
+                </select>
+              </div>
             </div>
-
-            <!-- <div>
-              <label for="id_centro_op">Centro Operacion</label>
-              <select id="id_centro_op" class="form-select" [(ngModel)]="updateData.id_centro_op" [value]="userData?.id_centro_op" >
-                <option value="" disabled selected>Seleccione un Centro de Operacion</option>
-                <option *ngFor="let Cop of CentroOperaciones" [value]="Cop.id">{{ Cop.centro }}</option>
-              </select>
-            </div> -->
           </div>
 
+    
           <div class="separador"></div>
-
-          <div class="form-columna operaciones-container">
+    
             <!-- Operaciones Permitidas -->
             <h3><i class="fas fa-clipboard-check"></i> Operaciones permitidas</h3>
-          
-            <div class="field">
-              <label>Grupo de Operación:</label>
-              <select id="grupoOperacion" class="form-select" (change)="onGpSelectOperacion($event)" [(ngModel)]="selectedGpOperacion" >
-                <option value="">Seleccione...</option>
-                <option *ngFor="let gpO of gpOperaciones" [value]="gpO.id">{{gpO.id}}.-{{gpO.grupo_operacion}}</option>
-                
-              </select>
+            <!-- HTML -->
+            <div class="formulario-dos-columnas">
+              <div class="form-columna">
+                <div class="form-group">
+                  <label for="grupoOperacion">Grupo de Operación:</label>
+                  <select id="grupoOperacion" class="form-select" (change)="onGpSelectOperacion($event)"
+                    [(ngModel)]="selectedGpOperacion">
+                    <option value="">Seleccione...</option>
+                    <option *ngFor="let gpO of gpOperaciones" [value]="gpO.id">{{gpO.id}}.-{{gpO.grupo_operacion}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="operacion">Operación:</label>
+                  <select id="operacion" class="form-select" (change)="onSelectOperacion()" [(ngModel)]="selectedSO">
+                    <option [ngValue]="null">Seleccione...</option>
+                    <option *ngFor="let slO of SlOperaciones" [ngValue]="slO">{{slO.operacion}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-columna">
+                <div class="form-group">
+                  <label for="region">Región:</label>
+                  <input type="text" id="region" class="form-input" disabled [(ngModel)]="region">
+                </div>
+            
+                <div class="form-group">
+                  <label for="modelo">Modelo Seguimiento:</label>
+                  <input type="text" id="modelo" class="form-input" disabled [(ngModel)]="glosa">
+                </div>
+              </div>
             </div>
-          
-            <div class="field">
-              <label>Operación:</label>
-              <select id="operacion" class="form-select" (change)="onSelectOperacion()" [(ngModel)]="selectedSO" >
-                <option [ngValue]="null">Seleccione...</option>
-                <option *ngFor="let slO of SlOperaciones" [ngValue]="slO">{{slO.operacion}}</option>
-              </select>
-            </div>
-          
-            <div class="field">
-              <label>Región:</label>
-              <input type="text" id="region" disabled [(ngModel)]="region">
-            </div>
-          
-            <div class="field">
-              <label>Modelo Seguimiento:</label>
-              <input type="text" id="modelo" disabled [(ngModel)]="glosa">
-            </div>
-          
+            <ng-container>
             <button class="btn-save-modal" (click)="agregarPar()">
               <i class="fas fa-plus"></i> Agregar Operación
             </button>
-
-            <ng-container >
-              <button title="{{userData?.operaciones_permitidas}}" class="btn-save-modal" (click)="abrirModalOperaciones()" *ngIf="LoginId === '5'">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            </ng-container>
+            <ng-container>
+              <button  class="btn-save-modal" (click)="abrirModalOperaciones()"
+                *ngIf="LoginId === '5'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19">
                   <path fill="currentColor"
                     d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5s1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5m0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5S5.5 6.83 5.5 6S4.83 4.5 4 4.5m0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5s1.5-.68 1.5-1.5s-.67-1.5-1.5-1.5M7 19h14v-2H7zm0-6h14v-2H7zm0-8v2h14V5z" />
                 </svg>
               </button>
             </ng-container>
-          
+    
             <!-- Tabla de operaciones agregadas -->
             <table id="tablaOperaciones">
               <thead>
@@ -341,7 +330,7 @@
                   <th>Region</th>
                   <th>Seguimiento</th>
                 </tr>
-                
+    
               </thead>
               <tbody></tbody>
               <tr *ngFor="let ps of paresSeleccionados ; let i = index">
@@ -357,11 +346,9 @@
                 </td>
               </tr>
             </table>
-          </div>
-      
         </div>
       </div>
-        <!-- Columna izquierda para contraseñas -->
+      <!-- Columna izquierda para contraseñas -->
     </c-modal-body>
     <c-modal-footer>
       <!-- <button class="btn-save-modal" [disabled]="LoginId !== '5'" (click)="abrirModalOperaciones()">
@@ -465,12 +452,12 @@
               </thead>
               <tbody class="tablabody">
                 <tr *ngFor="let op of operacionesOrdenadas; let i = index">
-                  <td>{{ op }}</td>
-                  <td>{{ obtenerCentroPorId(op) }}</td>
+                  <td>{{ op.grupo_operacion_id }}</td>
+                  <td>{{ obtenerCentroPorId(op.operacion_id) }}</td>
                   <td>
                     <svg (click)="eliminarOperacionPorIndice(i)" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                       viewBox="0 0 24 24">
-                      <path fill="currentColor"
+                      <path fill="red"
                         d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14zM6 7v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7zm8 7v4h-4v-4H8l4-4l4 4z" />
                     </svg>
                   </td>
