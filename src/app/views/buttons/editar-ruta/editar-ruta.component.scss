@@ -1361,14 +1361,7 @@ input[type="file"] {
 //   justify-content: center;
 // }
 
-.separador {
-  width: 100%;
-  height: 2px; // grosor de la línea
-  background: linear-gradient(to right, #ccc, #999, #ccc);
-  margin: 20px 0; // espacio arriba y abajo
-  border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
+
 
 .formulario-dos-columnas {
     display: flex;
@@ -1406,17 +1399,24 @@ input[type="file"] {
   }
 
   .cabeceraOp {
-  font-size: 12px;
+  font-size: 16px;
   color: #3a4151;
   font-weight: 400;
   margin-bottom: 0.5rem;
   letter-spacing: 0.01em;
 
   b, strong {
-    font-weight: 700;
+    font-weight: 700; 
     color: #232735;
     margin-left: 4px;
   }
+}
+
+.separador {
+  border-bottom: 1.5px solid #d3d7df;
+  width: 100%;
+  margin-top: 0.2rem;
+  padding: 8px;
 }
 
   
