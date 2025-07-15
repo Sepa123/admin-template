@@ -437,7 +437,7 @@ paresSeleccionados: { idGpO: number, idCentroSeleccionado: number, operacionName
       
       this.id_SO = null;
     } else {
-      alert("Debes seleccionar los tres valores.");
+      alert("Error: Por favor, selecciona una operación y un centro de operaciones antes de agregar.");
     }
   }
 SlOperaciones: Operacion[] = [];
