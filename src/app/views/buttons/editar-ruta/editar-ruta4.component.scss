@@ -1,57 +1,92 @@
+/* Estilos base para todos los selects */
+.modal-select {
+  width: 100%;
+  
+  .ng-select-container {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    min-height: 44px;
+    padding: 8px 12px;
+    transition: all 0.2s ease;
+  }
+
+  .ng-placeholder {
+    color: #ffffff;
+    font-size: 0.9rem;
+  }
+
+  .ng-dropdown-panel {
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+
+  .ng-option {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+.select-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+}
+
+.select-icon {
+  font-size: 15px;
+  width: 20px;
+  text-align: center;
+}
+
 //Edit Usuarios
 
-  .password-section {
+
+
+.password-section {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  }
-  
-  .password-input {
+}
+
+.password-input {
   width: 100%;
   padding: 0.5rem;
   margin-bottom: 1rem;
-  }
-  
-  .photo-section {
+}
+
+.photo-section {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  }
-  
-  .profile-photo {
+}
+
+.profile-photo {
   width: 150px;
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 1rem;
-  }
-  
-  .btn-upload {
+}
+
+.btn-upload {
   padding: 0.5rem 1rem;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  }
-  
-  @media (max-width: 768px) {
-  .form-container {
-    flex-direction: column;
-  }
-  
-  .password-section,
-  .photo-section {
-    width: 100%;
-  }
-  }
-  
-  /* Estilo general para el select */
-  .form-select {
-  width: 100%;
+}
+
+
+
+/* Estilo general para el select */
+.form-select {
+  width: 250px;
   padding: 10px;
   margin: 5px 0;
   border: 1px solid #ccc;
@@ -66,28 +101,28 @@
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 10px;
-  }
-  
-  /* Cambiar el borde al enfocar */
-  .form-select:focus {
+}
+
+/* Cambiar el borde al enfocar */
+.form-select:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
-  /* Ajuste para el contenedor del select */
-  .SelectArea {
+}
+
+/* Ajuste para el contenedor del select */
+.SelectArea {
   margin-bottom: 15px;
-  }
-  
-  //Photo Desing
-  .photo-section {
+}
+
+//Photo Desing
+.photo-section {
   display: flex;
   align-items: center;
   gap: 15px;
-  }
-  
-  .photo-preview {
+}
+
+.photo-preview {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,31 +130,31 @@
   height: 150px; /* Ajusta el tamaño del contenedor */
   border-radius: 50%; /* Hace que el contorno sea circular */
   background-color: #f9f9f9; /* Fondo del contenedor */
-  }
-  
-  /* Imagen dentro del contenedor */
-  .photo-preview img {
+}
+
+/* Imagen dentro del contenedor */
+.photo-preview img {
   width: 150px; /* La imagen ocupa todo el ancho del contenedor */
   height: 150px; /* La imagen ocupa todo el alto del contenedor */
   object-fit: cover; /* Ajusta la imagen para que se recorte y llene el contenedor */
   border-radius: 50%; /* Hace que la imagen sea circular */
-  }
-  
-  .upload-container {
+}
+
+.upload-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  }
-  
-  .button-group {
+}
+
+.button-group {
   display: flex; /* Alinea los elementos en una fila */
   justify-content: center; /* Centra los botones horizontalmente */
   gap: 10px; /* Espaciado entre los botones */
-  }
-  
-  .btn-upload,
-  .btn-save {
+}
+
+.btn-upload,
+.btn-save {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -132,25 +167,25 @@
   cursor: pointer;
   font-size: 18px;
   transition: background-color 0.3s ease;
-  }
-  
-  .btn-upload:hover {
+}
+
+.btn-upload:hover {
   background-color: #0056b3;
-  }
-  
-  .btn-save {
+}
+
+.btn-save {
   background-color: #28a745;
-  }
-  
-  .btn-save:hover {
+}
+
+.btn-save:hover {
   background-color: #218838;
-  }
-  
-  input[type="file"] {
+}
+
+input[type="file"] {
   display: none; /* Oculta el input de archivo */
-  }
-  
-  .btn-close-modal {
+}
+
+.btn-close-modal {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -164,23 +199,29 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .btn-close-modal:hover {
+}
+
+.btn-close-modal:hover {
   background-color: #c82333; /* Rojo más oscuro al pasar el cursor */
   transform: scale(1.05); /* Efecto de agrandamiento */
-  }
-  
-  .btn-close-modal:active {
+}
+
+.btn-close-modal:active {
   background-color: #bd2130; /* Rojo más oscuro al hacer clic */
   transform: scale(0.95); /* Efecto de reducción */
-  }
-  
-  .btn-close-modal i {
+}
+
+.btn-close-modal i {
   font-size: 16px; /* Tamaño del ícono */
-  }
-  
-  .btn-save-modal {
+}
+.botones-modal {
+  display: flex;
+  justify-content: space-between; // btn-open-modal a la izq, btn-save-modal a la der
+  align-items: center;
+  width: 100%;
+}
+
+.btn-open-modal{
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -194,70 +235,41 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .btn-save-modal:hover {
+}
+
+.btn-save-modal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Espaciado entre el ícono y el texto */
+  padding: 10px 15px;
+  background-color: #28a745; /* Verde para indicar acción de guardar */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-save-modal:hover {
   background-color: #218838; /* Verde más oscuro al pasar el cursor */
   transform: scale(1.05); /* Efecto de agrandamiento */
-  }
-  
-  .btn-save-modal:active {
+}
+
+.btn-save-modal:active {
   background-color: #1e7e34; /* Verde más oscuro al hacer clic */
   transform: scale(0.95); /* Efecto de reducción */
-  }
-  
-  .btn-save-modal i {
+}
+
+.btn-save-modal i {
   font-size: 16px; /* Tamaño del ícono */
-  }
-  
-  .file-name {
+}
+
+.file-name {
   margin-top: 10px;
   font-size: 14px;
   color: #555;
   text-align: center;
-  }
-  
-  // alertas
-  
-  #alertaContainer {
-  position: fixed; /* Fija el contenedor en la pantalla */
-  top: 20px; /* Distancia desde la parte superior */
-  right: 20px; /* Distancia desde la parte derecha */
-  z-index: 1052; /* Asegura que esté por encima de otros elementos */
-  display: flex;
-  flex-direction: column; /* Las alertas se apilan verticalmente */
-  gap: 10px; /* Espaciado entre alertas */
-  }
-  
-  .alerta {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Espaciado entre el icono y el texto */
-  color: white;
-  padding: 10px 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  opacity: 0; /* Ocultar inicialmente */
-  transition: opacity 0.5s ease-in-out; /* Transición suave para mostrar/ocultar */
-  }
-  
-  .alerta.success {
-  background-color: rgba(40, 167, 69, 0.9); /* Verde */
-  }
-  
-  .alerta.error {
-  background-color: #dc3545; /* Rojo */
-  }
-  
-  .alerta.warning {
-  background-color: #ffc107; /* Amarillo */
-  color: black; /* Texto negro para mejor contraste */
-  }
-  
-  .alerta.info {
-  background-color: #17a2b8; /* Azul */
-  }
-  
-  .modal-lg{
-  z-index: 1051;
-  }
+}

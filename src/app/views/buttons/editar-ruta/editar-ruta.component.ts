@@ -119,6 +119,11 @@ export class EditarRutaComponent {
     this.visible2 = !this.visible2;
     if (!this.visible2) {
       this.resetFormValues(); // Restablecer valores al cerrar el modal
+      this.paresSeleccionados = []; // Limpiar pares seleccionados al cerrar el modal
+      this.selectedGpOperacion = null; // Limpiar la operación seleccionada
+      this.selectedSO = null; // Limpiar la operación seleccionada
+      this.region = ''; // Limpiar la región seleccionada
+      this.glosa = ''; // Limpiar la glosa seleccionada
     }
   }
 

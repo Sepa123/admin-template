@@ -1,6 +1,7 @@
 export interface MainCamposClientes {
     Clientes_ty: ClientesTy[];
     Clientes_guias_ty: ClientesTy[];
+    Grupos_operacion: GruposOperacion[];
 }
 
 export interface ClientesTy {
@@ -8,6 +9,10 @@ export interface ClientesTy {
     Cliente:    string;
 }
 
+export interface GruposOperacion {
+    Id_operacion:     number;
+    Nombre_operacion: string;
+}
 
 export interface RutasTyTemp {
     Id:            number;
@@ -73,6 +78,7 @@ export interface RutasTy {
     tienda:                     string;
     observacion:                string;
     valor_ruta:                 number;
+
 }
 
 
@@ -155,6 +161,8 @@ export interface RutasConsolidadas {
     cliente_info:       ClienteInfo;
     notas:              null;
     porcentaje_entregados: number;
+    nombre_op:          string | null;
+    nombre_centro_op:   null | string;
 }
 
 export interface ClienteInfo {

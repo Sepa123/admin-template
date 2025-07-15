@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { RutasService } from '../../../service/rutas.service';
-import { ClientesTy,RutasTy,RutasTyTemp, GuiasExternasTemp, GuiasExternas, RutasConsolidadas,ClienteInfo,Cliente} from '../../../models/rutas/rutas.interface';
+import { ClientesTy,RutasTy,RutasTyTemp, GuiasExternasTemp, GuiasExternas, RutasConsolidadas,ClienteInfo,Cliente, GruposOperacion} from '../../../models/rutas/rutas.interface';
 import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-consolidado-rutas',
   templateUrl: './consolidado-rutas.component.html',
-  styleUrls: ['./consolidado-rutas.component.scss','./consolidado-rutas2.component.scss']
+  styleUrls: ['./card.component.scss','./consolidado-rutas.component.scss','./consolidado-rutas2.component.scss']
 })
 export class ConsolidadoRutasComponent {
+  @ViewChild('gaugeCanvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('gaugeValue', { static: true }) valueRef!: ElementRef<HTMLDivElement>;
 
   private selectedFile: File | null = null;
 
@@ -18,12 +20,13 @@ export class ConsolidadoRutasComponent {
 
   
   Clientes_ty: ClientesTy[] = [];
+  Grupo_operacion: GruposOperacion[] = [];
 
   nombreClienteSeleccionado : string = ''
   clienteSeleccionado : number = 0
 
 
-  clienteBuscador : number = 0
+  OperacionBuscador : number = 0
 
 
   // ###### Variables para la tabla de rutas temporales
@@ -39,6 +42,11 @@ export class ConsolidadoRutasComponent {
   rutas_generadas: number = 0;
 
 
+
+  // ### Porcentaje variaable
+  porcentaje: number = 0;
+
+
   toggleLiveDemo() {
     this.visible = !this.visible;
   }
@@ -46,13 +54,22 @@ export class ConsolidadoRutasComponent {
   handleLiveDemoChange(event: any) {
     this.visible = event;
   }
+
+  ngAfterViewInit(): void {
+    this.drawSemiGauge(0); // Inicializa el gauge con 0%
+  }
   
 
   ngOnInit(): void {
+
+
+    
     // Aquí puedes realizar cualquier inicialización necesaria
     this.service.get_campos_modulo_clientes().subscribe(
       (data) => {
         this.Clientes_ty = data.Clientes_guias_ty;
+        this.Grupo_operacion = data.Grupos_operacion;
+        console.log(data);
         // Lógica adicional en caso de éxito.
       }
     )
@@ -90,6 +107,12 @@ export class ConsolidadoRutasComponent {
   listaRutas : RutasConsolidadas[] = []
   listaRutasFull : RutasConsolidadas[] = []
 
+  rutasGeneradas : number = 0
+  productosEntregados : number = 0
+  patentesDistintas : number = 0
+  noEntregados : number = 0
+
+
 
   buscarListaRutas(bloque: string){
 
@@ -102,14 +125,22 @@ export class ConsolidadoRutasComponent {
         })
         this.listaRutasFull = this.listaRutas
 
-        if(this.clienteBuscador == 0){
+        this.rutasGeneradas = this.listaRutas.length
+        this.productosEntregados = this.listaRutas.reduce((acc, ruta) => acc + ruta.entregados, 0);
+        this.patentesDistintas = new Set(this.listaRutas.map(ruta => ruta.patente_vehiculo)).size;
+        this.noEntregados = this.listaRutas.reduce((acc, ruta) => acc + ruta.no_entregados, 0);
+
+        this.porcentaje = Math.floor((this.productosEntregados / (this.productosEntregados + this.noEntregados)) * 100);
+        this.drawSemiGauge(this.porcentaje); // Actualiza el gauge con el nuevo porcentaje
+
+        if(this.OperacionBuscador == 0){
             this.listaRutas = data.map(ruta => {
             ruta.porcentaje_entregados = Math.floor((ruta.entregados / ruta.pedido_total) * 100);
             return ruta
           
         })
         }else {
-          // this.listaRutas = data.filter(ruta => ruta.id_cliente == this.clienteBuscador)
+          this.listaRutas = data.filter(ruta => ruta.id_operacion == this.OperacionBuscador)
         }
   
         console.log(data)
@@ -191,12 +222,12 @@ export class ConsolidadoRutasComponent {
 
     const filtro = this.textoBuscar.toLowerCase();
 
-    console.log("Filtro aplicado:", this.clienteBuscador);
+    console.log("Filtro aplicado:", this.OperacionBuscador);
 
     const resultado: any[] = [];
     const maxResults = 200; // Ejemplo: limitar los resultados a los primeros 100
 
-    if (this.clienteBuscador == 0){
+    if (this.OperacionBuscador == 0){
       for (let i = 0; i < this.listaRutasFull.length; i++) {
         const lista = this.listaRutasFull[i];
         if (
@@ -213,7 +244,8 @@ export class ConsolidadoRutasComponent {
   } else {
       for (let i = 0; i < this.listaRutasFull.length; i++) {
         const lista = this.listaRutasFull[i];
-        if (lista.patente_vehiculo.toString().toLowerCase().startsWith(filtro) 
+        if ( (lista.patente_vehiculo.toString().toLowerCase().startsWith(filtro) ||
+            lista.nombre_ruta.toString().toLowerCase().startsWith(filtro) ) && lista.id_operacion == this.OperacionBuscador
         ) {
             resultado.push(lista);
             if (resultado.length >= maxResults) {
@@ -227,6 +259,22 @@ export class ConsolidadoRutasComponent {
     
 
     this.listaRutas = resultado;
+
+
+
+    this.rutasGeneradas = this.listaRutas.length
+    this.productosEntregados = this.listaRutas.reduce((acc, ruta) => acc + ruta.entregados, 0);
+    this.patentesDistintas = new Set(this.listaRutas.map(ruta => ruta.patente_vehiculo)).size;
+    this.noEntregados = this.listaRutas.reduce((acc, ruta) => acc + ruta.no_entregados, 0);
+
+    this.porcentaje = Math.floor((this.productosEntregados / (this.productosEntregados + this.noEntregados)) * 100);
+    console.log("Porcentaje calculado:", this.porcentaje);
+    if(this.porcentaje == undefined || this.porcentaje == null || isNaN(this.porcentaje)){
+      this.drawSemiGauge(0); // Si el porcentaje es undefined, dibuja el gauge con 0%
+    } else {
+      this.drawSemiGauge(this.porcentaje); // Actualiza el gauge con el nuevo porcentaje
+    }
+    
 
 }
 
@@ -255,18 +303,15 @@ export class ConsolidadoRutasComponent {
       }
       const datos: any[][] = [[]];
   
-      datos.push(["Operación","Id Operación","Centro Op", "Id Centro Op","Id Ruta","Fecha","Ppu", "Id Ppu","Driver","Id Driver","Telefono Driver","Guía",
-                  "Detalle","Cantidad","Bultos","Cliente","Id Cliente","Fecha Entrega","Modo", "Región","Comuna",
-                  "Dirección","Dnu Cliente", "Nombre Cliente", "Teléfono Cliente", "Correo Electrónico Cliente", "Origen","Fecha Estimada","Fecha Llegada",
-                  "Estado", "Subestado","Tiempo En Destino","N Intentos", "Distancia Km","Peso",
-                  "Volumen","Código", "Observación","Id Razón Social","Razón Social"
-      ])
+      datos.push(["Nombre Ruta","Fecha","Operación","Centro Operación","Ppu","Pedidos","Entregados","No Entregados","Valor Ruta",
+                  "Efectividad"])
   
       this.listaRutas.forEach((ruta) => {
         // arrays.forEach(producto => {
           const fila: any[] = [];
           fila.push(
-
+            ruta.nombre_ruta, ruta.fecha,ruta.nombre_op,ruta.nombre_centro_op,ruta.patente_vehiculo,ruta.pedido_total,
+            ruta.entregados,ruta.no_entregados,ruta.valor_ruta, ruta.porcentaje_entregados + "%"
                   );
           datos.push(fila);
         // });
@@ -282,7 +327,7 @@ export class ConsolidadoRutasComponent {
   
       // Descarga el archivo Excel `Quadminds_Manual_${fechaActual}.xlsx` 
       
-      const nombreArchivo = `Carga-rutas-manuales-${fechaActual}.xlsx`;
+      const nombreArchivo = `Consolidado-Rutas-${fechaActual}.xlsx`;
       // Nombre del archivo Excel a descargar 
       XLSX.writeFile(libroExcel, nombreArchivo);
 
@@ -450,6 +495,55 @@ export class ConsolidadoRutasComponent {
       // console.error('Error al actualizar el valor de la ruta consolidada:', error.status, error.error.detail.msg);
       alert(error.error.detail)
     })
+  }
+
+
+  private drawSemiGauge(percent: number): void {
+
+    this.porcentaje = percent; // Actualiza el porcentaje
+    const canvas = this.canvasRef.nativeElement;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height;
+    const radius = 70;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Fondo gris
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, Math.PI, 0);
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.lineWidth = 12;
+    ctx.stroke();
+
+    // Arco verde
+    const endAngle = Math.PI + (percent / 100) * Math.PI;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, Math.PI, endAngle);
+    ctx.strokeStyle = '#4ade80';
+    ctx.lineWidth = 12;
+    ctx.stroke();
+
+    // Aguja
+    const angle = Math.PI + (percent / 100) * Math.PI;
+    const needleLength = radius - 12;
+    const needleX = centerX + needleLength * Math.cos(angle);
+    const needleY = centerY + needleLength * Math.sin(angle);
+
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(needleX, needleY);
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Punto central
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, 4, 0, 2 * Math.PI);
+    ctx.fillStyle = '#111';
+    ctx.fill();
   }
 
 
