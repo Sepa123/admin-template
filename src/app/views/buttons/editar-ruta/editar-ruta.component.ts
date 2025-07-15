@@ -361,18 +361,25 @@ getCop(): void {
 }
 
 gpOperaciones: GpOperacion[] = [];
+OperacionesBusqueda: GpOperacion[] = []; // Lista filtrada de operaciones para búsqueda
  getGpOperaciones(): void {
    // https://hela.transyanez.cl/api/editar_ruta/GpOperacion/
     const url = `https://hela.transyanez.cl/api/editar_ruta/GpOperacion/`;
     this.http.get<GpOperacion[]>(url).subscribe({
       next: (data) => {
         this.gpOperaciones = data;
+        this.OperacionesBusqueda = data;
         console.log('Operación encontrada:', data);
       },
       error: (error) => {
         this.mostrarAlerta('No se pudo obtener la operación', 'error');
       }
     });
+  }
+
+  getNombreOperacionPorId(id: number): string {
+    const operacion = this.OperacionesBusqueda.find(op => op.id === id);
+    return operacion ? operacion.grupo_operacion : 'Operación no encontrada';
   }
 
   selectedGpOperacion: number | null = null;
@@ -567,7 +574,7 @@ filtrarOperacionesPorSeleccion(idCentroSeleccionado: number | null): void {
 
   obtenerCentroPorId(id: number): string {
   const encontrado = this.CentroOperaciones.find(c => c.id === id);
-  return encontrado ? `${encontrado.centro} (${encontrado.id_op})` : 'Centro desconocido';
+  return encontrado ? `${encontrado.centro}` : 'Centro desconocido';
 }
 
 

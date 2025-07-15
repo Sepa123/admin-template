@@ -450,7 +450,7 @@
               </thead>
               <tbody class="tablabody">
                 <tr *ngFor="let op of operacionesOrdenadas; let i = index">
-                  <td>{{ op.grupo_operacion_id }}</td>
+                  <td>{{ getNombreOperacionPorId(op.grupo_operacion_id) }}</td>
                   <td>{{ obtenerCentroPorId(op.operacion_id) }}</td>
                   <td>
                     <svg (click)="eliminarOperacionPorIndice(i)" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
