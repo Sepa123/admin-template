@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   // ButtonGroupModule,
   // TableModule,
-  // ButtonModule,
+  ButtonModule,
   // CardModule,
   // CollapseModule,
   // DropdownModule,
@@ -51,7 +51,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     InformacionRoutingModule,
     // ButtonGroupModule,
     // TableModule,
-    // ButtonModule,
+    ButtonModule,
     // CardModule,
     // CollapseModule,
     // DropdownModule,

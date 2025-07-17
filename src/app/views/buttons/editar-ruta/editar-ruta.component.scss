@@ -251,3 +251,24 @@ c-modal-header {
   }
   
 }
+
+.cabeceraOp {
+  font-size: 16px;
+  color: #3a4151;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+
+  b, strong {
+    font-weight: 700;
+    color: #232735;
+    margin-left: 4px;
+  }
+}
+
+.separador {
+  border-bottom: 1.5px solid #d3d7df;
+  width: 100%;
+  margin-top: 0.2rem;
+  padding: 8px;
+}

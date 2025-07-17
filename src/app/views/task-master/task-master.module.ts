@@ -9,7 +9,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   // ButtonGroupModule,
   TableModule,
-  // ButtonModule,
+  ButtonModule,
   // CardModule,
   // CollapseModule,
   // DropdownModule,
@@ -40,7 +40,7 @@ import { GestorActivosComponent } from './gestor-activos/gestor-activos.componen
     TaskMasterRoutingModule,
     // ButtonGroupModule,
   TableModule,
-  // ButtonModule,
+  ButtonModule,
   // CardModule,
   // CollapseModule,
   // DropdownModule,
