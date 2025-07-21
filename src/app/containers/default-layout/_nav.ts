@@ -17,24 +17,6 @@ interface INavDataBar {
 
 /// Este es el importante
 export const navItems: INavDataBar[] = [
-  // {
-  //   name: 'Mi Cuenta',
-  //   url: '/mi-cuenta/settings',
-  //   iconComponent: { name: 'cil-user' },
-  //   roles : ROLES_PERMITIDOS.DASHBOARD,
-  //   // children: [
-  //   //   {
-  //   //     name: 'Reportes',
-  //   //     url: '/dashboard',
-  //   //     roles : ['5','13','14']
-  //   //   },
-  //   //   {
-  //   //     name: 'Hoy',
-  //   //     url: '/dashboard/hoy',
-  //   //     roles : ['5','13','14']
-  //   //   },
-  //   // ]
-  // },
   {
     name: 'Area TI',
     url : '/areati',
@@ -61,10 +43,7 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes en ruta',
         url: '/operaciones/pendientes-en-ruta'
       },
-      // {
-      //   name: 'Agregar funcion',
-      //   url: '/areati/agregar-funcion'
-      // },
+
     ]
   },
   {
@@ -197,10 +176,7 @@ export const navItems: INavDataBar[] = [
         name: 'Reclutamiento',
         url : '/transporte/reclutamiento'
       },
-      // {
-      //   name: 'Reportes',
-      //   url : '/transporte/reportes'
-      // },
+
       {
         name: 'Razón Social',
         url : '/transporte/colaboradores'
@@ -234,10 +210,7 @@ export const navItems: INavDataBar[] = [
         name: 'Reclutamiento',
         url : '/transporte/reclutamiento'
       },
-      // {
-      //   name: 'Reportes',
-      //   url : '/transporte/reportes'
-      // },
+
       {
         name: 'Razón Social',
         url : '/transporte/colaboradores'
@@ -274,10 +247,7 @@ export const navItems: INavDataBar[] = [
         name: 'Reporte',
         url : '/transporte/buscador'
       },
-      // {
-      //   name: 'Colaboradores',
-      //   url : '/transporte/colaboradores'
-      // },
+
     ]
   },
   {
@@ -291,10 +261,7 @@ export const navItems: INavDataBar[] = [
         name:'Gestión Gps',
         url: '/transporte/gestion-gps'
       }
-      // {
-      //   name: 'Colaboradores',
-      //   url : '/transporte/colaboradores'
-      // },
+
     ]
   },
   {
@@ -308,10 +275,7 @@ export const navItems: INavDataBar[] = [
         name:'Vehículos',
         url: '/transporte/vehiculos'
       }
-      // {
-      //   name: 'Colaboradores',
-      //   url : '/transporte/colaboradores'
-      // },
+
     ]
   },
   {
@@ -332,10 +296,7 @@ export const navItems: INavDataBar[] = [
           name: 'NS Easy',
           url : '/exo/ns-easy'
         },
-        // {
-        //   name: 'NS Electrolux',
-        //   url : '/exo/ns-electrolux'
-        // }
+
       ]
     },
   // RUTAS PARA JEFE MANTENCION
@@ -382,10 +343,7 @@ export const navItems: INavDataBar[] = [
         name: 'NS Easy',
         url : '/exo/ns-easy'
       },
-      // {
-      //   name: 'NS Electrolux',
-      //   url : '/exo/ns-electrolux'
-      // }
+
       
     ]
   },
@@ -399,11 +357,7 @@ export const navItems: INavDataBar[] = [
         name: 'NS Beetrack',
         url : '/exo/nivel-servicio'
       },
-      // {
-      //   name: 'NS Electrolux',
-      //   url : '/exo/ns-electrolux'
-      // }
-      
+
     ]
   },
   //EXO PARA solo ns tiendas
@@ -421,10 +375,7 @@ export const navItems: INavDataBar[] = [
         name: 'NS Easy',
         url : '/exo/ns-easy'
       },
-      // {
-      //   name: 'NS Electrolux',
-      //   url : '/exo/ns-electrolux'
-      // }
+
     ]
   },
   // FULL PANTALLA
@@ -438,10 +389,7 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       },
-      // {
-      //   name: 'Pendientes en ruta',
-      //   url: '/operaciones/pendientes-en-ruta'
-      // },
+
       {
         name: 'Estados',
         url: '/operaciones/estados'
@@ -479,10 +427,7 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       },
-      // {
-      //   name: 'Pendientes en ruta',
-      //   url: '/operaciones/pendientes-en-ruta'
-      // },
+
       {
         name: 'Estados',
         url: '/operaciones/estados'
@@ -541,10 +486,7 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       },
-      // {
-      //   name: 'Pendientes en ruta',
-      //   url: '/operaciones/pendientes-en-ruta'
-      // },
+
       {
         name: 'Estados',
         url: '/operaciones/estados'
@@ -606,10 +548,7 @@ export const navItems: INavDataBar[] = [
         name: 'Pendientes',
         url: '/operaciones/pendientes'
       },
-      // {
-      //   name: 'Pendientes en ruta',
-      //   url: '/operaciones/pendientes-en-ruta'
-      // },
+
       {
         name: 'Estados',
         url: '/operaciones/estados'
@@ -649,12 +588,7 @@ export const navItems: INavDataBar[] = [
         name: 'Rutas Activas',
         url: '/picking/rutas-activas'
       },
-      
-      
-      // {
-      //   name : 'Quadminds',
-      //   url: '/picking/quadminds'
-      // },
+
       {
         name : 'Rutas Predictivas',
         url : '/picking/prearmado-ruta'
@@ -671,10 +605,7 @@ export const navItems: INavDataBar[] = [
         name: 'Pedidos Comp. Obligatorio',
         url: '/picking/pendientes-obligados'
       },
-      // {
-      //   name :"Rutas Manuales",
-      //   url : '/picking/rutas-manuales'
-      // },
+
       {
         name :"Guías seguimiento",
         url : '/picking/guias-manuales'
@@ -1207,10 +1138,7 @@ export const navItems: INavDataBar[] = [
         name: "Tarifario General",
         url : '/finanzas/tarifarioGeneral'
       },
-      // {
-      //   name: "Car. Vehículo",
-      //   url: '/finanzas/carVehiculo'
-      // },
+
       {
         name: "Tarifario Especifico",
         url: '/finanzas/carTarifarioEspecifico'
@@ -1322,14 +1250,6 @@ export const navItems: INavDataBar[] = [
         name: 'Easy CD',
         url: '/recepcion/easy-cd'
       },
-      // {
-      //   name: 'Electrolux',
-      //   url: '/recepcion/electrolux'
-      // },
-      // {
-      //   name: 'Sportex',
-      //   url: '/recepcion/sportex'
-      // },
       {
         name: 'Producto Sin Recepcionar',
         url: '/recepcion/productoSinRecepcion'
@@ -1393,15 +1313,7 @@ export const navItems: INavDataBar[] = [
       url: '/rsv/ubicacion-producto'
      },
     
-    
-    //  {
-    //   name: 'Unidades Sin Etiqueta',
-    //   url: '/rsv/unidad-sin-etiqueta'
-    //  }
-    //  {
-    //   name: 'Agregar Producto',
-    //   url: '/rsv/agregar-producto'
-    // },
+
    ]
  },
  {
@@ -1595,18 +1507,7 @@ export const navItems: INavDataBar[] = [
       }
     ]
   }
-  // {
-  //   name: 'Carga Excel',
-  //   url : '/carga',
-  //   iconComponent: { name: 'cil-inbox' },
-  //   roles : ROLES_PERMITIDOS.CARGA_EXCEL,
-  //   children : [
-  //     {
-  //       name: 'easy cd',
-  //       url: '/carga/easy-cd'
-  //     },
-  //   ]
-  // }
+
 ];
 
 

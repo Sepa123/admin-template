@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
 import { ACCESO_ROL, ROLES_PERMITIDOS} from '../../../rolesPermitidos.const';
 import { RsvService } from '../../../service/rsv.service';
+import { SidebarService } from '../../../service/sidebar/sidebar.service';
 
 
 @Component({
@@ -35,9 +36,14 @@ export class DefaultHeaderComponent extends HeaderComponent {
   subNotificaciones!: Subscription
 
 
-  constructor(private classToggler: ClassToggleService, private service : RsvService) {
+  constructor(private classToggler: ClassToggleService, private service : RsvService, private sidebarService: SidebarService) {
     
     super();
+  }
+
+
+  toggleSidebar() {
+    this.sidebarService.toggleSidebar();
   }
 
   ngOnInit(): void {

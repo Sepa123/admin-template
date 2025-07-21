@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { RutasService } from '../../../service/rutas.service';
-import { ClientesTy,RutasTy,RutasTyTemp, GuiasExternasTemp, GuiasExternas, RutasConsolidadas,ClienteInfo,Cliente, GruposOperacion} from '../../../models/rutas/rutas.interface';
+import { ClientesTy,RutasTy,RutasTyTemp, GuiasExternasTemp, GuiasExternas, RutasConsolidadas,ClienteInfo,Comuna, GruposOperacion} from '../../../models/rutas/rutas.interface';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -130,7 +130,7 @@ export class ConsolidadoRutasComponent {
         this.patentesDistintas = new Set(this.listaRutas.map(ruta => ruta.patente_vehiculo)).size;
         this.noEntregados = this.listaRutas.reduce((acc, ruta) => acc + ruta.no_entregados, 0);
 
-        this.porcentaje = Math.floor((this.productosEntregados / (this.productosEntregados + this.noEntregados)) * 100);
+        this.porcentaje = parseFloat(((this.productosEntregados / (this.productosEntregados + this.noEntregados)) * 100).toFixed(2))
         this.drawSemiGauge(this.porcentaje); // Actualiza el gauge con el nuevo porcentaje
 
         if(this.OperacionBuscador == 0){
@@ -267,7 +267,7 @@ export class ConsolidadoRutasComponent {
     this.patentesDistintas = new Set(this.listaRutas.map(ruta => ruta.patente_vehiculo)).size;
     this.noEntregados = this.listaRutas.reduce((acc, ruta) => acc + ruta.no_entregados, 0);
 
-    this.porcentaje = Math.floor((this.productosEntregados / (this.productosEntregados + this.noEntregados)) * 100);
+    this.porcentaje = parseFloat(((this.productosEntregados / (this.productosEntregados + this.noEntregados)) * 100).toFixed(2));
     console.log("Porcentaje calculado:", this.porcentaje);
     if(this.porcentaje == undefined || this.porcentaje == null || isNaN(this.porcentaje)){
       this.drawSemiGauge(0); // Si el porcentaje es undefined, dibuja el gauge con 0%
@@ -367,14 +367,21 @@ export class ConsolidadoRutasComponent {
   visibleResumen: boolean = false;
 
   // clienteSeleccionadoInfo : ClienteInfo []
-  datosCliente : Cliente [] = []
-  datosComuna : Cliente [] = []
-
+  datosCliente : Comuna [] = []
+  datosComuna : Comuna [] = []
+  observacionRuta : string = ""
+  nombreUsuario : string = ""
 
   verResumenCliente(cliente_info: ClienteInfo) {
 
-    this.datosCliente = cliente_info.clientes
-    this.datosComuna = cliente_info.comunas
+    this.datosCliente = [cliente_info.clientes]
+    this.datosComuna = [cliente_info.comunas]
+    this.nombreUsuario = cliente_info.usuario.nombre_usuario
+
+    if (cliente_info.observacion) {
+      this.observacionRuta = cliente_info.observacion;  
+    }
+    
 
     // console.log(cliente_info)
     // this.clienteSeleccionadoInfo = cliente_info

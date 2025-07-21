@@ -676,13 +676,23 @@
         <c-col>
             <div class="block">
               <h3>Clientes</h3>
-              <div class="item" *ngFor="let cliente of datosCliente"><span>{{cliente.nombre}}</span><span>{{cliente.cantidad_pedidos}}</span></div>
+              <div class="item" *ngFor="let cliente of datosCliente"><span>{{cliente.nombre}}</span><span>{{cliente.cantidad}}</span></div>
             </div>
         </c-col>
         <c-col>
           <div class="block">
             <h3>Comunas</h3>
-            <div class="item" *ngFor="let comuna of datosComuna"><span>{{comuna.nombre}}</span><span>{{comuna.cantidad_pedidos}}</span></div>
+            <div class="item" *ngFor="let comuna of datosComuna"><span>{{comuna.nombre}}</span><span>{{comuna.cantidad}}</span></div>
+          </div>
+        </c-col>
+      </c-row>
+      <p></p>
+      <c-row>
+        <c-col>
+          <div class="block">
+            <h3>Observación</h3>
+          <p></p>
+          {{observacionRuta}}
           </div>
         </c-col>
       </c-row>
@@ -690,9 +700,18 @@
 
 
 
-
     </c-modal-body>
     <c-modal-footer>
+
+      <span style="color:#858484">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+          <path fill="#000" d="M399 384.2c-22.1-38.4-63.6-64.2-111-64.2h-64c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8M0 256a256 256 0 1 1 512 0a256 256 0 1 1-512 0m256 16a72 72 0 1 0 0-144a72 72 0 1 0 0 144" stroke-width="13" stroke="#000" />
+        </svg>
+          {{nombreUsuario}} &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
+        </span>
+      
 
       <button (click)="toggleResumen()" class="btn cancel">
 

@@ -1,5 +1,5 @@
 <!--sidebar-->
-<c-sidebar
+<!-- <c-sidebar
   #sidebar="cSidebar"
   class="d-print-none sidebar sidebar-fixed c-sidebar-nav"
   id="sidebar"
@@ -34,7 +34,7 @@
 
 
   <div *ngFor="let navItem of navItems">
-    <!-- <c-sidebar-nav *ngIf="rol ? navItem.roles?.includes(rol) : false" -->
+
     <c-sidebar-nav 
       *ngIf="(rol ? navItem.roles?.includes(rol) : false) || (email ? navItem.roles?.includes(email) : false)"
       [navItems]="[navItem]" 
@@ -51,18 +51,81 @@
     cSidebarToggle="sidebar"
     (click) = 'ok()'
   ></c-sidebar-toggler>
-</c-sidebar>
+</c-sidebar> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<!--main-->
-<div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
-  <!--app-header-->
-  <app-default-header class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar"></app-default-header>
-  <!--app-body-->
+
+<div class="layout" >
+
+
+
+<div class="sidebar" [class.hidden]="!isVisible">
+  <div>
+    <div class="sidebar-header">
+      <img src="https://hela.transyanez.cl/assets/svg/logoty.svg" alt="Logo">
+      <h3>{{usuario}}</h3>
+      <p>{{email}}</p>
+      
+    
+    </div>
+
+    <hr>
+
+    <div class="menu"  >
+      <div class="menu-block" *ngFor="let menu of navItems; index as i">
+        <!-- <div class="menu-subtitle">Panel Principal</div> -->
+        <div class="menu-item" [class.active]="activeIndex === i" (click)="toggleMenu(i)">
+          <span><i [class]="menu.icono"></i>{{menu.titulo}}</span> <!-- #### menu.titulo --> 
+          <!-- <i class="fas fa-chevron-como "></i> -->
+           <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512">
+            <path fill="#d0d0d0" d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7L86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" stroke-width="13" stroke="#000" />
+          </svg>
+        </div>
+         <div class="submenu"  *ngIf="activeIndex === i"> <!-- #### submenus lista -->
+          <a *ngFor="let submenus of menu.submenus; index as i" [routerLink]="submenus.link" routerLinkActive="active">
+            <!-- <i class="fas fa-chart-line"></i> -->
+            {{submenus.submenu}}</a> <!-- #### submenu.link submenu.submenu  -->
+          <!-- <a href="#"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+		      <a href="#"><i></i>Sin Icono</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    
+    <img src="https://hela.transyanez.cl/assets/svg/hela_icon5.svg" alt="Logo Footer">
+    <div class="footer-text">
+      <h4>Hela - Transyanez 2025</h4>
+      <p>versión: 1.0.0.234</p>
+    </div>
+  </div>
+</div>
+
+<!-- <router-outlet></router-outlet> -->
+ 
+<div class="main">
+
+  <app-default-header ></app-default-header>
+
+<div class="main-content">
+
+  <!-- <app-default-header ></app-default-header> -->
   <div class="body flex-grow-1 px-3">
     <c-container breakpoint="lg" class="h-auto">
       <router-outlet></router-outlet>
     </c-container>
   </div>
-  <!--app footer-->
+
+  <!-- <div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
+ 
+  <div class="body flex-grow-1 px-3">
+    <c-container breakpoint="lg" class="h-auto">
+      <router-outlet></router-outlet>
+    </c-container>
+  </div>
   <app-default-footer></app-default-footer>
+</div> -->
+
+</div>
 </div>

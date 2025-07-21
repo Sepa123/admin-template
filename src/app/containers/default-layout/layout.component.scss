@@ -1,0 +1,284 @@
+.sidebar {
+  
+      width: 260px;
+      height: 100vh;
+      background-color: #5A5A5A;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;    
+      transform: translateX(0); /* Asegura que el estado por defecto sea "visible" */
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      
+    }
+
+    .sidebar.hidden {
+          transform: translateX(-100%);
+
+        }
+
+    .sidebar-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100px;
+      padding: 10px;
+      background-color: #5A5A5A;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .sidebar-header img {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 6px;
+      filter: brightness(0) saturate(100%) invert(59%) sepia(51%) saturate(508%) hue-rotate(86deg) brightness(93%) contrast(89%);
+    }
+
+    .sidebar-header h3 {
+      font-size: 13px;
+      color: #E0E0E0;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .sidebar-header p {
+      font-size: 11px;
+      color: #B3B3B3;
+      margin: 0;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #777;
+      margin: 10px 0;
+    }
+
+    .menu {
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+
+    .menu-block {
+      margin-bottom: 12px;
+    }
+
+    .menu-subtitle {
+      font-size: 11px;
+      color: #6BD98C;
+      padding: 2px 20px;
+    }
+
+    .menu-item {
+      cursor: pointer;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #5A5A5A;
+      color: white;
+      transition: background 0.3s;
+      font-size: 13px;
+    }
+
+    .menu-item:hover {
+      background-color: #4b4b4b;
+    }
+
+    .menu-item span {
+      display: flex;
+      align-items: center;
+    }
+
+    .menu-item i:first-child {
+      background-color: #4b4b4b;
+      border-radius: 50%;
+      padding: 6px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+    }
+
+    .submenu {
+      background-color: #5A5A5A;
+      display: none;
+      flex-direction: column;
+    }
+
+    .submenu a {
+      padding: 8px 30px;
+      text-decoration: none;
+      color: #D3D3D3;
+      font-size: 12px;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .submenu a i {
+	  display: inline-block;
+	  width: 16px;
+	  min-width: 16px;
+	  margin-right: 10px;
+	  text-align: center;
+	  visibility: hidden;
+	}
+
+	.submenu a i:before {
+	  visibility: visible;
+	}
+
+
+    .submenu a:hover {
+      background-color: #4b4b4b;
+    }
+
+    .active + .submenu {
+      display: flex;
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid #777;
+      background-color: #3E3E3E;
+      padding: 15px 10px 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar-footer img {
+      width: 65px;
+      height: 65px;
+      margin-right: 10px;
+      filter: brightness(0) saturate(100%) invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);
+    }
+
+    .footer-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-text h4 {
+      font-size: 13px;
+      color: #E0E0E0;
+      margin: 0 0 2px 0;
+    }
+
+    .footer-text p {
+      font-size: 11px;
+      color: #888;
+      margin: 0;
+    }
+
+
+    .layout {
+        display: flex;
+        height: 100vh;
+    }
+
+
+    .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: #f2f2f2;
+        overflow: hidden;
+        }
+
+        .topbar {
+        height: 60px;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+    .main-content {
+        flex: 1;
+        padding: 20px;
+        background-color: #f0f0f0;
+        overflow-y: auto;
+    }
+
+
+    app-default-header {
+        height: 60px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        z-index: 10;
+    }
+
+
+    .hidden {
+  display: none;
+}
+
+/* CoreUI (cil) icons from Iconify with light gray color */
+.cil-magnifying-glass {
+  background: url('https://api.iconify.design/cil/magnifying-glass.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cilMoney {
+  background: url('https://api.iconify.design/cil/money.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-building {
+  background: url('https://api.iconify.design/cil/building.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-home {
+  background: url('https://api.iconify.design/cil/home.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-window {
+  background: url('https://api.iconify.design/cil/window.svg?color=%23D3D3D3') no-repeat center center / contain; 
+}
+
+.cil-contact {
+  background: url('https://api.iconify.design/cil/contact.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cilDevices {
+  background: url('https://api.iconify.design/cil/devices.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-chat-bubble {
+  background: url('https://api.iconify.design/cil/chat-bubble.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-handshake {
+  background: url('https://api.iconify.design/fa6-regular/handshake.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-speedometer {
+  background: url('https://api.iconify.design/cil/speedometer.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-list {
+  background: url('https://api.iconify.design/cil/list.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-car-alt {
+  background: url('https://api.iconify.design/cil/car-alt.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-bar-chart {
+  background: url('https://api.iconify.design/cil/bar-chart.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-clipboard {
+  background: url('https://api.iconify.design/cil/clipboard.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-truck {
+  background: url('https://api.iconify.design/cil/truck.svg?color=%23D3D3D3') no-repeat center center / contain;
+}
+
+.cil-swap-horizontal {
+  background: url('https://api.iconify.design/cil/swap-horizontal.svg?color=%23D3D3D3') no-repeat center center / contain;
+}

@@ -166,11 +166,29 @@ export interface RutasConsolidadas {
 }
 
 export interface ClienteInfo {
-    comunas:  Cliente[];
-    clientes: Cliente[];
+    comunas:  Comuna;
+    usuario: Usuario;
+    clientes: Comuna;
+    validacion:   Validacion;
+    observacion?: string;
+
 }
 
-export interface Cliente {
+export interface Usuario {
+    id_usuario:   number;
+    nombre_usuario: string;
+}
+
+export interface Comuna {
     nombre:           string;
-    cantidad_pedidos: number;
+    cantidad: number;
+}
+
+export interface Validacion {
+    pedido_total: number,
+    entregados_final: number,
+    metodo_principal : string,
+    porcentaje_entrega: number,
+    no_entregados_final: number,
+    
 }
