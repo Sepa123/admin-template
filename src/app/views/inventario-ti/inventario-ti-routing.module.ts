@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AsignacionComponent } from './asignacion/asignacion.component';
 import { MantenedoresComponent } from './mantenedores/mantenedores.component';
+import { PermissionGuard } from '../../guard/permission.guard';
 
 const routes: Routes = [
   {
@@ -13,15 +14,19 @@ const routes: Routes = [
           {
               path:'mantenedores',
               component: MantenedoresComponent,
+              canActivate :[PermissionGuard],
               data:{
-                  title: "Mantenedores"
+                  title: "Mantenedores",
+                  id_submenu: 81
               }
           },
           {
               path:'asignacion',
               component: AsignacionComponent,
+              canActivate :[PermissionGuard],
               data :{
-                  title: "Asignación de Equipo"
+                  title: "Asignación de Equipo",
+                  id_submenu: 82
               }
           }
       ]

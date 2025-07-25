@@ -12,6 +12,7 @@ import { CitacionSupervisoresComponent } from './citacion-supervisores/citacion-
 import { NsSupervisoresComponent } from './ns-supervisores/ns-supervisores.component';
 import { TestPPUComponent } from './test-ppu/test-ppu.component';
 import { PosiblesRutasComponent } from './posibles-rutas/posibles-rutas.component';
+import { PermissionGuard } from '../../guard/permission.guard';
 
 const routes: Routes = [
   {
@@ -30,22 +31,28 @@ const routes: Routes = [
         {
             path:'citaciones',
             component: CitacionesComponent,
+            canActivate :[PermissionGuard],
             data:{
-                title: "Citaciones"
+                title: "Citaciones",
+                id_submenu: 37
             }
         },
         {
             path:'supervisores',
             component: ListaSupervisoresComponent,
+            canActivate :[PermissionGuard],
             data:{
-                title: "supervisores"
+                title: "supervisores",
+                id_submenu: 38
             }
         },
         {
             path:'prefactura',
             component: PrefacturaComponent,
+            canActivate :[PermissionGuard],
             data:{
-                title: "prefactura"
+                title: "prefactura",
+                id_submenu: 39
             }
         },
         {
@@ -72,8 +79,10 @@ const routes: Routes = [
         {
             path:'citacion-supervisores',
             component: CitacionSupervisoresComponent,
+            canActivate :[PermissionGuard],
             data:{
-                title: "Citaciones"
+                title: "Citacion supervisores",
+                id_submenu: 40
             }
         },
         {
@@ -86,15 +95,19 @@ const routes: Routes = [
         {
             path:'ns-supervisores',
             component: NsSupervisoresComponent,
+            canActivate :[PermissionGuard],
             data:{
-                title: "Citaciones"
+                title: "Resumen Supervisores",
+                id_submenu: 41
             }
         },
         {
             path:'posibles-rutas',
             component: PosiblesRutasComponent,
+            canActivate :[PermissionGuard],
             data:{
-                title: "Test PPU"
+                title: "Posibles Rutas",
+                id_submenu: 42
             }
         },
         {

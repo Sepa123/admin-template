@@ -5,6 +5,8 @@ import { AgregarFuncionComponent } from './agregar-funcion/agregar-funcion.compo
 import { ScanTestComponent } from './scan-test/scan-test.component';
 import { CamaraTestComponent } from './camara-test/camara-test.component';
 import { EstadosOldComponent } from './estados-old/estados-old.component';
+import { PermissionGuard } from '../../guard/permission.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -15,13 +17,16 @@ const routes: Routes = [
       {
         path : 'funciones',
         component : FuncionesComponent,
+        canActivate: [PermissionGuard],
         data : {
-          title : "funciones"
+          title : "funciones",
+          id_submenu: 1
         }
       },
       {
         path : 'agregar-funcion',
         component : AgregarFuncionComponent,
+        canActivate: [PermissionGuard],
         data : {
           title : "Agregar funciones"
         }
@@ -29,22 +34,28 @@ const routes: Routes = [
       {
         path : 'scan-test',
         component : ScanTestComponent,
+        canActivate: [PermissionGuard],
         data : {
-          title : "Test Scanner"
+          title : "Test Scanner",
+          id_submenu: 2
         }
       },
       {
         path : 'camara-test',
         component : CamaraTestComponent,
+        canActivate: [PermissionGuard],
         data : {
-          title : "camara Scanner"
+          title : "camara Scanner",
+          id_submenu: 3
         }
       },
       {
         path : 'estados-old',
         component : EstadosOldComponent,
+        canActivate: [PermissionGuard],
         data : {
-          title : "Estados Old"
+          title : "Estados Old",
+          id_submenu: 4
         }
       },
     ]

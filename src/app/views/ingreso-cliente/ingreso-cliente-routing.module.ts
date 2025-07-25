@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EasyCdComponent } from '../ingreso-cliente/easy-cd/easy-cd.component'
 import { EasyOplComponent } from './easy-opl/easy-opl.component';
 import { EasyOplNewComponent } from './easy-opl-new/easy-opl-new.component';
+import { PermissionGuard } from '../../guard/permission.guard';
 
 const routes: Routes = [
   {
@@ -14,8 +15,10 @@ const routes: Routes = [
       {
         path : 'easy-cd',
         component : EasyCdComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : "Ingreso Easy CD"
+          title : "Ingreso Easy CD",
+          id_submenu: 62
         }
       },
       // {
@@ -35,8 +38,10 @@ const routes: Routes = [
       {
         path : 'easy-opl',
         component : EasyOplNewComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : "Ingreso Easy CD"
+          title : "Ingreso Easy CD",
+          id_submenu: 63
         }
       },
     ]

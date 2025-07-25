@@ -1,22 +1,22 @@
-import { Component} from '@angular/core';
-import { interval } from 'rxjs';
+import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
+import { Subscription, interval } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { RutasService } from '../../../service/rutas.service';
 import { PortalTransyanezService } from "../../../service/portal-transyanez.service";
 import {PedidoCompromisoObligatorio } from '../../../models/rutas/pedidoCompromisoObligatorios.interface'
-import { FormBuilder, Validators } from '@angular/forms'
+import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
 import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from '../../../models/enum/bancos.json'
 import { Colaborador } from '../../../models/transporte/colaborador.interface' 
 import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from '../../../models/transporte/vehiculo.interface' 
 import { RazonSocial } from '../../../models/modalidad-de-operaciones.interface';
 import { ModalidadDeOperacionesService } from '../../../service/modalidad-de-operaciones.service';
+import { CentroOperacion } from '../../../models/operacion/centroOperacion.interface';
 import { PanelVehiculos } from '../../../models/transporte/paneles.interface'
 import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, Operacion, Origen, Reclutamiento, Region,TipoVehiculo,Comuna } from 'src/app/models/transporte/seleccionesReclutamiento.interface' 
-// import { RecursiveAstVisitor } from '@angular/compiler';
-// import * as XLSX from 'xlsx';
+import { RecursiveAstVisitor } from '@angular/compiler';
 import * as ExcelJS from 'exceljs';
-import FileSaver from 'file-saver';
-
+import saveAs from 'file-saver';
 
 @Component({
   selector: 'app-reclutamiento',
@@ -30,6 +30,7 @@ export class ReclutamientoComponent {
   
 
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []
+  allReclutas: Reclutamiento [] = []
 
   constructor(private service: PortalTransyanezService,public builder: FormBuilder,private comunaService : ComunasService,
     private MoService: ModalidadDeOperacionesService
@@ -48,7 +49,8 @@ export class ReclutamientoComponent {
   listaEstadoContacto: EstadoContacto [] = []
   reclutas : Reclutamiento [] = []
   reclutasFull : Reclutamiento [] = []
-  listaPatentes : string [] = []
+currentPage: number = 1;    // Página actual
+totalPages: number = 0;     // Total de páginas
 
 
   buscadorVehiculo : string = ''
@@ -227,17 +229,6 @@ export class ReclutamientoComponent {
   isModalOpenAgregar: boolean = false
   public visibleAgregar = false;
 
-  
-  filtrarPatente() {
-    if (this.buscadorVehiculo.length > 0) {
-      this.reclutas = this.reclutasFull.filter(ruta => ruta.Ppu.toLowerCase().includes(this.buscadorVehiculo.toLowerCase()))
-      this.pestana  = this.reclutasFull.filter(ruta => ruta.Ppu.toLowerCase().includes(this.buscadorVehiculo.toLowerCase()))[0].Pestana
-    } else {
-      this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
-    }
-  }
-
-
   toggleLiveAgregar() {
     this.rutValido = true
     this.form.reset()
@@ -269,6 +260,7 @@ export class ReclutamientoComponent {
     this.isModalOpenAgregar = false
   }
 
+  
 
 
   /// vehiculos 
@@ -314,12 +306,6 @@ export class ReclutamientoComponent {
   cantParaIngreso : number = 0
   cantIngresado : number = 0
   
-
-
-
-
-
-
   ngOnInit() : void {
     this.getLocation()
     this.time = new Date()
@@ -331,7 +317,8 @@ export class ReclutamientoComponent {
         
         this.time = time;
       });
-
+       // Agregar escucha de teclado
+  window.addEventListener('keydown', this.handleKeyboardNavigation.bind(this));
     this.service.getSeleccionesReclutamiento().subscribe((data) => {
 
       this.listaComunas = data.Comuna
@@ -362,6 +349,11 @@ export class ReclutamientoComponent {
       this.service.getDatosReclutas().subscribe((data) => {
         this.reclutas = data
         this.reclutasFull = data
+        this.allReclutas = data;
+        
+        
+
+        console.log('Datos de reclutasFull:', this.reclutasFull); // Verifica los datos cargados
 
         this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == 1)
         this.cantNuevos = this.reclutasFull.filter(ruta => ruta.Pestana == 1).length
@@ -370,8 +362,10 @@ export class ReclutamientoComponent {
         this.cantParaIngreso = this.reclutasFull.filter(ruta => ruta.Pestana == 4).length
         this.cantIngresado = this.reclutasFull.filter(ruta => ruta.Pestana == 5).length
 
-        this.listaPatentes = this.reclutasFull.map(ruta => ruta.Ppu).filter((value, index, self) => self.indexOf(value) === index)
-        console.log(this.listaPatentes)
+
+        this.currentPage = 1;
+        this.totalPages = Math.ceil(this.reclutas.length / this.itemsPerPage);
+        this.cargarDatosPagina();
       })
 
 
@@ -604,6 +598,7 @@ export class ReclutamientoComponent {
       }
     
     )
+    
 
     }else{
       this.isErrorView = true
@@ -614,7 +609,9 @@ export class ReclutamientoComponent {
 
 
 
-
+  formatearNumero(numero: number): string {
+    return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
 /////
 
 modalidadOperacion : RazonSocial []= []
@@ -696,137 +693,223 @@ this.service.registrarComentario(this.selectedOption).subscribe((data : any) => 
 
 ejecutivoSeleccionada : any 
 
-filtrarEjecutivo(){
-
-  if( this.ejecutivoSeleccionada == 'Seleccione Ejecutivo') return alert("Seleccione un ejectutivo por favor")
-  if( this.ejecutivoSeleccionada == 'Todas'){
-  
-    this.reclutas = this.reclutasFull
-  }else {
-
-    this.reclutas = this.reclutasFull.filter(ruta => ruta.Nombre_contacto == this.ejecutivoSeleccionada)
-
+filtrarEjecutivo(): void {
+  if (!this.ejecutivoSeleccionada || this.ejecutivoSeleccionada === 'Seleccione Ejecutivo') {
+    alert("Seleccione un ejecutivo por favor");
+    return;
   }
-  
+
+  console.log('Ejecutivo seleccionado:', this.ejecutivoSeleccionada);
+
+  this.reclutas = this.ejecutivoSeleccionada === 'Todas'
+    ? [...this.reclutasFull] // Clonamos la lista completa
+    : this.reclutasFull.filter(ruta => ruta.Nombre_contacto === this.ejecutivoSeleccionada);
+
+  console.log('Reclutas filtrados:', this.reclutas);
 }
+
+// filtrarEjecutivo(){
+
+//   if( this.ejecutivoSeleccionada == 'Seleccione Ejecutivo') return alert("Seleccione un ejectutivo por favor")
+//   if( this.ejecutivoSeleccionada == 'Todas'){
+  
+//     this.reclutas = this.reclutasFull
+//   }else {
+//     this.reclutas = this.reclutasFull.filter(ruta => ruta.Nombre_contacto == this.ejecutivoSeleccionada)
+//   }
+  
+// }
 
 
 pestana : number = 1
+startDate: string = '';
+endDate: string = '';
+patenteFiltro: string = '';
 
-filtroPestana(pestana : number){
-  
+filtroPestana(pestana: number): void {
+  this.pestana = pestana;
 
-  this.pestana = pestana
-  if( this.ejecutivoSeleccionada == 'Seleccione Ejecutivo') return alert("Seleccione un ejectutivo por favor")
-  if(this.ejecutivoSeleccionada == 'Todas' || this.ejecutivoSeleccionada == undefined){
-    this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana)
-  } else {
-    
-    
-    this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana && ruta.Nombre_contacto == this.ejecutivoSeleccionada)
+  let filtrados = this.reclutasFull;
 
+  // Filtro por ejecutivo
+  if (
+    this.ejecutivoSeleccionada &&
+    this.ejecutivoSeleccionada !== 'Seleccione Ejecutivo' &&
+    this.ejecutivoSeleccionada !== 'Todas'
+  ) {
+    filtrados = filtrados.filter(ruta => ruta.Nombre_contacto === this.ejecutivoSeleccionada);
   }
-  
+
+  // Filtro por rango de fechas
+  if (this.startDate && this.endDate) {
+    filtrados = filtrados.filter(ruta =>
+      ruta.Fecha_creacion >= this.startDate && ruta.Fecha_creacion <= this.endDate
+    );
+  } else if (this.startDate) {
+    filtrados = filtrados.filter(ruta => ruta.Fecha_creacion >= this.startDate);
+  } else if (this.endDate) {
+    filtrados = filtrados.filter(ruta => ruta.Fecha_creacion <= this.endDate);
+  }
+
+   // Filtro por patente (opcional)
+  if (this.patenteFiltro && this.patenteFiltro.trim() !== '') {
+    const patenteLower = this.patenteFiltro.trim().toLowerCase();
+    filtrados = filtrados.filter(ruta =>
+      (ruta.Ppu ?? '').toString().toLowerCase().includes(patenteLower)
+    );
+  }
+
+  // Actualiza los contadores con la data filtrada general
+  this.cantNuevos = filtrados.filter(ruta => ruta.Pestana == 1).length;
+  this.cantProces = filtrados.filter(ruta => ruta.Pestana == 2).length;
+  this.cantRechazado = filtrados.filter(ruta => ruta.Pestana == 3).length;
+  this.cantParaIngreso = filtrados.filter(ruta => ruta.Pestana == 4).length;
+  this.cantIngresado = filtrados.filter(ruta => ruta.Pestana == 5).length;
+
+  // Ahora filtra solo por la pestaña activa para mostrar en la tabla
+  this.reclutas = filtrados.filter(ruta => ruta.Pestana == pestana);
+
+  // Reiniciar paginación al aplicar nuevo filtro
+  this.currentPage = 1;
+  this.totalPages = Math.ceil(this.reclutas.length / this.itemsPerPage);
+  this.cargarDatosPagina();
 }
 
+onEjecutivoChange(): void {
+  this.filtroPestana(this.pestana);
+}
 
-
-  DescargarListaReclutamiento() {
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Lista Descuentos');
+currentTab = 'nuevo';
+setTab(el: HTMLElement, tab: string): void {
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  this.currentTab = tab;
+}
+// filtroPestana(pestana : number){
   
-    // Encabezados de la tabla
-    worksheet.columns = [
-      { header: 'Región', key: 'region', width: 15 },
-      { header: 'Patente', key: 'ppu', width: 20 },
-      { header: 'Operación postula', key: 'operacion', width: 15 },
-      { header: 'Nombre contacto', key: 'nombreContacto', width: 20 },
-      { header: 'Teléfono', key: 'telefono', width: 10 },
-      { header: 'Origen Contacto', key: 'origenContacto', width: 20 },
-      { header: 'Estado contacto', key: 'estadoContacto', width: 10 },
-      { header: 'Motivo', key: 'motivo', width: 15 },
-      { header: 'Fecha creación', key: 'fechaCreacion', width: 15 },
-      { header: 'Contacto ejecutivo', key: 'contactoEjecutivo', width: 15 },
-    ];
+
+//   this.pestana = pestana
+//   if( this.ejecutivoSeleccionada == 'Seleccione Ejecutivo') return alert("Seleccione un ejectutivo por favor")
+//   if(this.ejecutivoSeleccionada == 'Todas' || this.ejecutivoSeleccionada == undefined){
+//     this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana)
+//     console.log(this.ejecutivoSeleccionada)
+//   } else {
+//     this.reclutas = this.reclutasFull.filter(ruta => ruta.Pestana == pestana && ruta.Nombre_contacto == this.ejecutivoSeleccionada)
+//     console.log(this.ejecutivoSeleccionada)
+//     console.log(this.reclutas)
+//   }
   
-    // Agregar filas con datos
-    this.reclutas.forEach((desc) => {
-      worksheet.addRow({
-        region: desc.Region,
-        ppu: desc.Ppu,
-        operacion: desc.Operacion_nombre,
-        nombreContacto: desc.Nombre,
-        telefono: desc.Telefono,
-        origenContacto: desc.Nombre_origen,
-        estadoContacto: desc.Nombre_estados,
-        motivo: desc.Nombre_motivo,
-        fechaCreacion: desc.Fecha_creacion,
-        contactoEjecutivo: desc.Nombre_contacto
-      });
-    });
+// }
 
-  
-  // Aplicar estilos condicionales
-  // worksheet.eachRow((row, rowNumber) => {
-  //   if (rowNumber === 1) {
-  //     // Estilo para encabezados
-  //     row.eachCell((cell) => {
-  //       cell.font = { bold: true, color: { argb: 'FFFFFF' } };
-  //       cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '007bff' } };
-  //       cell.alignment = { horizontal: 'center', vertical: 'middle' };
-  //     });
-  //   } else {
-  //     // Estilo para filas con descripción
-  //     const descripcionCell = row.getCell(11); // Columna "Descripción"
-  //     if (descripcionCell.value) {
-  //       row.eachCell((cell) => {
-  //         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF380' } }; // Fondo amarillo
-  //         cell.font = { color: { argb: '000000' } }; // Texto NEGRO
-  //       });
-  //     }
 
-  //     // Estilo para toda la fila si la columna "Cobrada" es "Sí"
-  //     const cobradaCell = row.getCell(12); // Columna "Cobrada"
-  //     if (cobradaCell.value === 'Sí') {
-  //       row.eachCell((cell) => {
-  //         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'AEF359' } }; // Fondo verde
-  //         cell.font = { color: { argb: '000000' } }; // Texto negro
-  //       });
-  //     }
-      
-  //     // Estilo para toda la fila si la columna "Cobrada" es "Sí"
-  //     const AplicaCell = row.getCell(15); // Columna "Cobrada"
-  //     if (AplicaCell.value === 'No') {
-  //       row.eachCell((cell) => {
-  //         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'BC544B' } }; // Fondo Rojo
-  //         cell.font = { color: { argb: '000000' } }; // Texto negro
-  //       });
-  //     }
-  //   }
-  // });
 
-  // Descargar el archivo Excel
-  workbook.xlsx.writeBuffer().then((data) => {
-    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    FileSaver.saveAs(blob, `Lista-reclutamiento-${new Date().toISOString().split('T')[0]}.xlsx`);
-  });
 
-  
-    // Descargar el archivo Excel
-    // workbook.xlsx.writeBuffer().then((data) => {
-    //   const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    //   FileSaver.saveAs(blob, `Lista-reclutamiento-${new Date().toISOString().split('T')[0]}.xlsx`);
-    // });
-  }
 
+
+setTabAndFilter(tab: string, pestana: number): void {
+  this.currentTab = tab;
+  this.filtroPestana(pestana);
+}
 
  ngOnDestroy(): void {
 
 
   }
 
+descargarExcel(): void {
+  console.log('Descargando Excel con datos de reclutas:', this.reclutasFull); // Verifica los datos que se van a descargar
+  // Crear un nuevo libro de Excel
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('Descuentos');
 
-  
+   // Agregar encabezados
+    worksheet.columns = [
+      { header: 'Región', key: 'Región', width: 20 },
+      { header: 'Patente', key: 'Patente', width: 15 },
+      { header: 'Operación postula', key: 'Operación postula', width: 15 },
+      { header: 'Nombre contacto', key: 'Nombre contacto', width: 40 },
+      { header: 'Teléfono', key: 'Teléfono', width: 40 },
+      { header: 'Origen Contacto', key: 'Origen Contacto', width: 15 },
+      { header: 'Estado contacto', key: 'Estado contacto', width: 40 },
+      { header: 'Motivo', key: 'Motivo', width: 40 },
+      { header: 'Fecha creación', key: 'Fecha creación', width: 40 },
+      { header: 'Contacto ejecutivo', key: 'Contacto ejecutivo', width: 40 },
+    ];
 
+  // Agregar datos
+    this.reclutasFull.forEach((Recluta:any) => {
+      worksheet.addRow({
+        'Región': Recluta.Region_nombre,
+        'Patente': Recluta.Ppu,
+        'Operación postula': Recluta.Operacion_nombre,
+        'Nombre contacto': Recluta.Nombre,
+        'Teléfono': Recluta.Telefono,
+        'Origen Contacto': Recluta.Nombre_origen,
+        'Estado contacto': Recluta.Nombre_estados,
+        'Motivo': Recluta.Nombre_motivo,
+        'Fecha creación': Recluta.Fecha_creacion,
+        'Contacto ejecutivo': Recluta.Nombre_contacto,
+      });
+    });
+
+// Estilizar encabezados
+    worksheet.getRow(1).eachCell((cell) => {
+      cell.font = { bold: true };
+      cell.alignment = { horizontal: 'center' };
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFCCCCCC' },
+      };
+    });
+
+    // Generar el archivo Excel
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      saveAs(blob, 'ReclutamientoTotales.xlsx');
+    });
+  }
+
+
+
+
+// Paginación por sección
+itemsPerPage = 50;
+reclutasPagina: Reclutamiento[] = []; // datos de la página a
+
+cargarDatosPagina() {
+  const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  const endIndex = startIndex + this.itemsPerPage;
+  this.reclutasPagina = this.reclutas.slice(startIndex, endIndex);
 }
 
+handleKeyboardNavigation(event: KeyboardEvent): void {
+  if (event.key === 'ArrowRight') {
+    this.siguientePagina();
+  } else if (event.key === 'ArrowLeft') {
+    this.paginaAnterior();
+  }
+}
+
+siguientePagina(): void {
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++;
+    this.cargarDatosPagina();
+  }
+}
+
+paginaAnterior(): void {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+    this.cargarDatosPagina();
+  }
+}
+
+goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.cargarDatosPagina();
+    }
+  }
+}

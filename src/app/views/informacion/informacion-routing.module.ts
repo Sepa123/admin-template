@@ -7,6 +7,7 @@ import { IngresoProductoComponent } from './ingreso-producto/ingreso-producto.co
 import { TimelineComponent } from './timeline/timeline.component';
 import { ModalidadesDeOperacionesComponent } from './modalidades-de-operaciones/modalidades-de-operaciones.component';
 import { PesoVolumetricoComponent } from './peso-volumetrico/peso-volumetrico.component';
+import { PermissionGuard } from '../../guard/permission.guard';
 
 const routes: Routes = [
   {
@@ -18,49 +19,64 @@ const routes: Routes = [
       {
         path : 'estado',
         component : EstadoComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title: "Estado"
+          title: "Estado",
+          id_submenu: 50
         }
       },
       {
         path : 'buscar-sku',
         component : BuscarSkuComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title: "Buscar SKU"
+          title: "Buscar SKU",
+          id_submenu: 51
         }
       },
       {
         path : 'tracking-producto',
         component : TrackingProductoComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title: "Tracking Producto"
+          title: "Tracking Producto",
+          id_submenu: 52
         }
       },
       {
         path : 'ingreso-producto',
         component : IngresoProductoComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title: "Ingreso Producto"
+          title: "Ingreso Producto",
+          id_submenu: 53
         }
       },
       {
         path : 'timeline',
         component: TimelineComponent,
+        canActivate :[PermissionGuard],
         data:{
-        title : ""}
+           title : "",
+           id_submenu: 54
+          }
       },
       {
         path : 'modalidades-de-operaciones',
         component : ModalidadesDeOperacionesComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title: "Modalidades de Operaciones"
+          title: "Modalidades de Operaciones",
+          id_submenu: 55
         }
       },
       {
         path : 'peso-volumetrico',
         component : PesoVolumetricoComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title: "Seguimiento Ruta"
+          title: "Seguimiento Ruta",
+          id_submenu: 56
         }
       }
     ]

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EdicionPendientesComponent } from './edicion-pendientes/edicion-pendientes.component';
 import { RecepcionOcComponent } from './recepcion-oc/recepcion-oc.component';
 import { BodegaVirtualComponent } from './bodega-virtual/bodega-virtual.component';
+import { PermissionGuard } from '../../guard/permission.guard';
 
 const routes: Routes = [
   {
@@ -26,15 +27,19 @@ const routes: Routes = [
       {
         path : 'recepcion',
         component : RecepcionOcComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : "Recepción Log Inversa"
+          title : "Recepción Log Inversa",
+          id_submenu: 6
         }
       },
       {
         path : 'bodega-virtual',
         component : BodegaVirtualComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : "Recepción Log Inversa"
+          title : "Recepción Log Inversa",
+          id_submenu: 7
         }
       },
     ]

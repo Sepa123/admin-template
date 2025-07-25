@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { HoyComponent } from './hoy/hoy.component';
 import { NsVerificadosComponent } from './ns-verificados/ns-verificados.component';
+import { PermissionGuard } from '../../guard/permission.guard';
 
 const routes: Routes = [
   {
@@ -20,22 +21,28 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardComponent,
+        canActivate :[PermissionGuard],
         data: {
-          title: 'Dashboard'
+          title: 'Dashboard',
+          id_submenu: 8
         }
       },
       {
         path: 'hoy',
         component: HoyComponent,
+        canActivate :[PermissionGuard],
         data: {
-          title: 'Hoy'
+          title: 'Hoy',
+          id_submenu: 10
         }
       },
       {
         path: 'ns-verificados',
         component: NsVerificadosComponent,
+        canActivate :[PermissionGuard],
         data: {
-          title: 'Ns verificados'
+          title: 'Ns verificados',
+          id_submenu: 9
         }
         
       }

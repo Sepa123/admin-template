@@ -10,6 +10,7 @@ import { DifFechasEasyComponent } from './dif-fechas-easy/dif-fechas-easy.compon
 import { ProductosIngresadosEasyComponent } from './productos-ingresados-easy/productos-ingresados-easy.component';
 import { PendientesEnRutaComponent } from './pendientes-en-ruta/pendientes-en-ruta.component';
 import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
+import { PermissionGuard } from '../../guard/permission.guard';
 
 const routes: Routes = [
   {
@@ -26,22 +27,28 @@ const routes: Routes = [
       {
         path: 'estados',
         component: EstadosComponent,
+        canActivate :[PermissionGuard],
         data: {
-          title: 'Estados'
+          title: 'Estados',
+          id_submenu: 23
         }
       },
       {
         path: 'pendientes',
         component: PendientesComponent,
+        canActivate :[PermissionGuard],
         data: {
-          title: 'Pendientes'
+          title: 'Pendientes',
+          id_submenu: 22
         }
       },
       {
         path: 'productos-sin-clasificacion',
         component: ProductosSinClasificacionComponent,
+        canActivate :[PermissionGuard],
         data: {
-          title: 'Productos sin clasificacion'
+          title: 'Productos sin clasificacion',
+          id_submenu: 24
         }
       },
       {
@@ -54,22 +61,28 @@ const routes: Routes = [
       {
         path: 'edicion-pendientes',
         component: EdicionPendientesComponent,
+        canActivate :[PermissionGuard],
         data: {
-          title: 'Edicion Pendientes'
+          title: 'Edicion Pendientes',
+          id_submenu: 25
         }
       },
       {
         path: 'dif-fechas-easy',
         component: DifFechasEasyComponent,
+        canActivate :[PermissionGuard],
         data: {
-          title: 'Diferencia Fechas Easy'
+          title: 'Diferencia Fechas Easy',
+          id_submenu: 26
         }
       },
       {
         path: 'productos-ingresados-easy',
         component: ProductosIngresadosEasyComponent,
+        canActivate :[PermissionGuard],
         data: {
-          title: 'Productoss Ingresados Easy'
+          title: 'Productoss Ingresados Easy',
+          id_submenu: 27
         }
       },
       {
@@ -82,8 +95,10 @@ const routes: Routes = [
       {
         path: 'editar-ruta',
         component: EditarRutaComponent,
+        canActivate :[PermissionGuard],
         data: {
-          title: 'Clientes'
+          title: 'Clientes',
+          id_submenu: 28
         }
       }
     ]

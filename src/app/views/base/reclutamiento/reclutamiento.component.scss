@@ -1,153 +1,95 @@
 .error {
-    color: #E71B24;
-  }
+  color: #E71B24;
+}
 
 .rectangulo,
 .rectangulo-gps,
 .rectangulo-seguridad {
-    display: flex;
-    // justify-content: space-between;
-    align-items: center;
-    padding: 5px 10px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    width: 100%;
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 100%;
 }
+
 .slide-toggle-container {
-  position: relative; /* o absolute, fixed, dependiendo de tus necesidades */
-  z-index: 1; /* o cualquier valor más bajo que el thead */
+  position: relative;
+  /* o absolute, fixed, dependiendo de tus necesidades */
+  z-index: 1;
+  /* o cualquier valor más bajo que el thead */
 }
 
 .rectangulo {
-  background-color: #ffcccc; /* Rojo claro */
-  border: 2px solid #cc0000; /* Borde rojo oscuro */
+  background-color: #ffcccc;
+  /* Rojo claro */
+  border: 2px solid #cc0000;
+  /* Borde rojo oscuro */
 }
 
 .rectangulo-gps {
-  background-color: #ffffcc; /* Amarillo claro */
-  border: 2px solid #cccc00; /* Borde amarillo oscuro */
+  background-color: #ffffcc;
+  /* Amarillo claro */
+  border: 2px solid #cccc00;
+  /* Borde amarillo oscuro */
 }
 
 .rectangulo-seguridad {
-  background-color: #ccffcc; /* Verde clarito */
-  border: 2px solid #006600; /* Borde verde oscuro */
+  background-color: #ccffcc;
+  /* Verde clarito */
+  border: 2px solid #006600;
+  /* Borde verde oscuro */
 }
-  
-  .greenTable{
-      
-    max-height: 400px; /* Altura de ejemplo */
-    overflow: auto;
-  }
-  
-  
 
-  input[type="text"].disabled-like {
-    background-color: #f0f0f0; /* Color de fondo gris claro */
-    color: #a0a0a0; /* Color de texto gris */
-    border: 1px solid #d0d0d0; /* Borde gris */
-    cursor: not-allowed; /* Cursor de no permitido */
-    pointer-events: none; /* Deshabilita eventos */
-  }
-  
-  .greenTable  table {
-    width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            table-layout: fixed; /* Para que las celdas tengan un ancho fijo */
-  }
-  .greenTable  table td, table th {
-    padding: 15px; /* Espaciado grande */
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    font-size: 13px; /* Letra más pequeña */
-  }
-  .greenTable  table tbody td {
-    white-space: nowrap; /* Evita el salto de línea en las celdas */
-            overflow: hidden; /* Oculta el contenido que desborda */
-            text-overflow: ellipsis; /* Añade "..." si el texto es demasiado largo */
-  }
-  
-  .greenTable  table td {
-    padding: 15px; /* Espaciado grande */
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    font-size: 13px; /* Letra más pequeña */
-  }
 
-  .greenTable th.sortable:hover {
-    background-color: #1ece27;
-    cursor: pointer;
-  }
-  
-  .greenTable  table tbody th {
-    // font-size: 12px;
-    // font-weight: bold;
-    // background: #28A745;
-    // color: #FFFFFF;
-    white-space: nowrap; /* Asegura que los iconos no se corten */
-  overflow: visible; /* Los iconos siempre serán visibles */
-  }
-  .greenTable  table tr:nth-child(even) {
-    background: #FFFEF3;
-  }
-  .greenTable table thead {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    left: 0;
-    background: #28A745;
-  }
-  .greenTable  table thead th {
-    background-color: #4CAF50; /* Verde para la cabecera */
-    color: white;
-    font-size: 12px; /* Tamaño de letra un poco más grande para la cabecera */
-    white-space: normal; /* Permite el salto de línea en la cabecera */
-    overflow: visible; /* Asegura que el texto no se recorte */
-    word-wrap: break-word; /* Permite que las palabras largas se dividan */
-  }
 
-//   .greenTable  table thead th:first-child {
-//     border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
-// }
 
-// .greenTable table th:last-child {
-//   border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
-// }
+input[type="text"].disabled-like {
+  background-color: #f0f0f0;
+  /* Color de fondo gris claro */
+  color: #a0a0a0;
+  /* Color de texto gris */
+  border: 1px solid #d0d0d0;
+  /* Borde gris */
+  cursor: not-allowed;
+  /* Cursor de no permitido */
+  pointer-events: none;
+  /* Deshabilita eventos */
+}
 
-// .greenTable table tr:last-child td:first-child {
-//   border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
-// }
 
-// .greenTable table tr:last-child td:last-child {
-//   border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
-// }
-  .inline-container {
-    margin: 1px;
-    display: flex;
-    align-items: center; /* Alinea los elementos verticalmente si es necesario */
-  }  
-  
-  .inline-container input,
-  .inline-container c-dropdown,
-  .inline-container span {
-    margin-right: 5px; /* Espacio personalizado entre los elementos */
-  }
-  h2 {
-      text-align: center;
-    }
-    
-  .svgT{
-    fill:#12de20
-  }
-  
-  .svgF{
-    fill:#d60a0a
-  }
+.inline-container {
+  margin: 1px;
+  display: flex;
+  align-items: center;
+  /* Alinea los elementos verticalmente si es necesario */
+}
+
+.inline-container input,
+.inline-container c-dropdown,
+.inline-container span {
+  margin-right: 5px;
+  /* Espacio personalizado entre los elementos */
+}
+
+h2 {
+  text-align: center;
+}
+
+.svgT {
+  fill: #12de20
+}
+
+.svgF {
+  fill: #d60a0a
+}
 
 .custom-select {
   position: relative;
   width: 100%;
 }
+
 .select-selected {
   background-color: #eee;
   padding: 10px;
@@ -155,14 +97,17 @@
   border: 1px solid #ccc;
   cursor: pointer;
 }
+
 .select-selected:after {
-  content: '\f107'; /* Icono de flecha abajo */
+  content: '\f107';
+  /* Icono de flecha abajo */
   font-family: "FontAwesome";
   position: absolute;
   right: 10px;
   top: 14px;
   font-size: 16px;
 }
+
 .select-items {
   position: absolute;
   background-color: white;
@@ -186,22 +131,128 @@
 .alerta-amarillo {
   background-color: #fff3cd;
 }
+
 .alerta-amarilloi {
   fill: #856404;
   // margin-right: 8px;
 }
+
 .alerta-rojo {
   background-color: #f8d7da;
 }
+
 .alerta-rojoi {
   fill: #721c24;
   // margin-right: 8px;
 }
 
 .divider {
-  flex-grow: 1;
-  height: 3px;
-  margin: 15px 0;
+  height: 4px;
   background-color: #4CAF50;
-  margin-left: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+
+
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f7fa;
+  color: var(--text-dark);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem 2rem;
+}
+
+header i {
+  font-size: 1.5rem;
+}
+
+header h1 {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: green;
+  border-radius: 2px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: nowrap; // <-- Cambia esto
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  gap: 0.1rem;
+  margin-bottom: 18px;
+  border: 1px solid #bfbfbf;
+  background: #ffffff; /* Cambia el color de fondo a #f5f7fa */
+}
+
+.filters .item {
+  display: flex;
+  align-items: center;
+  background: #f7f7f7; /* Cambia el color de fondo a #f5f7fa */
+  border-radius: 6px;
+  width: auto;
+}
+
+.filters input,
+.filters select {
+  background: #f7f7f7; /* Color gris claro */
+  border: 1px solid #d3d7df;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  color: #333;
+  min-width: 100px;
+  max-width: 150px;
+}
+
+.filters input:focus,
+.filters select:focus {
+  border-color: #28a745;
+}
+
+.filters .icon i {
+  margin-left: 15px;
+  margin-right: 7px;
+  background-color: transparent;
+}
+
+.search-btn {
+  background-color: #36a2eb;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.new-recruit {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto; /* Agrega esto */
 }

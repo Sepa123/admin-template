@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { navItems } from './_nav';
-import { ROLES_PERMITIDOS } from 'src/app/rolesPermitidos.const'
+import { ROLES_PERMITIDOS } from '../../rolesPermitidos.const'
 import { RolSaveService } from '../../service/rol-save.service'
-import { AuthService } from 'src/app/service/auth.service';
+import { AuthService } from '../../service/auth.service';
 import { Menu } from '../../models/areati/menu.interface'
 import { SidebarService } from '../../service/sidebar/sidebar.service';
 
@@ -26,8 +26,17 @@ export class DefaultLayoutComponent implements OnInit {
     '--cui-sidebar-toggler-bg' : '#858484',
   }
 
+  hiddenBackdrop = false;
 
-  
+  toggleSidebar() {
+      this.sidebarService.toggleSidebar();
+    }
+
+  isMobileScreen = false;
+  checkScreenSize() {
+    this.isMobileScreen = window.innerWidth <= 767;
+  }
+      
 
   public email = sessionStorage.getItem('mail')
   public usuario = sessionStorage.getItem('usuario')
@@ -35,12 +44,19 @@ export class DefaultLayoutComponent implements OnInit {
   
   ngOnInit(): void {
 
-    this.service.listaMenus().subscribe((data:any) => { 
+    this.navItems = this.sidebarService.getMenuItems();
 
-      this.navItems = data;
-      console.log(this.navItems)
-    })
-    
+    if (this.navItems.length === 0) {
+      const id_usuario = sessionStorage.getItem('id');
+      this.service.listaMenus(id_usuario).subscribe((data: any) => {
+        this.navItems = data;
+        this.sidebarService.setMenuItems(this.navItems);
+      });
+    }
+
+    this.checkScreenSize();
+    window.addEventListener('resize', () => this.checkScreenSize());
+
 
     this.rol = sessionStorage.getItem("rol_id") 
     this.email = sessionStorage.getItem('mail')
@@ -60,6 +76,9 @@ export class DefaultLayoutComponent implements OnInit {
     this.sidebarService.sidebarVisible$.subscribe(visible => {
       this.isVisible = visible;
     });
+    this.sidebarService.sidebarBackdrop$.subscribe(visible => {
+      this.hiddenBackdrop = visible;
+    });
     this.rol = sessionStorage.getItem("rol_id")
     this.email = sessionStorage.getItem('mail')
     console.log(this.email) 
@@ -77,5 +96,6 @@ export class DefaultLayoutComponent implements OnInit {
   toggleMenu(index: number) {
     this.activeIndex = this.activeIndex === index ? null : index;
   }
-  
+
+
 }

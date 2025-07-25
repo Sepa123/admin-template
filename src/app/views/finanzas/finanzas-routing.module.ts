@@ -7,6 +7,7 @@ import { CarTarifarioEspecificoComponent } from './car-tarifario-especifico/car-
 import { TarifarioGeneralComponent } from './tarifario-general/tarifario-general.component';
 import { RutasMeliComponent } from './rutas-meli/rutas-meli.component';
 import { TestComponent } from './test/test.component';
+import { PermissionGuard } from '../../guard/permission.guard';
 
 const routes: Routes = [
   {
@@ -18,8 +19,10 @@ const routes: Routes = [
       {
         path : 'tarifario',
         component : TarifarioComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title: "finanzas"
+          title: "finanzas",
+          id_submenu: 57
         }
       },
       {
@@ -32,29 +35,37 @@ const routes: Routes = [
       {
         path: 'carTarifarioEspecifico',
         component: CarTarifarioEspecificoComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title: "carTarifarioEspecifico"
+          title: "carTarifarioEspecifico",
+          id_submenu: 60
         }
       },
       {
         path: 'tarifarioGeneral',
         component: TarifarioGeneralComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title: "Tarifario General"
+          title: "Tarifario General",
+          id_submenu: 59
         }
       },
       {
         path: 'rutas-meli',
         component: RutasMeliComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title: "Rutas Meli"
+          title: "Rutas Meli",
+          id_submenu: 61
         }
       },
       {
         path: 'test',
         component: TestComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title: "Rutas Meli"
+          title: "Rutas Meli",
+          id_submenu: 57
         }
       }
 

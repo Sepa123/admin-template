@@ -30,7 +30,8 @@ const routes: Routes = [
       {
         path: 'dashboard',
         data: {
-          roles: ROLES_PERMITIDOS.DASHBOARD
+          // roles: ROLES_PERMITIDOS.DASHBOARD,
+          id : 3
         },
         canActivate: [PermissionGuard],
         loadChildren: () =>
@@ -45,7 +46,8 @@ const routes: Routes = [
         path: 'transporte', // transporte
         data: {
           // roles: [ROLES_ENUM.TRANSPORTE] 
-          roles : ROLES_PERMITIDOS.TRANSPORTE
+          // roles : ROLES_PERMITIDOS.TRANSPORTE,
+          id: 5
         },
         canActivate: [PermissionGuard],
         loadChildren: () =>
@@ -56,7 +58,8 @@ const routes: Routes = [
         path: 'operaciones', // operaciones
         data: {
           // roles: [ROLES_ENUM.TRANSPORTE] 
-          roles : ROLES_PERMITIDOS.OPERACIONES
+          // roles : ROLES_PERMITIDOS.OPERACIONES,
+          id: 7
         },
         canActivate: [PermissionGuard],
         loadChildren: () =>
@@ -66,7 +69,8 @@ const routes: Routes = [
       {
         path: 'picking', // picking
         data: {
-          roles : ROLES_PERMITIDOS.PICKING
+          // roles : ROLES_PERMITIDOS.PICKING,
+          id: 8
         },
         canActivate: [PermissionGuard],
         loadChildren: () =>
@@ -101,7 +105,8 @@ const routes: Routes = [
         path: 'recepcion',  //recepcion
         data: {
           // roles: [ROLES_ENUM.TRANSPORTE] 
-          roles : ROLES_PERMITIDOS.RECEPCION
+          // roles : ROLES_PERMITIDOS.RECEPCION,
+          id: 12
         },
         canActivate: [PermissionGuard],
         loadChildren: () =>
@@ -111,7 +116,8 @@ const routes: Routes = [
         path: 'panel',  //Panel
         data: {
           // roles: [ROLES_ENUM.TRANSPORTE] 
-          roles : ROLES_PERMITIDOS.PANEL
+          // roles : ROLES_PERMITIDOS.PANEL,
+          id: 14
         },
         canActivate: [PermissionGuard],
         loadChildren: () =>
@@ -120,7 +126,8 @@ const routes: Routes = [
       {
         path : 'informacion',
         data : {
-          roles : ROLES_PERMITIDOS.INFORMACION
+          // roles : ROLES_PERMITIDOS.INFORMACION,
+          id: 9
         },
         canActivate :[PermissionGuard],
         loadChildren: () =>
@@ -138,7 +145,8 @@ const routes: Routes = [
       {
         path : 'ingreso-cliente',
         data : {
-          roles : ROLES_PERMITIDOS.INGRESO_CLIENTE
+          // roles : ROLES_PERMITIDOS.INGRESO_CLIENTE,
+          id: 11
         },
         canActivate :[PermissionGuard],
         loadChildren: () =>
@@ -157,7 +165,8 @@ const routes: Routes = [
       {
         path : 'exo',
         data : {
-          roles : ROLES_PERMITIDOS.EXO
+          // roles : ROLES_PERMITIDOS.EXO,
+          id: 6
         },
         canActivate :[PermissionGuard],
         loadChildren: () =>
@@ -171,7 +180,8 @@ const routes: Routes = [
       {
         path : 'toc',
         data : {
-          roles : ROLES_PERMITIDOS.TOC
+          // roles : ROLES_PERMITIDOS.TOC,
+          id: 16
         },
         canActivate :[PermissionGuard],
         loadChildren: () =>
@@ -180,7 +190,8 @@ const routes: Routes = [
       {
         path: 'rsv',
         data : {
-          roles : ROLES_PERMITIDOS.RSV
+          // roles : ROLES_PERMITIDOS.RSV,
+          id: 13
         },
         canActivate :[PermissionGuard],
         loadChildren: () =>
@@ -189,7 +200,8 @@ const routes: Routes = [
       {
         path: 'areati',
         data : {
-          roles : ROLES_PERMITIDOS.PANEL
+          // roles : ROLES_PERMITIDOS.PANEL,
+          id: 1
         },
         canActivate :[PermissionGuard],
         loadChildren: () =>
@@ -198,7 +210,8 @@ const routes: Routes = [
       {
         path: 'mercadolibre',
         data : {
-          roles : ROLES_PERMITIDOS.MELI_VIEW
+          // roles : ROLES_PERMITIDOS.MELI_VIEW,
+          id: 17
         },
         canActivate :[PermissionGuard],
         loadChildren: () =>
@@ -207,7 +220,8 @@ const routes: Routes = [
       {
         path: 'log-inversa',
         data : {
-          roles : ROLES_PERMITIDOS.LOGISTICA_INVERSA
+          // roles : ROLES_PERMITIDOS.LOGISTICA_INVERSA,
+          id: 2
         },
         canActivate :[PermissionGuard],
         loadChildren: () =>
@@ -216,7 +230,8 @@ const routes: Routes = [
       {
         path: 'inventario-ti',
         data:{
-          roles : ROLES_PERMITIDOS.INVENTARIO_TI
+          // roles : ROLES_PERMITIDOS.INVENTARIO_TI,
+          id: 15
         },
         canActivate:[PermissionGuard],
         loadChildren:()=>
@@ -226,7 +241,8 @@ const routes: Routes = [
       {
         path : 'finanzas',
         data : {
-          roles : ROLES_PERMITIDOS.FINANZAS
+          // roles : ROLES_PERMITIDOS.FINANZAS,
+          id: 10
         },
         canActivate :[PermissionGuard],
         loadChildren: () =>
@@ -235,7 +251,8 @@ const routes: Routes = [
       {
         path: 'task-master',
         data:{
-          roles : ROLES_PERMITIDOS.INVENTARIO_TI
+          // roles : ROLES_PERMITIDOS.INVENTARIO_TI,
+          id: 4
         },
         canActivate:[PermissionGuard],
         loadChildren:()=>

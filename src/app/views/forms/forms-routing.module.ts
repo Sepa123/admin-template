@@ -37,16 +37,20 @@ const routes: Routes = [
       {
         path: 'ruta-manual',
         component: RutaManualComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : 'Ruta manual'
+          title : 'Ruta manual',
+          id_submenu: 29
         }
       },
       {
         // path: 'checks-radios',
         path: 'rutas-activas',
         component: RutasActivasComponent,
+        canActivate :[PermissionGuard],
         data: {
-          title: 'Rutas activas'
+          title: 'Rutas activas',
+          id_submenu: 30
         }
       },
       {
@@ -99,29 +103,37 @@ const routes: Routes = [
       {
         path : 'prearmado-ruta',
         component : PrearmadoRutaComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : 'Prearmar-ruta'
+          title : 'Prearmar-ruta',
+          id_submenu: 31
         }
       },
       {
         path : 'buscar-ruta',
         component : BuscarRutaComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : 'buscar-ruta'
+          title : 'buscar-ruta',
+          id_submenu: 32
         }
       },
       {
         path : 'resumen-rutas',
         component : ResumenRutasComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : 'resumen-rutas'
+          title : 'resumen-rutas',
+          id_submenu: 33
         }
       },
       {
         path : 'pendientes-obligados',
         component : PendientesObligadosComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : 'pendientes-obligados'
+          title : 'pendientes-obligados',
+          id_submenu: 34
         }
       },
       {
@@ -134,15 +146,19 @@ const routes: Routes = [
       {
         path : 'guias-manuales',
         component : CargaGuiasManualesComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : 'rutas-manuale'
+          title : 'rutas-manuale',
+          id_submenu: 35
         }
       },
       {
         path : 'consolidado-rutas',
         component : ConsolidadoRutasComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : 'Consolidado Rutas'
+          title : 'Consolidado Rutas',
+          id_submenu: 36
         }
       }
     ]

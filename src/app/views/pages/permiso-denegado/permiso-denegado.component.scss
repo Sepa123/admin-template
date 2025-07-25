@@ -1,0 +1,12 @@
+.center-img-container {
+    background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+}
+
+.center-img-container img {
+  max-width: 100%;
+  height: auto;
+}

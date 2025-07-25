@@ -58,8 +58,11 @@
 <div class="layout" >
 
 
+<div *ngIf="isMobileScreen" class="sidebar-backdrop fade" [class.hidden_backdrop]="hiddenBackdrop" (click)="toggleSidebar()"></div>  
 
-<div class="sidebar" [class.hidden]="!isVisible">
+
+<!-- d-print-none sidebar c-sidebar-nav show -->
+<div class="d-print-none sidebar c-sidebar-nav" [class.show]="isVisible" [class.hidden]="!isVisible" [class.fixed]="!isVisible" >
   <div>
     <div class="sidebar-header">
       <img src="https://hela.transyanez.cl/assets/svg/logoty.svg" alt="Logo">
@@ -73,7 +76,7 @@
 
     <div class="menu"  >
       <div class="menu-block" *ngFor="let menu of navItems; index as i">
-        <!-- <div class="menu-subtitle">Panel Principal</div> -->
+         <div class="menu-subtitle">{{menu.subtitulo}}</div>
         <div class="menu-item" [class.active]="activeIndex === i" (click)="toggleMenu(i)">
           <span><i [class]="menu.icono"></i>{{menu.titulo}}</span> <!-- #### menu.titulo --> 
           <!-- <i class="fas fa-chevron-como "></i> -->
@@ -83,7 +86,7 @@
         </div>
          <div class="submenu"  *ngIf="activeIndex === i"> <!-- #### submenus lista -->
           <a *ngFor="let submenus of menu.submenus; index as i" [routerLink]="submenus.link" routerLinkActive="active">
-            <!-- <i class="fas fa-chart-line"></i> -->
+            <i class=""></i> 
             {{submenus.submenu}}</a> <!-- #### submenu.link submenu.submenu  -->
           <!-- <a href="#"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
 		      <a href="#"><i></i>Sin Icono</a> -->
@@ -97,7 +100,7 @@
     <img src="https://hela.transyanez.cl/assets/svg/hela_icon5.svg" alt="Logo Footer">
     <div class="footer-text">
       <h4>Hela - Transyanez 2025</h4>
-      <p>versión: 1.0.0.234</p>
+      <p>versión 1.0.0000410</p>
     </div>
   </div>
 </div>
@@ -108,8 +111,8 @@
 
   <app-default-header ></app-default-header>
 
-<div class="main-content">
-
+<div class="main-content " >
+ 
   <!-- <app-default-header ></app-default-header> -->
   <div class="body flex-grow-1 px-3">
     <c-container breakpoint="lg" class="h-auto">
@@ -129,3 +132,6 @@
 
 </div>
 </div>
+
+
+

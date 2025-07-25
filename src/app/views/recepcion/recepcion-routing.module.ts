@@ -5,6 +5,7 @@ import { RecepcionEasyOplComponent } from './recepcion-easy-opl/recepcion-easy-o
 import { RecepcionElectroluxComponent } from './recepcion-electrolux/recepcion-electrolux.component';
 import { RecepcionSportexComponent } from './recepcion-sportex/recepcion-sportex.component';
 import { ProductoSinRecepcionComponent } from './producto-sin-recepcion/producto-sin-recepcion.component';
+import { PermissionGuard } from '../../guard/permission.guard';
 const routes: Routes = [
   {
     path:'',
@@ -20,20 +21,25 @@ const routes: Routes = [
       {
         path : 'easy-cd',
         component : RecepcionEasyCdComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : "Recepcion Easy CD"
+          title : "Recepcion Easy CD",
+          id_submenu: 65
         }
       },
       {
         path : 'easy-opl',
         component : RecepcionEasyOplComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : "Recepcion Easy OPL"
+          title : "Recepcion Easy OPL",
+          id_submenu: 64
         }
       },
       {
         path : 'electrolux',
         component : RecepcionElectroluxComponent,
+
         data : {
           title : "Recepcion Electrolux"
         }
@@ -48,8 +54,10 @@ const routes: Routes = [
       {
         path : 'productoSinRecepcion',
         component : ProductoSinRecepcionComponent,
+        canActivate :[PermissionGuard],
         data : {
-          title : "Producto Sin Recepción"
+          title : "Producto Sin Recepción",
+          id_submenu: 66
         }
       }
     ]
