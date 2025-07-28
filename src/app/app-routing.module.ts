@@ -54,18 +54,6 @@ const routes: Routes = [
           import('./views/transporte/transporte.module').then((m) => m.TransporteModule),
         
       },
-      // {
-      //   path: 'transporte', // transporte
-      //   data: {
-      //     // roles: [ROLES_ENUM.TRANSPORTE] 
-      //     // roles : ROLES_PERMITIDOS.TRANSPORTE,
-      //     id: 5
-      //   },
-      //   canActivate: [PermissionGuard],
-      //   loadChildren: () =>
-      //     import('./views/transporte/transporte.module').then((m) => m.TransporteModule),
-        
-      // },
       {
         path: 'operaciones', // operaciones
         data: {
@@ -88,21 +76,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/rutas/rutas.module').then((m) => m.RutasModule)
       },
-      // {
-      //   path: 'charts',
-      //   loadChildren: () =>
-      //     import('./views/charts/charts.module').then((m) => m.ChartsModule)
-      // },
-      // {
-      //   path: 'icons',
-      //   loadChildren: () =>
-      //     import('./views/icons/icons.module').then((m) => m.IconsModule)
-      // },
-      // {
-      //   path: 'notifications',
-      //   loadChildren: () =>
-      //     import('./views/notifications/notifications.module').then((m) => m.NotificationsModule)
-      // },
       {
         path: 'widgets',
         loadChildren: () =>

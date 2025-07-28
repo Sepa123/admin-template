@@ -85,7 +85,7 @@
           </svg>
         </div>
          <div class="submenu"  *ngIf="activeIndex === i"> <!-- #### submenus lista -->
-          <a *ngFor="let submenus of menu.submenus; index as i" [routerLink]="submenus.link" routerLinkActive="active">
+          <a *ngFor="let submenus of menu.submenus; index as i" [routerLink]="submenus.link"  routerLinkActive="active">
             <i class=""></i> 
             {{submenus.submenu}}</a> <!-- #### submenu.link submenu.submenu  -->
           <!-- <a href="#"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
