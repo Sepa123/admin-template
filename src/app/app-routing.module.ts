@@ -51,9 +51,21 @@ const routes: Routes = [
         },
         canActivate: [PermissionGuard],
         loadChildren: () =>
-          import('./views/base/base.module').then((m) => m.BaseModule),
+          import('./views/transporte/transporte.module').then((m) => m.TransporteModule),
         
       },
+      // {
+      //   path: 'transporte', // transporte
+      //   data: {
+      //     // roles: [ROLES_ENUM.TRANSPORTE] 
+      //     // roles : ROLES_PERMITIDOS.TRANSPORTE,
+      //     id: 5
+      //   },
+      //   canActivate: [PermissionGuard],
+      //   loadChildren: () =>
+      //     import('./views/transporte/transporte.module').then((m) => m.TransporteModule),
+        
+      // },
       {
         path: 'operaciones', // operaciones
         data: {
@@ -63,7 +75,7 @@ const routes: Routes = [
         },
         canActivate: [PermissionGuard],
         loadChildren: () =>
-          import('./views/buttons/buttons.module').then((m) => m.ButtonsModule),
+          import('./views/operaciones/operaciones.module').then((m) => m.OperacionesModule),
           
       },
       {
@@ -74,7 +86,7 @@ const routes: Routes = [
         },
         canActivate: [PermissionGuard],
         loadChildren: () =>
-          import('./views/forms/forms.module').then((m) => m.CoreUIFormsModule)
+          import('./views/rutas/rutas.module').then((m) => m.RutasModule)
       },
       // {
       //   path: 'charts',

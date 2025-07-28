@@ -22,7 +22,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // import { DocsComponentsModule } from '@docs-components/docs-components.module';
 
-import { FormsRoutingModule } from './forms-routing.module';
+import { RutasRoutingModule } from './rutas-routing.module';
 
 import { RecepcionOplComponent } from './recepcion-opl/recepcion-opl.component';
 import { BuscarSkuComponent } from './buscar-sku/buscar-sku.component';
@@ -71,7 +71,7 @@ import { ConsolidadoRutasComponent } from './consolidado-rutas/consolidado-rutas
     CommonModule,
     ModalModule,
     DragDropModule,
-    FormsRoutingModule,
+    RutasRoutingModule,
     // DocsComponentsModule,
     CardModule,
     FormModule,
@@ -93,5 +93,5 @@ import { ConsolidadoRutasComponent } from './consolidado-rutas/consolidado-rutas
     TabsModule
   ]
 })
-export class CoreUIFormsModule {
+export class RutasModule {
 }

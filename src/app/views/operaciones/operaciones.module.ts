@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 // import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ButtonsRoutingModule } from './buttons-routing.module';
+import { OperacionesRoutingModule } from './operaciones-routing.module';
 // import { ModalModule } from '@coreui/angular';
 import {
   // ButtonGroupModule,
@@ -50,7 +50,7 @@ import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
     NgSelectModule,
     CommonModule,
     TableModule,
-    ButtonsRoutingModule,
+    OperacionesRoutingModule,
     ButtonModule,
     // ButtonGroupModule,
     GridModule,
@@ -68,5 +68,5 @@ import { EditarRutaComponent } from './editar-ruta/editar-ruta.component';
     // NavModule
   ]
 })
-export class ButtonsModule {
+export class OperacionesModule {
 }
