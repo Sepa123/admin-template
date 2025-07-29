@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+  
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modalidades de Operaciones</title>
     <!-- Aquí puedes agregar tus estilos CSS -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-papO+2UF4gVfXSu8zL7+9aZ1zOApZnGp5FLaY0z7zZB3+2sovt+RUfUOYVv69rg0eJ1djXL5i3SbUpT+Tv+DOA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
@@ -15,7 +20,7 @@
     </svg></button>
     <input type="search" placeholder="Buscar" [(ngModel)]="searchTerm" >
 </header>
-
+  
 <c-modal id="liveCOModal" [visible]="visibleCO" (visibleChange)="handleLiveCOChange($event)" size="lg">
     <c-modal-header>
       <h5 cModalTitle>Observación </h5>
@@ -172,6 +177,8 @@
               <svg xmlns="http://www.w3.org/2000/svg" (click)="seleccionarOperacion(RazonSocial.id)" width="30px" height="30px" viewBox="0 0 24 24">
                 <path fill="#45bf4d" d="M16 20.975v-3h-3v-2h3v-3h2v3h3v2h-3v3zM4 18v-2h7.075q-.075.525-.062 1t.087 1zm0-4v-2h9.65q-.575.4-1.037.9T11.8 14zm0-4V8h15v2zm0-4V4h15v2z" />
               </svg>
+
+              <svg  class="MySvgTable" xmlns="http://www.w3.org/2000/svg" (click)="toggleLiveDemoCV()" (click)="seleccionarIdOpTV(RazonSocial.id)" width="30px" height="30px" viewBox="0 0 640 640"><path d="M352 96C352 78.3 337.7 64 320 64C302.3 64 288 78.3 288 96L288 224L160 224C142.3 224 128 238.3 128 256C128 273.7 142.3 288 160 288L288 288L288 416C288 433.7 302.3 448 320 448C337.7 448 352 433.7 352 416L352 288L480 288C497.7 288 512 273.7 512 256C512 238.3 497.7 224 480 224L352 224L352 96zM128 544C128 561.7 142.3 576 160 576L480 576C497.7 576 512 561.7 512 544C512 526.3 497.7 512 480 512L160 512C142.3 512 128 526.3 128 544z"/></svg>
               <!-- <svg xmlns="http://www.w3.org/2000/svg"   width="24px" height="24px" viewBox="0 0 24 24">
                 <path fill="none" stroke="#45bf4d" stroke-linecap="round" stroke-width="2" d="M12 6v12m6-6H6" />
               </svg> -->
@@ -203,7 +210,7 @@
         
             <label for="description">Descripción *</label>
             <textarea class="materialize-textarea form-control" rows="10" type="text" id="description" name="description" required></textarea>
-            </form>
+          </form>
     </c-modal-body>
     <c-modal-footer class="modal-footer-custom" >
         <button class="cButtonSave" cButton color="secondary" (click)="submitForm()">
@@ -216,5 +223,57 @@
   </c-modal>
 
 
+
+<!-- Modal de Registro de Vehículos -->
+<div class="custom-modal" *ngIf="visibleModalidad">
+  <div class="custom-modal-content">
+    <div class="custom-modal-header">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"  viewBox="0 0 640 640"><path d="M147 170.7L117.2 256L240.1 256L240.1 160L162.2 160C155.4 160 149.3 164.3 147.1 170.7zM48.6 257.9L86.5 149.6C97.8 117.5 128.1 96 162.1 96L360 96C385.2 96 408.9 107.9 424 128L520.2 256.3C587.1 260.5 640 316.1 640 384L640 400C640 435.3 611.3 464 576 464L559.6 464C555.6 508.9 517.9 544 472 544C426.1 544 388.4 508.9 384.4 464L239.7 464C235.7 508.9 198 544 152.1 544C106.2 544 68.5 508.9 64.5 464L64.1 464C28.8 464 .1 435.3 .1 400L.1 320C.1 289.9 20.8 264.7 48.7 257.9zM440 256L372.8 166.4C369.8 162.4 365 160 360 160L288 160L288 256L440 256zM152 496C174.1 496 192 478.1 192 456C192 433.9 174.1 416 152 416C129.9 416 112 433.9 112 456C112 478.1 129.9 496 152 496zM512 456C512 433.9 494.1 416 472 416C449.9 416 432 433.9 432 456C432 478.1 449.9 496 472 496C494.1 496 512 478.1 512 456z"/></svg>
+      <h1>Reclutamiento</h1><div class="line"></div>
+    </div>
+    <div class="custom-modal-body">
+      <div id="vehicleForm" class="input-row">
+        <input type="text" id="vehicleCode" placeholder="Código del vehículo" required>
+        <input type="text" id="vehicleDescription" placeholder="Descripción (opcional)">
+        <select id="vehicleType" required>
+          <option *ngFor="let Tv of tiposVehiculo; let i = index"  [value]="Tv.id" >{{Tv.tipo}}</option>
+        </select>
+        <button class="add-vehicle-btn" id="addVehicle" type="button" (click)="agregarTipoVehiculo()">
+            <svg class="MysVG" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px"  viewBox="0 0 512 512"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+        </button>
+      </div>
+      <div class="vehicle-table-container">
+        <table class="vehicle-table">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Tipo</th>
+              <th>Descripción</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let Tv of DatatiposVehiculo; let i = index">
+              <td>{{Tv.codigo}}</td>
+              <td>{{getTipoVehiculoById(Tv.id_tipo)}}</td>
+              <td>{{Tv.descripcion}}</td>
+              <td>
+                <svg (click)="deleteTipoVehiculo(Tv.id)" class="myDELETESvg" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 448 512"><path d="M136.7 5.9L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-8.7-26.1C306.9-7.2 294.7-16 280.9-16L167.1-16c-13.8 0-26 8.8-30.4 21.9zM416 144L32 144 53.1 467.1C54.7 492.4 75.7 512 101 512L347 512c25.3 0 46.3-19.6 47.9-44.9L416 144z"/></svg>
+              </td>
+            </tr>
+            <!-- Filas dinámicas aquí -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="custom-modal-footer">
+      <button class="close-btn" (click)="visibleModalidad = false">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+
 </body>
+
+<div id="alertaContainer"></div>
 </html>

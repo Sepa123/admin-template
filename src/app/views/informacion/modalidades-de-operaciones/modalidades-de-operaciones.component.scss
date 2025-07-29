@@ -196,3 +196,358 @@ button.Agregar:hover{
 }
   
 /* Agrega más estilos según sea necesario */
+
+
+/*visibleModalidad styles*/
+.custom-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-modal-content {
+  background: #fff;
+  border-radius: 10px;
+  width: 650px;
+  max-width: 95vw;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.custom-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 24px 0 24px;
+}
+
+.custom-modal-header h1 {
+  margin-left: 5px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #222;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close-btn:hover {
+  color: #e74c3c;
+}
+
+.custom-modal-body {
+  padding: 24px;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: flex-end;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.input-row input[type="text"],
+.input-row input[type="number"],
+.input-row input:not([type]),
+.input-row input {
+  width: 100%;
+  padding: 8px 18px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  color: #222;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  text-align: left;
+  font-weight: 500;
+}
+
+.input-row input:focus {
+  border-color: #3bad58;
+  box-shadow: 0 0 0 2px #3bad5833;
+}
+/* Estilo general del select */
+.input-row select {
+  width: 100%;
+  padding: 8px 36px 8px 12px; /* Espacio a la derecha para el icono */
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff url('data:image/svg+xml;utf8,<svg fill="%23444" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center;
+  background-size: 32px 32px;
+  color: #222;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  text-align: left;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+
+.input-row select:focus {
+  border-color: #3bad58;
+  box-shadow: 0 0 0 2px #3bad5833;
+}
+
+.input-row select option {
+  color: #222;
+}
+
+
+.add-vehicle-btn {
+  padding: 10px 18px ;
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: background 0.2s;
+}
+
+
+.MysVG{
+    fill: #3bad58;
+    stroke: black;
+    stroke-width: 1.5px;
+  }
+
+ .MysVG:hover {
+  fill:  #34984d;
+}
+
+.myDELETESvg{
+    fill: red;
+    stroke: black;
+    stroke-width: 1.5px;
+  }
+
+.myDELETESvg:hover {
+  fill:  rgb(151, 0, 0);
+}
+
+.MySvgTable{
+  fill:  #3bad58;
+  stroke: black;
+  stroke-width: 1.5px;
+}
+
+.line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: green;
+  border-radius: 2px;
+}
+
+.vehicle-table-container {
+  background: #fafbfc;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  overflow-y: auto;      // ya presente
+  overflow-x: auto;      // asegúrate de tener scroll horizontal también
+  max-height: 60vh;      // ajusta la altura máxima visible antes de mostrar scroll vertical
+}
+
+.vehicle-table {
+  background: #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  overflow-y: auto;      // ya presente
+  overflow-x: auto;      // asegúrate de tener scroll horizontal también
+  max-height: 60vh;      // ajusta la altura máxima visible antes de mostrar scroll vertical
+}
+
+.vehicle-table table {
+  width: 100%;
+  min-width: 800px; // O el mínimo que necesites, pero no uses vw aquí
+  border-collapse: collapse;
+}
+
+.vehicle-table thead {
+  background-color: #e0e0e0;
+  color: #333;
+  position: sticky;
+  max-height: 300px; /* Ajusta la altura máxima según tus necesidades */
+  top: 0;
+  z-index: 1; /* Asegura que el header esté por encima del contenido */
+}
+
+.vehicle-table th {
+  font-weight: bold;
+  font-size: 12px;
+  background-color: #e0e0e0;
+  border: none;
+}
+.vehicle-table td {
+  font-size: 10px;
+  border: none;
+  padding: 10px;
+}
+
+.vehicle-table th, td {
+  border: none;
+  padding: 10px;
+  text-align: left;
+}
+.vehicle-table tbody tr {
+  color: var(--text-strong);
+}
+
+.vehicle-table tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+.vehicle-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+
+
+
+
+
+.save-btn {
+  padding: 10px 28px;
+  background: #3bad58;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 110px;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #3bad5833;
+}
+
+.save-btn:hover,
+.save-btn:focus {
+  background: #38b000;
+  box-shadow: 0 4px 12px #38b00033;
+  outline: none;
+}
+
+.close-btn {
+  padding: 10px 28px;
+  background: #e9ecef;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 110px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #e9ecef33;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  background: #dee2e6;
+  color: #111;
+  box-shadow: 0 4px 12px #adb5bd33;
+  outline: none;
+}
+
+.custom-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+
+//sección de alertas
+// Estilos para el contenedor de alertas
+// Se asegura de que el contenedor esté fijo en la pantalla
+// y se apile verticalmente
+// con un espaciado entre cada alerta
+// y un fondo semi-transparente
+// para cada tipo de alerta
+// con colores específicos para cada tipo
+// de alerta (éxito, error, advertencia, información)
+// y un efecto de transición suave al mostrarse
+
+
+#alertaContainer {
+  position: fixed; /* Fija el contenedor en la pantalla */
+  top: 20px; /* Distancia desde la parte superior */
+  right: 20px; /* Distancia desde la parte derecha */
+  z-index: 1060; /* Asegura que esté por encima de otros elementos */
+  display: flex;
+  flex-direction: column; /* Las alertas se apilan verticalmente */
+  gap: 10px; /* Espaciado entre alertas */
+}
+
+.alerta {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaciado entre el icono y el texto */
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Ocultar inicialmente */
+  transition: opacity 0.5s ease-in-out; /* Transición suave para mostrar/ocultar */
+}
+
+.alerta.success {
+  background-color: rgba(40, 167, 69, 0.9); /* Verde */
+}
+
+.alerta.error {
+  background-color: #dc3545; /* Rojo */
+}
+
+.alerta.warning {
+  background-color: #ffc107; /* Amarillo */
+  color: black; /* Texto negro para mejor contraste */
+}
+
+.alerta.info {
+  background-color: #17a2b8; /* Azul */
+}

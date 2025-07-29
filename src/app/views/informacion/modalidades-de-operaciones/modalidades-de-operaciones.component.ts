@@ -49,12 +49,68 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
   public visible = false;
   public visible2 = false;
   public visibleCO = false
+  public visibleModalidad = false;
+
+
+
+
+  mostrarAlerta(mensaje: string, tipo: 'success' | 'error' | 'warning' | 'info'): void {
+  // Crear un div para la alerta
+  const alerta: HTMLDivElement = document.createElement('div');
+  alerta.classList.add('alerta', tipo); // Añadir clase para tipo (success, error, warning, info)
+
+  // Elegir icono basado en el tipo
+  const icono: HTMLElement = document.createElement('i');
+  switch (tipo) {
+    case 'success':
+      icono.classList.add('fas', 'fa-check-circle'); // Icono de éxito
+      alerta.style.backgroundColor = 'rgba(40, 167, 69, 0.9)'; // Verde
+      break;
+    case 'error':
+      icono.classList.add('fas', 'fa-times-circle'); // Icono de error
+      alerta.style.backgroundColor = '#dc3545'; // Rojo
+      break;
+    case 'warning':
+      icono.classList.add('fas', 'fa-exclamation-triangle'); // Icono de advertencia
+      alerta.style.backgroundColor = '#ffc107'; // Amarillo
+      break;
+    case 'info':
+      icono.classList.add('fas', 'fa-info-circle'); // Icono de información
+      alerta.style.backgroundColor = '#17a2b8'; // Azul
+      break;
+  }
+
+  // Añadir el icono y el mensaje al div de la alerta
+  alerta.appendChild(icono);
+  alerta.appendChild(document.createTextNode(mensaje));
+
+  // Añadir la alerta al contenedor de alertas
+  const alertaContainer: HTMLElement | null = document.getElementById('alertaContainer');
+  if (alertaContainer) {
+    alertaContainer.appendChild(alerta);
+
+    // Mostrar la alerta con una animación de opacidad
+    setTimeout(() => {
+      alerta.style.opacity = '1';
+    }, 100);
+
+    // Ocultar la alerta después de 5 segundos y eliminarla del DOM
+    setTimeout(() => {
+      alerta.style.opacity = '0';
+      setTimeout(() => {
+        alerta.remove();
+      }, 500);
+    }, 5000);
+  }
+}
   // Creamos una función para mostrar/ocultar el detalle
   ngOnInit(): void {
     this.cargarDatos();
 
     this.cargarDatosCO();
-
+    //cargamos la informaciónm de los tipos de vehiculos.
+    this.getTiposVehiculo();
+    this.getDataTipoVehiculo()
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       description: ['', Validators.required],
@@ -119,6 +175,12 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
   toggleLiveDemo() {
     this.visible = !this.visible;
   }
+
+  toggleLiveDemoCV() {
+    this.visibleModalidad = !this.visibleModalidad;
+    this.DatatiposVehiculo = [];
+    
+  }
   activarModal() {
     this.visible2 = !this.visible2;
   }
@@ -127,6 +189,9 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
   }
   handleLiveDemoChange2(event: any) {
     this.visible = event;
+  }
+  handleLiveDemoChangeCV(event: any) {
+    this.visibleModalidad = event;
   }
 
   openModal() {
@@ -306,13 +371,17 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
 
   centroOperacion : CentroOperacion [] =[]
 
+  seleccionarIdOpTV(id : number){
+    this.idOpSave = id
+    console.log(this.idOpSave)
+  }
+
   seleccionarOperacion(id : number){
     this.centroOperacion = []
     this.idOpSave = id
     this.formCO.patchValue({
       Id_op : id+''
     })
-
     this.formCO.get('Id_op')?.disable();
 
     this.service.getCentroOperacion(id).subscribe((data) => {
@@ -414,7 +483,104 @@ registrarCO(){
       this.service.getCentroOperacion(parseInt(this.idOpSave+'')).subscribe((data) => {
         this.centroOperacion = data
       })
-    }, error => alert(error.error.detail))
+    }, error => this.mostrarAlerta('Error al registrar centro de operación: ' + error.message, 'error'))
   }
 }
+
+tiposVehiculo: any[] = [];
+
+getTiposVehiculo() {
+
+      // https://hela.transyanez.cl
+  this.http.get<any[]>('http://127.0.0.1:8000/api/tipo-vehiculo/')
+    .subscribe(
+      data => {
+        
+        // Aquí puedes guardar el resultado en una variable para usarlo en el select
+         this.tiposVehiculo = data;
+      },
+      error => {
+        this.mostrarAlerta('Error al obtener tipos de vehículo: ' + error.message, 'error');
+      }
+    );
 }
+
+getTipoVehiculoById(id: number): string {
+  const tipoEncontrado = this.tiposVehiculo.find(tv => tv.id === id);
+  return tipoEncontrado ? tipoEncontrado.tipo : 'Tipo no encontrado';
+}
+
+// Función simple para eliminar un tipo de vehículo por ID
+// Utiliza fetch API
+
+deleteTipoVehiculo(id: number): Promise<void> {
+  return fetch(`http://127.0.0.1:8000/api/delete-tipo-vehiculo/${id}`, {
+    method: 'DELETE'
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Error al eliminar el tipo de vehículo con ID ${id}`);
+      }
+      console.log(`Tipo de vehículo con ID ${id} eliminado correctamente.`);
+      this.getDataTipoVehiculo(); // Refresca la lista de tipos de vehículo
+      this.mostrarAlerta('Tipo de vehículo eliminado correctamente', 'success');
+    })
+    .catch(error => {
+      this.mostrarAlerta('Error al eliminar tipo de vehículo: ' + error.message, 'error');
+    });
+}
+
+
+DatatiposVehiculo: any[] = [];
+getDataTipoVehiculo() {
+    // https://hela.transyanez.cl
+  this.http.get<any[]>('http://127.0.0.1:8000/api/op-tipo-vehiculo/')
+    .subscribe(
+      data => {
+        console.log('Tipos de vehículo:', data);
+        // Aquí puedes guardar el resultado en una variable para usarlo en el select
+         this.DatatiposVehiculo = data;
+      },
+      error => {
+        this.mostrarAlerta('Error al obtener tipos de vehículo: ' + error.message, 'error');
+      }
+    );
+}
+
+
+agregarTipoVehiculo() {
+  // Ejemplo: obtén los valores de los inputs (ajusta según tu formulario)
+  const id_user = Number(sessionStorage.getItem('id'));
+  const id_operacion = Number(this.idOpSave); // o el id de operación actual
+  const codigo = (document.getElementById('vehicleCode') as HTMLInputElement)?.value || '';
+  const id_tipo = Number((document.getElementById('vehicleType') as HTMLSelectElement)?.value);
+  const descripcion = (document.getElementById('vehicleDescription') as HTMLInputElement)?.value || '';
+
+  // Validación básica
+  if (!id_user || !id_operacion || !codigo || !id_tipo) {
+    alert('Todos los campos son obligatorios');
+    return;
+  }
+
+  const body = {
+    id_user,
+    id_operacion,
+    codigo,
+    id_tipo,
+    descripcion
+  };
+  // https://hela.transyanez.cl
+  this.http.post('http://127.0.0.1:8000/api/agregar-tipo-vehiculo/', body)
+    .subscribe(
+      (resp: any) => {
+        this.mostrarAlerta('Tipo de vehículo agregado correctamente', 'success');
+        // Opcional: refresca la lista de vehículos, limpia el formulario, etc.
+        this.getDataTipoVehiculo(); // Refresca la lista de tipos de vehículo
+      },
+      error => {
+        this.mostrarAlerta('Error al agregar tipo de vehículo: ' + error.message, 'error');
+      }
+    );
+}
+}
+
