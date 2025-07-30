@@ -110,7 +110,6 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
     this.cargarDatosCO();
     //cargamos la informaciónm de los tipos de vehiculos.
     this.getTiposVehiculo();
-    this.getDataTipoVehiculo()
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       description: ['', Validators.required],
@@ -178,7 +177,6 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
 
   toggleLiveDemoCV() {
     this.visibleModalidad = !this.visibleModalidad;
-    this.DatatiposVehiculo = [];
     
   }
   activarModal() {
@@ -374,6 +372,7 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
   seleccionarIdOpTV(id : number){
     this.idOpSave = id
     console.log(this.idOpSave)
+    this.getDataTipoVehiculo(id)
   }
 
   seleccionarOperacion(id : number){
@@ -522,7 +521,7 @@ deleteTipoVehiculo(id: number): Promise<void> {
         throw new Error(`Error al eliminar el tipo de vehículo con ID ${id}`);
       }
       console.log(`Tipo de vehículo con ID ${id} eliminado correctamente.`);
-      this.getDataTipoVehiculo(); // Refresca la lista de tipos de vehículo
+      this.getDataTipoVehiculo(this.idOpSave); // Refresca la lista de tipos de vehículo
       this.mostrarAlerta('Tipo de vehículo eliminado correctamente', 'success');
     })
     .catch(error => {
@@ -532,17 +531,20 @@ deleteTipoVehiculo(id: number): Promise<void> {
 
 
 DatatiposVehiculo: any[] = [];
-getDataTipoVehiculo() {
+getDataTipoVehiculo(id : number) {
     // https://hela.transyanez.cl
-  this.http.get<any[]>('http://127.0.0.1:8000/api/op-tipo-vehiculo/')
+    this.isLoading = true;
+  this.http.get<any[]>('http://127.0.0.1:8000/api/op-tipo-vehiculo/?id_operacion=' + id)
     .subscribe(
       data => {
         console.log('Tipos de vehículo:', data);
         // Aquí puedes guardar el resultado en una variable para usarlo en el select
          this.DatatiposVehiculo = data;
+         this.isLoading = false;
       },
       error => {
         this.mostrarAlerta('Error al obtener tipos de vehículo: ' + error.message, 'error');
+        this.isLoading = false;
       }
     );
 }
@@ -575,12 +577,20 @@ agregarTipoVehiculo() {
       (resp: any) => {
         this.mostrarAlerta('Tipo de vehículo agregado correctamente', 'success');
         // Opcional: refresca la lista de vehículos, limpia el formulario, etc.
-        this.getDataTipoVehiculo(); // Refresca la lista de tipos de vehículo
+        this.getDataTipoVehiculo(this.idOpSave); // Refresca la lista de tipos de vehículo
       },
       error => {
         this.mostrarAlerta('Error al agregar tipo de vehículo: ' + error.message, 'error');
       }
     );
 }
+
+limpararFormulario() {
+  this.DatatiposVehiculo = [];
+}
+
+//sección de carga spin
+  isLoading = false;
+
 }
 

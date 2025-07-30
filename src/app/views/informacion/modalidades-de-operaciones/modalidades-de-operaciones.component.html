@@ -216,7 +216,7 @@
         <button class="cButtonSave" cButton color="secondary" (click)="submitForm()">
             Guardar
         </button>   
-        <button class="cButtonClose" (click)="toggleLiveDemo()" cButton color="secondary">
+        <button class="cButtonClose" (click)="toggleLiveDemo()" (click)="limpararFormulario()" cButton color="secondary">
             Cerrar
         </button>
     </c-modal-footer>
@@ -243,7 +243,13 @@
         </button>
       </div>
       <div class="vehicle-table-container">
-        <table class="vehicle-table">
+        <div *ngIf="!isLoading && DatatiposVehiculo.length === 0" class="no-data">
+          No se ha encontrado información registrada.
+        </div>
+        <div *ngIf="isLoading" class="spinner-container">
+          <div class="spinner"></div>
+        </div>
+        <table class="vehicle-table" *ngIf="!isLoading">
           <thead>
             <tr>
               <th>Código</th>
