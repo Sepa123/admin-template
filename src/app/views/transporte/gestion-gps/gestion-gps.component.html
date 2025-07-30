@@ -27,7 +27,8 @@
             <th>Monto</th>
             <th>Descontado</th>
             <th>Devuelto</th>
-            <th *ngIf="rol !== '14'">Acción</th>
+            <th *ngIf="permiso">Acción</th>
+            <!-- <th *ngIf="rol !== '14'">Acción</th> -->
             <!-- </tr> -->
         </thead>
         <tbody>
@@ -39,8 +40,10 @@
                 <td>{{ti.gps ? ti.gps : 'S/I'}}</td>
                 <td>
                     <!-- <input type="text" [(ngModel)]="id_insta[ti.id_gps]"> -->
-                    <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="text" [(ngModel)]="id_insta[ti.id_gps]" >
-                    <span *ngIf="rol === '70' || rol === '71' || rol == '14'">
+                    <!-- <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="text" [(ngModel)]="id_insta[ti.id_gps]" >
+                    <span *ngIf="rol === '70' || rol === '71' || rol == '14'"> -->
+                    <input *ngIf="permiso" type="text" [(ngModel)]="id_insta[ti.id_gps]" >
+                    <span *ngIf="permiso === false">
                         {{ id_insta[ti.id_gps] }}
                     </span>
                 </td>
@@ -50,37 +53,57 @@
                 <td>
     
                     <!-- <input type="text" [(ngModel)]="id_oc_baja[ti.id_gps]"> -->
-                    <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="text" [(ngModel)]="id_oc_baja[ti.id_gps]">
-                    <span *ngIf="rol === '70' || rol === '71' || rol == '14'">{{ id_oc_baja[ti.id_gps] }}</span>
+                    <!-- <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="text" [(ngModel)]="id_oc_baja[ti.id_gps]">
+                    <span *ngIf="rol === '70' || rol === '71' || rol == '14'">{{ id_oc_baja[ti.id_gps] }}</span> -->
+                    <input *ngIf="permiso" type="text" [(ngModel)]="id_oc_baja[ti.id_gps]">
+                    <span *ngIf="permiso == false">{{ id_oc_baja[ti.id_gps] }}</span>
                 </td>
                 <td>
                     <!-- <input type="text"  [(ngModel)]="id_monto[ti.id_gps]"> -->
-                    <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="text" [(ngModel)]="id_monto[ti.id_gps]">
-                    <span *ngIf="rol === '70' || rol === '71' || rol == '14'">{{ id_monto[ti.id_gps] }}</span>
+                    <!-- <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="text" [(ngModel)]="id_monto[ti.id_gps]">
+                    <span *ngIf="rol === '70' || rol === '71' || rol == '14'">{{ id_monto[ti.id_gps] }}</span> -->
+                    <input *ngIf="permiso" type="text" [(ngModel)]="id_monto[ti.id_gps]">
+                    <span *ngIf="permiso == false">{{ id_monto[ti.id_gps] }}</span>
                 </td>
                 <td>
                     <!-- <input type="checkbox" class="checkbox" (change)="descontado(ti.id_gps)" [(ngModel)]="id_descontado[ti.id_gps]"> -->
-                    <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="checkbox" class="checkbox"
+                    <!-- <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="checkbox" class="checkbox"
                         (change)="descontado(ti.id_gps)" [(ngModel)]="id_descontado[ti.id_gps]">
-                    <span *ngIf="rol == '70' || rol == '71' || rol == '14'">
+                    <span *ngIf="rol == '70' || rol == '71' || rol == '14'"> -->
+                    <input *ngIf="permiso" type="checkbox" class="checkbox"
+                        (change)="descontado(ti.id_gps)" [(ngModel)]="id_descontado[ti.id_gps]">
+                    <span *ngIf="permiso == false">
                         {{ id_descontado[ti.id_gps] ? '✓' : '✗' }}
                     </span>
                 </td>
                 <td>
                     <!-- <input type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)" [(ngModel)]="id_devuelto[ti.id_gps]"> -->
-                    <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)"
+                    <!-- <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)"
                         [(ngModel)]="id_devuelto[ti.id_gps]">
                     <span *ngIf="rol == '70' || rol == '71' || rol == '14'">
                         {{ id_devuelto[ti.id_gps] ? '✓' : '✗' }}
+                    </span> -->
+                    <input *ngIf="permiso" type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)"
+                        [(ngModel)]="id_devuelto[ti.id_gps]">
+                    <span *ngIf="permiso == false">
+                        {{ id_devuelto[ti.id_gps] ? '✓' : '✗' }}
                     </span>
+                    
                 </td>
     
-                <td *ngIf="rol !== '14'">
+                <td *ngIf="permiso">
+                    <!-- <td *ngIf="rol !== '14'"> -->
                     <nav class="icons">
                         <ul class="nav-list">
     
                             <li>
-                                <svg *ngIf="rol != '70' && rol != '71'" (click)="oc_instalacion(ti.id_gps)"
+                                <!-- <svg *ngIf="rol != '70' && rol != '71'" (click)="oc_instalacion(ti.id_gps)"
+                                    (click)="oc_baja(ti.id_gps)" (click)="monto(ti.id_gps)"
+                                    xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M21 7v12q0 .825-.587 1.413T19 21H5q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h12zm-9 11q1.25 0 2.125-.875T15 15t-.875-2.125T12 12t-2.125.875T9 15t.875 2.125T12 18m-6-8h9V6H6z" />
+                                </svg> -->
+                                <svg *ngIf="permiso" (click)="oc_instalacion(ti.id_gps)"
                                     (click)="oc_baja(ti.id_gps)" (click)="monto(ti.id_gps)"
                                     xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                     <path fill="currentColor"

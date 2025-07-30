@@ -44,6 +44,19 @@ export class SidebarService {
     
   }
 
+  private permisos: string  = "";
+
+
+  setPermisos(permisos : string ) {
+    this.permisos = permisos;
+  }
+
+  getPermiso(): boolean {
+
+    // this.permisoService.getPermiso() == '1' ? true : false
+    return this.permisos  == '1' ? true : false;
+  }
+
 
   
 }

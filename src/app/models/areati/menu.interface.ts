@@ -13,4 +13,5 @@ export interface Submenu {
     submenu: string;
     activo:  boolean;
     id_submenu: number;
+    permiso: string;
 }

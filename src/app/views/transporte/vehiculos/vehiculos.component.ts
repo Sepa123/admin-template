@@ -12,6 +12,7 @@ import { RazonSocial } from '../../../models/modalidad-de-operaciones.interface'
 import { ModalidadDeOperacionesService } from '../../../service/modalidad-de-operaciones.service';
 import { CentroOperacion } from '../../../models/operacion/centroOperacion.interface';
 import { MainPanelVehiculos, PanelVehiculos, PanelVehiculosObs } from '../../../models/transporte/paneles.interface'
+import { SidebarService } from '../../../service/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-vehiculos',
@@ -37,7 +38,7 @@ export class VehiculosComponent {
 
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []
 
-  constructor(private service: PortalTransyanezService,public builder: FormBuilder,private comunaService : ComunasService,
+  constructor(private service: PortalTransyanezService,public builder: FormBuilder, private permisoService : SidebarService,
     private MoService: ModalidadDeOperacionesService
   ) { }
 
@@ -317,9 +318,11 @@ seleccionarRut(){
   })
 
   cantVehiculo : number = 0
+
+  permiso : boolean = false
   ngOnInit() : void {
 
-    
+    this.permiso = this.permisoService.getPermiso()
 
     this.getLocation()
 

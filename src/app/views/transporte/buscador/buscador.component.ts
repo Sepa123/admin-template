@@ -12,6 +12,7 @@ import { RazonSocial } from 'src/app/models/modalidad-de-operaciones.interface';
 import { ModalidadDeOperacionesService } from 'src/app/service/modalidad-de-operaciones.service';
 import { CentroOperacion } from 'src/app/models/operacion/centroOperacion.interface';
 import { ROLES_ENUM } from 'src/app/models/enum/roles.enum';
+import { SidebarService } from '../../../service/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-buscador',
@@ -38,7 +39,7 @@ export class BuscadorComponent  {
 
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []
 
-  constructor(private service: PortalTransyanezService,public builder: FormBuilder,private comunaService : ComunasService,
+  constructor(private service: PortalTransyanezService,public builder: FormBuilder,private permisoService: SidebarService,
     private MoService: ModalidadDeOperacionesService
   ) { }
 
@@ -229,7 +230,11 @@ seleccionarRut(){
     return this.modalidadOperacionFull.filter(op => op.id == id_op)[0].color
   }
 
+  permiso : boolean = false
+
   ngOnInit() : void {
+
+    this.permiso = this.permisoService.getPermiso()
 
     this.service.getSeleccionesVehiculos().subscribe((data) => {
       this.listaRegiones = data.Region

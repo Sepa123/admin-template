@@ -34,6 +34,8 @@ export class PermissionGuard implements CanActivate {
       // console.log("datos route data", this.navItems.find((item) => item.id === route.data['id'])?.submenus.some((submenu) => submenu.id_submenu === route.data['id_submenu'].toString()));
 
       if (this.navItems.find((item) => item.id === route.data['id'])?.submenus.some((submenu) => submenu.id_submenu === route.data['id_submenu'].toString())) {
+        // console.log("tiene permiso para el submenu",this.navItems.find((item) => item.id === route.data['id'])?.submenus.find((submenu) => submenu.id_submenu === route.data['id_submenu'].toString())?.permiso)
+        this.SidebarService.setPermisos(this.navItems.find((item) => item.id === route.data['id'])?.submenus.find((submenu) => submenu.id_submenu === route.data['id_submenu'].toString())?.permiso || "2");
         return true
       }else{
         this.router.navigate(["permiso-denegado"])

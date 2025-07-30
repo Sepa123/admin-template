@@ -1,0 +1,144 @@
+
+.save-btn {
+  padding: 10px 28px;
+  background: #3bad58;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 110px;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #3bad5833;
+}
+
+.save-btn:hover,
+.save-btn:focus {
+  background: #38b000;
+  box-shadow: 0 4px 12px #38b00033;
+  outline: none;
+}
+
+.close-btn {
+  padding: 10px 28px;
+  background: #e9ecef;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 110px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #e9ecef33;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  background: #dee2e6;
+  color: #111;
+  box-shadow: 0 4px 12px #adb5bd33;
+  outline: none;
+}
+
+.custom-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+
+//sección de alertas
+// Estilos para el contenedor de alertas
+// Se asegura de que el contenedor esté fijo en la pantalla
+// y se apile verticalmente
+// con un espaciado entre cada alerta
+// y un fondo semi-transparente
+// para cada tipo de alerta
+// con colores específicos para cada tipo
+// de alerta (éxito, error, advertencia, información)
+// y un efecto de transición suave al mostrarse
+
+
+#alertaContainer {
+  position: fixed; /* Fija el contenedor en la pantalla */
+  top: 20px; /* Distancia desde la parte superior */
+  right: 20px; /* Distancia desde la parte derecha */
+  z-index: 1060; /* Asegura que esté por encima de otros elementos */
+  display: flex;
+  flex-direction: column; /* Las alertas se apilan verticalmente */
+  gap: 10px; /* Espaciado entre alertas */
+}
+
+.alerta {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaciado entre el icono y el texto */
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Ocultar inicialmente */
+  transition: opacity 0.5s ease-in-out; /* Transición suave para mostrar/ocultar */
+}
+
+.alerta.success {
+  background-color: rgba(40, 167, 69, 0.9); /* Verde */
+}
+
+.alerta.error {
+  background-color: #dc3545; /* Rojo */
+}
+
+.alerta.warning {
+  background-color: #ffc107; /* Amarillo */
+  color: black; /* Texto negro para mejor contraste */
+}
+
+.alerta.info {
+  background-color: #17a2b8; /* Azul */
+}
+
+
+  //spin desing
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.no-data {
+  text-align: center;
+  margin-top: 1rem;
+  color: #888;
+  font-style: italic;
+}

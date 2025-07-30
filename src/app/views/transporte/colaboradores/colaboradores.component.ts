@@ -7,6 +7,7 @@ import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from '../../../models/enum/bancos.json'
 import { Colaborador,DetallePago, Patentes, Usuario } from '../../../models/transporte/colaborador.interface' 
 import { PanelColaboradore } from '../../../models/transporte/paneles.interface' 
+import { SidebarService } from '../../../service/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-colaboradores',
@@ -40,7 +41,7 @@ export class ColaboradoresComponent {
     "Activos_sin_Contrato": 0
 }
 
-  constructor(private service: PortalTransyanezService,public builder: FormBuilder,private comunaService : ComunasService) { }
+  constructor(private service: PortalTransyanezService,public builder: FormBuilder, private permisoService : SidebarService) { }
 
   isErrorView : boolean = false
   rutValido : boolean = true
@@ -290,6 +291,8 @@ export class ColaboradoresComponent {
     
   }
   currentDate : string = ''
+
+  permiso : boolean = false
   
   ngOnInit() : void {
 
@@ -319,22 +322,11 @@ export class ColaboradoresComponent {
       this.listaMotivosD = data.Motivo
     })
 
+    this.permiso = this.permisoService.getPermiso() 
 
-    // this.service.getMarcasVehiculos().subscribe((data : any) => {
-    //   this.marcaVehiculo = data
-    // })
-    // this.comunaService.getListaRegiones().subscribe((data : any) => {
-    //   this.listaRegiones = data
-    // })
+    console.log("permiso guardado en sidebar service",this.permiso)
 
-    // this.comunaService.getListaComunas().subscribe((data : any) => {
-    //   this.listaComunas = data
-    //   this.listaComunasFull = this.listaComunas
-    //   this.form.patchValue({
-    //     Region : '1',
-    //     Comuna : '1'
-    //   })
-    // })
+
 
     this.service.obtenerColaboradores().subscribe((data) => {
       this.colaboradores = data

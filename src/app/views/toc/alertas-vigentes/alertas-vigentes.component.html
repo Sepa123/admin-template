@@ -322,8 +322,8 @@
                     <th>Fecha Compromiso</th>
                     <th>Observación</th>
                     <th>Código TY</th>
-                    <th *ngIf="rol == '5' || rol == '22' || rol == '20' || rol == '13'">Editar</th> 
-                    <!-- <th *ngIf="rol == '5' || rol == '22'">Creado por</th> -->
+                    <th *ngIf="permiso">Editar</th> 
+                    <!-- <th *ngIf="rol == '5' || rol == '22' || rol == '20' || rol == '13'">Editar</th>  -->
                 </tr>
               </thead>
               <tbody>
@@ -338,10 +338,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verObservacion(toc.Observacion)"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
                   </td>
                   <td>{{toc.Codigo_TY}}</td>
-                  <td *ngIf="rol == '5' || rol == '22' || rol == '20'  || rol == '13' ">
+                  <td *ngIf="permiso">
+                  <!-- <td *ngIf="rol == '5' || rol == '22' || rol == '20'  || rol == '13' "> -->
                     <svg xmlns="http://www.w3.org/2000/svg" (click)="updateData(toc.Codigo_TY )" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg>
                   </td>
-                  <!-- <td *ngIf="rol == '5' || rol == '22' ">{{toc.Creado_por}}</td> -->
                 </tr>
                 <tr>
                   <td colspan="7" *ngIf="arrayTOCTracking.length == 0">No hay registros</td>

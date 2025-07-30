@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import * as XLSX from 'xlsx';
 import { ChangeDetectorRef } from '@angular/core';
+import { SidebarService } from '../../../service/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-gestion-gps',
@@ -37,12 +38,18 @@ export class GestionGpsComponent implements OnInit {
     private fb: FormBuilder,
     private Gps: GestionGpsService,
     private renderer: Renderer2,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private permisoService: SidebarService
   ) {}
 
   public rol = sessionStorage.getItem("rol_id");
 
+  permiso : boolean = false;
+
   ngOnInit() {
+
+    this.permiso = this.permisoService.getPermiso()
+    
     this.getInfoTable();
     this.originalTableInfo = [...this.tableInfo];
     this.initializeOc_instalacion();

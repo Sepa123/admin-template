@@ -9,6 +9,7 @@ import { Colaborador,DetallePago } from '../../../models/transporte/colaborador.
 import { Usuario,ObservacionDriver } from '../../../models/transporte/tripulacion.interface' 
 import { VehiculoObservaciones } from '../../../models/transporte/vehiculo.interface';
 import { PanelTripulacion } from '../../../models/transporte/paneles.interface';
+import { SidebarService } from 'src/app/service/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-tripulacion',
@@ -32,7 +33,7 @@ export class TripulacionComponent {
   latStr!: string
   longStr!: string
 
-  constructor(private service: PortalTransyanezService,public builder: FormBuilder,private comunaService : ComunasService) { }
+  constructor(private service: PortalTransyanezService,public builder: FormBuilder,private permisoService : SidebarService) { }
 
   isErrorView : boolean = false
   rutValido : boolean = true
@@ -265,7 +266,11 @@ export class TripulacionComponent {
     
   }
 
+  permiso : boolean = false
+
   ngOnInit() : void {
+
+    this.permiso = this.permisoService.getPermiso()
 
     this.getLocation()
 

@@ -9,7 +9,7 @@ import { ComunasService } from 'src/app/service/comunas/comunas.service';
 import { Codigo1 } from 'src/app/models/Codigos1.interface';
 import { Subestados } from 'src/app/models/subestados.interface';
 import { PanelAlertasTOC } from 'src/app/models/TOC/alertaVigentes.interface';
-
+import { SidebarService } from '../../../service/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-alertas-vigentes',
@@ -76,7 +76,7 @@ export class AlertasVigentesComponent {
     this.isModalEditar = false
   }
 
-  constructor( private service : TocService, public builder : FormBuilder, private comunaService : ComunasService){
+  constructor( private service : TocService, public builder : FormBuilder, private permisoService: SidebarService){
 
   }
 
@@ -195,7 +195,11 @@ export class AlertasVigentesComponent {
     }
   }
 
+  permiso : boolean = false
+
   ngOnInit(){
+
+    this.permiso = this.permisoService.getPermiso()
 
     
     this.service.get_datos_alertas_toc().subscribe((data) =>{ 

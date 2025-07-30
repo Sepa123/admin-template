@@ -17,6 +17,9 @@ import { ContactoEjecutivo, EstadoContacto, listaComentarios, MotivoSubestado, O
 import { RecursiveAstVisitor } from '@angular/compiler';
 import * as ExcelJS from 'exceljs';
 import saveAs from 'file-saver';
+import { SidebarService } from 'src/app/service/sidebar/sidebar.service';
+
+
 
 @Component({
   selector: 'app-reclutamiento',
@@ -32,8 +35,7 @@ export class ReclutamientoComponent {
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []
   allReclutas: Reclutamiento [] = []
 
-  constructor(private service: PortalTransyanezService,public builder: FormBuilder,private comunaService : ComunasService,
-    private MoService: ModalidadDeOperacionesService
+  constructor(private service: PortalTransyanezService,public builder: FormBuilder, private permisoService : SidebarService
   ) { }
 
 
@@ -305,6 +307,7 @@ totalPages: number = 0;     // Total de páginas
   cantRechazado: number = 0
   cantParaIngreso : number = 0
   cantIngresado : number = 0
+  permiso : boolean = false
   
   ngOnInit() : void {
     this.getLocation()
@@ -371,6 +374,9 @@ totalPages: number = 0;     // Total de páginas
 
 
     })
+
+    this.permiso = this.permisoService.getPermiso()
+
 
     
   }

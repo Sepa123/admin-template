@@ -714,7 +714,7 @@
       
     </div>
       <p></p>
-      <c-row *ngIf="rol_no_permitido.includes(rol+'') == false">
+      <c-row *ngIf="permiso">
           <c-col [xs]>
               <button class="btn btn-success" type="submit"  >Actualizar 
                   <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -736,7 +736,7 @@
 
       <c-row>
         <c-col [xs] >
-            <button *ngIf="rol_no_permitido.includes(rol+'') == false" class="btn btn-success" (click)="toggleLiveAgregar()">Agregar Vehículo
+            <button *ngIf="permiso" class="btn btn-success" (click)="toggleLiveAgregar()">Agregar Vehículo
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
                 <path fill="black" d="M441.885 141.649A32.028 32.028 0 0 0 415.669 128H336V80a32.036 32.036 0 0 0-32-32H48a32.036 32.036 0 0 0-32 32v328h53.082a67.982 67.982 0 0 0 133.836 0h106.164a67.982 67.982 0 0 0 133.836 0H496V226.522a23.882 23.882 0 0 0-4.338-13.763ZM47.98 80H304v176H48ZM136 432a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m240 0a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m88-56h-23.006a68 68 0 0 0-129.988 0H200.994a68 68 0 0 0-129.988 0H48v-88h416Zm0-120H336v-96h79.669L464 229.044Z" />
               </svg>   
@@ -969,7 +969,8 @@
             <!-- <td>{{formatearRUT(vehiculo.Rut)}}</td> -->
             <td>
               <div class="slide-toggle-container">
-                <mat-slide-toggle  [disabled]=" rol == '50' || rol == '75' " [(ngModel)]="vehiculo.Disponible" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
+                <!-- <mat-slide-toggle  [disabled]=" rol == '50' || rol == '75' " [(ngModel)]="vehiculo.Disponible" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" >  -->
+                <mat-slide-toggle  [disabled]="permiso == false" [(ngModel)]="vehiculo.Disponible" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" > 
                   <!-- <span *ngIf="formVehiculo.value.Estado">Activado</span>
                   <span *ngIf="!formVehiculo.value.Estado">Desactivado</span> -->
                 </mat-slide-toggle>
@@ -1259,7 +1260,8 @@
         </c-modal-header>
         <c-modal-body>
               
-              <c-row *ngIf="['72','50','75'].includes(rol+'') == false">
+              <c-row *ngIf="permiso">
+                <!-- <c-row *ngIf="['72','50','75'].includes(rol+'') == false"> -->
                 <p></p>
                 <c-col >
                   <select id="Region" cSelect  class="form-control" [(ngModel)]="idOperacion" (change)="buscarPorModalidadOperacion()">
@@ -1331,7 +1333,7 @@
                       <td *ngIf="co.Estado">{{ convertirOperacion(co.Id_op) }}</td>
                       <td *ngIf="co.Estado">{{co.Centro}}</td>
                       <td *ngIf="co.Estado">{{co.Region}}</td>
-                      <td *ngIf="co.Estado && rol_no_permitido.includes(rol+'') == false">
+                      <td *ngIf="co.Estado && permiso">
                         
                         <svg xmlns="http://www.w3.org/2000/svg" (click)="eliminarOpAsignadaVehiculo(co.Id_ppu_op)"  width="24" height="24" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
  
