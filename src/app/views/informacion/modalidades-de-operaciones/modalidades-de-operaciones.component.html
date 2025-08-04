@@ -15,10 +15,10 @@
 
 <header>
     <h2>Modalidades de Operaciones</h2>
-    <button (click)="buscarDatos()" ><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 20 20">
+    <!-- <button (click)="buscarDatos()" ><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 20 20">
         <path fill="currentColor" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37" />
-    </svg></button>
-    <input type="search" placeholder="Buscar" [(ngModel)]="searchTerm" >
+    </svg></button> -->
+    <input (keydown)="buscarDatos()" type="search" placeholder="Buscar" [(ngModel)]="searchTerm" >
 </header>
   
 <c-modal id="liveCOModal" [visible]="visibleCO" (visibleChange)="handleLiveCOChange($event)" size="lg">
@@ -164,7 +164,7 @@
         <tbody>
  
         <!-- Filas de la tabla con datos -->
-        <tr *ngFor="let RazonSocial of tableData; let i = index">
+        <tr *ngFor="let RazonSocial of filteredData; let i = index">
             <td class="id">{{i+1}}</td>
             <td class="sortable" (click)="sortTable(sortOrder)">{{RazonSocial.nombre}}</td>
             <td>{{RazonSocial.description}}</td>
@@ -229,7 +229,7 @@
   <div class="custom-modal-content">
     <div class="custom-modal-header">
       <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"  viewBox="0 0 640 640"><path d="M147 170.7L117.2 256L240.1 256L240.1 160L162.2 160C155.4 160 149.3 164.3 147.1 170.7zM48.6 257.9L86.5 149.6C97.8 117.5 128.1 96 162.1 96L360 96C385.2 96 408.9 107.9 424 128L520.2 256.3C587.1 260.5 640 316.1 640 384L640 400C640 435.3 611.3 464 576 464L559.6 464C555.6 508.9 517.9 544 472 544C426.1 544 388.4 508.9 384.4 464L239.7 464C235.7 508.9 198 544 152.1 544C106.2 544 68.5 508.9 64.5 464L64.1 464C28.8 464 .1 435.3 .1 400L.1 320C.1 289.9 20.8 264.7 48.7 257.9zM440 256L372.8 166.4C369.8 162.4 365 160 360 160L288 160L288 256L440 256zM152 496C174.1 496 192 478.1 192 456C192 433.9 174.1 416 152 416C129.9 416 112 433.9 112 456C112 478.1 129.9 496 152 496zM512 456C512 433.9 494.1 416 472 416C449.9 416 432 433.9 432 456C432 478.1 449.9 496 472 496C494.1 496 512 478.1 512 456z"/></svg>
-      <h1>Reclutamiento</h1><div class="line"></div>
+      <h1>Categorías</h1><div class="line"></div>
     </div>
     <div class="custom-modal-body">
       <div id="vehicleForm" class="input-row">

@@ -106,7 +106,7 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
   // Creamos una función para mostrar/ocultar el detalle
   ngOnInit(): void {
     this.cargarDatos();
-
+    
     this.cargarDatosCO();
     //cargamos la informaciónm de los tipos de vehiculos.
     this.getTiposVehiculo();
@@ -297,18 +297,43 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
     this.subReporte = this.RS.getRazonesSocial().subscribe((data) => {
       console.log(this.subReporte);
       this.tableData = data;
+      this.filteredData = [...this.tableData]; // Inicializar filteredData con todos los datos
       console.log(this.tableData);
     });
   }
 
-  buscarDatos() {
-    
-      this.RS.buscarModalidadOperacion(this.searchTerm)
-      .subscribe((data) => {
-        this.tableData = data;
-      }, error => alert('No se encontraron datos'));
 
-  }
+filteredData: any[] = [];
+
+private normalize(text: string): string {
+  if (!text) return '';
+  return text
+    .trim()
+    .replace(/\s+/g, ' ')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
+buscarDatos() {
+  const term = this.normalize(this.searchTerm);
+  
+  this.filteredData = this.tableData.filter(item => {
+    const nombre = this.normalize(item.nombre || '');
+    return nombre.includes(term);
+  });
+}
+
+  
+
+  // buscarDatos() {
+    
+  //     this.RS.buscarModalidadOperacion(this.searchTerm)
+  //     .subscribe((data) => {
+  //       this.tableData = data;
+  //     }, error => alert('No se encontraron datos'));
+
+  // }
 
   eliminarRazonSocial(id: number) {
     // Llamar a la API para eliminar la razón social por su ID
