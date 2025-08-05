@@ -57,6 +57,7 @@ export interface AsignarOperacion {
     Id_operacion: number;
     Id_centro_op: number;
     Estado:       boolean;
+    id_tipo_veh_op : number;
 }
 
 

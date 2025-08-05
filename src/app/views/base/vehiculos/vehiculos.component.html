@@ -934,9 +934,9 @@
 
 
       <p></p>
-      <div class="greenTable" style="width: 100%;">
+      <div class="NewDesingTable-container" style="width: 100%;">
         
-        <table id="tablaProductosPicking" style="width: 100%;"  >
+        <table class="NewDesingTable" id="tablaProductosPicking" style="width: 100%;"  >
         <thead>
           <tr>
               <th>Razón social</th>
@@ -1169,9 +1169,9 @@
       </c-row>
   
       <p></p>
-      <div *ngIf="ObservacionVehiculos.length != 0" class="greenTable" style="width: 100%;">
+      <div *ngIf="ObservacionVehiculos.length != 0" class="NewDesingTable-container" style="width: 100%;">
         
-        <table id="tablaProductosPicking" style="width: 100%;">
+        <table class="NewDesingTable" id="tablaProductosPicking" style="width: 100%;">
             <thead>
                 <tr>
                     <th>Estado</th>
@@ -1273,6 +1273,12 @@
                     <option *ngFor="let op of centroOperacionLista"  [value]="op.Id"  >{{op.Centro}}</option>
                   </select>
                 </c-col>
+                <c-col >
+                  <select id="Region" cSelect  class="form-control" [(ngModel)]="SelectTipoVehiculo"  (click)="seleccionarCentroOperacion()">
+                    <option [value]="0" selected>Categoria</option>
+                    <option *ngFor="let cd of categoriaData"  [value]="cd.id"  >{{cd.codigo}}</option>
+                  </select>
+                </c-col>
               </c-row>
                 <p></p>
               <c-row>
@@ -1281,7 +1287,7 @@
                 </c-col>
                 <c-col >
                   <!--  -->
-                  <button *ngIf="IdCentroOperacion != 0 && isAsignado" cButton color="secondary" (click)="asignarOpVehiculo(idOperacion, IdCentroOperacion)" >
+                  <button *ngIf="IdCentroOperacion != 0 && isAsignado && SelectTipoVehiculo != 0" cButton color="secondary" (click)="asignarOpVehiculo(idOperacion, IdCentroOperacion, SelectTipoVehiculo)" >
                     Asignar
                   </button>  
                 </c-col>
@@ -1316,41 +1322,53 @@
                 <p></p>
                 <h3>Centros Asignados</h3>
 
-                <div class="greenTable" style="width: 100%;">
+                <div class="NewDesingTable-container"  style="width: 100%;">
                 
-                  <table id="tablaProductosPicking" style="width: 100%;"  >
-                  <thead>
+                  <table class="NewDesingTable" id="tablaProductosPicking" style="width: 100%;">
+                    <thead>
                       <th>Operación</th>
                       <th>Centro</th>
                       <th>Región</th>
-                      <th></th>
-                  </thead>
-                  <tbody>
-  
-                  <tr *ngFor="let co of centroOperacionAsignado; let i = index">
-                      <td *ngIf="co.Estado">{{ convertirOperacion(co.Id_op) }}</td>
-                      <td *ngIf="co.Estado">{{co.Centro}}</td>
-                      <td *ngIf="co.Estado">{{co.Region}}</td>
-                      <td *ngIf="co.Estado && rol_no_permitido.includes(rol+'') == false">
-                        
-                        <svg xmlns="http://www.w3.org/2000/svg" (click)="eliminarOpAsignadaVehiculo(co.Id_ppu_op)"  width="24" height="24" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
- 
-                        
-                      </td>
-                      <!-- <td *ngIf="!co.Estado">
-                        <button cButton color="secondary" (click)="asignarOpVehiculo(co.Id, co.Id_op)">
-                          seleccionar
-                        </button>  
-                      </td> -->
-                  </tr>
-                  <tr *ngIf="centroOperacionAsignado.length == 0">
-                    <td colspan="4">
-                      No hay registros
-                    </td>
-                  </tr>
-              </tbody>
-              </table>
-              </div>
+                      <th>Codigo</th>
+                      <th>Acciones</th>
+                    </thead>
+                    <tbody>
+                
+                      <tr *ngFor="let co of centroOperacionAsignado; let i = index">
+                        <td *ngIf="co.Estado">{{ convertirOperacion(co.Id_op) }}</td>
+                        <td *ngIf="co.Estado">{{co.Centro}}</td>
+                        <td *ngIf="co.Estado">{{co.Region}}</td>
+                        <td *ngIf="co.Estado">
+                          <select id="Region" cSelect class="form-control" [(ngModel)]="co.Id_tipo_veh_op"
+                            (change)="seleccionarCentroOperacion()" (change)="actualizarPpuOperacion(co.Id_tipo_veh_op, co.Id_ppu_op)">
+                            <option [value]="0" selected>Categoria</option>
+                            <option *ngFor="let cd of categoriaData" [value]="cd.id">{{cd.codigo}}</option>
+                          </select>
+                        </td>
+                        <td *ngIf="co.Estado && rol_no_permitido.includes(rol+'') == false">
+                
+                          <svg xmlns="http://www.w3.org/2000/svg" (click)="eliminarOpAsignadaVehiculo(co.Id_ppu_op)" width="24"
+                            height="24" viewBox="0 0 24 24">
+                            <path fill="red"
+                              d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z" />
+                          </svg>
+                
+                
+                        </td>
+                        <!-- <td *ngIf="!co.Estado">
+                                        <button cButton color="secondary" (click)="asignarOpVehiculo(co.Id, co.Id_op)">
+                                          seleccionar
+                                        </button>  
+                                      </td> -->
+                      </tr>
+                      <tr *ngIf="centroOperacionAsignado.length == 0">
+                        <td colspan="4">
+                          No hay registros
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
                 </c-col>
               </c-row>
 

@@ -9,4 +9,5 @@ export interface CentroOperacion {
     Region:      number;
     Estado:      boolean;
     Id_ppu_op:    number;
+    Id_tipo_veh_op: number;
 }
