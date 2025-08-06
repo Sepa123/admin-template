@@ -33,11 +33,6 @@
   border: 2px solid #006600; /* Borde verde oscuro */
 }
   
-  .greenTable{
-      
-    max-height: 400px; /* Altura de ejemplo */
-    overflow: auto;
-  }
 
 
   input[type="text"].disabled-like {
@@ -48,74 +43,7 @@
     pointer-events: none; /* Deshabilita eventos */
   }
   
-  .greenTable  table {
-    border-collapse: separate;
-    border-spacing: 0;
-    margin: 20px 0;
-    border-radius: 10px;
-    text-align: left;
-    // overflow: hidden;
-    box-shadow: 0 4px 8px #ebedef;
-    font-size: 12px;
-  }
-  .greenTable  table td, table th {
-    border: 0px solid #ebedef;
-    padding: 3px 2px;
-  }
-  .greenTable  table tbody td {
-    font-size: 10px;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .greenTable  table td {
-    font-size: 12px;
-  }
 
-  .greenTable th.sortable:hover {
-    background-color: #1ece27;
-    cursor: pointer;
-  }
-  
-  .greenTable  table tbody th {
-    font-size: 12px;
-    font-weight: bold;
-    background: #28A745;
-    color: #FFFFFF;
-  }
-  .greenTable  table tr:nth-child(even) {
-    background: #FFFEF3;
-  }
-  .greenTable table thead {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    left: 0;
-    background: #28A745;
-  }
-  .greenTable  table thead th {
-    font-size: 10px;
-    font-weight: bold;
-    color: #FFFFFF;
-    text-align: center;
-    border-left: 2px solid #28A745;
-  }
-
-  .greenTable  table thead th:first-child {
-    border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
-}
-
-.greenTable table th:last-child {
-  border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
-}
-
-.greenTable table tr:last-child td:first-child {
-  border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
-}
-
-.greenTable table tr:last-child td:last-child {
-  border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
-}
   
   .inline-container {
     margin: 1px;
