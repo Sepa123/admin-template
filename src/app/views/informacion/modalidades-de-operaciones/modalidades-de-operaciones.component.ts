@@ -308,11 +308,11 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
   //
 
   cargarDatos() {
-    this.RS.getRazonesSocial().subscribe((data) => {
+    this.subReporte = this.RS.getRazonesSocial().subscribe((data) => {
+      console.log(this.subReporte);
       this.tableData = data;
-      this.formCO.patchValue({
-            Id_op : 'Seleccione una operación'
-          })
+      this.filteredData = [...this.tableData]; // Inicializar filteredData con todos los datos
+      console.log(this.tableData);
     });
   }
 
@@ -333,13 +333,25 @@ export class ModalidadesDeOperacionesComponent implements OnInit {
     });
   }
 
-  buscarDatos() {
-    
-      this.RS.buscarModalidadOperacion(this.searchTerm)
-      .subscribe((data) => {
-        this.tableData = data;
-      }, error => alert('No se encontraron datos'));
+  filteredData: any[] = [];
 
+  private normalize(text: string): string {
+    if (!text) return '';
+    return text
+      .trim()
+      .replace(/\s+/g, ' ')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  }
+
+  buscarDatos() {
+    const term = this.normalize(this.searchTerm);
+    
+    this.filteredData = this.tableData.filter(item => {
+      const nombre = this.normalize(item.nombre || '');
+      return nombre.includes(term);
+    });
   }
 
   eliminarRazonSocial(id: number) {

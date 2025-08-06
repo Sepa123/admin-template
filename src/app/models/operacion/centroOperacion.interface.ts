@@ -11,4 +11,5 @@ export interface CentroOperacion {
     Id_ppu_op:    number;
     Seguimiento_id : number,
     Seguimiento_nombre : string
+    Id_tipo_veh_op: number;
 }

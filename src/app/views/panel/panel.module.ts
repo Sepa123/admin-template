@@ -8,9 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GestionDeUsuarioYMantencionComponent } from './gestion-de-usuario-y-mantencion/gestion-de-usuario-y-mantencion.component';
 import { ModalModule } from '@coreui/angular';  // Importación de CoreUI Modal
 import { NgSelectModule } from '@ng-select/ng-select';
+import { AsignacionPerfilComponent } from './asignacion-perfil/asignacion-perfil.component';
 
 @NgModule({
-  declarations: [RegistrarUsuariosComponent, GestionDeUsuarioYMantencionComponent],
+  declarations: [RegistrarUsuariosComponent, GestionDeUsuarioYMantencionComponent, AsignacionPerfilComponent],
   imports: [
     CommonModule,
     PanelRoutingModule,

@@ -176,3 +176,71 @@
   --mdc-switch-disabled-unselected-icon-color: #fff;
   --mdc-switch-unselected-icon-color: #fff;
 }
+
+
+.NewDesingTable-container {
+  background: #fafbfc;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  overflow-y: auto;      // ya presente
+  overflow-x: auto;      // asegúrate de tener scroll horizontal también
+  max-height: 60vh;      // ajusta la altura máxima visible antes de mostrar scroll vertical
+}
+
+.NewDesingTable {
+  background: #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  overflow-y: auto;      // ya presente
+  overflow-x: auto;      // asegúrate de tener scroll horizontal también
+  max-height: 60vh;      // ajusta la altura máxima visible antes de mostrar scroll vertical
+}
+
+.NewDesingTable table {
+  width: 100%;
+  min-width: 800px; // O el mínimo que necesites, pero no uses vw aquí
+  border-collapse: collapse;
+}
+
+.NewDesingTable thead {
+  background-color: #e0e0e0;
+  color: #333;
+  position: sticky;
+  max-height: 300px; /* Ajusta la altura máxima según tus necesidades */
+  top: 0;
+  z-index: 10;/* Asegura que el header esté por encima del contenido */
+}
+
+.NewDesingTable th {
+  font-weight: bold;
+  font-size: 12px;
+  background-color: #e0e0e0;
+  border: none;
+}
+.NewDesingTable td {
+  font-size: 10px;
+  border: none;
+  padding: 10px;
+}
+
+.NewDesingTable th, td {
+  border: none;
+  padding: 10px;
+  text-align: left;
+}
+.NewDesingTable tbody tr {
+  color: var(--text-strong);
+}
+
+.NewDesingTable tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+.NewDesingTable tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegistrarUsuariosComponent} from './registrar-usuarios/registrar-usuarios.component'
 import { GestionDeUsuarioYMantencionComponent } from './gestion-de-usuario-y-mantencion/gestion-de-usuario-y-mantencion.component';
 import { PermissionGuard } from '../../guard/permission.guard';
+import { AsignacionPerfilComponent } from './asignacion-perfil/asignacion-perfil.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,15 @@ const routes: Routes = [
       {
         path : 'gestion-de-usuario-y-mantencion',
         component : GestionDeUsuarioYMantencionComponent,
+        canActivate :[PermissionGuard],
+        data : {
+          title: "Gestión y Mantención de Usuario",
+          id_submenu: 80
+        }
+      },
+      {
+        path : 'asignacion-perfil',
+        component : AsignacionPerfilComponent,
         canActivate :[PermissionGuard],
         data : {
           title: "Gestión y Mantención de Usuario",

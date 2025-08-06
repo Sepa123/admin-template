@@ -1,10 +1,7 @@
 import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
-import { Subscription } from 'rxjs';
-import { RutasService } from '../../../service/rutas.service';
 import { PortalTransyanezService } from "../../../service/portal-transyanez.service";
 import {PedidoCompromisoObligatorio } from '../../../models/rutas/pedidoCompromisoObligatorios.interface'
 import { FormControl, FormGroup, FormBuilder, Validators,FormArray } from '@angular/forms'
-import { ComunasService } from '../../../service/comunas/comunas.service'
 import {bancos, formasPago, tipoCuenta, tipoVehiculo,  marcaVehiculo, caracteristicasVehiculo  } from '../../../models/enum/bancos.json'
 import { Colaborador } from '../../../models/transporte/colaborador.interface' 
 import { Vehiculo, AsignarOperacion,VehiculoObservaciones } from '../../../models/transporte/vehiculo.interface' 
@@ -13,6 +10,8 @@ import { ModalidadDeOperacionesService } from '../../../service/modalidad-de-ope
 import { CentroOperacion } from '../../../models/operacion/centroOperacion.interface';
 import { MainPanelVehiculos, PanelVehiculos, PanelVehiculosObs } from '../../../models/transporte/paneles.interface'
 import { SidebarService } from '../../../service/sidebar/sidebar.service';
+import { HttpClient } from '@angular/common/http';
+import { EstadoInventario } from '../../../models/mantenedores/estado.interface';
 
 @Component({
   selector: 'app-vehiculos',
@@ -39,7 +38,7 @@ export class VehiculosComponent {
   pedidosObligatorios : PedidoCompromisoObligatorio [] = []
 
   constructor(private service: PortalTransyanezService,public builder: FormBuilder, private permisoService : SidebarService,
-    private MoService: ModalidadDeOperacionesService
+    private MoService: ModalidadDeOperacionesService , private http: HttpClient,
   ) { }
 
   buscadorVehiculo : string = ''
@@ -325,6 +324,7 @@ seleccionarRut(){
     this.permiso = this.permisoService.getPermiso()
 
     this.getLocation()
+    this.getDataCategory()
 
 
     this.service.getSeleccionesVehiculos().subscribe((data) => {
@@ -763,8 +763,11 @@ modalidadOperacionFull : RazonSocial []= []
 visibleCO : boolean = false
 IdVehiculo : number = 0
 Patente : string = ''
+EstadoV: boolean = false
 
 toggleLiveCO(id_vehiculo : number) {
+
+  this.SelectTipoVehiculo = 0; // o '' o 0 según corresponda
 
   this.selectedPermisoCirculacion = null;
   this.selectedRevisionTecnica = null;
@@ -773,6 +776,16 @@ toggleLiveCO(id_vehiculo : number) {
   this.selectedCertGases = null;
 
   const vehiculo = this.vehiculos.filter(vehiculo => vehiculo.Id == id_vehiculo)[0]
+
+  const estadoVehiculo = this.vehiculos.find(v => v.Id === id_vehiculo)?.Estado;
+
+  this.EstadoV = estadoVehiculo !== undefined ? estadoVehiculo : false;
+
+  if (estadoVehiculo !== undefined) {
+    console.log('Estado del vehículo:', estadoVehiculo);
+  } else {
+  console.warn('No se encontró el vehículo o no tiene estado.');
+  }
 
   this.IdVehiculo = id_vehiculo
 
@@ -784,7 +797,7 @@ toggleLiveCO(id_vehiculo : number) {
       this.modalidadOperacion = data
       this.modalidadOperacionFull = data
       this.buscarCentroOperacion()
-      this.verificarOperacionVehiculo()
+      // this.verificarOperacionVehiculo()
   
       // const operacion = this.modalidadOperacion.filter( op => op.id == vehiculo.Agency_id)
   
@@ -802,7 +815,7 @@ verificarOperacionVehiculo(){
   this.service.revisarOperacionVehiculo(this.IdVehiculo).subscribe((data) => {
     this.checkOperacion = data
 
-    this.checkOperacion.filter(c => c.Id_centro_op == 1)
+    // this.checkOperacion.filter(c => c.Id_centro_op == 1)
   })
 }
 
@@ -844,6 +857,7 @@ buscarPorModalidadOperacion(){
   }else{
     this.centroOperacion = this.centroOperacionFull.filter(co => co.Id_op == this.idOperacion)
     this.centroOperacionLista = this.centroOperacionFull.filter(co => co.Id_op == this.idOperacion)
+    this.SelectTipoVehiculo = this.categoriaData[0]?.id;
   }
 
   this.estaAsignadoCO()
@@ -852,6 +866,8 @@ buscarPorModalidadOperacion(){
 
 
 IdCentroOperacion : number = 0
+SelectTipoVehiculo : number = 0
+SelectTipoVehiculotable : number = 0
 seleccionarCentroOperacion(){
   if(this.IdCentroOperacion == 0){
 
@@ -904,36 +920,39 @@ cambiarEstadoVehiculo(id: number, ppu : string){
 
 
 
-asignarOpVehiculo(id_op : number, id_centro_operacion : number){
-  if(id_centro_operacion == 0 || id_op == 0){
-    alert('Seleccione un centro de operacion')
-  }else {
-    const body = {
-      "Id_user"  : sessionStorage.getItem("id")?.toString()+"",
-      "Ids_user" : sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"",
-      "Id_ppu" : this.IdVehiculo,
-      "Id_operacion" : id_op,
-      "Id_centro": id_centro_operacion,
-      "Estado" : true,
-      "Latitud" : this.latStr,
-      "Longitud" : this.longStr,
-      "Modificacion" : `Asignacion de operacion ${id_op} al vehiculo ${this.Patente} por ${sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+""}`,
-      "Origen" : '/transporte/vehiculos'
-    }
+asignarOpVehiculo(id_op : number, id_centro_operacion : number, SelectTV: number) {
+  const id_user = sessionStorage.getItem("id")?.toString()+"";
+  const ids_user = sessionStorage.getItem('server')+"-"+sessionStorage.getItem('id')+"";
+  const id_ppu = this.IdVehiculo;
+  const id_operacion = Number(id_op);
+  const id_centro_op = Number(id_centro_operacion);
+  const estado = this.EstadoV;
+  const id_tipo_veh_op = SelectTV;
 
-
-    
-    this.service.asignarOperacionVehiculo(body).subscribe((data : any) => {
-      
-      alert(data.message)
-      this.buscarCentroOperacion()
-      // this.idOperacion = 0
-      // this.IdCentroOperacion = 0
-      // this.toggleLiveCO(0)
-    })
+  // Validación básica
+  if (!id_user || !ids_user || !id_ppu || !id_operacion || !id_centro_op || !id_tipo_veh_op) {
+    alert('Todos los campos obligatorios deben ser completados.');
+    console.log(id_user, ids_user, id_ppu, id_operacion, id_centro_op, estado, id_tipo_veh_op);
+    return;
   }
+  const body = {
+    id_user,
+    ids_user,
+    id_ppu,
+    id_operacion,
+    id_centro_op,
+    estado,
+    id_tipo_veh_op
+  };
 
-  
+  this.http.post('https://hela.transyanez.cl/api/operacion/Asignar_centros/', body)
+    .subscribe(
+      (resp: any) => {
+      console.log('Respuesta del servidor:', resp);
+      },
+      error => {
+      }
+    );
 }
 
 isAsignado : boolean = false
@@ -985,6 +1004,35 @@ descargarDatosVehiculos(){
 
  descargarExcelATHela(){
   this.service.descargarInformeATVehiculos()
+}
+
+categoriaData: any[]=[]
+getDataCategory() {
+    // https://hela.transyanez.cl
+  this.http.get<any[]>('https://hela.transyanez.cl/api/operacion/obtener-categoria-vehiculo/')
+    .subscribe(
+      data => {
+        console.log('Tipos de vehículo:', data);
+        // Aquí puedes guardar el resultado en una variable para usarlo en el select
+         this.categoriaData = data;
+      },
+      error => {
+      }
+    );
+}
+
+
+actualizarPpuOperacion(id_tipo: number, id: number) {
+  const url = `https://hela.transyanez.cl/api/operacion/actualizar-ppuOp/?id_tipo=${id_tipo}&id=${id}`;
+
+  this.http.post(url, null).subscribe({
+    next: (response: any) => {
+      console.log('Actualización exitosa:', response.message);
+    },
+    error: (error) => {
+      console.error('Error al actualizar:', error.error.detail || error.message);
+    }
+  });
 }
 
  ngOnDestroy(): void {
