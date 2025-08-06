@@ -1,0 +1,67 @@
+// // .locationInfo, .error {
+// //     margin-top: 20px;
+// //     padding: 15px;
+// //     border-radius: 5px;
+// //     display: none;
+// //     max-width: 400px;
+// //     text-align: center;
+// // }
+// .locationInfo {
+//     background-color: #e0ffe0;
+//     color: #006600;
+//     margin-top: 20px;
+//     padding: 15px;
+//     border-radius: 5px;
+    
+// }
+// .error {
+//     background-color: #ffe0e0;
+//     color: #990000;
+//     margin-top: 20px;
+//     padding: 15px;
+//     border-radius: 5px;
+//     max-width: 500px;
+//     text-align: center;
+// }
+// button {
+//     padding: 10px 20px;
+//     font-size: 16px;
+//     align-content: center;
+//     cursor: pointer;
+// }
+
+
+
+.warning-icon {
+    font-size: 50px;
+    color: #ffcc00; /* Amarillo */
+    -webkit-text-stroke: 1px black; /* Borde negro */
+    margin-bottom: 15px;
+}
+
+h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

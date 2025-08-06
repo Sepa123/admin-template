@@ -1,0 +1,73 @@
+<form cForm [formGroup]="formEditarTOC" (ngSubmit)="editarTOC()">
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Alerta 
+                <c-form-check>
+                    <input cFormCheckInput id="stackOne" type="checkbox" formControlName="Alerta"/>
+                    <label cFormCheckLabel for="stackOne">Alerta</label>
+                </c-form-check>
+                <p></p>
+            </div>
+        </c-col>
+    </c-row>
+ 
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Fecha reprogramada
+                <input type="date" placeholder="Fecha" class="form-control" formControlName="Fecha_reprogramada" >
+            </div> 
+            <div class="">
+                Dirección correcta
+                <input type="text" class="form-control" placeholder="Direccion Correcta" formControlName="Direccion_correcta" >
+            </div>
+             <div class="">
+                Comuna Correcta
+                <select id="Comuna_correcta" cSelect formControlName="Comuna_correcta">
+                    <option  *ngFor="let comuna of listaComunas" value={{comuna.Nombre_comuna}} >{{comuna.Nombre_comuna}}</option>
+                </select>
+            </div>
+            
+            <!-- <div class="noEditar">
+                Subestado
+                <input type="text" placeholder="Subestado" class="form-control" formControlName="Subestado" readonly>
+            </div> -->
+    
+            <div class="">
+                Codigo1
+                <select id="Codigo1Str" cSelect formControlName="Codigo1Str">
+                    <option *ngFor="let codigo of listaCodigos1" [value]="codigo.Id"  >{{codigo.Descripcion}}</option>
+                </select>
+            </div>
+        
+        </c-col>
+        <c-col [xs]>
+        <div class="">
+            Observación
+            <!-- <input type="text" placeholder="Subestado" class="form-control" formControlName="Observacion" required> -->
+            <textarea rows="6"  cFormContro placeholder="Observación" class="form-control" formControlName="Observacion" [value]="codigoTY"></textarea>
+        </div>
+        <div class="">
+            Subestado esperado
+            <select id="Subestado_esperado" cSelect formControlName="Subestado_esperado">
+                <option *ngFor="let subestado of listaSubestados" [value]="subestado.Nombre"  >{{subestado.Nombre}}</option>
+            </select>
+        </div>
+        </c-col>
+    </c-row>
+    <p></p>
+    <c-row>
+        <c-col [xs]>
+            <button class="btn btn-success" type="submit">Guardar 
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+            </button>
+        </c-col>
+        <!-- <c-col [xs]>
+                <button class="btn btn-secondary" type="button" (click)="reiniciar()">Reiniciar
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 32 32"><path fill="currentColor" d="M18 28A12 12 0 1 0 6 16v6.2l-3.6-3.6L1 20l6 6l6-6l-1.4-1.4L8 22.2V16a10 10 0 1 1 10 10Z"/></svg>
+                </button>
+        </c-col> -->
+    </c-row>
+    <!-- <button class="btn btn-success" type="submit">Registrar</button> -->
+  </form>

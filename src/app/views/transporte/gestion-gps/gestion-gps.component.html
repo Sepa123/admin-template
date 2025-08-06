@@ -1,0 +1,133 @@
+<div class="container">
+    <H3>Gestión GPS</H3>
+</div>
+
+
+<H2 *ngIf="isLoadingFull"><img width="15" height="15"
+    src="../../../assets/images/loading-gif.gif" /></H2>
+
+<div class="greenTable">
+    <table  #tablaProductosPicking>
+        <thead>
+            <!-- <tr> -->
+            <th>
+                Patente
+                <input type="text" [(ngModel)]="textoPpu" #filtroPpu (keyup)="filtrarTabla('ppu')" placeholder="🔍">
+            </th>
+            <th>
+                Razón social
+                <input type="text" [(ngModel)]="textoRazon_social" #filtroRazonSocial (keyup)="filtrarTabla('RazonSocial')" placeholder="🔍">
+            </th>
+            <th>Fec Instalación</th>
+            <th>Rut</th>
+            <th>IMEI GPS</th>
+            <th>OC Instalación</th>
+            <th>Fec Baja</th>
+            <th>Oc Baja</th>
+            <th>Monto</th>
+            <th>Descontado</th>
+            <th>Devuelto</th>
+            <th *ngIf="permiso">Acción</th>
+            <!-- <th *ngIf="rol !== '14'">Acción</th> -->
+            <!-- </tr> -->
+        </thead>
+        <tbody>
+            <tr *ngFor="let ti of tableInfo">
+                <td>{{ti.ppu}}</td>
+                <td>{{ti.razon_social}}</td>
+                <td>{{ti.fec_instalacion ? ti.fec_instalacion : 'S/I'}}</td>
+                <td>{{ti.rut}}</td>
+                <td>{{ti.gps ? ti.gps : 'S/I'}}</td>
+                <td>
+                    <!-- <input type="text" [(ngModel)]="id_insta[ti.id_gps]"> -->
+                    <!-- <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="text" [(ngModel)]="id_insta[ti.id_gps]" >
+                    <span *ngIf="rol === '70' || rol === '71' || rol == '14'"> -->
+                    <input *ngIf="permiso" type="text" [(ngModel)]="id_insta[ti.id_gps]" >
+                    <span *ngIf="permiso === false">
+                        {{ id_insta[ti.id_gps] }}
+                    </span>
+                </td>
+                <td>
+                    {{ ti.fec_baja ? ti.fec_baja : 'S/I' }}
+                </td>
+                <td>
+    
+                    <!-- <input type="text" [(ngModel)]="id_oc_baja[ti.id_gps]"> -->
+                    <!-- <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="text" [(ngModel)]="id_oc_baja[ti.id_gps]">
+                    <span *ngIf="rol === '70' || rol === '71' || rol == '14'">{{ id_oc_baja[ti.id_gps] }}</span> -->
+                    <input *ngIf="permiso" type="text" [(ngModel)]="id_oc_baja[ti.id_gps]">
+                    <span *ngIf="permiso == false">{{ id_oc_baja[ti.id_gps] }}</span>
+                </td>
+                <td>
+                    <!-- <input type="text"  [(ngModel)]="id_monto[ti.id_gps]"> -->
+                    <!-- <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="text" [(ngModel)]="id_monto[ti.id_gps]">
+                    <span *ngIf="rol === '70' || rol === '71' || rol == '14'">{{ id_monto[ti.id_gps] }}</span> -->
+                    <input *ngIf="permiso" type="text" [(ngModel)]="id_monto[ti.id_gps]">
+                    <span *ngIf="permiso == false">{{ id_monto[ti.id_gps] }}</span>
+                </td>
+                <td>
+                    <!-- <input type="checkbox" class="checkbox" (change)="descontado(ti.id_gps)" [(ngModel)]="id_descontado[ti.id_gps]"> -->
+                    <!-- <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="checkbox" class="checkbox"
+                        (change)="descontado(ti.id_gps)" [(ngModel)]="id_descontado[ti.id_gps]">
+                    <span *ngIf="rol == '70' || rol == '71' || rol == '14'"> -->
+                    <input *ngIf="permiso" type="checkbox" class="checkbox"
+                        (change)="descontado(ti.id_gps)" [(ngModel)]="id_descontado[ti.id_gps]">
+                    <span *ngIf="permiso == false">
+                        {{ id_descontado[ti.id_gps] ? '✓' : '✗' }}
+                    </span>
+                </td>
+                <td>
+                    <!-- <input type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)" [(ngModel)]="id_devuelto[ti.id_gps]"> -->
+                    <!-- <input *ngIf="rol != '70'&& rol != '71' && rol !== '14'" type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)"
+                        [(ngModel)]="id_devuelto[ti.id_gps]">
+                    <span *ngIf="rol == '70' || rol == '71' || rol == '14'">
+                        {{ id_devuelto[ti.id_gps] ? '✓' : '✗' }}
+                    </span> -->
+                    <input *ngIf="permiso" type="checkbox" class="checkbox" (change)="devuelto(ti.id_gps)"
+                        [(ngModel)]="id_devuelto[ti.id_gps]">
+                    <span *ngIf="permiso == false">
+                        {{ id_devuelto[ti.id_gps] ? '✓' : '✗' }}
+                    </span>
+                    
+                </td>
+    
+                <td *ngIf="permiso">
+                    <!-- <td *ngIf="rol !== '14'"> -->
+                    <nav class="icons">
+                        <ul class="nav-list">
+    
+                            <li>
+                                <!-- <svg *ngIf="rol != '70' && rol != '71'" (click)="oc_instalacion(ti.id_gps)"
+                                    (click)="oc_baja(ti.id_gps)" (click)="monto(ti.id_gps)"
+                                    xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M21 7v12q0 .825-.587 1.413T19 21H5q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h12zm-9 11q1.25 0 2.125-.875T15 15t-.875-2.125T12 12t-2.125.875T9 15t.875 2.125T12 18m-6-8h9V6H6z" />
+                                </svg> -->
+                                <svg *ngIf="permiso" (click)="oc_instalacion(ti.id_gps)"
+                                    (click)="oc_baja(ti.id_gps)" (click)="monto(ti.id_gps)"
+                                    xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M21 7v12q0 .825-.587 1.413T19 21H5q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h12zm-9 11q1.25 0 2.125-.875T15 15t-.875-2.125T12 12t-2.125.875T9 15t.875 2.125T12 18m-6-8h9V6H6z" />
+                                </svg>
+                            </li>
+                            <!-- <li class="nav-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path
+                                            d="M3 10c0-3.771 0-5.657 1.172-6.828S7.229 2 11 2h2c3.771 0 5.657 0 6.828 1.172S21 6.229 21 10v4c0 3.771 0 5.657-1.172 6.828S16.771 22 13 22h-2c-3.771 0-5.657 0-6.828-1.172S3 17.771 3 14z" />
+                                        <path stroke-linecap="round" d="M8 10h8m-8 4h5" />
+                                    </g>
+                                </svg>
+                                <span class="tooltip">
+                                    {{ti.datos_varios[ti.id_gps]}}
+                                </span>
+                            </li> -->
+                        </ul>
+                    </nav>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+ <button class="download-btn" (click)="exportTableToExcel()" >Descargar</button>

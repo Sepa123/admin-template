@@ -1,0 +1,118 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" >
+    <c-modal-header>
+      <h5 cModalTitle > {{codigoSeleccionado}}</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <div class="greenTable">
+            <!-- <table id="tablaProductosPicking"  style="width: 75%" *ngFor="let inv of inventarioSeleccionado">
+                <thead>
+                    <th >Ubicación</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ubicacion of inv.Ubicacion">
+                        <td>{{ubicacion}}</td>
+                    </tr>
+                </tbody>
+            </table> -->
+            <table id="tablaProductosPicking"  style="width: 75%" >
+                <thead>
+                    <th >Ubicación</th>
+                    <th >Paquetes</th>
+                    <th >Unidades</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ubicacion of UbicacionCantidad">
+                        <td>{{ubicacion.Ubicacion}}</td>
+                        <td>{{ubicacion.Paquetes}}</td>
+                        <td>{{ubicacion.Unidades}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+
+
+<c-row>
+    <c-col [xs]>
+        Seleccionar sucursal :
+        <select id="Mes" cSelect [(ngModel)]="sucursalSeleccionada ">
+            <option value="">Sucursales</option>
+            <option *ngFor="let sucursal of sucursales" value={{sucursal.Id}}  >
+                {{sucursal.Nombre}}     
+            </option>
+        </select>
+    </c-col>
+    <c-col [xs]>
+        <p></p>
+        <button  cButton  color="secondary" size="lg" (click)="buscarInventarioPorSucursal()">Buscar</button>
+    </c-col>
+    <c-col [xs]>
+        <p></p>
+        <c-dropdown  *ngIf="isClick">
+            <button cButton cDropdownToggle color="secondary">
+                Filtrar por Colores
+            </button>
+            <ul cDropdownMenu>
+                <li><a [routerLink]="[]"  cDropdownItem (click)="filtrarColores('')">Todos los colores</a></li>
+                <li *ngFor="let color of colores" ><a [routerLink]="[]" (click)="filtrarColores(color)" cDropdownItem>{{color}}</a></li>
+            </ul>
+            </c-dropdown>
+    </c-col>
+    <c-col [xs]>
+        <p></p>
+        <button cButton color="success" size="lg" *ngIf="isClick" (click)="descargarInventario()">
+            <svg class="dExcel" xmlns="http://www.w3.org/2000/svg"  height="1.5em" viewBox="0 0 384 512">
+                <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+            </svg> descargar
+            </button>
+    </c-col>
+    
+    <!-- <c-col [xs]></c-col> -->
+    
+    
+</c-row>
+
+
+  <p></p>
+<div class="greenTable" *ngFor="let arr of arrInventarioSucursal; let i = index">
+    <table id="tablaProductosPicking" style="width: 60%">
+        <thead>
+            <tr>
+                <th colspan="6" style="justify-content: left;">Color : {{arr[0].Color}}</th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Producto</th>
+                <th>Paquetes</th>
+                <th>Unidades</th>
+                <th>Total</th>
+                <th>Ubicación</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inventario of arr">
+                <td>{{inventario.Codigo}}</td>
+                <td>{{inventario.Producto}}</td>
+                <td>{{inventario.Paquetes}}</td>
+                <td>{{inventario.Unidades}}</td>
+                <td>{{inventario.Total}}</td>
+                <td>
+                    <!-- <svg (click)="verUbicacion(inventario)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg> -->
+                    <svg (click)="ObtenerUbicacionCantidad(inventario.Codigo)" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+                </td>
+
+            </tr>
+        </tbody>
+</table>
+<p></p>
+</div>

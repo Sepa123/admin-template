@@ -1,0 +1,30 @@
+<p ngClass="titulo">Guías de despacho cliente</p>
+<table class="greenTable">
+  <thead>
+    <tr>
+        <th>Hora</th>
+        <th>Electrolux</th>
+        <th>Easy CD</th>
+        <!-- <th>Tiendas</th> -->
+        <th>Easy OPL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let reporte of total; let i = index">
+      <th>{{reporte.Hora}}</th>
+      <th [ngClass]="{'success': reporte.Electrolux > 0, 'warning' : reporte.Electrolux > ordenCompra[i] * 0.7 , 'danger': reporte.Electrolux > ordenCompra[i] * 0.85 }">{{reporte.Electrolux}}</th>
+      <th [ngClass]="{'success': reporte.Easy_CD > 0, 'warning': reporte.Easy_CD > ordenCompra[i] * 0.7, 'danger': reporte.Easy_CD > ordenCompra[i+1] * 0.85 }">{{reporte.Easy_CD}}</th>
+      <th [ngClass]="{'success': reporte.Easy_OPL > 0, 'warning': reporte.Easy_OPL > ordenCompra[i] * 0.7, 'danger': reporte.Easy_OPL > ordenCompra[i] * 0.85 }">{{reporte.Easy_OPL}}</th>
+    </tr>
+    <tr *ngFor="let reporte of Hora; let i = index">
+      <th>{{reporte.Hora}}</th>
+      <td [ngClass]="{'success': reporte.Electrolux > 0, 'warning' : reporte.Electrolux > ordenCompra[i] * 0.7 , 'danger': reporte.Electrolux > ordenCompra[i] * 0.85 }">{{reporte.Electrolux}}</td>
+      <td [ngClass]="{'success': reporte.Easy_CD > 0, 'warning': reporte.Easy_CD > ordenCompra[i] * 0.7, 'danger': reporte.Easy_CD > ordenCompra[i+1] * 0.85 }">{{reporte.Easy_CD}}</td>
+      <td [ngClass]="{'success': reporte.Easy_OPL > 0, 'warning': reporte.Easy_OPL > ordenCompra[i] * 0.7, 'danger': reporte.Easy_OPL > ordenCompra[i] * 0.85 }">{{reporte.Easy_OPL}}</td>
+    </tr>
+    <tr>
+      <td *ngIf="isLoadingTable" colspan="5"><img src="../../../assets/images/loading-gif.gif" /></td>
+    </tr>
+  </tbody>
+  </table>
+

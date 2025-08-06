@@ -1,0 +1,59 @@
+<!-- <div class="greenTable">
+    <table id="tablaProductosPicking" >
+    <thead>
+      <tr>
+          <th>Id Prefactura</th>
+          <th>Periodo</th>
+          <th>Descripción</th>
+          <th>Id de Ruta</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Patente </th>
+          <th>Conductor</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let prefactua of ListaPrefactura;let i = index">
+          <td>{{prefactua.Id_prefactura}}</td>
+          <td>{{prefactua.Periodo}}</td>
+          <td>{{prefactua.Descripcion}}</td>
+          <td>{{prefactua.Id_de_ruta}}</td>
+          <td>{{prefactua.Fecha_de_inicio}}</td>
+          <td>{{prefactua.Fecha_de_fin}}</td>
+          <td>{{prefactua.Patente}}</td>
+          <td>{{prefactua.Conductor}} </td>
+          <td>{{prefactua.Cantidad}}</td>
+          <td>{{prefactua.Precio_unitario}}</td>
+          <td>{{prefactua.Total}}</td>
+        </tr>
+    </tbody>
+    </table>
+    </div> -->
+
+    <p></p>
+    <div class="card">
+        <table >
+            <tr>
+            <!-- <td rowspan="4"></td> -->
+            </tr>
+            <tr>
+            <td class="tamano">Cargar Archivo mensual <span style="font-weight: bold;"></span> </td>
+            </tr>
+            <tr>
+            <td>
+                <input  type="file" id="archivo" (change)="onFileSelected($event)">
+            <p></p>
+                <button (click)="uploadFile()">Subir archivo</button>
+            </td>
+            </tr>
+            <tr>
+            <td  class="tamano">
+                
+            </td>
+            </tr>
+        </table>
+        </div>
+    

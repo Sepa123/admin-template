@@ -1,0 +1,119 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="lg">
+    <c-modal-header>
+      <h5 cModalTitle>{{clienteSeleccionado}} </h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <div class="greenTable" >
+            <table id="tablaProductosPicking" >
+             <thead>
+               <tr>
+                   <th>Guia</th>
+                   <th>Fecha entrega</th>
+                   <th>Estado</th>
+                   <th>Descripcion</th>
+                   <th>Bultos</th>
+               </tr>
+             </thead>
+             <tbody>
+                <tr *ngFor="let pedido of obsPedidos ;let i = index " class="derecha">
+                    <td>{{pedido.guia}}</td>
+                    <td>{{pedido.fecha_entrega}}</td>
+                    <td>
+                      <span *ngIf="pedido.estado == 'Entregado' || pedido.estado == 'Retirado'"  [title]=pedido.estado>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13.13" height="15" viewBox="0 0 448 512">
+                          <path fill="green" d="M64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm273 177L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                      </span>
+                      <span *ngIf="pedido.estado == 'En Ruta' || pedido.estado == 'Pendiente'"  [title]=pedido.estado>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18.75" height="15" viewBox="0 0 640 512">
+                          <path fill="gray" d="M112 0C85.5 0 64 21.5 64 48v48H16c-8.8 0-16 7.2-16 16s7.2 16 16 16h256c8.8 0 16 7.2 16 16s-7.2 16-16 16H48c-8.8 0-16 7.2-16 16s7.2 16 16 16h192c8.8 0 16 7.2 16 16s-7.2 16-16 16H16c-8.8 0-16 7.2-16 16s7.2 16 16 16h192c8.8 0 16 7.2 16 16s-7.2 16-16 16H64v128c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48zm432 237.3V256H416v-96h50.7zM160 368a48 48 0 1 1 0 96a48 48 0 1 1 0-96m272 48a48 48 0 1 1 96 0a48 48 0 1 1-96 0" />
+                        </svg>
+                      </span>
+
+                      <span  *ngIf="pedido.estado !== 'En Ruta' && pedido.estado !== 'Pendiente' && pedido.estado !== 'Entregado' && pedido.estado !== 'Retirado' " [title]=pedido.estado>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 512 512">
+                          <path fill="red" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" />
+                        </svg>
+                      </span>
+                      
+                      
+
+                    </td>
+                    <td>{{pedido.descripcion}}</td>
+                    <td>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="13.13" height="15" viewBox="0 0 448 512">
+                        <path fill="#ff8800" d="M50.7 58.5L0 160h208V32H93.7c-18.2 0-34.8 10.3-43 26.5M240 160h208L397.3 58.5c-8.2-16.2-24.8-26.5-43-26.5H240zm208 32H0v224c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64z" />
+                      </svg>
+                       {{pedido.bultos}}</td>
+                 </tr>
+             </tbody>
+             </table>
+           </div>
+        
+        
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+
+  <h2>Seguimiento Ruta</h2>
+
+  <p></p>
+
+  <select id="Ruta" cSelect  size="1" (change)="filtrarPantente()" [(ngModel)]="patenteSeleccionada"  style="width:auto;  display: inline-block;">
+    <option>Seleccione una Patente</option>
+    <option>Todas</option>
+    <option *ngFor="let ruta of listaPatentes">{{ruta}}</option>
+</select>
+
+<p></p>
+
+
+<div class="greenTable" >
+    <table id="tablaProductosPicking" >
+     <thead>
+       <tr>
+           <th>Ruta beetrack</th>
+           <th>PPU</th>
+           <th>Región</th>
+           <th>Cliente</th>
+           <th>Carga total</th>
+           <th>Fecha de Compromiso</th>
+           <th>Entregados </th>
+           <th>Entregados f. comp.</th>
+           <th>Pendientes</th>
+           <th>No Entregados</th>
+           <th>Observación</th>
+       </tr>
+     </thead>
+     <tbody>
+       <!-- <tr *ngFor="let quadmind of tablaQuadmind ;let i = index "> -->
+        <tr *ngFor="let ruta of segRuta ;let i = index " >
+            <td>{{ruta.Ruta_beetrack}}</td>
+            <td>{{ruta.Ppu}}</td>
+            <td>{{ruta.Region}}</td>
+            <td>{{ruta.Cliente}}</td>
+            <td>{{ruta.Carga_total}}</td>
+            <td>{{ruta.Fecha_compromiso}}</td>
+            <td>{{ruta.Entregados}}</td>
+            <td>{{ruta.Entregado_fec_comp}}</td>
+            <td>{{ruta.Pendientes}}</td>
+            <td>{{ruta.No_entregados}}</td>
+            <!-- <td>{{ruta.Obs_total_pedidos}}</td> -->
+            <td>
+                <svg  xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verObservacion(ruta.Obs_total_pedidos,ruta.Ppu,ruta.Ruta_beetrack)" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+ 
+            </td>
+         </tr>
+     </tbody>
+     <tfoot>
+      <tr *ngIf="segRuta.length == 0">
+        <td colspan="11">Sin registro</td>
+      </tr>
+    </tfoot>
+     </table>
+   </div>

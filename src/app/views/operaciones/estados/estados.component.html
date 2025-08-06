@@ -1,0 +1,94 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<div class="container">
+    <div class="left-panel">
+      <div class="summary-boxes truck" *ngFor="let item of Count">
+        <div class="summary-box">
+          <i class="fa-solid fa-truck-ramp-box"></i>
+          <div class="info">
+    
+            Pedidos
+            <strong>{{item.total_entregas}}</strong>
+          </div>
+        </div>
+        <div class="summary-box boxes">
+          <i class="fas fa-box"></i>
+          <div class="info">
+    
+            Bultos
+            <strong>{{item.total_bultos}}</strong>
+          </div>
+        </div>
+      </div>
+	  
+    <h3>Clientes (hoy)</h3>
+	  <div class="contenedores-clientes">
+      <div *ngFor="let cliente of clientesEntregas" class="contenedor">
+        <div class="logo-wrapper">
+          <img [src]="cliente.imagen_cliente_url" alt="Cliente" class="imagen-logo" title="{{ cliente.Cliente }}">
+          <div class="burbuja">
+            {{ cliente.sum }}
+          </div>
+        </div>
+      </div>
+    </div>
+	  <!--
+      <div class="bar-container">
+        <canvas id="barChart"></canvas>
+      </div>
+	  -->
+      <div id="barChart"></div>
+    </div>
+    <div class="right-panel">
+    
+      
+      
+      <div class="header"> 
+        <h3 style="margin-bottom: 15px;">Detalle de Entregas</h3>
+        <span>
+        <i class="fas fa-sync-alt"></i> {{ countdown }}s
+        </span>
+        
+      </div>  
+      <div class="table-container">
+      
+      
+        <table class="delivery-table table-header-sticky">
+      
+          <thead>
+            <tr>
+              <th rowspan="2">Cliente</th>
+              <th rowspan="2">Fecha</th>
+              <th rowspan="2">Hora</th>
+              <th rowspan="2">N° Carga</th>
+              <th rowspan="2"><i class="fa-solid fa-truck-ramp-box icon-truck"></i></th>
+              <th rowspan="2"><i class="fas fa-box icon-box"></i></th>
+              <th colspan="2" class="group-header">Verificado</th>
+            </tr>
+              <th><i class="fa-solid fa-circle-check" style="color: green;"></i></th>
+              <th><i class="fa-solid fa-circle-xmark" style="color: red;"></i></th>
+          </thead>
+          <tbody id="deliveryBody">
+      
+            <tr *ngFor="let item of TableData">
+              <td>
+                <div>
+                  <img class="Photo" [src]="item.imageClienteUrl" alt="Foto de cliente" title="{{ item.Cliente }}">
+                </div>
+              </td>
+              <td>{{ item.Fecha | date: 'dd-MM-yyyy' }}</td>
+              <td>{{ item.Hora_Ingreso }}</td>
+              <td>{{ item.carga }}</td>
+              <td>{{ item.Entregas }}</td>
+              <td>{{ item.Bultos }}</td>
+              <td>
+                {{ item.Verificados }}
+      
+              </td>
+              <td>{{ item.Sin_Verificar }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

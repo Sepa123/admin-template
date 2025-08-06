@@ -1,0 +1,142 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" >
+    <c-modal-header>
+      <h5 cModalTitle >Posición {{posicion}}</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <div class="greenTable">
+            <table id="tablaProductosPicking" style="text-align: center" >
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Peso Total (Kg.)</th>
+                    </tr>         
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lista of listaPesoSucursal ">
+                        <td>{{lista.Codigo}}</td>  
+                        <td>{{lista.Tipo}}</td>
+                        <td>{{lista.Cantidad}}</td>
+                        <td>{{lista.Peso_total}}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>  
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+
+
+
+  <h2>Estructuras </h2>
+  <p></p>
+<c-row>
+    <c-col [xs]>
+         Seleccionar Estructura  :
+        <select id="Estructura" cSelect [(ngModel)]="estructuraSeleccion">
+            <option value="">Estructura</option>
+            <option *ngFor="let mes of listaEstructura" value={{mes.Nombre}}  >
+                {{mes.Nombre}}     
+            </option>
+        </select>
+    </c-col>
+    <c-col [xs]>
+        Seleccionar Sucursal  :
+        <select id="Sucursal" cSelect [(ngModel)]="sucursalSeleccion">
+            <option value="">Sucursales</option>
+            <option *ngFor="let sucursal of sucursalesRSV" value={{sucursal.Id}}  >
+                {{sucursal.Nombre}}     
+            </option>
+        </select>
+    
+    </c-col>
+    <c-col [xs]>
+        <p></p>
+        <button class="btn btn-secondary" (click)="buscarEstructura()">Buscar </button>
+        <!-- <button  cButton  color="secondary" size="lg" >Buscar</button> -->
+    </c-col>
+    <c-col [xs]>
+        <!-- <p></p>
+        <button class="btn btn-secondary" (click)="agregarEstructura()" >Agregar estructura </button> -->
+    </c-col>
+</c-row>
+
+
+<!-- <div style="text-align: center;"> -->
+
+
+
+<c-row>
+    <c-col [xs]>
+        <div class="contenedor">
+            <p></p>
+        <canvas #myCanvas width="400" height="450" style="border:1px solid #000;"></canvas>
+    </div>
+
+    </c-col>
+    <c-col  [xs]>
+        <div style="display: block; width: 300px; height: 400px;">
+            <canvas  *ngIf="chartVisible == true"
+              baseChart
+              class="chart"
+              [data]="pieChartData"
+              [type]="pieChartType"
+              [options]="pieChartOptions"
+            >
+            </canvas>
+          </div>
+    </c-col>
+</c-row>    
+
+<p></p>
+
+<c-row>
+    <c-col [xs]>
+        <div *ngFor="let estructura of estructuraDato">
+            <table>
+                <tr>
+                    <td>Tipo :</td>
+                    <td>{{estructura.Tipo}}</td>
+                </tr>
+                <tr>
+                    <td>Nombre :</td>
+                    <td>{{estructura.Nombre}}</td>
+                </tr>
+                <tr>
+                    <td>Espacios :</td>
+                    <td>{{estructura.Cantidad_espacios}}</td>
+                </tr>
+                <tr *ngIf="estructura.Frontis">
+                    <td>Frontis:</td>
+                    <td>{{estructura.Frontis}}</td>
+                </tr>
+                <tr *ngIf="estructura.Balanceo">
+                    <td>Balanceo izquierda:</td>
+                    <td>{{estructura.Arr_balancelo[0]}}</td>
+                </tr>
+                <tr *ngIf="estructura.Balanceo">
+                    <td>Balanceo derecha:</td>
+                    <td> {{estructura.Arr_balancelo[1]}}</td>
+                </tr>
+            </table>
+            <!-- Tipo : {{estructura.Tipo}}
+            <p></p>
+            Nombre : {{estructura.Nombre}}
+            <p></p>
+            Espacios : {{estructura.Cantidad_espacios}}
+            <p></p>
+            <p *ngIf="estructura.Balanceo">Frontis: 1 2 3 4 5 6 7 8 17</p>
+            <p></p>
+            <p *ngIf="estructura.Balanceo">Balanceo izquierda: {{estructura.Arr_balancelo[0]}}</p>
+            <p></p>
+           <p *ngIf="estructura.Balanceo"> Balanceo derecha: {{estructura.Arr_balancelo[1]}} -->
+        </div>
+    </c-col>
+</c-row>
+    

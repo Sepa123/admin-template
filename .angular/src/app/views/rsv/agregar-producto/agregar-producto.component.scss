@@ -1,0 +1,19 @@
+.error {
+    color: #E71B24;
+  }
+
+.color-box {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #000;
+  text-align: center;
+  line-height: 100px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #fff;
+}
+
+.noEditar input[type="text"] ,.noEditar input[type="date"], .noEditar select {
+  background-color : #d1d1d1; 
+}
+  

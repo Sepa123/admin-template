@@ -1,0 +1,344 @@
+/* 🎯 Estructura general */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 1rem;
+  background-color: #f7f7f7;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* ✅ Ocultar secciones */
+.oculto {
+  display: none;
+}
+
+
+.contenedor-principal {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+}
+
+/* 🧱 Panel izquierdo debe tener posición relativa para posicionar el avatar dentro */
+.panel-izquierdo {
+  width: 30%;
+  background-color: #fff;
+  padding: 1rem;
+  position: sticky;
+  top: 1rem;
+  align-self: flex-start;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  display: flex-end;
+}
+
+.line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: green;
+  border-radius: 2px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem 2rem;
+}
+
+header i {
+  font-size: 1em;
+}
+
+header h1 {
+  font-size: 1.25rem;
+  margin: 0;
+  margin-top: 0.2em;
+}
+
+/* 🟦 Franja de título */
+.panel-titulo {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.panel-titulo h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* 👤 Avatar en la esquina superior derecha */
+/* 👤 Contenedor del avatar más estético */
+/* 🔧 Contenedor del avatar ajustado */
+.avatar-contenedor {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+  /* Quitamos o reducimos el padding */
+  padding: 2px;
+  display: inline-block;
+  line-height: 0; /* evita espacios indeseados alrededor */
+}
+
+/* 👤 Avatar más limpio y elegante */
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid #007bff;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+}
+
+
+/* ✨ Animación al cargar (opcional) */
+.avatar-contenedor:not(.oculto) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.avatar-contenedor.oculto {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* 🔎 Contenedor del input con ícono (pegado a la izquierda) */
+.buscador-contenedor {
+  position: relative;
+  width: 80%;               /* sigue siendo más corto que el select */
+  margin: 0 0 1rem 0;       /* eliminado el centrado */
+  margin-left: 0.5rem;      /* opcional: pequeño espacio desde el borde */
+}
+
+/* 🔎 Ícono dentro del input */
+.buscador-contenedor i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 16px;
+}
+
+/* 📝 Estilo del input */
+#buscador {
+  width: 100%;
+  padding: 0.5rem 0.5rem 0.5rem 2rem; /* espacio a la izquierda para ícono */
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease;
+}
+
+#buscador:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+}
+
+/* 🔽 Selector de colaboradores moderno */
+.select-personal {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #fff;
+  font-size: 0.95rem;
+  color: #333;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  appearance: none; /* elimina la flecha por defecto en algunos navegadores */
+  overflow-y: auto;
+  max-height: 150px; /* limita altura visible si hay más opciones */
+  transition: border-color 0.3s ease;
+}
+
+.select-personal:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+}
+
+/* 🔽 Scroll personalizado */
+.select-personal option {
+  padding: 0.4rem;
+}
+
+
+
+/* ▶️ Contenedor de información */
+.info-colaborador {
+  margin-top: 1rem;
+}
+
+.etiqueta {
+  border-left: 5px solid #007bff;
+  background-color: #e9f5ff;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.oculto {
+  display: none;
+}
+
+/* 🔹 Panel Derecho */
+
+#panel-derecho {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+.panel-derecho {
+  width: 65%;
+  padding: 16px;
+  background-color: #f9f9f9;
+  font-family: 'Poppins', sans-serif;
+}
+
+.panel-titulo select{
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+}
+
+.panel-titulo button{
+  background-color: #2eb85c;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 0 20px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.menu-bloque {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.menu-principal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.menu-principal i {
+  margin-right: 6px;
+  color: #1E8C41;
+}
+
+.menu-nombre {
+  flex-grow: 1;
+  margin-left: 8px;
+}
+
+.menu-propietario {
+  font-size: 14px;
+}
+
+.menu-subtitulo {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 8px;
+  margin-left: 24px;
+}
+
+.submenu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem; /* Tamaño de fuente más pequeño */
+  color: #444444;      /* Gris oscuro */
+  padding: 4px 8px;
+  margin: 2px 0;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+}
+
+.submenu i {
+  margin-right: 6px;
+  color: #666;
+}
+
+.submenu span {
+  flex-grow: 1;
+  margin-left: 6px;
+}
+
+.submenu-nombre {
+  flex-grow: 1;
+}
+
+.submenu-opciones label {
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.submenu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  color: #888; /* gris claro */
+}
+
+ .bloqueo {
+   cursor: not-allowed;
+   opacity: 0.5; /* Para indicar visualmente que está deshabilitado */
+    pointer-events: none; 
+}
+
+.submenu-icon {
+  margin-right: 8px;
+  font-size: 0.8rem;
+  color: #aaa; /* ícono más claro */
+}
+
+.submenu-text {
+  flex-grow: 1;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.submenu-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.submenu-actions i {
+  font-size: 0.8rem;
+  color: #999;
+}
+

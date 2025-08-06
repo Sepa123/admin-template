@@ -1,0 +1,131 @@
+  table {
+    text-align: center;
+  }
+  
+  table.greenTable {
+    border: 1px solid #28A745;
+    background-color: #FFFEF3;
+    width: auto;
+    text-align: center;
+  }
+  table.greenTable td, table.greenTable th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  table.greenTable tbody td {
+    font-size: 10px;
+  }
+
+  .comuna table.greenTable tbody td {
+    font-size: 12px;
+  }
+  
+  table.greenTable tbody th {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  table.greenTable tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  table.greenTable thead {
+    background: #28A745;
+  }
+  table.greenTable thead th {
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+  table.greenTable thead th:first-child {
+    border-left: none;
+  }
+  
+  table.greenTable tfoot {
+    font-size: 13px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: #A40808;
+  }
+  table.greenTable tfoot td {
+    font-size: 13px;
+  }
+  
+  table.greenTable tfoot .links {
+    text-align: right;
+  }
+  table.greenTable tfoot .links a{
+    display: inline-block;
+    background: #FFFFFF;
+    color: #A40808;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+  
+  // .container {
+  //   display: grid; 
+  //   grid-template-columns: 2.3fr 0.1fr 1fr; 
+  //   grid-template-rows: 1fr 1fr 1fr; 
+  //   gap: 0px 0px; 
+  //   grid-template-areas: 
+  //     ". . ."
+  //     ". . ."
+  //     ". . ."; 
+  //   }
+  
+  h2 {
+      text-align: center;
+    }
+    
+  .svgT{
+    fill:#12de20
+  }
+
+  .svgF{
+    fill:#d60a0a
+  }
+
+//  si esta atrasada o tiene entrega hoy que la casilla de la fecha tenga un verde clarito: #58D68D
+// si tiene hasta dos dias para adelante un amarillo clarito: #F9E79F
+// y si esta mas de dos dias adelante un rojo Clarito: #EC7063
+
+ // Cuadro de tabla fecha de pedido segun su numero
+ .atrasada {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  width: 75px;
+  white-space: nowrap; 
+  // background: #58D68D;
+  background: #EC7063;
+}
+
+.adelantada {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  width: 75px;
+  background: #F9E79F;
+  white-space: nowrap; 
+}
+
+.muyAdelantada {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  width: 75px;
+  // background: #EC7063;
+  white-space: nowrap; 
+  background: #58D68D
+}
+.entregado {
+  font-size: 10px;
+  color: #000000;
+  background: #EC7063;
+}
+
+.cancelado {
+  font-size: 10px;
+  color: #000000;
+  background: #f52c15;
+}

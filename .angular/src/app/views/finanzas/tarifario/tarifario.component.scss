@@ -1,0 +1,191 @@
+/* Estilos para contenedor y títulos */
+.container {
+  padding: 20px;
+  margin: 10px 0;
+}
+
+.TitleContainer h3 {
+  font-family: 'Arial', sans-serif;
+  text-align: center; /* Centra el texto horizontalmente */
+  font-weight: bold;  /* Pone el texto en negrita */
+  font-size: 24px;    /* Tamaño de fuente opcional */
+  margin: 0;          /* Elimina los márgenes del h3 si es necesario */
+}
+.selectOperacionFiltro {
+  display: flex;
+  flex-direction: column; /* Pone los elementos en columna */
+  align-items: flex-start; /* Alinea el span y el select al inicio */
+}
+.selectOperacionFiltro select {
+  width: 200px; /* Ancho del select de 200px */
+}
+.selectOperacionFiltro span {
+  margin-bottom: 5px; /* Espacio entre el span y el select */
+  font-weight: bold; /* O cualquier otro estilo que prefieras */
+}
+/* Estilos para botones */
+.Botones {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.x-button {
+  position: relative;
+  width: 30px; /* Ancho del botón */
+  height: 30px; /* Alto del botón */
+  background-color: transparent; /* Fondo transparente */
+  border: none; /* Sin bordes */
+  cursor: pointer; /* Manito al pasar el mouse */
+}
+.x-button::before, 
+  .x-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px; /* Ancho de la línea */
+    height: 2px; /* Grosor de la línea */
+    background-color: black; /* Color de la línea */
+    transform-origin: center;
+  }
+  
+  .x-button::before {
+    transform: translate(-50%, -50%) rotate(45deg); /* Línea diagonal */
+  }
+  
+  .x-button::after {
+    transform: translate(-50%, -50%) rotate(-45deg); /* Línea opuesta diagonal */
+  }
+
+.btnNueva {
+  background-color: #28a745; /* Verde */
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btnNueva:hover {
+  background-color: #218838; /* Verde oscuro */
+}
+
+.btnNueva svg {
+  margin-left: 5px;
+}
+/* Estilo para la tabla */
+.greenTable {
+  max-height: 600px; /* Altura para aproximadamente 10 filas */
+  overflow-y: scroll; /* Habilitar scroll vertical */
+  border: 1px solid #ddd; /* Añadir borde para mejorar la visibilidad */
+}
+
+.greenTable table {
+  width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px #ebedef;
+    font-size: 12px; 
+    // text-align: center
+}
+
+.greenTable th, .greenTable td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.greenTable th {
+  background-color: #28a745;
+  color: white;
+}
+
+.greenTable td {
+  font-size: 14px;
+}
+
+/* SVG dentro de la tabla para ordenar */
+.greenTable th svg {
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.greenTable th svg:hover {
+  fill: #ccc;
+}
+
+/* Estilo para ajustar visualmente la tabla */
+.greenTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* NUEVO: Limitar filas visibles a 10 y habilitar el scroll */
+
+
+/* Sticky header para que el <thead> se mantenga visible al hacer scroll */
+.greenTable thead  {
+  position: -webkit-sticky; /* Safari... */
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+
+/* Opcional: Estilo del scrollbar */
+.greenTable::-webkit-scrollbar {
+  width: 10px;
+}
+
+.greenTable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.greenTable::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+.greenTable::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: Arial, sans-serif; /* Mejora de la fuente */
+}
+select.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: Arial, sans-serif; /* Coincide con el diseño de los inputs */
+    -webkit-appearance: none; /* Elimina el estilo por defecto en algunos navegadores */
+    -moz-appearance: none; /* Elimina el estilo por defecto en Firefox */
+    appearance: none; /* Elimina el estilo por defecto en navegadores más modernos */
+    background-color: white;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMiAxMiIgd2lkdGg9IjE0cHgiIGhlaWdodD0iMTRweCI+PHBvbHlsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHBvaW50cz0iMSw0IDYsOSAxMSw0Ii8+PC9zdmc+');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    cursor: pointer;
+  }
+  
+  select.form-control:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }

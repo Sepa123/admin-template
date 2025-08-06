@@ -1,0 +1,216 @@
+// Estilos generales de los inputs
+label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+input:not([type="file"]) {
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+
+  &:focus {
+    outline: none;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+}
+
+
+
+// Sección de contraseña
+.contrasena-container {
+  position: relative;
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  input {
+    flex: 1;
+  }
+
+  button {
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    color: #6c757d;
+    
+    &:hover {
+      color: #0d6efd;
+    }
+
+    i {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.seguridad-contrasena {
+  display: flex;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.seguridad-barra {
+  height: 8px;
+  flex: 1;
+  background-color: #ddd;
+  border-radius: 4px;
+}
+
+.seguridad-barra.activo {
+  background-color: red; /* Color para barras activas */
+}
+
+.seguridad-barra:nth-child(2).activo {
+  background-color: orange; /* Color para nivel medio */
+}
+
+.seguridad-barra:nth-child(3).activo {
+  background-color:  green /* Color para barras activas */
+  ; /* Color para nivel alto */
+}
+
+// Botones del formulario
+.botones-formulario {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+
+  button {
+    padding: 0.375rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &[type="submit"] {
+      background-color: #198754;
+      color: white;
+      border: 1px solid #198754;
+
+      &:hover {
+        background-color: #157347;
+      }
+    }
+
+    &[type="button"] {
+      background-color: #e9ecef;
+      color: #212529;
+      border: 1px solid #dee2e6;
+
+      &:hover {
+        background-color: #dee2e6;
+      }
+    }
+  }
+}
+
+// Ajustes para el input de archivo
+input[type="file"] {
+  width: 100%;
+  padding: 0.375rem 0;
+  font-size: 0.9rem;
+}
+
+// Fecha de nacimiento
+input[type="date"] {
+  &::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+}
+
+// Alineación del loading
+c-modal-header td {
+  display: flex;
+  align-items: center;
+}
+
+
+
+
+/* Estilos específicos para el modal de creación de usuarios */
+/* Estilos minimalistas para el formulario */
+.form-minimalista {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+
+  .form-columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    .form-columna {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      label {
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #555;
+      }
+
+      .form-input,
+      .form-select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+          border-color: #007bff;
+          outline: none;
+          box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+      }
+    }
+  }
+
+  .botones-formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    .btn-save-modal {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #218838;
+      }
+    }
+
+    .btn-close-modal {
+      background-color: #e9ecef;
+      color: #212529;
+      border: 1px solid #dee2e6;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #dee2e6;
+      }
+    }
+  }
+}

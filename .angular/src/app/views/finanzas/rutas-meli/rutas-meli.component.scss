@@ -1,0 +1,284 @@
+.greenTable{
+    width: auto;
+    max-height: 400px; /* Altura de ejemplo */
+    overflow: auto;
+  }
+  
+  .greenTable  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    border-radius: 10px;
+    // overflow: hidden;
+    box-shadow: 0 4px 8px #ebedef;
+    font-size: 12px; 
+    text-align: center
+  }
+  .greenTable  table td, table th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  .greenTable  table tbody td {
+    font-size: 10px;
+  }
+  
+  .greenTable  table tbody th {
+    font-size: 11px;
+    font-weight: bold;
+  }
+  .greenTable  table tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  .greenTable table thead {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: #28A745;
+  }
+  .greenTable  table thead th {
+    font-size: 11px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+  .greenTable  table thead th:first-child {
+    border-left: none;
+  }
+  
+  .greenTable  table tfoot {
+    font-size: 13px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: #A40808;
+  }
+  .greenTable table tfoot td {
+    font-size: 13px;
+  }
+  
+  .greenTable  table tfoot .links {
+    text-align: right;
+  }
+  .greenTable  table tfoot .links a{
+    display: inline-block;
+    background: #FFFFFF;
+    color: #A40808;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+
+  
+  input[type=file] {
+    width: 450px;
+    max-width: 100%;
+    color: #444;
+    padding: 5px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #555;
+  }
+  
+  input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #084cdf;
+    padding: 4px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+  }
+  
+  input[type=file]::file-selector-button:hover {
+    background: #0d45a5;
+  }
+
+  .tamano {
+    font-size: 12px;
+  }
+  .greenTable th.sortable:hover {
+    background-color: #1ece27;
+    cursor: pointer;
+  }
+
+
+
+  .greenTable  table thead th.proforma {
+    font-size: 11px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #1E90FF;
+    background: #1E90FF;
+  }
+
+  .greenTable  table tbody td.proforma {
+    font-size: 10px;
+  background: #E0FFFF;
+  }
+
+  .greenTable  table thead th:first-child {
+    border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+}
+
+.greenTable table th:last-child {
+  border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+}
+
+.greenTable table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+}
+
+.greenTable table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
+}
+
+
+.divider {
+  flex-grow: 1;
+  height: 2px;
+  margin: 15px 0;
+  background-color: #4CAF50;
+  margin-left: 10px;
+}
+
+
+.cuotas-section {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.cuotas-section h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+
+  ////
+  /// 
+  /// 
+  .cards-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    // align-items: center; /* Centra verticalmente el contenido */
+    transition: all 0.3s ease-in-out;
+    flex: 1;
+    font-size: 0.9em;
+    height: 100px; /* Ajustar la altura */
+    overflow: hidden;
+}
+
+.icon-background {
+    border-radius: 0 50% 50% 0;
+    width: 80px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ajuste del tamaño y color de los íconos según el color del fondo */
+.card-red .icon-background {
+    background-color: #ffcccc;
+}
+
+// .card-red i {
+//     color: #d9534f; /* Rojo oscuro */
+//     font-size: 2.5em;
+// }
+
+.card-blue .icon-background {
+    background-color: #cceeff;
+}
+
+// .card-blue i {
+//     color: #3399ff; /* Azul más oscuro */
+//     font-size: 2.5em;
+// }
+
+.card-yellow .icon-background {
+    background-color: #fff0b3;
+}
+
+// .card-yellow i {
+//     color: #ffcc00; /* Amarillo más oscuro */
+//     font-size: 2.5em;
+// }
+
+.card-green .icon-background {
+    background-color: #ccffcc;
+}
+
+// .card-green i {
+//     color: #5cb85c; /* Verde oscuro */
+//     font-size: 2.5em;
+// }
+
+.card-gray .icon-background {
+  background-color: #e0e0e0;
+}
+
+.card-gray {
+  background-color: #f5f5f5;
+}
+
+// .card-gray i {
+//   color: #6c757d; /* Gris oscuro */
+//   font-size: 2.5em;
+// }
+
+
+.card h3 {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666; /* Gris oscuro */
+    text-align: right;
+    line-height: 1.2em; /* Ajuste de la altura de línea para mejorar el centrado vertical */
+}
+
+.card .number {
+    font-size: 1.5em;
+    color: #333;
+    text-align: right;
+    line-height: 1.2em;
+}
+
+/* Colores de fondo para cada tarjeta */
+.card-red {
+    background-color: #ffeded;
+}
+
+.card-blue {
+    background-color: #e0f7ff;
+}
+
+.card-yellow {
+    background-color: #fff7e0;
+}
+
+.card-green {
+    background-color: #e7ffe0;
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrando verticalmente el texto */
+    height: 100%;
+    padding-right: 10px;
+}

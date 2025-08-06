@@ -1,0 +1,188 @@
+.error {
+    color: #E71B24;
+  }
+
+.rectangulo,
+.rectangulo-gps,
+.rectangulo-seguridad {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.rectangulo {
+  background-color: #ffcccc; /* Rojo claro */
+  border: 2px solid #cc0000; /* Borde rojo oscuro */
+}
+
+.rectangulo-gps {
+  background-color: #ffffcc; /* Amarillo claro */
+  border: 2px solid #cccc00; /* Borde amarillo oscuro */
+}
+
+.rectangulo-seguridad {
+  background-color: #ccffcc; /* Verde clarito */
+  border: 2px solid #006600; /* Borde verde oscuro */
+}
+
+.borderDemo {
+  display: inline-block;
+  padding: 3px;
+  margin: 3px;
+  border-radius: 5px;
+  font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* Opcional: Agrega "..." al final si el texto es demasiado largo */
+  background-color: #C6C6C6;
+  }
+
+  .greenTable{
+      
+    max-height: 400px; /* Altura de ejemplo */
+    overflow: auto;
+  }
+
+  .greenTable  table .nada {
+    text-align: center;
+  }
+    
+  
+  .greenTable  table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    border-radius: 10px;
+    // overflow: hidden;
+    box-shadow: 0 4px 8px #ebedef;
+    font-size: 12px;
+  }
+  .greenTable  table td, table th {
+    border: 0px solid #ebedef;
+    padding: 3px 2px;
+  }
+  .greenTable  table tbody td {
+    font-size: 10px;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .greenTable  table td {
+    font-size: 12px;
+  }
+
+  .greenTable th.sortable:hover {
+    background-color: #1ece27;
+    cursor: pointer;
+  }
+  
+  .greenTable  table tbody th {
+    font-size: 12px;
+    font-weight: bold;
+    background: #28A745;
+    color: #FFFFFF;
+  }
+  .greenTable  table tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  .greenTable table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    left: 0;
+    background: #28A745;
+  }
+  .greenTable  table thead th {
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+
+  .greenTable  table thead th:first-child {
+    border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+}
+
+.greenTable table th:last-child {
+  border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+}
+
+.greenTable table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+}
+
+.greenTable table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
+}
+  
+  .inline-container {
+    margin: 1px;
+    display: flex;
+    align-items: center; /* Alinea los elementos verticalmente si es necesario */
+  }  
+  
+  .inline-container input,
+  .inline-container c-dropdown,
+  .inline-container span {
+    margin-right: 5px; /* Espacio personalizado entre los elementos */
+  }
+  h2 {
+      text-align: center;
+    }
+    
+  .svgT{
+    fill:#12de20
+  }
+  
+  .svgF{
+    fill:#d60a0a
+  }
+
+  ::ng-deep .mat-mdc-slide-toggle.mat-accent {
+    --mdc-switch-selected-focus-state-layer-color: #2eb85c;
+    --mdc-switch-selected-handle-color: #2eb85c;
+    --mdc-switch-selected-hover-state-layer-color: #2eb85c;
+    --mdc-switch-selected-pressed-state-layer-color: #2eb85c;
+    --mdc-switch-selected-focus-handle-color: #2eb85c;
+    --mdc-switch-selected-hover-handle-color: #2eb85c;
+    --mdc-switch-selected-pressed-handle-color: #2eb85c;
+    --mdc-switch-selected-focus-track-color: #2eb85c;
+    --mdc-switch-selected-hover-track-color: #2eb85c;
+    --mdc-switch-selected-pressed-track-color: #2eb85c;
+    --mdc-switch-selected-track-color: #2eb85c;
+}
+
+::ng-deep .mat-mdc-slide-toggle {
+  --mdc-switch-disabled-selected-handle-color: #2eb85c;
+  --mdc-switch-disabled-unselected-handle-color: #424242;
+  --mdc-switch-disabled-selected-track-color: #2eb85c;
+  --mdc-switch-disabled-unselected-track-color: #424242;
+  --mdc-switch-unselected-focus-state-layer-color: #424242;
+  --mdc-switch-unselected-pressed-state-layer-color: #424242;
+  --mdc-switch-unselected-hover-state-layer-color: #2eb85c;
+  --mdc-switch-unselected-focus-track-color: #e0e0e0;
+  --mdc-switch-unselected-hover-track-color: #e0e0e0;
+  --mdc-switch-unselected-pressed-track-color: #e0e0e0;
+  --mdc-switch-unselected-track-color: #e0e0e0;
+  --mdc-switch-unselected-focus-handle-color: #2eb85c;
+  --mdc-switch-unselected-hover-handle-color: #2eb85c;
+  --mdc-switch-unselected-pressed-handle-color: #2eb85c;
+  --mdc-switch-handle-surface-color: var(--mdc-theme-surface, #fff);
+  --mdc-switch-unselected-handle-color: #616161;
+  --mdc-switch-selected-icon-color: #fff;
+  --mdc-switch-disabled-selected-icon-color: #fff;
+  --mdc-switch-disabled-unselected-icon-color: #fff;
+  --mdc-switch-unselected-icon-color: #fff;
+}
+
+.titulo {
+  text-align: center;
+}
+.horizontal-align {
+  display: flex;
+  justify-content: center;
+}

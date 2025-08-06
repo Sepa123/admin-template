@@ -1,0 +1,210 @@
+<c-modal id="liveDemoModal" [visible]="visible1" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Considerar</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <table>
+        <tr>
+            <td>
+                Ingresar código de paquetes nuevos, requieren impresion de etiquetas unitarias.
+            </td>
+        </tr>
+       
+      </table>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+
+  <c-modal id="liveDemo" [visible]="visible2" (visibleChange)="handleLiveDemo($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Considerar</h5>
+      <button (click)="toggleLive()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <table>
+        <tr>
+            <td>
+                Ingresar código de etiqueta del paquete o etiqueta unitaria que por daño y/o pérdida requieren ser re-impresas.
+            </td>
+        </tr>   
+       
+      </table>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLive()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+
+<c-row>
+    <c-col [xs] class="sucursalesPaquetesAbiertos">
+        <div class="buscarSucursal">
+           <b> Seleccionar sucursal :</b>
+            <select id="Mes" cSelect [(ngModel)]="sucursalSeleccionada ">
+                <option value="">Sucursales</option>
+                <option *ngFor="let sucursal of sucursales" value={{sucursal.Id}}  >
+                {{sucursal.Nombre}}     
+                </option>
+            </select>
+        </div>
+        
+        <div class="botonListarPaquetes"  >
+            <button  cButton  color="secondary" size="sm" (click)="paquetesAbiertosPorSucursal()">Paquetes abiertos</button>
+        </div>
+       
+    </c-col>
+    <c-col [xs]>
+       
+    </c-col>
+   
+</c-row>
+<c-row class="contenedorInputs">
+    
+    <c-col [xs] class="paquetesPorAbrir">
+        <div class="contenedor-info">
+            <h5>Abrir paquete</h5>
+            <svg (click)="toggleLiveDemo()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg>
+        </div>
+        <div class="busquedaPorAbrir">
+            <input type="text"  [(ngModel)]="bar_code"(change)="abrirPaquete(bar_code)" (click)="getLocation()" >
+            <p>Ingresar Código de barra</p>
+        </div>
+    </c-col>
+
+    <c-col [xs] class="paquetesPorAbrir">
+       <div class="contenedor-info">
+            <h5>Reimprimir Etiqueta</h5>
+            <svg (click)="toggleLive()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg>
+       </div>  
+       
+        <div class="busquedaPorAbrir">
+            <input type="text"  [(ngModel)]="barCode"(change)="reimprimirEtiquetaUnica(barCode)" (click)="getLocation()" >
+            <p>Ingresar Código de barra</p>
+        </div>
+        
+       
+    </c-col>
+</c-row>
+
+<h3 class="tituloFecha show" *ngIf="paquetesOpenSucursal.flat().length > 0">Paquetes abiertos hoy : {{fechaHoy}}</h3>
+<div class="greenTable show"  *ngFor="let arr of paquetesOpenSucursal; let i = index">
+    
+    <table id="tablaProductosPicking" style="width: 60%" *ngIf="paquetesOpenSucursal.length !=0">
+        <thead>
+            <tr>
+                <th colspan="5" style="justify-content: left;">Color : {{arr[0].color}}</th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <th colspan="5" style="justify-content: left;">Carga : {{arr[0].carga}}</th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Código de producto</th>
+                <th>Descripción</th>
+                <th>Código de paquete</th>
+                <th>Etiquetas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inventario of arr">
+                <td>{{inventario.fecha ? inventario.fecha : 'Sin registro' }}</td>
+                <td>{{inventario.bar_code.split('@')[0]}}</td>
+                <td>{{inventario.descripcion}}</td>
+                <td>{{inventario.bar_code}}</td>
+                <td>
+                    <button cButton color="success" size="sm"(click)="reimprimirEtiqueta(inventario.carga, inventario.id, inventario.tipo)">
+                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+                        </svg> Descargar
+
+                    </button>
+                   
+                </td>       
+            </tr>
+        </tbody>
+    </table>
+</div>
+<h3 class="tituloFecha"*ngIf="restoPaquetesOpenSucursal.flat().length > 0">Paquetes abiertos hasta : {{fechaAnterior}}</h3>
+
+<div class="greenTable tablaPaquetesAbiertosFechaAnterior show"  *ngFor="let arr of restoPaquetesOpenSucursal; let i = index">
+    
+    <table id="tablaProductosPicking" style="width: 60%">
+        <thead>
+            <tr>
+                <th colspan="5" style="justify-content: left;">Color : {{arr[0].color}}</th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <th colspan="5" style="justify-content: left;">Carga : {{arr[0].carga}}</th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Código de producto</th>
+                <th>Descripción</th>
+                <th>Código de paquete</th>
+                <th>Etiquetas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inventario of arr">
+                <td>{{inventario.fecha ? inventario.fecha : 'Sin registro' }}</td>
+                <td>{{inventario.bar_code.split('@')[0]}}</td>
+                <td>{{inventario.descripcion}}</td>
+                <td>{{inventario.bar_code}}</td>
+                <td>
+                    <button cButton color="success" size="sm"(click)="reimprimirEtiqueta( inventario.carga, inventario.id, inventario.tipo)">
+                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+                        </svg> Descargar
+                    </button>
+                </td>       
+            </tr>
+        </tbody>
+    </table>
+</div>
+<h3 class="tituloFecha" *ngIf="etiquetasReimpresas.length!=0">Etiquetas Re-Impresas</h3>
+<div class="greenTable" *ngIf="etiquetasReimpresas.length!=0">
+    
+    <table id="tablaProductosPicking" style="width: 60%">
+        
+        <thead>
+            <tr>
+                <th>Carga</th>
+                <th>Tipo</th>
+                <th>Código de producto</th>
+                <th>Código de paquete</th>
+             
+            </tr>
+        </thead>
+        <tbody>
+            <tr  *ngFor="let arr of etiquetasReimpresas; let i = index">
+                <td>{{arr.carga}}</td>
+                <td>{{arr.tipo}}</td>
+                <td>{{arr.codigo}}</td>
+                <td>{{arr.bar_code}}</td>
+                <!-- <td>
+                    <button cButton color="success" size="sm"(click)="reimprimirEtiqueta(arr.idEtiqueta)">
+                        <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+                            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+                        </svg> Descargar
+
+                    </button>
+                   
+                </td>        -->
+            </tr>
+        </tbody>
+    </table>
+</div>

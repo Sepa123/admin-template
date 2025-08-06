@@ -1,0 +1,293 @@
+/* styles.css */
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .hidden {
+    display: none;
+  }
+  
+  .user-container {
+    display: flex;
+    align-items: flex-start; /* Alinea los elementos al principio */
+    margin-top: 50px;
+    margin-left: 80px;
+    width:80%;
+  }
+  
+  .profile-picture-container {
+    position: relative;
+    margin-right: 20px; /* Espacio entre el avatar y el formulario */
+    z-index: 1; /* Asegura que el avatar esté sobre el formulario */
+  }
+  
+  .profile-picture {
+      width: 150px; /* Ajuste el tamaño del avatar */
+      height: 150px; /* Ajuste el tamaño del avatar */
+      border-radius: 50%; /* Hace el avatar redondo */
+      border: 2px solid #ddd;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden; /* Se asegura de que la imagen no se salga del círculo */
+      position: absolute;
+      top: -60px;
+      left: -70px;
+  }
+  
+  .profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen dentro del círculo */
+  }
+  
+  .change-picture-btn {
+    position: absolute;
+    bottom:-120px; /* Posición en el centro inferior */
+    left: 10px; /* Posición en el centro horizontal */
+    transform: translateX(-50%); /* Centra horizontalmente */
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 5px;
+    border-radius: 50%;
+  }
+  
+  .change-picture-btn i {
+    color: #333;
+  }
+  
+  .user-details-container {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    flex: 1;
+  }
+  
+  .name-container {
+    position: relative;
+    z-index: 2; /* Asegura que el nombre esté sobre el formulario */
+    margin-bottom: -20px; /* Espacio entre el nombre y el formulario */
+    
+  }
+  
+  .name-container h2 {
+    margin: 0;
+    padding: 10px; /* Agrega un espacio alrededor del nombre */
+    background-color: #f9f9f9; /* Color de fondo para el cuadro del nombre */
+    border: 1px solid #ddd;
+    color: #000000;
+    border-radius: 5px;
+    top: -70px;
+    margin-left: 50px;
+    position: absolute;
+  }
+  
+  .email-container {
+    margin-top: 10px;
+    margin-left: 60px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .email-container i {
+    margin-right: 5px;
+    color: #999;
+  }
+  
+  .copy-email-btn {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+  }
+  
+  .copy-email-btn:hover {
+    color: #000;
+  }
+  
+  form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* Cambia la dirección del flex a columna */
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: flex;
+    align-items: center; /* Alinea los íconos y el texto verticalmente */
+    margin-bottom: 5px;
+    text-align: right; /* Alinea los textos de las etiquetas a la derecha */
+  }
+  
+  label i {
+    margin-right: 5px;
+  }
+  
+  input[type="text"],
+  input[type="date"],
+  input[type="password"] {
+    width: calc(100% - 10px);
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .error {
+    color : red
+  }
+
+  .password-container {
+    position: relative;
+    width: max-content;
+}
+
+input[type="password"], input[type="text"] {
+    padding-right: 30px; /* espacio para el ícono */
+}
+
+.eye-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+ 
+//// supervisor
+/// 
+.supervisor.card-container {
+  display: flex;
+  flex-wrap: wrap; /* Para que las tarjetas se envuelvan a una nueva línea */
+  justify-content: center; /* Para centrar las tarjetas horizontalmente */
+  gap: 20px; /* Espacio entre las tarjetas */
+}
+.supervisor .card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin: 30px;
+margin-top:60px;
+  padding: 20px;
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin-bottom: 20px; /* Espacio entre las tarjetas */
+}
+.supervisor .avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  position: absolute;
+  top: -30px;
+  left: -70px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+.supervisor .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.supervisor .info {
+  flex: 1;
+padding-left: 40px;
+  position: relative;
+  z-index: 0;
+}
+.supervisor .name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+}
+.supervisor .email {
+  font-size: 0.8rem;
+  color: #888;
+  text-align: left;
+}
+ .operations {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+ .operation-box {
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.operation-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+}
+ .operation {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+  .delete-icon {
+  color: red;
+  cursor: pointer;
+  font-size: 0.8rem; /* Tamaño del tarrito de basura */
+}
+ .add-operation {
+  background-color: #28a745; 
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  margin-top: 20px;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Agregamos transición para la sombra */
+  align-self: flex-end;
+  z-index: 1; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Agregamos sombra */
+}
+ .add-operation:hover {
+  background-color: #218838;
+}
+ .center-box {
+  background-color: #f7d9b0; /* Color naranja claro */
+  border: 1px solid #c18642; /* Borde naranja oscuro */
+  border-radius: 6px;
+  padding: 5px 5px;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.delete-icon {
+  position: relative;
+  color: red;
+  cursor: pointer;
+  right: -5%;
+  bottom: 10%;
+  font-size: 0.5rem; /* Tamaño del tarrito de basura */
+}
+ .center-box {
+  color: #000000;
+  cursor: pointer;
+  font-size: 0.8rem; /* Tamaño del tarrito de basura */
+  min-width: 60px;
+}

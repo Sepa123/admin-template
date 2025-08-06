@@ -1,0 +1,274 @@
+/* Estilos generales */
+// responsive query
+
+/* 🎯 Media Queries Responsive Adaptado a tu diseño actual */
+
+// Dispositivos pequeños: teléfonos
+@media (max-width: 575px) {
+  .formulario-dos-columnas {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-columna {
+    flex: 1 1 100%;
+  }
+
+  .title-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .photo-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-open-modal, .btn-save-modal, .btn-close-modal {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+// Dispositivos medianos: tablets
+@media (min-width: 576px) and (max-width: 991px) {
+  .formulario-dos-columnas {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .form-columna {
+    flex: 1 1 100%;
+  }
+
+  .user-pool {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  .select-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// Escritorios pequeños
+@media (min-width: 992px) and (max-width: 1200px) {
+  .select-group {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .form-columna {
+    flex: 1 1 45%;
+  }
+
+  .user-pool {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+
+
+// @mixin respond-to($breakpoint) {
+//   @if $breakpoint == small {
+//     @media (max-width: 575px) { @content; }
+//   } @else if $breakpoint == medium {
+//     @media (min-width: 576px) and (max-width: 991px) { @content; }
+//   } @else if $breakpoint == large {
+//     @media (min-width: 992px) { @content; }
+//   }
+// }
+
+
+
+
+// // Ejemplo de uso:
+// @include respond-to(small) {
+//   .formulario-dos-columnas {
+//     flex-direction: column;
+//   }
+// }
+
+// @media (max-width: 768px) {
+//     .form-columnas {
+//         flex-direction: column;
+//     }
+// }
+// /* Ajustes responsive */
+// @media (max-width: 768px) {
+//   .select-group {
+//     grid-template-columns: repeat(2, 1fr);
+//   }
+// }
+
+// @media (max-width: 480px) {
+//   .select-group {
+//     grid-template-columns: 1fr;
+//   }
+// }
+
+// @media (max-width: 768px) {
+  
+  
+//   .password-section,
+//   .photo-section {
+//     width: 100%;
+//   }
+// }
+// @media (max-width: 768px) {
+//     .form-columna {
+//       flex: 1 1 100%;
+//     }
+//   }
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f9;
+}
+
+.input-error {
+  border: 2px solid red !important; /* Asegúrate de que el estilo tenga prioridad */
+  border-radius: 4px;
+}
+
+.panel {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.filtros {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filtros input, .filtros select, .filtros button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    flex: 1 1 200px;
+    max-width: 25vh; 
+}
+
+.filtros button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filtros button:hover {
+    background-color: #218838;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f8f9fa;
+}
+
+/* Modal */
+// Estilos generales del modal
+.modal-cabecera {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+c-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  
+  .btn-close {
+    font-size: 1.25rem;
+    padding: 0.5rem;
+  }
+}
+
+// Selectores superiores
+.selectores-superiores {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  select {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 0.9rem;
+    
+    &:focus {
+      outline: none;
+      border-color: #86b7fe;
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+  }
+}
+
+// Formulario en columnas
+.form-columnas.campos-angostos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+
+  .form-columna {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+      select {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        background-color: white;
+        font-size: 0.9rem;
+      
+        &:focus {
+          outline: none;
+          border-color: #86b7fe;
+          box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+      }
+    }
+  }
+  
+}
+
+.cabeceraOp {
+  font-size: 16px;
+  color: #3a4151;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+
+  b, strong {
+    font-weight: 700;
+    color: #232735;
+    margin-left: 4px;
+  }
+}
+
+.separador {
+  border-bottom: 1.5px solid #d3d7df;
+  width: 100%;
+  margin-top: 0.2rem;
+  padding: 8px;
+}

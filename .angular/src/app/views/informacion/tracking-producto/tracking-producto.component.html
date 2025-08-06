@@ -1,0 +1,286 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Observación </h5>
+    <button (click)="toggleLiveDemo()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+      {{observacionActual}}
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveDemo()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+
+<div class="container padding-bottom-3x mb-1">
+
+  <input type="text" [(ngModel)]="codigoPick" (change)="buscarTrackBeetrack(codigoPick)">
+  <p></p>
+        <div class="card mb-3">
+          <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase">Tracking Order No - </span><span class="text-medium">{{codigoPickeado}}</span></div>
+          <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+          </div>
+          <div class="card-body">
+            <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+              <div [ngClass]="linea_producto.Linea[0] == 1 ? 'step completed': 'step'">
+                <div class="step-icon-wrap">
+                  <div class="step-icon">
+                    <svg  [ngClass]="linea_producto.Linea[0] == 1 ? 'svgWhite': 'svgBlack'" xmlns="http://www.w3.org/2000/svg" height="0.95em" viewBox="0 0 640 512"><path d="M32 0C14.3 0 0 14.3 0 32S14.3 64 32 64H48c8.8 0 16 7.2 16 16V368c0 44.2 35.8 80 80 80h18.7c-1.8 5-2.7 10.4-2.7 16c0 26.5 21.5 48 48 48s48-21.5 48-48c0-5.6-1-11-2.7-16H450.7c-1.8 5-2.7 10.4-2.7 16c0 26.5 21.5 48 48 48s48-21.5 48-48c0-5.6-1-11-2.7-16H608c17.7 0 32-14.3 32-32s-14.3-32-32-32H144c-8.8 0-16-7.2-16-16V80C128 35.8 92.2 0 48 0H32zM192 80V272c0 26.5 21.5 48 48 48H560c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H464V176c0 5.9-3.2 11.3-8.5 14.1s-11.5 2.5-16.4-.8L400 163.2l-39.1 26.1c-4.9 3.3-11.2 3.6-16.4 .8s-8.5-8.2-8.5-14.1V32H240c-26.5 0-48 21.5-48 48z"/></svg>
+                  </div>
+                </div>
+                   <h4 class="step-title">Ingreso Cliente </h4>
+                   <svg *ngIf="linea_cambio[0] == 1 " xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><style>svg{fill:#E71B24}</style><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+                </div>
+              <div [ngClass]="linea_producto.Linea[1] == 1 ? 'step completed': 'step'">
+                <div class="step-icon-wrap">
+                  <div class="step-icon">
+                    <svg  [ngClass]="linea_producto.Linea[1] == 1 ? 'svgWhite': 'svgBlack'" xmlns="http://www.w3.org/2000/svg" height="0.95em" viewBox="0 0 640 512"><path d="M0 488V171.3c0-26.2 15.9-49.7 40.2-59.4L308.1 4.8c7.6-3.1 16.1-3.1 23.8 0L599.8 111.9c24.3 9.7 40.2 33.3 40.2 59.4V488c0 13.3-10.7 24-24 24H568c-13.3 0-24-10.7-24-24V224c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32V488c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24zm488 24l-336 0c-13.3 0-24-10.7-24-24V432H512l0 56c0 13.3-10.7 24-24 24zM128 400V336H512v64H128zm0-96V224H512l0 80H128z"/></svg></div>
+                </div>
+                <h4 class="step-title">Recepción</h4>
+                <svg *ngIf="linea_cambio[1] == 1 " xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><style>svg{fill:#E71B24}</style><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+              </div>
+              <div [ngClass]="linea_producto.Linea[2] == 1 ? 'step completed': 'step'">
+                <div class="step-icon-wrap">
+                  <div class="step-icon">
+                    <svg [ngClass]="linea_producto.Linea[2] == 1 ? 'svgWhite': 'svgBlack'" xmlns="http://www.w3.org/2000/svg" height="0.95em" viewBox="0 0 576 512"><path d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H512c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H512c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm96 64a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm104 0c0-13.3 10.7-24 24-24H448c13.3 0 24 10.7 24 24s-10.7 24-24 24H224c-13.3 0-24-10.7-24-24zm0 96c0-13.3 10.7-24 24-24H448c13.3 0 24 10.7 24 24s-10.7 24-24 24H224c-13.3 0-24-10.7-24-24zm0 96c0-13.3 10.7-24 24-24H448c13.3 0 24 10.7 24 24s-10.7 24-24 24H224c-13.3 0-24-10.7-24-24zm-72-64a32 32 0 1 1 0-64 32 32 0 1 1 0 64zM96 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg></div>
+                </div>
+                <h4 class="step-title">Planificación</h4>
+                <svg *ngIf="linea_cambio[2] == 1 " xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><style>svg{fill:#E71B24}</style><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+              </div>
+              <div [ngClass]="linea_producto.Linea[3] == 0 ? 'step': 'step completed'">
+                <div class="step-icon-wrap">
+                  <div class="step-icon">
+                    <svg [ngClass]="linea_producto.Linea[3] == 0 ? 'svgBlack': 'svgWhite'" xmlns="http://www.w3.org/2000/svg" height="0.95em" viewBox="0 0 640 512"><path d="M112 0C85.5 0 64 21.5 64 48V96H16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 272c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 48c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 240c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 208c8.8 0 16 7.2 16 16s-7.2 16-16 16H64V416c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H112zM544 237.3V256H416V160h50.7L544 237.3zM160 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96zm272 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0z"/></svg>
+                  </div>
+                </div>
+                <h4 class="step-title">En ruta</h4>
+                <svg *ngIf="linea_cambio[3] == 1 " xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><style>svg{fill:#E71B24}</style><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+              </div>
+              <div [ngClass]="linea_producto.Linea[4] == 0 ? 'step': linea_producto.Linea[4] == 1 ? 'step caso1' : linea_producto.Linea[4] == 2 ? 'step caso2' : 'step completed' ">
+                <div class="step-icon-wrap">
+                  <div class="step-icon">
+                    <!-- icono 0 -->
+                    <svg *ngIf="linea_producto.Linea[4] == 0" xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><path fill="black" d="M408 406.545V248H288v158.545ZM320 280h56v94.545h-56Z"/><path fill="black" d="M271.078 33.749a34 34 0 0 0-47.066.984L32 226.745V496h112V336h64v160h272V225.958ZM448 464H240V304H112v160H64V240L249.412 57.356V57.3L448 240Z"/></svg>
+                    <!-- icono 1 -->
+                    <svg *ngIf="linea_producto.Linea[4] == 1" xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><path fill="white" d="M426.072 86.928A238.75 238.75 0 0 0 88.428 424.572A238.75 238.75 0 0 0 426.072 86.928ZM257.25 462.5c-114 0-206.75-92.748-206.75-206.75S143.248 49 257.25 49S464 141.748 464 255.75S371.252 462.5 257.25 462.5Z"/><path fill="white" d="m221.27 305.808l-73.413-73.412l-22.627 22.627l96.04 96.04l167.5-167.499l-22.628-22.627L221.27 305.808z"/></svg>
+                    <!-- icono 2  -->
+                    <svg *ngIf="linea_producto.Linea[4] == 2" xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><path fill="white" d="M240 352h32v32h-32zM355.411 16H156.589l-34.936 37.771l22.645 22.645L170.58 48h170.84L464 180.53v150.94l-31.063 33.585l22.644 22.645L496 344V168L355.411 16z"/><path fill="white" d="M240 128v44.118l32 32V128h-32zM16 16v22.627l62.164 62.164L16 168v176l140.589 152h198.822l56.681-61.281L473.373 496H496v-22.627L38.627 16Zm325.42 448H170.58L48 331.47V180.53l52.808-57.095L240 262.627V320h32v-25.373l117.447 117.447Z"/></svg>
+                    <!-- icono 3  -->
+                    <svg *ngIf="linea_producto.Linea[4] == 3" xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><path fill="white" d="M471.232 111.731H368V16H144.232v95.731h-103A24.8 24.8 0 0 0 16.464 136.5v334.032A24.8 24.8 0 0 0 41.232 495.3h430A24.8 24.8 0 0 0 496 470.532V136.5a24.8 24.8 0 0 0-24.768-24.769ZM176.232 48H336v63.731H176.232Zm286.232 97.269v80.286l-53.177 53.176H273V232h-33.536v46.731H103.177L50 225.555v-80.286ZM50 461.764V272.982l39.286 39.287h150.178V359.5H273v-47.231h150.178l39.286-39.287v188.782Z"/></svg>
+                    <!-- <svg [ngClass]="linea_producto.Linea[4] == '1' ? 'svgWhite': 'svgBlack'" xmlns="http://www.w3.org/2000/svg" height="0.95em" viewBox="0 0 512 512"><path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm177.6 62.1C192.8 334.5 218.8 352 256 352s63.2-17.5 78.4-33.9c9-9.7 24.2-10.4 33.9-1.4s10.4 24.2 1.4 33.9c-22 23.8-60 49.4-113.6 49.4s-91.7-25.5-113.6-49.4c-9-9.7-8.4-24.9 1.4-33.9s24.9-8.4 33.9 1.4zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg> -->
+                  </div>
+                </div>
+                <h4  *ngIf="linea_producto.Linea[4] == 0" class="step-title">Producto no entregado</h4>
+                <h4  *ngIf="linea_producto.Linea[4] == 1" class="step-title">Producto entregado</h4>
+                <h4  *ngIf="linea_producto.Linea[4] == 2" class="step-title">Producto no entregado pero con condición de no reingreso a ruta</h4>
+                <h4  *ngIf="linea_producto.Linea[4] == 3" class="step-title">Producto archivado</h4>
+
+                <svg *ngIf="linea_cambio[4] == 1 " xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><style>svg{fill:#E71B24}</style><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
+          <div class="custom-control custom-checkbox mr-3">
+          </div>
+          <!-- <div class="text-left text-sm-right"><a class="btn btn-outline-primary btn-rounded btn-sm" href="orderDetails" data-toggle="modal" data-target="#orderDetails">View Order Details</a></div> -->
+        </div>
+
+        <p></p>
+
+        <div *ngIf="isOK" class="card mb-3">
+          <p></p>
+          <h4>Datos Cliente</h4>
+
+           <table class="greenTable" >
+            <thead>
+              <tr>
+                  <th>Codigo Cliente</th>
+                  <th>Fecha Ingreso Sistema</th>
+                  <th>Nombre</th>
+                  <th>Dirección</th>
+                  <th>Ciudad</th>
+                  <th>Telefono</th>
+                  <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{productosRuta[0].Codigo_cliente}}</td>
+                <td>{{fechaIngresoSistema}}</td>
+                <td>{{productosRuta[0].Nombre}}</td>
+                <td>{{productosRuta[0].Calle}}</td>
+                <td>{{productosRuta[0].Ciudad}}</td>
+                <td>{{productosRuta[0].Telefono}}</td>
+                <td>{{productosRuta[0].Email}}</td>
+              </tr>
+            </tbody>
+            </table>
+            <p></p>
+          <h4>Traza Producto Beetrack</h4>
+          <table class="greenTable">
+            <thead>
+              <tr>
+                  <!-- <th>Código de Cliente</th> -->
+                  <th>Id Ruta</th>
+                  <th>PPU</th>
+                  <!-- <th>Fecha Ingreso Sistema</th> -->
+                  <th>Cliente</th>
+                  <th>Fecha Entrega</th>
+                  <th>Estado</th>
+                  <th>Subestado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let track of trackingBeetrack">
+                <td>{{track.Id_ruta}}</td>
+                <td>{{track.PPU}}</td>
+                <!-- <td>{{track.Fecha_ingreso_beetrack}}</td> -->
+                <td>{{track.Cliente}}</td>
+                <td>{{track.Fecha_entrega}}</td>
+                <td>{{track.Estado}}</td>
+                <td>{{track.Subestado}}</td>
+              </tr>
+              <tr *ngIf="!isTrackingBeetrack">
+                <td colspan="6">Sin datos de Beetrack</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p></p>
+          
+          <table class="greenTable" >
+            <thead>
+              <tr>
+                  <th>Código Pedido</th>
+                  <th>Fecha Pedido</th>
+                  <th>Fecha Pedido Orignal</th>
+                  <th>Código Producto</th>
+                  <th>Descripción Producto</th>
+                  <th>SKU</th>
+                  <th>Cantidad</th>
+                  <th>Notas</th>
+                  <th>Verificado</th>
+                  <th>Ruta Hela</th>
+                  <th *ngIf="factura.length !== 0 "> Factura</th>
+              </tr>
+            </thead>
+            <tbody>
+            <!-- <ng-container *ngFor="let objeto of productosRuta;let i = index"> -->
+              <tr *ngFor="let producto of productosRuta;let i = index">
+                <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Codigo_pedido}}</td>
+                <th [ngClass]="{
+                  'atrasada': producto.Diferencias_dias <= 0,
+                  'adelantada': producto.Diferencias_dias > 0 && producto.Diferencias_dias <= 2,
+                  'muyAdelantada': producto.Diferencias_dias > 2
+                }">{{producto.Fecha_pedido}}</th>
+                <td >{{producto.Fecha_original_pedido}}</td>
+                <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Codigo_producto}}</td>
+                <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Descripcion_producto}}</td>
+                <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.SKU}}</td>
+                <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Cantidad_producto}}</td>
+                <td [ngClass]="{'entregado' : producto.Estado === true}">{{producto.Notas}}</td>
+                <!-- Productos pistoleados -->
+                <td *ngIf="producto.Pistoleado === true" [ngClass]="{'entregado' : producto.Estado === true}">
+                  <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                </td>
+                <td *ngIf="producto.Pistoleado === false " [ngClass]="{'entregado' : producto.Estado === true}">
+                  <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                </td>
+                <!-- Productos pistoleados -->
+                <td [ngClass]="{'entregado' : producto.Estado === true}" *ngIf="producto.Estado == true">Entregado</td>
+                <td [ngClass]="{'entregado' : producto.Estado === true}" *ngIf="producto.Estado == false">Pendiente</td>
+                <!-- Producto En ruta -->
+
+                <!-- ruta hela -->
+                <td [ngClass]="{'entregado' : producto.Estado === true}">
+
+                  <table>
+                    <tr *ngFor="let ruta of producto.arrayNombreRuta;let i = index">
+                      <td>{{ruta}}</td>
+                    </tr>
+                  </table>
+                  <!-- {{producto.Nombre_ruta}} -->
+                
+                </td>
+                <!-- Si el producto es un electrolux -->
+                <td *ngIf="producto.Notas.indexOf('Electrolux') !== -1 " >{{factura[i][producto.SKU]}}</td> 
+                
+              </tr>
+            <!-- </ng-container> -->
+
+            </table>
+
+            <p></p>
+            <h4>Alertas de TOC</h4>
+            <table class="greenTable" >
+              <thead>
+                <tr>
+                    <th>Fecha/Hora</th>
+                    <th>Comuna</th>
+                    <th>Dirección</th>
+                    <th>Fecha Compromiso</th>
+                    <th>Observación</th>
+                    <th>Código TY</th>
+                    <!-- <th *ngIf="rol == '5' || rol == '22'">Creado por</th> -->
+                </tr>
+              </thead>
+              <tbody>
+              <!-- <ng-container *ngFor="let objeto of productosRuta;let i = index"> -->
+                <tr *ngFor="let toc of arrayTOCTracking; let i = index">
+                  <td>{{toc.Fecha_hora}}</td>
+                  <td [ngClass]="regex.test(toc.Comuna) ? 'aterisco': '' ">{{toc.Comuna.replace('*','')}}</td>
+                  <td [ngClass]="regex.test(toc.Direccion) ? 'aterisco': '' ">{{toc.Direccion.replace('*','')}}</td>
+                  <td [ngClass]="regex.test(toc.Fecha_compromiso) ? 'aterisco': '' "> {{toc.Fecha_compromiso.replace('*','')}}</td>
+                  <td>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verObservacion(toc.Observacion)"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+                  </td>
+                  <td>{{toc.Codigo_TY}}</td>
+                  <!-- <td *ngIf="rol == '5' || rol == '22' ">{{toc.Creado_por}}</td> -->
+                </tr>
+                <tr>
+                  <td colspan="6" *ngIf="arrayTOCTracking.length == 0">No hay registros</td>
+                </tr>
+              <!-- </ng-container> -->
+  
+              </table>
+
+
+              <p></p>
+            <h4>Estados Operaciones</h4>
+            <table class="greenTable" >
+              <thead>
+                <tr>
+                    <th>Fecha/Hora</th>
+                    <th>Cliente</th>
+                    <th>Código Producto</th>
+                    <th>Usuario</th>
+                    <th>Origen<th>
+                    <th>Observación</th>
+                    <!-- <th *ngIf="rol == '5' || rol == '22'">Creado por</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let li of bitacoraLI; let i = index">
+                  <td>{{li.Dia}}</td>
+                  <td>{{li.Cliente}}</td>
+                  <td>{{li.Codigo_producto}}</td>
+                  <td>{{li.Nombre}}</td>
+                  <td>{{li.Origen}}</td>
+                  <td>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="verObservacion(li.Observacion)"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6" *ngIf="bitacoraLI.length == 0">No hay registros</td>
+                </tr>
+              </table>
+              <p></p>
+
+          </div>
+      </div>
+
+
+

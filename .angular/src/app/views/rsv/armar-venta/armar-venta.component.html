@@ -1,0 +1,175 @@
+<h1 style="text-align: center;">Armar venta</h1>
+
+<c-row>
+    <c-col [xs]>
+         Seleccionar mes  :
+        <select id="Mes" cSelect [(ngModel)]="MesSeleccionado">
+            <option value="">Mes</option>
+            <option *ngFor="let mes of meses" value={{mes.Valor}}  >
+                {{mes.Nombre}}     
+            </option>
+        </select>
+    </c-col> 
+    <c-col [xs]>
+        Seleccionar año:
+        <select id="Mes" cSelect [(ngModel)]="AnoSeleccionado">
+            <option value="">Año</option>
+            <option *ngFor="let ano of listaAnos" value={{ano}}  >
+                {{ano}}     
+            </option>
+        </select>
+    </c-col>
+    <c-col [xs]>
+        <c-col [xs]>
+            Seleccionar sucursal :
+            <select id="Mes" cSelect [(ngModel)]="sucursalSeleccionada ">
+                <option value="">Sucursales</option>
+                <option *ngFor="let sucursal of sucursales" value={{sucursal.Id}}  >
+                    {{sucursal.Nombre}}     
+                </option>
+            </select>
+        </c-col>
+    </c-col>
+    <c-col [xs]>
+        <p></p>
+        <button  cButton  color="secondary" size="lg" (click)="filtrarListaVentaPorMes(AnoSeleccionado+MesSeleccionado, sucursalSeleccionada)">Buscar</button>
+    </c-col>
+</c-row>
+
+
+  <p></p>
+<div class="greenTable">
+    <table id="tablaProductosPicking" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Dirección</th>
+                <th>Comuna</th>
+                <th>Región</th>
+                <th>Fecha entrega</th>
+                <th>Tipo despacho</th>
+                <th>N° Factura</th>
+                <th>Cód. TY</th>
+                <th>Armar Venta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let lista of listaVenta ">
+                <td>{{lista.Cliente}}</td>    
+                <td>{{lista.Direccion}}</td>   
+                <td>{{lista.Comuna}}</td>  
+                <td>{{lista.Region}}</td> 
+                <td>{{lista.Fecha_entrega}}</td> 
+                <td>{{lista.Tipo_despacho}}</td> 
+                <td>{{lista.Numero_factura}}</td>
+                <td>{{lista.Codigo_ty}}</td> 
+                <td><button cButton  color="secondary" size= "sm" (click)="seleccionarVenta(lista.Id, lista.Numero_factura)">Seleccionar</button></td> 
+             
+            </tr>
+            <tr *ngIf="listaVenta.length == 0">
+                <td colspan="7">
+                    No hay registros
+                </td>
+            </tr>
+        </tbody>
+</table>
+</div>
+<p></p>
+<h2 *ngIf="mostrarDetalle">N° Factura : {{Numero_factura}}</h2>
+<p></p>
+<c-row *ngIf="mostrarDetalle">
+    <c-col>
+        <div class="greenTable">
+            <table id="tablaProductosPicking" style="text-align: center">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Unidades Totales</th>
+                        <th>Unidades Agregadas</th>
+                        <th>Producto</th>
+                        <th>Paquetes</th>
+                        <th>Unidad</th>
+                        <th>Mensaje</th>
+                        <th></th>
+
+                    </tr>         
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lista of detalleVentaGenerada ">
+                        <!-- <td>{{lista.Bar_code}}</td> -->
+                        <td>{{lista.Codigo}}</td>  
+                        <td> <label style="font-weight: bold;">{{lista.Unidades}}</label></td>
+                        <td>{{lista.UnidadesAgregadas}}</td>
+                        <td>{{lista.Producto}}</td>
+                        <td>{{lista.Paquetes}}</td>
+                        <td>{{lista.Und}}</td>
+                        <td>{{lista.Retorno}}</td>
+                        <td *ngIf="lista.CheckListo">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                        </td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </c-col>
+    <!-- <c-col>
+        <div class="greenTable">
+            <table id="tablaProductosPicking" style="text-align: center">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Paquetes disponibles</th>
+                        <th>Unidades disponibles</th>
+                        <th>Total unidades</th>
+                    </tr>         
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lista of unidadNoPreparada ">
+                        <td>{{lista.Codigo_producto}}</td>  
+                        <td>{{lista.E_paquetes}}</td>
+                        <td>{{lista.E_unidades}}</td>
+                        <td>{{lista.Total}}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </c-col> -->
+</c-row>
+<p></p>
+<c-row *ngIf="mostrarDetalle" >
+    <c-col [xs]>
+        <input type="text" [(ngModel)]="etiqueta"  class="form-control"  (change)="pickEtiqueta()">
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+</c-row> 
+<p></p>
+
+<p *ngIf="mostrarDetalle">Reemplazar Producto</p>
+
+<c-row *ngIf="mostrarDetalle" >
+    <c-col [xs]>
+        <input type="text" placeholder="Código antiguo" [(ngModel)]="codProductoOriginal"  class="form-control"  >
+    </c-col>
+    <c-col [xs]>
+        <input type="text" placeholder="Código nuevo" [(ngModel)]="codProductoReemplazo"  class="form-control"  >
+    </c-col>
+    <c-col [xs]>
+        <button cButton  color="secondary" size= "sm"(click)="reemplazarCodigos()">Reemplazar</button>
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+</c-row> 
+
+
+<!-- <button (click)="pruebaSuma()">prueba</button> -->
+
+

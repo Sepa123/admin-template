@@ -1,0 +1,1590 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="xl">
+    <c-modal-header>
+      <h5 cModalTitle> </h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+
+        <form cForm [formGroup]="form" (ngSubmit)="actualizarDatos()" *ngIf="tipoRazon == 'Usuario Natural'" > 
+            <div>
+              <p></p>
+              <h5>Razón Social</h5>
+              <p></p>
+            <c-row>
+                <c-col [xs]>
+                    <div class="">
+                        Razón Social
+                        <input type="text" placeholder="Razón Social" class="form-control disabled-like" formControlName="Razon_social" [disabled]="true" readonly>
+                        <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                        <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                            Falta agregar la razón social
+                        </span>
+                    </div>
+                </c-col>
+          
+                <c-col [xs]>
+                    <div class="noEditar">
+                        Rut
+                        <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                        <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control disabled-like" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10" [disabled]="true" readonly> 
+                        <span class="error" *ngIf="form.get('Rut')?.errors?.['required'] && isErrorView">
+                            Falta ingresar el rut
+                        </span>
+                        <span class="error" *ngIf="!rutValido ">
+                          Error al ingresar rut
+                      </span>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="">
+                        E-mail
+                         <input type="email" class="form-control"  placeholder="E-Mail" formControlName="Email" >
+                         <span class="error" *ngIf="form.get('Email')?.errors?.['required'] && isErrorView">
+                            Falta agregar el E-mail
+                        </span>
+                        <span class="error" *ngIf="form.get('Email')?.errors?.['email'] && isErrorView">
+                          El E-mail no es un formato valido
+                      </span>
+                        </div>
+                </c-col>
+                <c-col [xs]>
+                  <div class="noEditar">
+                      N° Celular
+                      <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                      <input type="text" placeholder="Celular" class="form-control"  formControlName="Celular" maxlength="12">
+                      <span class="error" *ngIf="form.get('Celular')?.errors?.['required'] && isErrorView">
+                          Falta agregar el Celular
+                      </span>
+                  </div>
+              </c-col>
+                
+            </c-row>
+            <c-row>
+              <c-col [xs]>
+                <div class="noEditar">
+                    N° Telefono
+                    <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                    <input type="text" placeholder="Telefono" class="form-control"  formControlName="Telefono" maxlength="12">
+                    <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Celular
+                    </span>
+                </div>
+            </c-col>
+                <c-col [xs]>
+                    <div class="">
+                      Fecha nacimiento
+                        <input type="date" placeholder="" class="form-control" formControlName="Fecha_nacimiento" >
+                        <span class="error" *ngIf="form.get('Fecha_nacimiento')?.errors?.['required'] && isErrorView">
+                          Falta agregar la fecha
+                      </span>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                  <div class="">
+                    Región
+                    <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region"  class="form-control">
+                        <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                    </select>
+                </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Comuna
+                  <select id="Comuna" cSelect formControlName="Comuna" class="form-control">
+                      <option  *ngFor="let comuna of listaComunas" value={{comuna.Id_comuna}} >{{comuna.Nombre_comuna}}</option>
+                  </select>
+              </div>
+            </c-col>
+          
+           
+              </c-row>
+              <c-row>
+                <c-col [xs]>
+                  <div class="">
+                    Dirección
+                    <input type="text" placeholder="Dirección" class="form-control" formControlName="Direccion" >
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Giro
+                  <input type="text" placeholder="Giro" class="form-control" formControlName="Giro" >
+                </div>
+            </c-col>
+              </c-row>
+              <p></p>
+              <h5>Datos bancarios</h5>
+              <p></p>
+          
+              <c-row>
+                <c-col [xs]>
+                    <div class="">
+                      Rut Titular Cuenta Bancaria
+                        <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_titular_cta_bancaria" (change)="verificaRut('cta_banco')"  maxlength="10">
+                        <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                        <span class="error" *ngIf="form.get('Rut_titular_cta_bancaria')?.errors?.['required'] && isErrorView">
+                            Falta agregar el rut del titular
+                        </span>
+                        <span class="error" *ngIf="!rutTitularBanco ">
+                          Error al ingresar rut
+                      </span>
+                    </div>
+                </c-col>
+          
+                <c-col [xs]>
+                    <div class="noEditar">
+                      Titular de la cuenta
+                        <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                        <input type="text" placeholder="Titular cuenta" class="form-control" formControlName="Titular_cta" >
+                        <span class="error" *ngIf="form.get('Titular_cta')?.errors?.['required'] && isErrorView">
+                            Falta agregar el titular de la cuenta
+                        </span>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="">
+                       Numero de cuenta
+                         <input type="text" class="form-control"  placeholder="Numero Cuenta" formControlName="Numero_cta" >
+                         <span class="error" *ngIf="form.get('Numero_cta')?.errors?.['required'] && isErrorView">
+                            Falta agregar el numero de cuenta
+                        </span>
+                        </div>
+                </c-col>
+                <c-col [xs]>
+                  <div class="noEditar">
+                      
+                      Banco
+                      <select id="tipoCuenta"  cSelect  class="form-control" formControlName="Banco">
+                        <option *ngFor="let bancos of banco"  [value]="bancos.id"  >{{bancos.bank_name}}</option>
+                    </select>
+                  </div>
+              </c-col>
+                
+            </c-row>
+          
+            <c-row>
+              <c-col [xs]>
+                  <div class="noEditar">
+                    Tipo de cuenta
+                    <select id="tipoCuenta"  cSelect class="form-control" formControlName="Tipo_cta">
+                      <option *ngFor="let tipo of tipoCuentas"  [value]="tipo.id"  >{{tipo.account_type_name}}</option>
+                  </select>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                  <div class="">
+                    Forma Pago
+                    <select id="formaPago"  cSelect  class="form-control" formControlName="Forma_pago">
+                      <option *ngFor="let forma of formaPago"  [value]="forma.id"  >{{forma.name}}</option>
+                  </select>
+                  </div>
+              </c-col>
+              <c-col [xs]>       
+                  <div class="">
+                    Documento Comercial Bancario
+                    <input type="file" name="" id="doc_bancario" (change)="onFileSelected($event,'doc_bancario')" class="form-control" accept=".pdf"> 
+                  <!-- <input type="file" name="" id="doc_bancario" *ngIf="descargarDocBancario == null || descargarDocBancario == ''" (change)="onFileSelected($event,'doc_bancario')" class="form-control" accept=".pdf">  -->
+                  <p></p>
+                  <button class="btn btn-success" type="button" *ngIf="descargarDocBancario" (click)="descargarArchivo(descargarDocBancario)" >descargar 
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                </button>
+                
+                </div>
+            </c-col>
+            <c-col [xs]>
+              
+          </c-col>
+          
+          <p></p>
+              
+          </c-row>
+              <p></p>
+              <h5>Contrato</h5>
+              <p></p>
+
+              <c-row>
+                <c-col [xs]>
+                  <div class="">
+                    PDF Contrato
+                    <input type="file" name="" id="pdf_contrato" (change)="onFileSelected($event,'pdf_contrato')" class="form-control" accept=".pdf"> 
+                     <!-- <input type="file" name="" id="pdf_contrato" *ngIf="descargarPdfContrato == null || descargarPdfContrato == ''" (change)="onFileSelected($event,'pdf_contrato')" class="form-control" accept=".pdf">  -->
+                  <p></p>
+                    <button class="btn btn-success" type="button" *ngIf="descargarPdfContrato" (click)="descargarArchivo(descargarPdfContrato)" >descargar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button>
+                  
+                  </div>
+                </c-col>
+                <c-col [xs]>
+
+                </c-col>
+                <c-col [xs]>       
+                    
+              </c-col>
+              <c-col [xs]>
+                
+              </c-col>
+            
+            <p></p>
+                
+            </c-row>
+          
+          </div>
+            <p></p>
+            <!-- <c-row>
+              <c-col [xs]>
+                <div class="noEditar">
+                  Transporte
+                </div>
+                <p></p>
+          </c-col>
+          <c-col [xs]>
+            <div class="noEditar">
+              <select cSelect   class="form-control" formControlName="Seguridad">
+                <option *ngFor="let estado of estadoTransporte" value={{estado.Id}}  >
+                    {{estado.Estado}}     
+                </option>
+             </select>
+            </div>
+            <p></p>
+          </c-col>
+            </c-row>
+            <c-row>
+              <c-col [xs]>
+                <div class="noEditar">
+                  Abogado
+                </div>
+                <p></p>
+          </c-col>
+          <c-col [xs]>
+            <div class="noEditar">
+              <select cSelect   class="form-control" formControlName="Abogado">
+                <option *ngFor="let estado of estadoTransporte" value={{estado.Id}}  >
+                    {{estado.Estado}}     
+                </option>
+            </select>
+              
+            </div>
+            <p></p>
+          </c-col>
+            </c-row> -->
+            <c-row *ngIf="permiso">
+                <c-col [xs]>
+                    <button class="btn btn-success" type="submit"  >Actualizar 
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                    </button>
+                </c-col>
+                <c-col [xs]>
+                  <mat-slide-toggle   formControlName="Activo" (click)="activarUsuario()"> 
+                   </mat-slide-toggle>
+                   <span *ngIf="form.value.Activo">Activado</span>
+                    <span *ngIf="!form.value.Activo">Desactivado</span>
+                  <!-- <button class="btn btn-success" type="button" (click)="activarUsuario(true)" *ngIf="usuarioActivado !== true">Activar Razón social  </button>
+                  <button class="btn btn-danger" type="button" (click)="activarUsuario(false)" *ngIf="usuarioActivado == true" >Desactivar Razón social</button> -->
+
+              </c-col>
+            </c-row>
+          </form>
+
+        <form cForm [formGroup]="form" (ngSubmit)="actualizarDatos()" *ngIf="tipoRazon == 'Usuario Juridico'" > 
+            <div>
+              <p></p>
+              <h5>Razón social</h5>
+              <p></p>
+            <c-row>
+                <c-col [xs]>
+                    <div class="">
+                      
+                        Razón Social
+                        <input type="text" placeholder="Razón Social" class="form-control disabled-like" formControlName="Razon_social" [disabled]="true" readonly>
+                        <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                        <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                            Falta agregar la razón social
+                        </span>
+                    </div>
+                </c-col>
+          
+                <c-col [xs]>
+                    <div class="noEditar">
+                        Rut
+                        <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                        <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control disabled-like" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10" [disabled]="true" readonly> 
+                        <span class="error" *ngIf="form.get('Rut')?.errors?.['required'] && isErrorView">
+                            Falta ingresar el rut
+                        </span>
+                        <span class="error" *ngIf="!rutValido ">
+                          Error al ingresar rut
+                      </span>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="">
+                        E-mail
+                         <input type="text" class="form-control"  placeholder="E-Mail" formControlName="Email" >
+                         <span class="error" *ngIf="form.get('Email')?.errors?.['required'] && isErrorView">
+                            Falta agregar el E-mail
+                        </span>
+                        </div>
+                </c-col>
+                <c-col [xs]>
+                  <div class="noEditar">
+                      N° Celular
+                      <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                      <input type="text" placeholder="Celular" class="form-control"  formControlName="Celular" maxlength=12>
+                      <span class="error" *ngIf="form.get('Celular')?.errors?.['required'] && isErrorView">
+                          Falta agregar el Celular
+                      </span>
+                  </div>
+              </c-col>
+                
+            </c-row>
+            <c-row>
+              <c-col [xs]>
+                <div class="noEditar">
+                    N° Telefono
+                    <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                    <input type="text" placeholder="Telefono" class="form-control"  formControlName="Telefono" maxlength="12">
+                    <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Telefono
+                    </span>
+                </div>
+            </c-col>
+                <c-col [xs]>
+                    <div class="">
+                      Representante Legal
+                      <input type="text" placeholder="Representante legal" class="form-control" formControlName="Representante_legal" >
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                  <div class="">
+                   Rut Representante Legal
+                    <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_representante_legal" maxlength="10" (change)="verificaRut('representante')">
+                    <span class="error" *ngIf="form.get('Rut_representante_legal')?.errors?.['required'] && isErrorView">
+                      Falta agregar el rut del representante
+                  </span>
+                  <span class="error" *ngIf="!rutRepresentanteValido ">
+                    Error al ingresar rut
+                </span>
+                  
+                  </div>
+              </c-col>
+                <c-col [xs]>
+                    <div class="">
+                      Fecha nacimiento
+                        <input type="date" placeholder="" class="form-control" formControlName="Fecha_nacimiento" >
+                        <span class="error" *ngIf="form.get('Fecha_nacimiento')?.errors?.['required'] && isErrorView">
+                          Falta agregar la fecha
+                      </span>
+                    </div>
+                </c-col>
+                
+          
+           
+              </c-row>
+              <c-row>
+                <c-col [xs]>
+                  <div class="">
+                    Región
+                    <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region"  class="form-control">
+                        <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                    </select>
+                </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Comuna
+                  <select id="Comuna" cSelect formControlName="Comuna" class="form-control">
+                      <option  *ngFor="let comuna of listaComunas" value={{comuna.Id_comuna}} >{{comuna.Nombre_comuna}}</option>
+                  </select>
+              </div>
+            </c-col>
+                <c-col [xs]>
+                  <div class="">
+                    Dirección
+                    <input type="text" placeholder="Dirección" class="form-control" formControlName="Direccion" >
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Giro
+                  <input type="text" placeholder="Giro" class="form-control" formControlName="Giro" >
+                </div>
+             </c-col>
+              
+            <c-row>
+              <c-col [xs]>
+                <div class="">
+                  Constitución legal
+                  <input type="file" name="" id="doc_constitucion" (change)="onFileSelected($event,'doc_constitucion')" class="form-control" accept=".pdf"> 
+                
+                <!-- <input type="file" name="" id="doc_constitucion" *ngIf="descargarConstitucionLegal == null" (change)="onFileSelected($event,'doc_constitucion')" class="form-control" accept=".pdf">  -->
+                <p></p>
+                <button class="btn btn-success" type="button" *ngIf="descargarConstitucionLegal" (click)="descargarArchivo(descargarConstitucionLegal)" >descargar 
+                  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                </button>
+                </div>
+             </c-col>
+              <c-col [xs]>
+                <div class="">
+
+                  Certificado de Inscripición SII
+                     <input type="file" name="" id="doc_RRPP" (change)="onFileSelected($event,'doc_RRPP')" class="form-control" accept=".pdf"> 
+                <!-- <input type="file" name="" id="" *ngIf="descargarCertRRPP == null" (change)="onFileSelected($event,'doc_RRPP')" class="form-control" accept=".pdf">  -->
+                <p></p>
+                <button class="btn btn-success" type="button" *ngIf="descargarCertRRPP" (click)="descargarArchivo(descargarCertRRPP)" >descargar 
+                  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                </button>
+                </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+  
+                Certificado vigencia de poderes
+                <input type="file" name="" id="doc_vigencia" (change)="onFileSelected($event,'doc_vigencia')" class="form-control" accept=".pdf"> 
+             
+                <!-- <input type="file" name="" id="" *ngIf="descargarCertPoderes == null" (change)="onFileSelected($event,'doc_vigencia')" class="form-control" accept=".pdf">  -->
+              <p></p>
+              <button class="btn btn-success" type="button" *ngIf="descargarCertPoderes" (click)="descargarArchivo(descargarCertPoderes)" >descargar 
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+              </button>
+
+              </div>
+          </c-col>
+          <c-col [xs]>
+            <div class="">
+
+              Inscripción registro de comercio
+              <input type="file" name="" id="registro_comercio"  (change)="onFileSelected($event,'registro_comercio')" class="form-control" accept=".pdf"> 
+           
+            <!-- <input type="file" name="" id="" *ngIf="descargarRegistroComercio == null"  (change)="onFileSelected($event,'registro_comercio')" class="form-control" accept=".pdf">  -->
+            <p></p>
+            <button class="btn btn-success" type="button" *ngIf="descargarRegistroComercio" (click)="descargarArchivo(descargarRegistroComercio)" >descargar 
+              <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+            </button>
+            </div>
+        </c-col>
+            </c-row>
+              </c-row>
+              <p></p>
+              <h5>Datos bancarios</h5>
+              <p></p>
+          
+              <c-row>
+                <c-col [xs]>
+                    <div class="">
+                      Rut Titular Cuenta Bancaria
+                        <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_titular_cta_bancaria"  maxlength="10" (change)="verificaRut('cta_banco')" >
+                        <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                        <span class="error" *ngIf="form.get('Rut_titular_cta_bancaria')?.errors?.['required'] && isErrorView">
+                            Falta agregar el rut del titular
+                        </span>
+                        <span class="error" *ngIf="!rutTitularBanco ">
+                          Error al ingresar rut
+                      </span>
+                    </div>
+                </c-col>
+          
+                <c-col [xs]>
+                    <div class="noEditar">
+                      Titular de la cuenta
+                        <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                        <input type="text" placeholder="Titular cuenta" class="form-control" formControlName="Titular_cta" >
+                        <span class="error" *ngIf="form.get('Titular_cta')?.errors?.['required'] && isErrorView">
+                            Falta agregar el titular de la cuenta
+                        </span>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="">
+                       Numero de cuenta
+                         <input type="text" class="form-control"  placeholder="Numero Cuenta" formControlName="Numero_cta" >
+                         <span class="error" *ngIf="form.get('Numero_cta')?.errors?.['required'] && isErrorView">
+                            Falta agregar el numero de cuenta
+                        </span>
+                        </div>
+                </c-col>
+                <c-col [xs]>
+                  <div class="noEditar">
+                      
+                      Banco
+                      <select id="tipoCuenta"  cSelect  class="form-control" formControlName="Banco">
+                        <option *ngFor="let bancos of banco"  [value]="bancos.id"  >{{bancos.bank_name}}</option>
+                    </select>
+                  </div>
+              </c-col>
+                
+            </c-row>
+          
+            <c-row>
+              <c-col [xs]>
+                  <div class="noEditar">
+                    Tipo de cuenta
+                    <select id="tipoCuenta"  cSelect class="form-control" formControlName="Tipo_cta">
+                      <option *ngFor="let tipo of tipoCuentas"  [value]="tipo.id"  >{{tipo.account_type_name}}</option>
+                  </select>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                  <div class="">
+                    Forma Pago
+                    <select id="formaPago"  cSelect  class="form-control" formControlName="Forma_pago">
+                      <option *ngFor="let forma of formaPago"  [value]="forma.id"  >{{forma.name}}</option>
+                  </select>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                  <div class="">
+                    Documento Comercial Bancario
+                    <input type="file" name="" id="doc_bancario"  (change)="onFileSelected($event,'doc_bancario')" class="form-control" accept=".pdf"> 
+                  
+                  <!-- <input type="file" name="" id="" *ngIf="descargarDocBancario == null || descargarDocBancario == '' " (change)="onFileSelected($event,'doc_bancario')" class="form-control" accept=".pdf">  -->
+                  <p></p>
+                  <button class="btn btn-success" type="button" *ngIf="descargarDocBancario" (click)="descargarArchivo(descargarDocBancario)" >descargar 
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                </button>
+                  </div>
+            </c-col>
+            <c-col [xs]>
+              
+          </c-col>
+          
+          <p></p>
+              
+          </c-row>
+
+          <p></p>
+              <h5>Contrato</h5>
+              <p></p>
+
+              <c-row>
+                <c-col [xs]>
+                  <div class="">
+                    PDF Contrato
+                    
+                     <input type="file" name="" id="pdf_contrato" (change)="onFileSelected($event,'pdf_contrato')" class="form-control" accept=".pdf"> 
+                    <p></p>
+                    <button class="btn btn-success" type="button" *ngIf="descargarPdfContrato" (click)="descargarArchivo(descargarPdfContrato)" >descargar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button>
+                  
+                  </div>
+                </c-col>
+                <c-col [xs]>
+
+                </c-col>
+                <c-col [xs]>       
+                    
+              </c-col>
+              <c-col [xs]>
+                
+              </c-col>
+            
+            <p></p>
+                
+            </c-row>
+          
+          
+          </div>
+            <p></p>
+            <c-row *ngIf="permiso">
+                <c-col [xs]>
+                    <button class="btn btn-success" type="submit"  >Actualizar 
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                    </button>
+                </c-col>
+                <c-col [xs]>
+                  <mat-slide-toggle formControlName="Activo" (click)="activarUsuario()"> 
+                  </mat-slide-toggle>
+                    <span *ngIf="form.value.Activo">Activado</span>
+                    <span *ngIf="!form.value.Activo">Desactivado</span>
+              </c-col>
+            </c-row>
+          </form>
+          
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+</c-modal>
+
+<c-modal id="liveAgregaModal" [visible]="visibleAgregar" (visibleChange)="handleLiveAgregaChange($event)" size="xl">
+  <c-modal-header>
+    <h5 cModalTitle>Agregar Razón Social </h5>
+    <button (click)="toggleLiveAgregar()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <c-nav variant="tabs">
+      <a [cTabContent]="tabContent" [active]="pv" [routerLink] [tabPaneIdx]="0" cNavLink (click)="activate(true,'7')">Usuario Natural</a>
+      <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink (click)="activate(false,'11')">Usuario Juridico</a>
+    </c-nav>
+    <c-tab-content #tabContent="cTabContent">
+      <c-tab-pane class="p-3">
+        <form cForm [formGroup]="form" (ngSubmit)="registrar()" *ngIf="listaComunasFull.length !== 0" > 
+          <div >
+            <p></p>
+            <h5>Razón social</h5>
+            <p></p>
+          <c-row>
+              <c-col [xs]>
+                  <div class="">
+                      Razón Social
+                      <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" >
+                      <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                      <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                          Falta agregar la razón social
+                      </span>
+                  </div>
+              </c-col>
+        
+              <c-col [xs]>
+                  <div class="noEditar">
+                      Rut
+                      <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                      <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10"> 
+                      <span class="error" *ngIf="form.get('Rut')?.errors?.['required'] && isErrorView">
+                          Falta ingresar el rut
+                      </span>
+                      <span class="error" *ngIf="!rutValido ">
+                        Error al ingresar rut
+                    </span>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                  <div class="">
+                      E-mail
+                       <input type="email" class="form-control"  placeholder="E-Mail" formControlName="Email" >
+                       <span class="error" *ngIf="form.get('Email')?.errors?.['required'] && isErrorView">
+                          Falta agregar el E-mail
+                      </span>
+                      <span class="error" *ngIf="form.get('Email')?.errors?.['email'] && isErrorView">
+                        El E-mail no es un formato valido
+                    </span>
+                      </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="noEditar">
+                    N° Celular
+                    <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                    <input type="text" placeholder="Celular" class="form-control"  formControlName="Celular" maxlength="12">
+                    <span class="error" *ngIf="form.get('Celular')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Celular
+                    </span>
+                </div>
+            </c-col>
+              
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="noEditar">
+                  N° Telefono
+                  <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                  <input type="text" placeholder="Telefono" class="form-control"  formControlName="Telefono" maxlength="12">
+                  <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                      Falta agregar el Celular
+                  </span>
+              </div>
+          </c-col>
+              <c-col [xs]>
+                  <div class="">
+                    Fecha nacimiento
+                      <input type="date" placeholder="" class="form-control" formControlName="Fecha_nacimiento" >
+                      <span class="error" *ngIf="form.get('Fecha_nacimiento')?.errors?.['required'] && isErrorView">
+                        Falta agregar la fecha
+                    </span>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Región
+                  <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region"  class="form-control">
+                      <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                  </select>
+              </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                Comuna
+                <select id="Comuna" cSelect formControlName="Comuna" class="form-control">
+                    <option  *ngFor="let comuna of listaComunas" value={{comuna.Id_comuna}} >{{comuna.Nombre_comuna}}</option>
+                </select>
+            </div>
+          </c-col>
+        
+         
+            </c-row>
+            <c-row>
+              <c-col [xs]>
+                <div class="">
+                  Dirección
+                  <input type="text" placeholder="Dirección" class="form-control" formControlName="Direccion" >
+                </div>
+            </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Giro
+                  <input type="text" placeholder="Giro" class="form-control" formControlName="Giro" >
+                </div>
+            </c-col>
+            </c-row>
+            <p></p>
+            <h5>Datos bancarios</h5>
+            <p></p>
+        
+            <c-row>
+              <c-col [xs]>
+                  <div class="">
+                    Rut Titular Cuenta Bancaria
+                      <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_titular_cta_bancaria" (change)="verificaRut('cta_banco')"  maxlength="10">
+                      <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                      <span class="error" *ngIf="form.get('Rut_titular_cta_bancaria')?.errors?.['required'] && isErrorView">
+                          Falta agregar el rut del titular
+                      </span>
+                      <span class="error" *ngIf="!rutTitularBanco ">
+                        Error al ingresar rut
+                    </span>
+                  </div>
+              </c-col>
+        
+              <c-col [xs]>
+                  <div class="noEditar">
+                    Titular de la cuenta
+                      <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                      <input type="text" placeholder="Titular cuenta" class="form-control" formControlName="Titular_cta" >
+                      <span class="error" *ngIf="form.get('Titular_cta')?.errors?.['required'] && isErrorView">
+                          Falta agregar el titular de la cuenta
+                      </span>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                  <div class="">
+                     Numero de cuenta
+                       <input type="text" class="form-control"  placeholder="Numero Cuenta" formControlName="Numero_cta" >
+                       <span class="error" *ngIf="form.get('Numero_cta')?.errors?.['required'] && isErrorView">
+                          Falta agregar el numero de cuenta
+                      </span>
+                      </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="noEditar">
+                    
+                    Banco
+                    <select id="tipoCuenta"  cSelect  class="form-control" formControlName="Banco">
+                      <option *ngFor="let bancos of banco"  [value]="bancos.id"  >{{bancos.bank_name}}</option>
+                  </select>
+                </div>
+            </c-col>
+              
+          </c-row>
+        
+          <c-row>
+            <c-col [xs]>
+                <div class="noEditar">
+                  Tipo de cuenta
+                  <select id="tipoCuenta"  cSelect class="form-control" formControlName="Tipo_cta">
+                    <option *ngFor="let tipo of tipoCuentas"  [value]="tipo.id"  >{{tipo.account_type_name}}</option>
+                </select>
+                </div>
+            </c-col>
+            <c-col [xs]>
+                <div class="">
+                  Forma Pago
+                  <select id="formaPago"  cSelect  class="form-control" formControlName="Forma_pago">
+                    <option *ngFor="let forma of formaPago"  [value]="forma.id"  >{{forma.name}}</option>
+                </select>
+                </div>
+            </c-col>
+            <c-col [xs]>       
+                <div class="">
+                  Documento Comercial Bancario
+          
+                <input type="file" name="" id="doc_bancario" (change)="onFileSelected($event,'doc_bancario')" class="form-control" accept=".pdf"> 
+                </div>
+          </c-col>
+          <c-col [xs]>
+            
+        </c-col>
+        
+        <p></p>
+            
+        </c-row>
+
+        <p></p>
+              <h5>Contrato</h5>
+              <p></p>
+
+              <c-row>
+                <c-col [xs]>
+                  <div class="">
+                    PDF Contrato
+                    
+                     <input type="file" name="" id="A_pdf_contrato"  (change)="onFileSelected($event,'pdf_contrato')" class="form-control" accept=".pdf"> 
+                  
+                    <!-- <button class="btn btn-success" type="button" *ngIf="descargarPdfContrato" (click)="descargarArchivo(descargarPdfContrato)" >descargar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512">
+                        <style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button> -->
+                  
+                  </div>
+                </c-col>
+                <c-col [xs]>
+
+                </c-col>
+                <c-col [xs]>       
+                    
+              </c-col>
+              <c-col [xs]>
+                
+              </c-col>
+            
+            <p></p>
+                
+            </c-row>
+        
+        
+        </div>
+          <p></p>
+          <c-row>
+              <c-col [xs]>
+                  <button class="btn btn-success" type="submit"  >Guardar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button>
+              </c-col>
+          </c-row>
+        </form>
+        
+    
+      </c-tab-pane>
+      <c-tab-pane class="p-3">
+        <form cForm [formGroup]="form" (ngSubmit)="registrar()" *ngIf="listaComunasFull.length !== 0" > 
+          <div >
+            <p></p>
+            <h5>Razón Social</h5>
+            <p></p>
+          <c-row>
+              <c-col [xs]>
+                  <div class="">
+                      Razón Social
+                      <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" >
+                      <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                      <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                          Falta agregar la razón social
+                      </span>
+                  </div>
+              </c-col>
+        
+              <c-col [xs]>
+                  <div class="noEditar">
+                      Rut
+                      <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                      <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10"> 
+                      <span class="error" *ngIf="form.get('Rut')?.errors?.['required'] && isErrorView">
+                          Falta ingresar el rut
+                      </span>
+                      <span class="error" *ngIf="!rutValido ">
+                        Error al ingresar rut
+                    </span>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                  <div class="">
+                      E-mail
+                       <input type="text" class="form-control"  placeholder="E-Mail" formControlName="Email" >
+                       <span class="error" *ngIf="form.get('Email')?.errors?.['required'] && isErrorView">
+                          Falta agregar el E-mail
+                      </span>
+                      </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="noEditar">
+                    N° Celular
+                    <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                    <input type="text" placeholder="Celular" class="form-control"  formControlName="Celular" maxlength=12>
+                    <span class="error" *ngIf="form.get('Celular')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Celular
+                    </span>
+                </div>
+            </c-col>
+              
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="noEditar">
+                  N° Telefono
+                  <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                  <input type="text" placeholder="Telefono" class="form-control"  formControlName="Telefono" maxlength="12">
+                  <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                      Falta agregar el Telefono
+                  </span>
+              </div>
+          </c-col>
+              <c-col [xs]>
+                  <div class="">
+                    Representante Legal
+                    <input type="text" placeholder="Representante legal" class="form-control" formControlName="Representante_legal" >
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="">
+                 Rut Representante Legal
+                  <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_representante_legal" maxlength="10" (change)="verificaRut('representante')">
+                  <span class="error" *ngIf="form.get('Rut_representante_legal')?.errors?.['required'] && isErrorView">
+                    Falta agregar el rut del representante
+                </span>
+                <span class="error" *ngIf="!rutRepresentanteValido ">
+                  Error al ingresar rut
+              </span>
+                
+                </div>
+            </c-col>
+              <c-col [xs]>
+                  <div class="">
+                    Fecha nacimiento
+                      <input type="date" placeholder="" class="form-control" formControlName="Fecha_nacimiento" >
+                      <span class="error" *ngIf="form.get('Fecha_nacimiento')?.errors?.['required'] && isErrorView">
+                        Falta agregar la fecha
+                    </span>
+                  </div>
+              </c-col>
+              
+        
+         
+            </c-row>
+            <c-row>
+              <c-col [xs]>
+                <div class="">
+                  Región
+                  <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region"  class="form-control">
+                      <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                  </select>
+              </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                Comuna
+                <select id="Comuna" cSelect formControlName="Comuna" class="form-control">
+                    <option  *ngFor="let comuna of listaComunas" value={{comuna.Id_comuna}} >{{comuna.Nombre_comuna}}</option>
+                </select>
+            </div>
+          </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Dirección
+                  <input type="text" placeholder="Dirección" class="form-control" formControlName="Direccion" >
+                </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                Giro
+                <input type="text" placeholder="Giro" class="form-control" formControlName="Giro" >
+              </div>
+           </c-col>
+          <c-row>
+            <c-col [xs]>
+              <div class="">
+                Constitución legal
+              <input type="file" name="" id="doc_constitucion" (change)="onFileSelected($event,'doc_constitucion')" class="form-control" accept=".pdf"> 
+              </div>
+          </c-col>
+            <c-col [xs]>
+              <div class="">
+                Certificado de Inscripición SII
+              <input type="file" name="" id="doc_RRPP" (change)="onFileSelected($event,'doc_RRPP')" class="form-control" accept=".pdf"> 
+              </div>
+          </c-col>
+          <c-col [xs]>
+            <div class="">
+              <!-- <input  type="file" id="archivo" (change)="onFileSelected($event)">
+              <p></p>
+              <button  (click)="uploadFile()">Subir archivo</button> -->
+              Certificado vigencia de poderes
+      
+            <input type="file" name="" id="doc_vigencia" (change)="onFileSelected($event,'doc_vigencia')" class="form-control" accept=".pdf"> 
+            </div>
+        </c-col>
+        <c-col [xs]>
+          <div class="">
+            <!-- <input  type="file" id="archivo" (change)="onFileSelected($event)">
+            <p></p>
+            <button  (click)="uploadFile()">Subir archivo</button> -->
+            Inscripción registro de comercio
+    
+          <input type="file" name="" id="registro_comercio" (change)="onFileSelected($event,'registro_comercio')" class="form-control" accept=".pdf"> 
+          </div>
+      </c-col>
+          </c-row>
+            </c-row>
+            <p></p>
+            <h5>Datos bancarios</h5>
+            <p></p>
+        
+            <c-row>
+              <c-col [xs]>
+                  <div class="">
+                    Rut Titular Cuenta Bancaria
+                      <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_titular_cta_bancaria"  maxlength="10" (change)="verificaRut('cta_banco')" >
+                      <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                      <span class="error" *ngIf="form.get('Rut_titular_cta_bancaria')?.errors?.['required'] && isErrorView">
+                          Falta agregar el rut del titular
+                      </span>
+                      <span class="error" *ngIf="!rutTitularBanco ">
+                        Error al ingresar rut
+                    </span>
+                  </div>
+              </c-col>
+        
+              <c-col [xs]> 
+                  <div class="noEditar">
+                    Titular de la cuenta
+                      <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                      <input type="text" placeholder="Titular cuenta" class="form-control" formControlName="Titular_cta" >
+                      <span class="error" *ngIf="form.get('Titular_cta')?.errors?.['required'] && isErrorView">
+                          Falta agregar el titular de la cuenta
+                      </span>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                  <div class="">
+                     Numero de cuenta
+                       <input type="text" class="form-control"  placeholder="Numero Cuenta" formControlName="Numero_cta" >
+                       <span class="error" *ngIf="form.get('Numero_cta')?.errors?.['required'] && isErrorView">
+                          Falta agregar el numero de cuenta
+                      </span>
+                      </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="noEditar">
+                    
+                    Banco
+                    <select id="tipoCuenta"  cSelect  class="form-control" formControlName="Banco">
+                      <option *ngFor="let bancos of banco"  [value]="bancos.id"  >{{bancos.bank_name}}</option>
+                  </select>
+                </div>
+            </c-col>
+              
+          </c-row>
+        
+          <c-row>
+            <c-col [xs]>
+                <div class="noEditar">
+                  Tipo de cuenta
+                  <select id="tipoCuenta"  cSelect class="form-control" formControlName="Tipo_cta">
+                    <option *ngFor="let tipo of tipoCuentas"  [value]="tipo.id"  >{{tipo.account_type_name}}</option>
+                </select>
+                </div>
+            </c-col>
+            <c-col [xs]>
+                <div class="">
+                  Forma Pago
+                  <select id="formaPago"  cSelect  class="form-control" formControlName="Forma_pago">
+                    <option *ngFor="let forma of formaPago"  [value]="forma.id"  >{{forma.name}}</option>
+                </select>
+                </div>
+            </c-col>
+            <c-col [xs]>
+                <div class="">
+                  Documento Comercial Bancario
+          
+                <input type="file" name="" id="doc_bancario" (change)="onFileSelected($event,'doc_bancario')" class="form-control" accept=".pdf"> 
+                </div>
+          </c-col>
+          <c-col [xs]>
+            
+        </c-col>
+        
+        <p></p>
+            
+        </c-row>
+
+        <p></p>
+              <h5>Contrato</h5>
+              <p></p>
+
+              <c-row>
+                <c-col [xs]>
+                  <div class="">
+                    PDF Contrato
+                    
+                     <input type="file" name="" id="A2_pdf_contrato"  (change)="onFileSelected($event,'pdf_contrato')" class="form-control" accept=".pdf"> 
+                  
+                    <!-- <button class="btn btn-success" type="button" *ngIf="descargarPdfContrato" (click)="descargarArchivo(descargarPdfContrato)" >descargar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button> -->
+                  
+                  </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="">
+
+                    </div>
+                </c-col>
+                <c-col [xs]>       
+                    
+              </c-col>
+              <c-col [xs]>
+                
+              </c-col>
+            
+            <p></p>
+                
+            </c-row>
+        
+        
+        </div>
+          <p></p>
+          <c-row>
+              <c-col [xs]>
+                  <button class="btn btn-success" type="submit"  >Guardar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button>
+              </c-col>
+          </c-row>
+        </form>
+    
+      </c-tab-pane>
+    </c-tab-content>
+  </c-modal-body>
+
+</c-modal>
+
+<c-modal [visible]="visibleEstado" (visibleChange)="handleLiveEstadoChange($event)">
+  <c-modal-header class="modal-header-custom">
+    <h5 cModalTitle class="modal-title">¿Por que se va a desvincular al colaborador?</h5>
+    <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+  </c-modal-header>
+  <c-modal-body>
+    <c-row>
+      <c-col [xs]>
+        Motivo Desvinculación
+        <select id="Region" [(ngModel)]="motivoDesactiva"  cSelect  class="form-control">
+          <option *ngFor="let lista of listaMotivosD"  [value]="lista.id"  >{{lista.motivo}}</option>
+       </select>
+      </c-col>
+
+      <c-col [xs]>
+        Fecha Desvinculación
+        <input class="form-control" type="date" [(ngModel)]="fechaDesvinculacion">
+      </c-col>
+    </c-row>
+      <p></p>
+    <c-row>
+      <c-col [xs]>
+        <textarea class="form-control" rows="5" cols="38" type="text" id="description" name="description" [(ngModel)]="descDesviculacion"></textarea>
+
+      </c-col>
+    </c-row>
+      <!-- <form action="">
+          <label for="description">Descripción *</label>
+          <textarea class="materialize-textarea" rows="10" type="text" id="description" name="description" required></textarea>
+          </form> -->
+  </c-modal-body>
+  <c-modal-footer class="modal-footer-custom" >
+      <button class="cButtonSave" cButton color="secondary" (click)="desactivarUsuario()" >
+          Enviar
+      </button>   
+      <button class="cButtonClose" (click)="toggleLiveEstado();darFalse()" cButton color="secondary">
+          Cerrar
+      </button>
+  </c-modal-footer>
+</c-modal>
+<!-- mostrar patentes  -->
+<c-modal [visible]="visiblePatentes" (visibleChange)="handleLivePatentesChange($event)">
+  <c-modal-header class="modal-header-custom">
+    <h5 cModalTitle class="modal-title">Patentes vehículos</h5>
+    <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+  </c-modal-header>
+  <c-modal-body>
+    <div class="greenTable" style="width: 100%;">
+      
+      <table id="tablaProductosPicking" style="width: 100%;"  >
+      <thead>
+        <th colspan="5">Pantentes</th>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Patente</th>
+          <th>Tipo</th>
+          <th>GPS</th>
+          <th>disponible</th>
+          <th>Habilitado</th>
+        </tr>
+        <tr *ngFor="let patente of patentesVehiculos; let i = index">
+            
+          <td>
+            <svg *ngIf="patente.tipo == 1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="black" d="M18 18.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5m1.5-9l1.96 2.5H17V9.5m-11 9A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5M20 8h-3V4H3c-1.11 0-2 .89-2 2v11h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-5z" />
+            </svg>
+
+            <svg *ngIf="patente.tipo == 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="black" d="M16 6h-5.5v4H1v5h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-3c0-1.11-.89-2-2-2h-2zm-4 1.5h3.5l1.96 2.5H12zm-6 6A1.5 1.5 0 0 1 7.5 15A1.5 1.5 0 0 1 6 16.5A1.5 1.5 0 0 1 4.5 15A1.5 1.5 0 0 1 6 13.5m12 0a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5" />
+            </svg>
+
+            <svg *ngIf="patente.tipo == 3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="black" d="M3 7c-1.11 0-2 .89-2 2v8h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-4c0-1.11-.89-2-2-2l-3-4zm12 1.5h2.5l1.96 2.5H15zm-9 7A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5m12 0a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5" />
+            </svg>
+
+            <svg *ngIf="patente.tipo == 4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
+              <path fill="black" d="m475.656 223.142l-90.272-13.908l-55.013-89.87a32.07 32.07 0 0 0-27.548-15.291L72.265 105.91A32.018 32.018 0 0 0 42.2 127.684L16 205.375V384h55.006a68 68 0 0 0 129.988 0h102.012a68 68 0 0 0 129.988 0H496V246.862a23.873 23.873 0 0 0-20.344-23.72M224 136.7l79.078-.63l44.1 72.047L224 208.074Zm-151.479 1.208L192 136.956v71.107l-143.119-.051ZM136 400a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m232 0a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m96-48h-29.082a67.982 67.982 0 0 0-133.836 0h-98.164a67.982 67.982 0 0 0-133.836 0H48V240.026l330.526.529L464 253.724Z" />
+            </svg>
+
+            <svg *ngIf="patente.tipo == 5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="black" d="M18 18.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5m1.5-9l1.96 2.5H17V9.5m-11 9A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5M20 8h-3V4H3c-1.11 0-2 .89-2 2v11h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-5z" />
+            </svg>
+
+            <svg *ngIf="patente.tipo == 6" width="32" height="32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 199.19 86.29"><path d="M149.12,73.05a13.24,13.24,0,1,0,13.23-13.23A13.25,13.25,0,0,0,149.12,73.05Zm4.9,0a8.33,8.33,0,1,1,8.33,8.33A8.34,8.34,0,0,1,154,73.05Z"/><path d="M162.35,67.71A5.34,5.34,0,1,1,157,73.05,5.35,5.35,0,0,1,162.35,67.71Z"/>
+              <path d="M44.67,67.71a5.34,5.34,0,1,1-5.34,5.34A5.35,5.35,0,0,1,44.67,67.71Z"/><path d="M.24,60.38v2.43a1.5,1.5,0,0,0,1.5,1.5h33a13.24,13.24,0,1,0,19.82,0H65.24v6.53a1.52,1.52,0,0,0,1.51,1.51h30.5V66.72a4.5,4.5,0,0,1,4.49-4.5h23.57a4.51,4.51,0,0,1,4.5,4.5v5.63h15.55a1.51,1.51,0,0,0,1.5-1.51V61h0V54.23a1.49,1.49,0,0,0,.69,1.26l4.86,3.12a1.52,1.52,0,0,0,1.59,0,16.67,16.67,0,0,1,23,6.53A17,17,0,0,1,179,71.8a1.49,1.49,0,0,0,1.49,1.38h15.47a2.93,2.93,0,0,0,2.3-1.07,5.57,5.57,0,0,0,1.2-3.54v-4.1s0-3.18-2.36-3.95V43.06a22,22,0,0,0-2.16-9.55C191.2,25.71,183.54,11,178.72,11H150.08s-3.22-.11-3.22,7.5V0h-5V53.87H1.64v5h.1A1.51,1.51,0,0,0,.24,60.38ZM192.11,49.93a.49.49,0,0,1,.6-.48,5.53,5.53,0,0,1,2,.88,1,1,0,0,1,.41.81v8.35a.49.49,0,0,1-.49.49h-2a.49.49,0,0,1-.5-.49ZM159.2,32.84a3.78,3.78,0,0,1-2.46-3.75V16.43s0-1.61,2.79-1.61h13.73s4.18-.11,6.43.86,11.43,18.4,11.43,23.71c0,3-1.7,2.79-3.12,2.38Zm-6,12.52c0-2,1.06-1.77,1.06-1.77s4.57-.3,6.06,1.69-.45,1.93-.45,1.93h-5.39S153.17,47.33,153.17,45.36ZM36.35,73.05a8.33,8.33,0,1,1,8.32,8.33A8.33,8.33,0,0,1,36.35,73.05Z"/><rect x="99.75" y="64.72" width="27.56" height="12.24" rx="1.99"/>
+            </svg>
+
+            <svg *ngIf="patente.tipo == 7" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="black" d="M18 4h-5v9H1v4h2c0 .83.3 1.53.89 2.13c.61.59 1.3.87 2.11.87s1.5-.28 2.11-.87c.59-.6.89-1.3.89-2.13h5.5c0 .83.28 1.53.88 2.13c.59.59 1.29.87 2.12.87c.8 0 1.5-.28 2.09-.87c.6-.6.91-1.3.91-2.13H23v-7zM7.08 18.07c-.28.3-.64.43-1.08.43s-.8-.13-1.08-.43s-.42-.65-.42-1.07c0-.39.14-.74.42-1.04s.64-.46 1.08-.46s.8.16 1.08.46s.42.65.42 1.04c0 .42-.14.77-.42 1.07m11.46 0c-.3.3-.65.43-1.04.43c-.42 0-.77-.13-1.07-.43S16 17.42 16 17c0-.39.13-.74.43-1.04s.65-.46 1.07-.46c.39 0 .74.16 1.04.46s.46.65.46 1.04c0 .42-.16.77-.46 1.07M15 10V6h2.06l3.33 4z" />
+            </svg>
+
+            <svg *ngIf="patente.tipo == 8" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="black" d="M6 15v2H3V8l2.45-7h13.1L21 8v9h-3v-2zm-.2-9h12.4l-1.05-3H6.85zm1.7 6q.625 0 1.063-.437T9 10.5t-.437-1.062T7.5 9t-1.062.438T6 10.5t.438 1.063T7.5 12m9 0q.625 0 1.063-.437T18 10.5t-.437-1.062T16.5 9t-1.062.438T15 10.5t.438 1.063T16.5 12M13 23l-6-3h4v-2l6 3h-4z" />
+            </svg>
+
+            <svg *ngIf="patente.tipo == 9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="32" height="32">
+              <metadata> </metadata>
+              <g><g><g><path fill="#000000" d="M158.7,87.6C135,88.2,119.3,90.2,109,94c-8.9,3.3-23.4,10.6-36.7,18.5c-6.1,3.6-6.1,3.6-10.4,4c-15.9,1.2-36.6,7.2-44.2,12.7c-1.6,1.2-3.6,4.4-3.6,5.8c0,0.6-0.3,1-0.7,1c-0.3,0-1.2,0.4-1.8,0.9c-2.2,1.7-2.3,8.4-0.1,9.4c1.1,0.5,1.1,0.7,1.1,5.7c0,4.2,0.1,5.2,0.8,5.4c0.9,0.4,17.5,0.4,19.4,0c1.4-0.3,1.4-0.3,1-2.7c-0.6-3.4,0.3-8.4,2-12.1c3.9-8.2,13.8-13.4,22.5-11.9c6.3,1.1,12.9,5.7,15.7,10.8c2.4,4.3,3.3,10.4,2.3,14.8l-0.4,1.8h48.9h48.9l-0.4-1.8c-2.6-11.4,5.9-23.6,18.1-25.6c8.8-1.5,18.4,3.6,22.4,11.9c1.6,3.3,2.7,8.7,2.3,10.9c-0.2,1.1-0.1,1.4,0.6,1.4c0.4,0,5.7-0.3,11.6-0.7c6-0.4,11.4-0.7,12.2-0.7c1.1,0,1.3-0.2,1.3-1.6c0-1.3,0.3-1.8,1.6-2.6c2-1.2,2.9-3.3,2.8-6.4c0-1.8-0.3-2.5-1.2-3.2c-0.6-0.5-1.4-1.1-1.6-1.3c-0.4-0.4-0.6-2.4-0.6-7c0-14.5-2.2-21.8-10.2-34.5l-2.5-4l-6.5-1c-20-3.2-25.4-3.9-34-4.1c-4.8-0.1-10.7-0.2-13.2-0.3C173.7,87.4,165.8,87.5,158.7,87.6z M171.2,95.3c0.6,0.4,1.9,2.6,3,5.2c1.9,4.4,2,4.5,1.8,9.3l-0.1,4.8l-17,1.3c-9.3,0.7-17,1.2-17.1,1c-0.4-0.4,0.9-19.6,1.4-20.5c0.6-1.1,1.3-1.3,9.1-1.8C161.2,94.1,169.8,94.4,171.2,95.3z M198.8,95.2c9.5,0.3,14.9,0.8,15.8,1.1c1,0.4,3,2.6,6.7,7.8c2.9,4,5.2,7.4,5.2,7.8s-0.3,0.8-0.6,1.1c-0.6,0.4-40.7,2.3-41.1,1.9c-0.4-0.4-9.2-19.8-9.2-20.3c0-0.3,1.6-0.4,4.4-0.2C182.4,94.5,190.8,94.9,198.8,95.2z M229.9,98.2c3.2,4.2,9.7,17.5,8.9,18.3c-0.7,0.7-2.7-0.7-4.9-3.4c-4.4-5.5-10.3-13.9-10.3-14.9c0-1.2,2-2.5,3.5-2.4C227.7,95.8,228.9,96.9,229.9,98.2z M136.9,96.8c0.1,0.4-0.6,5.2-1.7,10.8l-2,10.1l-8.5,0.3c-4.7,0.1-13.1,0.4-18.7,0.5l-10.3,0.2v-4.9v-4.9l2.9-2.2c8-5.8,14.4-8.1,27.4-9.8C132.8,95.9,136.5,95.9,136.9,96.8z"/><path fill="#000000" d="M49.5,136.5c-2.7,1-3.2,1.3-5.7,3.5c-7,6.4-6.9,17.7,0.2,24.3c3.3,3,6.7,4.3,11.1,4.3c9.7,0,16.7-7.1,16.7-16.8c0-6.2-3.9-12.1-9.6-14.7C58.6,135.4,53.2,135.2,49.5,136.5z M61.3,142.9c1.1,0.8,2.6,2.5,3.4,3.8c1.2,1.9,1.4,2.7,1.4,5.4c-0.1,11.7-15.5,15.5-20.7,5.1c-2.8-5.6-0.5-12.3,5.2-15c1.4-0.7,2.7-0.8,5.3-0.8C58.8,141.5,59.6,141.7,61.3,142.9z"/><path fill="#000000" d="M51,146.3c-0.1,0.4,0,1.2,0.3,1.6c0.7,1.2-0.6,3.3-2.1,3.3c-0.6,0-1.2,0.3-1.3,0.6c-0.4,1.1,0.1,1.8,1.5,1.8c1.7,0,2.8,1.7,2,3.2c-1,1.9,1,2.8,2.2,1c0.3-0.5,1.1-0.9,1.7-0.9c0.7,0,1.4,0.4,1.7,0.9c0.7,1.1,2.2,1.2,2.5,0.2c0.2-0.4,0-1-0.3-1.4c-0.9-1.1,0.1-2.9,1.9-3.3c1.2-0.2,1.5-0.5,1.3-1.3c-0.1-0.8-0.5-1.1-1.5-1.2c-1.6-0.2-2.3-1.5-1.9-3.3c0.4-1.9-1-2.6-2.1-1.1c-0.9,1.4-3.2,1.4-3.9,0.1C52.6,145.3,51.4,145.2,51,146.3z"/><path fill="#000000" d="M189,136.5c-4.1,1.5-7.2,4.2-9.5,8.3c-1.2,2.1-1.3,2.8-1.3,7.3c0,4.8,0,5.1,1.6,7.9c1.7,3.2,4,5.4,7.6,7.2c1.8,1,2.8,1.1,7.1,1.1c4.4,0,5.2-0.1,7.3-1.2c3.1-1.7,6.1-4.8,7.7-8c1.1-2.3,1.3-3.2,1.3-7.1c0-3.6-0.2-4.9-1-6.7c-1.4-3.1-4.9-6.7-8.1-8.2C198.2,135.5,192.6,135.2,189,136.5z M199.1,142.2c4.1,2.1,6.2,5.5,6.2,10.1c0,5.2-3.3,9.5-8.5,10.7c-6,1.5-12.4-3-13.4-9.3c-0.7-4.3,2-9.4,6-11.4C192.1,140.9,196.7,140.9,199.1,142.2z"/><path fill="#000000" d="M190.3,146.2c-0.4,0.5-0.4,0.9,0,1.6c0.9,1.4-0.1,3.3-1.8,3.5c-1.7,0.2-1.9,1.9-0.1,2.2c1.6,0.2,2.9,1.9,2.3,3.1c-1,1.9,0.9,3.1,2.1,1.3c0.8-1.3,2.9-1.2,3.8,0.1c1.1,1.6,2.4,0.8,2.1-1.2c-0.4-1.9,0-3.1,1.1-3.1c0.5,0,1.2-0.3,1.7-0.7c0.8-0.6,0.8-0.8,0.3-1.4c-0.3-0.4-1.1-0.8-1.6-0.8c-1.4,0-2.4-1.6-1.6-2.9c1-2-0.8-3.2-2-1.4c-0.4,0.6-1.1,0.9-1.8,0.9c-0.7,0-1.6-0.4-2.1-0.9C191.4,145.3,191,145.3,190.3,146.2z"/></g></g></g>
+              </svg>
+
+            <svg *ngIf="patente.tipo == 10" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="black" d="M3 7c-1.11 0-2 .89-2 2v8h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-4c0-1.11-.89-2-2-2l-3-4zm0 1.5h4V11H3zm6 0h4V11H9zm6 0h2.5l1.96 2.5H15zm-9 7A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5m12 0a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5" />
+            </svg> 
+
+            {{patente.patente}} 
+    
+          </td> 
+          <td>
+            {{formatearVehiculo(patente.tipo)}}
+          </td>
+          <td>
+            <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 384 512" *ngIf="patente.gps">
+              <path fill="#2eb85c" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 384 512" *ngIf="!patente.gps">
+              <path fill="#ff0000" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
+            </svg>
+          </td>
+          <td>
+            <svg *ngIf="patente.disponible" xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+            <svg *ngIf="!patente.disponible" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+
+          </td>
+          <td>
+            <svg *ngIf="patente.habilitado" xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+            <svg *ngIf="!patente.habilitado" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+
+          </td>
+        </tr>
+        <tr *ngIf="patentesVehiculos == null">
+          <td colspan="2">No hay registros</td>
+        </tr>
+     
+      </tbody>
+      </table>
+      
+    </div>
+
+  </c-modal-body>
+  <c-modal-footer class="modal-footer-custom" > 
+      <button class="cButtonClose" (click)="toggleLivePatentes()" cButton color="secondary">
+          Cerrar
+      </button>
+  </c-modal-footer>
+</c-modal>
+
+
+<!-- mostrar Usuarios / colabs  -->
+<c-modal [visible]="visibleUsuarios" (visibleChange)="handleLivevisibleUsuariosChange($event)">
+  <c-modal-header class="modal-header-custom">
+    <h5 cModalTitle class="modal-title">Tripulantes</h5>
+    <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+  </c-modal-header>
+  <c-modal-body>
+    <div class="greenTable" style="width: 100%;">
+      
+      <table id="tablaProductosPicking" style="width: 100%;"  >
+      <thead>
+        <th colspan="5">Tripulantes</th>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Nombre</th>
+          <th>Tipo</th>
+          <th>Activo</th>
+
+        </tr>
+        <tr *ngFor="let usuario of Usuarios; let i = index">
+            
+          <td>
+
+            <svg *ngIf="usuario.tipo == 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="black" d="M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4" />
+            </svg>
+
+            <svg *ngIf="usuario.tipo == 1" xmlns="http://www.w3.org/2000/svg" width="27" height="24" viewBox="0 0 576 512">
+              <path fill="black" d="M528 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h480c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48m0 400H303.2c.9-4.5.8 3.6.8-22.4c0-31.8-30.1-57.6-67.2-57.6c-10.8 0-18.7 8-44.8 8c-26.9 0-33.4-8-44.8-8c-37.1 0-67.2 25.8-67.2 57.6c0 26-.2 17.9.8 22.4H48V144h480zm-168-80h112c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8H360c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8m0-64h112c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8H360c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8m0-64h112c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8H360c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8m-168 96c35.3 0 64-28.7 64-64s-28.7-64-64-64s-64 28.7-64 64s28.7 64 64 64" />
+            </svg>
+
+            {{ usuario.nombre }} 
+    
+          </td> 
+          <td>
+              {{ formatearTipoUsuario(usuario.tipo) }}
+          </td>
+          <td>
+            <svg *ngIf="usuario.activo" xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+            <svg *ngIf="!usuario.activo" xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+
+          </td>
+
+        </tr>
+        <tr *ngIf="Usuarios == null">
+          <td colspan="2">No hay registros</td>
+        </tr>
+     
+      </tbody>
+      </table>
+      
+    </div>
+
+  </c-modal-body>
+  <c-modal-footer class="modal-footer-custom" > 
+      <button class="cButtonClose" (click)="toggleLiveUsuarios()" cButton color="secondary">
+          Cerrar
+      </button>
+  </c-modal-footer>
+</c-modal>
+
+
+<h2>Razón Social</h2>
+<p></p>
+
+
+
+
+<c-row>
+    <c-col [xs] >
+        <button *ngIf="permiso" class="btn btn-success" (click)="toggleLiveAgregar()">Agregar Razón social
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512">
+            <path fill="black" d="M208 16A112.127 112.127 0 0 0 96 128v79.681a80.236 80.236 0 0 0 9.768 38.308l27.455 50.333L60.4 343.656A79.725 79.725 0 0 0 24 410.732V496h288v-32H56v-53.268a47.836 47.836 0 0 1 21.841-40.246l97.66-63.479l-41.64-76.341A48.146 48.146 0 0 1 128 207.681V128a80 80 0 0 1 160 0v79.681a48.146 48.146 0 0 1-5.861 22.985L240.5 307.007l71.5 46.476v-38.166l-29.223-19l27.455-50.334A80.23 80.23 0 0 0 320 207.681V128A112.127 112.127 0 0 0 208 16m216 384v-64h-32v64h-64v32h64v64h32v-64h64v-32z" />
+          </svg>      
+        </button>
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+    <c-col [xs]>
+        <input type="text" placeholder="Buscar Colaborador" class="form-control"  [(ngModel)]="nombreColaborador" >
+    </c-col>
+    <c-col [xs]>
+        <button class="btn btn-success" (click)=" buscarColaboradoresPorNombre()" >Buscar</button>
+    </c-col>
+</c-row>
+<p></p>
+
+<c-row >
+  <c-col xs="6" sm="3">
+
+  <div class="card card-green">
+    <table>
+      <tr>
+        <td width="98" height="98" >
+          <div class="icon-background">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 640 512">
+              <path fill="#5cb85c" d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64s-64 28.7-64 64s28.7 64 64 64m448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64s-64 28.7-64 64s28.7 64 64 64m32 32h-64c-17.6 0-33.5 7.1-45.1 18.6c40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64m-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32S208 82.1 208 144s50.1 112 112 112m76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2m-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4" />
+            </svg>
+            
+        </div>
+        </td>
+        <td>
+          <div class="text-content">
+            <h3>Total</h3>
+            <div class="number">{{panelColab.Total}}</div>
+        </div>
+        </td>
+      </tr>
+    </table>
+</div>
+
+
+  </c-col>
+
+  <c-col xs="6" sm="3">
+
+    <div class="card card-blue">
+      <table>
+        <tr>
+          <td width="98" height="98">
+            <div class="icon-background">
+              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 640 512">
+                <path fill="#3399ff" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128m89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4m323-128.4l-27.8-28.1c-4.6-4.7-12.1-4.7-16.8-.1l-104.8 104l-45.5-45.8c-4.6-4.7-12.1-4.7-16.8-.1l-28.1 27.9c-4.7 4.6-4.7 12.1-.1 16.8l81.7 82.3c4.6 4.7 12.1 4.7 16.8.1l141.3-140.2c4.6-4.7 4.7-12.2.1-16.8" />
+              </svg>
+          </div>
+          </td>
+          <td>
+            <div class="text-content">
+              <h3>Colaboradores Activos</h3>
+              <div class="number">{{panelColab.Colaboradores_Activos}}</div>
+          </div>
+          </td>
+        </tr>
+      </table>
+  </div>
+
+  <!-- <div class="card" style="background-color: #ADD8E6;">
+    <div class="card-body d-flex align-items-center ">
+      <table>
+        <tr>
+          <span style="font-weight: bolder; font-size: 14px;">  Colaboradores Activos  </span>
+        </tr>
+        <tr>
+          <span style="font-weight: bolder; font-size: 28px;">{{panelColab.Colaboradores_Activos}}</span>
+        </tr>
+      </table>
+    </div>
+  </div> -->
+
+  </c-col>
+
+  <c-col xs="6" sm="3">
+
+    <div class="card card-blue">
+      <table>
+        <tr>
+          <td width="98" height="98">
+            <div class="icon-background">
+              <svg xmlns="http://www.w3.org/2000/svg"  width="50" height="50" viewBox="0 0 576 512">
+                <path fill="#3399ff" d="M0 64C0 28.7 28.7 0 64 0h160v128c0 17.7 14.3 32 32 32h128v38.6c-73.9 20.9-128 88.8-128 169.4c0 59.1 29.1 111.3 73.7 143.3c-3.2.5-6.4.7-9.7.7H64c-35.3 0-64-28.7-64-64zm384 64H256V0zm-96 240a144 144 0 1 1 288 0a144 144 0 1 1-288 0m211.3-43.3c-6.2-6.2-16.4-6.2-22.6 0L416 385.4l-28.7-28.7c-6.2-6.2-16.4-6.2-22.6 0s-6.2 16.4 0 22.6l40 40c6.2 6.2 16.4 6.2 22.6 0l72-72c6.2-6.2 6.2-16.4 0-22.6" />
+              </svg>
+          </div>
+          </td>
+          <td>
+            <div class="text-content">
+              <h3>Activos con Contrato</h3>
+              <div class="number">{{panelColab.Activos_con_Contrato}}</div>
+          </div>
+          </td>
+        </tr>
+      </table>
+  </div>
+
+  <!-- <div class="card" style="background-color: #ADD8E6;">
+    <div class="card-body d-flex align-items-center ">
+      <table>
+        <tr>
+          <span style="font-weight: bolder; font-size: 14px;">  Activos con Contrato </span>
+        </tr>
+        <tr>
+          <span style="font-weight: bolder; font-size: 28px;">{{ panelColab.Activos_con_Contrato }}</span>
+        </tr>
+      </table>
+    </div>
+  </div> -->
+
+  </c-col>
+
+  <c-col xs="6" sm="3">
+
+  <!-- <div class="card" style="background-color: #ADD8E6;">
+    <div class="card-body d-flex align-items-center ">
+      <table>
+        <tr>
+          <span style="font-weight: bolder; font-size: 14px;">   Activos sin Contrato </span>
+        </tr>
+        <tr>
+          <span style="font-weight: bolder; font-size: 28px;"> {{panelColab.Activos_sin_Contrato}}</span>
+        </tr>
+      </table>
+    </div>
+  </div> -->
+
+  <div class="card card-blue">
+    <table>
+      <tr>
+        <td width="98" height="98">
+          <div class="icon-background">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 576 512">
+              <path fill="#3399ff" d="M0 64C0 28.7 28.7 0 64 0h160v128c0 17.7 14.3 32 32 32h128v38.6c-73.9 20.9-128 88.8-128 169.4c0 59.1 29.1 111.3 73.7 143.3c-3.2.5-6.4.7-9.7.7H64c-35.3 0-64-28.7-64-64zm384 64H256V0zm48 96a144 144 0 1 1 0 288a144 144 0 1 1 0-288m0 240a24 24 0 1 0 0-48a24 24 0 1 0 0 48m0-192c-8.8 0-16 7.2-16 16v80c0 8.8 7.2 16 16 16s16-7.2 16-16v-80c0-8.8-7.2-16-16-16" />
+            </svg>
+        </div>
+        </td>
+        <td>
+          <div class="text-content">
+            <h3>Activos sin Contrato</h3>
+            <div class="number">{{panelColab.Activos_sin_Contrato}}</div>
+        </div>
+        </td>
+      </tr>
+    </table>
+</div>
+
+  </c-col>
+
+  
+</c-row>
+<p></p>
+
+    <div class="greenTable" style="width: 100%;">
+      
+      <table id="tablaProductosPicking" style="width: 100%;"  >
+      <thead>
+        <tr>
+            <th class="sortable" (click)="sortTableRazon(sortOrderRazon)">Razón</th>
+            <th class="sortable" (click)="sortTable(sortOrder)">Habilitado </th>
+            <th>Tipo razón</th>
+            <th > Rut </th>
+            <th>Fecha registro</th>
+            <!-- <th>Estado</th> -->
+            <th>Vehículos</th>
+            <th>Tripulación</th>
+            <th>Detalle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let colab of colaboradores; let i = index">
+          <td>{{colab.Razon_social}}</td>
+          <td >
+            <svg *ngIf="colab.Activo === true" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+            <svg *ngIf="colab.Activo !== true "  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+          </td>
+          <td>{{colab.Tipo_razon}}</td>
+          <td>{{formatearRUT(colab.Rut)}}</td>
+          <td>{{colab.Created_at}}</td>
+          <!-- <td>
+            <span *ngIf="colab.Activo">Activado</span>
+            <span *ngIf="!colab.Activo">Desactivado</span>
+          </td> -->
+          <td>{{colab.Vehiculos}} 
+            <svg (click)="RevisarVehiculos(colab.Patentes)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
+              <path fill="black" d="m475.656 223.142l-90.272-13.908l-55.013-89.87a32.07 32.07 0 0 0-27.548-15.291L72.265 105.91A32.018 32.018 0 0 0 42.2 127.684L16 205.375V384h55.006a68 68 0 0 0 129.988 0h102.012a68 68 0 0 0 129.988 0H496V246.862a23.873 23.873 0 0 0-20.344-23.72M224 136.7l79.078-.63l44.1 72.047L224 208.074Zm-151.479 1.208L192 136.956v71.107l-143.119-.051ZM136 400a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m232 0a36 36 0 1 1 36-36a36.04 36.04 0 0 1-36 36m96-48h-29.082a67.982 67.982 0 0 0-133.836 0h-98.164a67.982 67.982 0 0 0-133.836 0H48V240.026l330.526.529L464 253.724Z" />
+            </svg>
+          </td>
+          <td>{{colab.Tripulacion}} 
+            <svg (click)="RevisarUsuarios(colab.Usuarios)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="black" d="M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4" />
+            </svg>
+          </td>
+          <td>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="revisarDatos(colab.Rut,colab.Tipo_razon)" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+          </td>
+          <!-- <td>{{colab.Created_at}}</td> -->
+        </tr>
+        <tr *ngIf="colaboradores.length==0">
+          <td colspan="8" align="center">No hay registros</td>
+        </tr>
+     
+      </tbody>
+      </table>
+      
+    </div>
+
+    <!-- (click)="descargarExcelATHela()" -->
+     <p></p>
+    <button cButton style="background-color: #f1948a; border: #f1948a; color: #000000;" (click)="descargarExcelATHela()" >
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg"  height="1.5em" viewBox="0 0 384 512">
+          <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+      </svg> Descarga AT
+   </button>

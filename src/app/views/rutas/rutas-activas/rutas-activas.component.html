@@ -1,0 +1,550 @@
+<c-modal id="liveDemoModal" [visible]="visibleEstadoCarga" (visibleChange)="handleLiveEstadoCarga($event)">
+  <c-modal-header>
+    estatus carga archivo
+    <button (click)="toggleEstadoCarga()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+
+    <h5>
+      <!-- cil-find-in-page -->
+      <svg xmlns="http://www.w3.org/2000/svg" height="27px" viewBox="0 0 24 24"><path fill="black" d="M20 19.59V8l-6-6H4v20l15.57-.02l-4.81-4.81c-.8.52-1.74.83-2.76.83c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5c0 1.02-.31 1.96-.83 2.75L20 19.59zM9 13c0 1.66 1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3s-3 1.34-3 3z"/></svg>
+              Carga de archivo 
+      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+    </h5>
+    <h5>
+      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+        <path d="M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+      </svg>
+      Generación Rutas Hela
+      <svg *ngIf="error == 0" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+      <svg *ngIf="error == 1" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>  
+    </h5>
+    {{message}}
+    <div class="greenTable">
+      <table *ngIf="error == 1">
+        <thead>
+          <tr>
+            <th>Codigos</th>
+            <th></th>
+          <tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let codigo of codigosErroneos">
+            <th style="font-size: 14px;">{{codigo}}</th>
+            <td>
+              <svg class="svgF" xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+            </td>
+          </tr>
+        </tbody>
+        
+      </table>
+    </div>
+
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleEstadoCarga()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+<c-row>
+  <c-col>
+    <h2> Rutas Activas</h2>
+  </c-col>
+  <c-col>
+
+  </c-col>
+  <c-col>
+    <p></p>
+    <button cButton  color="primary" size="sm" (click)="toggleQuadminds()"> Carga Masiva
+      <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 384 512">
+        <path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24m65.18 216.01H224v80c0 8.84-7.16 16-16 16h-32c-8.84 0-16-7.16-16-16v-80H94.82c-14.28 0-21.41-17.29-11.27-27.36l96.42-95.7c6.65-6.61 17.39-6.61 24.04 0l96.42 95.7c10.15 10.07 3.03 27.36-11.25 27.36M377 105L279.1 7c-4.5-4.5-10.6-7-17-7H256v128h128v-6.1c0-6.3-2.5-12.4-7-16.9" />
+      </svg>
+    
+    </button>
+  </c-col>
+
+</c-row>
+<!-- <hr class="divider"> -->
+<div class="divider"></div>
+<!-- <h2> Rutas Activas</h2> -->
+
+<c-modal id="liveDemoModal" [visible]="visibleQuad" size="lg" (visibleChange)="handleQuadmindsChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Carga Masiva</h5>
+    <button (click)="toggleQuadminds()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+
+
+
+    <c-nav variant="tabs">
+      <a [cTabContent]="tabContent" [active]="pv" [routerLink] [tabPaneIdx]="0" cNavLink (click)="activate(true)">Cargar archivo</a>
+      <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink (click)="activate(false)">Cargar códigos </a>
+    </c-nav>
+
+    <c-tab-content #tabContent="cTabContent">
+      <c-tab-pane class="p-3">
+        
+          <!-- <table >
+    
+            <tr>
+          
+            </tr>
+            <tr>
+              <td>
+                  <input *ngIf="termino" type="file" id="archivo" (change)="onFileSelected($event)">
+              <p></p>
+                  <button *ngIf="termino" (click)="uploadFile()" type="button" cButton size="sm" color="primary">Subir archivo</button>
+              </td>
+            </tr>
+            <tr>
+              <td  class="tamano">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                
+              </td>
+            </tr>
+          </table> -->
+      
+        <p></p>
+
+        
+        <!-- <button cButton size="sm" color="success" (click)="descargarEjemploArchivo()" >Archivo Ejemplo</button> -->
+        <!-- <h2>aqui esta el otrp</h2> -->
+
+
+        <div class="file-upload">
+          <!-- <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+         -->
+         <div class="download-sample">
+          <a (click)="descargarEjemploArchivo()" download>
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
+              <path fill="#6c757d" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24m296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24m-124 88c0-11-9-20-20-20s-20 9-20 20s9 20 20 20s20-9 20-20m64 0c0-11-9-20-20-20s-20 9-20 20s9 20 20 20s20-9 20-20" />
+            </svg> Descargar Archivo de Muestra
+          </a>
+      </div>
+      <p></p>
+         <h3>Cargar archivo excel</h3>
+         <!-- <div class="modal-header">Cargar Archivo Excel</div> -->
+          <div class="modal-description">
+              Arrastra un archivo aquí o selecciónalo manualmente.
+          </div>
+          <div class="image-upload-wrap">
+            <input class="file-upload-input" type='file' (change)="onFileSelected($event)"  accept="image/*" />
+            <div class="drag-text">
+              <p></p>
+              <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 640 512">
+                <path fill="currentColor" d="M537.6 226.6c4.1-10.7 6.4-22.4 6.4-34.6c0-53-43-96-96-96c-19.7 0-38.1 6-53.3 16.2C367 64.2 315.3 32 256 32c-88.4 0-160 71.6-160 160c0 2.7.1 5.4.2 8.1C40.2 219.8 0 273.2 0 336c0 79.5 64.5 144 144 144h368c70.7 0 128-57.3 128-128c0-61.9-44-113.6-102.4-125.4M393.4 288H328v112c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16V288h-65.4c-14.3 0-21.4-17.2-11.3-27.3l105.4-105.4c6.2-6.2 16.4-6.2 22.6 0l105.4 105.4c10.1 10.1 2.9 27.3-11.3 27.3" />
+              </svg>
+              <h3 *ngIf="!nombreArchivo">Suelta el archivo aqui</h3>
+
+              <h3 *ngIf="nombreArchivo">{{nombreArchivo}}</h3>
+            </div>
+          </div>
+          <p></p>
+          <button *ngIf="termino" (click)="uploadFile()" type="button" cButton  color="success" style="color: white;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
+              <path fill="white" d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2" />
+            </svg>
+            Enviar archivo
+          </button>
+
+        </div>
+
+
+      </c-tab-pane>
+      <c-tab-pane class="p-3">
+        <table>
+          <tr>
+            <td colspan="1">
+              Seleccionar Fecha
+              <input class="form-control" [(ngModel)]="fechaRuta"  [min]="fechaMinima"  type="date" name="" id="" >
+              <p></p>
+              Ingrese códigos*
+          </td>
+          </tr>
+          <tr>
+              <td colspan="2">
+               
+                  <textarea [(ngModel)]="cargaMasiva" rows="4"  cols="40"></textarea>
+              </td>
+          </tr>
+          <tr>
+              <td>
+                <!--  -->
+                  <button cButton color="secondary" size="sm" (click)="subirCargaMasiva()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24">
+                      <path fill="black" d="M4 18.5v-5.154L9.846 12L4 10.654V5.5L19.423 12z" />
+                    </svg>
+                    Enviar
+                  </button>
+              </td>
+              <td>
+                  <!-- <button cButton color="secondary" size="sm" (click)="copyToClipboard(cargaMasiva)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 512 512">
+                      <path fill="black" d="M408 432h-32v32H112V136h32v-32H80v392h328z" />
+                      <path fill="black" d="M176 16v384h320V153.373L358.627 16Zm288 352H208V48h104v152h152Zm0-200H344V48h1.372L464 166.627Z" />
+                    </svg>
+                    Copiar</button> -->
+              </td>
+              <td>
+                  <!-- <button cButton color="secondary" size="sm" (click)="pegar()">Pegar</button> -->
+              </td>
+          </tr>
+      </table>
+
+      </c-tab-pane>
+    </c-tab-content>
+
+
+    
+
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleQuadminds()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Simbolos</h5>
+    <button (click)="toggleLiveDemo()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <table>
+      <thead>
+        <th>Botón</th>
+        <th>Descripción</th>
+      </thead>
+      <tr>
+        <td>
+          <button cButton  color="success" size="sm" >
+          0000-0001-20230101
+          <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 640 512">
+            <path d="M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+          </svg>
+        </button>
+      </td>
+        <td>Ruta abierta</td>
+      </tr>
+      <tr>
+        <td>
+          <button cButton  color="secondary" size="sm" >
+            0000-0001-20230101
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 640 512"><path d="M112 0C85.5 0 64 21.5 64 48V96H16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 272c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 48c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 240c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 208c8.8 0 16 7.2 16 16s-7.2 16-16 16H64V416c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H112zM544 237.3V256H416V160h50.7L544 237.3zM160 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96zm272 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0z"/>
+            </svg>
+          </button>
+        </td>
+        <td>Ruta cerrada</td>
+      </tr>
+      <tr>
+        <td>
+          <button cButton  color="danger" size="sm" >
+            0000-0001-20230101
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.75em" viewBox="0 0 24 24"><path d="M3 4c-1.1 0-2 .9-2 2v11h2c0 1.7 1.3 3 3 3s3-1.3 3-3h6c0 1.7 1.3 3 3 3s3-1.3 3-3h2v-5l-3-4h-3V4H3m5 2h2v4H8V6m9 3.5h2.5l2 2.5H17V9.5M8 12h2v2H8v-2m-2 3.5c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5s-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5m12 0c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5s-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5Z"/></svg>
+          </button>
+        </td>
+        <td>Ruta con alerta de conductor</td>
+      </tr>
+      <tr>
+        <td>
+          <button cButton  color="danger" size="sm" >
+            0000-0001-20230101
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.75em" viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.11 0-2 .89-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4M6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5s1.5.67 1.5 1.5s-.67 1.5-1.5 1.5m6.54-6.38l-1.42 1.42L9 11.41l-2.12 2.13l-1.41-1.42L7.59 10L5.46 7.88l1.42-1.41L9 8.59l2.12-2.12l1.42 1.41L10.41 10l2.13 2.12M18 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5s1.5.67 1.5 1.5s-.67 1.5-1.5 1.5M17 12V9.5h2.5l1.96 2.5H17Z"/></svg>
+          </button>
+        </td>
+        <td>Ruta con producto sin pickear</td>
+      </tr>
+    </table>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveDemo()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+<c-modal id="ModalListaComunas" [visible]="visibleDescarga" (visibleChange)="handleDescarga($event)" size="xl">
+  <c-modal-header>
+    <h5 cModalTitle>Comunas Por Ruta</h5>
+    <button (click)="toggleDescarga()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+
+    <table class="greenTable">
+      <thead>
+        <th>Nombre Ruta</th>
+        <th>Comuna</th>
+        <th>Total Puntos</th>
+        <th>Compromisos</th>
+      </thead>
+      <tr *ngFor="let comuna of comunasPorRuta" >
+        <td class="ajustarLeft">{{comuna.Nombre_ruta}}</td>
+        <td class="ajustarLeftComuna">{{comuna.Comunas}}</td>
+        <td>{{comuna.Total_puntos}}</td>
+        <td>{{comuna.Compromisos}}</td>
+      </tr>
+      <tr  *ngIf="comunasPorRuta.length == 0">
+        <td colspan="3">
+          No hay registros
+        </td>
+      </tr>
+    </table>
+<p></p>
+    <button cButton size="sm" color="success" (click)="downloadExcelListaComuna()" >Descargar   
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+        <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+      </svg>
+    </button>
+
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleDescarga()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+<table> 
+  <tr>
+    <td>
+      <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fechaActual">
+    </td>
+    <td>
+      <div class="">
+        <select id="Region" cSelect  size="1" (change)="seleccionarRegion()" [(ngModel)]="regionSeleccionada">
+            <option selected>Regiones</option>
+            <option>Todas</option>
+            <option *ngFor="let region of listaRegiones">{{region}}</option>
+        </select>
+    </div>
+    </td>
+    <td>
+      <div class="">
+        <select id="Comuna" [(ngModel)]="comunaSeleccionada" cSelect  size="1" >
+            <option selected>Comunas</option>
+            <option>Todas</option>
+            <option *ngFor="let comuna of listaComunas" >{{comuna.Comuna}}</option>
+        </select>
+    </div>
+    </td>
+    <td>
+      <button cButton  color="secondary" size="sm" (click)="getNombreByFecha(fechaActual)" [disabled]="loadingRuta == true"> buscar</button>
+    </td>
+    <td>
+      <button cButton  color="secondary" size="sm" (click)="toggleDescarga()" >Comunas Por Ruta</button>
+    </td>
+    <td>
+      <!-- <button > -->
+        <svg (click)="toggleLiveDemo()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 168a12 12 0 1 1 12-12a12 12 0 0 1-12 12Zm8-48.72v.72a8 8 0 0 1-16 0v-8a8 8 0 0 1 8-8c13.23 0 24-9 24-20s-10.77-20-24-20s-24 9-24 20v4a8 8 0 0 1-16 0v-4c0-19.85 17.94-36 40-36s40 16.15 40 36c0 17.38-13.76 31.93-32 35.28Z"/></svg>
+      <!-- </button> -->
+    </td>
+    
+  </tr>
+</table>
+
+<p></p>
+<table *ngIf="nombresRutas">
+  <tbody>
+    <tr *ngFor="let grupo of nombresRutas.slice(0, 11); let i = index">
+      <td *ngFor="let nombre of nombresRutas.slice(i * 6, (i + 1) * 6)">
+        <button cButton  color="success" size="sm" (click)="buscarRuta(nombre.Nombre_ruta,nombre.Estado)" *ngIf="nombre.Estado == true && nombre.Verificado !== false && nombre.Alerta == false" [disabled]="loadingRuta == true">
+          {{nombre.Nombre_ruta}}
+          <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 640 512">
+            <path d="M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+          </svg>
+        </button>
+        <button cButton  color="secondary" size="sm" (click)="buscarRuta(nombre.Nombre_ruta,nombre.Estado)" *ngIf="nombre.Estado == false && nombre.Verificado !== false" [disabled]="loadingRuta == true">
+          {{nombre.Nombre_ruta}}
+          <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 640 512"><path d="M112 0C85.5 0 64 21.5 64 48V96H16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 272c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 48c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 240c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 208c8.8 0 16 7.2 16 16s-7.2 16-16 16H64V416c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H112zM544 237.3V256H416V160h50.7L544 237.3zM160 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96zm272 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0z"/>
+          </svg>
+        </button>
+        <button cButton  color="danger" size="sm" (click)="buscarRuta(nombre.Nombre_ruta,nombre.Estado)" *ngIf="nombre.Verificado == false || nombre.Alerta == true" [disabled]="loadingRuta == true">
+          {{nombre.Nombre_ruta}}
+          <svg *ngIf="nombre.Alerta == true " xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="M3 4c-1.1 0-2 .9-2 2v11h2c0 1.7 1.3 3 3 3s3-1.3 3-3h6c0 1.7 1.3 3 3 3s3-1.3 3-3h2v-5l-3-4h-3V4H3m5 2h2v4H8V6m9 3.5h2.5l2 2.5H17V9.5M8 12h2v2H8v-2m-2 3.5c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5s-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5m12 0c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5s-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5Z"/></svg>
+          <svg *ngIf="nombre.Verificado == false && nombre.Alerta == false"  xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.11 0-2 .89-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4M6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5s1.5.67 1.5 1.5s-.67 1.5-1.5 1.5m6.54-6.38l-1.42 1.42L9 11.41l-2.12 2.13l-1.41-1.42L7.59 10L5.46 7.88l1.42-1.41L9 8.59l2.12-2.12l1.42 1.41L10.41 10l2.13 2.12M18 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5s1.5.67 1.5 1.5s-.67 1.5-1.5 1.5M17 12V9.5h2.5l1.96 2.5H17Z"/></svg>
+        </button>
+        <!-- <button cButton  color="danger" size="sm" (click)="buscarRuta(nombre.Nombre_ruta,nombre.Estado)" *ngIf="nombre.Alerta == true" [disabled]="loadingRuta == true">
+          {{nombre.Nombre_ruta}}
+        </button> -->
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p></p>
+
+<h3 *ngIf="isRuta == false">En este dia no hay rutas</h3>
+
+
+<h4 *ngIf="loadingRuta == false">{{nombreRutaActual}}</h4>
+
+<div *ngIf="isDriver && loadingRuta == false">
+  <h4>Patente : {{patenteRuta}}</h4>
+  <h4>Driver : {{driverRuta}}</h4>
+
+
+</div>
+
+<table class="loadQuadmind" *ngIf="loadingRuta !== false"> 
+  <tr>
+      <div>
+          <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+          Cargando Datos de la ruta {{nombreRutaActual}}
+      </div>
+  </tr> 
+  </table>
+
+<table class="greenTable" id="tablaRutaActiva" *ngIf="isClicked == true && loadingRuta == false" >
+  <thead>
+    <tr>
+        <!-- <th>Código de Cliente</th> -->
+        <th>Posición</th>
+        <!-- <th>Nombre ruta</th> -->
+        <th>Código de Pedido</th>
+        <th>Comuna</th>
+        <th>SKU</th>
+        <th>Producto</th>
+        <th>Unidades</th>
+        <th>Bultos</th>
+        <th>Nombre de cliente</th>
+        <th>Dirección cliente</th>
+        <th>Teléfono</th>
+        <th>Fecha Compromiso</th>
+        <!-- <th>Geolocalizar</th> -->
+    </tr>
+  </thead>
+  <tbody >
+    <tr *ngFor="let ruta of rutaEnActivo; let j = index">
+      <td>{{ruta.Pos }}</td>
+      <!-- <th>{{nombreRutaActual}}</th> -->
+      <td>{{ruta.Codigo_pedido }}</td>
+      <td>{{ruta.Comuna }}</td>
+      <td>
+        <table>
+          <tr *ngFor="let sku of ruta.arraySKU">
+            {{sku}}
+          </tr>
+        </table>
+      </td>
+      <td><table style="text-align: left">
+        <tr *ngFor="let producto of ruta.arrayProductos" >
+          {{producto}}
+        </tr>
+      </table></td>
+      <!-- <td>{{ruta.Unidades }}</td> -->
+      <td><table>
+        <tr *ngFor="let unidad of ruta.arrayUnidades" >
+          {{unidad}}
+        </tr>
+      </table></td>
+      <!-- <td>{{ruta.Bultos }}</td> -->
+      <td><table>
+        <tr *ngFor="let bultos of ruta.arrayBultos" >
+          {{bultos}}
+        </tr>
+      </table></td>
+      <td>{{ruta.Nombre_cliente }}</td>
+      <td>{{ruta.Direccion_cliente }}</td>
+      <td>{{ruta.Telefono }}</td>
+      <td>{{ruta.Fecha_pedido}}</td>
+      <!-- <td>
+        <button cButton size="sm" color="warning" (click)="buscarLatLon(ruta.Comuna,ruta.Direccion_cliente, ruta.Region)">Geolocalizar
+        </button>
+      </td> -->
+    </tr>
+  </tbody>
+  </table>
+
+  <p></p>
+
+
+  <table *ngIf="loadingRuta == false">
+    <tr >
+      <td>
+        <button *ngIf="isClicked == true && isActive == false && (rol == '5' || verBotonesCorreo.includes(mail+''))" cButton  color="secondary" size="sm" (click)="updateEstadoRutaAtrue(nombreRutaActual)" > Reabrir Ruta 
+          <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 640 512">
+            <path d="M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+          </svg>
+        </button>
+      </td>
+      <td>
+        <button  *ngIf="isClicked == true && isActive == true && (rol == '5' || verBotonesCorreo.includes(mail+''))" cButton  color="secondary" size="sm" (click)="updateEstadoRuta(nombreRutaActual)" > Cerrar Ruta 
+          <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 640 512">
+            <path d="M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+          </svg>
+        </button>
+      </td>
+      <td >
+        <button *ngIf="isClicked == true" (click)="downloadExcel(nombreRutaActual, patenteRuta, driverRuta)" cButton  color="secondary" size="sm"> Descargar
+          <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+          </svg>
+          </button>
+      </td>
+
+      <td *ngIf="isActive == true" >
+        <!-- <td> -->
+        <button cButton  color="secondary" size="sm" (click)="editarRutaActiva()">
+          Editar ruta
+          <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 512 512"><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/>
+          </svg>
+        </button>
+      </td>
+
+      <td *ngIf="isActive == true" >
+        <button cButton  color="success" size="sm" (click)="asignarRuta()" >
+          Asignar ruta
+          <!-- <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+          </svg> -->
+        </button>
+      </td>
+      <!-- <td *ngIf="isActive == true" > -->
+      
+
+      <td>
+        <button cButton size="sm" color="warning" (click)="downloadExcelBeetrack()" *ngIf="isDriver && isActive == true">Beetrack   
+          <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+          </svg>
+        </button>
+      </td>
+      <td *ngIf="isClicked == true && rol == '5'">
+        <button cButton  color="danger" size="sm" (click)="eliminarRuta()" >
+          Eliminar ruta
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
+        </button>
+      </td>
+      <!-- <td>
+        <button cButton size="sm" color="warning" (click)="buscarlalonRutas(rutaEnActivo)">Geolocalizar
+        </button>
+      </td> -->
+     
+    </tr>
+  </table>
+
+
+  <table class="loadQuadmind" *ngIf="loadingArchivo" > 
+    <tr>
+        <div>
+            <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+            Descargando archivo
+        </div>
+    </tr> 
+    </table>
+
+  <!-- <button cButton size="sm" color="warning" (click)="downloadExcelBeetrack()" >Beetrack   
+    <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+      <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+    </svg>
+  </button> -->
+ 
+
+
+  

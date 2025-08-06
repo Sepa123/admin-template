@@ -1,0 +1,284 @@
+<!-- <h2>Reporte de operaciones </h2> -->
+  <div class="horizontal-align">
+    <h2 class="titulo">Reporte de operaciones </h2>
+    <img *ngIf="isLoadingFull" width="45" height="45" src="../../../assets/images/loading-gif.gif" alt="Cargando..." />
+  </div>
+  <p></p>
+  
+        <c-row>
+          <c-col [xs] >
+            <select id="Region"  cSelect  class="form-control" [(ngModel)]="idOperacion" (change)="buscarPorModalidadOperacion()">
+                <option  [value]="0" >Seleccione Operación</option>
+                <option *ngFor="let op of modalidadOperacion"  [value]="op.id"  >{{op.nombre}}</option>
+            </select>
+          </c-col>
+          
+          <c-col [xs]>
+            <select id="Region"  cSelect  class="form-control" [(ngModel)]="IdCentroOperacion" >
+              <option  [value]="0" >Seleccione Centro Operación</option>
+              <option *ngFor="let co of centroOperacion"  [value]="co.Id"  >{{co.Centro}}</option>
+          </select>
+  
+          </c-col>
+
+          <c-col [xs]>
+            <select id="Region"  cSelect  class="form-control" [(ngModel)]="regionSeleccionada">
+              <option  [value]="0" >Todas las regiones</option>
+              <option *ngFor="let region of listaRegionesFiltro"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+          </select>
+          </c-col>
+          <c-col [xs]>
+            <table>
+              <tr>
+                <td>
+                  <button class="btn btn-success" (click)="buscarVehiculoFiltro()">Buscar</button>
+                </td>
+                <td></td>
+
+                <td>
+                                  </td>
+              </tr>
+            </table>
+              
+            
+            
+            
+          </c-col>
+      </c-row>
+      <p></p>
+      <c-row>
+        <c-col [xs] >
+          <input list="Patentes" name="RutColaboradores" class="form-control" placeholder="Buscar por patente" [(ngModel)]="patenteSeleccionada" />
+                  <datalist id="Patentes" >
+                    <!-- <option [value]="'Seleccione un colaborador'" selected>Seleccione un colaborador</option> -->
+                    <option *ngFor="let colab of listaPatentes"  [value]="colab"  >{{colab}}</option>
+                  </datalist>
+        </c-col>
+        
+        <c-col [xs]>
+          <table>
+            <tr>
+              <td>
+                <button class="btn btn-success" (click)="buscarVehiculoPorPatente()">Buscar por patente</button>
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </c-col>
+        <c-col [xs]>
+
+        </c-col>
+        <c-col [xs]>
+          
+          
+        </c-col>
+    </c-row>
+        <p></p>
+        <div class="greenTable" style="width: 100%;">
+          
+          <table id="tablaProductosPicking" style="width: 100%;"  >
+          <thead>
+            <tr>
+                <th>Razón social</th>
+                <th class="sortable" (click)="sortTable(sortOrder)">Patente</th>
+                <th>Tipo Vehículo</th>
+                <th>Operación</th>
+                <th>Centro Operación</th>
+                <th>Región Disponible</th>
+                <!-- <th>Rut</th> -->
+                <th>GPS</th>
+                <th (click)="sortTableEstado(sortOrderEstado)" class="sortable">Disponible </th>
+                <th (click)="sortTableHabilitado(sortOrderHabilitado)" class="sortable">Habilitado</th>
+                <th>Fecha de registro</th>
+                <!-- <th>Detalle</th>
+                <th>Operación</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vehiculo of vehiculos; let i = index">
+              <td>{{vehiculo.Razon_social}}</td>
+              <td>{{vehiculo.Ppu}}</td>
+              
+              <td>{{ convertirVehiculo(vehiculo.Tipo) }}</td>
+              <!-- <td>
+                <table class="nada">
+                  <tr *ngFor="let op of vehiculo.Operaciones">
+                    <td>{{ convertirOperacion(op)}}</td>
+                  </tr>
+                </table>
+              </td>
+              <td>
+                <table class="nada">
+                  <tr *ngFor="let co of vehiculo.Centro_operaciones">
+                    <td>{{ convertirCentroOperaciones(co)}}</td>
+                  </tr>
+                </table>
+              </td> -->
+              <!-- <td>{{ vehiculo.Operaciones }}</td> -->
+              <td ><div  class="borderDemo" [ngStyle]="{'background-color': geBgColorOp(op)}" *ngFor="let op of vehiculo.Operaciones" >{{op}}</div></td>
+              <td ><div  class="borderDemo" [ngStyle]="{'background-color': geBgColorCo(co)}"*ngFor="let co of vehiculo.Centro_operaciones" >{{co}}</div></td>
+
+              <!-- <td>{{ vehiculo.Centro_operaciones }}</td> -->
+              <td>{{ convertirRegion(vehiculo.Region) }}</td>
+              <td>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 384 512" *ngIf="vehiculo.Gps">
+                  <path fill="#2eb85c" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 384 512" *ngIf="!vehiculo.Gps">
+                  <path fill="#ff0000" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0M192 128a64 64 0 1 1 0 128a64 64 0 1 1 0-128" />
+                </svg>
+              </td>
+              <!-- <td>{{formatearRUT(vehiculo.Rut)}}</td> -->
+              <td>
+                <mat-slide-toggle  [disabled]="permiso == false" [(ngModel)]="vehiculo.Disponible" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" >
+                <!-- <mat-slide-toggle  [disabled]="rolesMeli.includes(rol + '') " [(ngModel)]="vehiculo.Disponible" (change)="cambiarEstadoVehiculo(vehiculo.Id,vehiculo.Ppu)" >  -->
+                  <!-- <span *ngIf="formVehiculo.value.Estado">Activado</span>
+                  <span *ngIf="!formVehiculo.value.Estado">Desactivado</span> -->
+                 </mat-slide-toggle>
+              </td>
+              <td *ngIf="vehiculo.Habilitado">
+                <svg  xmlns="http://www.w3.org/2000/svg" height="17px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+              </td>
+              <td *ngIf="!vehiculo.Habilitado">
+                  <svg  xmlns="http://www.w3.org/2000/svg"  height="17px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+              </td>
+              <td style=" white-space: nowrap;">{{vehiculo.Created_at}}</td>
+              <!-- <td>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="revisarDatosVehiculo(vehiculo.Ppu)" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+  
+              </td>
+              <td>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512" (click)="toggleLiveCO(vehiculo.Id)">
+                  <path fill="black" d="M124 166.291v179.418a76 76 0 1 0 32 0V282h152a80.091 80.091 0 0 0 80-80v-36.689a75.983 75.983 0 1 0-32 1.733V202a48.055 48.055 0 0 1-48 48H156v-83.709a76 76 0 1 0-32 0M324 92a44 44 0 1 1 44 44a44.049 44.049 0 0 1-44-44M184 420a44 44 0 1 1-44-44a44.049 44.049 0 0 1 44 44M140 48a44 44 0 1 1-44 44a44.049 44.049 0 0 1 44-44" />
+                </svg>
+              </td> -->
+
+            </tr>
+            <tr *ngIf="vehiculos.length==0">
+              <td colspan="9" >No hay registros</td>
+            </tr>
+         
+          </tbody>
+          </table>
+        </div>
+        <p></p>
+
+        <button class="btn btn-success" (click)="descargarDatosVehiculos()">Descargar</button>
+
+  
+        <c-modal id="liveCOModal" [visible]="visibleCO" (visibleChange)="handleLiveCOChange($event)" size="lg">
+          <c-modal-header>
+            <h5 cModalTitle>Centro Operación {{Patente}} </h5>
+            <button (click)="toggleLiveCO(0)" cButtonClose></button>
+          </c-modal-header>
+          <c-modal-body>
+                <p></p>
+                <c-row *ngIf="permiso">
+                  <!-- <c-row *ngIf="rol !== '71'"> -->
+                  <c-col >
+                    <select id="Region" cSelect  class="form-control" [(ngModel)]="idOperacion" (change)="buscarPorModalidadOperacion()">
+                      <option [value]="0" selected>Seleccione una operación</option>
+                      <option *ngFor="let op of modalidadOperacion"  [value]="op.id"  >{{op.nombre}}</option>
+                    </select>
+                  </c-col>
+                  <c-col >
+                    <select id="Region" cSelect  class="form-control" [(ngModel)]="IdCentroOperacion" (click)="seleccionarCentroOperacion()">
+                      <option [value]="0" selected>Seleccione centro operación</option>
+                      <option *ngFor="let op of centroOperacionLista"  [value]="op.Id"  >{{op.Centro}}</option>
+                    </select>
+                  </c-col>
+                </c-row>
+                  <p></p>
+                <c-row>
+                  <c-col >
+  
+                  </c-col>
+                  <c-col >
+                    <!--  -->
+                    <button *ngIf="IdCentroOperacion != 0 && isAsignado" cButton color="secondary" (click)="asignarOpVehiculo(idOperacion, IdCentroOperacion)" >
+                      Asignar
+                    </button>  
+                  </c-col>
+                </c-row>
+                <c-row>
+                  <c-col >
+                    <p></p>
+                    <!-- <div class="greenTable" style="width: 100%;">
+                  
+                      <table id="tablaProductosPicking" style="width: 100%;" *ngIf="idOperacion != 0" >
+                      <thead>
+                          <th>Operación</th>
+                          <th>Centro</th>
+                          <th>Región</th>
+                      </thead>
+                      <tbody>
+      
+                      <tr *ngFor="let co of centroOperacion; let i = index">
+                          <td >{{ convertirOperacion(co.Id_op) }}</td>
+                          <td >{{co.Centro}}</td>
+                          <td >{{co.Region}}</td>
+                      </tr>
+                      <tr *ngIf="centroOperacion.length == 0">
+                        <td colspan="4">
+                          No hay registros
+                        </td>
+                      </tr>
+                  </tbody>
+                  </table>
+                  </div> -->
+  
+                  <p></p>
+                  <h3>Centros Asignados</h3>
+  
+                  <div class="greenTable" style="width: 100%;">
+                  
+                    <table id="tablaProductosPicking" style="width: 100%;"  >
+                    <thead>
+                        <th>Operación</th>
+                        <th>Centro</th>
+                        <th>Región</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+    
+                    <tr *ngFor="let co of centroOperacionAsignado; let i = index">
+                        <td *ngIf="co.Estado">{{ convertirOperacion(co.Id_op) }}</td>
+                        <td *ngIf="co.Estado">{{co.Centro}}</td>
+                        <td *ngIf="co.Estado">{{co.Region}}</td>
+                        <td *ngIf="co.Estado && permiso">
+                        <!-- <td *ngIf="co.Estado && rol !== '71'"> -->
+                          
+                          <svg xmlns="http://www.w3.org/2000/svg" (click)="eliminarOpAsignadaVehiculo(co.Id_ppu_op)"  width="24" height="24" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
+   
+                          
+                        </td>
+                        <!-- <td *ngIf="!co.Estado">
+                          <button cButton color="secondary" (click)="asignarOpVehiculo(co.Id, co.Id_op)">
+                            seleccionar
+                          </button>  
+                        </td> -->
+                    </tr>
+                    <tr *ngIf="centroOperacionAsignado.length == 0">
+                      <td colspan="4">
+                        No hay registros
+                      </td>
+                    </tr>
+                </tbody>
+                </table>
+                </div>
+                  </c-col>
+                </c-row>
+  
+                
+                
+              <p></p>
+              
+              
+          </c-modal-body>
+          <c-modal-footer>
+            <button (click)="toggleLiveCO(0)" cButton color="secondary">
+              Cerrar
+            </button>
+          </c-modal-footer>
+        </c-modal>

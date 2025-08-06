@@ -1,0 +1,26 @@
+<!-- src/app/components/crypto-test/crypto-test.component.html -->
+<div>
+    <h1>Prueba de Encriptación y Desencriptación</h1>
+  
+    <div>
+      <h3>Clave Pública:</h3>
+      <textarea [value]="publicKey" readonly rows="10" cols="50"></textarea>
+    </div>
+  
+    <div>
+      <h3>Datos Cifrados:</h3>
+      <textarea [(ngModel)]="encryptedData" rows="10" cols="50"></textarea>
+    </div>
+  
+    <div>
+      <button (click)="decryptData()">Descifrar Datos</button>
+    </div>
+  
+    <div *ngIf="decryptedResponse">
+      <h3>Respuesta Descifrada:</h3>
+      <p>{{ decryptedResponse | json}}</p>
+    </div>
+  </div>
+  
+
+

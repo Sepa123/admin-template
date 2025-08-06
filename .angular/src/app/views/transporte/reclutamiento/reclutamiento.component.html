@@ -1,0 +1,924 @@
+<!-- Agregar -->
+
+<div class="modulo-container">
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<c-modal id="liveAgregaModal" [visible]="visibleAgregar" (visibleChange)="handleLiveAgregaChange($event)" size="xl" backdrop="static">
+    <c-modal-header>
+      <h5 cModalTitle>Agregar Candidato  </h5>
+      <button (click)="toggleLiveAgregar()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <form cForm [formGroup]="form" (ngSubmit)="registrarCandidato()" > 
+        <div class="card">
+          <!-- <p></p>
+          <h5>Vehículo</h5> -->
+          <p></p>
+          <c-row>
+
+            <c-col [xs]>
+              <div class="">
+                Nombre Contacto
+  
+                <input type="text" placeholder="Nombre Contacto" class="form-control" formControlName="Nombre_contacto" >
+                  <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                  <span class="error" *ngIf="form.get('Nombre_contacto')?.errors?.['required'] && isErrorView">
+                      Falta agregar el nombre de contacto
+                  </span>
+            </div>
+          </c-col>
+          <c-col [xs]>
+            Teléfono
+            <input type="text" placeholder="Teléfono" class="form-control"  formControlName="Telefono">
+              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+              <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                  Falta agregar el teléfono
+              </span>
+
+              <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span>
+
+            
+          </c-col>
+          <c-col [xs]>
+            Correo 
+            <input type="text" placeholder="name@example.com" class="form-control"  formControlName="Correo">
+            <span class="error" *ngIf="form.get('Correo')?.errors?.['required'] && isErrorView" >
+              Falta agregar el Correo
+            </span>
+
+            <span class="error" *ngIf="form.get('Correo')?.errors?.['email'] && isErrorView" >
+              Formato de correo invalido
+            </span>
+
+              <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span> -->
+
+            
+          </c-col>
+            <c-col [xs]>
+                <div class="noEditar">
+                    Región
+                    <select id="EstadoContacto" cSelect class="form-control" formControlName="Region" (change)="buscarComunas($event)">
+                      <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                    </select>
+
+
+                </div>
+            </c-col>
+           
+          
+            
+        </c-row>
+        
+
+        <c-row>
+          <c-col [xs]>
+            <div class="noEditar">
+                Comuna
+                <select id="EstadoContacto" cSelect class="form-control" formControlName="Comuna">
+                  <option *ngFor="let comuna of listaComunas" [value]="comuna.Id_comuna">{{comuna.Nombre_comuna}}</option>
+                </select>
+
+
+            </div>
+        </c-col>
+
+        <c-col [xs]>
+          <div class="">
+              Operación Postula
+              <select id="EstadoContacto" cSelect class="form-control" formControlName="Operacion_postula">
+                <option *ngFor="let op of listaOperacion"  [value]="op.Id"  >{{op.Operacion}}</option>
+              </select>
+          </div>
+      </c-col>
+
+      <c-col [xs]>
+        Cantidad de vehículos
+        <input type="text" placeholder="Cantidad" class="form-control"  formControlName="Cant_vehiculos">
+          <span class="error" *ngIf="form.get('Cant_vehiculos')?.errors?.['required'] && isErrorView">
+              Falta agregar la patente
+          </span>
+
+          <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+            Numero de Teléfono no es valido
+        </span> -->
+
+        
+      </c-col>
+
+      <c-col [xs]>
+        Patente
+        <input type="text" placeholder="WXYZ01" class="form-control"  formControlName="Ppu">
+          <span class="error" *ngIf="form.get('Ppu')?.errors?.['required'] && isErrorView">
+              Falta agregar la patente
+          </span>
+
+          <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+            Numero de Teléfono no es valido
+        </span> -->
+
+        
+      </c-col>
+          
+          
+            
+              
+        </c-row>
+        <c-row>
+
+          <c-col [xs]>
+            <div class="">
+              Tipo vehículo *
+
+              <select id="EstadoContacto" cSelect class="form-control" formControlName="Tipo_vehiculo">
+                    <option *ngFor="let veh of listaTipoVehiculo"  [value]="veh.Id"  >{{veh.Tipo_vehiculo }}</option>
+              </select>
+              
+          </div>
+        </c-col>
+          <c-col [xs]>
+            Capacidad
+            <input type="number" placeholder="Capacidad" class="form-control"  formControlName="Capacidad">
+              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+              <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                  Falta agregar el teléfono
+              </span>
+
+            
+          </c-col>
+          <c-col [xs]>
+            Metros cubicos
+            <input type="number" placeholder="5.2" class="form-control"  formControlName="Metros_cubicos">
+              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+              <span class="error" *ngIf="form.get('Metros_cubicos')?.errors?.['required'] && isErrorView">
+                Falta agregar los metros cúbicos
+              </span>
+
+              <span class="error" *ngIf="form.get('Metros_cubicos')?.errors?.['pattern'] && isErrorView">
+                  Formato de los metros cúbicos es incorrecto
+              </span>
+
+            
+          </c-col>
+          <c-col [xs]>
+            Origen Contacto
+
+            <select id="EstadoContacto" cSelect class="form-control" formControlName="Origen_contacto">
+
+                  <option *ngFor="let origen of listaOrigen"  [value]="origen.Id"  >{{origen.Origen}}</option>
+            </select>
+          </c-col>
+          
+          
+          
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="">
+                Estado Contacto
+                  <select id="EstadoContacto" cSelect class="form-control" formControlName="Estado_contacto">
+                    <option *ngFor="let estado of listaEstadoContacto"  [value]="estado.Id"  >{{estado.Estado_contacto}}</option>
+                  </select>
+                  </div>
+          </c-col>
+            
+            <c-col [xs]>
+              <div class="">
+                Motivo Subestado
+                <select id="EstadoContacto" cSelect class="form-control" formControlName="Motivo_subestado">
+                      <option *ngFor="let motivo of listaMotivo"  [value]="motivo.Id"  >{{motivo.Motivo_subestado}}</option>
+                </select>
+              </div>
+          </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Contacto Ejecutivo
+                  <select id="EstadoContacto" cSelect class="form-control" formControlName="Contacto_ejecutivo">
+                            <option *ngFor="let contacto of listaContactoEjecutivo"  [value]="contacto.Id"  >{{contacto.Ejecutivo}}</option>
+                  </select>
+              </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                Razón Social
+                <input type="text" placeholder="Razón Social" class="form-control"  formControlName="Razon_social">
+                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                    Falta agregar la razón social
+                </span>
+  
+            </div>
+                </c-col>
+                  
+
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="">
+                Rut Empresa 
+                <input type="text" placeholder="11111111-1" class="form-control" formControlName="Rut_empresa" (change)="verificaRut('Rut_empresa')" maxlength="10">
+                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                <span class="error" *ngIf="form.get('Rut_empresa')?.errors?.['required'] && isErrorView">
+                    Falta agregar el rut de la empresa
+                </span>
+                <span class="error" *ngIf="!rutValido ">
+                  Rut Invalido
+              </span>
+              </div>
+          </c-col>
+          <c-col [xs]>
+
+          </c-col>
+          <c-col [xs]>
+
+          </c-col>
+          <c-col [xs]>
+
+          </c-col>
+          </c-row>
+
+          <c-row>
+
+            <div class="full-width">
+              <label>¿Cuenta con inicio de actividades para facturar?*</label>
+              <div class="radio-group">
+                  <input type="radio" id="factura_si" formControlName="Inicio_actividades_factura" [value]="true" required>
+                  <label for="factura_si">Sí</label>
+                  <input type="radio" id="factura_no" formControlName="Inicio_actividades_factura" [value]="false">
+                  <label for="factura_no">No</label>
+              </div>
+          </div>
+  
+          <!-- Giros para facturar -->
+          <div class="full-width">
+              <label>¿Cuenta con alguno de estos giros para poder facturar?*</label>
+              <div class="radio-group">
+                  <input type="radio" id="transporte" formControlName="Giro" value="2" required>
+                  <label for="transporte">Transporte de carga por carretera</label>
+              </div>
+              <div class="radio-group">
+                  <input type="radio" id="otras"  formControlName="Giro" value="3">
+                  <label for="otras">Otras actividades de apoyo a las empresas N.C.P</label>
+              </div>
+              <div class="radio-group">
+                  <input type="radio" id="no_giro" formControlName="Giro" value="1">
+                  <label for="no_giro">No</label>
+              </div>
+          </div>
+
+          </c-row>
+          <p></p>
+          <!-- <h5>Datos proporcionados por transporte</h5> -->
+          <p></p>
+  
+
+      <p></p>
+
+      
+      </div>
+        <p></p>
+        <c-row>
+            <c-col [xs]>
+                <button class="btn btn-success" type="submit"  >Guardar 
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                </button>
+            </c-col>
+        </c-row>
+      </form>
+    </c-modal-body>
+  </c-modal>
+  
+
+  <!-- Modificar -->
+  <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="xl" backdrop="static">
+    <c-modal-header>
+      <h5 cModalTitle>Actualizar  </h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+
+      <form cForm [formGroup]="form" (ngSubmit)="actualizarDatosRecluta()" > 
+        <div class="card">
+          <!-- <p></p>
+          <h5>Vehículo</h5> -->
+          <p></p>
+          <c-row>
+
+            <c-col [xs]>
+              <div class="">
+                Nombre Contacto
+  
+                <input type="text" placeholder="Nombre Contacto" class="form-control" formControlName="Nombre_contacto" >
+                  <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                  <span class="error" *ngIf="form.get('Nombre_contacto')?.errors?.['required'] && isErrorView">
+                      Falta agregar el nombre de contacto
+                  </span>
+            </div>
+          </c-col>
+          <c-col [xs]>
+            Teléfono
+            <input type="text" placeholder="Teléfono" class="form-control"  formControlName="Telefono">
+              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+              <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                  Falta agregar el teléfono
+              </span>
+
+              <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span>
+
+            
+          </c-col>
+          <c-col [xs]>
+            Correo 
+            <input type="text" placeholder="name@example.com" class="form-control"  formControlName="Correo">
+            <span class="error" *ngIf="form.get('Correo')?.errors?.['required'] && isErrorView" >
+              Falta agregar el Correo
+            </span>
+
+            <span class="error" *ngIf="form.get('Correo')?.errors?.['email'] && isErrorView" >
+                Formato de correo invalido
+            </span>
+
+              <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+                Numero de Teléfono no es valido
+            </span> -->
+
+            
+          </c-col>
+          <c-col [xs]>
+            <div class="noEditar">
+                Región
+                <select id="EstadoContacto" cSelect class="form-control" formControlName="Region" (change)="buscarComunas($event)">
+                  <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                </select>
+
+
+            </div>
+        </c-col>
+       
+      
+        
+    </c-row>
+    <c-row>
+      <c-col [xs]>
+        <div class="noEditar">
+            Comuna
+            <select id="EstadoContacto" cSelect class="form-control" formControlName="Comuna">
+              <option *ngFor="let comuna of listaComunas" [value]="comuna.Id_comuna">{{comuna.Nombre_comuna}}</option>
+            </select>
+
+
+        </div>
+    </c-col>
+
+        <c-col [xs]>
+          <div class="">
+              Operación Postula
+              <select id="EstadoContacto" cSelect class="form-control" formControlName="Operacion_postula">
+                <option *ngFor="let op of listaOperacion"  [value]="op.Id"  >{{op.Operacion}}</option>
+              </select>
+          </div>
+      </c-col>
+
+      <c-col [xs]>
+        Cantidad de vehículos
+        <input type="text" placeholder="Cantidad" class="form-control"  formControlName="Cant_vehiculos">
+          <span class="error" *ngIf="form.get('Cant_vehiculos')?.errors?.['required'] && isErrorView">
+              Falta agregar la patente
+          </span>
+
+          <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+            Numero de Teléfono no es valido
+        </span> -->
+
+        
+      </c-col>
+
+      <c-col [xs]>
+        Patente
+        <input type="text" placeholder="WXYZ01" class="form-control"  formControlName="Ppu">
+          <span class="error" *ngIf="form.get('Ppu')?.errors?.['required'] && isErrorView">
+              Falta agregar la patente
+          </span>
+
+          <!-- <span class="error" *ngIf="form.get('Telefono')?.errors?.['pattern'] && isErrorView">
+            Numero de Teléfono no es valido
+        </span> -->
+
+        
+      </c-col>
+          
+          
+            
+              
+        </c-row>
+        <c-row>
+
+          <c-col [xs]>
+            <div class="">
+              Tipo vehículo *
+
+              <select id="EstadoContacto" cSelect class="form-control" formControlName="Tipo_vehiculo">
+                    <option *ngFor="let veh of listaTipoVehiculo"  [value]="veh.Id"  >{{veh.Tipo_vehiculo }}</option>
+              </select>
+              
+          </div>
+        </c-col>
+          <c-col [xs]>
+            Capacidad
+            <input type="number" placeholder="Capacidad" class="form-control"  formControlName="Capacidad">
+              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+              <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                  Falta agregar el teléfono
+              </span>
+
+            
+          </c-col>
+          <c-col [xs]>
+            Metros cubicos
+            <input type="number" placeholder="Metros cubicos" class="form-control"  formControlName="Metros_cubicos">
+              <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+              <span class="error" *ngIf="form.get('Metros_cubicos')?.errors?.['required'] && isErrorView">
+                Falta agregar los metros cúbicos
+              </span>
+
+              <span class="error" *ngIf="form.get('Metros_cubicos')?.errors?.['pattern'] && isErrorView">
+                  Formato de los metros cúbicos es incorrecto
+              </span>
+
+            
+          </c-col>
+          <c-col [xs]>
+            Origen Contacto
+
+            <select id="EstadoContacto" cSelect class="form-control" formControlName="Origen_contacto">
+
+                  <option *ngFor="let origen of listaOrigen"  [value]="origen.Id"  >{{origen.Origen}}</option>
+            </select>
+          </c-col>
+          
+          
+          
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="">
+                Estado Contacto
+                  <select id="EstadoContacto" cSelect class="form-control" formControlName="Estado_contacto">
+                    <option *ngFor="let estado of listaEstadoContacto"  [value]="estado.Id"  >{{estado.Estado_contacto}}</option>
+                  </select>
+                  </div>
+          </c-col>
+            
+            <c-col [xs]>
+              <div class="">
+                Motivo Subestado
+                <select id="EstadoContacto" cSelect class="form-control" formControlName="Motivo_subestado">
+                      <option *ngFor="let motivo of listaMotivo"  [value]="motivo.Id"  >{{motivo.Motivo_subestado}}</option>
+                </select>
+              </div>
+          </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Contacto Ejecutivo
+                  <select id="EstadoContacto" cSelect class="form-control" formControlName="Contacto_ejecutivo">
+                            <option *ngFor="let contacto of listaContactoEjecutivo"  [value]="contacto.Id"  >{{contacto.Ejecutivo}}</option>
+                  </select>
+              </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                Razón Social
+                <input type="text" placeholder="Razón Social" class="form-control"  formControlName="Razon_social">
+                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                    Falta agregar la razón social
+                </span>
+  
+            </div>
+                </c-col>
+                  
+
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="">
+                Rut Empresa 
+                <input type="text" placeholder="11111111-1" class="form-control" formControlName="Rut_empresa" (change)="verificaRut('Rut_empresa')" maxlength="10">
+                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                <span class="error" *ngIf="form.get('Rut_empresa')?.errors?.['required'] && isErrorView">
+                    Falta agregar el rut de la empresa
+                </span>
+                <span class="error" *ngIf="!rutValido ">
+                  Rut Invalido
+              </span>
+              </div>
+          </c-col>
+          <c-col [xs]>
+
+          </c-col>
+          <c-col [xs]>
+
+          </c-col>
+          <c-col [xs]>
+
+          </c-col>
+          </c-row>
+
+          <c-row>
+
+            <div class="full-width">
+              <label>¿Cuenta con inicio de actividades para facturar?*</label>
+              <div class="radio-group">
+                  <input type="radio" id="factura_si" formControlName="Inicio_actividades_factura" [value]="true" required>
+                  <label for="factura_si">Sí</label>
+                  <input type="radio" id="factura_no" formControlName="Inicio_actividades_factura" [value]="false">
+                  <label for="factura_no">No</label>
+              </div>
+          </div>
+  
+          <!-- Giros para facturar -->
+          <div class="full-width">
+              <label>¿Cuenta con alguno de estos giros para poder facturar?*</label>
+              <div class="radio-group">
+                  <input type="radio" id="transporte" formControlName="Giro" value="2" required>
+                  <label for="transporte">Transporte de carga por carretera</label>
+              </div>
+              <div class="radio-group">
+                  <input type="radio" id="otras"  formControlName="Giro" value="3">
+                  <label for="otras">Otras actividades de apoyo a las empresas N.C.P</label>
+              </div>
+              <div class="radio-group">
+                  <input type="radio" id="no_giro" formControlName="Giro" value="1">
+                  <label for="no_giro">No</label>
+              </div>
+          </div>
+
+          </c-row>
+          <p></p>
+          <!-- <h5>Datos proporcionados por transporte</h5> -->
+          <p></p>
+  
+
+      <p></p>
+
+      
+      </div>
+        <p></p>
+        <c-row>
+            <c-col [xs]>
+                <button class="btn btn-success" type="submit"  >Actualizar solicitud
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                </button>
+            </c-col>
+        </c-row>
+      </form>
+  
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal>
+  
+<header><i class="fa-solid fa-person-circle-question"></i><h1>Reclutamiento</h1><div class="line"></div></header>
+      <!-- (click)="toggleLiveAgregar()"   *ngIf="rol_no_permitido.includes(rol+'') == false" -->
+
+      <section class="filters">
+        <div class="item icon">
+          <i class="fa-solid fa-calendar-days"></i>
+          <input type="date" id="startDate" [(ngModel)]="startDate" placeholder="Desde">
+        </div>
+        <div class="item icon">
+          <i class="fa-solid fa-calendar-check"></i>
+          <input type="date" id="endDate" [(ngModel)]="endDate" placeholder="Hasta">
+        </div>
+        <div class="item icon" id="Ejecutivo" name="Ejecutivo" >
+          <i class="fa-solid fa-user-tie"></i>
+          <select id="ejecutivo" [(ngModel)]="ejecutivoSeleccionada" (change)="onEjecutivoChange()" >
+            <option>Seleccione Ejecutivo</option>
+            <option>Todas</option>
+            <option *ngFor="let ej of listaContactoEjecutivo">{{ej.Ejecutivo}}</option>
+          </select>
+        </div>
+        <div class="item icon">
+          <i class="fa-solid fa-truck"></i>
+          <input type="text" placeholder="Buscar por patente" [(ngModel)]="patenteFiltro" (input)="filtroPestana(pestana)" />
+        </div>
+        <!-- <button class="search-btn" >
+          <i class="fa fa-search"></i>
+        </button> -->
+        <button class="new-recruit" *ngIf="permiso" (click)="toggleLiveAgregar()"   >
+          <i class="fa-solid fa-file-circle-plus"></i> Ingresar
+        </button> 
+        <div>
+          <button class="btn btn-primary" (click)="descargarExcel()" title="Descargar Excel">
+            <i class="fa fa-file-excel"></i> Excel
+          </button>
+        </div>
+      </section>
+
+      <nav class="tabs">
+        <div class="tab" data-tab="nuevo" [ngClass]="{ 'active': currentTab === 'nuevo' }"
+          (click)="setTabAndFilter('nuevo', 1)">
+          <i class="fa fa-star"></i> Nuevos: {{ formatearNumero(cantNuevos) }}
+        </div>
+        <div class="tab" data-tab="proceso" [ngClass]="{ 'active': currentTab === 'proceso' }"
+          (click)="setTabAndFilter('proceso', 2)">
+          <i class="fa fa-hourglass-half"></i> En Proceso: {{ formatearNumero(cantProces) }}
+        </div>
+        <div class="tab" data-tab="rechazado" [ngClass]="{ 'active': currentTab === 'rechazado' }"
+          (click)="setTabAndFilter('rechazado', 3)">
+          <i class="fa fa-xmark-circle"></i> Rechazados: {{ formatearNumero(cantRechazado) }}
+        </div>
+        <div class="tab" data-tab="paraingreso" [ngClass]="{ 'active': currentTab === 'paraingreso' }"
+          (click)="setTabAndFilter('paraingreso', 4)">
+          <i class="fa fa-door-open"></i> Para Ingreso {{formatearNumero(cantParaIngreso)}}
+        </div>
+        <div class="tab" data-tab="ingresado" [ngClass]="{ 'active': currentTab === 'ingresado' }"
+          (click)="setTabAndFilter('ingresado', 5)">
+          <i class="fa fa-user-check"></i> Ingresados {{formatearNumero(cantIngresado)}}
+        </div>
+       
+        
+      </nav>
+
+      <div class="divider"
+        [style.background-color]="pestana == 1 ? '#ffcc00': pestana == 2 ? '#3399ff' : pestana == 3 ? '#d9534f' : pestana == 4 ? '#5cb85c' : '#6c757d' ">
+      </div>
+      <div class="pagination-controls" style="margin-left:auto; display:flex; gap: 0.5rem; align-items: center;">
+        <!-- Botón Anterior -->
+        <button (click)="paginaAnterior()" [disabled]="currentPage === 1" class="search-btn">
+          <i class="fa fa-chevron-left"></i>
+        </button>
+      
+        <button *ngIf="currentPage > 2" (click)="goToPage(1)" [ngClass]="{ 'active': currentPage === 1 }">
+          1
+        </button>
+      
+        <!-- Elipsis si hay espacio entre primera y anterior -->
+        <span *ngIf="currentPage > 3">...</span>
+      
+        <button *ngIf="currentPage > 1" (click)="goToPage(currentPage - 1)">
+          {{ currentPage - 1 }}
+        </button>
+      
+        <button class="active">
+          {{ currentPage }}
+        </button>
+      
+        <button *ngIf="currentPage < totalPages" (click)="goToPage(currentPage + 1)">
+          {{ currentPage + 1 }}
+        </button>
+      
+        <!-- Elipsis si hay espacio entre siguiente y última -->
+        <span *ngIf="currentPage < totalPages - 2">...</span>
+      
+        <!-- Última página, solo si hay más de una -->
+        <button *ngIf="totalPages > 1" [class.active]="totalPages === currentPage" (click)="goToPage(totalPages)">
+          {{ totalPages }}
+        </button>
+      
+        <!-- Botón Siguiente -->
+        <button (click)="siguientePagina()" [disabled]="currentPage === totalPages" class="search-btn">
+          <i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+
+        <div class="content">
+          <div class="table-container">
+            <!-- style="width: 100%;"
+            [style.background-color]="pestana == 1 ? '#fff7e0': pestana == 2 ? '#e0f7ff' : pestana == 3 ? '#ffeded' : pestana == 4 ? '#e7ffe0' : '#f5f5f5' " -->
+            <table id="tablaProductosPicking" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th>Región</th>
+                  <th>Patente</th>
+                  <th>Operación postula</th>
+                  <th>Nombre contacto</th>
+                  <th>Teléfono</th>
+                  <!-- <th>Vehículo</th> -->
+                  <th>Origen Contacto</th>
+                  <th>Estado contacto</th>
+                  <th>Motivo</th>
+                  <!-- <th>Contacto ejecutivo</th> -->
+                  <!-- <th>Razón social</th>
+                      <th>Rut empresas</th> -->
+                  <th>Fecha creación</th>
+                  <th>Contacto ejecutivo</th>
+        
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let recluta of reclutasPagina">
+                <tr [class]="recluta.Rango_fecha == 3 ? 'alerta-rojo': recluta.Rango_fecha == 2 ? 'alerta_amarillo' : '' ">
+                  <td class="truncate" [title]="recluta.Region_nombre">{{recluta.Region_nombre}}</td>
+                 <td class="truncate" [title]="recluta.Ppu">
+                    {{recluta.Ppu}} </td>
+                  <td style="text-align: center;" [title]="recluta.Operacion_nombre == null ? '' : recluta.Operacion_nombre">
+                    {{recluta.Operacion_nombre}} </td>
+                  <td [title]="recluta.Nombre">{{recluta.Nombre}}</td>
+                  <td style="text-align: center;" [title]="recluta.Telefono">{{recluta.Telefono}}</td>
+                  <!-- <td>{{recluta.Tipo_vehiculo}}</td> -->
+                  <td style="text-align: center;" [title]="recluta.Nombre_origen">{{recluta.Nombre_origen}}</td>
+                  <td style="text-align: center;" [title]="recluta.Nombre_estados">{{recluta.Nombre_estados}}</td>
+                  <td style="text-align: center;" [title]="recluta.Nombre_motivo">{{recluta.Nombre_motivo}}</td>
+                  <!-- <td>{{recluta.Contacto_ejecutivo}}</td> -->
+                  <!-- <td [title]="recluta.Razon_social == null ? '' : recluta.Razon_social">{{recluta.Razon_social}}</td>
+                      <td style="text-align: center;" [title]="recluta.Rut_empresa == null ? '' : recluta.Rut_empresa">{{recluta.Rut_empresa}}</td> -->
+                  <td [title]="recluta.Fecha_creacion">{{recluta.Fecha_creacion}}</td>
+                  <td>
+                    <span *ngIf="recluta.Contacto_ejecutivo">
+                      {{recluta.Nombre_contacto}}
+                    </span>
+                    <span *ngIf="!recluta.Contacto_ejecutivo">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16.74" height="15" viewBox="0 0 1856 1664">
+                        <path [ngClass]="recluta.Rango_fecha == 3 ? 'alerta-rojoi': 'alerta_amarilloi' "
+                          d="M1056 1375v-190q0-14-9.5-23.5t-22.5-9.5H832q-13 0-22.5 9.5T800 1185v190q0 14 9.5 23.5t22.5 9.5h192q13 0 22.5-9.5t9.5-23.5m-2-374l18-459q0-12-10-19q-13-11-24-11H818q-11 0-24 11q-10 7-10 21l17 457q0 10 10 16.5t24 6.5h185q14 0 23.5-6.5t10.5-16.5m-14-934l768 1408q35 63-2 126q-17 29-46.5 46t-63.5 17H160q-34 0-63.5-17T50 1601q-37-63-2-126L816 67q17-31 47-49t65-18t65 18t47 49" />
+                      </svg>
+                      No asignado
+                    </span>
+                  </td>
+                  <th class="actions">
+        
+                    <span title="Editar datos" *ngIf="permiso">
+                      <!-- <svg xmlns="http://www.w3.org/2000/svg" (click)="verDatosReclutas(recluta)" width="15" height="15" viewBox="0 0 512 512">
+                            <path  fill="#f5b041" d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0l-30.1 30l97.9 97.9l30.1-30.1c21.9-21.9 21.9-57.3 0-79.2zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5l167.3-167.4l-98-98zM96 64c-53 0-96 43-96 96v256c0 53 43 96 96 96h256c53 0 96-43 96-96v-96c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32z" />
+                          </svg> -->
+        
+                      <svg xmlns="http://www.w3.org/2000/svg" (click)="verDatosReclutas(recluta)" width="12px" height="12px"
+                        viewBox="0 0 512 512">
+                        <path fill="#28a745"
+                          d="m402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0m162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2M384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5" />
+                      </svg>
+                    </span>
+                    <span title="Agregar Comentarios" *ngIf="permiso">
+                      <!-- <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalComentario(recluta.Id_reclutamiento)" width="15" height="15" viewBox="0 0 576 512">
+                            <path fill="#2ecc71" d="M0 64C0 28.7 28.7 0 64 0h160v128c0 17.7 14.3 32 32 32h128v38.6c-73.9 20.9-128 88.8-128 169.4c0 59.1 29.1 111.3 73.7 143.3c-3.2.5-6.4.7-9.7.7H64c-35.3 0-64-28.7-64-64zm384 64H256V0zm48 96a144 144 0 1 1 0 288a144 144 0 1 1 0-288m16 80c0-8.8-7.2-16-16-16s-16 7.2-16 16v48h-48c-8.8 0-16 7.2-16 16s7.2 16 16 16h48v48c0 8.8 7.2 16 16 16s16-7.2 16-16v-48h48c8.8 0 16-7.2 16-16s-7.2-16-16-16h-48z" />
+                          </svg> -->
+        
+                      <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalComentario(recluta.Id_reclutamiento)"
+                        width="12px" height="12px" viewBox="0 0 512 512">
+                        <path fill="#ffc107"
+                          d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4c32.7 12.3 69 19.4 107.4 19.4c141.4 0 256-93.1 256-208S397.4 32 256 32" />
+                      </svg>
+                    </span>
+                    <span title="Listar Comentarios" *ngIf="recluta.Comentario">
+                      <!-- <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalListaComentario(recluta.Id_reclutamiento)" width="15" height="15" viewBox="0 0 512 512">
+                            <path fill="#2e86c1" d="M152.1 38.2c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 113c-9.3-9.4-9.3-24.6 0-34s24.6-9.4 33.9 0L63 101.1l55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zm0 160c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 273c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L63 261.2l55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zM224 96c0-17.7 14.3-32 32-32h224c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32m0 160c0-17.7 14.3-32 32-32h224c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32m-64 160c0-17.7 14.3-32 32-32h288c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-17.7 0-32-14.3-32-32M48 368a48 48 0 1 1 0 96a48 48 0 1 1 0-96" />
+                          </svg> -->
+        
+                      <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalListaComentario(recluta.Id_reclutamiento)"
+                        width="12px" height="12px" viewBox="0 0 512 512">
+                        <path fill="#dc3545"
+                          d="M48 48a48 48 0 1 0 48 48a48 48 0 0 0-48-48m0 160a48 48 0 1 0 48 48a48 48 0 0 0-48-48m0 160a48 48 0 1 0 48 48a48 48 0 0 0-48-48m448 16H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16m0-320H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16m0 160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16" />
+                      </svg>
+                    </span>
+        
+                  </th>
+                  <!-- <button (click)="verDatosReclutas(recluta)">revisar</button></td> -->
+                </tr>
+        
+        
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p></p>
+        <!-- <button class="btn btn-success" (click)="descargarDatosVehiculos()">Descargar</button>
+       &nbsp;&nbsp;
+        <button cButton style="background-color: #f1948a; border: #f1948a; color: #000000;" (click)="descargarExcelATHela()" >
+          <svg class="dExcel" xmlns="http://www.w3.org/2000/svg"  height="1.5em" viewBox="0 0 384 512">
+              <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+          </svg> Descarga AT
+      </button> -->
+</div>
+
+
+<!-- Modificar -->
+<c-modal id="liveDemoModal" [visible]="visibleComentarios" (visibleChange)="handleLiveComentariosChange($event)" size="lg" backdrop="static">
+  <c-modal-header style="background: #333333; color:white">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 448 512">
+        <path fill="currentColor" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48" />
+      </svg>
+       &nbsp;<span>Fecha: {{ time | date: 'dd/MM/YYYY' }}</span>
+    </div>
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="13" height="13"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="white" d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>
+      &nbsp;
+      <span>Hora: {{ time | date: 'HH:mm' }}</span>
+    </div>
+  </c-modal-header>
+  <c-modal-body>
+          <!-- <div class="modal-body"> -->
+              <textarea class="form-control" [(ngModel)]="comentario" placeholder="Deja tu comentario aquí..."></textarea>
+              <br>
+              La experiencia fue:
+              <!-- <select cSelect class="form-control">
+                
+              </select> -->
+
+              <div class="custom-select">
+                <div class="select-selected" (click)="toggleSelect()"> <i [ngClass]="selectedOption.Icono" [style.color]="selectedOption.Color"></i> {{ selectedOption.Calificacion }}  </div>
+                <div class="select-items" *ngIf="showOptions">
+                  <div *ngFor="let option of options" (click)="selectOption(option)">
+                    <i [ngClass]="option.Icono" [style.color]="option.Color"></i> {{ option.Calificacion }}
+                  </div>
+                </div>
+              </div>
+
+          <!-- </div> -->
+           <i></i>
+
+      
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="guardarComentarios()" cButton color="success" style="color:white">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path fill="white" d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+
+      Guardar
+    </button>
+    <button (click)="toggleLiveComentarios()" cButton color="secondary" style="color:white">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 352 512">
+        <path fill="white" fill="currentColor" d="m242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28L75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256L9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48z" />
+      </svg>
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+
+
+
+
+<c-modal id="liveDemoModal" [visible]="visibleListaComentarios" (visibleChange)="handleLiveListaComentariosChange($event)" size="lg" backdrop="static">
+  <c-modal-body>
+
+      <div *ngFor="let lista of listaComentarios">
+         <!-- Comentario Grato -->
+        <div class="timeline-item" *ngIf="lista.Estatus_comentario == 1">
+          <div class="timeline-icon grata">
+            <i color="" class="fa-solid fa-face-smile"></i>
+          </div>
+          <div class="timeline-content">
+            <h3>{{lista.Nombre}}</h3>
+            <div class="datetime">
+              <i class="fa-solid fa-calendar-alt"></i> {{lista.Fecha}}
+              &nbsp;&nbsp;
+              <i class="fa-solid fa-clock"></i> {{lista.Hora}}
+            </div>
+            <div class="divider"></div>
+            <p>{{lista.Comentario}}</p>
+          </div>
+        </div>
+
+        <!-- Comentario Neutral -->
+        <div class="timeline-item" *ngIf="lista.Estatus_comentario == 2">
+          <div class="timeline-icon neutral">
+            <i class="fa-solid fa-face-meh-blank"></i>
+          </div>
+          <div class="timeline-content">
+            <h3>{{lista.Nombre}}</h3>
+            <div class="datetime">
+              <i class="fa-solid fa-calendar-alt"></i> {{lista.Fecha}}
+              &nbsp;&nbsp;
+              <i class="fa-solid fa-clock"></i> {{lista.Hora}}
+            </div>
+            <div class="divider"></div>
+            <p>{{lista.Comentario}}</p>
+          </div>
+        </div>
+
+        <!-- Comentario Ingrato -->
+        <div class="timeline-item" *ngIf="lista.Estatus_comentario == 3">
+          <div class="timeline-icon ingrata">
+            <i class="fa-solid fa-face-frown"></i>
+          </div>
+          <div class="timeline-content">
+            <h3>{{lista.Nombre}}</h3>
+            <div class="datetime">
+              <i class="fa-solid fa-calendar-alt"></i> {{lista.Fecha}}
+              &nbsp;&nbsp;
+              <i class="fa-solid fa-clock"></i> {{lista.Hora}}
+            </div>
+            <div class="divider"></div>
+            <p>{{lista.Comentario}}</p>
+          </div>
+        </div>
+      </div>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveListaComentarios()" cButton color="secondary" style="color:white">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 352 512">
+        <path fill="white" fill="currentColor" d="m242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28L75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256L9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48z" />
+      </svg>
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+

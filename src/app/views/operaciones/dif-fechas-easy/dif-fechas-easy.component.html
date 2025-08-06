@@ -1,0 +1,96 @@
+<c-row ngPreserveWhitespaces>  
+
+    
+    <!-- <div class="col-md-6 mx-auto"> -->
+        <h2>Diferencia fechas Easy</h2>
+  <c-row>
+    <c-col [xs]>
+      Fecha Inicio
+  <input type="date"  class="form-control" placeholder="Fecha" [(ngModel)]="fecha_inicio"  required>
+    </c-col>
+    
+    <c-col [xs]>
+      Fecha Fin
+      <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fecha_fin"  required>
+    </c-col>
+  </c-row>
+  <p></p>
+
+  <c-row>
+    <c-col >
+      <button  (click)="buscar()" cButton  color="secondary" size="sm" [disabled]="bloqBuscar">buscar</button>
+    </c-col>
+    <c-col *ngIf="contador !== 0" >
+      Registros : <label style="font-weight: bold;">{{contador}} <img width="40" *ngIf="isLoadingFull" height="50" src="../../../assets/images/loading-gif.gif" /></label>
+      <!-- <button  (click)="buscar()" cButton  color="secondary" size="sm">buscar</button> -->
+    </c-col>
+  </c-row>
+  <p></p>
+  <div class="greenTable" >
+    <p></p>
+    <table id="tablaProductosPicking" >
+    <thead>
+      <tr>
+        <th>Ciente</th>
+        <th>Ingreso sistema</th>
+        <th>Fecha compromiso</th>
+        <th>Ultima actualización</th>
+        <th>Dias Ejecución</th>
+        <!-- <th>Observación</th> -->
+        <th>Código Pedido</th>
+        <!-- <th>Dirección</th> -->
+        <th>Comuna</th>
+        <th>Descripción</th>
+        <!-- <th>Unidades</th> -->
+        <th>Estado</th>
+        <th>Subestado</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <!-- <td colspan="11" *ngIf="isLoadingFull"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td> -->
+    </tr>
+    <tr *ngFor="let dato of datosDif;let i = index ">
+        <td>{{dato.Cliente}}</td>
+        <td>{{dato.Ingreso_sistema}}</td>
+        <td>{{dato.Fecha_compromiso}}</td>
+        <td>{{dato.Ultima_actualizacion}}</td>
+        <td>{{dato.Dias_ejecucion}}</td>
+        <td>{{dato.Cod_pedido}}</td>
+        <!-- <td>{{dato.Id_entrega}}</td> -->
+        <!-- <td >{{dato.Direccion}}</td>  -->
+        <td>{{dato.Comuna}}</td>
+        <td>{{dato.Descripcion}}</td>
+        <!-- <td>{{dato.Unidades}}</td> -->
+        <td>{{dato.Estado}}</td>
+        <td>{{dato.Subestado}}</td>
+    </tr>
+    <tr *ngIf="noHayRegistro">
+     <td colspan="11">
+      no hay registros
+     </td> 
+    </tr>
+    
+    </tbody>
+    </table>
+    <p></p>
+
+    
+  </div>
+
+  <p></p>
+
+  <div>
+    <button cButton color="success" size="sm" (click)="descargarExcel()" *ngIf="libreExcel" >
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg"  height="1.5em" viewBox="0 0 384 512">
+          <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+      </svg> descargar
+      </button>
+  </div>
+  
+  <p></p>
+  <!-- <button (click)="descargarExcel()">descargar</button> -->
+  <c-row>
+    
+
+</c-row>

@@ -1,0 +1,786 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="xl">
+    <c-modal-header>
+      <h5 cModalTitle> </h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+
+        <form cForm [formGroup]="form" (ngSubmit)="actualizarDatos()" *ngIf="tipoRazon == 'Usuario Natural'" > 
+            <div >
+              <p></p>
+              <h5>Usuario</h5>
+              <p></p>
+            <c-row>
+                <c-col [xs]>
+                    <div class="">
+                        Nombre Completo
+                        <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" [disabled]="true" readonly>
+                        <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                        <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                            Falta agregar la razón social
+                        </span>
+                    </div>
+                </c-col>
+          
+                <c-col [xs]>
+                    <div class="noEditar">
+                        Rut
+                        <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                        <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10" [disabled]="true" readonly> 
+                        <span class="error" *ngIf="form.get('Rut')?.errors?.['required'] && isErrorView">
+                            Falta ingresar el rut
+                        </span>
+                        <span class="error" *ngIf="!rutValido ">
+                          Error al ingresar rut
+                      </span>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="noEditar">
+                        N° serie cedula
+                        <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                        <input type="text" placeholder="Celular" class="form-control"  formControlName="Celular" maxlength="12">
+                        <span class="error" *ngIf="form.get('Celular')?.errors?.['required'] && isErrorView">
+                            Falta agregar el Celular
+                        </span>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="">
+                        E-mail
+                         <input type="email" class="form-control"  placeholder="E-Mail" formControlName="Email" >
+                         <span class="error" *ngIf="form.get('Email')?.errors?.['required'] && isErrorView">
+                            Falta agregar el E-mail
+                        </span>
+                        <span class="error" *ngIf="form.get('Email')?.errors?.['email'] && isErrorView">
+                          El E-mail no es un formato valido
+                      </span>
+                        </div>
+                </c-col>
+                
+                
+            </c-row>
+            <c-row>
+              <c-col [xs]>
+                <div class="noEditar">
+                    N° Telefono
+                    <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                    <input type="text" placeholder="Telefono" class="form-control"  formControlName="Telefono" maxlength="12">
+                    <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Celular
+                    </span>
+                </div>
+            </c-col>
+                <c-col [xs]>
+                    <div class="">
+                      Fecha nacimiento
+                        <input type="date" placeholder="" class="form-control" formControlName="Fecha_nacimiento" >
+                        <span class="error" *ngIf="form.get('Fecha_nacimiento')?.errors?.['required'] && isErrorView">
+                          Falta agregar la fecha
+                      </span>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                  <div class="">
+                    Región
+                    <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region"  class="form-control">
+                        <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                    </select>
+                </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Comuna
+                  <select id="Comuna" cSelect formControlName="Comuna" class="form-control">
+                      <option  *ngFor="let comuna of listaComunas" value={{comuna.Id_comuna}} >{{comuna.Nombre_comuna}}</option>
+                  </select>
+              </div>
+            </c-col>
+          
+           
+              </c-row>
+              <c-row>
+                <c-col [xs]>
+                  <div class="">
+                    Dirección
+                    <input type="text" placeholder="Dirección" class="form-control" formControlName="Direccion" >
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Tipo Usuario
+                  <input type="text" placeholder="Giro" class="form-control" formControlName="Giro" >
+                </div>
+            </c-col>
+              </c-row>
+              <p></p>
+              <!-- <h5>Datos bancarios</h5> -->
+              <p></p>
+          
+              <c-row>
+                <c-col [xs]>       
+                    <div class="">
+                      Documento Antecedentes
+                      
+                    <input type="file" name="" id="doc_bancario" *ngIf="descargarDocBancario == null || descargarDocBancario == ''" (change)="onFileSelected($event,'doc_bancario')" class="form-control" accept=".pdf"> 
+                    
+                    <button class="btn btn-success" type="button" *ngIf="descargarDocBancario" (click)="descargarArchivo(descargarDocBancario)" >descargar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button>
+                  
+                  </div>
+              </c-col>
+          
+                <c-col [xs]>
+                    <div class="noEditar">
+                      Licencia de conducir
+                        <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                        <input type="text" placeholder="Titular cuenta" class="form-control" formControlName="Titular_cta" >
+                        <span class="error" *ngIf="form.get('Titular_cta')?.errors?.['required'] && isErrorView">
+                            Falta agregar el titular de la cuenta
+                        </span>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="">
+                      Fecha vencimiento licencia *
+                      <input type="date" placeholder="" class="form-control" formControlName="Permiso_circulacion_fec_venc" >
+                        <span class="error" *ngIf="form.get('Permiso_circulacion_fec_venc')?.errors?.['required'] && isErrorView">
+                          Falta agregar la fecha
+                      </span>
+                    </div>
+                </c-col>
+                <c-col [xs]>
+                    <div class="noEditar">
+                      PDF cedula_identidad
+                        <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                        <input type="text" placeholder="Titular cuenta" class="form-control" formControlName="Titular_cta" >
+                        <span class="error" *ngIf="form.get('Titular_cta')?.errors?.['required'] && isErrorView">
+                            Falta agregar el titular de la cuenta
+                        </span>
+                    </div>
+                </c-col>
+                
+            </c-row>
+          
+            <c-row>
+                <c-col [xs]>
+                    <div class="noEditar">
+                      Contrato
+                        <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                        <input type="text" placeholder="Titular cuenta" class="form-control" formControlName="Titular_cta" >
+                        <span class="error" *ngIf="form.get('Titular_cta')?.errors?.['required'] && isErrorView">
+                            Falta agregar el titular de la cuenta
+                        </span>
+                    </div>
+                </c-col>
+              <c-col [xs]>
+
+              </c-col>
+              <c-col [xs]>       
+
+            </c-col>
+            <c-col [xs]>
+              
+          </c-col>
+          
+          <p></p>
+              
+          </c-row>
+          
+          
+          </div>
+            <p></p>
+            <c-row>
+              <c-col [xs]>
+                <div class="noEditar">
+                  Transporte
+                </div>
+                <p></p>
+          </c-col>
+          <c-col [xs]>
+            <div class="noEditar">
+              <select cSelect   class="form-control" formControlName="Seguridad">
+                <option *ngFor="let estado of estadoTransporte" value={{estado.Id}}  >
+                    {{estado.Estado}}     
+                </option>
+             </select>
+            </div>
+            <p></p>
+          </c-col>
+            </c-row>
+            <c-row>
+              <c-col [xs]>
+                <div class="noEditar">
+                  Abogado
+                </div>
+                <p></p>
+          </c-col>
+          <c-col [xs]>
+            <div class="noEditar">
+              <select cSelect   class="form-control" formControlName="Abogado">
+                <option *ngFor="let estado of estadoTransporte" value={{estado.Id}}  >
+                    {{estado.Estado}}     
+                </option>
+            </select>
+              
+            </div>
+            <p></p>
+          </c-col>
+            </c-row>
+            <c-row>
+                <c-col [xs]>
+                    <button class="btn btn-success" type="submit"  >Actualizar 
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                    </button>
+                </c-col>
+                <c-col [xs]>
+                  <button class="btn btn-success" type="button" (click)="activarUsuario(true)" *ngIf="usuarioActivado !== true">Activar Usuario  </button>
+                  <button class="btn btn-danger" type="button" (click)="activarUsuario(false)" *ngIf="usuarioActivado == true" >Desactivar Usuario</button>
+
+              </c-col>
+            </c-row>
+          </form>
+          
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+</c-modal>
+
+<c-modal id="liveAgregaModal" [visible]="visibleAgregar" (visibleChange)="handleLiveAgregaChange($event)" size="xl">
+  <c-modal-header>
+    <h5 cModalTitle>Agregar Usuario </h5>
+    <button (click)="toggleLiveAgregar()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <c-nav variant="tabs">
+      <a [cTabContent]="tabContent" [active]="pv" [routerLink] [tabPaneIdx]="0" cNavLink (click)="activate(true,'7')">Usuario Natural</a>
+      <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink (click)="activate(false,'11')">Usuario Juridico</a>
+    </c-nav>
+    <c-tab-content #tabContent="cTabContent">
+      <c-tab-pane class="p-3">
+        <form cForm [formGroup]="form" (ngSubmit)="registrar()" *ngIf="listaComunasFull.length !== 0" > 
+          <div >
+            <p></p>
+            <h5>Usuario</h5>
+            <p></p>
+          <c-row>
+              <c-col [xs]>
+                  <div class="">
+                      Razón Social
+                      <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" >
+                      <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                      <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                          Falta agregar la razón social
+                      </span>
+                  </div>
+              </c-col>
+        
+              <c-col [xs]>
+                  <div class="noEditar">
+                      Rut
+                      <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                      <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10"> 
+                      <span class="error" *ngIf="form.get('Rut')?.errors?.['required'] && isErrorView">
+                          Falta ingresar el rut
+                      </span>
+                      <span class="error" *ngIf="!rutValido ">
+                        Error al ingresar rut
+                    </span>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                  <div class="">
+                      E-mail
+                       <input type="email" class="form-control"  placeholder="E-Mail" formControlName="Email" >
+                       <span class="error" *ngIf="form.get('Email')?.errors?.['required'] && isErrorView">
+                          Falta agregar el E-mail
+                      </span>
+                      <span class="error" *ngIf="form.get('Email')?.errors?.['email'] && isErrorView">
+                        El E-mail no es un formato valido
+                    </span>
+                      </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="noEditar">
+                    N° Celular
+                    <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                    <input type="text" placeholder="Celular" class="form-control"  formControlName="Celular" maxlength="12">
+                    <span class="error" *ngIf="form.get('Celular')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Celular
+                    </span>
+                </div>
+            </c-col>
+              
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="noEditar">
+                  N° Telefono
+                  <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                  <input type="text" placeholder="Telefono" class="form-control"  formControlName="Telefono" maxlength="12">
+                  <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                      Falta agregar el Celular
+                  </span>
+              </div>
+          </c-col>
+              <c-col [xs]>
+                  <div class="">
+                    Fecha nacimiento
+                      <input type="date" placeholder="" class="form-control" formControlName="Fecha_nacimiento" >
+                      <span class="error" *ngIf="form.get('Fecha_nacimiento')?.errors?.['required'] && isErrorView">
+                        Falta agregar la fecha
+                    </span>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Región
+                  <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region"  class="form-control">
+                      <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                  </select>
+              </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                Comuna
+                <select id="Comuna" cSelect formControlName="Comuna" class="form-control">
+                    <option  *ngFor="let comuna of listaComunas" value={{comuna.Id_comuna}} >{{comuna.Nombre_comuna}}</option>
+                </select>
+            </div>
+          </c-col>
+        
+         
+            </c-row>
+            <c-row>
+              <c-col [xs]>
+                <div class="">
+                  Dirección
+                  <input type="text" placeholder="Dirección" class="form-control" formControlName="Direccion" >
+                </div>
+            </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Giro
+                  <input type="text" placeholder="Giro" class="form-control" formControlName="Giro" >
+                </div>
+            </c-col>
+            </c-row>
+            <p></p>
+            <h5>Datos bancarios</h5>
+            <p></p>
+        
+            <c-row>
+              <c-col [xs]>
+                  <div class="">
+                    Rut Titular Cuenta Bancaria
+                      <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_titular_cta_bancaria" (change)="verificaRut('cta_banco')"  maxlength="10">
+                      <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                      <span class="error" *ngIf="form.get('Rut_titular_cta_bancaria')?.errors?.['required'] && isErrorView">
+                          Falta agregar el rut del titular
+                      </span>
+                      <span class="error" *ngIf="!rutTitularBanco ">
+                        Error al ingresar rut
+                    </span>
+                  </div>
+              </c-col>
+        
+              <c-col [xs]>
+                  <div class="noEditar">
+                    Titular de la cuenta
+                      <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                      <input type="text" placeholder="Titular cuenta" class="form-control" formControlName="Titular_cta" >
+                      <span class="error" *ngIf="form.get('Titular_cta')?.errors?.['required'] && isErrorView">
+                          Falta agregar el titular de la cuenta
+                      </span>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                  <div class="">
+                     Numero de cuenta
+                       <input type="text" class="form-control"  placeholder="Numero Cuenta" formControlName="Numero_cta" >
+                       <span class="error" *ngIf="form.get('Numero_cta')?.errors?.['required'] && isErrorView">
+                          Falta agregar el numero de cuenta
+                      </span>
+                      </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="noEditar">
+                    
+                    Banco
+                    <select id="tipoCuenta"  cSelect  class="form-control" formControlName="Banco">
+                      <option *ngFor="let bancos of banco"  [value]="bancos.id"  >{{bancos.bank_name}}</option>
+                  </select>
+                </div>
+            </c-col>
+              
+          </c-row>
+        
+          <c-row>
+            <c-col [xs]>
+                <div class="noEditar">
+                  Tipo de cuenta
+                  <select id="tipoCuenta"  cSelect class="form-control" formControlName="Tipo_cta">
+                    <option *ngFor="let tipo of tipoCuentas"  [value]="tipo.id"  >{{tipo.account_type_name}}</option>
+                </select>
+                </div>
+            </c-col>
+            <c-col [xs]>
+                <div class="">
+                  Forma Pago
+                  <select id="formaPago"  cSelect  class="form-control" formControlName="Forma_pago">
+                    <option *ngFor="let forma of formaPago"  [value]="forma.id"  >{{forma.name}}</option>
+                </select>
+                </div>
+            </c-col>
+            <c-col [xs]>       
+                <div class="">
+                  Documento Comercial Bancario
+          
+                <input type="file" name="" id="doc_bancario" (change)="onFileSelected($event,'doc_bancario')" class="form-control" accept=".pdf"> 
+                </div>
+          </c-col>
+          <c-col [xs]>
+            
+        </c-col>
+        
+        <p></p>
+            
+        </c-row>
+        
+        
+        </div>
+          <p></p>
+          <c-row>
+              <c-col [xs]>
+                  <button class="btn btn-success" type="submit"  >Guardar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button>
+              </c-col>
+          </c-row>
+        </form>
+        
+    
+      </c-tab-pane>
+      <c-tab-pane class="p-3">
+        <form cForm [formGroup]="form" (ngSubmit)="registrar()" *ngIf="listaComunasFull.length !== 0" > 
+          <div >
+            <p></p>
+            <h5>Usuario</h5>
+            <p></p>
+          <c-row>
+              <c-col [xs]>
+                  <div class="">
+                      Razón Social
+                      <input type="text" placeholder="Razón Social" class="form-control" formControlName="Razon_social" >
+                      <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                      <span class="error" *ngIf="form.get('Razon_social')?.errors?.['required'] && isErrorView">
+                          Falta agregar la razón social
+                      </span>
+                  </div>
+              </c-col>
+        
+              <c-col [xs]>
+                  <div class="noEditar">
+                      Rut
+                      <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                      <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut" (change)="verificaRut('colab')" maxlength="10"> 
+                      <span class="error" *ngIf="form.get('Rut')?.errors?.['required'] && isErrorView">
+                          Falta ingresar el rut
+                      </span>
+                      <span class="error" *ngIf="!rutValido ">
+                        Error al ingresar rut
+                    </span>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                  <div class="">
+                      E-mail
+                       <input type="text" class="form-control"  placeholder="E-Mail" formControlName="Email" >
+                       <span class="error" *ngIf="form.get('Email')?.errors?.['required'] && isErrorView">
+                          Falta agregar el E-mail
+                      </span>
+                      </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="noEditar">
+                    N° Celular
+                    <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                    <input type="text" placeholder="Celular" class="form-control"  formControlName="Celular" maxlength=12>
+                    <span class="error" *ngIf="form.get('Celular')?.errors?.['required'] && isErrorView">
+                        Falta agregar el Celular
+                    </span>
+                </div>
+            </c-col>
+              
+          </c-row>
+          <c-row>
+            <c-col [xs]>
+              <div class="noEditar">
+                  N° Telefono
+                  <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                  <input type="text" placeholder="Telefono" class="form-control"  formControlName="Telefono" maxlength="12">
+                  <span class="error" *ngIf="form.get('Telefono')?.errors?.['required'] && isErrorView">
+                      Falta agregar el Telefono
+                  </span>
+              </div>
+          </c-col>
+              <c-col [xs]>
+                  <div class="">
+                    Representante Legal
+                    <input type="text" placeholder="Representante legal" class="form-control" formControlName="Representante_legal" >
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="">
+                 Rut Representante Legal
+                  <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_representante_legal" maxlength="10" (change)="verificaRut('representante')">
+                  <span class="error" *ngIf="form.get('Rut_representante_legal')?.errors?.['required'] && isErrorView">
+                    Falta agregar el rut del representante
+                </span>
+                <span class="error" *ngIf="!rutRepresentanteValido ">
+                  Error al ingresar rut
+              </span>
+                
+                </div>
+            </c-col>
+              <c-col [xs]>
+                  <div class="">
+                    Fecha nacimiento
+                      <input type="date" placeholder="" class="form-control" formControlName="Fecha_nacimiento" >
+                      <span class="error" *ngIf="form.get('Fecha_nacimiento')?.errors?.['required'] && isErrorView">
+                        Falta agregar la fecha
+                    </span>
+                  </div>
+              </c-col>
+              
+        
+         
+            </c-row>
+            <c-row>
+              <c-col [xs]>
+                <div class="">
+                  Región
+                  <select id="Region"  (change)="buscarComunas($event)"  cSelect formControlName="Region"  class="form-control">
+                      <option *ngFor="let region of listaRegiones"  [value]="region.Id_region"  >{{region.Nombre_region}}</option>
+                  </select>
+              </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                Comuna
+                <select id="Comuna" cSelect formControlName="Comuna" class="form-control">
+                    <option  *ngFor="let comuna of listaComunas" value={{comuna.Id_comuna}} >{{comuna.Nombre_comuna}}</option>
+                </select>
+            </div>
+          </c-col>
+              <c-col [xs]>
+                <div class="">
+                  Dirección
+                  <input type="text" placeholder="Dirección" class="form-control" formControlName="Direccion" >
+                </div>
+            </c-col>
+            <c-col [xs]>
+              <div class="">
+                Giro
+                <input type="text" placeholder="Giro" class="form-control" formControlName="Giro" >
+              </div>
+           </c-col>
+          <c-row>
+            <c-col [xs]>
+              <div class="">
+                Constitución legal
+              <input type="file" name="" id="doc_constitucion" (change)="onFileSelected($event,'doc_constitucion')" class="form-control" accept=".pdf"> 
+              </div>
+          </c-col>
+            <c-col [xs]>
+              <div class="">
+                Certificado RRPP ante el SII
+              <input type="file" name="" id="doc_RRPP" (change)="onFileSelected($event,'doc_RRPP')" class="form-control" accept=".pdf"> 
+              </div>
+          </c-col>
+          <c-col [xs]>
+            <div class="">
+              <!-- <input  type="file" id="archivo" (change)="onFileSelected($event)">
+              <p></p>
+              <button  (click)="uploadFile()">Subir archivo</button> -->
+              Certificado vigencia de poderes
+      
+            <input type="file" name="" id="doc_vigencia" (change)="onFileSelected($event,'doc_vigencia')" class="form-control" accept=".pdf"> 
+            </div>
+        </c-col>
+        <c-col [xs]>
+          <div class="">
+            <!-- <input  type="file" id="archivo" (change)="onFileSelected($event)">
+            <p></p>
+            <button  (click)="uploadFile()">Subir archivo</button> -->
+            Inscripción registro de comercio
+    
+          <input type="file" name="" id="registro_comercio" (change)="onFileSelected($event,'registro_comercio')" class="form-control" accept=".pdf"> 
+          </div>
+      </c-col>
+          </c-row>
+            </c-row>
+            <p></p>
+            <h5>Datos bancarios</h5>
+            <p></p>
+        
+            <c-row>
+              <c-col [xs]>
+                  <div class="">
+                    Rut Titular Cuenta Bancaria
+                      <input type="text" placeholder="Ejemplo : 11111111-1" class="form-control" formControlName="Rut_titular_cta_bancaria"  maxlength="10" (change)="verificaRut('cta_banco')" >
+                      <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                      <span class="error" *ngIf="form.get('Rut_titular_cta_bancaria')?.errors?.['required'] && isErrorView">
+                          Falta agregar el rut del titular
+                      </span>
+                      <span class="error" *ngIf="!rutTitularBanco ">
+                        Error al ingresar rut
+                    </span>
+                  </div>
+              </c-col>
+        
+              <c-col [xs]> 
+                  <div class="noEditar">
+                    Titular de la cuenta
+                      <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                      <input type="text" placeholder="Titular cuenta" class="form-control" formControlName="Titular_cta" >
+                      <span class="error" *ngIf="form.get('Titular_cta')?.errors?.['required'] && isErrorView">
+                          Falta agregar el titular de la cuenta
+                      </span>
+                  </div>
+              </c-col>
+              <c-col [xs]>
+                  <div class="">
+                     Numero de cuenta
+                       <input type="text" class="form-control"  placeholder="Numero Cuenta" formControlName="Numero_cta" >
+                       <span class="error" *ngIf="form.get('Numero_cta')?.errors?.['required'] && isErrorView">
+                          Falta agregar el numero de cuenta
+                      </span>
+                      </div>
+              </c-col>
+              <c-col [xs]>
+                <div class="noEditar">
+                    
+                    Banco
+                    <select id="tipoCuenta"  cSelect  class="form-control" formControlName="Banco">
+                      <option *ngFor="let bancos of banco"  [value]="bancos.id"  >{{bancos.bank_name}}</option>
+                  </select>
+                </div>
+            </c-col>
+              
+          </c-row>
+        
+          <c-row>
+            <c-col [xs]>
+                <div class="noEditar">
+                  Tipo de cuenta
+                  <select id="tipoCuenta"  cSelect class="form-control" formControlName="Tipo_cta">
+                    <option *ngFor="let tipo of tipoCuentas"  [value]="tipo.id"  >{{tipo.account_type_name}}</option>
+                </select>
+                </div>
+            </c-col>
+            <c-col [xs]>
+                <div class="">
+                  Forma Pago
+                  <select id="formaPago"  cSelect  class="form-control" formControlName="Forma_pago">
+                    <option *ngFor="let forma of formaPago"  [value]="forma.id"  >{{forma.name}}</option>
+                </select>
+                </div>
+            </c-col>
+            <c-col [xs]>
+                <div class="">
+                  Documento Comercial Bancario
+          
+                <input type="file" name="" id="doc_bancario" (change)="onFileSelected($event,'doc_bancario')" class="form-control" accept=".pdf"> 
+                </div>
+          </c-col>
+          <c-col [xs]>
+            
+        </c-col>
+        
+        <p></p>
+            
+        </c-row>
+        
+        
+        </div>
+          <p></p>
+          <c-row>
+              <c-col [xs]>
+                  <button class="btn btn-success" type="submit"  >Guardar 
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                  </button>
+              </c-col>
+          </c-row>
+        </form>
+    
+      </c-tab-pane>
+    </c-tab-content>
+  </c-modal-body>
+
+</c-modal>
+
+<h2>Usuarios</h2>
+<p></p>
+
+<c-row>
+    <c-col [xs] >
+        <button  class="btn btn-success" (click)="toggleLiveAgregar()">Agregar Usuario
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512">
+            <path fill="black" d="M208 16A112.127 112.127 0 0 0 96 128v79.681a80.236 80.236 0 0 0 9.768 38.308l27.455 50.333L60.4 343.656A79.725 79.725 0 0 0 24 410.732V496h288v-32H56v-53.268a47.836 47.836 0 0 1 21.841-40.246l97.66-63.479l-41.64-76.341A48.146 48.146 0 0 1 128 207.681V128a80 80 0 0 1 160 0v79.681a48.146 48.146 0 0 1-5.861 22.985L240.5 307.007l71.5 46.476v-38.166l-29.223-19l27.455-50.334A80.23 80.23 0 0 0 320 207.681V128A112.127 112.127 0 0 0 208 16m216 384v-64h-32v64h-64v32h64v64h32v-64h64v-32z" />
+          </svg>      
+        </button>
+    </c-col>
+    <c-col [xs]>
+
+    </c-col>
+    <c-col [xs]>
+        <input type="text" placeholder="Buscar Usuario" class="form-control"  [(ngModel)]="nombreColaborador" >
+    </c-col>
+    <c-col [xs]>
+        <button class="btn btn-success" (click)=" buscarColaboradoresPorNombre()" >Buscar</button>
+    </c-col>
+</c-row>
+<p></p>
+
+    <div class="greenTable" style="width: 100%;">
+      
+      <table id="tablaProductosPicking" style="width: 100%;"  >
+      <thead>
+        <tr>
+            <th>Razón</th>
+            <th>Tipo razón</th>
+            <th>Rut</th>
+            <th>Fecha registro</th>
+            <th>Estado</th>
+            <th>Detalle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let colab of colaboradores; let i = index">
+          <td>{{colab.Razon_social}}</td>
+          <td>{{colab.Tipo_razon}}</td>
+          <td>{{formatearRUT(colab.Rut)}}</td>
+          <td>{{colab.Created_at}}</td>
+          <td>
+            <span *ngIf="colab.Activo">Activado</span>
+            <span *ngIf="!colab.Activo">Desactivado</span>
+          </td>
+          <td>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" (click)="revisarDatos(colab.Rut,colab.Tipo_razon)" ><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+          </td>
+          <!-- <td>{{colab.Created_at}}</td> -->
+        </tr>
+        <tr *ngIf="colaboradores.length==0">
+          <td colspan="5">No hay registros</td>
+        </tr>
+     
+      </tbody>
+      </table>
+      
+    </div>
+

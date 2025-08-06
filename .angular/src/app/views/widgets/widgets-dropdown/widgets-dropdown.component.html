@@ -1,0 +1,609 @@
+<div ngClass="divBeetrack">
+  <div *ngFor="let pedido of pedidos">
+    <table ngClass="fullTable">
+     <tr>
+      <td ><p ngClass="letraGrande">Beetrack </p> </td>
+      <td ngClass="tdTitle"><p ngClass="letraGrande"></p> </td>
+      <td ngClass="tdTitle"><p ngClass="letraGrande"> </p></td>
+     </tr>
+    </table>
+    <!-- <p ngClass="letraGrande">Beetrack </p>  -->
+
+    <c-row>
+      <c-col xs="6" sm="3">
+
+      <div class="card card-blue">
+        <table>
+          <tr>
+            <td width="98" height="98" >
+              <div class="icon-background">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 576 512">
+                  <path fill="#3399ff" d="M248 0h-40c-26.5 0-48 21.5-48 48v112c0 35.3 28.7 64 64 64h128c35.3 0 64-28.7 64-64V48c0-26.5-21.5-48-48-48h-40v80c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16zM64 256c-35.3 0-64 28.7-64 64v128c0 35.3 28.7 64 64 64h160c35.3 0 64-28.7 64-64V320c0-35.3-28.7-64-64-64h-40v80c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16v-80zm288 256h160c35.3 0 64-28.7 64-64V320c0-35.3-28.7-64-64-64h-40v80c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16v-80h-40c-15 0-28.8 5.1-39.7 13.8c4.9 10.4 7.7 22 7.7 34.2v160c0 12.2-2.8 23.8-7.7 34.2C323.2 506.9 337 512 352 512" />
+                </svg>
+
+            </div>
+            </td>
+            <td>
+              <div class="text-content">
+                <h3>TOTAL PEDIDOS</h3>
+                <div class="number">{{pedido.Total_pedidos}}</div>
+            </div>
+            </td>
+          </tr>
+        </table>
+    </div>
+ 
+      </c-col>
+    
+      <c-col xs="6" sm="3">
+
+        <div class="card card-green">
+          <table>
+            <tr>
+              <td width="98" height="98">
+                <div class="icon-background">
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"  viewBox="0 0 640 512">
+                    <path fill="#5cb85c" d="M425.7 256c-16.9 0-32.8-9-41.4-23.4L320 126l-64.2 106.6c-8.7 14.5-24.6 23.5-41.5 23.5c-4.5 0-9-.6-13.3-1.9L64 215v178c0 14.7 10 27.5 24.2 31l216.2 54.1c10.2 2.5 20.9 2.5 31 0L551.8 424c14.2-3.6 24.2-16.4 24.2-31V215l-137 39.1c-4.3 1.3-8.8 1.9-13.3 1.9m212.6-112.2L586.8 41c-3.1-6.2-9.8-9.8-16.7-8.9L320 64l91.7 152.1c3.8 6.3 11.4 9.3 18.5 7.3l197.9-56.5c9.9-2.9 14.7-13.9 10.2-23.1M53.2 41L1.7 143.8c-4.6 9.2.3 20.2 10.1 23l197.9 56.5c7.1 2 14.7-1 18.5-7.3L320 64L69.8 32.1c-6.9-.8-13.5 2.7-16.6 8.9" />
+                  </svg>
+              </div>
+              </td>
+              <td>
+                <div class="text-content">
+                  <h3>ENTREGADOS</h3>
+                  <div class="number">{{pedido.Entregados}}</div>
+              </div>
+              </td>
+            </tr>
+          </table>
+      </div>  
+      </c-col>
+
+      <c-col xs="6" sm="3">
+        <div class="card card-red">
+          <table>
+            <tr>
+              <td width="98" height="98">
+                <div class="icon-background">
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 640 512">
+                    <path fill="#d9534f" d="M320.7 352c8.1-89.7 83.5-160 175.3-160c8.9 0 17.6.7 26.1 1.9L309.5 7c-6-5-14-7-21-7s-15 1-22 8L10 231.5c-7 7-10 15-10 24c0 18 14 32.1 32 32.1h32v69.7c-.1.9-.1 1.8-.1 2.8v112c0 22.1 17.9 40 40 40h16c1.2 0 2.4-.1 3.6-.2c1.5.1 3 .2 4.5.2h55.9c22.1 0 40-17.9 40-40v-88c0-17.7 14.3-32 32-32h64.7zM496 512a144 144 0 1 0 0-288a144 144 0 1 0 0 288m59.3-180.7L518.6 368l36.7 36.7c6.2 6.2 6.2 16.4 0 22.6s-16.4 6.2-22.6 0L496 390.6l-36.7 36.7c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l36.7-36.7l-36.7-36.7c-6.2-6.2-6.2-16.4 0-22.6s16.4-6.2 22.6 0l36.7 36.7l36.7-36.7c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6" />
+                  </svg>
+
+              </div>
+              </td>
+              <td>
+                <div class="text-content">
+                  <h3>NO ENTREGADOS</h3>
+                  <div class="number">{{ pedido.No_entregados }}</div>
+              </div>
+              </td>
+            </tr>
+          </table>
+      </div>
+
+      </c-col>
+    
+      <c-col xs="6" sm="3">
+
+        <div class="card card-yellow">
+          <table>
+            <tr>
+              <td width="98" height="98">
+                <div class="icon-background">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 640 512">
+                    <path fill="#ffcc00" d="M112 0C85.5 0 64 21.5 64 48v48H16c-8.8 0-16 7.2-16 16s7.2 16 16 16h256c8.8 0 16 7.2 16 16s-7.2 16-16 16H48c-8.8 0-16 7.2-16 16s7.2 16 16 16h192c8.8 0 16 7.2 16 16s-7.2 16-16 16H16c-8.8 0-16 7.2-16 16s7.2 16 16 16h192c8.8 0 16 7.2 16 16s-7.2 16-16 16H64v128c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48zm432 237.3V256H416v-96h50.7zM160 368a48 48 0 1 1 0 96a48 48 0 1 1 0-96m272 48a48 48 0 1 1 96 0a48 48 0 1 1-96 0" />
+                  </svg>
+              </div>
+              </td>
+              <td>
+                <div class="text-content">
+                  <h3>EN RUTA</h3>
+                  <div class="number">{{ pedido.Pendientes }}</div>
+              </div>
+              </td>
+            </tr>
+          </table>
+      </div>
+      </c-col>
+  
+    </c-row>
+    <p></p>
+
+
+    <!-- <c-row >
+      <c-col xs="6" sm="3">
+        <c-widget-stat-e
+          class="mb-4 text-white fs-4"
+          color="info"
+        >
+        TOTAL PEDIDOS
+        <br />
+          {{pedido.Total_pedidos}}  
+
+
+      </c-widget-stat-e>
+      </c-col>
+
+      <c-col xs="6" sm="3">
+        <c-widget-stat-e
+          class="mb-6 text-white fs-4"
+          color="success"
+        >
+        ENTREGADOS
+        <br />
+        {{pedido.Entregados}}
+      </c-widget-stat-e>
+      </c-col>
+
+      <c-col xs="6" sm="3">
+        <c-widget-stat-e
+          class="mb-4 text-white fs-4"
+          color="danger"
+        >
+        NO ENTREGADOS
+        <br />
+        {{pedido.No_entregados}}
+      </c-widget-stat-e>
+      </c-col>
+
+      <c-col xs="6" sm="3">
+        <c-widget-stat-e
+          class="mb-4 text-white fs-4"
+          color="warning"
+        >
+        EN RUTA
+        <br />
+        {{pedido.Pendientes}}
+      </c-widget-stat-e>
+      </c-col>
+
+      
+    </c-row> -->
+
+  <p ngClass="letraGrande">Fecha de compromiso</p> 
+  </div>
+
+  <c-row>
+
+    <c-col xs="6" sm="3" *ngFor="let pedidoPendiente of pedidosPendientesTotal">
+
+      <div class="card card-blue">
+        <p></p>
+          <table align="center" >
+          <tr >
+            Atrasada:  {{pedidoPendiente.Atrasadas}}
+          </tr>
+          <tr >
+          En fecha: {{pedidoPendiente.En_fecha}}
+          </tr>
+          <tr >
+            <p >Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+          </tr>
+        </table>
+        <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> 
+    </div>
+ 
+      </c-col>
+    
+      <c-col xs="6" sm="3" *ngFor="let pedidoPendiente of pedidosPendientesEntregados">
+
+        <div class="card card-green">
+          <p></p>
+          <table align="center" >
+            <tr >
+              Atrasada:  {{pedidoPendiente.Atrasadas}}
+            </tr>
+            <tr >
+            En fecha: {{pedidoPendiente.En_fecha}}
+            </tr>
+            <tr >
+              <p >Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+            </tr>
+          </table>
+          <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p>
+      </div>  
+      </c-col>
+
+      <c-col xs="6" sm="3" *ngFor="let pedidoPendiente of pedidosPendientesNoEntregados">
+        <div class="card card-red">
+          <p></p>
+          <table align="center" >
+            <tr >
+              Atrasada:  {{pedidoPendiente.Atrasadas}}
+            </tr>
+            <tr >
+            En fecha: {{pedidoPendiente.En_fecha}}
+            </tr>
+            <tr >
+              <p >Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+            </tr>
+          </table>
+    
+          <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> 
+      </div>
+
+      </c-col>
+    
+      <c-col xs="6" sm="3" *ngFor="let pedidoPendiente of pedidosPendientesEnRuta">
+
+        <div class="card card-yellow">
+          <p></p>
+          <table align="center" >
+            <tr >
+              Atrasada:  {{pedidoPendiente.Atrasadas}}
+            </tr>
+            <tr >
+            En fecha: {{pedidoPendiente.En_fecha}}
+            </tr>
+            <tr >
+              <p >Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+            </tr>
+          </table>
+          <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p>
+    
+      </div>
+      </c-col>
+
+    <!-- <c-col sm="6" xl="3" *ngFor="let pedidoPendiente of pedidosPendientesTotal">
+      <c-widget-stat-a
+        class="mb-4"
+        color="info"
+        title=""
+      >  
+
+        <table >
+          <tr ngClass="letraChica">
+            Atrasada:  {{pedidoPendiente.Atrasadas}}
+          </tr>
+          <tr ngClass="letraChica">
+          En fecha: {{pedidoPendiente.En_fecha}}
+          </tr>
+          <tr >
+            <p ngClass="letraChica">Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+          </tr>
+        </table>
+        <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> 
+
+      </c-widget-stat-a>
+    </c-col>
+
+    <c-col sm="6" xl="3" *ngFor="let pedidoPendiente of pedidosPendientesEntregados">
+      <c-widget-stat-a
+        class="mb-4"
+        color="success"
+      >
+      <table >
+        <tr ngClass="letraChica">
+          Atrasada:  {{pedidoPendiente.Atrasadas}}
+        </tr>
+        <tr ngClass="letraChica">
+        En fecha: {{pedidoPendiente.En_fecha}}
+        </tr>
+        <tr >
+          <p ngClass="letraChica">Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+        </tr>
+      </table>
+      <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p>
+      </c-widget-stat-a>
+    </c-col>
+
+    <c-col sm="6" xl="3" *ngFor="let pedidoPendiente of pedidosPendientesNoEntregados">
+      <c-widget-stat-a
+        class="mb-4"
+        color="danger"
+      >
+      <table >
+        <tr ngClass="letraChica">
+          Atrasada:  {{pedidoPendiente.Atrasadas}}
+        </tr>
+        <tr ngClass="letraChica">
+        En fecha: {{pedidoPendiente.En_fecha}}
+        </tr>
+        <tr >
+          <p ngClass="letraChica">Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+        </tr>
+      </table>
+
+      <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> 
+
+      </c-widget-stat-a>
+    </c-col>
+
+    <c-col sm="6" xl="3" *ngFor="let pedidoPendiente of pedidosPendientesEnRuta">
+      <c-widget-stat-a
+        class="mb-4"
+        color="warning"
+      >
+
+      <table >
+        <tr ngClass="letraChica">
+          Atrasada:  {{pedidoPendiente.Atrasadas}}
+        </tr>
+        <tr ngClass="letraChica">
+        En fecha: {{pedidoPendiente.En_fecha}}
+        </tr>
+        <tr >
+          <p ngClass="letraChica">Adelantadas: {{pedidoPendiente.Adelantadas}}</p>
+        </tr>
+      </table>
+      <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p> <p ngClass="letraChica"> </p>
+
+      </c-widget-stat-a>
+    </c-col> -->
+
+
+    
+  </c-row>
+  <p></p>
+  <div class="title-container">
+    <svg xmlns="http://www.w3.org/2000/svg" width="0.88em" height="1em" viewBox="0 0 448 512"><path fill="currentColor" d="M128 0c17.7 0 32 14.3 32 32v32h128V32c0-17.7 14.3-32 32-32s32 14.3 32 32v32h48c26.5 0 48 21.5 48 48v48H0v-48c0-26.5 21.5-48 48-48h48V32c0-17.7 14.3-32 32-32M0 192h448v272c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48zm64 80v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16m128 0v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16m144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM64 400v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16m144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm112 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16"/></svg>    <h2>
+      Nivel de Servicio Fecha Compromiso Inicial</h2>
+    <div class="title-line"></div>
+  </div>
+  <!-- <p ngClass="letraGrande">Nivel de Servicio Fecha Compromiso Inicial</p>  -->
+
+  <c-row>
+    <c-col>
+      <table class="greenTable">
+        <thead>
+          <tr >
+            <th scope="col">Cliente</th>
+            <th scope="col">Compromiso Real</th>
+            <th scope="col">Entregados</th>
+            <th scope="col">Anulados</th>
+            <th scope="col">Nivel Servicio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ns of datosNs">
+            <td>{{ ns.Cliente }}</td>
+            <td>{{ ns.Compromiso_real }}</td>
+            <td>{{ ns.Entregados }}</td>
+            <td>{{ ns.Anulados }}</td>
+            <td>{{ ns.Nivel_servicio }} %</td>
+          </tr>
+          <tr *ngIf="isLoadingTableNS == false" >
+            <td > <label for=""  style="font-weight: bolder;">Promedio</label></td>
+            <td ></td>
+            <td ></td>
+            <td ></td>
+            <td > <label for=""  style="font-weight: bolder;">{{promedio}}</label> %</td>
+          </tr>
+          <tr>
+            <td colspan="5" *ngIf="isLoadingTableNS"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+          </tr>
+        </tbody>
+       </table>
+    </c-col>
+  </c-row>
+  <br>
+
+<!-- * Sportex, Easy, Electrolux -->
+</div>
+
+<div class="title-container">
+  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="green" d="M416 320h-96c-17.6 0-32-14.4-32-32s14.4-32 32-32h96s96-107 96-160s-43-96-96-96s-96 43-96 96c0 25.5 22.2 63.4 45.3 96H320c-52.9 0-96 43.1-96 96s43.1 96 96 96h96c17.6 0 32 14.4 32 32s-14.4 32-32 32H185.5c-16 24.8-33.8 47.7-47.3 64H416c52.9 0 96-43.1 96-96s-43.1-96-96-96m0-256c17.7 0 32 14.3 32 32s-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32M96 256c-53 0-96 43-96 96s96 160 96 160s96-107 96-160s-43-96-96-96m0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32"/></svg>
+  <h2>
+    Información Rutas en Curso</h2>
+  <div class="title-line"></div>
+</div>
+
+<!-- <c-row>
+  <c-col xs="4" sm="1">
+    <a class="myButton" (click)="hideTable()" *ngIf="ocultarTabla == true"> <svg cIcon name="cilMinus" size="xl" title="Numbered List Icon">
+    </svg> </a>
+    <a class="myButton" (click)="showTable()" *ngIf="ocultarTabla == false"> <svg cIcon name="cilPlus" size="xl" title="Numbered List Icon">
+    </svg>  </a>
+    <p> </p>
+  </c-col>
+</c-row> -->
+
+<c-row>
+  <c-col >
+
+    <table *ngIf="ocultarTabla == true">
+      <tr>
+        <td>
+          <!-- <c-dropdown >
+            <button cButton cDropdownToggle color="secondary" size="sm">
+              Filtrar por Región
+            </button>
+            <ul cDropdownMenu>
+              <li *ngFor="let region of regiones"><a [routerLink]="[]" (click)="filterByRegion(region)" cDropdownItem>{{region}}</a></li>
+            </ul>
+          </c-dropdown> -->
+          <select id="Region"  cSelect  class="form-control" [(ngModel)]="regionSeleccionada" (click)="filterByRegion(regionSeleccionada)" *ngIf="!isLoadingBeetrack">
+            <option  [value]="0" >Todas las regiones</option>
+            <option *ngFor="let region of regiones"  [value]="region"  >{{region}}</option>
+        </select>
+        </td>
+        <td>
+          <!-- <c-dropdown >
+            <button cButton  color="secondary" size="sm" (click)="getAllRegion() ">
+              Mostrar Todas las regiones
+            </button>
+          </c-dropdown> -->
+        </td>
+      </tr>
+    </table>
+    <p></p>
+
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="red" d="M256 8C119 8 8 119 8 256s111 248 248 248s248-111 248-248S393 8 256 8m92.49 313l-20 25a16 16 0 0 1-22.49 2.5l-67-49.72a40 40 0 0 1-15-31.23V112a16 16 0 0 1 16-16h32a16 16 0 0 1 16 16v144l58 42.5a16 16 0 0 1 2.49 22.5"/></svg> -->
+   
+  <table class="greenTable" >
+    <thead *ngIf="!isLoadingBeetrack"> 
+      <tr class="ocultate">         
+      <td scope="col"></td>
+      <td scope="col"></td>
+      <td scope="col"></td>
+      <td scope="col"></td>
+      <td scope="col"></td>
+      <td scope="col"></td>
+      <td scope="col"></td>
+      <td>
+        <svg *ngIf="clockPositionActual == 10" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="red" d="M256 8C119 8 8 119 8 256s111 248 248 248s248-111 248-248S393 8 256 8m92.49 313l-20 25a16 16 0 0 1-22.49 2.5l-67-49.72a40 40 0 0 1-15-31.23V112a16 16 0 0 1 16-16h32a16 16 0 0 1 16 16v144l58 42.5a16 16 0 0 1 2.49 22.5"/></svg>
+      </td>
+      <td scope="col">
+         <svg *ngIf="clockPositionActual == 40" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="red" d="M256 8C119 8 8 119 8 256s111 248 248 248s248-111 248-248S393 8 256 8m92.49 313l-20 25a16 16 0 0 1-22.49 2.5l-67-49.72a40 40 0 0 1-15-31.23V112a16 16 0 0 1 16-16h32a16 16 0 0 1 16 16v144l58 42.5a16 16 0 0 1 2.49 22.5"/></svg>
+      </td>
+      <td scope="col">
+        <svg *ngIf="clockPositionActual == 60" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="red" d="M256 8C119 8 8 119 8 256s111 248 248 248s248-111 248-248S393 8 256 8m92.49 313l-20 25a16 16 0 0 1-22.49 2.5l-67-49.72a40 40 0 0 1-15-31.23V112a16 16 0 0 1 16-16h32a16 16 0 0 1 16 16v144l58 42.5a16 16 0 0 1 2.49 22.5"/></svg>
+      </td>
+      <td scope="col">
+        <svg *ngIf="clockPositionActual == 80" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="red" d="M256 8C119 8 8 119 8 256s111 248 248 248s248-111 248-248S393 8 256 8m92.49 313l-20 25a16 16 0 0 1-22.49 2.5l-67-49.72a40 40 0 0 1-15-31.23V112a16 16 0 0 1 16-16h32a16 16 0 0 1 16 16v144l58 42.5a16 16 0 0 1 2.49 22.5"/></svg>
+      </td>
+      <td scope="col">
+        <svg *ngIf="clockPositionActual == 95" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="red" d="M256 8C119 8 8 119 8 256s111 248 248 248s248-111 248-248S393 8 256 8m92.49 313l-20 25a16 16 0 0 1-22.49 2.5l-67-49.72a40 40 0 0 1-15-31.23V112a16 16 0 0 1 16-16h32a16 16 0 0 1 16 16v144l58 42.5a16 16 0 0 1 2.49 22.5"/></svg>
+      </td>
+      <td scope="col">
+        <svg *ngIf="clockPositionActual == 100" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="red" d="M256 8C119 8 8 119 8 256s111 248 248 248s248-111 248-248S393 8 256 8m92.49 313l-20 25a16 16 0 0 1-22.49 2.5l-67-49.72a40 40 0 0 1-15-31.23V112a16 16 0 0 1 16-16h32a16 16 0 0 1 16 16v144l58 42.5a16 16 0 0 1 2.49 22.5"/></svg>
+      </td>
+      <td scope="col"></td>
+      <td scope="col"></td>
+    </tr>
+    </thead>
+    
+            <thead>
+              
+              <tr>         
+                <th scope="col">N°</th>
+                <th scope="col">Ruta</th>
+                <th scope="col">Patente</th>
+                <th scope="col">Driver</th>
+                <th scope="col">Inicio</th>
+                <th scope="col">Región</th>
+                <th scope="col">Total Pedidos</th>
+                <th scope="col">11:00 (10%)</th>
+                <th scope="col">13:00 (40%)</th>
+                <th scope="col">15:00 (60%)</th>
+                <th scope="col">17:00 (80%)</th>
+                <th scope="col">18:00 (95%)</th>
+                <th scope="col">20:00 (100%)</th>
+                <th scope="col">Entregados</th>
+                <th scope="col">No Entregados</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ruta of rutasBeetrackHoy; let i = index">
+                <td scope="row" [ngClass]="{'bg-success text-white': ruta.Porcentaje == 100 }">{{ i + 1 }}</td>
+                <td [ngClass]="{'bg-success text-white': ruta.Porcentaje == 100 }">{{ ruta.Ruta }}</td>
+                <td [ngClass]="{'bg-success text-white': ruta.Porcentaje == 100 }">{{ ruta.Patente }}
+
+                  <div *ngIf="ruta.Tipo == null">
+                    <span>S/I</span>
+                </div>
+                <div  *ngIf="ruta.Tipo == 1" class="Icons-vehiculo" >
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M18 18.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5m1.5-9l1.96 2.5H17V9.5m-11 9A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5M20 8h-3V4H3c-1.11 0-2 .89-2 2v11h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-5z" /></svg>
+
+              </div>
+              <div *ngIf="ruta.Tipo == 2 " class="Icons-vehiculo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 640 512">
+                      <path fill="currentColor" d="m368.6 96l76.8 96H288V96zM224 80v112H64c-17.7 0-32 14.3-32 32v64c-17.7 0-32 14.3-32 32s14.3 32 32 32h33.1c-.7 5.2-1.1 10.6-1.1 16c0 61.9 50.1 112 112 112s112-50.1 112-112c0-5.4-.4-10.8-1.1-16h66.3c-.7 5.2-1.1 10.6-1.1 16c0 61.9 50.1 112 112 112s112-50.1 112-112c0-5.4-.4-10.8-1.1-16h33.1c17.7 0 32-14.3 32-32s-14.3-32-32-32v-64c0-17.7-14.3-32-32-32h-48.6L418.6 56c-12.1-15.2-30.5-24-50-24H272c-26.5 0-48 21.5-48 48m0 288a48 48 0 1 1-96 0a48 48 0 1 1 96 0m288 0a48 48 0 1 1-96 0a48 48 0 1 1 96 0" />
+                  </svg>
+              </div>
+              <div *ngIf="ruta.Tipo == 3" class="Icons-vehiculo">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 640 512"><path fill="currentColor" d="M64 104v88h96V96H72c-4.4 0-8 3.6-8 8m482 88l-80.9-96H384v96zm-226 0V96h-96v96zm272 192h-16c0 53-43 96-96 96s-96-43-96-96H256c0 53-43 96-96 96s-96-43-96-96H48c-26.5 0-48-21.5-48-48V104c0-39.8 32.2-72 72-72h393.1c18.9 0 36.8 8.3 49 22.8L625 186.5c9.7 11.5 15 26.1 15 41.2V336c0 26.5-21.5 48-48 48m-64 0a48 48 0 1 0-96 0a48 48 0 1 0 96 0m-368 48a48 48 0 1 0 0-96a48 48 0 1 0 0 96" /></svg>
+              </div>
+              <div *ngIf="ruta.Tipo == 4" class="Icons-vehiculo">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 2048 1600"><path fill="currentColor" d="M480 960q0-66-47-113t-113-47t-113 47t-47 113t47 113t113 47t113-47t47-113m36-320h1016l-89-357q-2-8-14-17.5t-21-9.5H640q-9 0-21 9.5T605 283zm1372 320q0-66-47-113t-113-47t-113 47t-47 113t47 113t113 47t113-47t47-113m160-96v384q0 14-9 23t-23 9h-96v128q0 80-56 136t-136 56t-136-56t-56-136v-128H512v128q0 80-56 136t-136 56t-136-56t-56-136v-128H32q-14 0-23-9t-9-23V864q0-93 65.5-158.5T224 640h28l105-419q23-94 104-157.5T640 0h768q98 0 179 63.5T1691 221l105 419h28q93 0 158.5 65.5T2048 864" /></svg>
+              </div>
+              <div *ngIf="ruta.Tipo == 5" class="Icons-vehiculo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 640 512"><path fill="currentColor" d="M640 0v400c0 61.9-50.1 112-112 112c-61 0-110.5-48.7-112-109.3L48.4 502.9c-17.1 4.6-34.6-5.4-39.3-22.5s5.4-34.6 22.5-39.3L352 353.8V64c0-35.3 28.7-64 64-64zm-64 400a48 48 0 1 0-96 0a48 48 0 1 0 96 0M23.1 207.7c-4.6-17.1 5.6-34.6 22.6-39.2l46.4-12.4l20.7 77.3c2.3 8.5 11.1 13.6 19.6 11.3l30.9-8.3c8.5-2.3 13.6-11.1 11.3-19.6l-20.7-77.3l46.4-12.4c17.1-4.6 34.6 5.6 39.2 22.6l41.4 154.5c4.6 17.1-5.6 34.6-22.6 39.2l-154.6 41.5c-17.1 4.6-34.6-5.6-39.2-22.6z" /></svg>
+              </div>
+              <div *ngIf="ruta.Tipo == 6" class="Icons-vehiculo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256"><path fill="currentColor" d="M224 96.8V96a56.06 56.06 0 0 0-56-56h-8a16 16 0 0 0-16 16v120h-16V72a8 8 0 0 0-8-8H16A16 16 0 0 0 0 80v104a32 32 0 0 0 56 21.13A32 32 0 0 0 111 192h82a32 32 0 0 0 63-8v-48a40.07 40.07 0 0 0-32-39.2M160 56h8a40 40 0 0 1 40 40v8a8 8 0 0 0 8 8a24 24 0 0 1 24 24v20.31a31.7 31.7 0 0 0-16-4.31a32.06 32.06 0 0 0-31 24h-33Zm-48 24v96h-1a32 32 0 0 0-55-13.13a31.9 31.9 0 0 0-40-6.56V80ZM32 200a16 16 0 1 1 16-16a16 16 0 0 1-16 16m48 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16m144 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16" /></svg>
+              </div>
+              <div *ngIf="ruta.Tipo == 7" class="Icons-vehiculo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256"><path fill="currentColor" d="M224 96.8V96a56.06 56.06 0 0 0-56-56h-8a16 16 0 0 0-16 16v120h-16V72a8 8 0 0 0-8-8H16A16 16 0 0 0 0 80v104a32 32 0 0 0 56 21.13A32 32 0 0 0 111 192h82a32 32 0 0 0 63-8v-48a40.07 40.07 0 0 0-32-39.2M32 200a16 16 0 1 1 16-16a16 16 0 0 1-16 16m48 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16m144 0a16 16 0 1 1 16-16a16 16 0 0 1-16 16" /></svg>
+              </div>
+              <div *ngIf="ruta.Tipo == 8 " class="Icons-vehiculo">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                      <path fill="black" d="M6 15v2H3V8l2.45-7h13.1L21 8v9h-3v-2zm-.2-9h12.4l-1.05-3H6.85zm1.7 6q.625 0 1.063-.437T9 10.5t-.437-1.062T7.5 9t-1.062.438T6 10.5t.438 1.063T7.5 12m9 0q.625 0 1.063-.437T18 10.5t-.437-1.062T16.5 9t-1.062.438T15 10.5t.438 1.063T16.5 12M13 23l-6-3h4v-2l6 3h-4z" />
+                  </svg>
+              </div>
+              
+              <div *ngIf="ruta.Tipo == 9" class="Icons-vehiculo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256"><path fill="currentColor" d="M240 114h-29.51l-43.9-43.9a13.94 13.94 0 0 0-9.9-4.1H44.28a14 14 0 0 0-11.65 6.23L3 116.67A6 6 0 0 0 2 120v48a14 14 0 0 0 14 14h18.6a30 30 0 0 0 58.8 0h69.2a30 30 0 0 0 58.8 0H240a14 14 0 0 0 14-14v-40a14 14 0 0 0-14-14M42.62 78.89a2 2 0 0 1 1.66-.89h112.41a2 2 0 0 1 1.41.59L193.52 114H19.21ZM64 194a18 18 0 1 1 18-18a18 18 0 0 1-18 18m128 0a18 18 0 1 1 18-18a18 18 0 0 1-18 18m50-26a2 2 0 0 1-2 2h-18.6a30 30 0 0 0-58.8 0H93.4a30 30 0 0 0-58.8 0H16a2 2 0 0 1-2-2v-42h226a2 2 0 0 1 2 2Z" /></svg>
+              </div>
+
+              <div *ngIf="ruta.Tipo == 10" class="Icons-vehiculo">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                      <path fill="black" d="M3 7c-1.11 0-2 .89-2 2v8h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-4c0-1.11-.89-2-2-2l-3-4zm12 1.5h2.5l1.96 2.5H15zm-9 7A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5m12 0a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5" />
+                  </svg>
+              </div>
+
+                </td>
+                <td>{{ ruta.Driver }}</td>
+                <td>{{ ruta.Inicio }}</td>
+                <td>{{ ruta.Region }}</td>
+                <td> <svg xmlns="http://www.w3.org/2000/svg" width="0.88em" height="1em" viewBox="0 0 448 512"><path fill="#FF9800" d="M50.7 58.5L0 160h208V32H93.7c-18.2 0-34.8 10.3-43 26.5M240 160h208L397.3 58.5c-8.2-16.2-24.8-26.5-43-26.5H240zm208 32H0v224c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64z"/></svg>
+                  {{ ruta.Total_pedidos }}</td>
+                <td [ngClass]="ruta.Porcentaje == 100 ? 'verde tooltip-cell' : ruta.P_hora_actual < ruta.P_ocho ? 'tooltip-cell' : 'amarillo tooltip-cell' " [attr.data-tooltip]="ruta.P_once + '%'">{{ ruta.Once }}</td>
+                <td [ngClass]="ruta.Porcentaje == 100 ? 'verde tooltip-cell' : ruta.P_hora_actual < ruta.P_ocho ? 'tooltip-cell' : 'amarillo tooltip-cell' " [attr.data-tooltip]="ruta.P_una + '%'">{{ ruta.Una }}</td>
+                <td [ngClass]="ruta.Porcentaje == 100 ? 'verde tooltip-cell' : ruta.P_hora_actual < ruta.P_ocho ? 'tooltip-cell' : 'amarillo tooltip-cell' " [attr.data-tooltip]="ruta.P_tres + '%'">{{ ruta.Tres }}</td>
+                <td [ngClass]="ruta.Porcentaje == 100 ? 'verde tooltip-cell' : ruta.P_hora_actual < ruta.P_ocho ? 'tooltip-cell' : 'amarillo tooltip-cell' " [attr.data-tooltip]="ruta.P_cinco + '%'">{{ ruta.Cinco }}</td>
+                <td [ngClass]="ruta.Porcentaje == 100 ? 'verde tooltip-cell' : ruta.P_hora_actual < ruta.P_ocho ? 'tooltip-cell' : 'amarillo tooltip-cell' " [attr.data-tooltip]="ruta.P_seis + '%'">{{ ruta.Seis }}</td>
+                <td [ngClass]="ruta.Porcentaje == 100 ? 'verde tooltip-cell' : ruta.P_hora_actual < ruta.P_ocho ? 'tooltip-cell' : 'amarillo tooltip-cell' " [attr.data-tooltip]="ruta.P_ocho + '%'">{{ ruta.Ocho }}</td>
+                <td> <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
+                      <path fill="green" d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256S119.033 8 256 8s248 111.033 248 248M227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001" />
+                    </svg>                     
+                    {{ ruta.Entregados }}</td>
+                <td>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
+                     <path fill="red" d="M256 8C119 8 8 119 8 256s111 248 248 248s248-111 248-248S393 8 256 8m121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65l-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7l65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256z" />
+                  </svg>
+                  {{ ruta.No_entregados }}</td>
+              </tr>
+              <tr>
+                <td colspan="15" *ngIf="noData">Sin datos</td>
+              </tr>
+              <tr>
+                <td colspan="15" *ngIf="isLoadingBeetrack"><img src="../../../assets/images/loading-gif.gif" /></td>
+              </tr>
+            </tbody>
+          </table>
+          </c-col>      
+</c-row>
+<p></p>
+<!-- <p ngClass="letraGrande">Productos pendientes con fecha de compromiso hasta hoy</p>  -->
+<div class="title-container">
+  <!-- <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="green" d="M416 320h-96c-17.6 0-32-14.4-32-32s14.4-32 32-32h96s96-107 96-160s-43-96-96-96s-96 43-96 96c0 25.5 22.2 63.4 45.3 96H320c-52.9 0-96 43.1-96 96s43.1 96 96 96h96c17.6 0 32 14.4 32 32s-14.4 32-32 32H185.5c-16 24.8-33.8 47.7-47.3 64H416c52.9 0 96-43.1 96-96s-43.1-96-96-96m0-256c17.7 0 32 14.3 32 32s-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32M96 256c-53 0-96 43-96 96s96 160 96 160s96-107 96-160s-43-96-96-96m0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32"/></svg> -->
+  <h2>Productos pendientes con fecha de compromiso hasta hoy</h2>
+  <div class="title-line"></div>
+</div>
+<c-row>
+  <c-col>
+    <table class="greenTable" *ngIf="ocultarTabla == true">
+      <thead>
+        <tr>         
+          <th scope="col">Cliente</th>
+          <th scope="col">Total</th>
+          <th scope="col">Pickeados</th>
+          <th scope="col">Sin Pickear</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pendiente of pendientesBodega; let i = index">
+          <td>{{pendiente.Cliente}}</td>
+          <td>{{pendiente.Total}}</td>
+          <td>{{pendiente.Pickeados}}</td>
+          <td>{{pendiente.Sin_pickear}}</td>
+
+        </tr>
+        <!-- <tr>
+          <td colspan="15" *ngIf="noData">Sin datos</td>
+        </tr> -->
+        <tr>
+          <td colspan="15" *ngIf="pendientesBodega.length == 0"><img src="../../../assets/images/loading-gif.gif" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </c-col>
+</c-row>
+
+<c-row >
+  <p></p>
+  <p></p>
+</c-row>

@@ -1,0 +1,217 @@
+.table-wrapper {
+  width: auto;
+  height: 400px; /* Altura de ejemplo */
+  overflow: auto;
+}
+
+.table-wrapper table {
+  width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    border-radius: 10px;
+    // overflow: hidden;
+    box-shadow: 0 4px 8px #ebedef;
+    font-size: 12px; 
+    text-align: center
+}
+.table-wrapper table td, table th {
+  border: 0px solid #AAAAAA;
+  padding: 3px 2px;
+  white-space: nowrap;
+}
+.table-wrapper table tbody td {
+  font-size: 10px;
+  
+}
+
+.table-wrapper table tbody th {
+  font-size: 12px;
+  font-weight: bold;
+}
+.table-wrapper table tr:nth-child(even) {
+  background: #FFFEF3;
+}
+.table-wrapper table thead {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: #28A745;
+}
+.table-wrapper table thead th {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-left: 2px solid #28A745;
+  
+}
+.table-wrapper table thead th:first-child {
+  border-left: none;
+}
+
+.table-wrapper   table thead th:first-child {
+  border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+}
+
+.table-wrapper  table th:last-child {
+border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+}
+
+.table-wrapper  table tr:last-child td:first-child {
+border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+}
+
+.table-wrapper  table tr:last-child td:last-child {
+border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
+}
+
+.table-wrapper table tfoot {
+  font-size: 13px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #A40808;
+}
+.table-wrapper table tfoot td {
+  font-size: 13px;
+}
+
+.table-wrapper table tfoot .links {
+  text-align: right;
+}
+.table-wrapper table tfoot .links a{
+  display: inline-block;
+  background: #FFFFFF;
+  color: #A40808;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+//campo editar
+.campo-edit input{
+  width: 3.5vw;
+}
+
+.botonGuardar{
+  display: flex;
+  justify-content: right ;
+  margin-top:0.25rem;
+  margin-top:0.5rem;
+}
+
+.botonGuardar .btn{
+  align-self:flex-start;
+}
+.spinner{
+  display :flex;
+  justify-content: center;
+}
+.spinner img{
+  width: 4vw;
+}
+
+// h1 {
+//     text-align: center;
+// }
+
+// .table-container {
+//     overflow-y: auto;
+//     max-height: 400px; /* Ajusta la altura máxima que deseas para el contenido de la tabla */
+//   }
+
+//   .sticky-header {
+//     position: sticky;
+//     // border: 1px solid #28A745;
+//     border: 0;
+//     background: #28A745;
+//     background-color: #28A745;
+//     top: 0;
+//     z-index: 999;
+//   }
+
+//   .sticky-column {
+//     position: sticky;
+//     background: #28A745;
+//     background-color: #28A745;
+//     left: 0;
+//     z-index: 998;
+//   }
+
+// table.greenTable {
+//     border: 1px solid #28A745;
+//     margin-left: 14px;
+//     background-color: #FFFEF3;
+//     width: auto;
+//     text-align: center;
+//     // display: block;
+//     overflow-x: auto;
+//     // border-collapse: separate;
+    
+//   }
+//   table.greenTable td, table.greenTable th {
+//     border: 0px solid #AAAAAA;
+//     padding: 3px 2px;
+//   }
+//   table.greenTable tbody td {
+//     font-size: 10px;
+//     white-space: nowrap;
+//   }
+
+  
+//   table.greenTable tbody th {
+//     font-size: 12px;
+//     font-weight: bold;
+//   }
+//   table.greenTable tr:nth-child(even) {
+//     background: #FFFEF3;
+//   }
+//   table.greenTable thead {
+//     background: #28A745;
+//     // position: fixed;
+//   }
+//   table.greenTable thead th {
+//     font-size: 10px;
+//     font-weight: bold;
+//     color: #FFFFFF;
+//     text-align: center;
+//     border-left: 2px solid #28A745;
+//     white-space: nowrap;
+//   }
+//   table.greenTable thead th:first-child {
+//     border-left: none;
+//   }
+  
+//   table.greenTable tfoot {
+//     font-size: 13px;
+//     font-weight: bold;
+//     color: #FFFFFF;
+//     background: #A40808;
+//   }
+//   table.greenTable tfoot td {
+//     font-size: 13px;
+//   }
+  
+//   table.greenTable tfoot .links {
+//     text-align: right;
+//   }
+//   table.greenTable tfoot .links a{
+//     display: inline-block;
+//     background: #FFFFFF;
+//     color: #A40808;
+//     padding: 2px 8px;
+//     border-radius: 5px;
+//   }
+  
+//   .inline-container {
+//     margin: 1px;
+//     display: flex;
+//     align-items: center; /* Alinea los elementos verticalmente si es necesario */
+//   }  
+
+//   .inline-container input,
+//   .inline-container c-dropdown,
+//   .inline-container span {
+//     margin-right: 5px; /* Espacio personalizado entre los elementos */
+//   }
+//   h2 {
+//       text-align: center;
+//     }

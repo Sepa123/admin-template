@@ -1,0 +1,191 @@
+.greenTable{
+
+  max-height: 400px; /* Altura de ejemplo */
+  overflow: auto;
+}
+
+.greenTable  table {
+  border-collapse: separate; /* Asegura que el borde sea separable */
+  border-spacing: 0; /* Elimina el espacio entre las celdas */
+  margin: 20px 0;
+  border-radius: 10px; /* Bordes curvados de la tabla */
+  box-shadow: 0 4px 8px #ebedef;
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
+}
+.greenTable  table td, table th {
+  border: 0px solid #AAAAAA;
+  padding: 3px 2px;
+}
+.greenTable  table tbody td {
+  font-size: 12px;
+}
+
+// .greenTable table tbody {
+//   display: block;
+// }
+
+.greenTable  table td {
+  font-size: 12px;
+}
+
+
+.greenTable  table tbody th {
+  font-size: 12px;
+  font-weight: bold;
+}
+.greenTable  table tr:nth-child(even) {
+  background: #FFFEF3;
+}
+.greenTable table thead {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: #28A745;
+}
+.greenTable  table thead th {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-left: 2px solid #28A745;
+
+  
+}
+.greenTable  table thead th:first-child {
+    border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+}
+
+.greenTable table th:last-child {
+  border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+}
+
+.greenTable table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+}
+
+.greenTable table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
+}
+
+
+  
+  input[type=file] {
+    width: 450px;
+    max-width: 100%;
+    color: #444;
+    padding: 5px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #555;
+  }
+  
+  input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #084cdf;
+    padding: 4px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+  }
+  
+  input[type=file]::file-selector-button:hover {
+    background: #0d45a5;
+  }
+
+  .tamano {
+    font-size: 12px;
+  }
+  .greenTable th.sortable:hover {
+    background-color: #1ece27;
+    cursor: pointer;
+  }
+
+
+
+  .image-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    flex: 1;
+}
+
+.image-container {
+    position: relative;
+    text-align: center;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border-radius: 5px;
+}
+
+.image-container img:hover {
+    transform: scale(2);
+    z-index: 300;
+    position: absolute; 
+}
+
+.image-container .download {
+    margin-top: 5px;
+    // text-align: right;
+}
+
+.image-container .download a {
+   
+    text-decoration: none;
+    color: black;
+    font-size: 1em;
+}
+
+.image-container .download a i {
+    margin-right: 5px;
+}
+
+.map-section {
+    z-index: 100; 
+    flex: 1;
+    margin-left: 20px;
+    height: 370px;
+    width: 370px;
+}
+
+/* Clase para recortar automáticamente */
+.truncate {
+  max-width: 150px; /* Ancho máximo para recortar contenido */
+  overflow: hidden; /* Oculta el texto que desborda */
+  text-overflow: ellipsis; /* Agrega puntos suspensivos */
+  white-space: nowrap; /* Mantiene el texto en una sola línea */
+  // cursor: pointer; /* Indica interactividad */
+}
+
+/* Tooltip dinámico al pasar el mouse */
+.truncate:hover::before {
+  content: attr(data-full-text); /* Muestra el texto completo */
+  position: absolute;
+  top: -40px; /* Ajusta la posición encima de la celda */
+  left: 0;
+  z-index: 9999; /* Asegura que el tooltip esté sobre todo */
+  background: #333;
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  white-space: normal; /* Permite texto en varias líneas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 300px; /* Define el ancho máximo del tooltip */
+  overflow-wrap: break-word; /* Ajusta el texto largo */
+}
+
+.fecha {
+  font-size: 12px;
+  white-space: nowrap;
+}

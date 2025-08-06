@@ -1,0 +1,113 @@
+.greenTable{
+    width: auto;
+    height: auto; /* Altura de ejemplo */
+    max-height: 200px;
+    overflow: auto;
+  }
+  
+  table.loadPendientes {
+    width: 100%;
+    text-align: center;
+  }
+
+  button.Excel{
+    background-color: #29A63C;
+  }
+  
+  .scrollable-list {
+    max-height: 300px; /* Establece la altura máxima para la lista */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical cuando sea necesario */
+    list-style: none; /* Elimina los marcadores de lista predeterminados */
+    padding: 0; /* Elimina el relleno predeterminado de la lista */
+  }
+
+  .fechas {
+    white-space: nowrap;
+  }
+
+  .custom-link {
+    color: #070707; /* Cambia el color del texto según tus preferencias */
+    text-decoration: underline; /* Puedes ajustar o quitar la subrayado según tus preferencias */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+}
+
+  .custom-link:hover {
+    cursor: pointer; /* Puedes cambiarlo a 'pointer', 'grab', 'crosshair', etc. según tus preferencias */
+  } 
+  
+  .greenTable table {
+      // border: 1px solid #28A745;
+      background-color: #FFFEF3;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 20px 0;
+      border-radius: 10px;
+      // overflow: hidden;
+      box-shadow: 0 4px 8px #ebedef;
+      font-size: 12px; 
+      text-align: center
+    }
+    .greenTable table td, table th {
+      border: 0px solid #AAAAAA;
+      padding: 3px 2px;
+    }
+    .greenTable table tbody td {
+      font-size: 12px;
+      // white-space: nowrap;
+    }
+    // .greenTable  table tr:nth-child(even) {
+    //   background: #FFFEF3;
+    // }
+    .greenTable  table thead {
+      position: sticky;
+      top: 0;
+      left: 0;
+      background: #28A745;
+    }
+    .greenTable table thead th {
+      font-size: 10px;
+      font-weight: bold;
+      color: #FFFFFF;
+      text-align: center;
+      border-left: 2px solid #28A745;
+    }
+    .greenTable  table thead th:first-child {
+      border-left: none;
+    }
+    
+  
+    h2 {
+        text-align: center;
+    }
+    .svgT{
+      fill:#12de20
+    }
+  
+    .svgF{
+      fill:#d60a0a
+    }
+
+    .error {
+        color : red
+      }
+
+    span {
+        font-weight: bolder;
+    }
+      
+    .greenTable  table thead th:first-child {
+      border-top-left-radius: 10px; /* Curva solo la esquina superior izquierda */
+  }
+
+  .greenTable table th:last-child {
+    border-top-right-radius: 10px; /* Curva solo la esquina superior derecha */
+  }
+  
+  .greenTable table tr:last-child td:first-child {
+    border-bottom-left-radius: 10px; /* Curva solo la esquina inferior izquierda */
+  }
+  
+  .greenTable table tr:last-child td:last-child {
+    border-bottom-right-radius: 10px; /* Curva solo la esquina inferior derecha */
+  }

@@ -1,0 +1,253 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="lg">
+  <c-modal-header>
+    <h5 cModalTitle *ngIf="botonEditar == false">Agregar Nuevo producto </h5>
+    <h5 cModalTitle *ngIf="botonEditar">Editar producto</h5>
+    <button (click)="toggleLiveDemo()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <h2 *ngIf="botonEditar == false">Agregar nuevo producto</h2>
+    <h2 *ngIf="botonEditar">Editar producto</h2>
+
+<!-- <form cForm [formGroup]="form" (ngSubmit)="registrar()"> -->
+    <form cForm [formGroup]="form" (ngSubmit)="registrar()"> 
+    <div class="">
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Codigo
+                <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" (change)="codigoExistente()" [readOnly]="botonEditar" >
+                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" > -->
+                <span class="error" *ngIf="form.get('Codigo')?.errors?.['required'] && isErrorView">
+                    Falta agregar el codigo del producto
+                </span>
+            </div>
+        </c-col>
+        <c-col [xs]>
+            <div class="noEditar">
+                Codigo Final
+                <!-- <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" (change)="codigoExistente()" [value]="codigoFinal"> -->
+                <input type="text" placeholder="Codigo" class="form-control"  readonly [disabled]="true" [value]="codigoFinal" >
+                <span class="error" *ngIf="form.get('Codigo')?.errors?.['required'] && isErrorView">
+                    Falta agregar el codigo del producto
+                </span>
+            </div>
+        </c-col>
+        <c-col [xs]>
+            <div class="">
+                Unidades por paquete
+                 <input type="number" class="form-control"  placeholder="Unidades por paquete" formControlName="Unid_x_paquete" >
+                 <span class="error" *ngIf="form.get('Unid_x_paquete')?.errors?.['required'] && isErrorView">
+                    Falta agregar las unidades por paquete
+                </span>
+                </div>
+        </c-col>
+        
+    </c-row>
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Producto
+                <input type="text" placeholder="Producto" class="form-control" formControlName="Producto" >
+            </div>
+        </c-col>
+    </c-row>
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Ancho (mt)
+                 <input type="number" placeholder="Ancho" class="form-control" formControlName="Ancho" >
+             </div>
+             <div class="">
+                Alto (mt)
+                <input type="number" placeholder="Alto" class="form-control" formControlName="Alto" >
+            </div>
+        </c-col>
+        <c-col [xs]>
+            <div class="">
+                Peso (kg)
+                 <input type="number" class="form-control"  placeholder="Peso" formControlName="Peso" >
+             </div>
+             <div class="">
+                Largo (mt)
+                <input type="number" class="form-control"  placeholder="Largo" formControlName="Largo">
+            </div>
+        </c-col>
+        <c-col [xs]>
+            <div class="" >
+                <label for="" *ngIf="botonEditar == false">Colores</label> 
+                <label for="" *ngIf="botonEditar">Color</label>                     
+                <select id="Comuna" cSelect formControlName="Color" (change)="cambiarColor()" *ngIf="botonEditar == false">
+                    <option *ngFor="let color of colores" value={{color.Id}}  >
+                        {{color.Nombre_color}}     
+                    </option>
+                </select>
+                <p></p>
+                <div [style.background-color]="selectedCodColor" class="color-box" >
+                    
+                  </div>
+             </div>        
+        </c-col>
+    </c-row>
+    <c-row>
+        <c-col [xs]>
+            <div class="">
+                Precio unitario (CLP)
+                <input type="number" placeholder="Precio" class="form-control" formControlName="Precio_unitario" >
+            </div>
+        </c-col>
+        <c-col [xs]>
+            <!-- <div class=""  *ngIf="botonEditar == false">
+                Ubicación paquete
+                 <input type="text" class="form-control"  placeholder="Ubicación paquete" formControlName="Ubicacion_p" >
+             </div> -->
+        </c-col>
+        <c-col [xs]>
+            <!-- <div class=""  *ngIf="botonEditar == false">
+                Ubicación unidad
+                 <input type="text" class="form-control"  placeholder="Ubicación unidad" formControlName="Ubicacion_u" >
+             </div> -->
+            
+        </c-col>
+    </c-row>
+</div>
+    <p></p>
+    <c-row>
+        <c-col [xs]>
+            <button class="btn btn-success" type="submit" *ngIf="botonEditar == false" >Guardar 
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+            </button>
+
+            <button class="btn btn-success" type="submit"  *ngIf="botonEditar" >Editar Producto
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+            </button>
+        </c-col>
+    </c-row>
+  </form>
+
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveDemo()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+
+
+<h2>Catalogo RSV</h2>
+<p></p>
+
+<c-row>
+    <c-col [xs] *ngIf="rol ? verEditar?.includes(rol) : false">
+        <button  class="btn btn-success" (click)="SelectedagregarCatalogo() ; agregarCatalogo() ">Agregar nuevo producto 
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 512 512"><path fill="currentColor" d="M256 152h208v32H256zm-80 104h288v32H176zm0 104h288v32H176zm16-208h-64V88H96v64H32v32h64v64h32v-64h64v-32z"/></svg>
+          </button>
+    </c-col>
+    <c-col [xs]>
+        <c-dropdown >
+            <button cButton cDropdownToggle color="secondary">
+              Filtrar por Colores
+            </button>
+            <ul cDropdownMenu>
+              <li><a [routerLink]="[]"  cDropdownItem (click)="filtrarColores(0)">Todos los colores</a></li>
+              <li *ngFor="let color of colores" ><a [routerLink]="[]" (click)="filtrarColores(color.Id)" cDropdownItem>{{color.Nombre_color}}</a></li>
+            </ul>
+          </c-dropdown>
+    </c-col>
+    <c-col [xs]>
+        <input type="text" placeholder="producto" class="form-control"  [(ngModel)]="codigoBuscar" >
+    </c-col>
+    <c-col [xs]>
+        <button class="btn btn-success" (click)=" buscarByCodigo()" >Buscar</button>
+    </c-col>
+</c-row>
+
+
+
+
+<p></p>
+
+<!-- <div class="greenTable">
+    <table  id="tablaProductosPicking" >
+    <thead>
+      <tr>
+          <th>Código</th>
+          <th>Producto</th>
+          <th>Un x Paq.</th>
+          <th>Peso</th>
+          <th>Ancho</th>
+          <th>Alto</th>
+          <th>Largo</th>
+          <th>Color</th>
+          <th>Valor unitario</th>
+          <th *ngIf="rol ? verEditar?.includes(rol) : false">Editar</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngIf="isLoading">
+            <td colspan="10"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+        </tr>
+        <tr *ngFor="let producto of catalogoRSV ;let i = index ">
+        <td>{{producto.Codigo}}</td>
+        <td>{{producto.Producto}}</td>
+        <td>{{producto.Unid_x_paquete}}</td>
+        <td>{{producto.Peso}}</td>
+        <td>{{producto.Ancho}}</td>
+        <td>{{producto.Alto}}</td>
+        <td>{{producto.Largo}}</td>
+        <td>{{ reemplazarIds(producto.Color) }}</td>
+        <td>{{producto.Precio_unitario}}</td>
+        <td *ngIf="rol ? verEditar?.includes(rol) : false"><svg xmlns="http://www.w3.org/2000/svg" (click)="SelecteditarCatalogo(producto)" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m18.988 2.012l3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287l-3-3L8 13z"/><path fill="currentColor" d="M19 19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"/></svg></td>
+        </tr>
+    </tbody>
+    </table>
+    </div> -->
+
+    <div class="greenTable" *ngFor="let arr of arrCatalogoRSV; let i = index">
+        <p></p>
+        <table id="tablaProductosPicking"  style="width: 78%">
+            <thead>
+                <tr>
+                    <th colspan="10" style="justify-content: left;">Color : {{ reemplazarIds(arr[0].Color)}}</th>
+                </tr>
+            </thead>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Producto</th>
+                    <th>Un x Paq.</th>
+                    <th>Peso</th>
+                    <th>Ancho</th>
+                    <th>Alto</th>
+                    <th>Largo</th>
+                    <th>Valor unitario</th>
+                    <th>Unidad Con Etiqueta</th>
+                    <th *ngIf="rol ? verEditar?.includes(rol) : false">Editar</th>
+                    <!-- <th *ngIf="rol == '5'">Ubicación</th> -->
+                </tr>
+                </thead>  
+            <tbody>
+            <tr *ngIf="isLoading">
+                <td colspan="9"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+            </tr>
+            <tr *ngFor="let producto of arr ;let i = index ">
+                <td>{{producto.Codigo}}</td>
+                <td>{{producto.Producto}}</td>
+                <td>{{producto.Unid_x_paquete}}</td>
+                <td>{{producto.Peso}}</td>
+                <td>{{producto.Ancho}}</td>
+                <td>{{producto.Alto}}</td>
+                <td>{{producto.Largo}}</td>
+                <td>{{producto.Precio_unitario_str}}</td>
+                <td>
+                    <input type="checkbox" [disabled]="cambiarCheckbox.includes(rol+'') ? false : true" [checked]="producto.unid_con_etiqueta" value="unidadConEtiqueta" (change)="actualizarUnidadConEtiqueta($event, producto.Codigo)"> 
+                </td>
+                <!-- <td><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg></td> -->
+                <td *ngIf="rol ? verEditar?.includes(rol) : false"><svg xmlns="http://www.w3.org/2000/svg" (click)="SelecteditarCatalogo(producto)" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m18.988 2.012l3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287l-3-3L8 13z"/><path fill="currentColor" d="M19 19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"/></svg></td>
+                
+            </tr>
+        </tbody>
+    </table>
+    <p></p>
+    
+    </div>

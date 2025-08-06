@@ -1,0 +1,93 @@
+.error {
+    color: #E71B24;
+  }
+  
+  .greenTable{
+      
+    max-height: 400px; /* Altura de ejemplo */
+    overflow: auto;
+  }
+  
+  .greenTable  table {
+    border: 1px solid #28A745;
+    background-color: #FFFEF3;
+    width: auto;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .greenTable  table td, table th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  .greenTable  table tbody td {
+    font-size: 12px;
+  }
+  
+  .greenTable  table td {
+    font-size: 12px;
+  }
+  
+  
+  .greenTable  table tbody th {
+    font-size: 12px;
+    font-weight: bold;
+    background: #28A745;
+    color: #FFFFFF;
+  }
+  .greenTable  table tr:nth-child(even) {
+    background: #FFFEF3;
+  }
+  .greenTable table thead {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: #28A745;
+  }
+  .greenTable  table thead th {
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #28A745;
+  }
+  .greenTable  table thead th:first-child {
+    border-left: none;
+  }
+  
+  .inline-container {
+    margin: 1px;
+    display: flex;
+    align-items: center; /* Alinea los elementos verticalmente si es necesario */
+  }  
+  
+  .inline-container input,
+  .inline-container c-dropdown,
+  .inline-container span {
+    margin-right: 5px; /* Espacio personalizado entre los elementos */
+  }
+  h2 {
+      text-align: center;
+    }
+    
+  .svgT{
+    fill:#12de20
+  }
+  
+  .svgF{
+    fill:#d60a0a
+  }
+
+  ::ng-deep .mat-mdc-slide-toggle.mat-accent {
+    --mdc-switch-selected-focus-state-layer-color: #2eb85c;
+    --mdc-switch-selected-handle-color: #2eb85c;
+    --mdc-switch-selected-hover-state-layer-color: #2eb85c;
+    --mdc-switch-selected-pressed-state-layer-color: #2eb85c;
+    --mdc-switch-selected-focus-handle-color: #2eb85c;
+    --mdc-switch-selected-hover-handle-color: #2eb85c;
+    --mdc-switch-selected-pressed-handle-color: #2eb85c;
+    --mdc-switch-selected-focus-track-color: #2eb85c;
+    --mdc-switch-selected-hover-track-color: #2eb85c;
+    --mdc-switch-selected-pressed-track-color: #2eb85c;
+    --mdc-switch-selected-track-color: #2eb85c;
+}

@@ -1,0 +1,461 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="lg">
+  <c-modal-header>
+    <h5 cModalTitle>Productos </h5>
+    <button (click)="toggleLiveDemo()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <table class="greenTable">
+      <thead>
+          <tr>
+              <th>Código pedido</th>
+              <th>Ciente</th>
+              <th>Descripción</th>
+              <th>Cantidad</th>
+              <th>Fecha Pedido</th>
+              <th>Fecha Pedido Original</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let producto of productoRutaModal; let j = index">
+              <td >{{producto.Codigo_pedido}}</td>
+              <td >{{producto.Notas}}</td>
+              <td>{{producto.Descripcion_producto}}</td>     
+              <td>{{producto.Cantidad_producto}}</td> 
+              <td>{{producto.Fecha_pedido}}</td>
+              <td >{{producto.Fecha_original_pedido}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+          <tr *ngIf="productoRuta.length == 0">
+            <td colspan="6">Sin registro</td>
+          </tr>
+        </tfoot>
+    </table>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveDemo()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+
+
+
+<c-modal id="liveDemoModal" [visible]="visible4Digitos" (visibleChange)="handleLiveDemoChange($event)" size="lg">
+  <c-modal-header>
+    <h5 cModalTitle>Productos </h5>
+    <button (click)="toggle4Digitos()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <table class="greenTable">
+      <thead>
+          <tr>
+              <th>Posición</th>
+              <th>Código pedido</th>
+              <th>Ciente</th>
+              <th>Comuna</th>
+              <th>Descripción</th>
+              <th>Cantidad<th>
+              <th>sku</th>
+              <th>Encontrado</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let producto of productoRutas4Digitos; let i = index">
+              <td >{{producto[0].Posicion}}</td>
+              <td >{{producto[0].Codigo_pedido}}</td>
+              <td >{{producto[0].Notas}}</td>
+              <td>{{producto[0].Ciudad}}</td>     
+              <!-- <td>{{producto.Descripcion_producto}}</td>  -->
+              <td>
+                <table>
+                  <tr *ngFor="let prod of producto; let i = index" >
+                    <td>
+                      {{prod.Descripcion_producto}}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td>
+                <table>
+                  <tr *ngFor="let prod of producto; let i = index" class="ajustarDesc">
+                    <td>
+                      {{prod.Cantidad_producto}}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td ></td>
+              <td>
+                <table>
+                  <tr *ngFor="let prod of producto; let i = index">
+                    <td>
+                      {{prod.SKU}}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <!-- <td >{{producto.Cantidad_producto}}</td> -->
+              
+              
+              <td >
+                <table >
+                  <tr *ngFor="let prod of producto; let j = index" >
+                    <!-- <td>
+                      {{prod.Descripcion_producto}}
+                    </td> -->
+                    <td *ngIf="prod.Encontrado">
+                      <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado4Digitos(i,j)" height="17px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                    </td>
+                    <td *ngIf="!prod.Encontrado">
+                        <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado4Digitos(i,j)"  height="17px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                    </td>
+                  </tr>
+                </table>
+
+              </td>
+              <!-- <td>{{producto.SKU}}</td> -->
+              
+              
+              <!-- <td *ngIf="producto.Encontrado">
+                <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado4Digitos(i)" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+              </td>
+              <td *ngIf="!producto.Encontrado">
+                  <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado4Digitos(i)"  height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+              </td> -->
+            </tr>
+        </tbody>
+        <tfoot>
+          <tr *ngIf="productoRutas4Digitos.length == 0">
+            <td colspan="8">Sin registro</td>
+          </tr>
+        </tfoot>
+    </table>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggle4Digitos()" cButton color="secondary">
+      Cerrar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+
+
+<div class="estatico">
+<h2>Buscar Ruta</h2>
+<table class="inputs">
+    <tr>
+      <td>
+        <input type="text" name="" id="idRuta" placeholder="Buscar Producto" class="form-control"  [(ngModel)]="idPedido" (change)="getRuta(idPedido)">
+      </td>
+      <td>
+        <!-- <input type="text" name="" id="idRuta"  [(ngModel)]="idPedido" (change)="getRuta(idPedido)"> -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24">
+          <g transform="translate(24 0) scale(-1 1)"><path fill="currentColor" d="M6 19.462q-1 0-1.59-.778q-.589-.778-.348-1.722l1.896-7.127q-.806-.275-1.382-1.05Q4 8.01 4 7q0-1.246.877-2.123Q5.754 4 7 4h9.61l-3 6h-3.558l-.371 1.404h.857v3H8.881l-.943 3.608q-.178.648-.719 1.049q-.54.4-1.219.4M17.98 4.655l-.393-.87l3.125-1.419l.388.875zm2.732 6.98l-3.125-1.394l.394-.875l3.119 1.42zm-2.597-4.153V6.52h3.462v.962z"/></g>
+      </svg>
+      </td>
+      <td>
+        <input type="text" name="" id="idRuta2" class="form-control" class="form-control" placeholder="Buscar por ultimo 4 dígitos"  [(ngModel)]="idPedidoRuta4Digitos" (change)="getRutapor4Digitos(idPedidoRuta4Digitos)">
+      </td>
+      <td>
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 2048 2048">
+          <path fill="currentColor" d="M1024 1280H640v-75q0-38 14-73q11-28 33-54t50-53t55-50t51-49t38-47t15-47q0-26-19-45t-45-19q-23 0-40 14t-23 37l-125-26q6-33 23-61t44-48t57-32t64-12q40 0 75 15t61 41t41 61t15 75q0 39-11 70t-31 58t-44 51t-51 46t-51 46t-47 49h235zM2048 256v1408H0V256zm-128 128H128v1152h1792zM397 787q-29 17-68 31t-73 14V704q11 0 31-6t40-15t36-21t22-22h127v640H397zm923 493q-42 0-81-14t-75-37v-127q20 15 35 26t32 18t34 10t45 3q22 0 42-4t35-15t25-28t9-42q0-31-24-44t-56-18t-65-3t-53 2v-97h58q31 0 58-7t45-26t18-57q0-42-25-56t-64-14q-40 0-69 18t-58 43V681q34-23 76-32t82-9q36 0 70 10t60 29t43 49t16 69q0 48-19 85t-62 61q44 15 72 53t28 85q0 47-20 84t-52 62t-75 39t-85 14" />
+        </svg>
+      </td>
+      <td>
+        <input type="text" class="form-control" name="" id="idRuta3" placeholder="Agregar nueva O.C. a ruta" [(ngModel)]="idPedidoRuta" (change)="agregarOCaRuta()" >
+      </td>
+    </tr>
+
+</table>
+
+<p style="font-weight: bold;">{{Descripcion_producto}}</p>
+
+<table class="greenTable">
+  <thead>
+      <tr>
+          <th>Código pedido</th>
+          <th>Ciente</th>
+          <th>Comuna</th>
+          <th>Cantidad</th>
+          <th>Fecha Pedido</th>
+          <th>Fecha Pedido Original</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let producto of productoRuta; let j = index">
+          <td >{{producto.Codigo_pedido}}</td>
+          <td >{{producto.Notas}}</td>
+          <td>{{producto.Ciudad}}</td>     
+          <td>{{producto.Cantidad_producto}}</td> 
+          <td>{{producto.Fecha_pedido}}</td>
+          <td >{{producto.Fecha_original_pedido}}</td>
+        </tr>
+        <tr>
+          <td colspan="6"><label for="" *ngIf="productoRutaModal.length > 1">Ver mas</label> <svg xmlns="http://www.w3.org/2000/svg" *ngIf="productoRutaModal.length > 1" (click)="toggleLiveDemo()" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M16 8.286C8.454 8.286 2.5 16 2.5 16s5.954 7.715 13.5 7.715c5.77 0 13.5-7.715 13.5-7.715S21.77 8.286 16 8.286zm0 12.52c-2.65 0-4.807-2.156-4.807-4.806S13.35 11.193 16 11.193S20.807 13.35 20.807 16S18.65 20.807 16 20.807zm0-7.612a2.806 2.806 0 1 0 0 5.611a2.806 2.806 0 0 0 0-5.611z"/></svg>
+          </td>
+        </tr>
+    </tbody>
+    <tfoot>
+      <tr *ngIf="productoRuta.length == 0">
+        <td colspan="6">Sin registro</td>
+      </tr>
+    </tfoot>
+</table>
+
+<p></p>
+    <c-row *ngIf="productoRuta.length !== 0">
+        <c-col style="font-weight: bold;">
+            Ruta : {{this.nombreRuta}} <svg *ngIf="existeEnRuta == true" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+            <!-- <svg *ngIf="existeEnRuta !== true" xmlns="http://www.w3.org/2000/svg"  height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg> -->
+            <svg *ngIf="existeEnRuta !== true" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512">
+              <path fill="red" d="M240 176h32v176h-32zm0 208h32v32h-32z" />
+              <path fill="red" d="M274.014 16h-36.028L16 445.174V496h480v-50.826ZM464 464H48v-11.041L256 50.826l208 402.133Z" />
+            </svg>
+            <label for="" *ngIf="existeEnRuta !== true" style="color: red;">No corresponde a la ruta</label>
+        </c-col>
+    </c-row>
+
+
+    <p></p>
+
+
+    <select id="Ruta" cSelect  size="1" (change)="seleccionarRuta()" [(ngModel)]="rutaSeleccionada" style="width:auto;  display: inline-block;">
+        <option>Seleccione una ruta</option>
+        <option *ngFor="let ruta of arrNombreRutas">{{ruta.Nombre_ruta}}</option>
+    </select>
+
+    <p></p>
+  </div>
+<p></p>
+
+<div class="relativo">
+    <table class="greenTable" id="tablaProductosPicking" >
+        <thead>
+          <tr>
+              <th>Posición</th>
+              <th>Nombre</th>
+              <th>Ciudad</th>
+              <!-- <th>Provincia/Estado</th>  -->
+              <th>Código Pedido</th>
+              <th>Fecha Pedido</th>
+              <th>Fecha Pedido Original</th>
+              <!-- <th>Código Producto</th> -->
+              <th>Descripción Producto</th>
+              <th>SKU</th>
+              <th>Cantidad</th>
+              <th>Notas</th>
+              <th>Verificado</th>
+              <th>Encontrado</th>
+          </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+        <ng-container >
+          <tr *ngFor="let objeto of arrayRutasIngresados ;let i = index">
+            <td cdkDrag cdkDragLockAxis="y" [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Posicion}}</td>
+  
+            <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Nombre}}</td>
+  
+            <!-- <th class="comuna">{{objeto[0].Ciudad}}</th>
+  
+            <td>{{objeto[0].Provincia}}</td> -->
+            <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Ciudad}}</td>
+  
+            <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Codigo_pedido}}</td>
+  
+            <th [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Fecha_pedido}}</th>
+            <td style="white-space: nowrap;  border: 1px solid #000; padding: 8px">{{objeto[0].Fecha_original_pedido}}</td>
+  
+            <!-- <td><table><tr *ngFor="let producto of objeto; let j = index"><td style="white-space: nowrap;">{{producto.Codigo_producto}}</td></tr>
+            </table></td>
+   -->
+           <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table><tr *ngFor="let producto of objeto; let j = index" >
+            <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+            {{producto.Descripcion_producto}}</td></tr>
+           </table></td>
+
+           <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table><tr *ngFor="let producto of objeto; let j = index">
+            <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+            {{producto.SKU}}</td></tr>
+          </table></td>
+
+  
+            <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table><tr *ngFor="let producto of objeto; let j = index">
+              <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+              {{producto.Cantidad_producto}}</td></tr>
+            </table></td>
+
+            
+            <th [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Notas}}</th>
+  
+            <!-- verificados -->
+            <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table ><tr *ngFor="let producto of objeto; let j = index">
+              <td *ngIf="producto.Pistoleado" [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+                <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+              </td>
+              <td *ngIf="!producto.Pistoleado" [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+                <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+              </td>
+            </tr>
+            </table></td>
+            <td *ngIf="objeto[0].EncontradoFull">
+              <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado(i)" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+            </td>
+            <td *ngIf="!objeto[0].EncontradoFull">
+                <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado(i)"  height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+            </td>
+            <div *cdkDragPreview matchSize="true" class="container dragdrop-placeholder">
+              {{objeto[0].Nombre}}
+            </div>
+          </tr>
+        </ng-container>
+        <tr>
+          <td *ngIf="isLoadingTable " colspan="15"><img src="../../../assets/images/loading-gif.gif" /></td>
+        </tr>
+  
+        </tbody>
+        <tfoot>
+          <tr *ngIf="!isLoadingTable && arrayRutasIngresados.length == 0">
+            <td colspan="10">Sin registro</td>
+          </tr>
+        </tfoot>
+        </table>
+
+<p></p>
+<p>Pickeado</p>
+
+<c-row>
+  <c-col>
+    <table class="greenTable">
+      <thead>
+        <tr>
+            <th>Posición</th>
+            <th>Código pedido</th>
+            <th>Cliente</th>
+            <th>Ciudad</th>
+            <th>Fecha de Pedido</th>
+            <th>Fecha Pedido Original</th>
+            <!-- <th>Código de Producto</th> -->
+            <th>Descripción del Producto</th> 
+            <th>Ruta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <ng-container *ngFor="let objeto of arrProductosRuta;let i = index"> -->
+          <tr *ngFor="let producto of arrProductosRuta; let j = index">
+            <td >{{j + 1}}</td>
+            <td >{{producto.Codigo_pedido}}</td>
+            <td >{{producto.Notas}}</td>
+            <td>{{producto.Ciudad}}</td>      
+            <th>{{producto.Fecha_pedido}}</th>
+            <td >{{producto.Fecha_original_pedido}}</td>
+            <td >{{producto.Descripcion_producto}}</td>
+            <td>{{producto.Nombre_ruta}}</td>
+          </tr>
+        <!-- </ng-container> -->
+      </tbody>
+      <tfoot>
+        <tr *ngIf="arrProductosRuta.length == 0">
+          <td colspan="8">Sin registro</td>
+        </tr>
+      </tfoot>
+    </table>
+  </c-col>
+</c-row>
+
+
+<p></p>
+<p>Encontrado</p>
+
+<c-row>
+  <c-col>
+    <table class="greenTable" id="tablaProductosPicking" >
+      <thead>
+        <tr>
+            <th>Posición</th>
+            <th>Nombre</th>
+            <th>Ciudad</th>
+            <!-- <th>Provincia/Estado</th>  -->
+            <th>Código Pedido</th>
+            <th>Fecha Pedido</th>
+            <th>Fecha Pedido Original</th>
+            <!-- <th>Código Producto</th> -->
+            <th>Descripción Producto</th>
+            <th>SKU</th>
+            <th>Cantidad</th>
+            <th>Notas</th>
+            <th>Verificado</th>
+            <th>Encontrado</th>
+        </tr>
+      </thead>
+      <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+      <ng-container >
+        <tr *ngFor="let objeto of arrProductosEncontrados ;let i = index">
+          <td cdkDrag cdkDragLockAxis="y" [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Posicion}}</td>
+
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Nombre}}</td>
+
+          <!-- <th class="comuna">{{objeto[0].Ciudad}}</th>
+
+          <td>{{objeto[0].Provincia}}</td> -->
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Ciudad}}</td>
+
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Codigo_pedido}}</td>
+
+          <th [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Fecha_pedido}}</th>
+          <td style="white-space: nowrap;  border: 1px solid #000; padding: 8px">{{objeto[0].Fecha_original_pedido}}</td>
+
+          <!-- <td><table><tr *ngFor="let producto of objeto; let j = index"><td style="white-space: nowrap;">{{producto.Codigo_producto}}</td></tr>
+          </table></td>
+ -->
+         <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table><tr *ngFor="let producto of objeto; let j = index" >
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+          {{producto.Descripcion_producto}}</td></tr>
+         </table></td>
+
+         <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table><tr *ngFor="let producto of objeto; let j = index">
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+          {{producto.SKU}}</td></tr>
+        </table></td>
+
+
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table><tr *ngFor="let producto of objeto; let j = index">
+            <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+            {{producto.Cantidad_producto}}</td></tr>
+          </table></td>
+
+          
+          <th [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">{{objeto[0].Notas}}</th>
+
+          <!-- verificados -->
+          <td [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' "><table ><tr *ngFor="let producto of objeto; let j = index">
+            <td *ngIf="producto.Pistoleado" [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+              <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+            </td>
+            <td *ngIf="!producto.Pistoleado" [ngClass]="objeto[0].EncontradoFull == true ?  '' : 'encontrado' ">
+              <svg  xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+            </td>
+          </tr>
+          </table></td>
+          <td *ngIf="objeto[0].EncontradoFull">
+            <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado(i)" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+          </td>
+          <td *ngIf="!objeto[0].EncontradoFull">
+              <svg  xmlns="http://www.w3.org/2000/svg" (click)="cambiarEncontrado(i)"  height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+          </td>
+          <div *cdkDragPreview matchSize="true" class="container dragdrop-placeholder">
+            {{objeto[0].Nombre}}
+          </div>
+        </tr>
+      </ng-container>
+      </tbody>
+      <tfoot>
+        <tr *ngIf="!isLoadingTable && arrProductosEncontrados.length == 0">
+          <td colspan="10">Sin registro</td>
+        </tr>
+      </tfoot>
+      </table>
+  </c-col>
+</c-row>
+</div>

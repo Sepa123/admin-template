@@ -1,0 +1,144 @@
+<h2> Nivel de Servicio Driver</h2>
+<c-row>
+  <c-col [xs]>
+    Fecha Inicio
+<input type="date"  class="form-control" placeholder="Fecha" [(ngModel)]="fecha_inicio"  required>
+  </c-col>
+  
+  <c-col [xs]>
+    Fecha Fin
+    <input type="date" class="form-control" placeholder="Fecha" [(ngModel)]="fecha_fin"  required>
+  </c-col>
+</c-row>
+<p></p>
+
+<c-row>
+  <c-col [xs]>
+    <button  (click)="buscarNsDrivers()" cButton  color="secondary" size="sm">buscar</button>
+  </c-col>
+  <c-col [xs]>
+    <!-- <button *ngIf="chartVisible == true" (click)="DescargarNS()" cButton  color="success" size="sm">Descargar
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+        <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+      </svg>
+    </button> -->
+  </c-col>
+</c-row>
+<p></p>
+
+<div style="display: block; ">
+    <canvas *ngIf="chartVisible == true"
+      baseChart
+      class="chart"
+      [data]="pieChartData"
+      [type]="pieChartType"
+      [options]="pieChartOptions"
+    >
+    </canvas>
+  </div>  
+
+  <p></p>
+
+
+  <!-- <ul>
+    <li *ngFor="let _ of cantidadPag | paginate: { itemsPerPage: 10, currentPage: currentPage }"> ... </li>
+  </ul> -->
+             
+  <!-- <pagination-controls (pageChange)="currentPage = $event"></pagination-controls> -->
+
+  <!-- <table *ngIf="chartVisible == true">
+    <tr>
+      <td style="width: 20%;">
+        <button cButton  color="info" size="sm" (click)=" prevPage()" [disabled]="currentPage == 0">
+          Anterior 
+        </button>
+      
+      </td>
+      <td>
+        <table>
+          <tr>
+            <td *ngFor="let _ of cantidadPag; let i = index">
+             <a (click)="seleccionarPagina(i)"> {{i + 1}} </a>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td style="width: 20%;">
+        <button cButton  color="info" size="sm" (click)=" nextPag()" [disabled]="bloqBotonNext == true">
+          Siguente 
+        </button>
+      </td>
+    </tr>
+  </table> -->
+
+
+  <c-pagination aria-label="Page navigation example" *ngIf="chartVisible == true">
+    <li cPageItem  [disabled]="currentPage == 0">
+      <a cPageLink (click)=" prevPage()" >Anterior</a>
+    </li>
+    <li cPageItem *ngFor="let _ of cantidadPag; let i = index" [active]="i == currentPage">
+      <a cPageLink (click)="seleccionarPagina(i)" > {{i + 1}} </a>
+    </li>
+    <li cPageItem [disabled]="bloqBotonNext == true">
+      <a cPageLink (click)=" nextPag()">Siguiente</a>
+    </li>
+  </c-pagination>
+
+
+  <p></p>
+
+
+  <div class="greenTable" *ngIf="chartVisible">
+    <p></p>
+    <table id="tablaProductosPicking" >
+    <thead>
+      <tr>
+        <th>Patente</th>
+        <th>Total Rutas</th>
+        <th>Total KM</th>
+        <th>Total Pedidos</th>
+        <th>Total Entregados</th>
+        <th>Total no Entregados</th>
+        <th>P ee</th>
+        <th>Codigo1</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let driver of this.datosDrivers.Datos;let i = index ">
+        <td>{{driver.Patente}}</td>
+        <td>{{driver.Total_rutas}}</td>
+        <td>{{driver.Total_km}}</td>
+        <td>{{driver.Total_pedidos}}</td>
+        <td>{{driver.Total_entregados}}</td>
+        <td>{{driver.Total_no_entregados}}</td>
+        <td>{{driver.P_ee}} %</td>
+        <td>{{driver.Codigo1}}</td> 
+    </tr>
+    <!-- <tr *ngIf="contadorNS === 0">
+     <td colspan="11">
+      no hay registros
+     </td> 
+    </tr> -->
+    
+    </tbody>
+    </table>
+  </div>
+  
+  <p></p>
+
+<c-row>
+  <c-col [xs]>
+    <button *ngIf="chartVisible == true" (click)="DescargarNS()" cButton  color="success" size="sm">Descargar
+      <svg class="dExcel" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512">
+        <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"/>
+      </svg>
+    </button>
+  </c-col>
+  <c-col [xs]>
+    
+  </c-col>
+</c-row>
+
+
+
+  

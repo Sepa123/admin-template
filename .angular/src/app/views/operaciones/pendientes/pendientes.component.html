@@ -1,0 +1,510 @@
+<!-- <c-row>
+
+    <div class="col-md-6 mx-auto" *ngIf="!loadPedidos">
+    <table table [striped]="true" cTable>
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row"><h5>Resumen de Pedidos Con Fecha de Compromiso sin Despacho</h5></td>
+          <td><button  (click)="downloadExcel()">
+            <img src="assets\images\icons8-export-excel-48.png" alt="">
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <table class="loadPendientes" > 
+    <tr>
+       <div *ngIf="loadPedidos">
+         <img width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+         Cargando Datos 
+     </div>
+    </tr> 
+   </table>
+  
+  <div class="fade-in" *ngIf="!loadPedidos">
+    <c-row ngPreserveWhitespaces>
+      <div>
+        <div class="col-md-12 mx-auto">
+          <table>
+            <tr>
+              <td>
+                <c-dropdown >
+                  <button cButton cDropdownToggle color="secondary" size="sm">
+                    Origen
+                  </button>
+                  <ul cDropdownMenu>
+                    <li *ngFor="let tienda of origen"><a [routerLink]="[]" (click)="sortByName(tienda)" cDropdownItem>{{tienda}}</a></li>
+                  </ul>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="filterByFecha()">
+                    Ingreso días anteriores
+                  </button>
+
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="getFullData()">
+                    Ingreso hasta hoy
+                  </button>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="OrdenFechaIngreso()">
+                    Ordenar por fecha ingreso
+                  </button>
+                </c-dropdown>
+              </td>
+              <td>
+                <c-dropdown >
+                  <button cButton  color="secondary" size="sm" (click)="OrdenFechaCompromiso()">
+                    Ordenar por fecha compromiso
+                  </button>
+                </c-dropdown>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+
+              <c-dropdown >
+                <button cButton cDropdownToggle color="secondary" size="sm">
+                  Región
+                </button>
+                <ul cDropdownMenu class="scrollable-list">
+                  <li *ngFor="let region of regiones"><a [routerLink]="[]" (click)="filtrarPorRegion(region)" cDropdownItem>{{region}}</a></li>
+                </ul>
+              </c-dropdown>
+            </td>
+            </tr>
+          </table>
+           <p></p>
+  
+          <p></p>
+          Cantidad : <label style="font-weight: bold;">{{cantidad}}</label> <img width="40" *ngIf="isLoadingTable" height="50" src="../../../assets/images/loading-gif.gif" />
+          <p></p>
+          <div class="greenTable">
+            <table >
+              <thead>
+                <tr>
+                  <th>Origen</th>
+                  <th >Código Entrega</th>
+                  <th>Fecha Ingreso</th>
+                  <th >Fecha Compromiso</th>
+                  <th >Región</th>
+                  <th >Comuna</th>
+                  <th >Descripción</th>
+                  <th >Bultos</th>
+                  <th >Estado</th>
+                  <th >Subestado</th>
+                  <th >Verificado</th>
+                  <th >Recibido</th>
+                  <th>Alerta TOC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pedido of pedidos">
+                  <td scope="row">{{ pedido.Origen}}</td>
+                  <th>{{ pedido.Cod_entrega }}</th>
+                  <td>{{ pedido.Fecha_ingreso }}</td>
+                  <td>{{ pedido.Fecha_compromiso }}</td>
+                  <td>{{ pedido.Region }}</td>
+                  <td>{{ pedido.Comuna }}</td>
+                  <td>{{ pedido.Descripcion }}</td>
+                  <td>{{ pedido.Bultos }}</td>
+                  <td>{{ pedido.Estado }}</td>
+                  <td>{{ pedido.Subestado }}</td>
+                  <td *ngIf="pedido.Verificado" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                  </td>
+                  <td *ngIf="!pedido.Verificado" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                  </td>
+
+                  <td *ngIf="pedido.Recibido" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" class="svgT"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+                  </td>
+                  <td *ngIf="!pedido.Recibido" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" class="svgF"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+                  </td>
+                  <td>
+                    <svg *ngIf="pedido.Alerta" (click)="verObservacion(pedido.Observacion)" xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" viewBox="0 0 512 512">
+                      <path fill="currentColor" d="M448.205 392.507c30.519-27.2 47.8-63.455 47.8-101.078c0-39.984-18.718-77.378-52.707-105.3C410.218 158.963 366.432 144 320 144s-90.218 14.963-123.293 42.131C162.718 214.051 144 251.445 144 291.429s18.718 77.378 52.707 105.3c33.075 27.168 76.861 42.13 123.293 42.13c6.187 0 12.412-.273 18.585-.816l10.546 9.141A199.85 199.85 0 0 0 480 496h16v-34.057l-4.686-4.685a199.2 199.2 0 0 1-43.109-64.751M370.089 423l-21.161-18.341l-7.056.865A180 180 0 0 1 320 406.857c-79.4 0-144-51.781-144-115.428S240.6 176 320 176s144 51.781 144 115.429c0 31.71-15.82 61.314-44.546 83.358l-9.215 7.071l4.252 12.035a231.3 231.3 0 0 0 37.882 67.817A167.84 167.84 0 0 1 370.089 423"/><path fill="currentColor" d="M60.185 317.476a220.5 220.5 0 0 0 34.808-63.023l4.22-11.975l-9.207-7.066C62.918 214.626 48 186.728 48 156.857C48 96.833 109.009 48 184 48c55.168 0 102.767 26.43 124.077 64.3c3.957-.192 7.931-.3 11.923-.3q12.027 0 23.834 1.167c-8.235-21.335-22.537-40.811-42.2-56.961C270.072 30.279 228.3 16 184 16S97.928 30.279 66.364 56.206C33.886 82.885 16 118.63 16 156.857c0 35.8 16.352 70.295 45.25 96.243a188.4 188.4 0 0 1-40.563 60.729L16 318.515V352h16a190.64 190.64 0 0 0 85.231-20.125a157.3 157.3 0 0 1-5.071-33.645a158.7 158.7 0 0 1-51.975 19.246"/></svg>                  </td>
+                </tr>
+                <tr>
+                  <td colspan="14" *ngIf="isLoadingTable"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+    </c-row>
+  </div>
+  </c-row>
+  
+
+
+
+  <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Observación </h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        {{observacionActual}}
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal> -->
+  
+
+
+<!-- <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Productos Pendientes</title>
+  <script src="https://kit.fontawesome.com/YOUR_KIT_ID.js" crossorigin="anonymous"></script>
+</head>
+<body> -->
+
+  <!-- DASHBOARD SUPERIOR -->
+  <!-- <div class="grid-dashboard">
+    <div class="card">
+      <p>Total Pendientes</p>
+      <p class="text-blue">{{cantidad}}</p>
+    </div>
+    <div class="card">
+      <p>Verificados</p>
+      <p class="text-green">{{verificados}}</p>
+    </div>
+    <div class="card">
+      <p>Con Alerta TOC</p>
+      <p class="text-red">{{alertaTOC}}</p>
+    </div>
+    <div class="card">
+      <p>Atrasados</p>
+      <p class="text-yellow">{{atrasos}}</p>
+    </div>
+  </div> -->
+
+  <h4>Pendientes</h4>
+
+<div class="divider"></div>
+
+  <c-row>
+      <c-col xs="6" sm="3">
+
+      <div class="card card-blue">
+        <table>
+          <tr>
+            <td width="98" height="98" class="prueba">
+              <div class="icon-background">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 512 512">
+                  <path fill="#3399ff" d="M304 48a48 48 0 1 0-96 0a48 48 0 1 0 96 0m0 416a48 48 0 1 0-96 0a48 48 0 1 0 96 0M48 304a48 48 0 1 0 0-96a48 48 0 1 0 0 96m464-48a48 48 0 1 0-96 0a48 48 0 1 0 96 0M142.9 437A48 48 0 1 0 75 369.1a48 48 0 1 0 67.9 67.9m0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437a48 48 0 1 0 67.9-67.9a48 48 0 1 0-67.9 67.9" stroke-width="13" stroke="#3399ff" />
+                </svg>
+
+            </div>
+            </td>
+            <td class="prueba">
+              <div class="text-content">
+                <h3>Total Pendientes</h3>
+                <div class="number"> <span >{{cantidad}}</span></div>
+            </div>
+            </td>
+          </tr>
+        </table>
+    </div>
+ 
+      </c-col>
+    
+      <c-col xs="6" sm="3">
+
+        <div class="card card-green">
+          <table>
+            <tr>
+              <td width="98" height="98" class="prueba">
+                <div class="icon-background">
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="43.75px" height="50px" viewBox="0 0 448 512">
+                    <path fill="#5cb85c" d="M64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm273 177L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="#5cb85c" />
+                  </svg>
+              </div>
+              </td>
+              <td class="prueba">
+                <div class="text-content">
+                  <h3>Verificados</h3>
+                  <div class="number"> <span >{{verificados}}</span></div>
+              </div>
+              </td>
+            </tr>
+          </table>
+      </div>  
+      </c-col>
+
+      <c-col xs="6" sm="3">
+        <!-- <div class="card card-yellow">
+          <table>
+            <tr>
+              <td width="98" height="98" class="prueba">
+                <div class="icon-background">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="43.75px" height="50px" viewBox="0 0 448 512">
+                    <path fill="#ffcc00" d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64m215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29c0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29c-6 6.45-8.66 14.16-8.61 21.71c.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32c.05-7.55-2.61-15.27-8.61-21.71" stroke-width="13" stroke="#ffcc00" />
+                  </svg>
+              </div>
+              </td>
+              <td class="prueba">
+                <div class="text-content" >
+                  <h3>Atrasados</h3>
+                  <div class="number"><span style="color: #eab308">{{ atrasos }}</span></div>
+              </div>
+              </td>
+            </tr>
+          </table>
+      </div> -->
+
+        <div class="card card-yellow">
+          <table>
+            <tr>
+              <td width="98" height="98" class="prueba">
+                <div class="icon-background">
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 512 512">
+                    <path fill="#ffcc00" d="M192 208c0-17.67-14.33-32-32-32h-16c-35.35 0-64 28.65-64 64v48c0 35.35 28.65 64 64 64h16c17.67 0 32-14.33 32-32zm176 144c35.35 0 64-28.65 64-64v-48c0-35.35-28.65-64-64-64h-16c-17.67 0-32 14.33-32 32v112c0 17.67 14.33 32 32 32zM256 0C113.18 0 4.58 118.83 0 256v16c0 8.84 7.16 16 16 16h16c8.84 0 16-7.16 16-16v-16c0-114.69 93.31-208 208-208s208 93.31 208 208h-.12c.08 2.43.12 165.72.12 165.72c0 23.35-18.93 42.28-42.28 42.28H320c0-26.51-21.49-48-48-48h-32c-26.51 0-48 21.49-48 48s21.49 48 48 48h181.72c49.86 0 90.28-40.42 90.28-90.28V256C507.42 118.83 398.82 0 256 0" stroke-width="13" stroke="#ffcc00" />
+                  </svg>
+
+              </div>
+              </td>
+              <td class="prueba">
+                <div class="text-content">
+                  <h3>Alertas TOC</h3>
+                  <div class="number"><span >{{ alertaTOC }}</span></div>
+              </div>
+              </td>
+            </tr>
+          </table>
+      </div>
+
+      </c-col>
+    
+      <c-col xs="6" sm="3">
+
+        
+
+        <div class="card card-red" >
+          <table>
+            <tr>
+              <td width="98" height="98" class="prueba">
+                <div class="icon-background">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="43.75px" height="50px" viewBox="0 0 448 512">
+                    <path fill="#d9534f" d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64m215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29c0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29c-6 6.45-8.66 14.16-8.61 21.71c.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32c.05-7.55-2.61-15.27-8.61-21.71" stroke-width="13" stroke="#d9534f" />
+                  </svg>
+              </div>
+              </td>
+              <td class="prueba">
+                <div class="text-content" >
+                  <h3>Atrasados</h3>
+                  <div class="number"><span>{{ atrasos }}</span></div>
+              </div>
+              </td>
+            </tr>
+          </table>
+      </div>
+
+      <!-- <div class="card card-red">
+          <table>
+            <tr>
+              <td width="98" height="98" class="prueba">
+                <div class="icon-background">
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 512 512">
+                    <path fill="#d9534f" d="M192 208c0-17.67-14.33-32-32-32h-16c-35.35 0-64 28.65-64 64v48c0 35.35 28.65 64 64 64h16c17.67 0 32-14.33 32-32zm176 144c35.35 0 64-28.65 64-64v-48c0-35.35-28.65-64-64-64h-16c-17.67 0-32 14.33-32 32v112c0 17.67 14.33 32 32 32zM256 0C113.18 0 4.58 118.83 0 256v16c0 8.84 7.16 16 16 16h16c8.84 0 16-7.16 16-16v-16c0-114.69 93.31-208 208-208s208 93.31 208 208h-.12c.08 2.43.12 165.72.12 165.72c0 23.35-18.93 42.28-42.28 42.28H320c0-26.51-21.49-48-48-48h-32c-26.51 0-48 21.49-48 48s21.49 48 48 48h181.72c49.86 0 90.28-40.42 90.28-90.28V256C507.42 118.83 398.82 0 256 0" stroke-width="13" stroke="#d9534f" />
+                  </svg>
+
+              </div>
+              </td>
+              <td class="prueba">
+                <div class="text-content">
+                  <h3>Alertas TOC</h3>
+                  <div class="number"><span style="color: #ef4444">{{ alertaTOC }}</span></div>
+              </div>
+              </td>
+            </tr>
+          </table>
+      </div> -->
+      </c-col>
+  
+    </c-row>
+
+    <p></p>
+  <!-- FILTROS + EXPORTAR -->
+  <div class="filters">
+    <div>
+      <label>Desde</label>
+      <input type="date" id="fecha-desde" [(ngModel)]="fecha_inicio">
+    </div>
+    <div>
+      <label>Hasta</label>
+      <input type="date" id="fecha-hasta" [(ngModel)]="fecha_fin">
+    </div>
+    <div>
+      <label>Cliente</label>
+      <select id="cliente" [(ngModel)]="tipoCliente">
+        <option value="" >Todos</option>
+        <option [value]="origen" *ngFor="let origen of origen">{{origen}}</option>
+      </select>
+    </div>
+    <button class="btn btn-blue" (click)="getPedidos()" [disabled]="isLoadingTable">Buscar</button>
+
+
+    <img *ngIf="isLoadingTable" width="50" height="50" src="../../../assets/images/loading-gif.gif" />
+       
+    <button (click)="downloadExcel()" class="btn btn-green" >
+      <svg xmlns="http://www.w3.org/2000/svg" width="13.25px" height="13px" viewBox="0 0 384 512">
+        <path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24m60.1 106.5L224 336l60.1 93.5c5.1 8-.6 18.5-10.1 18.5h-34.9c-4.4 0-8.5-2.4-10.6-6.3C208.9 405.5 192 373 192 373c-6.4 14.8-10 20-36.6 68.8c-2.1 3.9-6.1 6.3-10.5 6.3H110c-9.5 0-15.2-10.5-10.1-18.5l60.3-93.5l-60.3-93.5c-5.2-8 .6-18.5 10.1-18.5h34.8c4.4 0 8.5 2.4 10.6 6.3c26.1 48.8 20 33.6 36.6 68.5c0 0 6.1-11.7 36.6-68.5c2.1-3.9 6.2-6.3 10.6-6.3H274c9.5-.1 15.2 10.4 10.1 18.4M384 121.9v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9" stroke-width="13" stroke="currentColor" />
+      </svg> Exportar a Excel
+    </button>
+  </div>
+
+  <!-- TABLA -->
+   <div class="greenTable">
+  <!-- <div class="table-container" id="tabla-container"> -->
+    <table>
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th> Entrega</th>
+          <th (click)="OrdenFechaIngreso()" style="cursor: pointer;">Fecha Ingreso</th>
+          <th (click)="OrdenFechaCompromiso()" style="cursor: pointer;">Fecha Compromiso</th>
+          <th  style="cursor: pointer;">Fecha Reprogramada</th>
+          <th>Región</th>
+          <th>Comuna</th>
+          <th>Descripción</th>
+          <th style="text-align: center;" title="Bultos">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 512 512" >
+              <path fill="#b97c4b" d="M509.5 184.6L458.9 32.8C452.4 13.2 434.1 0 413.4 0H272v192h238.7c-.4-2.5-.4-5-1.2-7.4M240 0H98.6c-20.7 0-39 13.2-45.5 32.8L2.5 184.6c-.8 2.4-.8 4.9-1.2 7.4H240zM0 224v240c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V224z" stroke-width="13" stroke="#b97c4b" />
+            </svg></th>
+          <th>Estado</th>
+          <th>Subestado</th>
+          <th style="text-align: center;" title="Verificado">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25.88px" height="23px" viewBox="0 0 576 512">
+              <path fill="currentColor" d="M0 32C0 14.3 14.3 0 32 0h72.9c27.5 0 52 17.6 60.7 43.8L257.7 320c30.1.5 56.8 14.9 74 37l202.1-67.4c16.8-5.6 34.9 3.5 40.5 20.2s-3.5 34.9-20.2 40.5L352 417.7c-.9 52.2-43.5 94.3-96 94.3c-53 0-96-43-96-96c0-30.8 14.5-58.2 37-75.8L104.9 64H32C14.3 64 0 49.7 0 32m244.8 102.5c-5.5-16.8 3.7-34.9 20.5-40.3L311 79.4l19.8 60.9l60.9-19.8l-19.9-60.9l45.7-14.8c16.8-5.5 34.9 3.7 40.3 20.5l49.4 152.2c5.5 16.8-3.7 34.9-20.5 40.3l-152.2 49.4c-16.8 5.5-34.9-3.7-40.3-20.5z" stroke-width="13" stroke="currentColor" />
+            </svg>
+          </th>
+          <th style="text-align: center;" title="Recibido">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28.75px" height="23px" viewBox="0 0 640 512">
+              <path fill="currentColor" d="M0 488V171.3c0-26.2 15.9-49.7 40.2-59.4L308.1 4.8c7.6-3.1 16.1-3.1 23.8 0l267.9 107.1c24.3 9.7 40.2 33.3 40.2 59.4V488c0 13.3-10.7 24-24 24h-48c-13.3 0-24-10.7-24-24V224c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32v264c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24m488 24H152c-13.3 0-24-10.7-24-24v-56h384v56c0 13.3-10.7 24-24 24M128 400v-64h384v64zm0-96v-80h384v80z" stroke-width="13" stroke="currentColor" />
+            </svg>
+          </th>
+          <th style="text-align: center;" title="Alertas TOC">
+             <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 512 512">
+              <path d="M192 208c0-17.67-14.33-32-32-32h-16c-35.35 0-64 28.65-64 64v48c0 35.35 28.65 64 64 64h16c17.67 0 32-14.33 32-32zm176 144c35.35 0 64-28.65 64-64v-48c0-35.35-28.65-64-64-64h-16c-17.67 0-32 14.33-32 32v112c0 17.67 14.33 32 32 32zM256 0C113.18 0 4.58 118.83 0 256v16c0 8.84 7.16 16 16 16h16c8.84 0 16-7.16 16-16v-16c0-114.69 93.31-208 208-208s208 93.31 208 208h-.12c.08 2.43.12 165.72.12 165.72c0 23.35-18.93 42.28-42.28 42.28H320c0-26.51-21.49-48-48-48h-32c-26.51 0-48 21.49-48 48s21.49 48 48 48h181.72c49.86 0 90.28-40.42 90.28-90.28V256C507.42 118.83 398.82 0 256 0" stroke-width="13"  />
+            </svg>
+          </th>
+        </tr>
+      </thead>
+              <tbody >
+                <tr *ngFor="let pedido of pedidos">
+                  <td scope="row">{{ pedido.Origen}}</td>
+                  <th (click)="copiarTexto(pedido.Cod_entrega+'' )" class="text-blue-link">{{ pedido.Cod_entrega }}</th>
+                  <td class="td-wrap">{{ pedido.Fecha_ingreso }}</td>
+                  <td class="td-wrap" >{{ pedido.Fecha_compromiso }}</td>
+                  <td class="td-wrap" >{{ pedido.Fecha_reprogramado }}</td>
+                  <td>{{ pedido.Region }}</td>
+                  <td>{{ pedido.Comuna }}</td>
+                  <td>{{ pedido.Descripcion }}</td>
+                  <td style="text-align: center;">{{ pedido.Bultos }}</td>
+                  <td>{{ pedido.Estado }}</td>
+                  <td>{{ pedido.Subestado }}</td>
+                  <td *ngIf="pedido.Verificado" style="text-align: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" viewBox="0 0 512 512">
+                      <path fill="#5cb85c" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="#12de20" />
+                    </svg>
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" ><path fill="#12de20" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg> -->
+                  </td>
+                  <td *ngIf="!pedido.Verificado" style="text-align: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" viewBox="0 0 512 512">
+                      <path fill="#d60a0a" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" stroke-width="13" stroke="#d60a0a" />
+                    </svg>
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512"><path fill="#d60a0a" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg> -->
+                  </td>
+
+                  <td *ngIf="pedido.Recibido" style="text-align: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" viewBox="0 0 512 512">
+                      <path fill="#5cb85c" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m113-303L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" stroke-width="13" stroke="#12de20" />
+                    </svg>
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512" ><path fill="#12de20" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg> -->
+                  </td>
+                  <td *ngIf="!pedido.Recibido" style="text-align: center;" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" viewBox="0 0 512 512">
+                      <path fill="#d60a0a" d="M256 512a256 256 0 1 0 0-512a256 256 0 1 0 0 512m-81-337c9.4-9.4 24.6-9.4 33.9 0l47 47l47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47l47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47l-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47l-47-47c-9.4-9.4-9.4-24.6 0-33.9" stroke-width="13" stroke="#d60a0a" />
+                    </svg>
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 384 512" ><path fill="#d60a0a" d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg> -->
+                  </td>
+                  <td style="text-align: center;">
+                    <svg *ngIf="pedido.Alerta" (click)="verObservacion(pedido.Observacion)" xmlns="http://www.w3.org/2000/svg" width="25.88px" height="23px" viewBox="0 0 576 512">
+                      <path fill="currentColor" d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92c-13.4 30.2-35.5 54.2-35.8 54.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25c32.2 15.7 70.3 25 111.3 25c114.9 0 208-71.6 208-160m122 220c23.9-26 38-57.7 38-92c0-66.9-53.5-124.2-129.3-148.1c.9 6.6 1.3 13.3 1.3 20.1c0 105.9-107.7 192-240 192c-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25c21.8 12.7 52.1 25 88.7 25c3.2 0 6.1-1.9 7.3-4.8c1.3-2.9.7-6.3-1.5-8.7c-.3-.3-22.4-24.2-35.8-54.5" stroke-width="13" stroke="currentColor" />
+                    </svg>
+                 </td>
+                </tr>
+                <!-- <tr>
+                  <td colspan="14" *ngIf="isLoadingTable"><img width="50" height="50" src="../../../assets/images/loading-gif.gif" /></td>
+                </tr> -->
+              </tbody>
+      <!-- <tbody>
+        <tr>
+          <td>Cliente 1</td>
+          <td class="text-blue-link" onclick="copiarTexto('CDE12345')" id="CDE12345">CDE12345</td>
+          <td>2025-05-10</td>
+          <td>2025-05-15</td>
+          <td>Metropolitana</td>
+          <td>Santiago</td>
+          <td>Cajas grandes</td>
+          <td>5</td>
+          <td>Pendiente</td>
+          <td>Esperando</td>
+          <td class="text-center text-green-icon"><i class="fas fa-check-circle"></i></td>
+          <td class="text-center text-gray-icon"><i class="fas fa-times-circle"></i></td>
+          <td class="text-center text-red-icon"><i class="fas fa-comment-dots"></i></td>
+        </tr>
+      </tbody> -->
+    </table>
+  <!-- </div> -->
+</div>
+
+
+    <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Observación </h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        {{observacionActual}}
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Cerrar
+      </button>
+    </c-modal-footer>
+  </c-modal> 
+
+
+  <div id="alertaContainer"></div>
+
+<!-- </body>
+</html> -->

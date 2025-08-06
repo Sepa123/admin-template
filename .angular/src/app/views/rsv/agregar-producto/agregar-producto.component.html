@@ -1,0 +1,151 @@
+<!-- <form [formGroup]="skillsForm" (ngSubmit)="onSubmit()">
+ 
+    <p>
+      <label for="name">Name </label>
+      <input type="text" id="name" name="name" formControlName="name">
+    </p>
+   
+   
+    Skills:
+    <div formArrayName="skills">
+      <div *ngFor="let skill of skills.controls; let i=index">
+        <div [formGroupName]="i">
+          {{i}}
+          skill name :
+          <input type="text" formControlName="skill">
+          exp:
+          <input type="text" formControlName="exp">
+   
+          <button (click)="removeSkill(i)">Remove</button>
+        </div>
+      </div>
+    </div>
+   
+    <p>
+      <button type="submit">Submit</button>
+    </p>
+   
+  </form>
+   
+   
+  <p>
+    <button type="button" (click)="addSkills()">Add</button>
+  </p>
+   
+  {{this.skillsForm.value | json}} -->
+
+
+
+<button class="btn btn-info" (click)="addCargas()" >
+    Agregar producto
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"/></svg>
+</button>
+
+
+
+<p></p>
+
+<form cForm [formGroup]="cargasForm" (ngSubmit)="onSubmit()"> 
+    <c-row>
+        <c-col [xs]>
+            <input type="text" placeholder="Nombre Carga" class="form-control" formControlName="Nombre_carga" (change)="cargaUnica()">
+                <span class="error" *ngIf="cargasForm.get('Nombre_carga')?.errors?.['required'] && isErrorView">
+                    Falta agregar el nombre de la carga
+                </span> 
+        </c-col>
+        <c-col [xs]>
+            <input type="date" class="form-control" formControlName="Fecha_ingreso" >
+            <span class="error" *ngIf="cargasForm.get('Fecha_ingreso')?.errors?.['required'] && isErrorView">
+                Falta agregar la fecha de ingreso
+            </span> 
+        </c-col>
+        <c-col [xs]>
+    
+        </c-col>
+        <c-col [xs]>
+    
+        </c-col>
+
+    </c-row>
+    
+    <p></p>
+        <div formArrayName="arrays">
+        <!-- <c-row> -->
+        <c-row *ngFor="let carga of arrays.controls; let i = index">
+            <c-row [formGroupName]="i">
+                {{i +1}}
+            <c-col [xs] >
+                <div class="" >               
+                    <select id="Color" cSelect formControlName="Color" (change)="cambio(i)" >
+                        <option value="">colores</option>
+                        <option *ngFor="let color of colores" value={{color.Id}}  >
+                            {{color.Nombre_color}}     
+                        </option>
+                    </select>
+                    <span class="error" *ngIf="carga.get('Color')?.errors?.['required'] && isErrorView">
+                        Falta seleccionar un color
+                    </span>
+                 </div>   
+            </c-col>
+            <c-col [xs]>
+                <!-- <input type="text" placeholder="Codigo" class="form-control" formControlName="Codigo" >
+                <span class="error" *ngIf="carga.get('Codigo')?.errors?.['required'] && isErrorView">
+                    Falta agregar el código
+                </span> -->
+                <div class="" >    
+                             
+                    <select id="Codigo" cSelect formControlName="Codigo" (change)="seleccionCodigo(i)" >
+                        <option value="">Codigos</option>
+                        <option *ngFor="let codigo of arrayCodigosProductos[i]" value={{codigo.Codigo}}  >
+                            {{codigo.Codigo}}     
+                        </option>
+                    </select>
+                    <span class="error" *ngIf="carga.get('Codigo')?.errors?.['required'] && isErrorView">
+                        Falta seleccionar un código
+                    </span>
+                 </div>   
+            </c-col>
+            <c-col [xs]>
+                <input type="text" placeholder="Descripcion" class="form-control" formControlName="Descripcion" readonly>
+            </c-col>
+            <c-col [xs]>
+                <c-row>
+                    <c-col [xs]>
+                        <input type="number" placeholder="paquetes" class="form-control" formControlName="Paquetes" >
+                        <span class="error" *ngIf="carga.get('Paquetes')?.errors?.['required'] && isErrorView">
+                            Falta agregar la cantidad Paquetes
+                        </span>
+                    </c-col>
+                    <c-col [xs]>
+                        <input type="number" placeholder="Unidades" class="form-control" formControlName="Unidades" >
+                        <span class="error" *ngIf="carga.get('Unidades')?.errors?.['required'] && isErrorView">
+                            Falta agregar las Unidades
+                        </span>
+                    </c-col>
+                    <c-col [xs]>
+                        <svg xmlns="http://www.w3.org/2000/svg" (click)="removeCarga(i)" width="28" height="28" viewBox="0 0 24 24"><path fill="red" d="M6.187 8h11.625l-.695 11.125A2 2 0 0 1 15.121 21H8.879a2 2 0 0 1-1.996-1.875L6.187 8zM19 5v2H5V5h3V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h3zm-9 0h4V4h-4v1z"/></svg>
+                    </c-col>
+                </c-row>
+            </c-col>
+        </c-row>
+            <p></p>
+        </c-row>
+    </div>
+        <p></p>
+        <c-row>
+            <c-col [xs]>
+                <button class="btn btn-success" type="submit">Guardar 
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                </button>
+            </c-col>
+            <c-col [xs]>
+                
+            </c-col>
+            <c-col [xs]>
+                
+            </c-col>
+            <c-col [xs]>
+                
+            </c-col>
+        </c-row>
+        </form> 

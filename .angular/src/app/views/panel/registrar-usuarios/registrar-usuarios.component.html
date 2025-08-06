@@ -1,0 +1,32 @@
+<form cForm [formGroup]="registerForm" (ngSubmit)="registrarUsuario()" novalidate>
+    <div class="mb-3">
+      <label for="nombreUsuario" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="nombreUsuario" cFormControl formControlName="Nombre" >
+    </div>
+    <div class="mb-3">
+        <label for="mailUsuario" class="form-label">Correo electrónico</label>
+        <input type="email" class="form-control" id="mailUsuario" cFormControl formControlName="Mail"  >
+        <div *ngIf="this.registerForm.get('mail')?.errors?.['email']" id="emailHelp" class="form-text">
+          Se debe ingresar un email Valido</div>
+      </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña</label>
+      <input type="password" class="form-control" cFormControl formControlName="Password" id="password">
+      <div class="col-auto">
+        <span id="passwordHelpInline" class="form-text">
+          Debe tener entre 6 y 20 caracteres.
+        </span>
+      </div>
+    </div>
+    <!-- <div class="mb-3">
+        <label for="passwordRepetida" class="form-label">Repetir contraseña</label>
+        <input type="password" class="form-control" id="passwordRepetida" [(ngModel)]="passRepetida" >
+      </div> -->
+    <!-- <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Activo</label>
+    </div> -->
+    <button type="submit" class="btn btn-primary">Registrar</button>
+  </form>
+
+  

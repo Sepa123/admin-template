@@ -1,0 +1,174 @@
+.error {
+    color: #E71B24;
+  }
+
+.rectangulo,
+.rectangulo-gps,
+.rectangulo-seguridad {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.slide-toggle-container {
+  position: relative; /* o absolute, fixed, dependiendo de tus necesidades */
+  z-index: 1; /* o cualquier valor más bajo que el thead */
+}
+
+.rectangulo {
+  background-color: #ffcccc; /* Rojo claro */
+  border: 2px solid #cc0000; /* Borde rojo oscuro */
+}
+
+.rectangulo-gps {
+  background-color: #ffffcc; /* Amarillo claro */
+  border: 2px solid #cccc00; /* Borde amarillo oscuro */
+}
+
+.rectangulo-seguridad {
+  background-color: #ccffcc; /* Verde clarito */
+  border: 2px solid #006600; /* Borde verde oscuro */
+}
+  
+
+
+  input[type="text"].disabled-like {
+    background-color: #f0f0f0; /* Color de fondo gris claro */
+    color: #a0a0a0; /* Color de texto gris */
+    border: 1px solid #d0d0d0; /* Borde gris */
+    cursor: not-allowed; /* Cursor de no permitido */
+    pointer-events: none; /* Deshabilita eventos */
+  }
+  
+
+  
+  .inline-container {
+    margin: 1px;
+    display: flex;
+    align-items: center; /* Alinea los elementos verticalmente si es necesario */
+  }  
+  
+  .inline-container input,
+  .inline-container c-dropdown,
+  .inline-container span {
+    margin-right: 5px; /* Espacio personalizado entre los elementos */
+  }
+  h2 {
+      text-align: center;
+    }
+    
+  .svgT{
+    fill:#12de20
+  }
+  
+  .svgF{
+    fill:#d60a0a
+  }
+
+  ::ng-deep .mat-mdc-slide-toggle.mat-accent {
+    --mdc-switch-selected-focus-state-layer-color: #2eb85c;
+    --mdc-switch-selected-handle-color: #2eb85c;
+    --mdc-switch-selected-hover-state-layer-color: #2eb85c;
+    --mdc-switch-selected-pressed-state-layer-color: #2eb85c;
+    --mdc-switch-selected-focus-handle-color: #2eb85c;
+    --mdc-switch-selected-hover-handle-color: #2eb85c;
+    --mdc-switch-selected-pressed-handle-color: #2eb85c;
+    --mdc-switch-selected-focus-track-color: #2eb85c;
+    --mdc-switch-selected-hover-track-color: #2eb85c;
+    --mdc-switch-selected-pressed-track-color: #2eb85c;
+    --mdc-switch-selected-track-color: #2eb85c;
+}
+
+::ng-deep .mat-mdc-slide-toggle {
+  --mdc-switch-disabled-selected-handle-color: #2eb85c;
+  --mdc-switch-disabled-unselected-handle-color: #424242;
+  --mdc-switch-disabled-selected-track-color: #2eb85c;
+  --mdc-switch-disabled-unselected-track-color: #424242;
+  --mdc-switch-unselected-focus-state-layer-color: #424242;
+  --mdc-switch-unselected-pressed-state-layer-color: #424242;
+  --mdc-switch-unselected-hover-state-layer-color: #2eb85c;
+  --mdc-switch-unselected-focus-track-color: #e0e0e0;
+  --mdc-switch-unselected-hover-track-color: #e0e0e0;
+  --mdc-switch-unselected-pressed-track-color: #e0e0e0;
+  --mdc-switch-unselected-track-color: #e0e0e0;
+  --mdc-switch-unselected-focus-handle-color: #2eb85c;
+  --mdc-switch-unselected-hover-handle-color: #2eb85c;
+  --mdc-switch-unselected-pressed-handle-color: #2eb85c;
+  --mdc-switch-handle-surface-color: var(--mdc-theme-surface, #fff);
+  --mdc-switch-unselected-handle-color: #616161;
+  --mdc-switch-selected-icon-color: #fff;
+  --mdc-switch-disabled-selected-icon-color: #fff;
+  --mdc-switch-disabled-unselected-icon-color: #fff;
+  --mdc-switch-unselected-icon-color: #fff;
+}
+
+
+.NewDesingTable-container {
+  background: #fafbfc;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  overflow-y: auto;      // ya presente
+  overflow-x: auto;      // asegúrate de tener scroll horizontal también
+  max-height: 60vh;      // ajusta la altura máxima visible antes de mostrar scroll vertical
+}
+
+.NewDesingTable {
+  background: #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  overflow-y: auto;      // ya presente
+  overflow-x: auto;      // asegúrate de tener scroll horizontal también
+  max-height: 60vh;      // ajusta la altura máxima visible antes de mostrar scroll vertical
+}
+
+.NewDesingTable table {
+  width: 100%;
+  min-width: 800px; // O el mínimo que necesites, pero no uses vw aquí
+  border-collapse: collapse;
+}
+
+.NewDesingTable thead {
+  background-color: #e0e0e0;
+  color: #333;
+  position: sticky;
+  max-height: 300px; /* Ajusta la altura máxima según tus necesidades */
+  top: 0;
+  z-index: 10;/* Asegura que el header esté por encima del contenido */
+}
+
+.NewDesingTable th {
+  font-weight: bold;
+  font-size: 12px;
+  background-color: #e0e0e0;
+  border: none;
+}
+.NewDesingTable td {
+  font-size: 10px;
+  border: none;
+  padding: 10px;
+}
+
+.NewDesingTable th, td {
+  border: none;
+  padding: 10px;
+  text-align: left;
+}
+.NewDesingTable tbody tr {
+  color: var(--text-strong);
+}
+
+.NewDesingTable tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+.NewDesingTable tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}

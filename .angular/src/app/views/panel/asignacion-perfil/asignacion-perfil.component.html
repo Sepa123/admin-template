@@ -1,0 +1,113 @@
+<!-- 🔹 Título principal -->
+	<header>
+		<i class="fa-solid fa-user"></i>
+		<h1>Asignación de Perfil</h1>
+		<div class="line"></div>
+	</header>
+
+  <!-- 🔹 Contenedor general -->
+  <div class="contenedor-principal">
+
+    <!-- 🔸 Panel Izquierdo - Colaborador -->
+	  <!-- 🔸 Panel Izquierdo - Colaborador -->
+		<div class="panel-izquierdo">
+
+		  <!-- 🟦 Franja de título -->
+		  <div class="panel-titulo">
+			<h2>Colaborador</h2>
+		  </div>
+
+		  <!-- 👤 Avatar en esquina superior derecha, dentro del panel -->
+		  <div id="avatar-contenedor" class="avatar-contenedor" *ngIf="imagenUrl">
+			<img id="avatar" [src]="imagenUrl" alt="Avatar" class="avatar">
+		  </div>
+
+		  <!-- 🔍 Buscador con ícono -->
+		  <div class="buscador-contenedor">
+			<i class="fas fa-search"></i>
+			<input type="text" id="buscador" placeholder="Buscar colaborador..." (keyup)="buscarColaborador($event)">
+		  </div>
+
+		  <!-- 🔽 Selector -->
+		  <select id="colaborador-select" size="6" class="select-personal" >
+			<option (click)="seleccionarColaborador($event)" [value]="dato.id_usuario" *ngFor="let dato of listaUsuarios">{{dato.nombre_usuario}}</option>
+		  </select>
+
+		  <!-- ℹ️ Info colaborador -->
+		  <div id="info-colaborador" class="info-colaborador" *ngIf="imagenUrl">
+			<div class="etiqueta">
+			  <p><strong>Área:</strong>&nbsp; <span id="area">{{areaColaborador}}</span></p>
+			  <p><strong>Cargo:</strong>&nbsp; <span id="cargo">{{cargoColaborador}}</span></p>
+			</div>
+		  </div>
+		</div>
+		
+
+		<!-- 🔸 Panel Derecho - Perfilamiento -->
+		<div class="panel-derecho">
+			<div class="panel-titulo">
+					<select class="profile-selector" name="profile" required (change)="seleccionarPerfil($event)" [(ngModel)]="rolSeleccionado">
+						<option value="0" disabled selected hidden>Perfiles por Defecto</option>
+						<option *ngFor="let perfil of selectorPerfil" [value]="perfil.rol_id">{{perfil.nombre_rol}}</option>
+						<option value="1"  >Perfil Custom</option>
+					</select>
+				<!-- <button type="button" class="btn btn-success">Aplicar</button> -->
+
+
+				<button type="button" class="btn btn-success" (click)="guardarPerfil()">Guardar</button>
+			</div>
+			<div class="menu-grid" >
+			
+			<!-- 🔹 Bloque de menú principal -->
+			<div class="menu-bloque" *ngFor="let menu of perfilSeleccionado">
+			  <div class="menu-principal">
+				<i class="fas fa-cogs"></i>
+				<span class="menu-nombre">{{menu.nombre_menu}}</span>
+				<span class="menu-propietario">Propietario   <input type="checkbox" [value]="" [(ngModel)]="menu.is_propietario"  /></span>
+			  </div>
+			  <div class="menu-subtitulo">
+			  <em class="menu-subtitulo">{{menu.subtitulo}}</em>
+			  <hr class="linea-subtitulo" />
+			  </div>
+	
+			  <!-- 🔸 Submenús -->
+			  <div  *ngFor="let submenu of menu.submenus" >
+				<div class="submenu-item" >
+
+		
+				  <!-- <i class="fas fa-sliders-h submenu-icon"></i> -->
+				   <input type="checkbox" [value]="" [(ngModel)]="submenu.acceso" title="Acesso a pantalla" />
+				   &nbsp;
+				  <span class="submenu-text">{{submenu.nombre_submenu}}</span>
+				  <div class="submenu-actions">
+					<div class="checkbox-group" >
+							<label>
+								<i class="fas fa-eye"></i> &nbsp;
+								<input
+								type="radio"
+								name="permiso-{{submenu.id_submenu}}"
+								[value]="2"
+								[(ngModel)]="submenu.permiso"
+								>
+							</label>&nbsp;
+							<label>
+								<i class="fas fa-edit"></i>&nbsp;
+								<input
+								type="radio"
+								name="permiso-{{submenu.id_submenu}}"
+								[value]="1"
+								[(ngModel)]="submenu.permiso"
+								>
+							</label>
+							</div>
+				  </div>
+				</div>
+				</div>
+			  
+			</div>
+	
+			<!-- Puedes copiar el bloque de menú principal para más menús -->
+		
+		  </div>
+		</div>
+	</div>

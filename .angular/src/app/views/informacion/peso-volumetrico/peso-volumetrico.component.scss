@@ -1,0 +1,260 @@
+// Estilo para el modal
+.modal-header-custom {
+    background-color: #f0f0f0; // Color de fondo del encabezado del modal
+}
+
+.modal-title {
+    color: #333; // Color del título del modal
+}
+
+.modal-body-custom {
+    padding: 20px; // Espaciado interno del cuerpo del modal
+}
+
+.modal-footer-custom {
+    background-color: #f0f0f0; // Color de fondo del pie del modal
+}
+
+
+.title{
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    margin-top: 20px; /* Ajusta el margen superior según tus necesidades */
+}
+
+header button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+
+  // Estilo para los inputs del formulario
+  form {
+    display: flex;
+    flex-wrap: wrap;
+  
+    input {
+      margin-bottom: 10px; // Espaciado entre los inputs
+      border-radius: 5px; // Borde redondeado de los inputs
+      border: 1px solid #ccc; // Borde del input
+      padding: 8px; // Espaciado interno del input
+      width: calc(
+        50% - 16px
+      ); // Ancho del input (mitad menos el espacio del margen)
+      box-sizing: border-box; // Incluye el borde en el ancho
+    }
+  }
+  
+  // Estilo para el botón de cerrar
+  button.cButtonClose {
+    background-color: #ccc; // Color de fondo del botón de cerrar
+    color: #fff; // Color del texto del botón de cerrar
+    border: none; // Quita el borde del botón
+    border-radius: 5px; // Borde redondeado del botón
+    padding: 10px 20px; // Espaciado interno del botón
+    cursor: pointer; // Cambia el cursor al pasar sobre el botón
+  }
+  
+  // Estilo para el botón de cerrar al pasar el mouse sobre él
+  button.cButtonClose:hover {
+    background-color: #999; // Cambia el color de fondo al pasar el mouse
+  }
+  button.Agregar{
+      background-color: #28A745;
+      color: #fff; // Color del texto del botón de cerrar
+      border: none; // Quita el borde del botón
+      border-radius: 5px; // Borde redondeado del botón
+      padding: 10px 20px; // Espaciado interno del botón
+      cursor: pointer; // 
+  }
+  button.Agregar:hover{
+      background-color: #999;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+th, td {
+    padding: 16px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+th {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+th.sortable:hover {
+    background-color: #45a049;
+}
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+h1, h2 {
+    color: #333;
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-group .input-icon {
+    display: flex;
+    align-items: center;
+}
+
+.form-group .input-icon i {
+    margin-right: 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #5cb85c;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px #999;
+}
+
+.btn:hover {background-color: #45a049}
+
+.btn:active {
+    background-color: #45a049;
+    box-shadow: 0 2px #666;
+    transform: translateY(2px);
+}
+
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-container input[type="text"],
+  .search-container input[type="search"] {
+    width: 200px;
+    padding: 0.5rem;
+    margin-right: 8rem; /* Ajustado el margen derecho */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .search-container input[type="text"]:focus,
+  .search-container input[type="search"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  .search-container .Agregar {
+    background-color: #45a049;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin-right: 0.1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-container .Agregar:hover {
+    background-color: #0056b3;
+  }
+  
+  .search-container .left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-container .right {
+    display: flex;
+    align-items: center;
+  }
+  
+  
+  
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 20px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    margin-top: 20px; /* Ajusta el margen superior según tus necesidades */
+}
+
+

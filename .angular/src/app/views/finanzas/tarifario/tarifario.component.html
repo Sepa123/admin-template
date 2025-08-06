@@ -1,0 +1,112 @@
+<div id="alertaContainer"></div>
+
+<div class="TitleContainer">
+  <H3>Caracteristicas Tarifario General</H3>
+  
+</div>
+<div class="container">
+  <H2 *ngIf="isLoadingFull"><img width="45" height="45"
+  src="../../../assets/images/loading-gif.gif" /></H2>
+</div>
+
+
+  <button class="btnNueva" (click)="toggleLiveDemo()">Nueva  <svg  xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M7 1h10v2h4v9h-2V5h-2v2H7V5H5v16h7v2H3V3h4zm2 4h6V3H9zm11 9v4h4v2h-4v4h-2v-4h-4v-2h4v-4z" />
+  </svg></button>
+
+<div class="greenTable">
+  <table >
+      <thead>
+          <!-- <tr> -->
+          <th>
+              Nombre
+              <svg (click)="sortTable(0)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 576 512"><path d="M151.6 42.4C145.5 35.8 137 32 128 32s-17.5 3.8-23.6 10.4l-88 96c-11.9 13-11.1 33.3 2 45.2s33.3 11.1 45.2-2L96 146.3 96 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-301.7 32.4 35.4c11.9 13 32.2 13.9 45.2 2s13.9-32.2 2-45.2l-88-96zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-224 0z"/></svg>
+              
+
+          </th>
+          <th>Valor Mínimo
+
+              <svg (click)="sortTable(1)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 576 512"><path d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z"/></svg>
+          </th>
+          <th>
+              Valor Máximo
+          
+              <svg (click)="sortTable(2)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 576 512"><path d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z"/></svg>
+              
+          </th>
+          <th>
+              Unidad
+          
+              <svg (click)="sortTable(3)" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 576 512"><path d="M450.7 38c-8.3-6-19.1-7.7-28.8-4.4l-48 16c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l5.9-2 0 51.6-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l48 0 48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-96c0-10.3-4.9-19.9-13.3-26zM160 480c9 0 17.5-3.8 23.6-10.4l88-96c11.9-13 11.1-33.3-2-45.2s-33.3-11.1-45.2 2L192 365.7 192 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 301.7L95.6 330.4c-11.9-13-32.2-13.9-45.2-2s-13.9 32.2-2 45.2l88 96C142.5 476.2 151 480 160 480zM418.3 307a32 32 0 1 1 27.4 57.9A32 32 0 1 1 418.3 307zM405.1 419.8l-6.8 9.2c-10.5 14.2-7.5 34.2 6.7 44.8s34.2 7.5 44.8-6.7l48.8-65.8c14-18.9 21.5-41.7 21.5-65.2c0-48.6-39.4-88-88-88s-88 39.4-88 88c0 39.2 25.6 72.4 61.1 83.8z"/></svg>
+
+          </th>
+          <!-- </tr> -->
+      </thead>
+      <tbody>
+          <tr *ngFor="let ti of tableinfo">
+           <td>{{ti.nombre}}</td>
+           <td>{{ti.valor_inferior}}</td>
+           <td>{{ti.valor_superior}}</td>
+           <td >
+              <ng-container *ngIf="ti.unidad === 1; else otherContent">
+               <span class="table-cell">m³ </span>  
+               <svg xmlns="http://www.w3.org/2000/svg"  width="1em" height="1em" viewBox="0 0 512 512"><path d="M234.5 5.7c13.9-5 29.1-5 43.1 0l192 68.6C495 83.4 512 107.5 512 134.6l0 242.9c0 27-17 51.2-42.5 60.3l-192 68.6c-13.9 5-29.1 5-43.1 0l-192-68.6C17 428.6 0 404.5 0 377.4L0 134.6c0-27 17-51.2 42.5-60.3l192-68.6zM256 66L82.3 128 256 190l173.7-62L256 66zm32 368.6l160-57.1 0-188L288 246.6l0 188z"/></svg>
+              </ng-container>
+              
+              <ng-template #otherContent>
+                <ng-container *ngIf="ti.unidad === 2; else defaultContent">
+                 <span class="table-cell">Kg </span> 
+                </ng-container>
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path d="M224 96a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm122.5 32c3.5-10 5.5-20.8 5.5-32c0-53-43-96-96-96s-96 43-96 96c0 11.2 1.9 22 5.5 32L120 128c-22 0-41.2 15-46.6 36.4l-72 288c-3.6 14.3-.4 29.5 8.7 41.2S33.2 512 48 512l416 0c14.8 0 28.7-6.8 37.8-18.5s12.3-26.8 8.7-41.2l-72-288C433.2 143 414 128 392 128l-45.5 0z"/></svg>
+              </ng-template>
+              <ng-template #defaultContent>
+                {{ti.unidad}}
+              </ng-template>
+            </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+
+
+
+<c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+  <c-modal-header>
+      <h5 class="modal-title" id="modalNuevaCitacionLabel">Nueva caracteristica</h5>
+      <button  cButtonClose (click)="toggleLiveDemo()"type="button" class="close x-button" data-dismiss="modal" aria-label="Close">
+      </button>
+      <!-- <button  (click)="toggleLiveDemo()"cButtonClose></button> -->
+  </c-modal-header>
+
+  <c-modal-body>
+      <form #tarifaForm="ngForm">
+          <div class="form-group">
+            <label for="Nombre">Nombre *</label>
+            <input type="text" id="Nombre" name="nombre" class="form-control" placeholder="Nombre" [(ngModel)]="nombre" required>
+          </div>
+          <div class="form-group">
+            <label for="Valor_Inf">Valor Inferior</label>
+            <input type="text" id="Valor_Inf" name="valorInf" class="form-control" placeholder="Valor Inferior" [(ngModel)]="valorInf" required>
+          </div>
+          <div class="form-group">
+            <label for="valor_s">Valor Superior *</label>
+            <input type="text" id="valor_s" name="valorSup" class="form-control" placeholder="Valor Superior" [(ngModel)]="valorSup" required>
+          </div>
+          <div class="form-group">
+            <label for="unidad">Unidad</label>
+            <select  id="unidad" class="form-control" [(ngModel)]="unidad">
+              <ng-container *ngFor="let Tm of tableTipoUnidad">
+              <option [value]="Tm.id">{{Tm.unidad}}</option>
+              </ng-container>
+            </select>
+          </div>
+          
+        </form>
+        
+    </c-modal-body>
+
+  <c-modal-footer>
+      <button type="submit" class="btn btn-success" (click)="SendTarifaform(tarifaForm)">Guardar</button>
+
+  </c-modal-footer>
+</c-modal>
