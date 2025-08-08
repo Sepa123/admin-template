@@ -36,7 +36,7 @@ const routes: Routes = [
         canActivate :[PermissionGuard],
         data : {
           title: "Gestión y Mantención de Usuario",
-          id_submenu: 80
+          id_submenu: 83
         }
       },
     ]

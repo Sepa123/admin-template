@@ -345,6 +345,7 @@ seleccionarRut(){
 
         this.service.buscarVehiculos().subscribe((data) => {
             this.vehiculos = data
+            console.log("Vehiculos: ", data)
             this.vehiculosFull = this.vehiculos
             this.cantVehiculo = this.vehiculosFull.length
             this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
@@ -783,6 +784,7 @@ toggleLiveCO(id_vehiculo : number) {
 
   if (estadoVehiculo !== undefined) {
     console.log('Estado del vehículo:', estadoVehiculo);
+    // console.log('ID Operación:', id_operacion);
   } else {
   console.warn('No se encontró el vehículo o no tiene estado.');
   }
@@ -810,6 +812,12 @@ toggleLiveCO(id_vehiculo : number) {
   
   
 }
+
+filtrarCategoriasPorOperacion(idOperacion: number) {
+  return this.categoriaData.filter(cd => cd.id_operacion === idOperacion);
+}
+
+
    checkOperacion : AsignarOperacion [] = []
 verificarOperacionVehiculo(){
   this.service.revisarOperacionVehiculo(this.IdVehiculo).subscribe((data) => {
@@ -850,16 +858,28 @@ buscarCentroOperacion(){
 
 
 buscarPorModalidadOperacion(){
-  if(this.idOperacion == 0){
-    this.centroOperacion = this.centroOperacionFull
-    this.centroOperacionLista = this.centroOperacionFull
+  if (this.idOperacion == 0) {
+    this.centroOperacion = this.centroOperacionFull;
+    this.centroOperacionLista = this.centroOperacionFull;
+  } else {
+    this.centroOperacion = this.centroOperacionFull.filter(
+      (co) => co.Id_op == this.idOperacion
+    );
+    this.centroOperacionLista = this.centroOperacionFull.filter(
+      (co) => co.Id_op == this.idOperacion
+    );
     
-  }else{
-    this.centroOperacion = this.centroOperacionFull.filter(co => co.Id_op == this.idOperacion)
-    this.centroOperacionLista = this.centroOperacionFull.filter(co => co.Id_op == this.idOperacion)
-    this.SelectTipoVehiculo = this.categoriaData[0]?.id;
+
+    this.categoriaDataFilter = this.categoriaData.filter(
+      (cp) => cp.id_operacion == this.idOperacion
+    );
+    console.log('Datos filtrados:', this.categoriaDataFilter);
+    this.SelectTipoVehiculo = this.categoriaDataFilter[0]?.id;
   }
 
+
+
+  
   this.estaAsignadoCO()
   this.IdCentroOperacion = 0
 }
@@ -1007,6 +1027,8 @@ descargarDatosVehiculos(){
 }
 
 categoriaData: any[]=[]
+categoriaDataFilter: any[]=[]
+
 getDataCategory() {
     // https://hela.transyanez.cl
   this.http.get<any[]>('https://hela.transyanez.cl/api/operacion/obtener-categoria-vehiculo/')
@@ -1015,6 +1037,7 @@ getDataCategory() {
         console.log('Tipos de vehículo:', data);
         // Aquí puedes guardar el resultado en una variable para usarlo en el select
          this.categoriaData = data;
+         this.categoriaDataFilter = data;
       },
       error => {
       }
