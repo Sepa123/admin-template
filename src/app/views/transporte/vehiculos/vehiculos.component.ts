@@ -345,6 +345,7 @@ seleccionarRut(){
 
         this.service.buscarVehiculos().subscribe((data) => {
             this.vehiculos = data
+            console.log("Vehiculos: ", data)
             this.vehiculosFull = this.vehiculos
             this.cantVehiculo = this.vehiculosFull.length
             this.listaRegionesFiltro = [... new Set(data.map( lista => lista.Region))]
@@ -783,6 +784,7 @@ toggleLiveCO(id_vehiculo : number) {
 
   if (estadoVehiculo !== undefined) {
     console.log('Estado del vehículo:', estadoVehiculo);
+    // console.log('ID Operación:', id_operacion);
   } else {
   console.warn('No se encontró el vehículo o no tiene estado.');
   }
@@ -810,6 +812,12 @@ toggleLiveCO(id_vehiculo : number) {
   
   
 }
+
+filtrarCategoriasPorOperacion(idOperacion: number) {
+  return this.categoriaData.filter(cd => cd.id_operacion === idOperacion);
+}
+
+
    checkOperacion : AsignarOperacion [] = []
 verificarOperacionVehiculo(){
   this.service.revisarOperacionVehiculo(this.IdVehiculo).subscribe((data) => {

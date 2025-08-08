@@ -1344,7 +1344,7 @@
                           <select id="Region" cSelect class="form-control" [(ngModel)]="co.Id_tipo_veh_op"
                             (change)="seleccionarCentroOperacion()" (change)="actualizarPpuOperacion(co.Id_tipo_veh_op, co.Id_ppu_op)">
                             <option [value]="0" selected>Categoria</option>
-                            <option *ngFor="let cd of categoriaData" [value]="cd.id">{{cd.codigo}}</option>
+                            <option *ngFor="let cd of filtrarCategoriasPorOperacion(co.Id_op)" [value]="cd.id">{{cd.codigo}}</option>
                           </select>
                         </td>
                         <td *ngIf="co.Estado && rol_no_permitido.includes(rol+'') == false">
