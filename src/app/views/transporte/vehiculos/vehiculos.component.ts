@@ -850,16 +850,28 @@ buscarCentroOperacion(){
 
 
 buscarPorModalidadOperacion(){
-  if(this.idOperacion == 0){
-    this.centroOperacion = this.centroOperacionFull
-    this.centroOperacionLista = this.centroOperacionFull
+  if (this.idOperacion == 0) {
+    this.centroOperacion = this.centroOperacionFull;
+    this.centroOperacionLista = this.centroOperacionFull;
+  } else {
+    this.centroOperacion = this.centroOperacionFull.filter(
+      (co) => co.Id_op == this.idOperacion
+    );
+    this.centroOperacionLista = this.centroOperacionFull.filter(
+      (co) => co.Id_op == this.idOperacion
+    );
     
-  }else{
-    this.centroOperacion = this.centroOperacionFull.filter(co => co.Id_op == this.idOperacion)
-    this.centroOperacionLista = this.centroOperacionFull.filter(co => co.Id_op == this.idOperacion)
-    this.SelectTipoVehiculo = this.categoriaData[0]?.id;
+
+    this.categoriaDataFilter = this.categoriaData.filter(
+      (cp) => cp.id_operacion == this.idOperacion
+    );
+    console.log('Datos filtrados:', this.categoriaDataFilter);
+    this.SelectTipoVehiculo = this.categoriaDataFilter[0]?.id;
   }
 
+
+
+  
   this.estaAsignadoCO()
   this.IdCentroOperacion = 0
 }
@@ -1007,6 +1019,8 @@ descargarDatosVehiculos(){
 }
 
 categoriaData: any[]=[]
+categoriaDataFilter: any[]=[]
+
 getDataCategory() {
     // https://hela.transyanez.cl
   this.http.get<any[]>('https://hela.transyanez.cl/api/operacion/obtener-categoria-vehiculo/')
@@ -1015,6 +1029,7 @@ getDataCategory() {
         console.log('Tipos de vehículo:', data);
         // Aquí puedes guardar el resultado en una variable para usarlo en el select
          this.categoriaData = data;
+         this.categoriaDataFilter = data;
       },
       error => {
       }

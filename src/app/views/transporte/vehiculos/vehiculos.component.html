@@ -1278,7 +1278,7 @@
                 <c-col >
                   <select id="Region" cSelect  class="form-control" [(ngModel)]="SelectTipoVehiculo"  (click)="seleccionarCentroOperacion()">
                     <option [value]="0" selected>Categoria</option>
-                    <option *ngFor="let cd of categoriaData"  [value]="cd.id"  >{{cd.codigo}}</option>
+                    <option *ngFor="let cd of categoriaDataFilter"  [value]="cd.id"  >{{cd.codigo}}</option>
                   </select>
                 </c-col>
               </c-row>
@@ -1289,7 +1289,7 @@
                 </c-col>
                 <c-col >
                   <!--  -->
-                  <button *ngIf="IdCentroOperacion != 0 && isAsignado && SelectTipoVehiculo != 0" cButton color="secondary" (click)="asignarOpVehiculo(idOperacion, IdCentroOperacion, SelectTipoVehiculo)" >
+                  <button class="assign" *ngIf="IdCentroOperacion != 0 && isAsignado && SelectTipoVehiculo != 0" cButton (click)="asignarOpVehiculo(idOperacion, IdCentroOperacion, SelectTipoVehiculo)" >
                     Asignar
                   </button>  
                 </c-col>
